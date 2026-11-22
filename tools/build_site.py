@@ -440,6 +440,10 @@ def build_portfolio_static(paper: dict[str, Any], latest: dict[str, Any]) -> str
     headline = (paper or {}).get("headline") or {}
     summary = (paper or {}).get("summary") or {}
     trades = (paper or {}).get("trades") or []
+    # paper.json is written without the open-position rows, while latest.json carries them under
+    # `paper`. Without this fallback the page prints "12 positions" in the headline and
+    # "No open positions." two lines below it, from the same book.
+    positions = (paper or {}).get("open_positions") or (latest or {}).get("paper", {}).get("open_positions") or []
     if not headline:
         return '<div class="card"><div class="empty">No paper ledger yet.</div></div>'
 
@@ -508,7 +512,7 @@ def build_portfolio_static(paper: dict[str, Any], latest: dict[str, Any]) -> str
     <div class="table-wrap" style="max-height:none"><table><tbody>{metric_rows()}</tbody></table></div>
   </div>
   <div class="card"><h3>Open positions</h3>
-    {open_positions_table(paper.get("open_positions") or [])}
+    {open_positions_table(positions)}
   </div>
 </div>
 
