@@ -682,7 +682,8 @@ session did not force it.
 
 ### Irregularities found (published on `qa.html`, non-blocking)
 
-1. `docs/desk` 24h notional was computed from the previous mid on 15 of 300 rows (largest gap 2.2%).
+1. `docs/desk` 24h notional was computed from an earlier mid on 15 of 300 rows — largest gap 32.2% on a
+   15-minute crypto market, a cent or two elsewhere.
 2. The published order-book ladder is a partial view on 8 rows — reported depth exceeds the printed levels.
 3. The research-desk capture comes from the **production** root while the brief specifies demo; the live desk
    names the capture's environment in `/api/meta` instead of assuming.
@@ -701,6 +702,18 @@ session did not force it.
   build and test checks pass, so its owner can rebase it.
 * Shared files changed here are additive only: two cards and two bullets in `index.html`, one appended part in
   `EXECUTIVE_SUMMARY.md`, one step in `.github/workflows/pages.yml`. No other session's file was rewritten.
+
+### Merge result and deploy verification
+
+* PR [#25](https://github.com/kanlerxz87-cyber/Tradebot1/pull/25) merged to `main` at 2026-11-22T07:39:22Z
+  (merge commit `3111605`); follow-up PR [#31](https://github.com/kanlerxz87-cyber/Tradebot1/pull/31)
+  (three display defects on the generated page) merged at 2026-11-22T07:47Z (merge commit `9fc44aa`).
+* The `Verify and deploy both Pages dashboards` run is cancelled within seconds on every PR and merge in this
+  repository because the `pages` concurrency group is permanently occupied by main's continuous deploys. The
+  site is published by the legacy `main /` Pages build instead, which succeeded after each merge
+  (run `44999356053`, conclusion `success`). Verified by fetching the deployed pages with a cache-busting
+  query: `live.html` renders the corrected 10¢ threshold, contract counts and titles; `qa.html` renders
+  0 errors / 3 warnings / 9 notes; both are linked from the landing page.
 
 ### Merge history on this branch (2026-11-22)
 

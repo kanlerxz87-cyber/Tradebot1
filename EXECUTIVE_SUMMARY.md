@@ -255,7 +255,7 @@ Every committed dataset, 68 published pages and 1 218 internal references were r
 
 | Severity | Finding | Detail |
 | - | - | - |
-| warn | 24h notional used an older price than the row prints | 15 of 300 rows; largest gap 2.2%; implied price is the previous mid, so the number is directionally right and exactly wrong |
+| warn | 24h notional used an older price than the row prints | 15 of 300 rows; largest gap 32.2% on a 15-minute crypto market, a cent or two on slow markets. The implied price is an earlier mid, so the figure is directionally right and exactly wrong |
 | warn | Published order-book ladder is a partial view | 8 rows: reported depth exceeds the sum of printed levels, so ladder totals and depth totals must not be presented as the same quantity |
 | warn | Capture provenance is the production root | `docs/desk/data/latest.json` was collected from `external-api.kalshi.com`, while the brief specifies demo; the live desk surfaces the capture's environment in `/api/meta` |
 | note | No resolved market in the capture | Resolution tables are empty rather than seeded; the live desk shows close-time countdowns and fills results only from Kalshi's own fields |

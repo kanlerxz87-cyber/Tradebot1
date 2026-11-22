@@ -256,8 +256,9 @@ def audit_desk() -> None:
     if drift:
         add("warn", "DERIVED", "Estimated 24h notional was computed from a different price than the row prints",
             f"24h volume x the row's own price differs from the printed estimate on {len(drift)} row(s); the "
-            f"largest gap is {worst * 100:.1f}%. The implied price is the previous mid, so the notional was "
-            "fixed before the row's quote was refreshed.",
+            f"largest gap is {worst * 100:.1f}%, on a 15-minute crypto market where the quote moved far between "
+            "the two reads. The implied price is an earlier mid, so the notional was fixed before the row's "
+            "quote was refreshed. On slow markets the error is a cent or two; on fast ones it is material.",
             examples=drift, count=len(drift), source="docs/desk/data/latest.json",
             action="Recompute the estimate after the final quote is applied, or label it as measured at an "
                    "earlier time. The direction of the number is unaffected; the exact dollar figure is.")
@@ -734,7 +735,7 @@ def to_html(report: dict[str, Any]) -> str:
   <h1>Audit: what the committed data actually supports</h1>
   <p class="sub">Four independent implementations keep their own snapshots. This page re-checks each of them
   for the failures that would cost a trader money: impossible prices, crossed books, ladders that do not add
-  up, alerts that do not clear $0.10, resolution values outside yes/no/void, rows with no official source,
+  up, alerts that do not clear $0.10, resolution values outside yes/no/scalar, rows with no official source,
   and dead internal links. Generated {html.escape(report['generated_at'])} by <code>qa/audit.py</code>.</p>
 
   <div class="kpis">

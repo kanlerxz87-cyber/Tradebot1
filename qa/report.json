@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T07:40:17Z",
+  "generated_at": "2026-11-22T07:42:09Z",
   "counts": {
     "error": 0,
     "warn": 3,
@@ -18,7 +18,7 @@
     "68 HTML pages, 1218 internal references",
     "tracked files: 247, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 6704 paths"
+    "secret scan: 6874 paths"
   ],
   "findings": [
     {
@@ -74,7 +74,7 @@
       "severity": "warn",
       "code": "DERIVED",
       "title": "Estimated 24h notional was computed from a different price than the row prints",
-      "detail": "24h volume x the row's own price differs from the printed estimate on 15 row(s); the largest gap is 32.2%. The implied price is the previous mid, so the notional was fixed before the row's quote was refreshed.",
+      "detail": "24h volume x the row's own price differs from the printed estimate on 15 row(s); the largest gap is 32.2%, on a 15-minute crypto market where the quote moved far between the two reads. The implied price is an earlier mid, so the notional was fixed before the row's quote was refreshed. On slow markets the error is a cent or two; on fast ones it is material.",
       "count": 15,
       "examples": [
         {
@@ -230,7 +230,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
-      "detail": "0.31 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.34 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -241,7 +241,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.67 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.70 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",
