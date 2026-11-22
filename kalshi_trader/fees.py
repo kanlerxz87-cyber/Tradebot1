@@ -1,41 +1,46 @@
 """Trading-fee model for the simulated book.
 
-**Verification status: UNVERIFIED — see the Flagged for Review page.**
+**Verification status: VERIFIED** against Kalshi's own published fee schedule,
+``https://kalshi.com/docs/kalshi-fee-schedule.pdf`` (linked from the ``fee_type`` field of
+``GET /series``: https://docs.kalshi.com/api-reference/market/get-series-list), read on
+2026-11-22. The PDF is dated "Last updated and effective: July 7, 2026" and states:
 
-Kalshi's fee schedule PDF (``https://kalshi.com/docs/kalshi-fee-schedule.pdf``, linked from
-the ``fee_type`` field of ``GET /series``) could not be retrieved during this session, so the
-formula below is *not* confirmed against an official Kalshi document. Multiple independent
-third-party write-ups report the general trading fee as
+    fees = roundup(M x 0.07 x C x P x (1 - P))          # taker / general trading fee
+    fees = roundup(M x 0.0175 x C x P x (1 - P))        # maker fee
 
-    fee = ceil_to_cent(0.07 x contracts x price x (1 - price))
+with ``P`` the price of a contract in dollars, ``C`` the number of contracts, ``M`` the
+per-series multiplier (default 1 taker, 0 maker) and "round up = rounds up such that the
+fee + positionCost is rounded to a centicent". The same PDF gives a worked table — one
+contract at $0.50 costs $0.02, one hundred contracts at $0.50 cost $1.75 — which the tests
+reproduce exactly.
 
-which is the shape Kalshi's own docs imply by describing ``fee_type`` as "quadratic"
-(https://docs.kalshi.com/api-reference/market/get-series-list). Maker fills are reported to
-pay a quarter of that.
+Two limits are kept deliberately:
 
-Because an unverified fee would silently distort every P&L number, the dashboard:
-  * applies this model by default, but
-  * labels every ledger entry with ``fee_model="quadratic_unverified"``,
-  * exposes ``KALSHI_FEE_MODEL=none`` to switch it off, and
-  * shows the caveat next to every performance figure.
-
-If Kalshi publishes the current schedule, replace ``TAKER_RATE`` / ``MAKER_RATE`` and flip
-``VERIFIED`` to ``True``.
+* The PDF's worked table rounds each fee **up to the cent** (100 contracts at $0.35 is
+  $1.5925 exactly and the table prints $1.60). This module applies that same rule, so all
+  21 rows of the published table are reproduced exactly and asserted in
+  ``tests/test_model_fees.py``. It is labelled ``fee_model="quadratic"``.
+* The per-series multiplier ``M`` in the formula is applied as 1 unless a series is known to
+  be fee-free. The PDF's non-standard table lists several series with ``M = 0`` (for example
+  ``KXBTCY``, ``KXCPI``, ``KXFED`` and the NBA/NFL game series), and those are not
+  enumerated exhaustively here, so a fee-free series may still be charged the default fee.
+  That is flagged on the Flagged for Review page (F1).
 """
 
 from __future__ import annotations
 
 import math
 
-VERIFIED = False
+VERIFIED = True
 TAKER_RATE = 0.07
-MAKER_RATE = 0.0175  # third-party reports: 25% of the taker rate
-MODEL_NAMES = {"quadratic": "quadratic_unverified", "none": "none"}
+MAKER_RATE = 0.0175  # 25% of the taker rate, per the PDF's "Maker Fees" section
+MODEL_NAMES = {"quadratic": "quadratic", "none": "none"}
 
+FEE_SOURCE = "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
 FEE_SOURCE_NOTE = (
-    "Fee model 0.07 x contracts x price x (1 - price), rounded up to the cent. "
-    "Reported by third parties; Kalshi's fee schedule PDF could not be retrieved, so this "
-    "is flagged unverified."
+    "Fee = roundup(0.07 x contracts x price x (1 - price)) for taker fills and "
+    "roundup(0.0175 x ...) for maker fills, per Kalshi's fee schedule (effective 2026-07-07). "
+    "The paper book rounds up to the cent, which never understates the fee."
 )
 
 
@@ -55,7 +60,7 @@ def maker_fee(contracts: float, price: float, model: str = "quadratic") -> float
 
 
 def model_label(model: str) -> str:
-    return MODEL_NAMES.get(model, "quadratic_unverified")
+    return MODEL_NAMES.get(model, "quadratic")
 
 
 def metadata() -> dict[str, object]:
@@ -65,4 +70,6 @@ def metadata() -> dict[str, object]:
         "maker_rate": MAKER_RATE,
         "formula": "ceil_to_cent(rate x contracts x price x (1 - price))",
         "note": FEE_SOURCE_NOTE,
+        "source": FEE_SOURCE,
+        "effective": "2026-07-07",
     }

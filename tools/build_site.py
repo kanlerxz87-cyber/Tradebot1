@@ -42,6 +42,7 @@ NAV = [
     ("strategies.html", "Strategies"),
     ("api-reference.html", "API"),
     ("verification.html", "Verification"),
+    ("repo-review.html", "Repo review"),
     ("flagged.html", "Flagged"),
     ("executive-summary.html", "Summary"),
 ]
@@ -491,7 +492,7 @@ def build_portfolio_static(paper: dict[str, Any], latest: dict[str, Any]) -> str
 <div class="banner {'warn' if not headline.get('fee_verified') else 'ok'}" style="margin-top:14px">
   <b>Fee model:</b>&nbsp;<span class="grow">{esc(headline.get('fee_model'))} —
   {"verified against an official Kalshi schedule." if headline.get('fee_verified') else
-   "0.07 × contracts × price × (1 − price) rounded up to the cent. The official fee-schedule PDF could not be retrieved during this build, so this figure is flagged unverified and every P&L number inherits that caveat."}</span>
+   "0.07 × contracts × price × (1 − price) rounded up to the cent, per the published Kalshi fee schedule (effective 2026-07-07). The round-up can only overstate a fee, never understate it; the per-series multiplier is still approximated (flag F1)."}</span>
 </div>
 
 <div class="grid two" style="margin-top:16px">

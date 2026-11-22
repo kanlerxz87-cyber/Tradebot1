@@ -3,69 +3,96 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kalshi Trader — five topics, one desk</title>
-<meta name="description" content="Kalshi demo-environment research: gas prices, elections, culture, crypto and golf. ≥ $0.10 swing alerts, price and liquidity charts, resolution tracking, simulated trading. Every claim sourced.">
+<title>Kalshi Trader — one index for every dashboard</title>
+<meta name="description" content="Kalshi demo-environment research: gas prices, elections, culture, crypto and golf. $0.10 swing alerts with catalyst links, price and liquidity charts, resolution tracking, simulated trading. Every claim sourced.">
 <link rel="canonical" href="docs/desk/">
 <link rel="stylesheet" href="docs/desk/assets/css/site.css">
 <style>
-  .home { max-width: 980px; margin: 0 auto; padding: 48px 20px 64px; }
+  .home { max-width: 1020px; margin: 0 auto; padding: 44px 20px 64px; }
   .home h1 { font-size: 30px; letter-spacing: -.02em; margin: 10px 0 6px; }
-  .home .lede { color: var(--text-dim); max-width: 70ch; }
-  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin: 26px 0 8px; }
+  .home .lede { color: var(--muted); max-width: 74ch; line-height: 1.6; }
+  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); margin: 26px 0 8px; }
   .card-link { display: block; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: inherit; text-decoration: none; }
   .card-link:hover, .card-link:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
   .card-link h2 { font-size: 16px; margin: 0 0 6px; }
-  .card-link p { margin: 0; color: var(--text-dim); font-size: 13px; line-height: 1.55; }
-  .card-link .tag { display: inline-block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid currentColor; border-radius: 999px; padding: 2px 7px; margin-bottom: 10px; }
-  .home ul { padding-left: 18px; color: var(--text-dim); font-size: 13px; line-height: 1.7; }
-  .home footer { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12px; color: var(--text-dim); }
+  .card-link p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.55; }
+  .badge { display: inline-block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid currentColor; border-radius: 999px; padding: 2px 7px; margin-bottom: 10px; }
+  .badge.sim { color: var(--warn); }
+  .home h2.sec { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 30px 0 10px; }
+  .home .tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .home .tbl th, .home .tbl td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .home .tbl th { color: var(--muted); font-weight: 600; font-size: 11px; letter-spacing: .04em; text-transform: uppercase; }
+  .home .tbl code { font-size: 11.5px; }
+  .home footer { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .home .note { border: 1px solid var(--line); border-left: 3px solid var(--warn); border-radius: 8px; padding: 12px 14px; font-size: 12.5px; color: var(--muted); margin-top: 18px; }
 </style>
 </head>
 <body>
 <main class="home">
-  <p class="tag" style="margin:0">Kalshi · demo environment · research, not advice</p>
-  <h1>Five topics. One desk. Every number traced to an official source.</h1>
+  <p class="badge" style="margin:0">Kalshi · demo environment · research, not advice</p>
+  <h1>Five topics. One desk. Every number traced to a source.</h1>
   <p class="lede">Gas prices, elections, culture, crypto and golf — scanned continuously for moves of
     <strong>$0.10 or more</strong>, charted with price and resting liquidity, tracked to a YES/NO
-    resolution, and traded by four rule-based strategies in a simulated book.</p>
+    resolution, and traded by four rule-based strategies in a simulated book. Next to every alert:
+    the links Kalshi publishes for the contract, and a date-restricted news search you can open to
+    judge the move yourself.</p>
 
   <div class="cards">
     <a class="card-link" href="docs/desk/">
-      <span class="tag">Autonomous</span>
+      <span class="badge">Primary · autonomous</span>
       <h2>Research desk →</h2>
-      <p>The collector-driven desk: 15-minute scheduled cycles, two alert chats (all moves and the
-         model's high-ROI subset), price chart with 30s–all windows, orderbook depth, resolution
-         tracker, four strategies with per-type analysis, and a source link on every table row.</p>
+      <p>Scheduled collector, two alert chats (all moves, and the model's high-ROI subset), price chart
+        with 30-second-to-all windows, orderbook depth, resolution tracker, four strategies with
+        per-type analysis, and a source link on every table row.</p>
     </a>
     <a class="card-link" href="docs/">
-      <span class="tag">Interactive</span>
+      <span class="badge">Secondary · interactive</span>
       <h2>Market monitor →</h2>
-      <p>The browser-side monitor: polls public Kalshi endpoints from your own session, groups open
-         markets by event, sorts by estimated 24h traded dollars, and shows live orderbook depth
-         for any contract you pick.</p>
+      <p>Polls public Kalshi endpoints from your own browser session, groups open markets by event,
+        ranks by estimated 24-hour traded dollars, and shows live orderbook depth for any contract.</p>
     </a>
     <a class="card-link" href="site/">
-      <span class="tag">Archive</span>
+      <span class="badge sim">Prototype · simulated data</span>
       <h2>Prototype →</h2>
-      <p>The first standalone prototype, kept for review: simulated fallback data, a local strategy
-         simulator and a credentialed Python client. Clearly separated from verified market data.</p>
+      <p>Kept for review. Its displayed prices come from a simulated fallback and a local strategy
+        simulator, not from Kalshi. A credentialed Python client sits beside it and ships no keys.</p>
     </a>
   </div>
 
-  <h2 style="font-size:15px;margin:26px 0 6px">Read before you trade on anything here</h2>
-  <ul>
-    <li><a href="docs/desk/executive-summary.html">Executive summary</a> — what was built, which API facts were verified, what the numbers do and do not mean.</li>
-    <li><a href="docs/desk/verification.html">Verification log</a> — every claim with its official Kalshi source and check date.</li>
-    <li><a href="docs/desk/flagged.html">Flagged for review</a> — 14 items that could not be confirmed, including the fee model and the missing demo account. Nothing is inferred to fill a gap.</li>
-    <li><a href="docs/desk/requirements.html">Requirements matrix</a> — each requirement, its status and where it is implemented.</li>
-    <li><a href="docs/review/">Monitor's own review page</a> and <a href="docs/VERIFICATION.md">verification notes</a>.</li>
-  </ul>
+  <h2 class="sec">Every page in this repository</h2>
+  <table class="tbl">
+    <thead><tr><th>Page</th><th>What you will find</th></tr></thead>
+    <tbody>
+      <tr><td><a href="docs/desk/">Dashboard</a></td><td>Live board, highest-dollar events, markets, chart and depth, both chats, resolutions, portfolio</td></tr>
+      <tr><td><a href="docs/desk/topics/gas-prices.html">Gas</a> · <a href="docs/desk/topics/elections.html">Elections</a> · <a href="docs/desk/topics/culture.html">Culture</a> · <a href="docs/desk/topics/crypto.html">Crypto</a> · <a href="docs/desk/topics/golf.html">Golf</a></td><td>One page per topic: events grouped inside the topic, every market row with its official source link</td></tr>
+      <tr><td><a href="docs/desk/portfolio.html">Portfolio</a></td><td>Simulated book, equity curve, and P&amp;L by strategy, topic, side, price band, hold time and exit reason</td></tr>
+      <tr><td><a href="docs/desk/strategies.html">Strategies</a></td><td>The four rule sets and the six-weight ROI model, with every parameter printed</td></tr>
+      <tr><td><a href="docs/desk/executive-summary.html">Executive summary</a></td><td>What was built, which API facts were verified, what the numbers do and do not mean</td></tr>
+      <tr><td><a href="docs/desk/requirements.html">Requirements</a></td><td>Every line of the brief, its status, where it lives and how to verify it</td></tr>
+      <tr><td><a href="docs/desk/verification.html">Verification</a></td><td>Each factual claim with its official Kalshi source and the date it was checked</td></tr>
+      <tr><td><a href="docs/desk/repo-review.html">Repo review</a></td><td>Line-by-line code review: six defects found and fixed, files read, documents consulted, what stays open</td></tr>
+      <tr><td><a href="docs/desk/flagged.html">Flagged for review</a></td><td>Everything that could not be confirmed from an official source, with the source links and what would clear it</td></tr>
+      <tr><td><a href="docs/desk/api-reference.html">API reference</a></td><td>Endpoints used, hosts, signing, orderbook shape, candlestick limits</td></tr>
+      <tr><td><a href="docs/review/">Monitor's review page</a> · <a href="docs/VERIFICATION.md">verification notes</a> · <a href="site/methodology.html">prototype methodology</a></td><td>Notes from the other sessions in this repository</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>Two limits worth reading first.</strong> No Kalshi demo credentials exist in this
+    repository, so the Kalshi demo account itself is not connected — the simulated book runs on an
+    internal ledger and the portfolio page says so instead of estimating account data. And no
+    causality is ever asserted: alerts show Kalshi's own contract links plus a date-restricted
+    search, clearly labelled as unverified. Both are tracked on
+    <a href="docs/desk/flagged.html">Flagged for review</a>.
+  </div>
 
   <footer>
     Demo and paper trading only — no production order path exists in this repository.
     Kalshi market data belongs to Kalshi; see the
-    <a href="https://docs.kalshi.com/getting_started/api_environments">official API documentation</a>.
-    Source: <a href="https://github.com/kanlerxz87-cyber/Tradebot1">github.com/kanlerxz87-cyber/Tradebot1</a>.
+    <a href="https://docs.kalshi.com/getting_started/api_environments">official API documentation</a>
+    and the <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf">fee schedule</a>.
+    Source: <a href="https://github.com/kanlerxz87-cyber/Tradebot1">github.com/kanlerxz87-cyber/Tradebot1</a> ·
+    <a href="docs/desk/repo-review.html">repo review</a>.
   </footer>
 </main>
 </body>

@@ -32,6 +32,7 @@ from collections import defaultdict
 from datetime import datetime, timedelta, timezone
 from typing import Any, Iterable
 
+from . import catalysts
 from . import fees as fee_mod
 from . import model as model_mod
 from . import store
@@ -331,6 +332,7 @@ def run_cycle(
         {t: [p[0]] for t, p in last_prices.items() if p},
         now,
         threshold=0.10,
+        series_meta=catalog.get("series") or {},
     )
 
     # 6. model -----------------------------------------------------------
@@ -392,7 +394,13 @@ def run_cycle(
     resolved_state: dict[str, Any] = store.read_json(resolved_path, {}) or {}
     resolved_items: list[dict[str, Any]] = list(resolved_state.get("items", []))
     resolved_items = _collect_resolutions(
-        client, market_by_ticker, series_by_topic, resolved_items, errors, now
+        client,
+        market_by_ticker,
+        series_by_topic,
+        resolved_items,
+        errors,
+        now,
+        series_meta=catalog.get("series") or {},
     )
 
     # 9. demo account ------------------------------------------------------
@@ -578,23 +586,34 @@ def _collect_resolutions(
     existing: list[dict[str, Any]],
     errors: list[str],
     now: int,
+    series_meta: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     items = {item.get("ticker"): item for item in existing if item.get("ticker")}
 
     # markets that settled while we were watching them
     for market in current_markets.values():
         if market.get("result") in {"yes", "no"}:
-            items[market["ticker"]] = _resolution_row(market)
+            items[market["ticker"]] = _resolution_row(market, series_meta)
 
-    # settled markets for the series we follow (bounded sweep)
-    series = sorted({s for lst in series_by_topic.values() for s in lst})[:10]
-    cutoff = (datetime.now(tz=timezone.utc) - timedelta(days=21)).strftime("%Y-%m-%dT%H:%M:%SZ")
+    # Settled markets for every series we follow (bounded sweep).
+    #
+    # Filter choice, verified against the compatibility table on
+    # https://docs.kalshi.com/api-reference/market/get-markets:
+    #   min_close_ts  is only compatible with status=closed
+    #   min_settled_ts is only compatible with status=settled
+    # The earlier build sent min_close_ts together with status=settled, which the API rejects
+    # with HTTP 400 (visible as an error string in every published snapshot). min_settled_ts is
+    # the filter the docs pair with status=settled. Note that status=settled matches markets in
+    # the terminal `finalized` state (https://docs.kalshi.com/getting_started/market_lifecycle),
+    # so a determined-but-not-yet-settled market is picked up on a later cycle instead.
+    series = sorted({s for lst in series_by_topic.values() for s in lst})[:24]
+    cutoff = int((datetime.now(tz=timezone.utc) - timedelta(days=21)).timestamp())
     for series_ticker in series:
         try:
             raw = client.paginate(
                 "/markets",
                 "markets",
-                {"series_ticker": series_ticker, "status": "settled", "min_close_ts": int(_parse_iso(cutoff) or 0)},
+                {"series_ticker": series_ticker, "status": "settled", "min_settled_ts": cutoff},
                 page_size=100,
                 max_pages=1,
             )
@@ -604,16 +623,23 @@ def _collect_resolutions(
         for market in raw:
             if market.get("result") not in {"yes", "no"}:
                 continue
-            items[market.get("ticker")] = _resolution_row(
-                normalize_market(market, api_base="")
-            )
+            normalized = normalize_market(market, api_base="")
+            normalized["series_ticker"] = market.get("series_ticker") or _series_of(series_ticker)
+            items[market.get("ticker")] = _resolution_row(normalized, series_meta)
     rows = sorted(items.values(), key=lambda r: r.get("settled_ts") or r.get("close_time") or "", reverse=True)
     # keep the payload bounded; the newest 400 settlements are plenty for the tracker
     return rows[:400]
 
 
-def _resolution_row(market: dict[str, Any]) -> dict[str, Any]:
+def _series_of(series_ticker: str) -> str:
+    return series_ticker
+
+
+def _resolution_row(
+    market: dict[str, Any], series_meta: dict[str, dict[str, Any]] | None = None
+) -> dict[str, Any]:
     result = (market.get("result") or "").lower()
+    meta = (series_meta or {}).get(str(market.get("series_ticker") or ""))
     return {
         "ticker": market.get("ticker"),
         "title": market.get("title"),
@@ -627,5 +653,8 @@ def _resolution_row(market: dict[str, Any]) -> dict[str, Any]:
         "settlement_value": market.get("settlement_value_dollars"),
         "api_url": market.get("api_url"),
         "series_page_url": market.get("series_page_url"),
+        "catalysts": catalysts.for_market(
+            market, meta, iso=market.get("close_time") or market.get("settled_ts")
+        ),
         "source": "https://docs.kalshi.com/getting_started/market_settlement",
     }

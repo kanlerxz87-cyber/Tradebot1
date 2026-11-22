@@ -16,6 +16,8 @@ import hashlib
 from datetime import datetime, timezone
 from typing import Any, Iterable
 
+from . import catalysts
+
 TOLERANCE = 1e-9
 
 
@@ -36,6 +38,7 @@ def build_alert(
     *,
     threshold: float = 0.10,
     basis: str = "mid",
+    series_meta: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     """Return an alert dict when ``|to_price - from_price| >= threshold``, else ``None``."""
     if from_price is None or to_price is None:
@@ -72,6 +75,9 @@ def build_alert(
         "api_url": market.get("api_url"),
         "series_page_url": market.get("series_page_url"),
         "threshold": threshold,
+        # Links a reader can open next to the move: Kalshi's own contract links, plus
+        # time-boxed search queries. Never a claim about what caused the move.
+        "catalysts": catalysts.for_market(market, series_meta, iso=iso(ts)),
     }
 
 
@@ -81,6 +87,7 @@ def detect(
     ts: int,
     *,
     threshold: float = 0.10,
+    series_meta: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Compare each market's current price to the last recorded price.
 
@@ -98,7 +105,10 @@ def detect(
         from_price = previous[0]
         basis = "mid" if market.get("mid") is not None else "last"
         to_price = market.get("mid") if market.get("mid") is not None else market.get("last")
-        alert = build_alert(market, from_price, to_price, ts, threshold=threshold, basis=basis)
+        meta = (series_meta or {}).get(str(market.get("series_ticker") or ""))
+        alert = build_alert(
+            market, from_price, to_price, ts, threshold=threshold, basis=basis, series_meta=meta
+        )
         if alert:
             alerts.append(alert)
     alerts.sort(key=lambda a: a["abs_delta"], reverse=True)

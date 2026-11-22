@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repository review — file by file</title>
+<meta name="description" content="Line-by-line review of every file in this repository against official Kalshi documentation: defects found, fixes applied, sources, and what remains open.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="topics/gas-prices.html">Gas</a>
+      <a href="topics/elections.html">Elections</a>
+      <a href="topics/culture.html">Culture</a>
+      <a href="topics/crypto.html">Crypto</a>
+      <a href="topics/golf.html">Golf</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="strategies.html">Strategies</a>
+      <a href="api-reference.html">API</a>
+      <a href="verification.html">Verification</a>
+      <a class="active" href="repo-review.html">Repo review</a>
+      <a href="flagged.html">Flagged</a>
+      <a href="executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Repository review — file by file</h1>
+  <p class="page-sub">
+    Every source file in this repository was read line by line on 2026-11-22. This page records what
+    was checked, what was wrong, what was changed, and what remains open. Each finding names the
+    official document it was checked against. Nothing here is a judgement of code style; only
+    correctness against Kalshi's published API contract, and honesty of the numbers shown.
+  </p>
+
+  <div class="banner">
+    <span class="grow"><b>Scope of this pass.</b> 94 files: 15 Python modules, 9 test modules, 3 GitHub
+      Actions workflows, 2 JavaScript bundles, the static site generator, the link checker, and every
+      generated page. Six defects were found and fixed; three limitations remain open and are listed
+      at the end with the flag that tracks them.</span>
+  </div>
+
+  <div class="banner warn">
+    <span class="grow"><b>Egress limitation, stated plainly.</b> The machine that produced this page could
+      reach GitHub and PyPI only. Requests to <code>external-api.kalshi.co</code>,
+      <code>kalshi.com</code>, <code>docs.kalshi.com</code> and <code>*.github.io</code> were refused at
+      the network layer (curl status <code>000</code>), so no fresh market snapshot was collected and no
+      live URL was fetched from here. Official documentation was read through a page fetcher instead;
+      every document consulted is listed below with the date it was read.</span>
+  </div>
+
+  <section class="section">
+    <h2><span class="num">01</span>Defects found and fixed</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>#</th><th>What was wrong</th><th>Where</th><th>Official source used</th><th>Fix</th></tr></thead>
+        <tbody>
+          <tr>
+            <td class="ticker">D1</td>
+            <td>The settled-market sweep sent <code>min_close_ts</code> together with <code>status=settled</code>.
+                Kalshi's compatibility table allows <code>min_close_ts</code> only with <code>status=closed</code>;
+                every scheduled cycle logged <code>HTTP 400 Invalid format for parameter min_close_ts</code> and the
+                resolution tracker silently collected nothing.</td>
+            <td><code>kalshi_trader/collector.py</code></td>
+            <td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">Get Markets — timestamp-filter compatibility</a>,
+                <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">Market lifecycle — <code>settled</code> filter matches <code>finalized</code></a></td>
+            <td>Switched to <code>min_settled_ts</code>, the filter the docs pair with <code>status=settled</code>, widened the sweep from 10 to 24 series, and added a unit test that asserts the rejected pair is never sent again.</td>
+          </tr>
+          <tr>
+            <td class="ticker">D2</td>
+            <td>The trading-fee formula was labelled unverified even though Kalshi publishes it. All paper P&amp;L carried a caveat that no longer applied, and the fee model was not reproducible from a cited document.</td>
+            <td><code>kalshi_trader/fees.py</code></td>
+            <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Kalshi fee schedule (effective 2026-07-07)</a>,
+                <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Fee rounding</a></td>
+            <td>Formula confirmed as taker <code>roundup(0.07 · C · P · (1−P))</code> and maker <code>roundup(0.0175 · …)</code>; <code>VERIFIED</code> set to true and all 21 rows of the published table are now asserted in <code>tests/test_model_fees.py</code>. The remaining per-series multiplier limitation is kept as flag F1.</td>
+          </tr>
+          <tr>
+            <td class="ticker">D3</td>
+            <td>The demo-order adapter was documented as sending an outcome (<code>side="yes"</code>) and an integer
+                count. The V2 contract requires <code>side</code> to be a <b>book side</b> (<code>bid</code>/<code>ask</code>)
+                and <code>count</code> to be a fixed-point string; a <code>201</code> means accepted, not filled, which the
+                adapter did not record.</td>
+            <td><code>kalshi_trader/kalshi_demo.py</code></td>
+            <td><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2" target="_blank" rel="noopener">Create Order (V2)</a>,
+                <a href="https://docs.kalshi.com/getting_started/order_direction" target="_blank" rel="noopener">Order direction</a>,
+                <a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener">Fixed-point representation</a></td>
+            <td>Count sent as <code>"10.00"</code>; the adapter now returns the exchange <code>fill_count</code> and <code>remaining_count</code> and reports <code>resting</code> instead of implying a fill. A test pins the exact request body.</td>
+          </tr>
+          <tr>
+            <td class="ticker">D4</td>
+            <td>The brief asks for the website links that may have caused a sharp jump. The alerts carried no such
+                links, and the repository README claimed "candidate news links" that no code produced.</td>
+            <td><code>kalshi_trader/catalysts.py</code> (new), <code>swings.py</code>, <code>collector.py</code>, <code>docs/desk/assets/js/app.js</code></td>
+            <td>Links are taken only from API fields: <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">market object</a>,
+                <a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">series <code>settlement_sources</code> and <code>contract_terms_url</code></a></td>
+            <td>Every alert and every resolved row now carries two clearly separated blocks: <b>Contract sources</b> (Kalshi's own, marked verified) and <b>Possible catalysts</b> (date-restricted news searches, explicitly marked unverified). No cause is ever asserted.</td>
+          </tr>
+          <tr>
+            <td class="ticker">D5</td>
+            <td>Two workflows pushed to <code>main</code> on the same event: the 15-minute collector and the Pages
+                workflow's snapshot commit. The second <code>git push</code> in each job can be rejected as non-fast-forward,
+                and both jobs ran in the same minute in the observed history.</td>
+            <td><code>.github/workflows/collect.yml</code></td>
+            <td>GitHub Actions concurrency semantics; observed runs <code>44997857586</code> and <code>44997863523</code></td>
+            <td>The <code>pages.yml</code> push step is now serialised behind the collector's concurrency group and retries with <code>git pull --rebase</code> before pushing.</td>
+          </tr>
+          <tr>
+            <td class="ticker">D6</td>
+            <td>The root landing page presented three implementations but two of the repository's pages (the
+                requirements matrix and this review) were not reachable from it, and the prototype was labelled
+                only "Archive" without saying its numbers are simulated.</td>
+            <td><code>index.html</code></td>
+            <td>Internal link check (<code>tools/check_links.py</code>)</td>
+            <td>Rebuilt as a single index with every page one click away and an explicit "simulated data" badge on the prototype.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">02</span>Files read in full</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>File</th><th>What it does</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td class="ticker">kalshi_trader/client.py</td><td>REST transport: pacing, retries on 429/5xx, cursor pagination, public and signed calls</td><td><span class="chip ok">correct</span> — signing path excludes the query string, as documented</td></tr>
+          <tr><td class="ticker">kalshi_trader/signing.py</td><td>RSA-PSS/SHA-256 and Ed25519 signatures, three auth headers</td><td><span class="chip ok">correct</span></td></tr>
+          <tr><td class="ticker">kalshi_trader/config.py</td><td>Endpoint constants and environment switches</td><td><span class="chip ok">correct</span> — both demo and production hosts match the environments page</td></tr>
+          <tr><td class="ticker">kalshi_trader/marketdata.py</td><td>Normalisation of market and orderbook payloads, implied asks, event aggregation</td><td><span class="chip ok">correct</span> — bid-only book, asks implied as <code>1 − opposite bid</code>, derived fields suffixed <code>_est</code></td></tr>
+          <tr><td class="ticker">kalshi_trader/topics.py</td><td>Five-topic taxonomy from Kalshi's category/categories/tags fields</td><td><span class="chip warn">mapping</span> — no official "Culture" category exists; documented as F3</td></tr>
+          <tr><td class="ticker">kalshi_trader/swings.py</td><td>$0.10 swing detection with a floating-point tolerance</td><td><span class="chip ok">correct</span> — exactly $0.10 fires, $0.09 does not</td></tr>
+          <tr><td class="ticker">kalshi_trader/model.py</td><td>Transparent six-weight ROI heuristic</td><td><span class="chip warn">heuristic</span> — not a validated forecast, labelled as such (F12)</td></tr>
+          <tr><td class="ticker">kalshi_trader/fees.py</td><td>Fee model</td><td><span class="chip ok">fixed</span> — D2</td></tr>
+          <tr><td class="ticker">kalshi_trader/strategies.py</td><td>Four rule-based strategies and their exit rules</td><td><span class="chip ok">correct</span> — closed-form stop/target logic, no leverage</td></tr>
+          <tr><td class="ticker">kalshi_trader/paper.py</td><td>Paper ledger: sizing, depth caps, fees, settlement at $1/$0</td><td><span class="chip ok">correct</span> — buys at the ask, marks at the bid, settles on the exchange <code>result</code></td></tr>
+          <tr><td class="ticker">kalshi_trader/collector.py</td><td>The full cycle: discovery, markets, alerts, model, book, resolutions, demo read</td><td><span class="chip ok">fixed</span> — D1, D4</td></tr>
+          <tr><td class="ticker">kalshi_trader/portfolio.py</td><td>Performance grouping by strategy, topic, side, price band, hold time, exit reason</td><td><span class="chip ok">correct</span></td></tr>
+          <tr><td class="ticker">kalshi_trader/kalshi_demo.py</td><td>Optional demo-account adapter</td><td><span class="chip ok">fixed</span> — D3; still dormant without credentials (F2)</td></tr>
+          <tr><td class="ticker">kalshi_trader/server.py</td><td>Local server: API, same-origin WebSocket push, open CORS</td><td><span class="chip ok">correct</span></td></tr>
+          <tr><td class="ticker">kalshi_trader/store.py</td><td>Atomic JSON writes, bounded collections, history thinning</td><td><span class="chip ok">correct</span></td></tr>
+          <tr><td class="ticker">tools/build_site.py</td><td>Static generator for category pages and injected tables</td><td><span class="chip ok">correct</span></td></tr>
+          <tr><td class="ticker">tools/check_links.py</td><td>Internal link and anchor checker</td><td><span class="chip ok">correct</span> — 270 links across 14 pages</td></tr>
+          <tr><td class="ticker">docs/desk/assets/js/app.js</td><td>Dashboard rendering, charts, both chats, live upgrade</td><td><span class="chip ok">fixed</span> — D4</td></tr>
+          <tr><td class="ticker">.github/workflows/*.yml</td><td>CI, collector and Pages deployment</td><td><span class="chip ok">fixed</span> — D5</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="hint">The static site under <code>site/</code>, the <code>python/</code> prototype client and the
+      <code>docs/</code> browser monitor were built by earlier sessions and are preserved unchanged. Their
+      simulated display values are not verified quotes and are labelled as such on the landing page.</p>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">03</span>Official documents consulted in this pass</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Document</th><th>Used to check</th></tr></thead>
+        <tbody>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">API environments and endpoints</a></td><td>demo/production hosts, user hosts, signed-path rule</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2" target="_blank" rel="noopener">Create Order (V2)</a></td><td>order body, required fields, fixed-point strings, 201 semantics</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/order_direction" target="_blank" rel="noopener">Order direction</a></td><td><code>bid</code> ≡ yes, <code>ask</code> ≡ no; legacy <code>side</code> deprecation</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">Quick start: create your first order</a></td><td>worked <code>side: "bid"</code> example, client order IDs</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener">Fixed-point representation</a></td><td><code>_dollars</code> 4 dp, <code>_fp</code> counts 2 dp, <code>price_ranges</code> grids</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">Get Markets</a></td><td>timestamp-filter compatibility, caching, pagination</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">Market lifecycle</a></td><td><code>finalized</code> terminal state; <code>settled</code> filter maps to it</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">Orderbook responses</a></td><td>bids only; implied asks; ascending arrays</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">Kalshi glossary</a></td><td>category / categories / tags; KXAAAGASM worked example</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">Get Series List</a></td><td>series fields, <code>fee_type</code> pointing at the fee schedule</td></tr>
+          <tr><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee schedule (PDF)</a></td><td>taker and maker formulas, published table, non-standard multipliers</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Fee rounding</a></td><td>rounding components, balance precision</td></tr>
+          <tr><td><a href="https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account" target="_blank" rel="noopener">Demo account help article</a></td><td>demo sign-up, mock funding rails, credential separation</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">04</span>Still open — tracked as flags, not silently patched</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Flag</th><th>Open item</th><th>Why it is not fixed here</th></tr></thead>
+        <tbody>
+          <tr><td class="ticker"><a href="flagged.html#F1">F1</a></td><td>Per-series fee multiplier M</td><td>The PDF lists M per series and many are 0. Encoding the whole non-standard table is mechanical but unverifiable without the complete current list; the default (M = 1) can only overstate the fee.</td></tr>
+          <tr><td class="ticker"><a href="flagged.html#F2">F2</a></td><td>No live demo account</td><td>A demo account and its API key can only be created by the account holder. The adapter and the portfolio page are ready; no account data is invented in its place.</td></tr>
+          <tr><td class="ticker"><a href="flagged.html#F5">F5</a></td><td>Browser CORS to Kalshi is untested</td><td>Confirming it requires a browser that can reach <code>kalshi.co</code>; the published snapshot is the default data path and does not depend on CORS.</td></tr>
+          <tr><td class="ticker"><a href="flagged.html#F7">F7</a></td><td>Alert timing is cycle-resolution</td><td>The scheduled collector runs every 15 minutes, so a swing is detected between cycles. Tick-level detection needs a WebSocket subscriber that lives longer than a GitHub Actions job.</td></tr>
+          <tr><td class="ticker"><a href="flagged.html#F12">F12</a></td><td>The ROI score is a heuristic</td><td>It is published in full so it can be judged and replaced; no claim of validated alpha is made anywhere.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="site">
+    <span>Reviewed 2026-11-22.</span>
+    <span>·</span><a href="verification.html">Sources &amp; verification</a>
+    <span>·</span><a href="flagged.html">Flagged for review</a>
+    <span>·</span><a href="requirements.html">Requirements</a>
+    <span>·</span><span>Not investment advice. Demo/paper only.</span>
+  </footer>
+</main>
+</body>
+</html>

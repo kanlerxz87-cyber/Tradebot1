@@ -466,6 +466,22 @@
   }
 
   /* ---------------------------------------------------------------- chats */
+  function catalystMarkup(alert) {
+    const c = alert.catalysts || {};
+    const official = (c.official || []).slice(0, 4);
+    const search = (c.search || []).slice(0, 3);
+    if (!official.length && !search.length) return "";
+    const pair = (item, cls) =>
+      `<a class="${cls}" href="${esc(item.url)}" target="_blank" rel="noopener" title="${esc(item.note || "")}">${esc(item.label)}</a>`;
+    const off = official.length
+      ? `<div class="cat"><span class="cat-label">Contract sources</span>${official.map((i) => pair(i, "src")).join("")}</div>`
+      : "";
+    const srch = search.length
+      ? `<div class="cat"><span class="cat-label warn">Possible catalysts (searches, unverified)</span>${search.map((i) => pair(i, "srch")).join("")}</div>`
+      : "";
+    return `<div class="catalysts">${off}${srch}</div>`;
+  }
+
   function alertMarkup(alert, opts) {
     const dir = alert.direction === "up" ? "up" : "down";
     const model = alert.model || {};
@@ -491,6 +507,7 @@
             <a href="${esc(alert.series_page_url || "#")}" target="_blank" rel="noopener">Kalshi page</a>
             <button class="toggle">why?</button>
           </div>
+          ${catalystMarkup(alert)}
           <div class="why">${why || "No model verdict recorded for this alert."}</div>
         </div>
       </div>`;
@@ -548,7 +565,10 @@
               <td>${topicChip(r.topic)}</td>
               <td><span class="chip ${r.resolution === "YES" ? "ok" : "bad"}">${esc(r.resolution || "—")}</span></td>
               <td class="meta">${esc((r.close_time || r.settled_ts || "—").slice(0, 16).replace("T", " "))}</td>
-              <td><a href="${esc(r.api_url || r.source || "#")}" target="_blank" rel="noopener">verify</a></td>
+              <td>
+                <a href="${esc(r.api_url || r.source || "#")}" target="_blank" rel="noopener">verify</a>
+                ${((r.catalysts || {}).official || []).slice(0, 1).map((i) => ` · <a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.label)}</a>`).join("")}
+              </td>
             </tr>`).join("")}
           </tbody>
         </table>

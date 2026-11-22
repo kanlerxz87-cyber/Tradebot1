@@ -22,6 +22,7 @@
       <a href="strategies.html">Strategies</a>
       <a href="api-reference.html">API</a>
       <a href="verification.html">Verification</a>
+      <a href="repo-review.html">Repo review</a>
       <a class="active" href="flagged.html">Flagged</a>
       <a href="executive-summary.html">Summary</a>
     </nav>
@@ -51,10 +52,10 @@
   <td class="ticker">F1</td>
   <td><span class="chip warn">warn</span></td>
   <td>
-    <b>Trading-fee formula is unverified</b>
-    <div class="meta" style="margin-top:4px">The paper book charges a fee of ceil_to_cent(0.07 × contracts × price × (1 − price)). Kalshi&#x27;s fee schedule PDF (linked from the fee_type field of GET /series) could not be retrieved during this session, so the formula is only supported by third-party write-ups, not by an official Kalshi document.</div>
-    <div class="small" style="margin-top:6px"><b>Handling:</b> Every ledger entry is labelled fee_model=quadratic_unverified; the portfolio page states the caveat next to P&amp;L; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them.</div>
-    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Retrieve the current fee schedule PDF and set VERIFIED=True with the published rate in kalshi_trader/fees.py.</div>
+    <b>Fee multiplier M is applied as 1 for series not listed in the schedule</b>
+    <div class="meta" style="margin-top:4px">RESOLVED for the formula. The general and maker formulas are now confirmed against Kalshi&#x27;s own fee schedule PDF (effective 2026-07-07): taker roundup(0.07 × C × P × (1 − P)), maker roundup(0.0175 × …), and the tests reproduce the PDF&#x27;s published table (1 contract at $0.50 → $0.02; 100 contracts at $0.50 → $1.75). One part is still approximate: the PDF lists per-series multipliers M and several series carry M = 0 (fee-free). The paper book applies M = 1 unless a series is known to be fee-free, so a fee-free series is charged the default fee.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> fees.VERIFIED is true and every ledger entry is labelled fee_model=quadratic; the paper book rounds the fee up to the cent, which can only overstate a fee, never understate it; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Encode the full non-standard multiplier table (including the M = 0 fee-free series) in kalshi_trader/fees.py, then re-run the tests.</div>
     <div class="links small" style="margin-top:6px"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a> · <a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-series-list</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">docs.kalshi.com/getting_started/fee_rounding</a></div>
   </td>
 </tr><tr id="F2">

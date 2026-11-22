@@ -11,8 +11,11 @@ permissions:
   contents: read
   pages: write
   id-token: write
+# `pages` and `collect` both commit to main. They are deliberately placed in the same
+# concurrency group so the two push steps can never overlap (observed collision:
+# runs 44997857586 and 44997863523 started in the same minute).
 concurrency:
-  group: pages
+  group: main-writers
   cancel-in-progress: false
 jobs:
   build:
@@ -41,6 +44,23 @@ jobs:
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
+
+      - name: Commit the refreshed snapshot
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        run: |
+          git config user.name "kalshi-trader-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/snapshot.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "snapshot unchanged"
+          else
+            git commit -m "data: pages snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin main && git push && break
+              echo "push attempt $attempt failed; retrying"; sleep 10
+            done
+          fi
       - name: Stage legacy root, research dashboard, and original dashboard
         if: github.event_name != 'pull_request'
         run: |
