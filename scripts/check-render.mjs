@@ -20,7 +20,7 @@ import { existsSync } from 'node:fs';
 const ROOT = path.resolve(new URL('..', import.meta.url).pathname);
 
 const PAGES = [
-  { file: 'index.html', expectText: ['Highest dollar live events'], expectRows: '#rank-table tbody tr' },
+  { file: 'board.html', expectText: ['Highest dollar live events'], expectRows: '#rank-table tbody tr' },
   { file: 'dashboard.html', expectText: ['All swings'], expectRows: '#obs-table tbody tr' },
   { file: 'markets.html', expectText: ['Markets'], expectRows: null },
   { file: 'market.html?t=KXELONMARS-99', expectText: ['Liquidity'], expectRows: '#ladder-yes tr' },

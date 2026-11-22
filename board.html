@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalshi demo dashboard</title>
+<meta name="description" content="A Kalshi demo-environment dashboard: live swing alerts at the $0.10 threshold, price charts and order-book liquidity for gas prices, elections, culture, crypto and golf, with simulated strategies and resolution tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body data-generated="2026-11-22T07:20:33.260Z">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="brand" href="board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <nav class="main" aria-label="Main"><a href="board.html" aria-current="page">Board</a><a href="dashboard.html">Alerts</a><a href="markets.html">Markets</a><a href="portfolio.html">Portfolio</a><a href="strategies.html">Strategies</a><a href="demo-account.html">Demo account</a><a href="executive-summary.html">Summary</a><a href="sources.html">Sources</a><a href="methodology.html">Method</a><a href="suggestions.html">Ideas</a><a href="flagged.html">Flagged</a><a href="api.html">API</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap page">
+<section class="hero">
+  <div class="pill-row" style="margin-bottom:10px">
+    <span class="badge ok">Kalshi demo environment</span>
+    <span class="badge">5 focus topics</span>
+    <span class="badge">≥ $0.10 swing alerts</span>
+    <span class="badge">simulated trading</span>
+  </div>
+  <h1>Kalshi demo market board</h1>
+  <p>
+    A live board over Kalshi's <strong>demo</strong> exchange, restricted to five topics:
+    gas prices, elections, culture, crypto and golf. It ranks markets by the dollar
+    notional resting on them, watches for price swings of <strong>$0.10 or more</strong>
+    in either direction, and follows each market until the exchange finalizes a
+    <strong>yes</strong> or <strong>no</strong> outcome.
+  </p>
+  <div class="banner" id="data-banner" data-state="snapshot" role="status" aria-live="polite">
+    <span class="led" aria-hidden="true"></span>
+    <strong>Loading…</strong>
+  </div>
+</section>
+
+<section class="grid cols-4" aria-label="Headline figures">
+  <div class="card tight"><div class="stat"><span class="k">Markets on the board</span><span class="v" id="stat-markets">—</span><span class="s" id="stat-markets-sub">tracked in this topic set</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Qualifying swings logged</span><span class="v" id="stat-alerts">—</span><span class="s">≥ $0.10 moves, all topics</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Resolved yes / no</span><span class="v" id="stat-resolved">—</span><span class="s">finalized binary results only</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Simulated equity</span><span class="v" id="stat-equity">—</span><span class="s" id="stat-equity-sub">paper only, $1,000 starting balance</span></div></div>
+</section>
+
+<section>
+  <div class="toolbar" style="margin-bottom:10px">
+    <h2 style="margin:0">Highest dollar live events</h2>
+    <div class="seg" id="rank-toggle" role="group" aria-label="Rank by">
+      <button type="button" data-mode="notional" aria-pressed="true">Resting dollars</button>
+      <button type="button" data-mode="volume" aria-pressed="false">24h volume</button>
+      <button type="button" data-mode="move" aria-pressed="false">Largest move</button>
+    </div>
+  </div>
+  <p class="small">
+    "Resting dollars" is the dollar notional of the bids currently on the book,
+    from the exchange's own price and quantity pairs. It is a liquidity measure,
+    not traded volume and not a profit estimate.
+  </p>
+  <div class="table-wrap">
+    <table id="rank-table">
+      <thead><tr>
+        <th>#</th><th>Market</th><th>Topic</th><th class="num">YES bid</th><th class="num">YES ask</th>
+        <th class="num">Resting $</th><th class="num">24h vol</th><th class="num">Observed</th><th>Source</th>
+      </tr></thead>
+      <tbody><tr><td colspan="9" class="empty">Loading markets…</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="grid cols-2">
+  <div class="card">
+    <h3>Where to start</h3>
+    <ul style="margin:0; padding-left:18px; font-size:.9rem">
+      <li><a href="dashboard.html">Live alerts</a> — two scrolling feeds: every swing, and the model-filtered subset.</li>
+      <li><a href="markets.html">Markets</a> — every tracked market by topic, with resolution state.</li>
+      <li><a href="portfolio.html">Simulated portfolio</a> — five strategies running against demo data.</li>
+      <li><a href="executive-summary.html">Executive summary</a> — the short version, with sources.</li>
+    </ul>
+  </div>
+  <div class="card">
+    <h3>Read this before trusting a number</h3>
+    <p class="small" style="margin-bottom:6px">Everything below is true of this build and is published on the review page too.</p>
+    <ul style="margin:0; padding-left:18px; font-size:.9rem">
+      <li>Demo markets use mock funds; Kalshi warns demo prices may not reflect real markets.</li>
+      <li>Alerts compare two polls. A move between polls can be missed (F-11).</li>
+      <li>The filtered feed is a project score out of 100, not a return forecast (F-10).</li>
+      <li>No article is ever claimed to have caused a move (F-12).</li>
+    </ul>
+    <p class="small" style="margin-top:8px"><a href="flagged.html">All flags and limitations →</a></p>
+  </div>
+</section>
+
+<section>
+  <h2>Topic summary</h2>
+  <p class="small">Topics stay separate; events inside a topic stay grouped together. Coverage is a sample per cycle, not an exchange census.</p>
+  <div class="table-wrap">
+    <table id="topic-table">
+      <thead><tr><th>Topic</th><th>How it is found on Kalshi</th><th class="num">Series</th><th class="num">Open markets</th><th class="num">Swings logged</th><th class="num">Resolved</th><th>Source</th></tr></thead>
+      <tbody><tr><td colspan="7" class="empty">Loading topics…</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<section class="grid cols-5" id="topic-cards"></section>
+
+<script type="module" src="assets/board.js"></script>
+
+</main>
+<footer class="site">
+  <div class="wrap cols">
+    <div style="max-width:52ch">
+      <strong>Tradebot1</strong> — a dashboard over the <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">Kalshi demo environment</a>.
+      Demo markets use mock funds and Kalshi warns their prices may not reflect real markets.
+      This is not investment advice and nothing here is a forecast.
+      <div class="src" style="margin-top:8px">Data captured through https://external-api.demo.kalshi.co/trade-api/v2.</div>
+    </div>
+    <div>
+      <div><strong class="muted">Topics</strong></div>
+      <a href="categories/gas.html">Gas prices</a> · <a href="categories/elections.html">Elections</a> · <a href="categories/culture.html">Culture</a> · <a href="categories/crypto.html">Crypto</a> · <a href="categories/golf.html">Golf</a>
+    </div>
+    <div>
+      <div><strong class="muted">Review</strong></div>
+      <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
+      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:00Z (21m ago)</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

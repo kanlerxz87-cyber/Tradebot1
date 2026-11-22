@@ -1,5 +1,5 @@
 <section>
-  <p class="small"><a href="[[ASSET]]index.html">Board</a> / <a href="[[ASSET]]markets.html">Markets</a> / <span id="crumb">market</span></p>
+  <p class="small"><a href="[[ASSET]]board.html">Board</a> / <a href="[[ASSET]]markets.html">Markets</a> / <span id="crumb">market</span></p>
   <h1 id="m-title">Market</h1>
   <div class="pill-row" style="margin-bottom:10px">
     <span class="badge" id="m-topic">—</span>

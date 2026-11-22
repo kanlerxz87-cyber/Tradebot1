@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Culture — Kalshi Trader</title>
+<meta name="description" content="Kalshi market dashboard for gas prices, elections, culture, crypto and golf — verified against official Kalshi documentation.">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="../index.html">Dashboard</a><a href="../topics/gas-prices.html">Gas</a><a href="../topics/elections.html">Elections</a><a class="active" href="../topics/culture.html">Culture</a><a href="../topics/crypto.html">Crypto</a><a href="../topics/golf.html">Golf</a><a href="../portfolio.html">Portfolio</a><a href="../strategies.html">Strategies</a><a href="../api-reference.html">API</a><a href="../verification.html">Verification</a><a href="../flagged.html">Flagged</a><a href="../executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+  <h1 class="page-title">Culture</h1>
+  <p class="page-sub">Awards, music, film, television, video games and other cultural moments.</p>
+
+  <div class="grid kpi">
+    <div class="card"><span class="label">Markets tracked</span><span class="value">60</span><span class="foot">top 60 kept by estimated notional</span></div>
+    <div class="card"><span class="label">Series scanned</span><span class="value">40</span><span class="foot">2,711 in the catalogue for this topic</span></div>
+    <div class="card"><span class="label">Est. 24h notional</span><span class="value">$258,874</span><span class="foot">volume × price, derived</span></div>
+    <div class="card"><span class="label">Open interest</span><span class="value">7,708,952</span><span class="foot">contracts, exchange-reported</span></div>
+  </div>
+
+  <section class="section">
+    <h2>How this topic is defined</h2>
+    <p class="hint">There is <b>no</b> official <code>Culture</code> category. This page maps the brief's culture topic to the official <code>Entertainment</code> category, plus <code>Social</code> when a series carries it.</p>
+    <div class="card tight">
+      <div class="note-box">This is the one topic where the mapping is an editorial decision rather than an official label; it is listed on the Flagged for Review page as F3.</div>
+      <p class="small" style="margin:10px 0 4px">Official sources for this definition:</p>
+      <ul class="clean"><li><a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener">Official category → tag map (no Culture entry)</a></li><li><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">Kalshi glossary</a></li></ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Markets</h2>
+    <p class="hint">Snapshot 2026-11-22 07:14:46 UTC. Price is the YES midpoint of the best bid and ask.
+      “At best price” is the visible contract count resting at the top of the book; — means Kalshi did not report it.</p>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Market</th><th>Price</th><th>YES bid / ask</th><th>Spread</th><th class="num">24h vol</th>
+<th class="num">Open interest</th><th class="num">At best price</th><th class="num">Est. 24h $</th>
+<th>Closes</th><th>Source</th>
+</tr></thead>
+<tbody><tr>
+  <td><span class="title">2026 Game of the Year?</span><div class="meta mono">KXGAMEAWARDS-2026-GTA</div></td>
+  <td>92¢</td>
+  <td>91¢ / 92¢</td>
+  <td>1¢</td>
+  <td class="num">55,506</td>
+  <td class="num">525,358</td>
+  <td class="num">27,457</td>
+  <td class="num">$50,788</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXGAMEAWARDS-2026-GTA" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Hunger Games: Sunrise on the Reaping Rotten Tomatoes score?</span><div class="meta mono">KXRT-HUN-65</div></td>
+  <td>98¢</td>
+  <td>97¢ / 98¢</td>
+  <td>1¢</td>
+  <td class="num">15,144</td>
+  <td class="num">68,037</td>
+  <td class="num">11,944</td>
+  <td class="num">$14,765</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HUN-65" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Hexed Rotten Tomatoes score?</span><div class="meta mono">KXRT-HEX-65</div></td>
+  <td>48¢</td>
+  <td>47¢ / 49¢</td>
+  <td>2¢</td>
+  <td class="num">19,650</td>
+  <td class="num">41,484</td>
+  <td class="num">0</td>
+  <td class="num">$9,432</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-65" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Hunger Games: Sunrise on the Reaping Rotten Tomatoes score?</span><div class="meta mono">KXRT-HUN-62</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">9,042</td>
+  <td class="num">25,218</td>
+  <td class="num">16,145</td>
+  <td class="num">$8,997</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HUN-62" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Hunger Games: Sunrise on the Reaping Rotten Tomatoes score?</span><div class="meta mono">KXRT-HUN-67</div></td>
+  <td>42¢</td>
+  <td>39¢ / 45¢</td>
+  <td>6¢</td>
+  <td class="num">20,703</td>
+  <td class="num">36,971</td>
+  <td class="num">11</td>
+  <td class="num">$8,695</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HUN-67" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Ezra Frech win Dancing with the Stars Season 35?</span><div class="meta mono">KXDANCINGWITHTHESTARS-26DEC31-EFRE</div></td>
+  <td>50¢</td>
+  <td>49¢ / 50¢</td>
+  <td>1¢</td>
+  <td class="num">16,645</td>
+  <td class="num">605,658</td>
+  <td class="num">11,714</td>
+  <td class="num">$8,239</td>
+  <td class="meta">2027-01-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXDANCINGWITHTHESTARS-26DEC31-EFRE" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxdancingwiththestars" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Hexed Rotten Tomatoes score?</span><div class="meta mono">KXRT-HEX-45</div></td>
+  <td>92¢</td>
+  <td>92¢ / 93¢</td>
+  <td>1¢</td>
+  <td class="num">8,661</td>
+  <td class="num">31,738</td>
+  <td class="num">5,912</td>
+  <td class="num">$8,012</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-45" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Hexed Rotten Tomatoes score?</span><div class="meta mono">KXRT-HEX-55</div></td>
+  <td>75¢</td>
+  <td>74¢ / 76¢</td>
+  <td>2¢</td>
+  <td class="num">10,625</td>
+  <td class="num">30,809</td>
+  <td class="num">2,627</td>
+  <td class="num">$7,968</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-55" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">I Play Rocky Rotten Tomatoes score?</span><div class="meta mono">KXRT-IPL-87</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">6,641</td>
+  <td class="num">36,266</td>
+  <td class="num">2,123</td>
+  <td class="num">$6,608</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-IPL-87" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">ZERO A.D.: The Birth of Christ Rotten Tomatoes score?</span><div class="meta mono">KXRT-ZER-45</div></td>
+  <td>78¢</td>
+  <td>78¢ / 79¢</td>
+  <td>1¢</td>
+  <td class="num">7,808</td>
+  <td class="num">15,580</td>
+  <td class="num">0</td>
+  <td class="num">$6,129</td>
+  <td class="meta">2026-12-14 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-ZER-45" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">I Play Rocky Rotten Tomatoes score?</span><div class="meta mono">KXRT-IPL-85</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">6,097</td>
+  <td class="num">42,948</td>
+  <td class="num">2,698</td>
+  <td class="num">$6,067</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-IPL-85" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Hexed Rotten Tomatoes score?</span><div class="meta mono">KXRT-HEX-50</div></td>
+  <td>82¢</td>
+  <td>82¢ / 83¢</td>
+  <td>1¢</td>
+  <td class="num">6,464</td>
+  <td class="num">30,725</td>
+  <td class="num">3,173</td>
+  <td class="num">$5,333</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-50" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Amber Glenn win Dancing with the Stars Season 35?</span><div class="meta mono">KXDANCINGWITHTHESTARS-26DEC31-AGLE</div></td>
+  <td>24¢</td>
+  <td>23¢ / 24¢</td>
+  <td>1¢</td>
+  <td class="num">22,669</td>
+  <td class="num">586,685</td>
+  <td class="num">6,350</td>
+  <td class="num">$5,327</td>
+  <td class="meta">2027-01-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXDANCINGWITHTHESTARS-26DEC31-AGLE" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxdancingwiththestars" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Hexed Rotten Tomatoes score?</span><div class="meta mono">KXRT-HEX-60</div></td>
+  <td>62¢</td>
+  <td>61¢ / 63¢</td>
+  <td>2¢</td>
+  <td class="num">8,327</td>
+  <td class="num">34,258</td>
+  <td class="num">0</td>
+  <td class="num">$5,163</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-60" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will The Odyssey win Best Picture at the Oscars?</span><div class="meta mono">KXOSCARPIC-27-ODY</div></td>
+  <td>52¢</td>
+  <td>52¢ / 53¢</td>
+  <td>1¢</td>
+  <td class="num">9,555</td>
+  <td class="num">1,305,205</td>
+  <td class="num">17,232</td>
+  <td class="num">$5,016</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARPIC-27-ODY" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscarpic" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Further Mis-Adventures of Cliff Booth Rotten Tomatoes score?</span><div class="meta mono">KXRT-FUR-75</div></td>
+  <td>98¢</td>
+  <td>97¢ / 98¢</td>
+  <td>1¢</td>
+  <td class="num">5,097</td>
+  <td class="num">14,120</td>
+  <td class="num">24,414</td>
+  <td class="num">$4,970</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FUR-75" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Donald Trump be Time Person of the Year in 2026?</span><div class="meta mono">KXTIME-26-DT</div></td>
+  <td>6¢</td>
+  <td>5¢ / 6¢</td>
+  <td>1¢</td>
+  <td class="num">86,367</td>
+  <td class="num">506,793</td>
+  <td class="num">99,702</td>
+  <td class="num">$4,750</td>
+  <td class="meta">2027-01-01 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXTIME-26-DT" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxtime" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Taken: Natalee Holloway: Season 1 be #2 US Netflix Show on Nov 23, 2026?</span><div class="meta mono">KXNETFLIXRANKSHOWRUNNERUP-26NOV23-TAK</div></td>
+  <td>82¢</td>
+  <td>80¢ / 83¢</td>
+  <td>3¢</td>
+  <td class="num">5,199</td>
+  <td class="num">3,745</td>
+  <td class="num">174</td>
+  <td class="num">$4,237</td>
+  <td class="meta">2026-11-24 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXNETFLIXRANKSHOWRUNNERUP-26NOV23-TAK" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxnetflixrankshowrunnerup" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will James Talarico be Time Person of the Year in 2026?</span><div class="meta mono">KXTIME-26-JAM</div></td>
+  <td>26¢</td>
+  <td>25¢ / 26¢</td>
+  <td>1¢</td>
+  <td class="num">16,073</td>
+  <td class="num">189,079</td>
+  <td class="num">3,805</td>
+  <td class="num">$4,099</td>
+  <td class="meta">2027-01-01 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXTIME-26-JAM" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxtime" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Avengers: Doomsday Rotten Tomatoes score?</span><div class="meta mono">KXRT-AVE-50</div></td>
+  <td>92¢</td>
+  <td>92¢ / 93¢</td>
+  <td>1¢</td>
+  <td class="num">4,281</td>
+  <td class="num">20,342</td>
+  <td class="num">219,291</td>
+  <td class="num">$3,960</td>
+  <td class="meta">2026-12-21 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-AVE-50" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">ZERO A.D.: The Birth of Christ Rotten Tomatoes score?</span><div class="meta mono">KXRT-ZER-55</div></td>
+  <td>56¢</td>
+  <td>56¢ / 57¢</td>
+  <td>1¢</td>
+  <td class="num">6,705</td>
+  <td class="num">3,125</td>
+  <td class="num">793</td>
+  <td class="num">$3,788</td>
+  <td class="meta">2026-12-14 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-ZER-55" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will The Legend of Zelda: Ocarina of Time win the 2026 Game Award for Game of the Year?</span><div class="meta mono">KXGAMEAWARDS-2026-LEG</div></td>
+  <td>8¢</td>
+  <td>7¢ / 8¢</td>
+  <td>1¢</td>
+  <td class="num">49,498</td>
+  <td class="num">302,836</td>
+  <td class="num">16,407</td>
+  <td class="num">$3,712</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXGAMEAWARDS-2026-LEG" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Connor Wood win Dancing with the Stars Season 35?</span><div class="meta mono">KXDANCINGWITHTHESTARS-26DEC31-CWOO</div></td>
+  <td>20¢</td>
+  <td>19¢ / 21¢</td>
+  <td>2¢</td>
+  <td class="num">18,298</td>
+  <td class="num">572,099</td>
+  <td class="num">8,511</td>
+  <td class="num">$3,660</td>
+  <td class="meta">2027-01-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXDANCINGWITHTHESTARS-26DEC31-CWOO" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxdancingwiththestars" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">2027 Best Picture Oscar nominations?</span><div class="meta mono">KXOSCARNOMPIC-27-PRO</div></td>
+  <td>70¢</td>
+  <td>69¢ / 71¢</td>
+  <td>2¢</td>
+  <td class="num">4,934</td>
+  <td class="num">84,229</td>
+  <td class="num">95</td>
+  <td class="num">$3,454</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARNOMPIC-27-PRO" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscarnompic" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Focker-In-Law Rotten Tomatoes score?</span><div class="meta mono">KXRT-FOC-35</div></td>
+  <td>93¢</td>
+  <td>90¢ / 96¢</td>
+  <td>6¢</td>
+  <td class="num">3,324</td>
+  <td class="num">56,585</td>
+  <td class="num">2,446</td>
+  <td class="num">$3,091</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FOC-35" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Grand Theft Auto VI win the 2026 Game Award for Best Narrative?</span><div class="meta mono">KXGAMEAWARDS-BNAR-GRA</div></td>
+  <td>76¢</td>
+  <td>75¢ / 77¢</td>
+  <td>2¢</td>
+  <td class="num">3,999</td>
+  <td class="num">9,164</td>
+  <td class="num">467</td>
+  <td class="num">$3,040</td>
+  <td class="meta">2026-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXGAMEAWARDS-BNAR-GRA" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Zohran Mamdani be Time Person of the Year in 2026?</span><div class="meta mono">KXTIME-26-ZOH</div></td>
+  <td>22¢</td>
+  <td>22¢ / 23¢</td>
+  <td>1¢</td>
+  <td class="num">12,945</td>
+  <td class="num">857,905</td>
+  <td class="num">4,120</td>
+  <td class="num">$2,913</td>
+  <td class="meta">2027-01-01 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXTIME-26-ZOH" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxtime" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Further Mis-Adventures of Cliff Booth Rotten Tomatoes score?</span><div class="meta mono">KXRT-FUR-82</div></td>
+  <td>34¢</td>
+  <td>32¢ / 35¢</td>
+  <td>3¢</td>
+  <td class="num">8,476</td>
+  <td class="num">38,418</td>
+  <td class="num">46</td>
+  <td class="num">$2,839</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FUR-82" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Hexed Rotten Tomatoes score?</span><div class="meta mono">KXRT-HEX-70</div></td>
+  <td>27¢</td>
+  <td>26¢ / 28¢</td>
+  <td>2¢</td>
+  <td class="num">10,481</td>
+  <td class="num">35,770</td>
+  <td class="num">2</td>
+  <td class="num">$2,830</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-70" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Morgan Wallen have above 5M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-MOR26NOV22-5.0M</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">2,701</td>
+  <td class="num">2,717</td>
+  <td class="num">3,407</td>
+  <td class="num">$2,687</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-MOR26NOV22-5.0M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Kanye West have above 4.5M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-YE26NOV22-4.5M</div></td>
+  <td>88¢</td>
+  <td>75¢ / 100¢</td>
+  <td>25¢</td>
+  <td class="num">3,000</td>
+  <td class="num">3,100</td>
+  <td class="num">1</td>
+  <td class="num">$2,625</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-YE26NOV22-4.5M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">ZERO A.D.: The Birth of Christ Rotten Tomatoes score?</span><div class="meta mono">KXRT-ZER-60</div></td>
+  <td>40¢</td>
+  <td>39¢ / 41¢</td>
+  <td>2¢</td>
+  <td class="num">6,318</td>
+  <td class="num">6,717</td>
+  <td class="num">493</td>
+  <td class="num">$2,527</td>
+  <td class="meta">2026-12-14 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-ZER-60" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will The Black Ball win Best Picture at the Oscars?</span><div class="meta mono">KXOSCARPIC-27-BLA</div></td>
+  <td>10¢</td>
+  <td>10¢ / 11¢</td>
+  <td>1¢</td>
+  <td class="num">23,257</td>
+  <td class="num">510,584</td>
+  <td class="num">31,334</td>
+  <td class="num">$2,442</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARPIC-27-BLA" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscarpic" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">2027 Best Picture Oscar nominations?</span><div class="meta mono">KXOSCARNOMPIC-27-IPL</div></td>
+  <td>56¢</td>
+  <td>56¢ / 57¢</td>
+  <td>1¢</td>
+  <td class="num">4,031</td>
+  <td class="num">21,560</td>
+  <td class="num">76</td>
+  <td class="num">$2,277</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARNOMPIC-27-IPL" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscarnompic" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Avengers: Doomsday Rotten Tomatoes score?</span><div class="meta mono">KXRT-AVE-75</div></td>
+  <td>64¢</td>
+  <td>63¢ / 64¢</td>
+  <td>1¢</td>
+  <td class="num">3,482</td>
+  <td class="num">24,581</td>
+  <td class="num">87,519</td>
+  <td class="num">$2,211</td>
+  <td class="meta">2026-12-21 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-AVE-75" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Bad Bunny have above 30M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-BAD26NOV22-30.0M</div></td>
+  <td>84¢</td>
+  <td>67¢ / 100¢</td>
+  <td>33¢</td>
+  <td class="num">2,540</td>
+  <td class="num">2,950</td>
+  <td class="num">2</td>
+  <td class="num">$2,121</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-BAD26NOV22-30.0M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Focker-In-Law Rotten Tomatoes score?</span><div class="meta mono">KXRT-FOC-40</div></td>
+  <td>91¢</td>
+  <td>90¢ / 92¢</td>
+  <td>2¢</td>
+  <td class="num">2,146</td>
+  <td class="num">26,375</td>
+  <td class="num">3,142</td>
+  <td class="num">$1,953</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FOC-40" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Violent Night 2 Rotten Tomatoes score?</span><div class="meta mono">KXRT-VIO-55</div></td>
+  <td>74¢</td>
+  <td>73¢ / 75¢</td>
+  <td>2¢</td>
+  <td class="num">2,620</td>
+  <td class="num">13,729</td>
+  <td class="num">850</td>
+  <td class="num">$1,939</td>
+  <td class="meta">2026-12-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-VIO-55" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will KATSEYE have above 11M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-KAT26NOV22-11.0M</div></td>
+  <td>99¢</td>
+  <td>98¢ / 100¢</td>
+  <td>2¢</td>
+  <td class="num">1,800</td>
+  <td class="num">1,801</td>
+  <td class="num">3,800</td>
+  <td class="num">$1,782</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-KAT26NOV22-11.0M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Olivia Rodrigo have above 4.5M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-OLI26NOV22-4.5M</div></td>
+  <td>98¢</td>
+  <td>97¢ / 100¢</td>
+  <td>3¢</td>
+  <td class="num">1,800</td>
+  <td class="num">1,801</td>
+  <td class="num">2,800</td>
+  <td class="num">$1,773</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-OLI26NOV22-4.5M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Fuerza Regida have above 11M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-FUE26NOV22-11.0M</div></td>
+  <td>98¢</td>
+  <td>97¢ / 100¢</td>
+  <td>3¢</td>
+  <td class="num">1,800</td>
+  <td class="num">1,801</td>
+  <td class="num">2,764</td>
+  <td class="num">$1,773</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-FUE26NOV22-11.0M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Mewgenics win the 2026 Game Award for Best Sim / Strategy?</span><div class="meta mono">KXGAMEAWARDS-26BSS-MEWGENICS</div></td>
+  <td>28¢</td>
+  <td>27¢ / 30¢</td>
+  <td>3¢</td>
+  <td class="num">5,796</td>
+  <td class="num">6,918</td>
+  <td class="num">44</td>
+  <td class="num">$1,652</td>
+  <td class="meta">2027-12-11 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXGAMEAWARDS-26BSS-MEWGENICS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will John Malkovich win Best Actor at the Oscars?</span><div class="meta mono">KXOSCARACTO-27-JOH</div></td>
+  <td>50¢</td>
+  <td>49¢ / 50¢</td>
+  <td>1¢</td>
+  <td class="num">3,277</td>
+  <td class="num">190,643</td>
+  <td class="num">362</td>
+  <td class="num">$1,622</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARACTO-27-JOH" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscaracto" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">I Play Rocky Rotten Tomatoes score?</span><div class="meta mono">KXRT-IPL-89</div></td>
+  <td>40¢</td>
+  <td>40¢ / 41¢</td>
+  <td>1¢</td>
+  <td class="num">3,750</td>
+  <td class="num">2,352</td>
+  <td class="num">35</td>
+  <td class="num">$1,519</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-IPL-89" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Avengers: Doomsday Rotten Tomatoes score?</span><div class="meta mono">KXRT-AVE-80</div></td>
+  <td>56¢</td>
+  <td>56¢ / 57¢</td>
+  <td>1¢</td>
+  <td class="num">2,673</td>
+  <td class="num">92,146</td>
+  <td class="num">113,881</td>
+  <td class="num">$1,510</td>
+  <td class="meta">2026-12-21 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-AVE-80" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Bad Bunny have above 30.5M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-BAD26NOV22-30.5M</div></td>
+  <td>90¢</td>
+  <td>80¢ / 100¢</td>
+  <td>20¢</td>
+  <td class="num">1,620</td>
+  <td class="num">1,665</td>
+  <td class="num">2,000</td>
+  <td class="num">$1,458</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-BAD26NOV22-30.5M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Dario Amodei be Time Person of the Year in 2026?</span><div class="meta mono">KXTIME-26-DAR</div></td>
+  <td>6¢</td>
+  <td>6¢ / 7¢</td>
+  <td>1¢</td>
+  <td class="num">21,917</td>
+  <td class="num">74,301</td>
+  <td class="num">30,661</td>
+  <td class="num">$1,425</td>
+  <td class="meta">2027-01-01 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXTIME-26-DAR" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxtime" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will The Weeknd have above 12M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-WEE26NOV22-12.0M</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">1,400</td>
+  <td class="num">1,401</td>
+  <td class="num">1,600</td>
+  <td class="num">$1,393</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-WEE26NOV22-12.0M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Tate McRae have above 4.2M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-TAT26NOV22-4.2M</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">1,363</td>
+  <td class="num">1,350</td>
+  <td class="num">1,306</td>
+  <td class="num">$1,356</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-TAT26NOV22-4.2M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Further Mis-Adventures of Cliff Booth Rotten Tomatoes score?</span><div class="meta mono">KXRT-FUR-85</div></td>
+  <td>10¢</td>
+  <td>10¢ / 11¢</td>
+  <td>1¢</td>
+  <td class="num">12,058</td>
+  <td class="num">74,529</td>
+  <td class="num">1,513</td>
+  <td class="num">$1,266</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FUR-85" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Andrew Scott win Best Actor at the Oscars?</span><div class="meta mono">KXOSCARACTO-27-AND</div></td>
+  <td>24¢</td>
+  <td>24¢ / 25¢</td>
+  <td>1¢</td>
+  <td class="num">5,081</td>
+  <td class="num">134,868</td>
+  <td class="num">16,469</td>
+  <td class="num">$1,245</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARACTO-27-AND" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscaracto" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Focker-In-Law Rotten Tomatoes score?</span><div class="meta mono">KXRT-FOC-25</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">1,250</td>
+  <td class="num">29,885</td>
+  <td class="num">15,856</td>
+  <td class="num">$1,244</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FOC-25" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Christopher Nolan win Best Director at the Oscars?</span><div class="meta mono">KXOSCARDIR-27-CHRI</div></td>
+  <td>60¢</td>
+  <td>60¢ / 61¢</td>
+  <td>1¢</td>
+  <td class="num">2,023</td>
+  <td class="num">72,338</td>
+  <td class="num">7,127</td>
+  <td class="num">$1,224</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARDIR-27-CHRI" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscardir" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Phantom Blade Zero win the 2026 Game Award for Best Action Game?</span><div class="meta mono">KXGAMEAWARDS-26BAG-PBZ</div></td>
+  <td>88¢</td>
+  <td>87¢ / 89¢</td>
+  <td>2¢</td>
+  <td class="num">1,326</td>
+  <td class="num">9,139</td>
+  <td class="num">19</td>
+  <td class="num">$1,167</td>
+  <td class="meta">2027-12-11 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXGAMEAWARDS-26BAG-PBZ" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Future have above 4M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-FUT26NOV22-4.0M</div></td>
+  <td>97¢</td>
+  <td>94¢ / 100¢</td>
+  <td>6¢</td>
+  <td class="num">1,200</td>
+  <td class="num">1,201</td>
+  <td class="num">192</td>
+  <td class="num">$1,164</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXYTVIEWSW-FUT26NOV22-4.0M" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Julianne Moore win Best Actress at the Oscars?</span><div class="meta mono">KXOSCARACTR-27-JUL</div></td>
+  <td>86¢</td>
+  <td>85¢ / 86¢</td>
+  <td>1¢</td>
+  <td class="num">1,349</td>
+  <td class="num">64,231</td>
+  <td class="num">13,418</td>
+  <td class="num">$1,153</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXOSCARACTR-27-JUL" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxoscaractr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will The Witcher 4 win the 2026 Game Award for Most Anticipated Game?</span><div class="meta mono">KXGAMEAWARDS-26MAG-TW4</div></td>
+  <td>55¢</td>
+  <td>53¢ / 57¢</td>
+  <td>4¢</td>
+  <td class="num">2,090</td>
+  <td class="num">3,719</td>
+  <td class="num">213</td>
+  <td class="num">$1,149</td>
+  <td class="meta">2027-12-11 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXGAMEAWARDS-26MAG-TW4" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will be the top Spotify artist this year?</span><div class="meta mono">KXTOPARTIST-26B-BAD</div></td>
+  <td>98¢</td>
+  <td>97¢ / 98¢</td>
+  <td>1¢</td>
+  <td class="num">1,158</td>
+  <td class="num">120,090</td>
+  <td class="num">80,152</td>
+  <td class="num">$1,129</td>
+  <td class="meta">2027-01-01 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXTOPARTIST-26B-BAD" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxtopartist" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Abdul El-Sayed be Time Person of the Year in 2026?</span><div class="meta mono">KXTIME-26-ABD</div></td>
+  <td>18¢</td>
+  <td>17¢ / 18¢</td>
+  <td>1¢</td>
+  <td class="num">6,414</td>
+  <td class="num">91,017</td>
+  <td class="num">2,191</td>
+  <td class="num">$1,122</td>
+  <td class="meta">2027-01-01 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXTIME-26-ABD" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxtime" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Grand Theft Auto VI: The Album by Grand Theft Auto VI have above 180000 Album Equivalent Units during the November 20, 2026 -November 26, 2026 tracking week?</span><div class="meta mono">KXALBUMEQUIV-GTA626NOV26-180K</div></td>
+  <td>20¢</td>
+  <td>16¢ / 23¢</td>
+  <td>7¢</td>
+  <td class="num">5,557</td>
+  <td class="num">8,291</td>
+  <td class="num">117</td>
+  <td class="num">$1,084</td>
+  <td class="meta">2026-11-29 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXALBUMEQUIV-GTA626NOV26-180K" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxalbumequiv" target="_blank" rel="noopener">Kalshi</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Highest-dollar events in this topic</h2>
+    <p class="hint">Ranked by estimated 24h traded notional across the events' open markets.</p>
+    <div class="table-wrap" style="max-height:380px"><table>
+<thead><tr><th>Event</th><th class="num">Markets</th><th class="num">Est. 24h $</th><th class="num">Open interest</th><th>Closes</th><th>Source</th></tr></thead>
+<tbody><tr>
+  <td><span class="title">2026 Game of the Year?</span><div class="meta mono">KXGAMEAWARDS-2026</div></td>
+  <td class="num">2</td>
+  <td class="num">$54,501</td>
+  <td class="num">828,194</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Hexed Rotten Tomatoes score?</span><div class="meta mono">KXRT-HEX</div></td>
+  <td class="num">6</td>
+  <td class="num">$38,738</td>
+  <td class="num">204,784</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Hunger Games: Sunrise on the Reaping Rotten Tomatoes score?</span><div class="meta mono">KXRT-HUN</div></td>
+  <td class="num">3</td>
+  <td class="num">$32,458</td>
+  <td class="num">130,226</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Ezra Frech win Dancing with the Stars Season 35?</span><div class="meta mono">KXDANCINGWITHTHESTARS-26DEC31</div></td>
+  <td class="num">3</td>
+  <td class="num">$17,226</td>
+  <td class="num">1,764,442</td>
+  <td class="meta">2027-01-07 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxdancingwiththestars" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Donald Trump be Time Person of the Year in 2026?</span><div class="meta mono">KXTIME-26</div></td>
+  <td class="num">5</td>
+  <td class="num">$14,308</td>
+  <td class="num">1,719,095</td>
+  <td class="meta">2027-01-01 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxtime" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">I Play Rocky Rotten Tomatoes score?</span><div class="meta mono">KXRT-IPL</div></td>
+  <td class="num">3</td>
+  <td class="num">$14,193</td>
+  <td class="num">81,567</td>
+  <td class="meta">2026-11-23 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">ZERO A.D.: The Birth of Christ Rotten Tomatoes score?</span><div class="meta mono">KXRT-ZER</div></td>
+  <td class="num">3</td>
+  <td class="num">$12,445</td>
+  <td class="num">25,422</td>
+  <td class="meta">2026-12-14 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">The Further Mis-Adventures of Cliff Booth Rotten Tomatoes score?</span><div class="meta mono">KXRT-FUR</div></td>
+  <td class="num">3</td>
+  <td class="num">$9,075</td>
+  <td class="num">127,068</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Avengers: Doomsday Rotten Tomatoes score?</span><div class="meta mono">KXRT-AVE</div></td>
+  <td class="num">3</td>
+  <td class="num">$7,681</td>
+  <td class="num">137,069</td>
+  <td class="meta">2026-12-21 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will The Odyssey win Best Picture at the Oscars?</span><div class="meta mono">KXOSCARPIC-27</div></td>
+  <td class="num">2</td>
+  <td class="num">$7,458</td>
+  <td class="num">1,815,789</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxoscarpic" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Focker-In-Law Rotten Tomatoes score?</span><div class="meta mono">KXRT-FOC</div></td>
+  <td class="num">3</td>
+  <td class="num">$6,288</td>
+  <td class="num">112,845</td>
+  <td class="meta">2026-11-30 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">2027 Best Picture Oscar nominations?</span><div class="meta mono">KXOSCARNOMPIC-27</div></td>
+  <td class="num">2</td>
+  <td class="num">$5,731</td>
+  <td class="num">105,790</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxoscarnompic" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Taken: Natalee Holloway: Season 1 be #2 US Netflix Show on Nov 23, 2026?</span><div class="meta mono">KXNETFLIXRANKSHOWRUNNERUP-26NOV23</div></td>
+  <td class="num">1</td>
+  <td class="num">$4,237</td>
+  <td class="num">3,745</td>
+  <td class="meta">2026-11-24 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxnetflixrankshowrunnerup" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Bad Bunny have above 30M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-BAD26NOV22</div></td>
+  <td class="num">2</td>
+  <td class="num">$3,578</td>
+  <td class="num">4,615</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Grand Theft Auto VI win the 2026 Game Award for Best Narrative?</span><div class="meta mono">KXGAMEAWARDS-BNAR</div></td>
+  <td class="num">1</td>
+  <td class="num">$3,040</td>
+  <td class="num">9,164</td>
+  <td class="meta">2026-12-31 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will John Malkovich win Best Actor at the Oscars?</span><div class="meta mono">KXOSCARACTO-27</div></td>
+  <td class="num">2</td>
+  <td class="num">$2,867</td>
+  <td class="num">325,511</td>
+  <td class="meta">2027-12-31 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxoscaracto" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Morgan Wallen have above 5M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-MOR26NOV22</div></td>
+  <td class="num">1</td>
+  <td class="num">$2,687</td>
+  <td class="num">2,717</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Kanye West have above 4.5M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-YE26NOV22</div></td>
+  <td class="num">1</td>
+  <td class="num">$2,625</td>
+  <td class="num">3,100</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Violent Night 2 Rotten Tomatoes score?</span><div class="meta mono">KXRT-VIO</div></td>
+  <td class="num">1</td>
+  <td class="num">$1,939</td>
+  <td class="num">13,729</td>
+  <td class="meta">2026-12-07 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxrt" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will KATSEYE have above 11M daily views at any point during November 16, 2026 - November 22, 2026?</span><div class="meta mono">KXYTVIEWSW-KAT26NOV22</div></td>
+  <td class="num">1</td>
+  <td class="num">$1,782</td>
+  <td class="num">1,801</td>
+  <td class="meta">2026-11-24 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxytviewsw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Resolved — YES or NO</h2>
+    <p class="hint">Markets tracked until they settled. The outcome is the exchange's own
+      <code>result</code> field; the link re-reads the market from the API so the value can be checked.</p>
+    <div class="table-wrap"><table><tbody><tr><td colspan="5"><div class="empty">No settled markets recorded yet — resolution tracking starts with the first collection cycle.</div></td></tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Series in this topic</h2>
+    <p class="hint">The official series objects this topic is built from, with their published categories and tags.</p>
+    <div class="table-wrap" style="max-height:420px"><table>
+<thead><tr><th>Series</th><th>Title</th><th>Official categories</th><th>Tags</th><th class="num">Lifetime contracts</th><th>Terms</th><th>Source</th></tr></thead>
+<tbody><tr>
+  <td class="ticker">KXFIRSTSUPERBOWLSONG</td>
+  <td>What will be the first Super Bowl Song played during halfitme?</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Live Music</td>
+  <td class="num">113,734,380</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/PERFORMANCEORDER.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXFIRSTSUPERBOWLSONG" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXRT</td>
+  <td>Rotten Tomatoes Scores</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Rotten Tomatoes</td>
+  <td class="num">99,784,217</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/RT.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXRT" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXPERFORMSUPERBOWLB</td>
+  <td>Who will perform at the Super Bowl</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Football</td>
+  <td class="num">47,345,230</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/PERFORM.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPERFORMSUPERBOWLB" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXOSCARPIC</td>
+  <td>Oscar for Best Picture</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Oscars, Awards</td>
+  <td class="num">45,557,338</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/OSCARS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXOSCARPIC" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXSBGUESTS</td>
+  <td>Super Bowl guests</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Football</td>
+  <td class="num">40,270,790</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/SBGUESTS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXSBGUESTS" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXSURVIVOR</td>
+  <td>Who will win Survivor</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Reality TV, Television</td>
+  <td class="num">35,075,240</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/COMPETITIONREALITYWIN.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXSURVIVOR" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXOSCARACTO</td>
+  <td>Oscar for Best Actor</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Oscars, Awards</td>
+  <td class="num">29,099,350</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/OSCARS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXOSCARACTO" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXTIME</td>
+  <td>TIME’s Person of the Year</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Achievements, People, Awards</td>
+  <td class="num">25,776,193</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/TIME.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXTIME" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXSPOTIFYD</td>
+  <td>Daily US Spotify chart</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Music, Music charts</td>
+  <td class="num">21,770,105</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/SPOTIFYCHART.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXSPOTIFYD" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXRANKLISTGOOGLESEARCH</td>
+  <td>#1 most searched on google</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Achievements, People, Google</td>
+  <td class="num">21,737,892</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/RANKLISTGOOGLESEARCH.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXRANKLISTGOOGLESEARCH" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXTOPARTIST</td>
+  <td>Top Artist on Spotify</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Music</td>
+  <td class="num">21,281,645</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/TOPARTIST.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXTOPARTIST" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXLIUSAELIMINATION</td>
+  <td>who will be eliminated</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Love Island USA, Reality TV, Television</td>
+  <td class="num">20,222,633</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/LOVEISLANDUSAELIMINATION.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXLIUSAELIMINATION" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXNETFLIXRANKSHOW</td>
+  <td>Netflix TV ranking</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">TV Charts, Television, Netflix</td>
+  <td class="num">18,097,695</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXNETFLIXRANKSHOW" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXLIUSAELIMINATIONW</td>
+  <td>who will be eliminated this week</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Love Island USA</td>
+  <td class="num">17,157,142</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/LOVEISLANDUSAELIMINATIONWEEKLY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXLIUSAELIMINATIONW" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXLIUSACOUPLE</td>
+  <td>which couple will win love island usa</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Love Island USA</td>
+  <td class="num">15,852,076</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/LOVEISLANDUSA.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXLIUSACOUPLE" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXDANCINGWITHTHESTARS</td>
+  <td>Who will win dancing with the stars?</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Television, Dancing with the Stars</td>
+  <td class="num">13,347,003</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/COMPETITIONREALITYWIN.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXDANCINGWITHTHESTARS" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXALBUMSALES</td>
+  <td>HOW MANY ALBUM SALES WILL PERSON SELL</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Music</td>
+  <td class="num">12,504,075</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/ALBUMSALES.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXALBUMSALES" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXNETFLIXRANKMOVIE</td>
+  <td>Netflix movie ranking</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Movie Charts, Movies, Netflix</td>
+  <td class="num">12,258,948</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXNETFLIXRANKMOVIE" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXFEATURE</td>
+  <td>who will be featured on album</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Features, Music</td>
+  <td class="num">12,203,503</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/FEATURE.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXFEATURE" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXRANKLISTSONGSPOTUSA</td>
+  <td>WHO WIL HAVE A #1 song on Spotify </td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Music charts, Music</td>
+  <td class="num">11,045,502</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/RANKLISTSONG.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXRANKLISTSONGSPOTUSA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXOSCARNOMPIC</td>
+  <td>Oscar nominations for Best Picture</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Oscars</td>
+  <td class="num">10,930,601</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/OSCARNOMS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXOSCARNOMPIC" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXTOPALBUMRECORD</td>
+  <td>Album record</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Music charts, Music</td>
+  <td class="num">9,981,781</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/TOPALBUMRECORD.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXTOPALBUMRECORD" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXYTVIEWSW</td>
+  <td>Highest daily view count this week</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Views, Music, Weekly Views</td>
+  <td class="num">9,882,878</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/PERIODMEDIACONSUMPTION.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXYTVIEWSW" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXGAMEAWARDS</td>
+  <td>Game Awards</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Video games, The Game Awards, Awards</td>
+  <td class="num">9,693,136</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/GAMEAWARDS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXGAMEAWARDS" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXDWTSELIMINATION</td>
+  <td>DANCING WITH THE STARS ELIMINATION</td>
+  <td class="meta">Entertainment</td>
+  <td class="meta">Television, Dancing with the Stars</td>
+  <td class="num">9,259,602</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/COMPETITIONREALITYELIM.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXDWTSELIMINATION" target="_blank" rel="noopener">API</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <footer class="site">
+    <span>Data collected 2026-11-22 07:14:46 UTC.</span>
+    <span>·</span><a href="../verification.html">Sources &amp; verification</a>
+    <span>·</span><a href="../flagged.html">Flagged for review</a>
+    <span>·</span><a href="../requirements.html">Requirements</a>
+    <span>·</span><a href="../api-reference.html">API reference</a>
+    <span>·</span><span>Not investment advice. Demo/paper only.</span>
+  </footer>
+</main>
+</body>
+</html>

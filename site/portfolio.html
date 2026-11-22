@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Portfolio &amp; Strategies — Kalshi Demo</title><link rel="stylesheet" href="assets/style.css"></head>
+<body>
+<header><div class="logo">Kalshi <span>Demo</span> Dashboard</div>
+<nav><a href="index.html">Home</a><a href="dashboard.html">Live Dashboard</a><a href="portfolio.html">Portfolio &amp; Strategies</a><a href="methodology.html">Methodology</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for Review</a></nav>
+<span id="mode-badge" class="badge badge-live">LIVE</span></header>
+<main>
+<h1>Portfolio &amp; Strategy Analysis</h1>
+<div id="mode-banner" class="banner live">✅ <b>LIVE</b> — connecting…</div>
+<div class="card"><h2>⚙️ Simulated trading controls</h2>
+<label>Bankroll ($): <input id="bankroll-input" type="number" value="1000" style="width:90px"></label>
+<div id="strategy-toggles" style="margin-top:8px"></div>
+<p class="muted small">Strategies trade automatically on ≥ $0.10 alerts: <b>Momentum</b> (follow the jump), <b>Mean-Reversion</b> (fade the jump), <b>Favorite</b> / <b>Longshot</b> (price-level entries — enable to test). Fills at last price, 10 contracts/trade. Settlements pay $1.00/contract on the winning side.</p></div>
+<div class="kpi">
+<div class="box"><div class="v" id="pf-cash">—</div><div class="l">Cash</div></div>
+<div class="box"><div class="v" id="pf-equity">—</div><div class="l">Equity (cash + positions)</div></div>
+<div class="box"><div class="v" id="pf-unreal">—</div><div class="l">Unrealized PnL</div></div>
+<div class="box"><div class="v" id="pf-realized">—</div><div class="l">Realized PnL (settled)</div></div>
+</div>
+<div class="card"><h2>📈 Equity curve</h2><canvas id="equity-chart" class="chart" style="height:200px"></canvas></div>
+<div class="card"><h2>📋 Positions &amp; trades</h2><div id="positions-table"></div></div>
+<div class="card"><h2>🗂️ Performance by Topic × Strategy</h2><div id="category-table"></div>
+<p class="muted small">Use this table to decide which topic/strategy combinations to keep, scale, or drop. Paper results only — past simulated performance does not guarantee future results.</p></div>
+<div class="card"><h2>🔑 Real demo-account trading (credentialed)</h2>
+<p>To trade on your actual Kalshi demo balance, generate an API key at <a href="https://demo.kalshi.co/" target="_blank" rel="noopener">demo.kalshi.co</a> → Account Settings → API Keys, then use <code>python/kalshi_client.py</code> (signed requests: Ed25519 or RSA-PSS). See <code>python/README.md</code>. This session had no credentials, so no real balance is shown — the paper portfolio above is the default.</p></div>
+<p class="muted small" id="status-line"></p>
+</main>
+<footer>Tradebot1 · Kalshi demo · Paper trading — not financial advice</footer>
+<script src="assets/app.js"></script>
+</body></html>

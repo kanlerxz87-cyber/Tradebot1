@@ -45,7 +45,7 @@ export const TOPICS = [
 ];
 
 const PAGES = [
-  { file: 'index.html', title: 'Live market board', nav: 'Board' },
+  { file: 'board.html', title: 'Live market board', nav: 'Board' },
   { file: 'dashboard.html', title: 'Live alerts', nav: 'Alerts' },
   { file: 'markets.html', title: 'Markets', nav: 'Markets' },
   { file: 'market.html', title: 'Market detail', nav: 'Market' },
@@ -165,7 +165,7 @@ function renderLayout(body, page, ctx) {
 <a class="skip" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap site-inner">
-    <a class="brand" href="${prefix}index.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <a class="brand" href="${prefix}board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
     <nav class="main" aria-label="Main">${navLinks(page)}</nav>
   </div>
 </header>

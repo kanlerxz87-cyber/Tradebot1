@@ -1,5 +1,5 @@
 <section>
-  <p class="small"><a href="[[ASSET]]index.html">Board</a> / topic</p>
+  <p class="small"><a href="[[ASSET]]board.html">Board</a> / topic</p>
   <h1>[[TITLE]]</h1>
   <p class="muted" id="cat-blurb" style="max-width:85ch"></p>
   <div class="banner" id="data-banner" data-state="snapshot" role="status" aria-live="polite">

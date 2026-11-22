@@ -1,0 +1,83 @@
+name: Collect Node dashboard data
+
+# Kalshi's demo REST API is polled by this job, not by the visiting browser.
+# The collector commits what it saw to data/live/, so the published site always
+# has a timestamped record even when a visitor's browser cannot reach Kalshi.
+#
+# Rate limits: https://docs.kalshi.com/getting_started/rate_limits
+# Public reads are unauthenticated and separately limited; the collector caps
+# itself and the job probes the API before doing any work.
+
+on:
+  schedule:
+    # Every 30 minutes, offset from the Python collector so the two never share a
+    # rate-limit window. GitHub does not guarantee exact times, so the site shows
+    # the observation time of every row rather than implying freshness.
+    - cron: '13,43 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Fetch but do not commit'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: node-dashboard-collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Probe the demo API before collecting
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -m 25 -o /tmp/status.json -w '%{http_code}' \
+            https://external-api.demo.kalshi.co/trade-api/v2/exchange/status)
+          echo "HTTP $code"
+          cat /tmp/status.json || true
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::Demo API did not answer 200; not collecting."
+            exit 1
+          fi
+
+      - name: Run the collector
+        run: node tools/collector.mjs ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: Validate the committed data against its contract
+        run: node scripts/check-data.mjs
+
+      - name: Commit the new observations
+        if: ${{ !inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          git config user.name 'kalshi-node-collector'
+          git config user.email 'kalshi-node-collector@users.noreply.github.com'
+          git add data/live
+          if git diff --cached --quiet; then
+            echo "No change to commit."
+            exit 0
+          fi
+          git commit -m "data: live demo capture $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin main && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            echo "push attempt $attempt failed; retrying"
+            sleep 5
+          done
+          echo "::error::could not push the capture"
+          exit 1

@@ -1,3 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
 node_modules/
+
+# Local state / secrets
+.env
+*.pem
+*.key
+!docs/**/*.key
+secrets/
+state/
+*.db
+*.db-journal
+app_data/*.tmp
+
+# OS / editor
 .DS_Store
+.idea/
+.vscode/
 *.log
+
+# Build scratch
+public/
+_site/
+coverage/
