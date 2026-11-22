@@ -11,8 +11,11 @@ permissions:
   contents: read
   pages: write
   id-token: write
+# `pages` and `collect` both commit to main. They are deliberately placed in the same
+# concurrency group so the two push steps can never overlap (observed collision:
+# runs 44997857586 and 44997863523 started in the same minute).
 concurrency:
-  group: pages
+  group: main-writers
   cancel-in-progress: false
 jobs:
   build:
@@ -28,7 +31,16 @@ jobs:
       - name: Verify both sessions' code and local links
         run: |
           npm install --no-audit --no-fund
+          # Regenerate the Node site from the committed data before checking it. The generated
+          # pages at the repository root had drifted from their templates and data (build:check
+          # reported 19 stale pages on a clean clone of main), because nothing in CI ran `build`
+          # — the workflow only staged whatever HTML happened to be committed. Building here
+          # makes the deployed artifact match the templates and the current data every deploy,
+          # and build:check below then proves the regeneration is deterministic.
+          npm run build
           node --test tests/*.test.mjs
+          npm run build:check
+          npm run check:data
           python3 tests/check_site.py
           python3 python/test_simulator.py
           node --check site/assets/app.js
@@ -56,6 +68,25 @@ jobs:
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
+      - name: Commit the refreshed snapshot
+        # Both this job and collect.yml commit to main; they share the `main-writers`
+        # concurrency group above, and the push is retried after a rebase in case a
+        # collector commit lands between checkout and push.
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        continue-on-error: true
+        run: |
+          git config user.name "kalshi-trader-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/data/snapshot.json 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo "snapshot unchanged"
+          else
+            git commit -m "data: pages snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin main && git push && break
+              echo "push attempt $attempt failed; retrying"; sleep 10
+            done
+          fi
       - name: Stage the landing page, every dashboard and the board app
         if: github.event_name != 'pull_request'
         run: |

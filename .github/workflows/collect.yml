@@ -1,6 +1,6 @@
 name: Collect market data
 
-# The autonomous loop. Every 15 minutes it reads the public Kalshi API (no key needed),
+# The autonomous loop. Every 30 minutes it reads the public Kalshi API (no key needed),
 # records prices, detects >= $0.10 swings, advances the paper-trading book, regenerates the
 # static tables and publishes the site.
 #
@@ -10,7 +10,7 @@ name: Collect market data
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
     inputs:
       samples:
@@ -21,8 +21,9 @@ on:
 permissions:
   contents: write
 
+# Shares a group with pages.yml: both jobs commit to main and must never push concurrently.
 concurrency:
-  group: collect
+  group: main-writers
   cancel-in-progress: false
 
 jobs:
@@ -69,8 +70,10 @@ jobs:
             echo "no changes this cycle"
           else
             git commit -m "data: cycle $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull --rebase --autostash origin main
-            git push
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin main && git push && break
+              echo "push attempt $attempt failed; retrying"; sleep 10
+            done
           fi
 
       # Pages publishes main:/ in legacy mode, so the push above is the deployment.
