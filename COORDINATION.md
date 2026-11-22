@@ -288,6 +288,88 @@ gained **no** edits from this session. Consequences, all deliberate:
 
 ---
 
+# Session `arena-7ae1c34f` — live engine, verification register and `docs/engine/`
+
+An independent implementation of the brief, merged **additively**. Scope: `app/**`, `engine/**`,
+`data/**`, its own `tests/test_*.py`, and the published site under **`docs/engine/`**. No file of
+`docs/desk/`, the `docs/` monitor, `site/`, `python/`, `assets/`, or the Node board (`board.html`,
+`assets/*.js`) was rewritten. Shared files touched: this board, the root gateway `index.html` (one
+added card), `requirements.txt`, `.gitignore`, `tests/check_site.py` (a documented skip, exactly as
+`docs/desk` is skipped) and `.github/workflows/pages.yml` (one added verification step).
+
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Live engine: Kalshi REST/WS client, orderbook maths, published fee model, ≥ $0.10 swing detector with two feeds, resolution tracking, six-strategy simulated book, FastAPI dashboard | done | `7ae1c34f` | `app/**`, `engine/**`, `tests/test_*.py` | 141 Python tests pass. Fee code reproduces **42/42** published fee-table values. |
+| Verification register | done | `7ae1c34f` | `engine/verification.py`, `docs/engine/data/verification.json` | **39 facts: 32 verified** (each with an official URL), **5 flagged**, **2 unverified**. |
+| Static site from the engine's own data | done | `7ae1c34f` | `engine/build_site.py`, `engine/check_site.py`, `docs/engine/**` | Gate fails on a broken link, an unsourced table row or an unrendered template. `docs/engine` is byte-identical to a fresh regeneration. |
+
+## Findings a reviewer should compare against the other implementations
+
+* **No Gas and no Culture category exists** in `GET /search/tags_by_categories`; Golf is a *Sports* tag
+  and Oil & Gas a *Commodities* tag, so those two topics are derived and each row records its rule.
+* **Gas markets are filed as `Economics`**, not Commodities.
+* **`?category=` does not filter** `/events` — a `Crypto` request returned World and Elections events.
+* **Documented status values are contradicted**: live responses use `active` and `finalized` where the
+  docs say `open` and `settled`.
+* **A one-sided book reads as a 100-cent collapse** (`no_bid 0.0000` beside `yes_ask 1.0000`). Any
+  implementation that watches the ask alone will emit constant false ≥ $0.10 alerts. This engine
+  requires a two-sided uncrossed book for a mid, else the last trade, else the best bid, and labels
+  quote-only moves.
+* **Demo quotes are placeholders and disagree with production**: demo `KXAAAGASM-26NOV30-3.00` showed
+  99c while Kalshi's public page showed "Above 3.50" at 47c with strikes 3.45/3.50/3.55.
+* **`KXMVE…` combos** span unrelated legs (NFL props + European soccer) and are excluded.
+
+## Not verified / flagged (published at `docs/engine/flagged.html`)
+
+No demo API key exists here, so signing is unit-tested but has never authenticated; the WS handshake is
+implemented but never observed live; browser CORS is undocumented. Per-series fee multipliers and the fee
+rounding rebate accumulator are not modelled. The `docs/engine/` snapshot is labelled `captured-replay`
+on every page because the build environment has no route to Kalshi: market/strike/quote values are real
+captured API responses, the price *paths* used to exercise the alert logic are scripted.
+
+## Log
+
+* **2026-11-22 07:52** — `pages.yml` now verifies `docs/engine` and rebuilds it, proving reproducibility.
+* **2026-11-22 07:45** — merged `origin/main` (desk + monitor + tests). Conflicts in `COORDINATION.md`,
+  `requirements.txt`, `.gitignore` and three test module names that collide with the desk's. Resolved by
+  keeping the desk's modules intact and this session's tests under their own names; `requirements.txt`
+  and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
+* **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
+  `.gitignore` and this board; resolved the same way.
+
+## Results — session `arena-e3e5f70f` (2026-11-22, after the first live cycles)
+
+| Item | Result |
+| - | - |
+| Pull request | [#5](https://github.com/kanlerxz87-cyber/Tradebot1/pull/5) merged 2026-11-22T07:14:27Z (merge commit `8dd6cb0`), plus [#9](https://github.com/kanlerxz87-cyber/Tradebot1/pull/9) (collector fix) |
+| CI on the PR | `CI` and `Verify and deploy both Pages dashboards` both green before merge |
+| Pages deployment | Pages build `73ef9dd` completed 2026-11-22T07:23:57Z; site served from `/docs/` legacy source |
+| Live desk | <https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/> — 300 markets across the five topics, 6,000 open events scanned |
+| First real alert | `KXRT-HUN-67` mid 0.425 → 0.29 (−$0.135), model score 0.5252, est. ROI 12.68%, eligible → present in **both** chats |
+| Resolution tracker | 120 settled markets recorded in the second cycle (`resolved.json`) |
+| Paper book | 12 open positions, equity $996.76 on a $1,000 book, 0 closed |
+| Collection errors | 0 after fixing the `min_close_ts` type (was 10 × HTTP 400 in cycle 1) |
+| Snapshot size | 4.5 MB → 0.9 MB per cycle (catalogue trimmed to the 150 most active series per topic; eleven dead fields dropped) |
+| Tests | 53 passing (48 + settled-sweep regression + 4 from the monitor suite) |
+
+### Bugs found by running it for real (not by the tests)
+
+1. `min_close_ts` was serialised as `1793517419.0`; Kalshi requires an integer → every settled-series
+   request returned HTTP 400 and the resolution tracker stayed empty. Fixed, regression test added.
+2. The first published snapshot was 4.5 MB because the Sports/Entertainment catalogue sweep matched
+   ~6,000 series and every market carried eleven duplicated fields. Now 0.9 MB per cycle with exact
+   per-topic totals preserved.
+3. `.gitignore` lost its Python entries in an earlier merged branch; restored as a union so `.venv/`
+   and `__pycache__/` can never be committed.
+
+### Unverified, still blocking nothing
+
+Fee formula (F1), demo-account balance (F2), browser CORS (F5), news causality (F5), the ROI model as a
+predictor (F12). All are stated on `docs/desk/flagged.html` with an official source link and the test that
+would clear them.
+
+---
+
 # Session `arena/daf65d06-tradebot1` — final integration (this session)
 
 **Branch:** `arena/daf65d06-tradebot1`, branched from `521e795` (PR #9 merge). Merged `origin/main` (PR #8 Node board, `c8c1d28`) into this branch without switching branches; merge was clean.
@@ -321,55 +403,6 @@ Scope is integration-only: no new dashboard, no rewrite of `docs/desk/`, `docs/`
 4. Four parallel implementations now exist (`docs/desk/`, `docs/`, root `board.html`, `site/`) plus PR #10's `docs/engine/` pending. Gateway `index.html` lists three + archive; if PR #10 merges, a fifth card is needed (PR #10 already adds one — verify on merge).
 
 ---
-
-# Session `arena-7ae1c34f` — live engine, verification register and `docs/engine/`
-
-Fourth independent implementation of the same brief. Scope: **`app/**`, `engine/**`, `data/**`,
-`tests/test_*.py` (engine fixtures/collector/topics/site), `requirements.txt`, and the published site
-under **`docs/engine/`**. Nothing from `docs/desk/`, `docs/` (monitor), `site/` or `python/` was
-rewritten; the only shared files touched are this board, the root gateway `index.html` (one added
-card) and `requirements.txt` / `.gitignore` (conflict resolution keeping both sessions' lines).
-
-| Task | Status | Owner | Files touched | Sources / verification / irregularities |
-| --- | --- | --- | --- | --- |
-| Live engine: Kalshi REST/WS client, orderbook maths, fee model, swing alerts, resolution tracking, strategy simulator, FastAPI dashboard | done | `7ae1c34f` | `app/**`, `.venv`-independent tests | 111 Python tests pass. Fee implementation reproduces all 42 published fee-table values. |
-| Verification register | done | `7ae1c34f` | `engine/verification.py`, `data/verification.json`, `docs/engine/verification.html` | 39 facts: **32 verified** with an official source link each, **5 flagged**, **2 unverified**. |
-| Static site from the engine's own data | done | `7ae1c34f` | `engine/build_site.py`, `engine/check_site.py`, `docs/engine/**` | `engine/check_site.py` fails on a broken link, an unsourced table row or an unrendered template. Every topic row links to `https://kalshi.com/markets/<series>` (verified for KXBTCD, KXAAAGASM, KXPGATOUR). |
-
-## Findings from this session worth cross-checking against the other sites
-
-* **No Gas and no Culture category exists** in Kalshi's `tags_by_categories`; Golf is a *Sports* tag and
-  Oil & Gas a *Commodities* tag. Those two topics must be derived, and each row records the rule used.
-* **Gas markets are filed as `Economics`**, not Commodities.
-* **`?category=` does not filter** `/events` — a `Crypto` request returned World and Elections events.
-* **Documented market status values are wrong in practice**: live responses use `active` and
-  `finalized` where the docs say `open` and `settled`.
-* **A one-sided book reads as a 100-cent collapse** (`no_bid 0.0000` beside `yes_ask 1.0000`); a naive
-  ask-watcher would fire constant false ≥ $0.10 alerts. The engine requires a two-sided uncrossed book
-  for a mid, else falls back to the last trade, else the best bid, and labels quote-only moves.
-* **Demo quotes are placeholders and disagree with production**: demo `KXAAAGASM-26NOV30-3.00` showed
-  99c while Kalshi's public page showed "Above 3.50" at 47c with strikes 3.45/3.50/3.55.
-* **`KXMVE…` combo markets** span unrelated legs (NFL props + European soccer); excluded from topic
-  boards.
-
-## Not verified / flagged (published on `docs/engine/flagged.html`)
-
-No demo API key exists here, so signing is unit-tested but has never authenticated; the WS handshake
-is implemented, never observed; browser CORS is undocumented. Per-series fee multipliers and the fee
-rounding rebate accumulator are not modelled. The `docs/engine/` snapshot is labelled
-`captured-replay` on every page because the build environment has no route to Kalshi.
-
-## Log
-
-* **2026-11-22 07:52** — wired `engine/check_site.py` and a reproducible rebuild of `docs/engine`
-  into `.github/workflows/pages.yml` as its own step, so the engine site cannot regress to a broken
-  link or an unsourced row without failing the build. Verified locally: `docs/engine` is byte-identical
-  to a fresh build from `docs/engine/data`.
-* **2026-11-22 07:45** — merged `origin/main` into `arena/7ae1c34f-tradebot1`. Conflicts:
-  `COORDINATION.md`, `requirements.txt`, `.gitignore` (add/add) and three test files whose names
-  collide with the desk's tests. Resolved by keeping the desk's modules and test files intact and
-  keeping this session's engine tests under their own modules; `requirements.txt` and `.gitignore`
-  contain both sets of lines. **No other session's work was discarded.**
 
 ## Integration log — `arena/daf65d06-tradebot1` (continued)
 
@@ -430,3 +463,29 @@ the tree; the next scheduled cycle overwrites the file) · `alerts.json` and `re
 because no ≥ $0.10 move and no finalization occurred inside the two committed cycles · `docs/engine/` is
 explicitly labelled `captured-replay` (real captured API responses, scripted price paths for the alert
 logic) because the build environment has no route to Kalshi.
+
+**2026-11-22 — main moved while this pass ran; re-merged and re-verified.** PRs #10 (engine), #11 and #12
+merged ahead of this branch. Re-merged `origin/main` (`b5f896f`): 24 conflicts, all of them generated
+HTML or generated data. Resolution: root/category pages and desk pages were regenerated from their
+templates + data (`node scripts/build-site.mjs`, `python3 tools/build_site.py`) rather than hand-merged;
+`docs/desk/data/{latest,paper}.json` and `app_data/paper_ledger.json` took the newer snapshots from main
+and then had the verified fee label re-applied (again: label only, no numeric value touched);
+`.gitignore` is the union of both sides; `COORDINATION.md` keeps main's newer engine section plus this
+session's sections (the older duplicate engine section was dropped, its content is superseded).
+Full gate suite re-run after the re-merge and green: 144 pytest, 36 node tests, check-data,
+build-site --check (19 pages), check-links (19 pages/644 refs), check-render, desk build --check,
+desk check_links (284 links), check_gateway (26 targets), engine check_site + byte-identical
+regeneration, tests/check_site.py (37 pages), python/test_simulator.py, `cli verify`.
+
+**2026-11-22 — removed a 96 MB `.venv/` from git tracking.** `git ls-tree -r origin/main` lists 3,884
+`.venv/` files committed by an earlier session. Nothing in `.github/workflows/` uses it (every job runs
+`pip install -r requirements*.txt`), `.gitignore` already lists `.venv/`, and it accounted for most of the
+repository size. `git rm -r --cached .venv` here: the directory stays on disk, no tracked source changes,
+and the Pages artifact never included it. Flagged for whoever generated it, in case something local
+depended on the committed copy.
+
+**2026-11-22 — data state recorded by the re-merge.** Newest desk cycle `2026-11-22T07:21:40Z`: 0 errors
+(the pre-fix `min_close_ts` HTTP 400s are gone), 300 markets across five topics, 308 settled markets with
+results, 1 alert (`KXRT-HUN-67`, −$0.135), paper book 12 open / 0 closed at $996.76 equity. The Node
+board's `data/live/state.json` still has `updatedAt: null` — its scheduled collector has not run yet, so
+the board shows an explicitly labelled empty state rather than numbers. Both are honest, neither blocks.

@@ -148,7 +148,11 @@ def score_market(
         direction = "no"
 
     reasons = [
-        f"move {recent:+.2f} over the lookback ({used} price points)",
+        (
+            f"move {recent:+.2f} over the lookback ({used} price points)"
+            if used
+            else "no earlier price points yet — first observation of this market"
+        ),
         f"24h volume {volume_24h:,.0f} contracts",
         f"open interest {open_interest:,.0f}",
         f"book spread ${spread:.2f}",

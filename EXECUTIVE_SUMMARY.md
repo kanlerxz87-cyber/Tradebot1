@@ -281,6 +281,19 @@ accumulator), [fixed-point fields](https://docs.kalshi.com/getting_started/fixed
 markets), and the public series page <https://kalshi.com/markets/kxaaagasm> (strikes 3.45 / 3.50 / 3.55
 with "Above 3.50" at 47¢, which is the disagreement with the demo book that the engine flag records).
 
+**State of the data after the re-merge** (this is what the site now shows, not a projection): the
+newest desk cycle is `2026-11-22T07:21:40Z`, **0 collection errors** (the `min_close_ts` HTTP 400s are
+gone — the fix in PR #9 is in the tree and the cycle that ran after it succeeded), 300 tracked markets
+across the five topics, **308 resolved markets** with their YES/NO result, and **1 recorded ≥ $0.10
+swing** (`KXRT-HUN-67`, −$0.135). The paper book holds 12 open positions at $996.76 equity, 0 closed
+trades, so there is still no win-rate to report — and none is invented. The Node board has not had its
+first scheduled collection yet, so it deliberately renders an empty board with the reason stated.
+
+**Repository hygiene fix:** a session committed a 96 MB / 3,884-file Python virtualenv (`.venv/`) to
+`main`. It is not used by any workflow (each job installs from `requirements*.txt`), it is already listed
+in `.gitignore`, and it inflated every clone and CI checkout. It has been removed from tracking here
+(the directory is untouched on disk); no source file was affected.
+
 **Still open and non-blocking** — published on the Flagged for Review pages with source links:
 the demo account is not connected (no credentials exist in this repository, so no demo fills or demo
 balance can be shown), the topic mappings Kalshi does not publish (no Gas or Culture category; golf is a
