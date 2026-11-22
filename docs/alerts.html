@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Live Alerts — Kalshi Demo Dashboard</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Kalshi Demo Dashboard</div>
+    <nav class="main-nav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="gas-prices.html" data-nav="gas">Gas Prices</a>
+      <a href="elections.html" data-nav="elections">Elections</a>
+      <a href="culture.html" data-nav="culture">Culture</a>
+      <a href="crypto.html" data-nav="crypto">Crypto</a>
+      <a href="golf.html" data-nav="golf">Golf</a>
+      <a href="alerts.html" data-nav="alerts">Live Alerts</a>
+      <a href="portfolio.html" data-nav="portfolio">Portfolio &amp; Strategies</a>
+      <a href="verification.html" data-nav="verification">Verification</a>
+      <a href="flagged-for-review.html" data-nav="flagged">Flagged for Review</a>
+      <a href="suggestions.html" data-nav="suggestions">Live/Interactive Ideas</a>
+      <a href="executive-summary.html" data-nav="summary">Executive Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Live Alerting</h1>
+  <p class="lead">
+    Fires whenever a tracked market's price moves <strong>\u2265 $0.10</strong> between
+    collector runs, across all five topics. Two feeds: every qualifying move, and a
+    filtered subset our simple, disclosed scoring model flags as higher-ROI. This page
+    auto-refreshes every 20 seconds. <span class="badge sim">refresh interval limited by collector cadence — see <a href="suggestions.html">Live/Interactive Ideas</a></span>
+  </p>
+
+  <div class="grid cols-2">
+    <div>
+      <h2>All Events <span id="count-all" class="badge empty"></span></h2>
+      <div class="feed" id="feed-all"></div>
+    </div>
+    <div id="highroi">
+      <h2>High-ROI Filtered <span id="count-highroi" class="badge empty"></span></h2>
+      <div class="feed" id="feed-highroi"></div>
+      <p class="source-link" id="scoring-method"></p>
+    </div>
+  </div>
+
+  <p class="last-updated" id="last-updated" style="margin-top:20px;"></p>
+</main>
+
+<footer>
+  Data source: <a href="https://docs.kalshi.com/welcome" target="_blank" rel="noopener">Kalshi Trade API v2</a> (demo environment) ·
+  <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+setActiveNav("alerts");
+
+async function refresh() {
+  const allDoc = await fetchJSON("alerts_all.json");
+  const hiDoc = await fetchJSON("alerts_highroi.json");
+
+  const allAlerts = (allDoc && allDoc.alerts) || [];
+  const hiAlerts = (hiDoc && hiDoc.alerts) || [];
+
+  document.getElementById("count-all").innerText = allAlerts.length;
+  document.getElementById("count-highroi").innerText = hiAlerts.length;
+  renderAlertsFeed(document.getElementById("feed-all"), allAlerts);
+  renderAlertsFeed(document.getElementById("feed-highroi"), hiAlerts, { showScore: true });
+  if (hiDoc && hiDoc.scoring_method) {
+    document.getElementById("scoring-method").innerHTML =
+      `Scoring formula (fully disclosed): <code>${hiDoc.scoring_method}</code>, kept if score \u2265 ${hiDoc.min_score ?? "n/a"}.`;
+  }
+  const t = allDoc && allDoc.generated_at ? allDoc.generated_at : null;
+  document.getElementById("last-updated").innerText = t
+    ? `Feeds last regenerated: ${timeAgo(t)}` : "No alerts generated yet.";
+}
+
+refresh();
+setInterval(refresh, 20000);
+</script>
+</body>
+</html>

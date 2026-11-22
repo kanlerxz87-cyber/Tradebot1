@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kalshi Demo Dashboard</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Kalshi Demo Dashboard</div>
+    <nav class="main-nav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="gas-prices.html" data-nav="gas">Gas Prices</a>
+      <a href="elections.html" data-nav="elections">Elections</a>
+      <a href="culture.html" data-nav="culture">Culture</a>
+      <a href="crypto.html" data-nav="crypto">Crypto</a>
+      <a href="golf.html" data-nav="golf">Golf</a>
+      <a href="alerts.html" data-nav="alerts">Live Alerts</a>
+      <a href="portfolio.html" data-nav="portfolio">Portfolio &amp; Strategies</a>
+      <a href="verification.html" data-nav="verification">Verification</a>
+      <a href="flagged-for-review.html" data-nav="flagged">Flagged for Review</a>
+      <a href="suggestions.html" data-nav="suggestions">Live/Interactive Ideas</a>
+      <a href="executive-summary.html" data-nav="summary">Executive Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Kalshi Demo Trading Dashboard</h1>
+  <p class="lead">
+    Tracks Kalshi's <strong>demo</strong> prediction-market environment across five topics —
+    gas prices, elections, culture, crypto, and golf — alerts on price swings of
+    <strong>$0.10 or more</strong>, runs disclosed paper-trading strategies, and tracks a
+    simulated portfolio. Every row on every table links back to an official source.
+    <span id="meta-badge"></span>
+  </p>
+
+  <h2>Topics</h2>
+  <div class="grid cols-5" id="topic-cards">
+    <a class="card link-card" href="gas-prices.html">
+      <div class="card-title">⛽ Gas Prices</div>
+      <div class="card-sub" id="count-gas_prices">loading…</div>
+    </a>
+    <a class="card link-card" href="elections.html">
+      <div class="card-title">🗳️ Elections</div>
+      <div class="card-sub" id="count-elections">loading…</div>
+    </a>
+    <a class="card link-card" href="culture.html">
+      <div class="card-title">🎭 Culture</div>
+      <div class="card-sub" id="count-culture">loading…</div>
+    </a>
+    <a class="card link-card" href="crypto.html">
+      <div class="card-title">₿ Crypto</div>
+      <div class="card-sub" id="count-crypto">loading…</div>
+    </a>
+    <a class="card link-card" href="golf.html">
+      <div class="card-title">⛳ Golf</div>
+      <div class="card-sub" id="count-golf">loading…</div>
+    </a>
+  </div>
+
+  <h2>Live alerting</h2>
+  <div class="grid cols-2">
+    <a class="card link-card" href="alerts.html">
+      <div class="card-title">All Events Feed</div>
+      <div class="card-sub" id="count-alerts-all">loading…</div>
+    </a>
+    <a class="card link-card" href="alerts.html#highroi">
+      <div class="card-title">High-ROI Filtered Feed</div>
+      <div class="card-sub" id="count-alerts-highroi">loading…</div>
+    </a>
+  </div>
+
+  <h2>Portfolio (simulated)</h2>
+  <div class="grid cols-3" id="portfolio-summary">
+    <div class="card stat"><div class="k">Equity (paper)</div><div class="v" id="pf-equity">—</div></div>
+    <div class="card stat"><div class="k">Realized P&amp;L</div><div class="v" id="pf-realized">—</div></div>
+    <div class="card stat"><div class="k">Open positions</div><div class="v" id="pf-open">—</div></div>
+  </div>
+  <p><a href="portfolio.html">Full portfolio &amp; strategy breakdown →</a></p>
+
+  <h2>Reports</h2>
+  <div class="grid cols-3">
+    <a class="card link-card" href="executive-summary.html"><div class="card-title">Executive Summary</div><div class="card-sub">Scope, sources, architecture</div></a>
+    <a class="card link-card" href="verification.html"><div class="card-title">API Verification</div><div class="card-sub">Line-by-line, sourced</div></a>
+    <a class="card link-card" href="flagged-for-review.html"><div class="card-title">Flagged for Review</div><div class="card-sub">Open items &amp; irregularities</div></a>
+  </div>
+
+  <p class="last-updated" id="last-updated" style="margin-top:28px;"></p>
+</main>
+
+<footer>
+  Data source: <a href="https://docs.kalshi.com/welcome" target="_blank" rel="noopener">Kalshi Trade API v2</a> (demo environment) ·
+  All trades shown are <strong>simulated paper trades</strong>, not real orders ·
+  <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+(async function () {
+  setActiveNav("home");
+  const topics = ["gas_prices", "elections", "culture", "crypto", "golf"];
+  const idMap = { gas_prices: "gas_prices", elections: "elections", culture: "culture", crypto: "crypto", golf: "golf" };
+  let totalMarkets = 0;
+  for (const t of topics) {
+    const doc = await fetchJSON(`markets_${t}.json`);
+    const n = doc && doc.markets ? doc.markets.length : 0;
+    totalMarkets += n;
+    const el = document.getElementById(`count-${idMap[t]}`);
+    el.innerHTML = n > 0 ? `${n} tracked markets` : `no data yet ${statusBadge(doc && doc.status)}`;
+  }
+
+  const allAlerts = await fetchJSON("alerts_all.json");
+  document.getElementById("count-alerts-all").innerText =
+    allAlerts && allAlerts.alerts && allAlerts.alerts.length
+      ? `${allAlerts.alerts.length} alerts logged`
+      : "no alerts yet";
+  const hiAlerts = await fetchJSON("alerts_highroi.json");
+  document.getElementById("count-alerts-highroi").innerText =
+    hiAlerts && hiAlerts.alerts && hiAlerts.alerts.length
+      ? `${hiAlerts.alerts.length} high-ROI alerts`
+      : "no alerts yet";
+
+  const pf = await fetchJSON("portfolio.json");
+  if (pf) {
+    document.getElementById("pf-equity").innerText = fmtMoney(pf.equity_usd);
+    const realizedEl = document.getElementById("pf-realized");
+    realizedEl.innerText = fmtMoney(pf.realized_pnl_usd);
+    realizedEl.classList.add(pf.realized_pnl_usd >= 0 ? "pos" : "neg");
+    document.getElementById("pf-open").innerText = fmtNum(pf.open_positions_count);
+  }
+
+  const meta = await fetchJSON("meta.json");
+  const badgeEl = document.getElementById("meta-badge");
+  const lastUpdatedEl = document.getElementById("last-updated");
+  if (meta) {
+    badgeEl.innerHTML = statusBadge(meta.status) + ' <span class="badge sim">paper trading</span>';
+    lastUpdatedEl.innerText = meta.last_run
+      ? `Last data collection run: ${timeAgo(meta.last_run)} (${meta.markets_fetched || 0} markets fetched)`
+      : "No collection run has completed yet — see docs/EXECUTIVE_SUMMARY.md for why.";
+  }
+})();
+</script>
+</body>
+</html>

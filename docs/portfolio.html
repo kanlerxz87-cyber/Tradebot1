@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio &amp; Strategies — Kalshi Demo Dashboard</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Kalshi Demo Dashboard</div>
+    <nav class="main-nav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="gas-prices.html" data-nav="gas">Gas Prices</a>
+      <a href="elections.html" data-nav="elections">Elections</a>
+      <a href="culture.html" data-nav="culture">Culture</a>
+      <a href="crypto.html" data-nav="crypto">Crypto</a>
+      <a href="golf.html" data-nav="golf">Golf</a>
+      <a href="alerts.html" data-nav="alerts">Live Alerts</a>
+      <a href="portfolio.html" data-nav="portfolio">Portfolio &amp; Strategies</a>
+      <a href="verification.html" data-nav="verification">Verification</a>
+      <a href="flagged-for-review.html" data-nav="flagged">Flagged for Review</a>
+      <a href="suggestions.html" data-nav="suggestions">Live/Interactive Ideas</a>
+      <a href="executive-summary.html" data-nav="summary">Executive Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>Portfolio &amp; Strategy Analysis <span class="badge sim">100% simulated — see note below</span></h1>
+  <p class="lead">
+    These are <strong>paper trades</strong> only — this pipeline never places a real Kalshi order
+    (no account credentials exist in this automated session; see
+    <a href="flagged-for-review.html">Flagged for Review</a>, item 3, for how to wire up real
+    demo-account execution yourself). Each "trade" opens at the live quoted price from the
+    collector and settles for $1.00/contract if its side wins, $0 if it loses, once Kalshi
+    marks the market resolved.
+  </p>
+
+  <h2>Summary</h2>
+  <div class="grid cols-5" id="pf-summary"></div>
+
+  <h2>Equity curve (simulated)</h2>
+  <div class="card"><canvas id="equity-chart" class="chart"></canvas></div>
+
+  <h2>Performance by strategy</h2>
+  <p class="lead">Every paper trade is tagged with the rule that generated it, so wins/losses can be attributed to a specific, disclosed strategy rather than lumped together.</p>
+  <div id="by-strategy-table">loading…</div>
+
+  <h2>Performance by topic</h2>
+  <div id="by-topic-table">loading…</div>
+
+  <h2>Trade log</h2>
+  <div id="trades-table">loading…</div>
+</main>
+
+<footer>
+  Data source: <a href="https://docs.kalshi.com/welcome" target="_blank" rel="noopener">Kalshi Trade API v2</a> (demo environment) ·
+  <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+const STRATEGY_LABELS = {
+  momentum_follow: "Momentum Follow",
+  mean_reversion_fade: "Mean-Reversion Fade",
+  high_liquidity_value: "High-Liquidity Value",
+};
+
+function pnlClass(v) { return (v || 0) >= 0 ? "pos" : "neg"; }
+
+function renderBucketTable(container, buckets, labelFn) {
+  const keys = Object.keys(buckets || {});
+  if (keys.length === 0) {
+    renderEmptyState(container, "No trades yet", "The strategy engine hasn't logged any paper trades yet — it acts on live alerts, and no alerts have fired yet.");
+    return;
+  }
+  const rows = keys.map((k) => {
+    const b = buckets[k];
+    const total = (b.realized_pnl_usd || 0) + (b.unrealized_pnl_usd || 0);
+    return `<tr>
+      <td>${escapeHtml(labelFn(k))}</td>
+      <td class="num">${fmtNum(b.open_count)}</td>
+      <td class="num">${fmtNum(b.closed_count)}</td>
+      <td class="num">${fmtNum(b.win_count)}</td>
+      <td class="num">${fmtNum(b.loss_count)}</td>
+      <td class="num ${pnlClass(b.realized_pnl_usd)}">${fmtMoney(b.realized_pnl_usd)}</td>
+      <td class="num ${pnlClass(b.unrealized_pnl_usd)}">${fmtMoney(b.unrealized_pnl_usd)}</td>
+      <td class="num ${pnlClass(total)}">${fmtMoney(total)}</td>
+    </tr>`;
+  }).join("");
+  container.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th></th><th>Open</th><th>Closed</th><th>Wins</th><th>Losses</th><th>Realized P&amp;L</th><th>Unrealized P&amp;L</th><th>Total</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+
+(async function () {
+  setActiveNav("portfolio");
+
+  const pf = await fetchJSON("portfolio.json");
+  const summaryEl = document.getElementById("pf-summary");
+  if (pf) {
+    const cells = [
+      ["Equity", fmtMoney(pf.equity_usd), ""],
+      ["Cash", fmtMoney(pf.cash_usd), ""],
+      ["Realized P&L", fmtMoney(pf.realized_pnl_usd), pnlClass(pf.realized_pnl_usd)],
+      ["Unrealized P&L", fmtMoney(pf.unrealized_pnl_usd), pnlClass(pf.unrealized_pnl_usd)],
+      ["Win / Loss", `${pf.win_count || 0} / ${pf.loss_count || 0}`, ""],
+    ];
+    summaryEl.innerHTML = cells.map(([k, v, cls]) =>
+      `<div class="card stat"><div class="k">${k}</div><div class="v ${cls}">${v}</div></div>`
+    ).join("");
+    renderBucketTable(document.getElementById("by-strategy-table"), pf.by_strategy, (k) => STRATEGY_LABELS[k] || k);
+    renderBucketTable(document.getElementById("by-topic-table"), pf.by_topic, (k) => k.replace("_", " "));
+  } else {
+    renderEmptyState(summaryEl, "No portfolio data yet", "Waiting for the first collector run.");
+  }
+
+  const hist = await fetchJSON("portfolio_history.json");
+  const points = ((hist && hist.points) || []).map(p => ({ ts: p.timestamp, price: p.equity_usd }));
+  const values = points.map(p => p.price);
+  const yMin = values.length ? Math.min(...values) * 0.98 : 0;
+  const yMax = values.length ? Math.max(...values) * 1.02 : 10000;
+  drawLineChart(document.getElementById("equity-chart"), points, { color: "#35d08a", yMin, yMax: yMax || 1 });
+
+  const tradesDoc = await fetchJSON("simulated_trades.json");
+  const trades = (tradesDoc && tradesDoc.trades) || [];
+  const tradesContainer = document.getElementById("trades-table");
+  if (trades.length === 0) {
+    renderEmptyState(tradesContainer, "No trades yet", "No paper trades have been generated yet.");
+  } else {
+    const rows = trades.slice(0, 200).map(t => {
+      const statusLabel = { open: "Open", closed_won: "Won", closed_lost: "Lost" }[t.status] || t.status;
+      const statusClass = t.status === "closed_won" ? "pill-up" : (t.status === "closed_lost" ? "pill-down" : "");
+      return `<tr>
+        <td>${timeAgo(t.timestamp)}</td>
+        <td><a href="${escapeHtml(t.kalshi_url)}" target="_blank" rel="noopener">${escapeHtml(t.title || t.ticker)}</a></td>
+        <td>${escapeHtml(t.topic)}</td>
+        <td>${escapeHtml(STRATEGY_LABELS[t.strategy] || t.strategy)}</td>
+        <td>${t.side.toUpperCase()}</td>
+        <td class="num">${fmtPrice(t.entry_price)}</td>
+        <td class="num">${fmtNum(t.contracts)}</td>
+        <td class="${statusClass}">${statusLabel}</td>
+        <td class="num ${pnlClass(t.pnl)}">${t.pnl !== null && t.pnl !== undefined ? fmtMoney(t.pnl) : "—"}</td>
+      </tr>`;
+    }).join("");
+    tradesContainer.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th>Opened</th><th>Market</th><th>Topic</th><th>Strategy</th><th>Side</th><th>Entry</th><th>Contracts</th><th>Status</th><th>P&amp;L</th></tr></thead>
+      <tbody>${rows}</tbody></table></div>`;
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Live/Interactive Ideas — Kalshi Demo Dashboard</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Kalshi Demo Dashboard</div>
+    <nav class="main-nav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="gas-prices.html" data-nav="gas">Gas Prices</a>
+      <a href="elections.html" data-nav="elections">Elections</a>
+      <a href="culture.html" data-nav="culture">Culture</a>
+      <a href="crypto.html" data-nav="crypto">Crypto</a>
+      <a href="golf.html" data-nav="golf">Golf</a>
+      <a href="alerts.html" data-nav="alerts">Live Alerts</a>
+      <a href="portfolio.html" data-nav="portfolio">Portfolio &amp; Strategies</a>
+      <a href="verification.html" data-nav="verification">Verification</a>
+      <a href="flagged-for-review.html" data-nav="flagged">Flagged for Review</a>
+      <a href="suggestions.html" data-nav="suggestions">Live/Interactive Ideas</a>
+      <a href="executive-summary.html" data-nav="summary">Executive Summary</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <h1>Making the site more live and interactive</h1>
+  <p class="lead">
+    GitHub Pages is static hosting: it cannot hold a WebSocket open or run a
+    server-side process. This dashboard works around that with a scheduled
+    GitHub Actions collector (every ~10 minutes, GitHub's documented minimum
+    cron interval is 5 minutes and public-repo schedules can run later under
+    load). Below is a concrete, honest list of what would make it feel more
+    "live", roughly ordered by effort.
+  </p>
+
+  <h2>Low effort</h2>
+  <div class="grid cols-3">
+    <div class="card"><div class="card-title">Sparkline per market row</div><div class="card-sub">Tiny inline canvas chart next to each ticker in the market tables, using data already collected.</div></div>
+    <div class="card"><div class="card-title">Browser notifications</div><div class="card-sub"><code>Notification</code> API permission prompt on the alerts page, firing a desktop toast on new ≥$0.10 moves while the tab is open.</div></div>
+    <div class="card"><div class="card-title">User-configurable threshold</div><div class="card-sub">Let the viewer raise/lower the $0.10 alert threshold client-side (filtering the same feed), saved in <code>localStorage</code>.</div></div>
+    <div class="card"><div class="card-title">Dark/light mode toggle</div><div class="card-sub">The dashboard ships dark-only today; a toggle is a CSS variable swap.</div></div>
+    <div class="card"><div class="card-title">Sound cue on alert</div><div class="card-sub">Optional short chime when a new high-ROI alert streams in, muted by default.</div></div>
+    <div class="card"><div class="card-title">"Replay" scrubber</div><div class="card-sub">A slider over <code>history/*.json</code> to scrub back through the day's price history, not just view the live edge.</div></div>
+  </div>
+
+  <h2>Medium effort</h2>
+  <div class="grid cols-3">
+    <div class="card"><div class="card-title">Tighter collector cadence</div><div class="card-sub">Run on a self-hosted runner or a small always-on worker (e.g. a free-tier cloud function) instead of GitHub Actions cron, to legally go below the 5-minute floor.</div></div>
+    <div class="card"><div class="card-title">News-link enrichment</div><div class="card-sub">On any ≥$0.10 move, auto-query a news search for the market's topic keywords around that timestamp and attach the top 1–2 headlines/links as the probable cause — shown directly in the alert feed.</div></div>
+    <div class="card"><div class="card-title">Per-market order-book depth chart</div><div class="card-sub">Use <code>/markets/{ticker}/orderbook</code> (confirmed endpoint) to show a simple bar chart of contracts available at each nearby price level, not just the top-of-book price.</div></div>
+    <div class="card"><div class="card-title">Saved watchlists</div><div class="card-sub">Let a visitor star specific tickers across topics into one personal cross-topic feed, stored client-side.</div></div>
+  </div>
+
+  <h2>Higher effort (needs a small always-on backend)</h2>
+  <div class="grid cols-3">
+    <div class="card"><div class="card-title">True WebSocket streaming</div><div class="card-sub">A tiny relay service (outside GitHub Pages) holds the authenticated Kalshi WebSocket connection open and re-broadcasts <code>ticker</code>/<code>trade</code> messages to connected browsers over its own WebSocket or Server-Sent Events — this is the only way to get sub-second updates; static Pages fundamentally cannot do this alone.</div></div>
+    <div class="card"><div class="card-title">Real demo-account execution</div><div class="card-sub">Add the user's own Kalshi demo API key as a GitHub Actions secret (see <code>scripts/README.md</code>) and call the authenticated <code>/portfolio/events/orders</code> endpoints instead of only paper-trading.</div></div>
+    <div class="card"><div class="card-title">Polymarket comparison view</div><div class="card-sub">Where an equivalent market exists on Polymarket, show both prices side by side — clearly labeled as a separate, non-Kalshi data source, never blended into the Kalshi tables.</div></div>
+  </div>
+
+  <h2>What this build already does to feel live within those constraints</h2>
+  <ul style="color:var(--muted);">
+    <li>Two scrolling "chat" feeds (All Events / High-ROI) that re-poll every 20 seconds.</li>
+    <li>Per-topic price charts with a seconds / minutes / hours look-back selector.</li>
+    <li>An equity curve for the simulated portfolio, updated every collector run.</li>
+    <li>Explicit "last updated" / "no data yet" badges everywhere, so nothing ever looks live when it isn't.</li>
+  </ul>
+</main>
+<footer>
+  <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+<script src="assets/app.js"></script>
+<script>setActiveNav("suggestions");</script>
+</body>
+</html>

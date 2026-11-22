@@ -1,0 +1,8 @@
+# Intentionally minimal: scripts/kalshi_client.py uses only the Python
+# standard library (urllib) so the collector has zero third-party runtime
+# dependencies and nothing to break/need-updating for the public, read-only
+# Kalshi endpoints it calls.
+#
+# pytest is listed only for local/CI test runs (unittest discover also works
+# with no extra dependency at all, see scripts/README.md).
+pytest>=7.0,<9.0

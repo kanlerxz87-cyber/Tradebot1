@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Verification — Kalshi Demo Dashboard</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Kalshi Demo Dashboard</div>
+    <nav class="main-nav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="gas-prices.html" data-nav="gas">Gas Prices</a>
+      <a href="elections.html" data-nav="elections">Elections</a>
+      <a href="culture.html" data-nav="culture">Culture</a>
+      <a href="crypto.html" data-nav="crypto">Crypto</a>
+      <a href="golf.html" data-nav="golf">Golf</a>
+      <a href="alerts.html" data-nav="alerts">Live Alerts</a>
+      <a href="portfolio.html" data-nav="portfolio">Portfolio &amp; Strategies</a>
+      <a href="verification.html" data-nav="verification">Verification</a>
+      <a href="flagged-for-review.html" data-nav="flagged">Flagged for Review</a>
+      <a href="suggestions.html" data-nav="suggestions">Live/Interactive Ideas</a>
+      <a href="executive-summary.html" data-nav="summary">Executive Summary</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <div class="markdown-body" id="md-container">Loading…</div>
+  <p class="source-link">Raw source: <a href="API_VERIFICATION.md">API_VERIFICATION.md</a></p>
+</main>
+<footer>
+  <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+<script src="assets/app.js"></script>
+<script>
+setActiveNav("verification");
+renderMarkdownPage("md-container", "API_VERIFICATION.md");
+</script>
+</body>
+</html>

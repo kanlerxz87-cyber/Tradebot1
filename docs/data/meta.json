@@ -1,0 +1,18 @@
+{
+  "last_run": null,
+  "status": "awaiting_first_collection_run",
+  "topics": [
+    "gas_prices",
+    "elections",
+    "culture",
+    "crypto",
+    "golf"
+  ],
+  "markets_fetched": 0,
+  "markets_categorized": 0,
+  "markets_uncategorized": 0,
+  "new_alerts_this_run": 0,
+  "errors": [],
+  "rest_base_used": "https://external-api.demo.kalshi.co/trade-api/v2",
+  "note": "Seeded empty by scripts/seed_empty_data.py at repo build time. Will be overwritten by the first successful run of .github/workflows/collect-kalshi-data.yml."
+}

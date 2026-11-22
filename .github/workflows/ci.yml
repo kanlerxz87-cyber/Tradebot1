@@ -1,0 +1,78 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  test-and-link-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run unit tests (synthetic fixtures only)
+        run: python3 -m unittest discover -s scripts/tests -t . -v
+
+      - name: Compile-check all collector scripts
+        run: |
+          python3 -c "
+          import py_compile, glob
+          for f in glob.glob('scripts/**/*.py', recursive=True):
+              py_compile.compile(f, doraise=True)
+          print('OK')
+          "
+
+      - name: Check docs/ for broken internal links
+        run: |
+          python3 - << 'EOF'
+          import re, os, glob, sys
+
+          base = "docs"
+          html_files = glob.glob(os.path.join(base, "*.html"))
+          missing = []
+          for hf in html_files:
+              content = open(hf, encoding="utf-8").read()
+              # Only check links that look like real attribute values, not JS template literals.
+              for m in re.finditer(r'(?:href|src)="([a-zA-Z0-9_./-][^"]*)"', content):
+                  link = m.group(1)
+                  if link.startswith("http") or link.startswith("#") or link.startswith("mailto:"):
+                      continue
+                  link_path = link.split("#")[0].split("?")[0]
+                  if not link_path:
+                      continue
+                  full = os.path.normpath(os.path.join(base, link_path))
+                  if not os.path.exists(full):
+                      missing.append((hf, link))
+          if missing:
+              print("MISSING LINKS:")
+              for hf, link in missing:
+                  print(f"  {hf} -> {link}")
+              sys.exit(1)
+          print("No broken internal links found in docs/.")
+          EOF
+
+      - name: Confirm all data JSON files parse
+        run: |
+          python3 - << 'EOF'
+          import json, glob, sys
+          bad = []
+          for f in glob.glob("docs/data/**/*.json", recursive=True):
+              try:
+                  json.load(open(f, encoding="utf-8"))
+              except Exception as e:
+                  bad.append((f, str(e)))
+          if bad:
+              print("INVALID JSON FILES:")
+              for f, e in bad:
+                  print(f"  {f}: {e}")
+              sys.exit(1)
+          print("All docs/data JSON files parse OK.")
+          EOF

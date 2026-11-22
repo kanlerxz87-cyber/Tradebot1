@@ -1,0 +1,8 @@
+{
+  "topic": "culture",
+  "label": "Culture",
+  "generated_at": "2026-11-22T07:05:50Z",
+  "status": "awaiting_first_collection_run",
+  "source_endpoint": "https://external-api.demo.kalshi.co/trade-api/v2/markets",
+  "markets": []
+}

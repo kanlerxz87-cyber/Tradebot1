@@ -1,0 +1,17 @@
+{
+  "generated_at": "2026-11-22T07:05:50Z",
+  "is_simulated": true,
+  "starting_balance_usd": 10000.0,
+  "cash_usd": 10000.0,
+  "open_cost_basis_usd": 0.0,
+  "realized_pnl_usd": 0.0,
+  "unrealized_pnl_usd": 0.0,
+  "equity_usd": 10000.0,
+  "open_positions_count": 0,
+  "closed_trades_count": 0,
+  "win_count": 0,
+  "loss_count": 0,
+  "by_strategy": {},
+  "by_topic": {},
+  "status": "awaiting_first_collection_run"
+}

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Culture — Kalshi Demo Dashboard</title>
+<link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="dot"></span> Kalshi Demo Dashboard</div>
+    <nav class="main-nav">
+      <a href="index.html" data-nav="home">Home</a>
+      <a href="gas-prices.html" data-nav="gas">Gas Prices</a>
+      <a href="elections.html" data-nav="elections">Elections</a>
+      <a href="culture.html" data-nav="culture">Culture</a>
+      <a href="crypto.html" data-nav="crypto">Crypto</a>
+      <a href="golf.html" data-nav="golf">Golf</a>
+      <a href="alerts.html" data-nav="alerts">Live Alerts</a>
+      <a href="portfolio.html" data-nav="portfolio">Portfolio &amp; Strategies</a>
+      <a href="verification.html" data-nav="verification">Verification</a>
+      <a href="flagged-for-review.html" data-nav="flagged">Flagged for Review</a>
+      <a href="suggestions.html" data-nav="suggestions">Live/Interactive Ideas</a>
+      <a href="executive-summary.html" data-nav="summary">Executive Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <h1>🎭 Culture <span id="status-badge"></span></h1>
+  <p class="lead">
+    All open markets Kalshi categorizes under Culture, kept together as one topic (per the task's
+    "keep topics separate but keep events within the same topic organized together" requirement).
+    Sorted by volume (our proxy for highest dollar amount while using only public Kalshi fields).
+    <span class="last-updated" id="last-updated"></span>
+  </p>
+
+  <h2>Tracked markets</h2>
+  <div id="markets-table">loading…</div>
+
+  <h2>Price chart</h2>
+  <div class="controls">
+    <label for="ticker-select" style="color:var(--muted);font-size:13px;">Market:</label>
+    <select id="ticker-select"></select>
+    <span style="width:10px;"></span>
+    <label style="color:var(--muted);font-size:13px;">Range:</label>
+    <button data-range="60">Seconds (last 60s)</button>
+    <button data-range="3600" class="active">Minutes (last hour)</button>
+    <button data-range="86400">Hours (last 24h)</button>
+  </div>
+  <div class="card"><canvas id="chart" class="chart"></canvas>
+    <p class="source-link">Chart resolution is limited by how often the collector runs (every ~10 minutes, see
+    <a href="suggestions.html">Live/Interactive Ideas</a> for how to get tighter resolution). The
+    seconds/minutes/hours buttons filter the same collected points to the selected look-back window.</p>
+  </div>
+
+  <h2>Recent alerts in this topic (≥ $0.10 moves)</h2>
+  <div class="feed" id="topic-alerts-feed"></div>
+</main>
+
+<footer>
+  Data source: <a href="https://docs.kalshi.com/welcome" target="_blank" rel="noopener">Kalshi Trade API v2</a> (demo environment) ·
+  All trades shown are <strong>simulated paper trades</strong>, not real orders ·
+  <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">Source on GitHub</a>
+</footer>
+
+<script src="assets/app.js"></script>
+<script>
+(async function () {
+  setActiveNav("culture");
+  const TOPIC = "culture";
+  const doc = await fetchJSON(`markets_${TOPIC}.json`);
+  document.getElementById("status-badge").innerHTML = doc ? statusBadge(doc.status) : "";
+  document.getElementById("last-updated").innerText = doc && doc.generated_at
+    ? ` Last updated ${timeAgo(doc.generated_at)}.` : "";
+  renderMarketsTable(document.getElementById("markets-table"), doc);
+
+  const hist = await fetchJSON(`history/${TOPIC}.json`);
+  const select = document.getElementById("ticker-select");
+  const seriesMap = (hist && hist.series) || {};
+  const tickers = Object.keys(seriesMap);
+  if (tickers.length === 0) {
+    select.innerHTML = '<option>no history yet</option>';
+  } else {
+    select.innerHTML = tickers.map(t => `<option value="${t}">${t}</option>`).join("");
+  }
+
+  let currentRange = 3600;
+  function redraw() {
+    const ticker = select.value;
+    const points = (seriesMap[ticker] || []).map(p => ({ ts: p.ts, price: p.price }));
+    const filtered = filterPointsByRange(points, currentRange);
+    drawLineChart(document.getElementById("chart"), filtered, { color: "#4f8cff" });
+  }
+  select.addEventListener("change", redraw);
+  document.querySelectorAll(".controls button[data-range]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".controls button[data-range]").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      currentRange = parseInt(btn.getAttribute("data-range"), 10);
+      redraw();
+    });
+  });
+  redraw();
+
+  const allAlerts = await fetchJSON("alerts_all.json");
+  const topicAlerts = ((allAlerts && allAlerts.alerts) || []).filter(a => a.topic === TOPIC);
+  renderAlertsFeed(document.getElementById("topic-alerts-feed"), topicAlerts);
+})();
+</script>
+</body>
+</html>

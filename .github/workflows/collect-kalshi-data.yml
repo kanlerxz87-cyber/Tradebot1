@@ -1,0 +1,60 @@
+name: Collect Kalshi Demo Data
+
+# Runs on GitHub's hosted runners, which have full outbound internet access
+# (the coding sandbox that built this pipeline does not — see
+# docs/EXECUTIVE_SUMMARY.md section 3). This is the only workflow in the repo
+# that ever touches real Kalshi data.
+on:
+  schedule:
+    # Every 10 minutes. GitHub's documented minimum cron interval is 5
+    # minutes, and scheduled runs can be delayed under load; 10 minutes is a
+    # conservative, polite interval for a public read-only API. See
+    # docs/suggestions.html for how to get tighter-than-cron-allows latency.
+    - cron: "*/10 * * * *"
+  workflow_dispatch: {}
+  push:
+    branches: [main]
+    paths:
+      - "scripts/**"
+      - ".github/workflows/collect-kalshi-data.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: collect-kalshi-data
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run collector (pure stdlib, no dependencies needed)
+        run: python3 -m scripts.collect_kalshi_data
+
+      - name: Commit and push updated data (if any changes)
+        run: |
+          git config user.name "kalshi-dashboard-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add docs/data scripts/_state
+          if git diff --cached --quiet; then
+            echo "No data changes this run."
+          else
+            git commit -m "Automated Kalshi demo data collection run [skip ci]"
+            for attempt in 1 2 3 4 5; do
+              git pull --rebase origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
+              echo "Push/rebase attempt $attempt failed, retrying..."
+              sleep $((attempt * 5))
+            done
+          fi
