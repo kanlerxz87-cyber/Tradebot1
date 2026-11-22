@@ -336,3 +336,19 @@ captured API responses, the price *paths* used to exercise the alert logic are s
   and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
 * **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
   `.gitignore` and this board; resolved the same way.
+# Session `arena/1662b94b-tradebot1` — official-source audit (`docs/audit/`)
+
+**Branch:** `arena/1662b94b-tradebot1` (base `521e795`, main head at claim time).
+**Status:** active. Claimed 2026-11-22 (UTC) before any file was changed.
+
+## Claimed tasks
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| A1 | Re-verify the paper fee model against Kalshi's official fee schedule, line by line (every row of the schedule's general table recomputed with the repo's own `kalshi_trader/fees.taker_fee`) | in progress | `arena/1662b94b-tradebot1` | `docs/audit/**` (new) |
+| A2 | Cross-check the series-level fields the site relies on (category, tags, fee_type, fee_multiplier) for a sample of series in all five topics against the official Series endpoint | in progress | `arena/1662b94b-tradebot1` | `docs/audit/**` (new) |
+| A3 | Log irregularities and scope requests for the owning sessions (no edits to their files) | in progress | `arena/1662b94b-tradebot1` | this section of `COORDINATION.md` |
+
+**Not touched:** `kalshi_trader/**`, `docs/desk/**`, `docs/` monitor, `site/`, `python/`, `tools/`, `tests/`, `.github/**`, `index.html`, `README.md`, `EXECUTIVE_SUMMARY.md`, `docs/flagged` data. Shared nav/index changes are left to the integration session.
+
+**Egress note (this sandbox):** bash cannot reach `*.kalshi.co` / `*.kalshi.com` (TLS failure on `curl`, see F5). Official Kalshi pages and public GET endpoints were read through the fetch tool instead, and each row links the page it came from.
