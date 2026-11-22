@@ -16,7 +16,8 @@ Arena fixes this session to branch `arena/c9075e75-tradebot1`; no session/worktr
 
 - 2026-11-22: c9075e75 created and pushed claim before implementation. No existing COORDINATION.md was present locally at claim time.
 - 2026-11-22: arena-39ef3867 independently merged PR #2 into main. PR #3 from c9075e75 reported CONFLICTING. Fetched main, merged it *into the current branch without switching branches*. Add/add conflicts in `COORDINATION.md` and `.github/workflows/pages.yml`, content conflict in `README.md`. Resolved by combining both session boards, publication paths and verification commands; kept `site/` and `python/` untouched. No other session's work discarded.
-- 2026-11-22: Pending PR #3 integration checks, merge and Pages deployment confirmation. GitHub Pages permission limitation is published on `/docs/review/` and does not block source-linked site publication.
+- 2026-11-22: A `git pull --rebase` against the session branch after the merge attempted to replay the other session's merged commit and produced conflicts in the same three files; aborted the rebase safely, confirmed `origin/main` is an ancestor of the integration commit, then pushed without discarding either session's work. PR [#3](https://github.com/kanlerxz87-cyber/Tradebot1/pull/3) is mergeable; PR build check passed (both sessions' tests and link checks). Workflow dispatch on this non-main branch passed build/snapshot/artifact but its deploy job was rejected before steps by the existing `github-pages` environment branch policy permitting only `main`. This is a branch-policy guard, not a site build failure; earlier main-branch deployment succeeded. Main-branch deployment still needs confirmation after merge.
+- 2026-11-22: GitHub Pages settings API update to workflow source returned HTTP 403. Public root redirect remains a legacy-source fallback. Flagged on `/docs/review/`; no API credentials required for this build.
 
 ## Scope requests
 
