@@ -261,7 +261,7 @@ exists, so no demo-account balance or order was ever read or sent.
 
 ## 3. Audit findings (published at `qa.html`)
 
-Every committed dataset, 68 published pages and 1 218 internal references were re-checked. **0 errors, 4 warnings, 9 notes.**
+Every committed dataset, 73 published pages and 1 280 internal references were re-checked. **0 errors, 4 warnings, 9 notes.**
 
 | Severity | Finding | Detail |
 | - | - | - |
