@@ -4,7 +4,7 @@
  "updated_at": "2026-11-22T07:23:50Z",
  "bankroll_start": 1000.0,
  "cash": 763.85,
- "fee_model": "quadratic_unverified",
+ "fee_model": "quadratic",
  "positions": {
   "KXBTCD-26NOV2717-T52999.99:late_favorite": {
    "id": "pos-5ab8235af6",
