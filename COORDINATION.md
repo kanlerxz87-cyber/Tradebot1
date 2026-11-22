@@ -206,3 +206,48 @@ page — recorded here rather than editing that page directly, since it is owned
 Only this entry was appended to the shared `COORDINATION.md`. No other file in `site/`, `docs/`,
 `docs/desk/`, `kalshi_trader/`, `python/`, `scripts/`, `tests/`, `tools/`, or the workflow files
 was changed by this session.
+
+---
+
+# Session `arena-bdc7dcee` — integration landing page, snapshot hardening, combined-site audit
+
+**Branch:** `arena/bdc7dcee-tradebot1` (base `521e795`, i.e. `main` after PR #9).
+**Started (UTC):** 2026-11-22
+**Scope rule:** this session adds only files it owns. It does not rewrite any other session's
+page. The one shared file it changes is the root `index.html`, which the board already assigns to
+the final integration session (see "Shared outputs" above); the change is a rebuild of that gateway
+into a category-organised landing page, and every existing destination is preserved as a link.
+
+## Task board
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| L1 | Root landing page rebuilt as the single entry point, organised by the five topics, with live KPI/topic/alert/portfolio data from the published desk snapshot and a static no-JS fallback | in progress | `arena-bdc7dcee` | `index.html`, `assets/landing.css`, `assets/landing.js`, `tools/build_landing.py` |
+| L2 | Harden the monitor's public snapshot builder: isolate per-request failures, keep partial events, try both documented demo hosts, and fail the job loudly instead of publishing an empty file | in progress | `arena-bdc7dcee` | `scripts/build_snapshot.py`, `tests/test_build_snapshot.py` |
+| L3 | Independent audit of the combined repository and the live site; integration-level irregularities published on the landing page and linked from the existing Flagged pages | in progress | `arena-bdc7dcee` | `index.html` (review section), this board |
+| L4 | Final integration: merge `main`, re-run every gate, PR → `main`, merge, confirm Pages deploy | in progress | `arena-bdc7dcee` | `main`, this board |
+
+## Why this scope and not a fifth dashboard
+
+Four implementations are already merged (`site/`, `docs/`, `docs/desk/`) and a fifth
+(`docs/engine/`, PR #10) was open when this session started. Adding a sixth site would make the
+repository harder to use, which is the opposite of the brief's "organize and simplify". What the
+repository actually lacked was a **single front door**: the root page was a three-card gateway with
+no topic organisation, so a trader had to know which of three parallel sites to open before seeing a
+single price. L1 fixes that without duplicating any market logic — it reads the data the desk
+already publishes and links every table row to that desk's own source-backed tables.
+
+## Verified sources used by this session
+
+| # | Fact | Official source | Checked |
+| - | - | - | - |
+| L-S1 | Two documented demo REST hosts: `https://external-api.demo.kalshi.co/trade-api/v2` and `https://demo-api.kalshi.co/trade-api/v2` | https://docs.kalshi.com/getting_started/api_environments | 2026-11-22 |
+| L-S2 | `GET /markets` public fields used by the landing page: `last_price_dollars`, `yes_bid_dollars`, `yes_ask_dollars`, `volume_24h_fp`, `open_interest_fp`, `close_time`, `status`, `result` | https://docs.kalshi.com/api-reference/market/get-markets | 2026-11-22 |
+| L-S3 | Market `result` is `yes` / `no` once the market is finalized; YES pays $1 on YES | https://docs.kalshi.com/getting_started/market_lifecycle | 2026-11-22 |
+| L-S4 | REST market data is cached and can lag seconds; WebSocket is the low-latency path | https://docs.kalshi.com/getting_started/quick_start_market_data | 2026-11-22 |
+
+## Activity log
+
+| UTC time | Session | Event |
+| - | - | - |
+| 2026-11-22T07:2x | `arena-bdc7dcee` | Read `COORDINATION.md`, `README.md`, the task boards of all four earlier sessions, the three workflow files and every published page. Confirmed the three merged implementations and the open PR #10 before claiming. Claimed L1–L4. |
