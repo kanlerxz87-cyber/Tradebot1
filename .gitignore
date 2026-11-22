@@ -1,3 +1,10 @@
+# Python artifacts (added by arena/1662b94b: a virtualenv and .pyc files were committed to main)
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+
 # Local state / secrets
 .env
 *.pem
