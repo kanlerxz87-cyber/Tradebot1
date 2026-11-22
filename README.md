@@ -1,6 +1,6 @@
 # Kalshi Demo Research Dashboard
 
-[Dashboard (GitHub Pages)](https://kanlerxz87-cyber.github.io/Tradebot1/) · [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/executive-summary.html) · [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/review/) · [Coordination board](COORDINATION.md)
+[Dashboard (GitHub Pages)](https://kanlerxz87-cyber.github.io/Tradebot1/) · [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/executive-summary.html) · [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/review/) · [Coordination board](COORDINATION.md)
 
 A credential-free **public demo** market-research dashboard for gas prices, elections, culture, crypto and golf. This repository initially contained only `# Tradebot1`; there was no existing application or account integration to audit. All new functionality is separate from a real Kalshi portfolio.
 
@@ -39,4 +39,4 @@ Open `http://localhost:8000/` locally. The site has no npm dependencies. `script
 
 ## Publication
 
-`.github/workflows/pages.yml` tests, fetches a fresh bounded public snapshot and deploys `docs/` to GitHub Pages on pushes to `main`, on its 30-minute schedule, or via workflow dispatch. Enable repository Pages with source **GitHub Actions** if it is not already configured. Never use the live production API for this demo dashboard.
+`.github/workflows/pages.yml` tests, fetches a fresh bounded public snapshot and deploys `docs/` to GitHub Pages on pushes to `main`, on its 30-minute schedule, or via workflow dispatch. The repository currently uses legacy Pages publication from `main /`; the root `index.html` redirects to `docs/` to keep the dashboard reachable even if GitHub Actions deployment cannot be enabled. The API attempt to switch the Pages build type to workflow returned HTTP 403 (integration permission), so scheduled snapshot publication is flagged as unverified. Never use the live production API for this demo dashboard.
