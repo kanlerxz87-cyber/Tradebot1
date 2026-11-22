@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kalshi Trader — five topics, one desk</title>
 <meta name="description" content="Kalshi demo-environment research: gas prices, elections, culture, crypto and golf. ≥ $0.10 swing alerts, price and liquidity charts, resolution tracking, simulated trading. Every claim sourced.">
-<link rel="canonical" href="docs/desk/">
+<link rel="canonical" href="index.html">
 <link rel="stylesheet" href="docs/desk/assets/css/site.css">
 <style>
   .home { max-width: 980px; margin: 0 auto; padding: 48px 20px 64px; }
@@ -44,6 +44,14 @@
          markets by event, sorts by estimated 24h traded dollars, and shows live orderbook depth
          for any contract you pick.</p>
     </a>
+    <a class="card-link" href="board.html">
+      <span class="tag">Board</span>
+      <h2>Trade board →</h2>
+      <p>A third implementation, in Node with no runtime dependencies: events ranked by resting
+         dollars inside each of the five topics, two scrolling alert chats for moves of $0.10 or
+         more, a price chart with 60s–24h windows and an order-book ladder, five simulated
+         strategies, and a source link on every table row.</p>
+    </a>
     <a class="card-link" href="site/">
       <span class="tag">Archive</span>
       <h2>Prototype →</h2>
@@ -64,6 +72,7 @@
     <li><a href="docs/desk/executive-summary.html">Executive summary</a> — what was built, which API facts were verified, what the numbers do and do not mean.</li>
     <li><a href="docs/desk/verification.html">Verification log</a> — every claim with its official Kalshi source and check date.</li>
     <li><a href="docs/desk/flagged.html">Flagged for review</a> — 14 items that could not be confirmed, including the fee model and the missing demo account. Nothing is inferred to fill a gap.</li>
+    <li><a href="flagged.html">Flagged for review (trade board)</a> — 17 further items from the independent Node build, each with its source and how to re-check it.</li>
     <li><a href="docs/desk/requirements.html">Requirements matrix</a> — each requirement, its status and where it is implemented.</li>
     <li><a href="docs/review/">Monitor's own review page</a> and <a href="docs/VERIFICATION.md">verification notes</a>.</li>
   </ul>

@@ -331,6 +331,7 @@ def build_topic_page(topic_id: str, latest: dict[str, Any], series_catalog: dict
     events = block.get("events") or []
     resolved = [r for r in (latest.get("resolved") or []) if r.get("topic") == topic_id]
     series = [s for s in (series_catalog.get("series") or {}).values() if s.get("topic") == topic_id]
+    series_total = (series_catalog.get("totals") or {}).get(topic_id, len(series))
     generated = latest.get("generated_at")
 
     sources = "".join(
@@ -344,7 +345,7 @@ def build_topic_page(topic_id: str, latest: dict[str, Any], series_catalog: dict
 
   <div class="grid kpi">
     <div class="card"><span class="label">Markets tracked</span><span class="value">{count(block.get('markets_count'))}</span><span class="foot">top {count(len(markets))} kept by estimated notional</span></div>
-    <div class="card"><span class="label">Series scanned</span><span class="value">{count(block.get('series_count'))}</span><span class="foot">{count(len(series))} in the catalogue for this topic</span></div>
+    <div class="card"><span class="label">Series scanned</span><span class="value">{count(block.get('series_count'))}</span><span class="foot">{count(series_total)} series in the catalogue for this topic</span></div>
     <div class="card"><span class="label">Est. 24h notional</span><span class="value">{usd(block.get('notional_24h_est'), 0)}</span><span class="foot">volume × price, derived</span></div>
     <div class="card"><span class="label">Open interest</span><span class="value">{count(block.get('open_interest'))}</span><span class="foot">contracts, exchange-reported</span></div>
   </div>

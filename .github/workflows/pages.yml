@@ -27,6 +27,7 @@ jobs:
           python-version: '3.11'
       - name: Verify both sessions' code and local links
         run: |
+          npm install --no-audit --no-fund
           node --test tests/*.test.mjs
           python3 tests/check_site.py
           python3 python/test_simulator.py
@@ -46,12 +47,18 @@ jobs:
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
-      - name: Stage legacy root, research dashboard, and original dashboard
+      - name: Stage the landing page, every dashboard and the board app
         if: github.event_name != 'pull_request'
         run: |
+          set -euo pipefail
           mkdir -p public
           cp index.html .nojekyll public/
           cp -R docs site public/
+          # The Node board app (session 9bea7e55): generated pages, their assets,
+          # the five category pages and the JSON those pages read. Repository
+          # internals (tools, tests, workflows) are never published.
+          cp ./*.html public/
+          cp -R assets categories data public/
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'
       - uses: actions/upload-pages-artifact@v3

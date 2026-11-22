@@ -147,3 +147,30 @@ def test_demo_block_is_explicit_when_not_configured(tmp_path):
     latest = run_cycle(settings, client=_client(), now=1_760_000_000, samples=1)
     assert latest["demo"]["connected"] is False
     assert latest["demo"]["status"]["required_env"] == ["KALSHI_API_KEY_ID", "KALSHI_PRIVATE_KEY"]
+
+
+def test_settled_sweep_sends_integer_min_close_ts():
+    """Kalshi rejects a float for min_close_ts (HTTP 400), so the sweep must send an int."""
+    from kalshi_trader.collector import _collect_resolutions
+
+    captured: list[dict] = []
+
+    class SweepClient:
+        def paginate(self, path, key, params=None, page_size=200, max_pages=25):
+            captured.append(dict(params or {}))
+            return []
+
+    errors: list[str] = []
+    _collect_resolutions(
+        SweepClient(),
+        current_markets={},
+        series_by_topic={"gas": ["KXAAAGASW"]},
+        existing=[],
+        errors=errors,
+        now=1_790_000_000,
+    )
+    assert captured, "the settled sweep must issue at least one request"
+    value = captured[0]["min_close_ts"]
+    assert isinstance(value, int), f"min_close_ts must be an int, got {type(value).__name__}"
+    assert value > 1_700_000_000
+    assert errors == []

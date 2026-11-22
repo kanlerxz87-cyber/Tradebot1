@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review · Kalshi demo dashboard</title>
+<meta name="description" content="A Kalshi demo-environment dashboard: live swing alerts at the $0.10 threshold, price charts and order-book liquidity for gas prices, elections, culture, crypto and golf, with simulated strategies and resolution tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body data-generated="2026-11-22T07:20:33.260Z">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="brand" href="board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <nav class="main" aria-label="Main"><a href="board.html">Board</a><a href="dashboard.html">Alerts</a><a href="markets.html">Markets</a><a href="portfolio.html">Portfolio</a><a href="strategies.html">Strategies</a><a href="demo-account.html">Demo account</a><a href="executive-summary.html">Summary</a><a href="sources.html">Sources</a><a href="methodology.html">Method</a><a href="suggestions.html">Ideas</a><a href="flagged.html" aria-current="page">Flagged</a><a href="api.html">API</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap page">
+<section>
+  <div class="pill-row" style="margin-bottom:8px">
+    <span class="badge warn">published</span>
+    <span class="badge">nothing here blocks the site</span>
+  </div>
+  <h1>Flagged for review</h1>
+  <p class="muted" style="max-width:85ch">
+    Every limitation, unverified value and irregularity found while building this dashboard. None of
+    these are hidden elsewhere on the site; each one is also referenced in place. If you disagree with
+    a flag, the source link next to it is where to check.
+  </p>
+  <div class="banner" id="data-banner" data-state="snapshot" role="status" aria-live="polite">
+    <span class="led" aria-hidden="true"></span><strong>Loading…</strong>
+  </div>
+</section>
+
+<section class="toolbar">
+  <div class="seg" id="sev-filter" role="group" aria-label="Filter by severity">
+    <button data-sev="all" aria-pressed="true">All</button>
+    <button data-sev="high" aria-pressed="false">High</button>
+    <button data-sev="medium" aria-pressed="false">Medium</button>
+    <button data-sev="low" aria-pressed="false">Low</button>
+    <button data-sev="info" aria-pressed="false">Info</button>
+  </div>
+</section>
+
+<section id="flags" class="stack"></section>
+
+<section>
+  <h2>What "unverified" means on this site</h2>
+  <div class="table-wrap"><table data-nosource="true">
+    <thead><tr><th>Situation</th><th>What the site does</th></tr></thead>
+    <tbody>
+      <tr><td>A field the API did not return</td><td>Renders an em dash and is listed here if it matters</td></tr>
+      <tr><td>A price with no two-sided book</td><td>No mid-price is computed; no move is reported</td></tr>
+      <tr><td>A market with no stored observation</td><td>No chart line; the chart says how many points exist</td></tr>
+      <tr><td>A topic with no open market</td><td>An empty state that names the reason and the flag</td></tr>
+      <tr><td>A cause for a price move</td><td>Never stated; only the exchange's own settlement sources are linked</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<script type="module" src="assets/flagged-page.js"></script>
+
+</main>
+<footer class="site">
+  <div class="wrap cols">
+    <div style="max-width:52ch">
+      <strong>Tradebot1</strong> — a dashboard over the <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">Kalshi demo environment</a>.
+      Demo markets use mock funds and Kalshi warns their prices may not reflect real markets.
+      This is not investment advice and nothing here is a forecast.
+      <div class="src" style="margin-top:8px">Data captured through https://external-api.demo.kalshi.co/trade-api/v2.</div>
+    </div>
+    <div>
+      <div><strong class="muted">Topics</strong></div>
+      <a href="categories/gas.html">Gas prices</a> · <a href="categories/elections.html">Elections</a> · <a href="categories/culture.html">Culture</a> · <a href="categories/crypto.html">Crypto</a> · <a href="categories/golf.html">Golf</a>
+    </div>
+    <div>
+      <div><strong class="muted">Review</strong></div>
+      <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
+      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:00Z (21m ago)</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
