@@ -11,7 +11,7 @@ same brief; both are kept, because they make different trade-offs and each is us
 
 | Path | What it is | Data source |
 | - | - | - |
-| **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 15 min |
+| **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 30 min |
 | `docs/` | **Market monitor** — browser-side dashboard, no backend | public demo REST polled from the visitor's browser |
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
 
@@ -36,7 +36,7 @@ The autonomous half of the repository: a Python package and a 15-minute GitHub A
   Analytics by strategy, topic, price band and exit reason.
 * **Verification** — every table row carries an official `docs.kalshi.com` link and a check date;
   anything unconfirmed is blank and listed on `docs/desk/flagged.html` (14 items, 0 blocking).
-* **Automation** — `.github/workflows/collect.yml` (every 15 min) collects, rebuilds the static tables,
+* **Automation** — `.github/workflows/collect.yml` (every 30 min) collects, rebuilds the static tables,
   runs integrity + link gates, commits the snapshot and ledger, then verifies the published URL.
   `.github/workflows/ci.yml` runs 48 unit tests on every push and PR.
 
