@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Dashboard — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="Live Kalshi demo contracts for gas, elections, culture, crypto and golf — ranked by dollar volume, with $0.10+ swing alerts, a high-ROI model feed, price charts and order-book liquidity.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="dashboard.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap">
+    <div>
+      <h1 class="page-title">Live Dashboard</h1>
+      <p class="page-sub">Highest-dollar open contracts across the five verticals — <strong>gas, elections, culture, crypto, golf</strong>. Alerts fire at <strong>≥ $0.10</strong> moves in either direction. Data loads in your browser from the Kalshi <strong>demo</strong> API; if it can't reach the API you'll be offered a clearly-labeled simulated feed.</p>
+    </div>
+    <div style="text-align:right; padding-top:6px">
+      <span id="connectionBadge" class="badge info">CONNECTING…</span>
+      <div class="small muted" id="refreshInfo" style="margin-top:6px">&nbsp;</div>
+    </div>
+  </div>
+
+  <div class="callout danger" id="liveError" style="display:none">
+    <strong>Live connection failed.</strong> <span id="liveErrorText"></span>
+    <div class="cta-row" style="margin-top:10px">
+      <button id="liveRetryBtn" class="btn small">↻ Retry live connection</button>
+      <button id="simFallbackBtn" class="btn small primary">Load simulated feed (labeled)</button>
+    </div>
+  </div>
+
+  <div class="callout warn" id="simBanner" style="display:none">
+    <strong>SIMULATED FEED.</strong> You are viewing synthetic markets (tickers prefixed <code>SIM-</code>). Prices are random walks designed to exercise alerts and charts — they are <u>not</u> real Kalshi contracts and must not inform any real decision.
+  </div>
+
+  <div class="chips" id="topicChips" style="margin:4px 0 16px" role="tablist" aria-label="Topic filter"></div>
+
+  <div class="dash-grid">
+    <!-- ============ LEFT COLUMN ============ -->
+    <div>
+      <div class="card">
+        <div class="chart-toolbar">
+          <div style="min-width:0">
+            <div class="small muted" style="text-transform:uppercase; letter-spacing:1px; font-size:10px">Selected contract</div>
+            <div id="selTitle" style="font-weight:800; font-size:14.5px; max-width:520px">Loading…</div>
+            <code id="selTicker" class="small muted">—</code>
+          </div>
+          <div style="margin-left:auto; display:flex; gap:8px; align-items:center; flex-wrap:wrap">
+            <div class="seg" role="group" aria-label="Chart time window">
+              <button class="range-btn" data-sec="30">30s</button>
+              <button class="range-btn" data-sec="60">1m</button>
+              <button class="range-btn active" data-sec="300">5m</button>
+              <button class="range-btn" data-sec="900">15m</button>
+              <button class="range-btn" data-sec="1800">30m</button>
+              <button class="range-btn" data-sec="3600">1h</button>
+              <button class="range-btn" data-sec="21600">6h</button>
+            </div>
+            <button id="pauseBtn" class="btn small" title="Pause/resume polling">⏸ Pause</button>
+            <button id="soundToggle" class="btn small" title="Audible ping on new alert">🔕 Sound off</button>
+          </div>
+        </div>
+
+        <div class="chart-wrap"><canvas id="priceChart" role="img" aria-label="Contract price over time. X axis is time, Y axis is price in dollars."></canvas></div>
+
+        <div class="kpi-row" aria-label="Contract key figures">
+          <div class="kpi"><div class="k">Yes bid</div><div class="v" id="kBid">—</div></div>
+          <div class="kpi"><div class="k">Yes ask</div><div class="v" id="kAsk">—</div></div>
+          <div class="kpi"><div class="k">Last</div><div class="v" id="kLast">—</div></div>
+          <div class="kpi"><div class="k">Move</div><div class="v" id="kMove">—</div></div>
+          <div class="kpi"><div class="k">Volume</div><div class="v" id="kVol">—</div></div>
+          <div class="kpi"><div class="k">24h vol</div><div class="v" id="k24h">—</div></div>
+          <div class="kpi"><div class="k">Open int</div><div class="v" id="kOI">—</div></div>
+          <div class="kpi"><div class="k">Spread</div><div class="v" id="kSpread">—</div></div>
+          <div class="kpi"><div class="k">Est. notional</div><div class="v" id="kNotional">—</div></div>
+          <div class="kpi"><div class="k">ROI if YES</div><div class="v" id="kRoi">—</div></div>
+          <div class="kpi"><div class="k">Model</div><div class="v" id="kModel">—</div></div>
+        </div>
+
+        <div class="alert-banner" id="moveBanner" role="alert"></div>
+        <div class="drivers" id="driversWrap" style="display:none">
+          <div class="small muted" style="margin-bottom:4px; text-transform:uppercase; letter-spacing:1px; font-size:10px">Possible drivers — links to check (not proven causation)</div>
+          <div id="driversRow"></div>
+        </div>
+
+        <div class="hr"></div>
+        <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap">
+          <label class="small muted" for="paperQty" style="margin:0">Qty</label>
+          <input id="paperQty" class="input" style="width:80px" type="number" min="1" step="1" value="10" aria-label="Contract quantity">
+          <button id="paperBuyBtn" class="btn primary small">Paper buy YES @ ask</button>
+          <button id="demoBuyBtn" class="btn small">Demo-account buy YES</button>
+          <span class="small muted" style="max-width:420px">Paper = local browser ledger. Demo = real order on your Kalshi <strong>demo</strong> account (mock funds). Enable it in <a href="portfolio.html">Portfolio → Settings</a> first.</span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h2>Order book — contracts available at each price</h2>
+        <div class="book">
+          <div>
+            <div class="ladder-head"><span>YES bid</span><span>Size (bar)</span><span style="text-align:right">Contracts · cum</span></div>
+            <div class="ladder" id="bidsLadder"><div class="ladder-row"><span class="muted">Loading…</span></div></div>
+          </div>
+          <div>
+            <div class="ladder-head"><span>NO bid*</span><span>Size (bar)</span><span style="text-align:right">Contracts · cum</span></div>
+            <div class="ladder" id="asksLadder"><div class="ladder-row"><span class="muted">Loading…</span></div></div>
+          </div>
+        </div>
+        <p class="small muted" id="bookNote" style="margin:10px 2px 0">Loading order book…</p>
+        <p class="small muted" style="margin:2px">*A NO bid at price <code>p</code> ≈ a YES offer at <code>1 − p</code>. Source: public orderbook endpoint (no API key required).</p>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h2>Open contracts — ranked by est. notional <span class="badge info"><span id="marketCount">0</span> tracked</span></h2>
+        <div class="table-wrap" style="max-height:520px; overflow-y:auto">
+          <table aria-label="Open tracked contracts ranked by estimated notional">
+            <thead><tr><th>Topic</th><th>Event</th><th class="num">Last</th><th class="num">Move</th><th class="num">Volume</th><th class="num">Est. notional</th><th class="num">Spread</th><th class="num">ROI if YES</th><th class="num">Model</th><th></th></tr></thead>
+            <tbody id="marketsBody"><tr class="empty-row"><td colspan="10">Loading…</td></tr></tbody>
+          </table>
+        </div>
+        <p class="small muted" style="margin:8px 2px 0">Est. notional = cumulative contract volume × last price — a $-magnitude proxy computed from API fields, not an official Kalshi metric. Click a row to chart it.</p>
+      </div>
+    </div>
+
+    <!-- ============ RIGHT COLUMN — TWO FEEDS ============ -->
+    <div>
+      <div class="card">
+        <h2>⚡ Live alerts — all events <span class="badge" id="feedAllCount">0</span></h2>
+        <p class="small muted" style="margin-top:-4px">Every ≥ $0.10 move (either direction) across the five verticals. Newest on top. Click a message to load the contract.</p>
+        <div class="chat-feed" id="feedAll" aria-live="polite"></div>
+      </div>
+
+      <div class="card" style="margin-top:16px; border-color:rgba(0,221,148,.35); box-shadow:0 0 0 1px rgba(0,221,148,.18), var(--shadow)">
+        <h2>🎯 Model-approved high-ROI <span class="badge ok" id="feedModelCount">0</span></h2>
+        <p class="small muted" style="margin-top:-4px">Same ≥ $0.10 trigger, filtered to markets scoring <strong>≥ 65</strong> on the transparent model (liquidity rank, spread, decisive move, favorable entry, open interest). Scoring rubric: <a href="summary.html#model">how we score</a>. Not financial advice.</p>
+        <div class="chat-feed" id="feedModel" aria-live="polite"></div>
+        <div style="display:flex; gap:8px; margin-top:10px; flex-wrap:wrap">
+          <button id="clearFeedsBtn" class="btn small ghost">Clear alerts</button>
+          <button id="exportAlertsBtn" class="btn small">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="card" style="margin-top:16px">
+        <h2>Legend &amp; how to read</h2>
+        <div class="small muted">
+          <p style="margin:4px 0"><span class="badge topic-gas">GAS</span> <span class="badge topic-elections">ELECTIONS</span> <span class="badge topic-culture">CULTURE</span> <span class="badge topic-crypto">CRYPTO</span> <span class="badge topic-golf">GOLF</span></p>
+          <p><strong>Model score</strong> = 30 base + liquidity rank (≤ +25) + tight spread (≤ +20) + decisive move ≥ $0.10 (+15) / ≥ $0.05 (+8) + favorable entry $0.55–$0.85 (+8) + open interest ≥ 50k (+7).</p>
+          <p><strong>Alert trigger</strong> = |price − session reference| ≥ $0.10 <em>or</em> |price − price 2 minutes ago| ≥ $0.10. 90-second per-contract cooldown.</p>
+          <p><strong>Possible drivers</strong> under the chart link to news search and official reference sources for the vertical. They are <em>candidates to check</em>, not proven causes of any move.</p>
+          <p><span class="badge sim">SIM</span> = simulated market (offline fallback). Resolutions (YES/NO) are tracked on <a href="events.html">Events &amp; Resolution</a>.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/topics.js"></script>
+<script src="assets/js/kalshi.js"></script>
+<script src="assets/js/simulated-feed.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/model.js"></script>
+<script src="assets/js/chart.js"></script>
+<script src="assets/js/dashboard.js"></script>
+</body>
+</html>
