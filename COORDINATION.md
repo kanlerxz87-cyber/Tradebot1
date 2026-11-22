@@ -516,3 +516,23 @@ passing, and recorded it here. Nothing of theirs was removed or rewritten.
 - 2026-11-22: root cause of the artifact commit identified — a merge had replaced `.gitignore` and dropped
   `.venv/`, `__pycache__/`, `*.py[cod]` and `node_modules/`. Rules restored and verified with
   `git check-ignore`; without that, untracking alone would have let the next `git add -A` re-add them.
+
+### Publication record — `arena-89a39032`
+
+| Item | Result |
+| - | - |
+| Pull request | [#16](https://github.com/kanlerxz87-cyber/Tradebot1/pull/16) — merged with `--merge` |
+| Merge commit on `main` | `d368df6` |
+| PR checks | `test` pass, `node-dashboard` pass, `build` (Pages) pass, `deploy` skipped on PR (expected) |
+| Deploy workflow | [44998590716](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998590716) — `build` success, `deploy` success |
+| Published layout verified | reproduced the workflow's staging step exactly (`cp index.html .nojekyll`, `cp -R docs site`, `cp ./*.html`, `cp -R assets categories data`) and served it: `/`, `/audit.html`, `/docs/desk/`, `/docs/desk/flagged.html`, `/docs/desk/topics/golf.html`, `/docs/engine/`, `/docs/audit/fee-audit.html`, `/board.html`, `/docs/`, `/site/`, `/.nojekyll` all HTTP 200; all 20 local refs on the landing page resolve 200 |
+| Landing page render | jsdom against the real snapshot: cycle `2026-11-22T07:21:40Z`, 300 markets, 1 alert, 308 settled, paper equity `$996.76`, 5 topic cards, newest alert row with its own Kalshi API link |
+| Verified on `main` after merge | `index.html` contains the consolidated landing; `audit.html` present (25.9 KB); collector contains the history fix |
+
+**Open item logged, not fixed:** two dispatched `Collect market data` runs (44998713040, and
+44998698330 on another branch) collected, rebuilt tables and passed integrity checks but failed at the
+final `git push` because the job rebases onto `main` while other sessions were merging the same generated
+files. A third dispatch was cancelled by the `collect` concurrency group. Consequence: the published
+snapshot is still `2026-11-22T07:21:40Z`. Nothing is corrupted (a failed commit leaves the previous
+snapshot live) and the 15-minute schedule retries, but the data will lag while parallel sessions churn
+`main`. Published on `audit.html` §5. The workflow belongs to another session, so it was not edited here.
