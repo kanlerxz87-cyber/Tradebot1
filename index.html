@@ -1,72 +1,268 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kalshi Trader — five topics, one desk</title>
-<meta name="description" content="Kalshi demo-environment research: gas prices, elections, culture, crypto and golf. ≥ $0.10 swing alerts, price and liquidity charts, resolution tracking, simulated trading. Every claim sourced.">
-<link rel="canonical" href="docs/desk/">
-<link rel="stylesheet" href="docs/desk/assets/css/site.css">
-<style>
-  .home { max-width: 980px; margin: 0 auto; padding: 48px 20px 64px; }
-  .home h1 { font-size: 30px; letter-spacing: -.02em; margin: 10px 0 6px; }
-  .home .lede { color: var(--text-dim); max-width: 70ch; }
-  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin: 26px 0 8px; }
-  .card-link { display: block; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: inherit; text-decoration: none; }
-  .card-link:hover, .card-link:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
-  .card-link h2 { font-size: 16px; margin: 0 0 6px; }
-  .card-link p { margin: 0; color: var(--text-dim); font-size: 13px; line-height: 1.55; }
-  .card-link .tag { display: inline-block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid currentColor; border-radius: 999px; padding: 2px 7px; margin-bottom: 10px; }
-  .home ul { padding-left: 18px; color: var(--text-dim); font-size: 13px; line-height: 1.7; }
-  .home footer { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12px; color: var(--text-dim); }
-</style>
+<title>Kalshi Trader — live desk for gas, elections, culture, crypto and golf</title>
+<meta name="description" content="Single front door to the Kalshi research desk: highest-dollar live events in five topics, two scrolling $0.10 swing-alert chats, price and liquidity charts, YES/NO resolution tracking and an autonomous simulated trading book. Every number traced to an official Kalshi source.">
+<link rel="stylesheet" href="assets/landing.css">
 </head>
 <body>
-<main class="home">
-  <p class="tag" style="margin:0">Kalshi · demo environment · research, not advice</p>
-  <h1>Five topics. One desk. Every number traced to an official source.</h1>
-  <p class="lede">Gas prices, elections, culture, crypto and golf — scanned continuously for moves of
-    <strong>$0.10 or more</strong>, charted with price and resting liquidity, tracked to a YES/NO
-    resolution, and traded by four rule-based strategies in a simulated book.</p>
+<a class="skip" href="#main">Skip to content</a>
 
-  <div class="cards">
-    <a class="card-link" href="docs/desk/">
-      <span class="tag">Autonomous</span>
-      <h2>Research desk →</h2>
-      <p>The collector-driven desk: 15-minute scheduled cycles, two alert chats (all moves and the
-         model's high-ROI subset), price chart with 30s–all windows, orderbook depth, resolution
-         tracker, four strategies with per-type analysis, and a source link on every table row.</p>
-    </a>
-    <a class="card-link" href="docs/">
-      <span class="tag">Interactive</span>
-      <h2>Market monitor →</h2>
-      <p>The browser-side monitor: polls public Kalshi endpoints from your own session, groups open
-         markets by event, sorts by estimated 24h traded dollars, and shows live orderbook depth
-         for any contract you pick.</p>
-    </a>
-    <a class="card-link" href="site/">
-      <span class="tag">Archive</span>
-      <h2>Prototype →</h2>
-      <p>The first standalone prototype, kept for review: simulated fallback data, a local strategy
-         simulator and a credentialed Python client. Clearly separated from verified market data.</p>
-    </a>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<small>five topics · one desk</small></span></div>
+    <nav class="main" aria-label="Primary">
+      <a class="active" href="./">Overview</a>
+      <a href="docs/desk/index.html">Live desk</a>
+      <a href="docs/desk/portfolio.html">Portfolio</a>
+      <a href="docs/desk/strategies.html">Strategies</a>
+      <a href="docs/desk/verification.html">Verification</a>
+      <a href="docs/desk/flagged.html">Flagged</a>
+    </nav>
+    <div class="top-right"><div class="status-line"><span class="pulse on" aria-hidden="true"></span><span><b>Published snapshot</b> · 23m ago · 300 markets · 0 new alerts</span><span class="chip ok">fresh</span></div><button class="btn ghost" id="refreshNow" type="button" aria-label="Refresh the published snapshot">↻ Refresh</button></div>
+  </div>
+</header>
+
+<main class="wrap" id="main">
+
+  <div class="hero">
+    <h1>Five topics. One desk. <em>Every number traced.</em></h1>
+    <p>
+      Gas prices, elections, culture, crypto and golf — ranked by estimated 24-hour traded dollars,
+      scanned for moves of <b>$0.10 or more</b>, charted with price and resting liquidity, tracked to a
+      YES or NO resolution, and traded by four rule-based strategies in a simulated book.
+      This page is the front door; the live desk behind it carries the full tables, the charts and the
+      per-row source links.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href="docs/desk/index.html">Open the live desk →</a>
+      <a class="btn" href="docs/desk/portfolio.html">Paper portfolio</a>
+      <a class="btn ghost" href="#review">What is not verified</a>
+    </div>
+    <div class="banner" style="margin-top:14px"><b>Data source: Kalshi production.</b><span class="grow">Read from <code>https://external-api.kalshi.com/trade-api/v2</code> and refreshed by a scheduled collector. The page you are reading is static hosting; this banner and the numbers below update when a new cycle is published. Demo account: <b>not connected</b> — the book is simulated.</span></div>
+    <div id="liveNote"></div>
   </div>
 
-  <h2 style="font-size:15px;margin:26px 0 6px">Read before you trade on anything here</h2>
-  <ul>
-    <li><a href="docs/desk/executive-summary.html">Executive summary</a> — what was built, which API facts were verified, what the numbers do and do not mean.</li>
-    <li><a href="docs/desk/verification.html">Verification log</a> — every claim with its official Kalshi source and check date.</li>
-    <li><a href="docs/desk/flagged.html">Flagged for review</a> — 14 items that could not be confirmed, including the fee model and the missing demo account. Nothing is inferred to fill a gap.</li>
-    <li><a href="docs/desk/requirements.html">Requirements matrix</a> — each requirement, its status and where it is implemented.</li>
-    <li><a href="docs/review/">Monitor's own review page</a> and <a href="docs/VERIFICATION.md">verification notes</a>.</li>
-  </ul>
+  <div id="kpiHost"><div class="kpi"><div class="card"><span class="label">Tracked markets</span><span class="value ">300</span><span class="foot">6,000 open events scanned</span></div><div class="card"><span class="label">Est. 24h notional · 5 topics</span><span class="value ">$1,962,098</span><span class="foot">last price × 24h volume, derived</span></div><div class="card"><span class="label">Open interest</span><span class="value ">181,248,669</span><span class="foot">sum of open_interest_fp</span></div><div class="card"><span class="label">Swing alerts archived</span><span class="value ">0</span><span class="foot">threshold ≥ $0.10</span></div><div class="card"><span class="label">High-ROI picks this cycle</span><span class="value ">0</span><span class="foot">model heuristic-v1, not a forecast</span></div><div class="card"><span class="label">Paper equity</span><span class="value down">$998.47</span><span class="foot">−1.53 vs $1,000.00 start</span></div></div><div class="banner warn" style="margin:2px 0 0"><b>Demo account not connected.</b><span class="grow">Positions, balances and fills below are simulated in an internal ledger. A Kalshi demo API key can only be created by the account holder, so nothing was invented in its place.</span></div></div>
 
-  <footer>
-    Demo and paper trading only — no production order path exists in this repository.
-    Kalshi market data belongs to Kalshi; see the
-    <a href="https://docs.kalshi.com/getting_started/api_environments">official API documentation</a>.
-    Source: <a href="https://github.com/kanlerxz87-cyber/Tradebot1">github.com/kanlerxz87-cyber/Tradebot1</a>.
-  </footer>
+  <section class="block" id="topics">
+    <h2 class="sec"><span class="num">01</span>Topics — pick a market, keep it in its lane</h2>
+    <p class="hint">
+      Each topic owns its own page: markets, events, series and resolutions stay grouped together.
+      Ranking inside a topic is <b>estimated 24-hour traded dollars</b> — last YES price × 24-hour contract
+      volume, summed per event. It is a derived figure, not exchange-reported turnover.
+      <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">Field definitions ↗</a>
+    </p>
+    <div class="topics" id="topicCards">
+<a class="topic" href="docs/desk/topics/gas-prices.html"><h3><span class="chip gas">Gas prices</span></h3><div class="tstats"><span><b>60</b> markets</span><span><b>9</b> events</span><span><b>$310,968</b> est. 24h</span></div><ol><li><span class="amt">$294,854</span> Will average gas prices be above $3.6300?</li><li><span class="amt">$12,419</span> Will average gas prices be above $3.45?</li><li><span class="amt">$2,651</span> Will Gasoline (All Types) in U.S. City Average for November 2…</li></ol><span class="go">Open the gas prices desk →</span><div class="note" style="font-size:10px;color:var(--muted)">Economics + Commodities categories, gas-price keyword fallback</div></a>
+<a class="topic" href="docs/desk/topics/elections.html"><h3><span class="chip elections">Elections</span></h3><div class="tstats"><span><b>60</b> markets</span><span><b>15</b> events</span><span><b>$156,297</b> est. 24h</span></div><ol><li><span class="amt">$53,846</span> Will the Democratic Party hold more than 52 seats in the 120t…</li><li><span class="amt">$36,598</span> Will Josh Shapiro be the Democratic Presidential nominee in 2…</li><li><span class="amt">$28,573</span> Will Ron DeSantis be the nominee for the Presidency for the R…</li></ol><span class="go">Open the elections desk →</span><div class="note" style="font-size:10px;color:var(--muted)">official Elections category</div></a>
+<a class="topic" href="docs/desk/topics/culture.html"><h3><span class="chip culture">Culture</span></h3><div class="tstats"><span><b>60</b> markets</span><span><b>30</b> events</span><span><b>$258,874</b> est. 24h</span></div><ol><li><span class="amt">$54,501</span> 2026 Game of the Year?</li><li><span class="amt">$38,738</span> Hexed Rotten Tomatoes score?</li><li><span class="amt">$32,458</span> The Hunger Games: Sunrise on the Reaping Rotten Tomatoes scor…</li></ol><span class="go">Open the culture desk →</span><div class="note" style="font-size:10px;color:var(--muted)">official Entertainment and Social categories — there is no Culture category</div></a>
+<a class="topic" href="docs/desk/topics/crypto.html"><h3><span class="chip crypto">Crypto</span></h3><div class="tstats"><span><b>60</b> markets</span><span><b>9</b> events</span><span><b>$1,100,355</b> est. 24h</span></div><ol><li><span class="amt">$537,603</span> Bitcoin price on Nov 22, 2026?</li><li><span class="amt">$183,991</span> Will BTC hit $50,000 before $100,000 by Dec 31, 2026?</li><li><span class="amt">$151,095</span> Bitcoin price on Nov 27, 2026?</li></ol><span class="go">Open the crypto desk →</span><div class="note" style="font-size:10px;color:var(--muted)">official Crypto category</div></a>
+<a class="topic" href="docs/desk/topics/golf.html"><h3><span class="chip golf">Golf</span></h3><div class="tstats"><span><b>60</b> markets</span><span><b>13</b> events</span><span><b>$135,604</b> est. 24h</span></div><ol><li><span class="amt">$56,356</span> The RSM Classic: Michael Thorbjornsen wins</li><li><span class="amt">$52,359</span> Will Rasmus Hojgaard shoot under 68.5 in Round 3?</li><li><span class="amt">$9,116</span> Denny McCarthy finishes top 20</li></ol><span class="go">Open the golf desk →</span><div class="note" style="font-size:10px;color:var(--muted)">Sports category, Golf tag, keyword fallback</div></a>
+    </div>
+  </section>
+
+  <section class="block" id="events">
+    <h2 class="sec"><span class="num">02</span>Highest-dollar live events</h2>
+    <p class="hint">
+      The ten largest open events across all five topics right now. Every row links to the official Kalshi
+      page for that series, and every market inside it carries its own API link on the live desk.
+    </p>
+    <div class="card tight"><div class="table-wrap" id="leaderboard">
+<table><thead><tr><th>Event</th><th>Topic</th><th class="num">Markets</th><th class="num">Est. 24h $</th><th class="num">Open interest</th><th>Closes</th><th>Source</th></tr></thead><tbody><tr><td><span class="title">Bitcoin price on Nov 22, 2026?</span><span class="meta mono">KXBTCD-26NOV2217</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">24</td><td class="num">$537,603</td><td class="num">525,920</td><td class="meta">2026-11-22 22:00</td><td class="src"><a href="https://kalshi.com/markets/kxbtcd" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">Will average gas prices be above $3.6300?</span><span class="meta mono">KXAAAGASW-26NOV23</span></td><td><span class="chip gas">Gas prices</span></td><td class="num">21</td><td class="num">$294,854</td><td class="num">833,697</td><td class="meta">2026-11-23 04:59</td><td class="src"><a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">Will BTC hit $50,000 before $100,000 by Dec 31, 2026?</span><span class="meta mono">KXBTC50VS100-BTC-26DEC31</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">1</td><td class="num">$183,991</td><td class="num">1,718,242</td><td class="meta">2027-01-01 04:59</td><td class="src"><a href="https://kalshi.com/markets/kxbtc50vs100" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">Bitcoin price on Nov 27, 2026?</span><span class="meta mono">KXBTCD-26NOV2717</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">17</td><td class="num">$151,095</td><td class="num">204,161</td><td class="meta">2026-11-27 22:00</td><td class="src"><a href="https://kalshi.com/markets/kxbtcd" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">Bitcoin price on Nov 22, 2026?</span><span class="meta mono">KXBTCD-26NOV2203</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">8</td><td class="num">$113,855</td><td class="num">127,291</td><td class="meta">2026-11-22 08:00</td><td class="src"><a href="https://kalshi.com/markets/kxbtcd" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">Will Bitcoin be below $55000.00 by Jan 1, 2027 at 12:00am ET?</span><span class="meta mono">KXBTCMINY-27JAN01</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">4</td><td class="num">$67,926</td><td class="num">2,000,653</td><td class="meta">2027-01-01 05:00</td><td class="src"><a href="https://kalshi.com/markets/kxbtcminy" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">The RSM Classic: Michael Thorbjornsen wins</span><span class="meta mono">KXPGATOUR-THRC26</span></td><td><span class="chip golf">Golf</span></td><td class="num">22</td><td class="num">$56,356</td><td class="num">9,483,009</td><td class="meta">2026-12-06 00:00</td><td class="src"><a href="https://kalshi.com/markets/kxpgatour" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">2026 Game of the Year?</span><span class="meta mono">KXGAMEAWARDS-2026</span></td><td><span class="chip culture">Culture</span></td><td class="num">2</td><td class="num">$54,501</td><td class="num">828,194</td><td class="meta">2027-12-31 15:00</td><td class="src"><a href="https://kalshi.com/markets/kxgameawards" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">Will the Democratic Party hold more than 52 seats in the 120th Congress?</span><span class="meta mono">KXDSENATESEATS-27</span></td><td><span class="chip elections">Elections</span></td><td class="num">1</td><td class="num">$53,846</td><td class="num">2,252,518</td><td class="meta">2027-02-01 15:00</td><td class="src"><a href="https://kalshi.com/markets/kxdsenateseats" target="_blank" rel="noopener">Kalshi</a></td></tr><tr><td><span class="title">Will Rasmus Hojgaard shoot under 68.5 in Round 3?</span><span class="meta mono">KXPGAROUNDSCORE-THRC26R3</span></td><td><span class="chip golf">Golf</span></td><td class="num">16</td><td class="num">$52,359</td><td class="num">74,303</td><td class="meta">2026-12-06 15:00</td><td class="src"><a href="https://kalshi.com/markets/kxpgaroundscore" target="_blank" rel="noopener">Kalshi</a></td></tr></tbody></table>
+    </div></div>
+  </section>
+
+  <section class="block" id="alerts">
+    <h2 class="sec"><span class="num">03</span>Live swing alerts — two scrolling chats</h2>
+    <p class="hint">
+      A chat fires when a contract moves <b>≥ $0.10</b> in either direction between two observations.
+      The left chat is every move; the right chat is only the moves the published model ranks as high ROI
+      (score ≥ 0.45, estimated ROI ≥ 6%, spread ≤ $0.06, 24h volume ≥ 100 contracts). Both scroll and both
+      keep scrolling as new cycles land.
+      <a href="docs/desk/strategies.html">How the model is built</a>
+    </p>
+    <div class="chats">
+      <div class="chat-shell">
+        <div class="chat-head">
+          <h3>All moves ≥ $0.10</h3><span class="chip">ALL</span>
+          <span class="sub">every qualifying swing in the archive</span>
+        </div>
+        <div class="chat-body" id="chatAll" role="log" aria-live="polite" aria-label="All swing alerts">
+<div class="chat-empty">No ≥ $0.10 swings recorded yet.<br>The chat fills as scheduled cycles detect moves — nothing is pre-seeded.</div>
+        </div>
+      </div>
+      <div class="chat-shell">
+        <div class="chat-head">
+          <h3>Model high-ROI subset</h3><span class="chip ok">FILTERED</span>
+          <span class="sub">the moves the model likes — not a forecast</span>
+        </div>
+        <div class="chat-body" id="chatModel" role="log" aria-live="polite" aria-label="Model-filtered swing alerts">
+<div class="chat-empty">No alert has passed the model filter yet.<br>It requires score ≥ 0.45, estimated ROI ≥ 6%, spread ≤ $0.06 and 24h volume ≥ 100 contracts.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="book">
+    <h2 class="sec"><span class="num">04</span>Simulated book and resolution tracker</h2>
+    <p class="hint">
+      Four strategies trade the same signals every cycle into an internal ledger. The book is <b>simulated</b>:
+      no Kalshi demo account is connected, so no demo balance, positions or fills exist to report.
+      Resolutions are read from the exchange's own <code>result</code> field once a market is finalized.
+    </p>
+    <div class="split">
+      <div class="card" id="paperPanel">
+<h3>Simulated book</h3><div class="kpi" style="grid-template-columns:repeat(auto-fit,minmax(120px,1fr))"><div class="card"><span class="label">Equity</span><span class="value">$998.47</span><span class="foot">start $1,000.00</span></div><div class="card"><span class="label">Total P&amp;L</span><span class="value down">−1.53</span><span class="foot">−0.15%</span></div><div class="card"><span class="label">Open positions</span><span class="value">12</span><span class="foot">cash $763.85</span></div><div class="card"><span class="label">Closed trades</span><span class="value">0</span><span class="foot">win rate 0.0%</span></div></div><div class="table-wrap" style="max-height:250px;margin-top:10px"><table><thead><tr><th>Open position</th><th>Topic</th><th class="num">Contracts</th><th class="num">Entry</th><th>Strategy</th><th>Source</th></tr></thead><tbody><tr><td><span class="title">Bitcoin price on Nov 27, 2026?</span><span class="meta mono">KXBTCD-26NOV2717-T52999.99</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">22</td><td class="num">90¢</td><td class="meta">Late favourite, hold to settl…</td><td class="src"><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T52999.99" target="_blank" rel="noopener">API</a></td></tr><tr><td><span class="title">Bitcoin price on Nov 27, 2026?</span><span class="meta mono">KXBTCD-26NOV2717-T53999.99</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">23</td><td class="num">86¢</td><td class="meta">Late favourite, hold to settl…</td><td class="src"><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T53999.99" target="_blank" rel="noopener">API</a></td></tr><tr><td><span class="title">Bitcoin price on Nov 27, 2026?</span><span class="meta mono">KXBTCD-26NOV2717-T52499.99</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">22</td><td class="num">90¢</td><td class="meta">Late favourite, hold to settl…</td><td class="src"><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T52499.99" target="_blank" rel="noopener">API</a></td></tr><tr><td><span class="title">Bitcoin price on Nov 27, 2026?</span><span class="meta mono">KXBTCD-26NOV2717-T51999.99</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">21</td><td class="num">92¢</td><td class="meta">Late favourite, hold to settl…</td><td class="src"><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T51999.99" target="_blank" rel="noopener">API</a></td></tr><tr><td><span class="title">Bitcoin price on Nov 22, 2026?</span><span class="meta mono">KXBTCD-26NOV2217-T57749.99</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">23</td><td class="num">86¢</td><td class="meta">Late favourite, hold to settl…</td><td class="src"><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T57749.99" target="_blank" rel="noopener">API</a></td></tr><tr><td><span class="title">Bitcoin price on Nov 22, 2026?</span><span class="meta mono">KXBTCD-26NOV2203-T58799.99</span></td><td><span class="chip crypto">Crypto</span></td><td class="num">22</td><td class="num">88¢</td><td class="meta">Late favourite, hold to settl…</td><td class="src"><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2203-T58799.99" target="_blank" rel="noopener">API</a></td></tr></tbody></table></div><div class="note" style="margin-top:10px">Fees modelled at 7% × contracts × price × (1 − price), rounded up to the cent — <b>unverified</b> against Kalshi's current fee schedule. <a href="docs/desk/flagged.html">See the flagged list</a>.</div>
+      </div>
+      <div class="card" id="resolvedPanel">
+<h3>Resolution tracker</h3><div class="chat-empty">No settled markets recorded yet. Every followed event is polled until Kalshi marks it finalized, then recorded as YES or NO from the exchange's own <code>result</code> field.</div><div class="note" style="margin-top:8px">Lifecycle reference: <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">docs.kalshi.com/getting_started/market_lifecycle</a></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="docs">
+    <h2 class="sec"><span class="num">05</span>Documentation and verification</h2>
+    <p class="hint">Read these before acting on anything above. The flagged list is short on purpose and none of it blocks the site.</p>
+    <div class="docs">
+      <a class="doc" href="docs/desk/executive-summary.html"><b>Executive summary</b><span>What was built, which API facts were verified, and what the numbers do and do not mean.</span></a>
+      <a class="doc" href="docs/desk/verification.html"><b>Verification log</b><span>25-claim source register, each with an official Kalshi link and a check date.</span></a>
+      <a class="doc" href="docs/desk/flagged.html"><b>Flagged for review</b><span>14 items that could not be confirmed — fee model, missing demo account, CORS, category mapping.</span></a>
+      <a class="doc" href="docs/desk/requirements.html"><b>Requirements matrix</b><span>Every line of the brief, its status, and where it is implemented.</span></a>
+      <a class="doc" href="docs/desk/strategies.html"><b>Strategies and ROI model</b><span>Four rule sets, the published scoring weights, and the live-site proposals.</span></a>
+      <a class="doc" href="docs/desk/api-reference.html"><b>API reference</b><span>Endpoints, authentication, orderbook shape and lifecycle fields used by the desk.</span></a>
+      <a class="doc" href="docs/desk/portfolio.html"><b>Portfolio analytics</b><span>P&amp;L by strategy, topic, price band, hold time and exit reason.</span></a>
+      <a class="doc" href="docs/desk/flagged.html#fees"><b>Fee model caveat</b><span>Fees are charged with an unverified formula and labelled as such on every ledger row.</span></a>
+    </div>
+  </section>
+
+  <section class="block" id="archive">
+    <h2 class="sec"><span class="num">06</span>Also in this repository</h2>
+    <p class="hint">
+      Parallel sessions built independent implementations of the same brief. They are kept, labelled, and
+      not merged into one another — this page is the only place they meet.
+    </p>
+    <div class="docs">
+      <a class="doc" href="docs/desk/index.html"><b>Research desk — primary</b><span>Collector-driven, production market data, 15-minute cycles, two chats, charts, orderbook, paper book, source-linked tables.</span></a>
+      <a class="doc archived" href="docs/"><b>Market monitor — demo API</b><span>Browser-side dashboard on the public demo environment. Real endpoints, but demo order books are empty, so depth is near-zero.</span></a>
+      <a class="doc archived" href="site/"><b>Prototype — archive</b><span>First standalone build with simulated fallback data and a local simulator. Its display values are not verified quotes.</span></a>
+
+    </div>
+  </section>
+
+  <section class="block" id="review">
+    <h2 class="sec"><span class="num">07</span>Flagged for review — integration level</h2>
+    <p class="hint">
+      These are irregularities found while auditing the combined repository, not any single
+      implementation's own list. Each is published here with its evidence so it can be reviewed after
+      the site is live. Nothing below blocks the deployment, and no value anywhere on this site is
+      inferred to fill a gap.
+    </p>
+    <div class="card tight"><div class="table-wrap">
+      <table class="review">
+        <thead><tr>
+          <th>ID</th><th>Severity</th><th>Finding</th><th>Evidence</th><th>Handling</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td class="id">I1</td><td><span class="chip warn">warn</span></td>
+            <td><span class="title">The site mixes production and demo market data.</span>
+              <span class="meta">The desk reads <code>external-api.kalshi.com</code> (production); the monitor reads <code>external-api.demo.kalshi.co</code> (demo). The same series can therefore show different prices on two pages.</span></td>
+            <td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">API environments</a> ·
+              <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/.github/workflows/collect.yml" target="_blank" rel="noopener">collect.yml</a></td>
+            <td><span class="meta">Disclosed on every page. Demo books are empty (I2), so production data is the only usable feed; the demo host is still wired and switchable by environment variable.</span></td>
+          </tr>
+          <tr>
+            <td class="id">I2</td><td><span class="chip warn">warn</span></td>
+            <td><span class="title">Demo order books are effectively empty.</span>
+              <span class="meta">On the published monitor, sampled contracts quote $0.00 / $1.00 or $0.01 / $0.99, so "contracts resting at a price" is real but near-zero. Any liquidity read from the demo host is not a trading signal.</span></td>
+            <td class="src"><a href="https://kanlerxz87-cyber.github.io/Tradebot1/docs/" target="_blank" rel="noopener">published monitor</a> ·
+              <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">orderbook shape</a></td>
+            <td><span class="meta">Liquidity panels always name their source host. The desk's depth ladder reads production books.</span></td>
+          </tr>
+          <tr>
+            <td class="id">I3</td><td><span class="chip">info</span></td>
+            <td><span class="title">The collector runs against production, not the demo account the brief names.</span>
+              <span class="meta"><code>KALSHI_DATA_ENV: prod</code> is set in the collection workflow. This was a deliberate choice (see I2) but it is a deviation from the brief and is recorded rather than hidden.</span></td>
+            <td class="src"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/.github/workflows/collect.yml" target="_blank" rel="noopener">collect.yml</a></td>
+            <td><span class="meta">Reversible by changing one environment variable; no code change required.</span></td>
+          </tr>
+          <tr>
+            <td class="id">I4</td><td><span class="chip warn">warn</span></td>
+            <td><span class="title">The monitor's committed seed snapshot was an empty stub.</span>
+              <span class="meta"><code>docs/data/snapshot.json</code> was committed as <code>{"generated_at":null,"partial":true,"events":[]}</code>, and the builder swallowed its own errors, so a failed fetch would publish an empty page while reporting success.</span></td>
+            <td class="src"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/scripts/build_snapshot.py" target="_blank" rel="noopener">build_snapshot.py</a></td>
+            <td><span class="meta">Fixed in this session: per-request isolation, partial results kept, both documented demo hosts tried, and a non-zero exit when nothing was collected.</span></td>
+          </tr>
+          <tr>
+            <td class="id">I5</td><td><span class="chip">info</span></td>
+            <td><span class="title">The published desk snapshot carried ten collection warnings.</span>
+              <span class="meta">The settled-market sweep sent <code>min_close_ts</code> as a float and Kalshi rejected it with HTTP 400. Fixed by PR #9; the snapshot shown here predates that fix.</span></td>
+            <td class="src"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/pull/9" target="_blank" rel="noopener">PR #9</a></td>
+            <td><span class="meta">Warnings are printed on the desk rather than suppressed. The next scheduled cycle clears them.</span></td>
+          </tr>
+          <tr>
+            <td class="id">I6</td><td><span class="chip">info</span></td>
+            <td><span class="title">Alert and resolution counts start at zero.</span>
+              <span class="meta">The collector has been running since 2026-11-22. Both chats and the resolution table fill as cycles accumulate; they are not pre-seeded with invented history.</span></td>
+            <td class="src"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions/workflows/collect.yml" target="_blank" rel="noopener">collection runs</a></td>
+            <td><span class="meta">Stated in place. No synthetic alerts were added to make the page look busier.</span></td>
+          </tr>
+          <tr>
+            <td class="id">I7</td><td><span class="chip warn">warn</span></td>
+            <td><span class="title">Carried forward: fee model unverified, demo account not connected, browser CORS untested.</span>
+              <span class="meta">These belong to the desk and are documented there with their own sources. They are repeated here so a reader of this page does not have to find them.</span></td>
+            <td class="src"><a href="docs/desk/flagged.html" target="_blank" rel="noopener">desk flagged page</a></td>
+            <td><span class="meta">Ledger rows are labelled <code>fee_model=quadratic_unverified</code>; the dashboard shows an explicit "not connected" block; the UI reports the CORS test result honestly.</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div></div>
+    <div id="collectionWarnings"><div class="banner warn" style="margin-top:12px"><b>10 collection warning(s) in the published snapshot.</b><span class="grow"><ul style="margin:4px 0 0;padding-left:16px"><li>settled CLOSESTSTATE: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: in…</li><li>settled CONTROLH: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: invali…</li><li>settled CONTROLS: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: invali…</li><li>settled ECMOV: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: invalid s…</li><li>settled GOVPARTYFL: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: inva…</li><li>settled GOVPARTYNJ: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: inva…</li><li>settled GOVPARTYTX: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: inva…</li><li>settled KXAAAGASD: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: inval…</li><li>settled KXAAAGASDAR: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: inv…</li><li>settled KXAAAGASDAZ: KalshiAPIError: HTTP 400 on /markets: {&quot;msg&quot;:&quot;Invalid format for parameter min_close_ts: error binding string parameter: strconv.ParseInt: parsing \&quot;1793517419.0\&quot;: inv…</li></ul>These are printed, not suppressed. A failed request never becomes an invented value.</span></div></div>
+  </section>
+
+  <section class="block" id="sources">
+    <h2 class="sec"><span class="num">08</span>Official sources used by this page</h2>
+    <div class="card"><div class="table-wrap">
+      <table>
+        <thead><tr><th>Fact relied on</th><th>Official source</th><th class="num">Checked</th></tr></thead>
+        <tbody>
+          <tr><td><span class="title">Demo and production REST hosts</span><span class="meta">Both documented demo hosts are wired into the monitor's snapshot builder.</span></td>
+              <td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a></td><td class="num">2026-11-22</td></tr>
+          <tr><td><span class="title">Market fields: price, bid, ask, volume, open interest, close time</span></td>
+              <td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-markets</a></td><td class="num">2026-11-22</td></tr>
+          <tr><td><span class="title">Resolution: <code>result</code> is yes/no once finalized</span></td>
+              <td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">docs.kalshi.com/getting_started/market_lifecycle</a></td><td class="num">2026-11-22</td></tr>
+          <tr><td><span class="title">Orderbook returns bids only; asks are implied</span></td>
+              <td class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a></td><td class="num">2026-11-22</td></tr>
+          <tr><td><span class="title">REST is cached and can lag seconds; WebSocket is the low-latency path</span></td>
+              <td class="src"><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_market_data</a></td><td class="num">2026-11-22</td></tr>
+        </tbody>
+      </table>
+    </div></div>
+  </section>
+
 </main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="row">
+      <a href="docs/desk/verification.html">Verification log</a>
+      <a href="docs/desk/flagged.html">Flagged for review</a>
+      <a href="docs/desk/requirements.html">Requirements matrix</a>
+      <a href="docs/desk/executive-summary.html">Executive summary</a>
+      <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">Repository</a>
+    </div>
+    <div>Independent research dashboard. Not affiliated with Kalshi. Not investment advice.</div>
+    <div>Market data: <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">Kalshi Trade API v2</a> ·
+      lifecycle: <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">market lifecycle</a> ·
+      orderbook: <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">orderbook responses</a>.</div>
+    <div>Page generated 2026-11-22 07:37 UTC from the published desk snapshot. Refreshes itself every 60 seconds while open.</div>
+  </div>
+</footer>
+
+<script src="assets/landing.js" defer></script>
 </body>
 </html>

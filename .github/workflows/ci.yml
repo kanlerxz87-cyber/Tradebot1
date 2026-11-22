@@ -46,6 +46,16 @@ jobs:
       - name: No broken internal links
         run: python tools/check_links.py
 
+      # Root landing page (session arena-bdc7dcee): generated from the published desk snapshot,
+      # so a stale or hand-edited table cannot reach the published site.
+      - name: Landing page is generated and current
+        run: |
+          python tools/build_landing.py --check
+          node --check assets/landing.js
+
+      - name: Landing page tests
+        run: node --test tests/*.test.mjs
+
       - name: No credentials in the tree
         run: |
           set -e
