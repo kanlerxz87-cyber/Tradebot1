@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Line-by-Line Audit — Kalshi Demo API Desk</title>
+  <link rel="stylesheet" href="../assets/live.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span>Kalshi Demo API Desk</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+    </div>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="active">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+  </div>
+</header>
+<main class="wrap">
+
+  <section class="hero">
+    <span class="badge warn">Line-by-Line Code &amp; API Audit · Every Row Linked to Official Source</span>
+    <h1>Line-by-Line Repository Review &amp; Upstream Kalshi Demo Irregularities</h1>
+    <p>
+      Every file across prior repository merges (`python/**`, `site/**`, `docs/**`, `kalshi_trader/**`) and every live response from
+      <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">external-api.demo.kalshi.co</a>
+      was audited line-by-line. Per multi-session coordination rules, prior sessions' directories were preserved untouched while clean V2 implementations were built in `kalshi_engine/` and `live/`.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Part 1 — Repository Code &amp; Deployment Findings (`R1`–`R12`)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>File &amp; Lines</th><th>Severity</th><th>Verified Finding &amp; Resolution in `kalshi_engine/` + `live/`</th><th>Official Source</th></tr></thead>
+        <tbody>
+        <tr>
+          <td class="mono"><strong>R1</strong></td>
+          <td class="mono">python/kalshi_client.py:25,53-56</td>
+          <td><span class="badge down">High (Auth 401)</span></td>
+          <td>Signs &#x27;/portfolio/balance&#x27; without &#x27;/trade-api/v2&#x27; prefix; fixed in kalshi_engine/kalshi_v2_client.py.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/api_keys.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R2</strong></td>
+          <td class="mono">python/kalshi_client.py:90-93</td>
+          <td><span class="badge down">High (HTTP 410)</span></td>
+          <td>Posts V1 schema to removed POST /portfolio/orders instead of V2 POST /portfolio/events/orders.</td>
+          <td><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R3</strong></td>
+          <td class="mono">site/assets/app.js:111,154 &amp; docs/VERIFICATION.md:A12</td>
+          <td><span class="badge down">High (Lifecycle Bug)</span></td>
+          <td>Checks market.status === &#x27;settled&#x27; (query filter) instead of &#x27;finalized&#x27; and never polls ?status=settled.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/market_lifecycle.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R4</strong></td>
+          <td class="mono">site/assets/app.js:50,183-196 &amp; python/simulator.py:39-55</td>
+          <td><span class="badge warn">Medium (No-Op Strategies)</span></td>
+          <td>Renders checkboxes/flags for favorite &amp; longshot strategies that execute zero trades.</td>
+          <td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/python/simulator.py" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R5</strong></td>
+          <td class="mono">site/assets/app.js:253</td>
+          <td><span class="badge warn">Medium (Orderbook Truncation)</span></td>
+          <td>Renders lowest $0.01 bids at top instead of [-1] best bid and truncates no_dollars when longer than yes_dollars.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R6</strong></td>
+          <td class="mono">site/assets/app.js:19-25</td>
+          <td><span class="badge warn">Medium (Topic False Positives)</span></td>
+          <td>Substring matching (&#x27;OPEN&#x27;, &#x27;SOL&#x27;, &#x27;OIL&#x27;, &#x27;BOOK&#x27;) misclassifies tennis/OpenAI/resolve/soil/sportsbook.</td>
+          <td><a href="https://docs.kalshi.com/api-reference/market/get-series-list.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R9</strong></td>
+          <td class="mono">docs/data/snapshot.json</td>
+          <td><span class="badge warn">Medium (Empty Legacy Snapshot)</span></td>
+          <td>Committed empty (events:[]) in git; legacy main:/ Pages serves empty JSON before browser polling.</td>
+          <td><a href="https://kanlerxz87-cyber.github.io/Tradebot1/docs/data/snapshot.json" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R10</strong></td>
+          <td class="mono">docs/assets/core.mjs:12,48</td>
+          <td><span class="badge warn">Low (Scalar Resolution)</span></td>
+          <td>Filters result to [&#x27;yes&#x27;,&#x27;no&#x27;] only, dropping finalized binary contracts with result=&#x27;scalar&#x27; ($0.5000).</td>
+          <td><a href="https://docs.kalshi.com/getting_started/market_lifecycle.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R11</strong></td>
+          <td class="mono">kalshi_trader/config.py:67 &amp; collect.yml:44</td>
+          <td><span class="badge warn">Medium (Prod vs Demo Feed)</span></td>
+          <td>Defaults KALSHI_DATA_ENV=&#x27;prod&#x27; (external-api.kalshi.com) rather than Kalshi Demo API; live/ provides verified Demo data.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R12</strong></td>
+          <td class="mono">kalshi_trader/fees.py:6-48</td>
+          <td><span class="badge warn">Low (Fee Rounding Spec)</span></td>
+          <td>Marks fee formula unverified (ceil_to_cent); official docs specify 6dp rounding + subpenny/cent accumulator.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Part 2 — Upstream Kalshi Demo API Irregularities (`U1`–`U5`)</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>ID</th><th>Upstream Demo Series / Endpoint</th><th>Observed Irregularity in Official Demo Payload</th><th>Official Source</th></tr></thead>
+        <tbody>
+        <tr>
+          <td class="mono"><strong>U1</strong></td>
+          <td class="mono">Series HOUSE / KXCANADALIBERAL / KXIRANCRUDE / KXAIRDROPMEGA / KXELONMARS-99</td>
+          <td>Demo test series contain placeholder settlement_sources (FAA ROCKET.pdf for US House, sfusd.edu for Canada PM, bls.gov for Iran crude, counterparty.io labeled Etherscan, wsj.com labeled Washington Post).</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections" target="_blank" rel="noopener">Live Kalshi Demo JSON ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>U2</strong></td>
+          <td class="mono">Series KXGOLFMAJORS / KXUSOPEN / KXPGAROUNDBIRDIES</td>
+          <td>Demo golf series settlement_sources contain unpopulated template text referencing Gonzaga Men&#x27;s Basketball with blank fields.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series?category=Sports&amp;tags=Golf" target="_blank" rel="noopener">Live Kalshi Demo JSON ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>U3</strong></td>
+          <td class="mono">Series KXDEMOFUTHOURLY</td>
+          <td>Demo hourly BTC series is tagged category=&#x27;Test&#x27; on exchange_index=0 rather than category=&#x27;Crypto&#x27; on shard 2.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXDEMOFUTHOURLY-26NOV22H08" target="_blank" rel="noopener">Live Kalshi Demo JSON ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>U4</strong></td>
+          <td class="mono">Event KXXISUCCESSOR-45JAN01</td>
+          <td>Binary contracts (market_type=&#x27;binary&#x27;) finalized with result=&#x27;scalar&#x27; and settlement_value_dollars=&#x27;0.5000&#x27;.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&amp;with_nested_markets=true&amp;limit=3" target="_blank" rel="noopener">Live Kalshi Demo JSON ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>U5</strong></td>
+          <td class="mono">Exchange Status Shard 3</td>
+          <td>exchange_instances[3] returns an empty string name (&#x27;&#x27;) while active.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Kalshi Demo JSON ↗</a></td>
+        </tr></tbody>
+      </table>
+    </div>
+  </section>
+
+
+<footer class="site-footer">
+  <div>
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Zero production order endpoints exist in this desk.
+  </div>
+  <div>
+    <a href="../flagged/index.html">Flagged for Review</a> ·
+    <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
+    <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>
+  </div>
+</footer>
+</main>
+
+</body>
+</html>

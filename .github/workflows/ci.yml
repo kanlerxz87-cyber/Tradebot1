@@ -46,6 +46,12 @@ jobs:
       - name: No broken internal links
         run: python tools/check_links.py
 
+      - name: Root gateway links are alive and published
+        run: python tools/check_gateway.py
+
+      - name: Engine site links and source links
+        run: python -m engine.check_site --root docs/engine
+
       - name: No credentials in the tree
         run: |
           set -e
@@ -123,3 +129,19 @@ jobs:
 
       - name: Every page renders its data with source links
         run: node scripts/check-render.mjs
+
+  demo-desk-v2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run kalshi_engine V2 unit tests and demo-desk/ link & source checks
+        run: |
+          python3 kalshi_engine/test_engine.py
+          python3 demo-desk/check_live_site.py
+          node --test demo-desk/test_live_core.mjs

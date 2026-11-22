@@ -34,7 +34,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>tools/alerts.mjs:39</code> — the guard as it now stands<pre>if (bid &lt;= 0 || ask &gt;= 1) return null;</pre></li><li><code>tests/alerts-strategies.test.mjs:35</code> — regression test<pre>AUD-01: one empty side is enough to disqualify a midpoint</pre></li><li><code>data/snapshot.json:160</code> — the captured shape that triggers it<pre>&quot;yesAsk&quot;: 1.0</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>null,null</code> against expected <code>null,null</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-05</a> · <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-07</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-05</a> · <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-07</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> node --test tests/alerts-strategies.test.mjs, then read Orderbook Responses: a bid of 0 or an ask of 1 is the absence of a level, not a price.</p>
 </article>
 <article class="finding" id="AUD-02">
@@ -49,7 +50,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>kalshi_trader/marketdata.py:94</code> — the guard, with the reciprocity cited in a comment<pre>if yes_ask is not None and yes_ask &gt;= 1.0 and not no_bid:</pre></li><li><code>tests/test_audit.py:42</code> — regression test on the captured shape<pre>test_empty_side_is_not_an_ask</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>null,0.3</code> against expected <code>null,0.3</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-05</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-05</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> python -m pytest tests/test_audit.py -q, then compare the two-sided fixture: a real 0.40 / 0.44 book still produces 0.42.</p>
 </article>
 <article class="finding" id="AUD-03">
@@ -62,9 +64,10 @@
   <p><strong>Impact.</strong> 'Track events until they resolve' could not work while every settled query was rejected, and an empty resolution table looks like a quiet week rather than an error.</p>
   <p><strong>Correction.</strong> The sweep now sends min_settled_ts with status=settled. A parallel session reached the same conclusion from the same table and landed the one-line change on main first (PR #16, with a per-topic series sweep and the same integer assertion); this branch therefore keeps main's implementation and its test rather than duplicating the edit. What this audit adds is the official statement behind it and a re-check that runs on every build.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:652</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:181</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:747</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:652</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:181</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:732</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>True,False,int</code> against expected <code>True,False,int</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Read the compatibility table in Get Markets, then python -m pytest tests/test_collector.py -q. The historical 400s are recorded in COORDINATION.md rather than in the working tree, because the data file was overwritten by later cycles.</p>
 </article>
 <article class="finding" id="AUD-04">
@@ -79,7 +82,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>tools/fees.mjs:23</code> — the disclosed difference, in the module that charges the fee<pre>ROUNDING CAVEAT</pre></li><li><code>kalshi_trader/fees.py:52</code> — the desk rounds to the cent too<pre>ceil(raw * 100.0</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>0.34,0.07</code> against expected <code>0.34,0.07</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Compare the table's 100-contract column with Fee Rounding's worked examples. A direct member's net fee on 100 contracts at $0.05 is $0.3325 before balance alignment, not $0.34.</p>
 </article>
 <article class="finding" id="AUD-05">
@@ -94,7 +98,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>tools/fees.mjs:81</code> — the corrected row<pre>[0.01, 0.01, 0.07]</pre></li><li><code>tests/fees.test.mjs:9</code> — asserts all of them<pre>the published table has 21 rows</pre></li><li><code>data/flags.json:33</code> — the board's flag, corrected<pre>Resolved 2026-11-22: the $0.01 fee row is reproducible</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>21,0,0.07</code> against expected <code>21,0,0.07</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Open the PDF's General Trading Fees Table and count the column headers, then node --test tests/fees.test.mjs.</p>
 </article>
 <article class="finding" id="AUD-06">
@@ -109,7 +114,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>docs/assets/core.mjs:14</code> — the deprecated read<pre>String(event?.category || '')</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">VF-21</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">VF-21</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own.</p>
 </article>
 <article class="finding" id="AUD-07">
@@ -124,7 +130,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>tools/topics.mjs:8</code> — the stale comment<pre>exactly 1 series</pre></li><li><code>data/snapshot.json:67</code> — the second series, in the capture<pre>KXXBANNEDMURRAYHILLGUY1</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/topics.mjs" target="_blank" rel="noopener noreferrer">tools/topics.mjs — the comment</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/snapshot.json" target="_blank" rel="noopener noreferrer">data/snapshot.json — discoveryProbes, the capture it disagrees with</a></p>
+  <p class="src"><strong>Why there is no official source.</strong> No official Kalshi page speaks to this: it is an internal disagreement between a comment and a capture taken from the same endpoint. The official statement underneath both is VF-01 (the demo root), which is why the comparison is possible at all.</p>
   <p class="src"><strong>Re-check it yourself:</strong> Read the Culture probe in data/snapshot.json -&gt; discoveryProbes and compare with the header comment in tools/topics.mjs.</p>
 </article>
 <article class="finding" id="AUD-08">
@@ -139,7 +146,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>scripts/build-site.mjs:135</code> — relative ages normalised<pre>'AGO'</pre></li><li><code>scripts/build-site.mjs:139</code> — the env-dependent build badge normalised<pre>build ID</pre></li><li><code>scripts/build-site.mjs:79</code> — where the difference came from<pre>buildId: process.env.GITHUB_SHA</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>exit 0</code> against expected <code>exit 0</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/scripts/build-site.mjs" target="_blank" rel="noopener noreferrer">scripts/build-site.mjs — the gate</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/pull/21" target="_blank" rel="noopener noreferrer">the audited branch's own CI failures</a></p>
+  <p class="src"><strong>Why there is no official source.</strong> No official Kalshi page applies: this finding is about this repository's own build gate. It is verified by executing the gate, and the result of that execution is printed above.</p>
   <p class="src"><strong>Re-check it yourself:</strong> node scripts/build-site.mjs --check exits 0, and GITHUB_SHA=abc1234 node scripts/build-site.mjs --check also exits 0; edit one data value and either exits 1.</p>
 </article>
 <article class="finding" id="AUD-09">
@@ -154,7 +162,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>kalshi_trader/collector.py:652</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
   <p class='check muted'>No executable check: this finding is a documentation reconciliation.</p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-10</a> · <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-10</a> · <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Read the two tables in Market Lifecycle: statuses returned by REST, then filter values and what they match.</p>
 </article>
 <article class="finding" id="AUD-10">
@@ -163,13 +172,14 @@
     <span class="pill st-open">Open — flagged</span> <span class="pill sev-low">low</span>
     <h3>Two sessions disagree about Culture, and both are right about different roots</h3>
   </header>
-  <p>One implementation reports that no Culture category exists and maps the topic to Entertainment; another captured GET /series?category=Culture against the demo root and got two series. The demo and production catalogues differ, so neither statement refutes the other, but a reader of the site sees only one of them at a time.</p>
+  <p>One implementation reports that no Culture category exists and maps the topic to Entertainment; another captured GET /series?category=Culture against the demo root and got two series. The demo and production catalogues differ, so neither statement refutes the other, but a reader of the site sees only one of them at a time. The two roots are not an error: VF-01 shows the demo and production Trade APIs are documented as separate environments with separate catalogues, so a category can exist in one and not the other.</p>
   <p><strong>Impact.</strong> A trader could believe culture coverage is missing when the demo catalogue has it, or vice versa. No number on any page is wrong.</p>
   
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>data/snapshot.json:35</code> — the demo catalogue probes, root-labelled<pre>DIESELM</pre></li></ul>
   <p class='check muted'>No executable check: this finding is a documentation reconciliation.</p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Read discoveryProbes in data/snapshot.json (root recorded per probe) next to docs/desk/topics/culture.html (production catalogue).</p>
 </article>
 <article class="finding" id="AUD-11">
@@ -184,14 +194,15 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>kalshi_trader/fees.py:34</code> — the label, after the parallel fix<pre>VERIFIED = True</pre></li><li><code>kalshi_trader/fees.py:43</code> — the rounding caveat, stated in the code<pre>rounds up to the cent, which never understates the fee</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-18</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-18</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Compare TAKER_RATE and MAKER_RATE in kalshi_trader/fees.py with the two formulas in the fee schedule PDF, then read AUD-04 for the rounding difference that remains.</p>
 </article>
 <article class="finding" id="AUD-12">
   <header>
     <span class="mono id">AUD-12</span>
     <span class="pill st-open">Open — flagged</span> <span class="pill sev-low">low</span>
-    <h3>`or` fallbacks hide a genuine zero quote behind the legacy field</h3>
+    <h3>or-fallbacks hide a genuine zero quote behind the legacy field</h3>
   </header>
   <p>Values are read as first_float(...) or price_from_cents(...). A leg whose real fixed-point value is 0.0 is falsy, so the reader falls through to the legacy cent field, which may be absent (None) or stale. The result is None or an old price where the true value is zero.</p>
   <p><strong>Impact.</strong> Low: zero prices are the boundary of the book, and downstream guards treat them as an empty side anyway. It is still the wrong way to choose between two representations.</p>
@@ -199,7 +210,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>kalshi_trader/marketdata.py:74</code> — the pattern<pre>first_float(market, &quot;yes_bid_dollars&quot;) or price_from_cents</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">VF-09</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">VF-09</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) returns 0.42, not 0.0. Use an explicit None check instead of `or`.</p>
 </article>
 <article class="finding" id="AUD-13">
@@ -214,7 +226,8 @@
   <h4>Evidence in this repository</h4>
   <ul class="evidence"><li><code>kalshi_trader/config.py:24</code> — the current default<pre>api.elections.kalshi.com</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
-  <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-03</a></p>
+  <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-03</a></p>
+  
   <p class="src"><strong>Re-check it yourself:</strong> Read the environment table in API Environments and Endpoints, column 'Also supported'.</p>
 </article>
 
