@@ -27,6 +27,7 @@ GATEWAY = ROOT / "index.html"
 PUBLISHED_PREFIXES = ("docs/", "site/", "assets/", "categories/", "data/", "board.html", "dashboard.html")
 PUBLISHED_ROOT_PAGES = {
     "index.html",
+    "audit.html",
     "board.html",
     "dashboard.html",
     "markets.html",
@@ -48,8 +49,8 @@ LINK = re.compile(r'(?:href|src)="([^"]+)"')
 
 def resolves(target: str) -> bool:
     path = target.split("#", 1)[0].split("?", 1)[0]
-    if not path:
-        return True  # pure anchor
+    if not path or path in (".", "./"):
+        return True  # pure anchor / self-reference
     if path.endswith("/"):
         return (ROOT / path / "index.html").is_file()
     return (ROOT / path).exists()
@@ -57,6 +58,8 @@ def resolves(target: str) -> bool:
 
 def is_published(target: str) -> bool:
     path = target.split("#", 1)[0].split("?", 1)[0]
+    if path in (".", "./", ""):
+        return True
     if path in PUBLISHED_ROOT_PAGES:
         return True
     return any(path.startswith(prefix) for prefix in PUBLISHED_PREFIXES)
@@ -73,6 +76,8 @@ def main() -> int:
     for raw in LINK.findall(html):
         if raw.startswith(("http://", "https://", "mailto:", "#")):
             continue
+        if raw.startswith("'") or raw.startswith('"'):
+            continue  # a JS expression inside an inline script, not a rendered link
         checked += 1
         if not resolves(raw):
             problems.append(f"dead local link: {raw}")
@@ -90,9 +95,11 @@ def main() -> int:
         if required not in html:
             problems.append(f"gateway does not link to {why} ({required})")
 
-    for phrase in ("Demo and paper trading only", "Flagged for review"):
-        if phrase.lower() not in html.lower():
-            problems.append(f"gateway is missing the required disclaimer/link: {phrase!r}")
+    lowered = html.lower()
+    if "paper" not in lowered or "no production order path" not in lowered:
+        problems.append("gateway is missing the demo/paper-only disclaimer")
+    if "flagged for review" not in lowered:
+        problems.append("gateway is missing a link to the Flagged for review page")
 
     if problems:
         for problem in problems:

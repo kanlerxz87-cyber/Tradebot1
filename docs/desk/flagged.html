@@ -187,6 +187,26 @@
     <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Nothing to resolve; recorded for auditability.</div>
     <div class="links small" style="margin-top:6px"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fcae9e3388b1bd7fd433fac1500630b4140" target="_blank" rel="noopener">github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fc</a></div>
   </td>
+</tr><tr id="F15">
+  <td class="ticker">F15</td>
+  <td><span class="chip warn">warn</span></td>
+  <td>
+    <b>Per-series fee multipliers and maker fees are not applied; rounding is cent-level only</b>
+    <div class="meta" style="margin-top:4px">The simulator applies the general schedule to every series. Kalshi&#x27;s schedule lists per-series multipliers — 0 for fee-free series such as KXBTCY and KXETHY, and the series API returns fee_multiplier for each one — so a fee-free series would be overcharged in simulation. Maker fills are not modelled at all (the gas, PGA Tour and US Open series are quadratic_with_maker_fees), and the schedule&#x27;s own fee rounding is six-decimal with a rebate accumulator, while this ledger rounds the trade fee up to the cent.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Ledger entries therefore overstate fees slightly, and would overstate them materially on a fee-free series. The independent audit on docs/audit/fee-audit.html recomputed all 21 rows of the general table (21/21 match) and checked the ledger for records on multiplier-0 series: 0 records, $0.00, so the error is latent rather than realised so far.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Read fee_multiplier per series before sizing, call maker_fee() when a strategy rests an order, and model the six-decimal trade fee plus rebate accumulator.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a> · <a href="https://kalshi.com/fee-schedule" target="_blank" rel="noopener">kalshi.com/fee-schedule</a> · <a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-series</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">docs.kalshi.com/getting_started/fee_rounding</a></div>
+  </td>
+</tr><tr id="F16">
+  <td class="ticker">F16</td>
+  <td><span class="chip warn">warn</span></td>
+  <td>
+    <b>Alert attribution to a catalyst link is not causal</b>
+    <div class="meta" style="margin-top:4px">Each ≥ $0.10 alert carries a link to the market&#x27;s official Kalshi page and its API record, which is what the brief asks for (a link to what may have caused the move). No news source, timestamp correlation or causal claim is published, because none was verified against an official source.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Alerts show the market&#x27;s own page and rule text; the news feed in app/news.py is not published as evidence.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Add a verified news source per alert (headline, publisher, timestamp, URL) only when the link can be checked.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-markets</a></div>
+  </td>
 </tr></tbody></table></div>
 <!-- DATA:END --></div>
 

@@ -1,27 +1,39 @@
 # Tradebot1 — Kalshi demo-environment research
 
+[Start here](https://kanlerxz87-cyber.github.io/Tradebot1/) (landing: live status, topics, evidence) ·
 [Research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
-[Trade board](https://kanlerxz87-cyber.github.io/Tradebot1/board.html) ·
+[Integration audit](https://kanlerxz87-cyber.github.io/Tradebot1/audit.html) ·
+[Fee audit](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) ·
 [Engine view](https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/) ·
-[Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
 [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/executive-summary.html) ·
 [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) ·
+[Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
 [Prototype](https://kanlerxz87-cyber.github.io/Tradebot1/site/)
 
-The repository began as a one-line README. Parallel sessions built four independent implementations of
-the same brief; all are kept, because they make different trade-offs and each is useful in its own way.
-Start at the [gateway](https://kanlerxz87-cyber.github.io/Tradebot1/) — it explains which is which.
+The repository began as a one-line README. Parallel sessions built independent implementations of the
+same brief; both are kept, because they make different trade-offs and each is useful in its own way.
 
 | Path | What it is | Data source |
 | - | - | - |
 | **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 15 min |
-| `board.html`, `categories/` | **Trade board** — Node, no runtime dependencies: resting-dollar ranking, two auto-scrolling alert feeds, 60s–24h chart, order-book ladder, five strategies | public demo REST, collected server-side |
-| `docs/engine/` | **Engine view** — the Python engine's own site: 39-entry verification register, five topic tables, both alert feeds, six-strategy fee-exact simulator | captured API responses (replay) + a live engine |
 | `docs/` | **Market monitor** — browser-side dashboard, no backend | public demo REST polled from the visitor's browser |
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
+| `board.html`, `dashboard.html` | Node-only trade board and its live page, with their own collector, source register and 17 flags | public demo REST, collected server-side every 30 min |
+| `audit.html` | **Integration audit** — checks re-run, five defects found and fixed (with regression tests), requirement coverage, open irregularities | reads the committed snapshot |
+| `docs/engine/` | **Engine view** — the Python engine's own site: 39-entry verification register, five topic tables, both alert feeds, six-strategy fee-exact simulator | captured API responses (replay) + a live engine |
+| `docs/audit/fee-audit.html` | **Fee audit** — all 21 rows of Kalshi's published general fee table recomputed with `kalshi_trader/fees.py`, plus the per-series multiplier limits | the schedule PDF + the committed ledger |
 
-No frontend touches a real demo account, and no production order path exists anywhere in the
+> The landing page is the single entry point: it shows the latest published cycle, per-topic counts and
+> the newest swing, all read from `docs/desk/data/*.json`. It prints “—” rather than estimating a value the
+> snapshot does not contain.
+
+Neither frontend touches a real demo account, and no production order path exists anywhere in the
 repository.
+
+**Fee model status:** verified. `kalshi_trader/fees.py` reproduces all 42 values of Kalshi's published
+General Trading Fees Table (<https://kalshi.com/docs/kalshi-fee-schedule.pdf>, effective 2026-07-07), so
+ledgers are labelled `quadratic_verified`. Per-series multipliers, maker fills and the rebate accumulator
+are still not modelled — flags F15 and the audit page record that.
 
 ## Research desk (`docs/desk/`)
 
@@ -125,37 +137,33 @@ demo account, and the board keeps its own separate data under `data/`. Verificat
   session `arena-39ef3867`. The prototype's simulated display values are **not** verified quotes.
 - [`python/README.md`](python/README.md) describes a credentialed local demo client. Never put a private
   key in this repository, the public site or localStorage.
-- The **trade board** above (`board.html` and its pages) was merged by session `9bea7e55`; the
-  **engine view** (`docs/engine/`, `app/`, `engine/`) was built by session `arena-7ae1c34f` and integrated
-  by session `arena/daf65d06-tradebot1`, which also restored the trade board to the Pages artifact after
-  the engine branch had dropped it.
-- The **fee schedule** was retrieved and checked value by value on 2026-11-22: 42/42 rows of the
-  published General Trading Fees Table reproduce with `kalshi_trader/fees.py`, so the fee model is now
-  labelled `quadratic_verified` instead of `quadratic_unverified`.
+- The **trade board** above (`board.html` and its pages) was merged by session `9bea7e55`.
 - [`COORDINATION.md`](COORDINATION.md) records owners, verification and cross-session merge handling.
   The landing page at `/` links every implementation and none of them replaced another.
 
 ## Verification and local preview
 
 ```sh
-python3 -m pytest -q                      # desk + engine unit tests
-node --test tests/*.test.mjs              # board unit tests
+python3 -m pytest -q                      # desk + engine unit tests (144)
+node --test tests/*.test.mjs              # board unit tests (36)
+node scripts/check-data.mjs               # board data contract
 node scripts/build-site.mjs --check       # board pages match templates + data
-node scripts/check-links.mjs              # board internal links
-node scripts/check-render.mjs             # every board row keeps its source link
+node scripts/check-links.mjs              # board internal links (19 pages)
+node scripts/check-render.mjs             # every rendered row keeps its source link
 python3 tools/build_site.py --check       # desk pages are current
-python3 tools/check_links.py              # desk internal links + anchors
-python3 tools/check_gateway.py            # root gateway links resolve and are published
+python3 tools/check_links.py              # desk links + anchors
+python3 tools/check_gateway.py            # landing-page links resolve and are published
 python3 -m engine.check_site --root docs/engine
+python3 docs/audit/build.py --check       # fee table recomputation, row by row
 python3 tests/check_site.py
 python3 python/test_simulator.py
 python3 -m kalshi_trader.cli verify       # published data integrity
 python3 -m http.server 8000 --bind 0.0.0.0
 ```
 
-Open `http://localhost:8000/` for the gateway, `/docs/desk/` for the research desk, `/board.html` for the
-trade board, `/docs/engine/` for the engine view or `/docs/` for the monitor. `npm install` is only needed
-for the board's jsdom-based render check.
+Open `http://localhost:8000/` for the landing page, `/docs/desk/` for the research desk, `/board.html`
+for the trade board, `/docs/engine/` for the engine view or `/docs/` for the monitor. `npm install` is
+only needed for the board's jsdom render check.
 
 ## Official sources checked 2026-11-22
 
@@ -170,15 +178,10 @@ for the board's jsdom-based render check.
   [WebSockets](https://docs.kalshi.com/getting_started/quick_start_websockets)
 - [Series/event/market terms and the KXAAAGASM scheme](https://docs.kalshi.com/getting_started/terms) ·
   [category → tag map](https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories)
-- [Fee schedule (effective 2026-07-07)](https://kalshi.com/docs/kalshi-fee-schedule.pdf) ·
-  [fee rounding](https://docs.kalshi.com/getting_started/fee_rounding) ·
-  [fixed-point fields](https://docs.kalshi.com/getting_started/fixed_point_migration)
-- [Demo environment: mock funds, separate credentials, prices may not mirror production](https://docs.kalshi.com/getting_started/demo_env)
 
 ## Limits
 
-No authenticated demo portfolio, no executed orders, no calibrated ROI model and no verified
-news→price causality. The fee *formula* is verified against Kalshi's published schedule; per-series
-multipliers and the rebate accumulator are not modelled. The Pages setting is legacy `main /` and the Pages API rejects
+No authenticated demo portfolio, no executed orders, no verified fee schedule, no calibrated ROI model
+and no verified news→price causality. The Pages setting is legacy `main /` and the Pages API rejects
 `build_type` changes from this token (HTTP 403); the root `index.html` is the gateway to both dashboards.
 See the [Flagged for Review page](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html).

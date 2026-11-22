@@ -164,6 +164,31 @@
         "https://github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fcae9e3388b1bd7fd433fac1500630b4140"
       ],
       "resolve": "Nothing to resolve; recorded for auditability."
+    },
+    {
+      "id": "F15",
+      "severity": "warn",
+      "title": "Per-series fee multipliers and maker fees are not applied; rounding is cent-level only",
+      "detail": "The simulator applies the general schedule to every series. Kalshi's schedule lists per-series multipliers — 0 for fee-free series such as KXBTCY and KXETHY, and the series API returns fee_multiplier for each one — so a fee-free series would be overcharged in simulation. Maker fills are not modelled at all (the gas, PGA Tour and US Open series are quadratic_with_maker_fees), and the schedule's own fee rounding is six-decimal with a rebate accumulator, while this ledger rounds the trade fee up to the cent.",
+      "handling": "Ledger entries therefore overstate fees slightly, and would overstate them materially on a fee-free series. The independent audit on docs/audit/fee-audit.html recomputed all 21 rows of the general table (21/21 match) and checked the ledger for records on multiplier-0 series: 0 records, $0.00, so the error is latent rather than realised so far.",
+      "sources": [
+        "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+        "https://kalshi.com/fee-schedule",
+        "https://docs.kalshi.com/api-reference/market/get-series",
+        "https://docs.kalshi.com/getting_started/fee_rounding"
+      ],
+      "resolve": "Read fee_multiplier per series before sizing, call maker_fee() when a strategy rests an order, and model the six-decimal trade fee plus rebate accumulator."
+    },
+    {
+      "id": "F16",
+      "severity": "warn",
+      "title": "Alert attribution to a catalyst link is not causal",
+      "detail": "Each ≥ $0.10 alert carries a link to the market's official Kalshi page and its API record, which is what the brief asks for (a link to what may have caused the move). No news source, timestamp correlation or causal claim is published, because none was verified against an official source.",
+      "handling": "Alerts show the market's own page and rule text; the news feed in app/news.py is not published as evidence.",
+      "sources": [
+        "https://docs.kalshi.com/api-reference/market/get-markets"
+      ],
+      "resolve": "Add a verified news source per alert (headline, publisher, timestamp, URL) only when the link can be checked."
     }
   ]
 }
