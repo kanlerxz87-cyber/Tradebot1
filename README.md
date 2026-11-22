@@ -2,7 +2,7 @@
 
 [Start here](https://kanlerxz87-cyber.github.io/Tradebot1/) (landing: live status, topics, evidence) ·
 [Research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
-[Demo API & Custom Strategy Desk](https://kanlerxz87-cyber.github.io/Tradebot1/live/) ·
+[Demo API & Custom Strategy Desk](https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/) ·
 [Repository review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/repo-review.html) ·
 [Integration audit](https://kanlerxz87-cyber.github.io/Tradebot1/audit.html) ·
 [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/executive-summary.html) ·
@@ -16,7 +16,7 @@ same brief; both are kept, because they make different trade-offs and each is us
 | Path | What it is | Data source |
 | - | - | - |
 | **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 30 min |
-| **`live/`** + **`kalshi_engine/`** | **Demo API & Custom Strategy Desk** — verified Kalshi Demo (`external-api.demo.kalshi.co`) open/settled contracts, 5-second `KXDEMOFUTHOURLY` trade-print replay, interactive custom strategy builder by trade type, 6dp fee-rounding accumulator, `scalar` settlement support, and line-by-line audit (`audit/`) | committed verified Kalshi Demo REST snapshot + optional local V2 REST/WS relay |
+| **`demo-desk/`** + **`kalshi_engine/`** | **Demo API & Custom Strategy Desk** — verified Kalshi Demo (`external-api.demo.kalshi.co`) open/settled contracts, 5-second `KXDEMOFUTHOURLY` trade-print replay, interactive custom strategy builder by trade type, 6dp fee-rounding accumulator, `scalar` settlement support, and line-by-line audit (`audit/`) | committed verified Kalshi Demo REST snapshot + optional local V2 REST/WS relay |
 | `docs/` | **Market monitor** — browser-side dashboard, no backend | public demo REST polled from the visitor's browser |
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
 | `board.html`, `dashboard.html` | Node-only trade board and its live page, with their own collector, source register and 17 flags | public demo REST, collected server-side every 30 min |

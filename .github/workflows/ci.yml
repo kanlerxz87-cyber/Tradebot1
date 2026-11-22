@@ -100,8 +100,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
-      - name: Run kalshi_engine V2 unit tests and live/ link & source checks
+      - name: Run kalshi_engine V2 unit tests and demo-desk/ link & source checks
         run: |
           python3 kalshi_engine/test_engine.py
-          python3 live/check_live_site.py
-          node --test live/test_live_core.mjs
+          python3 demo-desk/check_live_site.py
+          node --test demo-desk/test_live_core.mjs
