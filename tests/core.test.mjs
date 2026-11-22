@@ -16,11 +16,13 @@ test('only supported topics, no presumptive ROI', () => {
   assert.equal(topicFor({category:'Elections',title:'Presidential election 2028?'}), 'elections');
   assert.equal(topicFor({title:'Golf: PGA winner?'}), 'golf');
   assert.equal(topicFor({title:'Fed rate decision'}), null);
-  assert.equal(qualifies({ status:'active',yes_bid_dollars:'0.40',yes_ask_dollars:'0.45',volume_24h_fp:'101' }),true);
-  assert.equal(qualifies({ status:'active',yes_bid_dollars:'0.40',yes_ask_dollars:'0.90',volume_24h_fp:'101' }),false);
+  assert.equal(qualifies({ status:'active',yes_bid_dollars:'0.40',yes_ask_dollars:'0.44',yes_ask_size_fp:'10' }),true);
+  assert.equal(qualifies({ status:'active',yes_bid_dollars:'0.40',yes_ask_dollars:'0.90',yes_ask_size_fp:'100' }),false);
+  assert.equal(estimate({last_price_dollars:'0.50',volume_24h_fp:'1000'}), null);
+  assert.equal(estimate({dollar_volume:123}),123);
 });
 test('resolution and paper P&L never pretend unconfirmed outcome', () => {
-  const m={ticker:'X',event_ticker:'E',status:'active',yes_ask_dollars:'0.56',yes_bid_dollars:'0.53'};
+  const m={ticker:'X',event_ticker:'E',status:'active',yes_ask_dollars:'0.56',yes_bid_dollars:'0.53',yes_ask_size_fp:'10'};
   const t=paperBuy(m,'crypto','screen'); assert.equal(t.entry, .56);
   assert.ok(Math.abs(paperPnl(t,m) + .03)<1e-9);
   assert.equal(resolution({...m,status:'closed',result:'yes'}),null);
