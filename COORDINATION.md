@@ -443,3 +443,19 @@ board marks T1–T9 done and its PR #9 is merged; defects 1–5 above are user-v
 the brief explicitly asks for, and the fixes are minimal and test-covered. This session therefore fixed
 them in place rather than leaving the primary dashboard broken, kept every one of that session's tests
 passing, and recorded it here. Nothing of theirs was removed or rewritten.
+
+### Merge and hygiene log — `arena-89a39032`
+
+- 2026-11-22: merged `origin/main` twice while working (PRs #8, #10, #11, #12 landed during the session).
+  Conflicts were `index.html` (this session's consolidated landing vs the multi-card gateway) and
+  `COORDINATION.md` (append-only). Resolution: the consolidated landing was kept and the engine site that
+  PR #10 added was added to its "other implementations" table, so no session's site disappeared from the
+  navigation; both board records were kept, this one last. No other session's file was discarded.
+- 2026-11-22: **repo hygiene irregularity found and fixed.** `main` was tracking 3884 files under `.venv/`
+  and 1762 `__pycache__/*.pyc` binaries (~100 MB of generated content) although `.gitignore` lists `.venv/`
+  and `__pycache__/`. Untracked with `git rm --cached`; files remain on disk, no source/data/test file was
+  affected. Flagged on `audit.html`. Root cause is a commit made with `git add -f` or `-A` after a local
+  install; the ignore rules were already correct.
+- 2026-11-22: merged tree re-checked after each merge — `pytest` 146 passed, `npm test` 36 passed,
+  `check:links` 19 pages / 644 refs, `check:data` valid, `tools/check_links.py` 301 links / 13 pages,
+  `build_site --check` current, `tests/check_site.py` 37 pages.
