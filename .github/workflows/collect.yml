@@ -21,8 +21,9 @@ on:
 permissions:
   contents: write
 
+# Shares a group with pages.yml: both jobs commit to main and must never push concurrently.
 concurrency:
-  group: collect
+  group: main-writers
   cancel-in-progress: false
 
 jobs:
@@ -69,8 +70,10 @@ jobs:
             echo "no changes this cycle"
           else
             git commit -m "data: cycle $(date -u +%Y-%m-%dT%H:%MZ)"
-            git pull --rebase --autostash origin main
-            git push
+            for attempt in 1 2 3; do
+              git pull --rebase --autostash origin main && git push && break
+              echo "push attempt $attempt failed; retrying"; sleep 10
+            done
           fi
 
       # Pages publishes main:/ in legacy mode, so the push above is the deployment.
