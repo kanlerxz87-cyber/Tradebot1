@@ -375,7 +375,13 @@ async function main() {
 
   // 8. write
   const feed = await loadJson(FEED_FILE, { alerts: [], runs: [] });
-  const merged = dedupeById([...(feed.alerts ?? []), ...newAlerts]).sort((a, b) => String(b.observedAt).localeCompare(String(a.observedAt)));
+  const mergedAll = dedupeById([...(feed.alerts ?? []), ...newAlerts]).sort((a, b) => String(b.observedAt).localeCompare(String(a.observedAt)));
+  // The seed feed ships one labelled "worked example" so the page layout had a row
+  // to render before the first real observation. Once at least one genuine
+  // two-observation swing exists, the example is dropped: a live alert chat should
+  // not carry a row that is not a live alert.
+  const realAlerts = mergedAll.filter((a) => !a.isDemoExample);
+  const merged = realAlerts.length ? realAlerts : mergedAll;
   const filtered = rankForFilteredFeed(merged.filter((a) => a.eligibleForFilteredFeed === true));
 
   const nextState = {
@@ -421,6 +427,9 @@ async function main() {
       markets: markets.length, observations: observations.length,
       newAlerts: newAlerts.length, newPositions: opened, settledPositions: settled,
       errors: Object.values(discovery).flatMap((d) => d.errors).length + Object.values(coverage).flatMap((c) => c.errors).length,
+      // Pacing and 429 handling, so a partly-rate-limited cycle is visible in the record
+      // instead of surfacing only as an unexplained shortfall of markets per topic.
+      requests: typeof client.stats === 'function' ? client.stats() : null,
     }].slice(-200),
     observations: observations.map(stripForFeed),
   };
