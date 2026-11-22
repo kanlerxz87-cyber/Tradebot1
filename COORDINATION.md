@@ -285,3 +285,38 @@ gained **no** edits from this session. Consequences, all deliberate:
    snapshot" workflow fills it. Both workflows only ever read.
 3. If one implementation must eventually win, the landing page is the place to decide it — not a
    session's own claim row.
+
+---
+
+# Session `arena/daf65d06-tradebot1` — final integration (this session)
+
+**Branch:** `arena/daf65d06-tradebot1`, branched from `521e795` (PR #9 merge). Merged `origin/main` (PR #8 Node board, `c8c1d28`) into this branch without switching branches; merge was clean.
+
+## Claim
+
+| Task | Status | Owner | Files touched |
+| --- | --- | --- | --- |
+| Final integration: re-verify combined data line-by-line, confirm build has no broken links, review/merge PR #10 (engine), create integration PR to main, merge, confirm Pages deploy | in progress | arena/daf65d06-tradebot1 | `COORDINATION.md`, `README.md`, `index.html`, `EXECUTIVE_SUMMARY.md`, `docs/desk/data/flags.json` (only if fee verification changes), integration fixes as needed |
+
+Scope is integration-only: no new dashboard, no rewrite of `docs/desk/`, `docs/`, `board.html`, `site/`, `python/`, `kalshi_trader/`, `tools/`, `app/`/`engine/` (PR #10). If a fix requires a file owned by another session, log it here instead of editing.
+
+## Verification performed so far (2026-11-22)
+
+- `python3 -m pytest -q` → 53 passed (after `pip install --break-system-packages -r requirements-dev.txt`).
+- `python3 tools/build_site.py --check` → generated output is current.
+- `python3 tools/check_links.py` → OK, 269 internal links, 13 pages.
+- `node --test tests/*.test.mjs` → 4 pass (pre-merge set; re-run post-merge below).
+- `python3 tests/check_site.py` → Verified 21 HTML pages.
+- `python3 python/test_simulator.py` → All simulator tests passed.
+- `python3 -m kalshi_trader.cli verify` → OK (all data files pass integrity).
+- Sandbox network: `curl` to `external-api.kalshi.com`, `external-api.demo.kalshi.co`, `docs.kalshi.com` all return `000` (no route from this sandbox). Corroborates flag F5. No live values were fetched from here; all market values below come from committed snapshots collected by GitHub Actions.
+- `gh api repos/.../pages` → `build_type: legacy`, source `main /`, status `building` at check time. Pages API `PUT` previously returned 403 (see log above); deployment relies on legacy build.
+- Open PR #10 (`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) — checks pass (build + test). Under review by this integration session; merge decision recorded below.
+
+## Irregularities found during integration
+
+1. `docs/desk/data/meta.json` `errors[]` (10 entries): settled sweep failed with `HTTP 400 ... min_close_ts ... parsing "1793517419.0"` — float timestamp rejected by the API. PR #9 ("fix(collector): integer min_close_ts") is already merged at the base commit; the committed snapshot predates the fix's first successful cycle. No code change needed here; next scheduled cycle should clear the errors. Flagged for observation, not blocking.
+2. `docs/desk/data/alerts.json` is empty (`items: []`) and `resolved.json` is empty — correct per the no-hallucination rule (no ≥ $0.10 swing observed between the two committed cycles; no finalized markets in the tracked set yet). Not a bug.
+3. `docs/desk/data/paper.json`: 12 open paper positions, 0 closed trades, equity $998.47 on $1,000 — consistent with a book opened in the first cycles and not yet settled. Not a bug.
+4. Four parallel implementations now exist (`docs/desk/`, `docs/`, root `board.html`, `site/`) plus PR #10's `docs/engine/` pending. Gateway `index.html` lists three + archive; if PR #10 merges, a fifth card is needed (PR #10 already adds one — verify on merge).
+
