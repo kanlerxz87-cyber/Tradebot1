@@ -1,0 +1,183 @@
+/* chart.js — dependency-free canvas price chart.
+   X axis: time (selectable window). Y axis: contract price ($0.00–$1.00). */
+'use strict';
+
+class PriceChart {
+  constructor(canvas, opts = {}) {
+    this.canvas = canvas;
+    this.ctx = canvas.getContext('2d');
+    this.points = [];                 // [{t: ms, p: dollars}]
+    this.rangeSec = opts.rangeSec || 300;   // visible window
+    this.keepMs = 6 * 3600 * 1000;    // retain up to 6h of points
+    this.hover = null;
+    this.maxPoints = 4000;
+    canvas.addEventListener('mousemove', (e) => this.onHover(e));
+    canvas.addEventListener('mouseleave', () => { this.hover = null; this.draw(); });
+    window.addEventListener('resize', () => this.draw());
+  }
+
+  setRange(sec) { this.rangeSec = sec; this.draw(); }
+
+  clear() { this.points = []; this.draw(); }
+
+  addPoint(t, p) {
+    if (p == null || !Number.isFinite(p)) return;
+    const last = this.points[this.points.length - 1];
+    if (last && Math.abs(last.t - t) < 50 && Math.abs(last.p - p) < 1e-9) { /* dedupe */ } else {
+      this.points.push({ t, p });
+    }
+    const cutoff = Date.now() - this.keepMs;
+    while (this.points.length > 2 && this.points[0].t < cutoff) this.points.shift();
+    if (this.points.length > this.maxPoints) this.points.splice(0, this.points.length - this.maxPoints);
+    this.draw();
+  }
+
+  backfill(points) { // points: [{t, p}]
+    for (const pt of points) if (pt.p != null && Number.isFinite(pt.p)) this.points.push(pt);
+    this.points.sort((a, b) => a.t - b.t);
+    this.draw();
+  }
+
+  onHover(e) {
+    const rect = this.canvas.getBoundingClientRect();
+    this.hover = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    this.draw();
+  }
+
+  resize() {
+    const dpr = window.devicePixelRatio || 1;
+    const rect = this.canvas.getBoundingClientRect();
+    if (rect.width === 0) return false;
+    this.canvas.width = Math.round(rect.width * dpr);
+    this.canvas.height = Math.round(rect.height * dpr);
+    this.ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    this.W = rect.width; this.H = rect.height;
+    return true;
+  }
+
+  timeLabel(t, rangeSec) {
+    if (rangeSec <= 120) return new Date(t).toLocaleTimeString('en-US', { hour12: false, minute: '2-digit', second: '2-digit' });
+    if (rangeSec <= 7200) return new Date(t).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+    return new Date(t).toLocaleDateString('en-US', { month: 'short', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false });
+  }
+
+  draw() {
+    if (!this.resize()) return;
+    const { ctx, W, H } = this;
+    const padL = 46, padR = 12, padT = 14, padB = 26;
+    const iw = W - padL - padR, ih = H - padT - padB;
+    ctx.clearRect(0, 0, W, H);
+
+    const now = Date.now();
+    const t0 = now - this.rangeSec * 1000;
+    const inWindow = this.points.filter(pt => pt.t >= t0 && pt.t <= now + 1000);
+
+    // --- Y axis grid + labels ($0.00..$1.00) ---
+    ctx.font = '11px ui-monospace, Menlo, Consolas, monospace';
+    ctx.textBaseline = 'middle';
+    for (let i = 0; i <= 10; i += 1) {
+      const price = i / 10;
+      const y = padT + ih - price * ih;
+      const major = i % 2 === 0;
+      ctx.strokeStyle = major ? '#243154' : '#1a2440';
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(padL, y); ctx.lineTo(W - padR, y); ctx.stroke();
+      if (major) {
+        ctx.fillStyle = '#8b96b8';
+        ctx.fillText('$' + price.toFixed(2), 6, y);
+      }
+    }
+
+    // --- axis titles ---
+    ctx.save();
+    ctx.translate(12, padT + ih / 2); ctx.rotate(-Math.PI / 2);
+    ctx.fillStyle = '#5d688f'; ctx.fillText('Contract price', -34, 0);
+    ctx.restore();
+
+    // --- X axis ticks ---
+    const tickN = Math.min(6, Math.max(3, Math.floor(iw / 110)));
+    ctx.textBaseline = 'top';
+    for (let i = 0; i <= tickN; i++) {
+      const t = t0 + (this.rangeSec * 1000 * i) / tickN;
+      const x = padL + (iw * i) / tickN;
+      ctx.strokeStyle = '#1a2440';
+      ctx.beginPath(); ctx.moveTo(x, padT + ih); ctx.lineTo(x, padT + ih + 4); ctx.stroke();
+      ctx.fillStyle = '#8b96b8';
+      const label = this.timeLabel(t, this.rangeSec);
+      const w = ctx.measureText(label).width;
+      ctx.fillText(label, Math.min(Math.max(x - w / 2, padL - 10), W - padR - w), padT + ih + 8);
+    }
+
+    // helper: map data→pixels
+    const X = (t) => padL + ((t - t0) / (this.rangeSec * 1000)) * iw;
+    const Y = (p) => padT + (1 - p) * ih;
+
+    if (inWindow.length < 2) {
+      ctx.fillStyle = '#5d688f';
+      ctx.font = '13px -apple-system, Segoe UI, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(this.points.length ? 'Waiting for more data in this window…' : 'No price points yet — data loads from the Kalshi demo API.', padL + iw / 2, padT + ih / 2);
+      ctx.textAlign = 'left';
+      // draw axes frame
+      ctx.strokeStyle = '#243154'; ctx.strokeRect(padL, padT, iw, ih);
+      return;
+    }
+
+    // --- area fill + line ---
+    ctx.beginPath();
+    ctx.moveTo(X(inWindow[0].t), Y(inWindow[0].p));
+    for (let i = 1; i < inWindow.length; i++) ctx.lineTo(X(inWindow[i].t), Y(inWindow[i].p));
+    const grad = ctx.createLinearGradient(0, padT, 0, padT + ih);
+    grad.addColorStop(0, 'rgba(0, 221, 148, 0.28)');
+    grad.addColorStop(1, 'rgba(0, 221, 148, 0.01)');
+    ctx.save();
+    ctx.lineTo(X(inWindow[inWindow.length - 1].t), padT + ih);
+    ctx.lineTo(X(inWindow[0].t), padT + ih);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+    ctx.restore();
+
+    ctx.beginPath();
+    ctx.moveTo(X(inWindow[0].t), Y(inWindow[0].p));
+    for (let i = 1; i < inWindow.length; i++) ctx.lineTo(X(inWindow[i].t), Y(inWindow[i].p));
+    ctx.strokeStyle = '#00dd94';
+    ctx.lineWidth = 2;
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+    ctx.strokeStyle = '#243154'; ctx.lineWidth = 1;
+    ctx.strokeRect(padL, padT, iw, ih);
+
+    // --- last price marker ---
+    const last = inWindow[inWindow.length - 1];
+    ctx.beginPath(); ctx.arc(X(last.t), Y(last.p), 4, 0, Math.PI * 2);
+    ctx.fillStyle = '#00dd94'; ctx.fill();
+    ctx.strokeStyle = '#04120a'; ctx.stroke();
+
+    // --- hover crosshair ---
+    if (this.hover && this.hover.x >= padL && this.hover.x <= padL + iw) {
+      const targetT = t0 + ((this.hover.x - padL) / iw) * this.rangeSec * 1000;
+      let nearest = inWindow[0], best = Infinity;
+      for (const pt of inWindow) {
+        const d = Math.abs(pt.t - targetT);
+        if (d < best) { best = d; nearest = pt; }
+      }
+      const x = X(nearest.t), y = Y(nearest.p);
+      ctx.setLineDash([4, 4]);
+      ctx.strokeStyle = '#5aa9ff';
+      ctx.beginPath(); ctx.moveTo(x, padT); ctx.lineTo(x, padT + ih); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(x, y, 5, 0, Math.PI * 2); ctx.fillStyle = '#5aa9ff'; ctx.fill();
+      const text = `$${nearest.p.toFixed(4)}  ·  ${new Date(nearest.t).toLocaleTimeString('en-US', { hour12: false })}`;
+      ctx.font = '12px ui-monospace, Menlo, Consolas, monospace';
+      const tw = ctx.measureText(text).width + 14;
+      const bx = Math.min(Math.max(x - tw / 2, padL), W - padR - tw);
+      const by = padT + 2;
+      ctx.fillStyle = 'rgba(14, 21, 38, 0.92)';
+      ctx.fillRect(bx, by, tw, 20);
+      ctx.strokeStyle = '#5aa9ff'; ctx.strokeRect(bx, by, tw, 20);
+      ctx.fillStyle = '#dfe6ff'; ctx.textBaseline = 'middle';
+      ctx.fillText(text, bx + 7, by + 10);
+    }
+  }
+}

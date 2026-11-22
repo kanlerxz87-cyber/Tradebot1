@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Strategy Lab — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="Monte-Carlo backtests of five strategy archetypes (momentum, mean reversion, model high-ROI, tail favorite, scalp) across gas, elections, culture, crypto and golf, with per-topic and per-trade-type analysis.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>.equity-wrap{position:relative;height:260px}.equity-wrap canvas{width:100%;height:100%;display:block}</style>
+</head>
+<body data-page="strategies.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:14px; flex-wrap:wrap">
+    <div>
+      <h1 class="page-title">Strategy Lab</h1>
+      <p class="page-sub">Simulated trade execution for five strategy archetypes across the five verticals. Backtests are <strong>Monte Carlo simulations on seeded synthetic paths</strong> (reproducible; honest harness — not an edge and not investment advice). Fees use the Kalshi taker formula <code>roundup(0.07 × C × P × (1−P))</code>. Held-to-resolution positions pay no exit fee.</p>
+    </div>
+    <div style="display:flex; gap:8px; padding-top:8px">
+      <button id="rerunBtn" class="btn primary">⟳ Re-run with new seed</button>
+      <button id="exportTradesBtn" class="btn">⬇ Export trades CSV</button>
+    </div>
+  </div>
+
+  <p class="small muted" id="simSummary" style="margin:0 2px 12px">Running simulation…</p>
+  <p class="small muted" style="margin:0 2px 16px">Seed: <code id="seedLabel">—</code> · Contracts per trade: <code>10</code> · Starting bankroll: <code>$10,000</code> · Paths per market: <code>20</code> × 15 markets across 5 topics · Max concurrent positions/strategy: <code>5</code> · Steps per path: <code>240</code>.</p>
+
+  <h2 class="section-title">Results by strategy</h2>
+  <div class="card">
+    <div class="table-wrap"><table id="strategyTable">
+      <thead><tr><th>Strategy</th><th class="num">Trades</th><th class="num">Win rate</th><th class="num">Total P&amp;L</th><th class="num">Avg ROI</th><th class="num">Profit factor</th><th class="num">Max drawdown</th></tr></thead>
+      <tbody><tr class="empty-row"><td colspan="7">Simulating…</td></tr></tbody>
+    </table></div>
+    <p class="small muted" style="margin:8px 2px 0">Profit factor = gross winnings ÷ gross losses. Max drawdown = largest peak-to-trough equity decline per strategy.</p>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:16px">
+    <div class="card">
+      <h2>P&amp;L matrix — strategy × topic</h2>
+      <div class="table-wrap"><table id="topicMatrix"><thead><tr><th>Topic</th><th class="num">…</th></tr></thead><tbody></tbody></table></div>
+    </div>
+    <div class="card">
+      <h2>Results by trade type</h2>
+      <div class="table-wrap"><table id="typeTable">
+        <thead><tr><th>Trade type</th><th class="num">Trades</th><th class="num">Win rate</th><th class="num">Total P&amp;L</th></tr></thead>
+        <tbody></tbody>
+      </table></div>
+      <p class="small muted" style="margin:8px 2px 0">Trade type = the archetype that generated the entry. Use this to see <em>which kind</em> of trade this harness rewards, then re-spec the rules per vertical.</p>
+    </div>
+  </div>
+
+  <div class="grid cols-2" style="margin-top:16px; align-items:start">
+    <div class="card">
+      <h2>Equity curves (per strategy)</h2>
+      <div class="equity-wrap"><canvas id="equityChart" role="img" aria-label="Cumulative P&amp;L per strategy"></canvas></div>
+      <div id="equityLegend" style="margin-top:10px; display:flex; gap:6px; flex-wrap:wrap"></div>
+    </div>
+    <div class="card">
+      <h2>Auto-generated insights</h2>
+      <ul id="autoInsights" class="muted" style="margin:0; padding-left:18px"><li>Simulating…</li></ul>
+      <div class="callout warn" style="margin-top:10px"><strong>Read this first.</strong> Synthetic paths contain no real market alpha. A profitable backtest here means the harness works and the fee model is right — validate any candidate rule on the live dashboard and the paper ledger before sizing up, even on the demo exchange.</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Live scanner — what the model would look at right now</h2>
+    <p class="small muted" style="margin-top:-4px">Best-effort live pull from the public demo endpoints, sorted by volume, filtered to the five verticals. Requires connectivity from this browser.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Topic</th><th>Event</th><th>Ticker</th><th class="num">Last</th><th class="num">Spread</th><th class="num">Volume</th><th class="num">ROI if YES</th></tr></thead>
+      <tbody id="liveScanBody"><tr class="empty-row"><td colspan="7">Scanning…</td></tr></tbody>
+    </table></div>
+    <p class="small muted" id="liveScanNote" style="margin:8px 2px 0"></p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>From simulation to the demo account</h2>
+    <ol class="muted" style="margin:0; padding-left:18px">
+      <li>Watch the <a href="dashboard.html">Live Dashboard</a> feeds; the model-approved feed is the same score family used by the “Model High-ROI” archetype.</li>
+      <li>Size with the paper ledger (<a href="portfolio.html">Portfolio → Paper</a>) — positions marked to the live demo API.</li>
+      <li>When a rule survives, enable demo execution in <a href="portfolio.html">Portfolio → Settings</a> (demo keys, stored only in your browser) and use “Demo-account buy YES” on the dashboard.</li>
+      <li>Review fills, realized P&amp;L and per-topic attribution in <a href="portfolio.html">Portfolio → Demo account</a>.</li>
+    </ol>
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/topics.js"></script>
+<script src="assets/js/kalshi.js"></script>
+<script src="assets/js/simulated-feed.js"></script>
+<script src="assets/js/strategies.js"></script>
+</body>
+</html>
