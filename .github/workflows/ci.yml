@@ -66,6 +66,9 @@ jobs:
       # the fee model still reproduces the published table.
       - name: Verify the live console under docs/live
         run: |
+          # Unit tests need nothing; the render tests load the real modules in jsdom, which the
+          # Node job installs and this job does not, so it is installed here explicitly.
+          npm install --no-audit --no-fund
           node --test docs/live/tests/*.test.mjs
           python3 docs/live/check_live.py
 
