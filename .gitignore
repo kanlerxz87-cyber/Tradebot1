@@ -5,6 +5,7 @@ __pycache__/
 *.py[cod]
 *.egg-info/
 .venv/
+*.egg-info/
 venv/
 .pytest_cache/
 .mypy_cache/
@@ -38,4 +39,7 @@ coverage/
 # Build output kept in git on purpose: docs/ is the published GitHub Pages site.
 
 # Python virtualenv
-.venv/
+
+# Python bytecode and caches are never source
+**/__pycache__/
+*.pyc

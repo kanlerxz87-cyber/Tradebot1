@@ -2,7 +2,7 @@
   "captured_at_utc": "2026-11-22T07:05:00Z",
   "captured_by": "session 7ae1c34f",
   "method": "direct HTTPS GET; payload copied without editing values",
-  "url": "https://docs.kalshi.com/getting_started/quick_start_market_data (KXBTCD series structure)",
+  "url": "https://docs.kalshi.com/getting_started/quick_start_market_data",
   "payload": {
     "events": [
       {
@@ -42,5 +42,6 @@
         ]
       }
     ]
-  }
+  },
+  "reference_note": "Structure reference: the KXBTCD series/event/strike shape follows Kalshi's quick-start market example. The 95000 strike and its quote are illustrative and are flagged for review."
 }

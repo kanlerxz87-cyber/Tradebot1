@@ -13,9 +13,22 @@ To activate, set these repository secrets / environment variables:
 Then set ``KALSHI_EXECUTION=demo``. The next scheduled cycle will read the demo balance and
 positions and mirror new simulated entries as real demo orders.
 
-Order body and endpoint verified against
-https://docs.kalshi.com/getting_started/quick_start_create_order
-(``POST /portfolio/events/orders``).
+Order body and endpoint verified 2026-11-22 against
+
+* ``POST /portfolio/events/orders`` — the V2 create-order endpoint
+  (https://docs.kalshi.com/api-reference/orders/create-order-v2.md). Required body fields are
+  ``ticker``, ``side``, ``count``, ``price``, ``time_in_force`` and
+  ``self_trade_prevention_type``; ``count`` is a fixed-point string (2 dp) and ``price`` a
+  fixed-point dollar string (up to 4 dp). A ``201`` means the order was **accepted**, not
+  that it is resting, so ``remaining_count`` must be read from the response.
+* ``side`` is the **book side**, not the outcome: ``bid`` ≡ yes, ``ask`` ≡ no, always
+  (https://docs.kalshi.com/getting_started/order_direction.md). Buying NO is therefore
+  ``side="ask"`` at a *no-leg* price, which is what :meth:`place_order` sends.
+* The worked example in https://docs.kalshi.com/getting_started/quick_start_create_order
+  sends ``side: "bid"`` with ``price: "0.0100"``.
+
+:meth:`place_order` returns the exchange ``remaining_count``/``fill_count`` rather than
+assuming a fill, because a resting order is not a position.
 """
 
 from __future__ import annotations
@@ -110,17 +123,35 @@ class DemoAccount:
         client = self.client
         if client is None:
             return {"ok": False, "error": "not_configured"}
+        # Snap to the whole-cent grid. Kalshi validates against the market's own price_ranges
+        # grid (https://docs.kalshi.com/getting_started/fixed_point_migration); whole cents are
+        # valid in every documented structure, so this is safe but conservative and is flagged.
         price = f"{max(0.01, min(0.99, round(limit_price * 100) / 100)):.4f}"
+        # book_side, not outcome: bid == yes, ask == no (order_direction.md). The price sent is
+        # the price of the book being bought, i.e. a no-leg price when buying NO.
         body_side = "bid" if side == "yes" else "ask"
+        count_fp = f"{float(int(contracts)):.2f}"
         try:
             response = client.create_order(
                 ticker=ticker,
                 side=body_side,
-                count=str(int(contracts)),
+                count=count_fp,
                 price=price,
                 client_order_id=client_order_id or str(uuid.uuid4()),
             )
         except Exception as exc:
             self.last_error = f"{type(exc).__name__}: {exc}"
             return {"ok": False, "error": self.last_error}
-        return {"ok": True, "order": response, "price": price, "side": body_side, "count": int(contracts)}
+        remaining = response.get("remaining_count") if isinstance(response, dict) else None
+        filled = response.get("fill_count") if isinstance(response, dict) else None
+        return {
+            "ok": True,
+            "order": response,
+            "price": price,
+            "side": body_side,
+            "count": int(contracts),
+            "fill_count": filled,
+            "remaining_count": remaining,
+            # A 201 is acceptance; only fill_count > 0 means the demo book actually holds it.
+            "resting": remaining not in (None, "0.00", "0", 0),
+        }

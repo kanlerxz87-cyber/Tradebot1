@@ -103,6 +103,17 @@ def test_culture_page_explains_an_empty_topic_honestly(built):
     assert "instead of inventing a price" in html
 
 
+def test_portal_backlink_is_reported_not_failed():
+    """A link above the site root points at the hosting portal; it must be reported,
+    never silently treated as a broken internal link, and never fail the build."""
+    from engine.check_site import _climbs_out
+    from pathlib import Path
+    root = Path("/site").resolve()
+    assert _climbs_out(root / "index.html", root, "../../index.html") is True
+    assert _climbs_out(root / "topics/gas.html", root, "../flagged.html") is False
+    assert _climbs_out(root / "index.html", root, "topics/gas.html") is False
+
+
 def test_no_markdown_emphasis_leaks_into_titles(built):
     _, data = built
     payload = json.loads((data / "dashboard.json").read_text())

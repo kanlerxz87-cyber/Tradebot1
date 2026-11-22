@@ -1,0 +1,252 @@
+{
+  "generated_at": "2026-11-22T07:34:35Z",
+  "counts": {
+    "error": 0,
+    "warn": 3,
+    "info": 9
+  },
+  "checked": [
+    "docs/desk/data/latest.json: markets, books, topics, alerts",
+    "docs/desk latest.json: 300 rows, price bounds",
+    "docs/desk/data/alerts.json: 1 alerts",
+    "docs/desk/data/history.json: 62 tracked series, sample length 2",
+    "data/snapshot.json: 8 markets",
+    "board data/snapshot.json: 8 rows, price bounds",
+    "data/account.json: connected=False",
+    "docs/data/snapshot.json: 0 events, partial=True",
+    "monitor docs/data/snapshot.json: 0 rows, price bounds",
+    "67 HTML pages, 1179 internal references",
+    "tracked files: 244, bytecode/cache artefacts: 0",
+    "tools/build_site.py --check (run separately by CI; reports current)",
+    "secret scan: 6656 paths"
+  ],
+  "findings": [
+    {
+      "id": "BOOK-1",
+      "severity": "warn",
+      "code": "BOOK",
+      "title": "Published ladder is a partial view of the book",
+      "detail": "The reported total depth is larger than the sum of the levels printed in the same payload, and one row's top-of-book total disagrees with its first level. The ladder is monotonic and every level is within $0.00-$1.00, so this is a display-truncation issue rather than a corrupt quote \u2014 but a page must not print the ladder total and the depth total as if they were the same number.",
+      "count": 8,
+      "examples": [
+        {
+          "ticker": "KXAAAGASW-26NOV23-3.6300",
+          "problems": [
+            "yes_depth_contracts 10908.16 != ladder sum 10372.16"
+          ]
+        },
+        {
+          "ticker": "KXDSENATESEATS-27-ABOVE52",
+          "problems": [
+            "yes_depth_contracts 80029.84 != ladder sum 73529.84"
+          ]
+        },
+        {
+          "ticker": "KXGAMEAWARDS-2026-GTA",
+          "problems": [
+            "yes_depth_contracts 40645.37 != ladder sum 40605.37"
+          ]
+        },
+        {
+          "ticker": "KXBTC15M-26NOV220230-30",
+          "problems": [
+            "yes_depth_contracts 40978.45 != ladder sum 33048.59"
+          ]
+        },
+        {
+          "ticker": "KXBTC50VS100-BTC-26DEC31",
+          "problems": [
+            "yes_depth_contracts 9590.62 != ladder sum 9489.62"
+          ]
+        },
+        {
+          "ticker": "KXBTCD-26NOV2217-T56999.99",
+          "problems": [
+            "yes_depth_contracts 21983.19 != ladder sum 21823.09"
+          ]
+        }
+      ],
+      "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "action": "Recompute from the raw payload or blank the derived field."
+    },
+    {
+      "id": "DERIVED-1",
+      "severity": "warn",
+      "code": "DERIVED",
+      "title": "Estimated 24h notional was computed from a different price than the row prints",
+      "detail": "24h volume x the row's own price differs from the printed estimate on 15 row(s); the largest gap is 32.2%. The implied price is the previous mid, so the notional was fixed before the row's quote was refreshed.",
+      "count": 15,
+      "examples": [
+        {
+          "ticker": "KXAAAGASW-26NOV23-3.6350",
+          "volume_24h": 89765.86,
+          "printed_price": 0.3,
+          "implied_price_used": 0.29,
+          "stated": 26032.1,
+          "recomputed": 26929.76
+        },
+        {
+          "ticker": "KXOSCARNOMPIC-27-PRO",
+          "volume_24h": 4933.57,
+          "printed_price": 0.705,
+          "implied_price_used": 0.7,
+          "stated": 3453.5,
+          "recomputed": 3478.17
+        },
+        {
+          "ticker": "KXRT-IPL-89",
+          "volume_24h": 3750.18,
+          "printed_price": 0.405,
+          "implied_price_used": 0.4,
+          "stated": 1500.07,
+          "recomputed": 1518.82
+        },
+        {
+          "ticker": "KXBTC15M-26NOV220230-30",
+          "volume_24h": 784790.55,
+          "printed_price": 0.295,
+          "implied_price_used": 0.435,
+          "stated": 341383.89,
+          "recomputed": 231513.21
+        },
+        {
+          "ticker": "KXBTC50VS100-BTC-26DEC31",
+          "volume_24h": 461274.64,
+          "printed_price": 0.39,
+          "implied_price_used": 0.4,
+          "stated": 184509.86,
+          "recomputed": 179897.11
+        },
+        {
+          "ticker": "KXETH15M-26NOV220230-30",
+          "volume_24h": 40138.47,
+          "printed_price": 0.735,
+          "implied_price_used": 0.705,
+          "stated": 28297.62,
+          "recomputed": 29501.78
+        }
+      ],
+      "source": "docs/desk/data/latest.json",
+      "action": "Recompute the estimate after the final quote is applied, or label it as measured at an earlier time. The direction of the number is unaffected; the exact dollar figure is."
+    },
+    {
+      "id": "STATUS-1",
+      "severity": "info",
+      "code": "STATUS",
+      "title": "Status values match the documented lifecycle",
+      "detail": "Observed: active. The lifecycle page lists these statuses and maps the open/settled request filters onto active/finalized.",
+      "count": 1,
+      "examples": [
+        "active"
+      ],
+      "source": "https://docs.kalshi.com/getting_started/market_lifecycle",
+      "action": ""
+    },
+    {
+      "id": "PROVENANCE-1",
+      "severity": "warn",
+      "code": "PROVENANCE",
+      "title": "Research-desk capture comes from the production root",
+      "detail": "rest_base is https://external-api.kalshi.com/trade-api/v2, while the brief asks for the demo environment and the Node board's capture uses the demo root. Production and demo catalogues and quotes differ (https://docs.kalshi.com/getting_started/demo_env), so a page mixing the two must say which is which.",
+      "count": 0,
+      "examples": [],
+      "source": "docs/desk/data/latest.json",
+      "action": "Label the environment on every page that renders this capture, as the live desk does in /api/meta."
+    },
+    {
+      "id": "MISSING-1",
+      "severity": "info",
+      "code": "MISSING",
+      "title": "docs/desk/data/positions.json not present",
+      "detail": "Dataset is absent on this branch; its checks were skipped.",
+      "count": 0,
+      "examples": [],
+      "source": "docs/desk/data/positions.json",
+      "action": ""
+    },
+    {
+      "id": "EMPTY-1",
+      "severity": "info",
+      "code": "EMPTY",
+      "title": "Monitor snapshot holds no markets",
+      "detail": "The page then renders an empty watchlist.",
+      "count": 0,
+      "examples": [],
+      "source": "docs/data/snapshot.json",
+      "action": ""
+    },
+    {
+      "id": "EXTERNAL-1",
+      "severity": "info",
+      "code": "EXTERNAL",
+      "title": "External link outside the official-source list",
+      "detail": "dashboard.html links to www.cfbenchmarks.com. Not a Kalshi source; kept for context.",
+      "count": 1,
+      "examples": [
+        "https://www.cfbenchmarks.com/"
+      ],
+      "source": "dashboard.html",
+      "action": ""
+    },
+    {
+      "id": "EXTERNAL-2",
+      "severity": "info",
+      "code": "EXTERNAL",
+      "title": "External link outside the official-source list",
+      "detail": "dashboard.html links to www.livgolf.com. Not a Kalshi source; kept for context.",
+      "count": 1,
+      "examples": [
+        "https://www.livgolf.com/"
+      ],
+      "source": "dashboard.html",
+      "action": ""
+    },
+    {
+      "id": "EXTERNAL-3",
+      "severity": "info",
+      "code": "EXTERNAL",
+      "title": "External link outside the official-source list",
+      "detail": "docs/engine/verification.html links to api.github.com. Not a Kalshi source; kept for context.",
+      "count": 1,
+      "examples": [
+        "https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages"
+      ],
+      "source": "docs/engine/verification.html",
+      "action": ""
+    },
+    {
+      "id": "GENCHECK-1",
+      "severity": "info",
+      "code": "GENCHECK",
+      "title": "The Node generator's --check can never pass as written",
+      "detail": "`scripts/build-site.mjs --check` re-renders every page and compares the result with the committed file, but the render embeds a fresh `data-generated` timestamp and relative text such as '21m ago'. Every page therefore reports stale within a minute of generation. The data itself matched when this audit compared it.",
+      "count": 0,
+      "examples": [],
+      "source": "scripts/build-site.mjs",
+      "action": "Compare the page with the timestamp and relative-time fields normalised, or drop the strict comparison from the gate. CI does not currently run this check."
+    },
+    {
+      "id": "FRESH-1",
+      "severity": "info",
+      "code": "FRESH",
+      "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
+      "detail": "0.22 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "count": 0,
+      "examples": [],
+      "source": "docs/desk/data/latest.json",
+      "action": ""
+    },
+    {
+      "id": "FRESH-2",
+      "severity": "info",
+      "code": "FRESH",
+      "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
+      "detail": "0.58 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "count": 0,
+      "examples": [],
+      "source": "data/snapshot.json",
+      "action": ""
+    }
+  ],
+  "reproduce": "python3 qa/audit.py"
+}

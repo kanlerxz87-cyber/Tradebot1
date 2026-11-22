@@ -26,6 +26,22 @@ from pathlib import Path
 from urllib.parse import urlsplit
 
 
+def _climbs_out(page: Path, root: Path, target: str) -> bool:
+    """True when a relative link resolves above the site root, e.g. ../../index.html.
+
+    Such a link points at whatever hosts this site (the repository portal), so it
+    cannot be verified from inside a standalone build: it is reported, not failed.
+    """
+    if not target:
+        return False
+    resolved = (page.parent / target).resolve()
+    try:
+        resolved.relative_to(root)
+    except ValueError:
+        return True
+    return False
+
+
 class LinkParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -52,6 +68,7 @@ def check(root: Path, *, fetch: bool = False) -> dict:
     errors: list[str] = []
     warnings: list[str] = []
     external: Counter = Counter()
+    portal_links: list[str] = []
     pages = sorted(p for p in root.rglob("*.html"))
 
     for page in pages:
@@ -83,6 +100,11 @@ def check(root: Path, *, fetch: bool = False) -> dict:
                     errors.append(f"{rel}: missing anchor #{fragment}")
                 continue
             resolved = (page.parent / target_part).resolve()
+            # A link that climbs above the site root points at the portal that hosts
+            # this site; it cannot be checked from inside a standalone build.
+            if _climbs_out(page, root.resolve(), target_part):
+                portal_links.append(f"{rel} -> {value}")
+                continue
             if not resolved.exists():
                 errors.append(f"{rel}: broken link {value}")
             elif fragment:
@@ -108,6 +130,7 @@ def check(root: Path, *, fetch: bool = False) -> dict:
         "errors": errors,
         "warnings": warnings,
         "external_hosts": dict(external.most_common()),
+        "portal_links": portal_links,
     }
 
     if fetch:

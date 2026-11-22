@@ -22,6 +22,7 @@
       <a href="strategies.html">Strategies</a>
       <a href="api-reference.html">API</a>
       <a href="verification.html">Verification</a>
+      <a href="repo-review.html">Repo review</a>
       <a href="flagged.html">Flagged</a>
       <a class="active" href="executive-summary.html">Summary</a>
     </nav>
@@ -70,7 +71,7 @@
       <div class="card">
         <h3>Autonomy</h3>
         <ul class="clean">
-          <li>A GitHub Actions cron runs the collector every 15 minutes, commits the new snapshot and advances the paper book.</li>
+          <li>A GitHub Actions cron runs the collector every 30 minutes, commits the new snapshot and advances the paper book.</li>
           <li>No user action is required for the site to stay current; a stale snapshot is visibly labelled after 30 minutes.</li>
           <li>Every failure (network, rate limit, unknown field) is recorded in the snapshot and printed on the page rather than silently swallowed.</li>
           <li>The local server adds seconds-level collection, a same-origin proxy and WebSocket push when you want a faster loop.</li>
@@ -135,7 +136,7 @@
     <div class="table-wrap"><table>
       <thead><tr><th>Risk</th><th>Impact</th><th>Mitigation in place</th></tr></thead>
       <tbody>
-        <tr><td>Fee formula unverified (<a href="flagged.html#F1">F1</a>)</td><td>P&amp;L is optimistic or pessimistic by the fee amount</td><td>Labelled on every figure; fees can be switched off to compare</td></tr>
+        <tr><td>Per-series fee multiplier approximated (<a href="flagged.html#F1">F1</a>)</td><td>P&amp;L is off by at most the per-series multiplier on affected contracts</td><td>Formula verified against Kalshi's schedule; round-up never understates; fees can be switched off to compare</td></tr>
         <tr><td>No demo credentials (<a href="flagged.html#F2">F2</a>)</td><td>No real demo-account P&amp;L yet</td><td>Adapter ready; simulated ledger continues independently</td></tr>
         <tr><td>Small sample</td><td>Early performance is noise</td><td>Instrumentation first; no strategy is described as profitable</td></tr>
         <tr><td>Cycle-resolution detection (<a href="flagged.html#F7">F7</a>)</td><td>Very fast round-trips can be missed</td><td>Window recorded per alert; WebSocket upgrade documented</td></tr>
