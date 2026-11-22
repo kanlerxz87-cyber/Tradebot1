@@ -52,6 +52,12 @@ jobs:
       - name: Engine site links and source links
         run: python -m engine.check_site --root docs/engine
 
+      # Repo-wide gate (session arena-bdc7dcee): every HTML page in the repository, every
+      # internal link and anchor between implementations, not just inside one site.
+      - name: No broken internal links anywhere in the repository
+        run: python tools/check_all_links.py
+
+
       - name: No credentials in the tree
         run: |
           set -e
