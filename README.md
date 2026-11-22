@@ -61,6 +61,45 @@ Deeper reading: [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md) (both implementat
 [`docs/desk/requirements.html`](docs/desk/requirements.html),
 [`docs/desk/strategies.html`](docs/desk/strategies.html).
 
+## Trade board (`board.html`, session `9bea7e55`)
+
+A third, independent implementation, this one in Node with no runtime dependencies. It is linked from
+the landing page as **"Trade board"**.
+
+| Path | What it is |
+| - | - |
+| `board.html` | Live events ranked by resting bid dollars, grouped by topic, with the headline figures. |
+| `dashboard.html` | Two auto-scrolling alert feeds — every swing ≥ $0.10, and a labelled heuristic-filtered subset — plus the observation log. |
+| `market.html?t=TICKER` | Price chart (60s–24h window), order-book ladder showing contracts at each price, settlement rules, a local paper-trade calculator. |
+| `markets.html`, `portfolio.html`, `strategies.html`, `demo-account.html` | Market list by topic, simulated results, strategy rules, the real demo account. |
+| `executive-summary.html`, `sources.html`, `methodology.html`, `suggestions.html`, `flagged.html`, `api.html` | Status matrix, source registry, exact formulas, next steps, 17 source-linked flags, endpoints. |
+| `categories/{gas,elections,culture,crypto,golf}.html` | One page per topic: the request that proves its discovery rule, its markets, resolutions and swings. |
+
+Everything published is generated from `data/*.json` by `scripts/build-site.mjs` from
+`templates/*.tpl`. The generator **fails the build** if any data-table row has no source link, and the
+pages read only committed files, so the site works with no backend and no key.
+
+```sh
+npm install                     # jsdom, used only by the render test
+npm test                        # 32 assertions, including Kalshi's own fee table
+node scripts/check-data.mjs     # the committed JSON against its contract
+node scripts/build-site.mjs && node scripts/build-site.mjs --check
+node scripts/check-links.mjs    # 19 pages, 642 references
+node scripts/check-render.mjs   # jsdom render of every page, source links intact
+node tools/collector.mjs --dry-run    # fetch without writing (needs egress)
+```
+
+Collection: `.github/workflows/collect-node.yml` polls the demo REST API every 30 minutes (offset
+from the Python collector), `.github/workflows/demo-account.yml` takes a signed hourly read of the
+demo account, and the board keeps its own separate data under `data/`. Verification record:
+[`verification/2026-11-22-9bea7e55.md`](verification/2026-11-22-9bea7e55.md).
+
+| Page | URL |
+| - | - |
+| Trade board | <https://kanlerxz87-cyber.github.io/Tradebot1/board.html> |
+| Alerts | <https://kanlerxz87-cyber.github.io/Tradebot1/dashboard.html> |
+| Flagged for review | <https://kanlerxz87-cyber.github.io/Tradebot1/flagged.html> |
+
 ## Market monitor (`docs/`)
 
 - Five separate topic pages. Every market, orderbook, paper ledger and lifecycle table row links to its
@@ -81,7 +120,9 @@ Deeper reading: [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md) (both implementat
   session `arena-39ef3867`. The prototype's simulated display values are **not** verified quotes.
 - [`python/README.md`](python/README.md) describes a credentialed local demo client. Never put a private
   key in this repository, the public site or localStorage.
+- The **trade board** above (`board.html` and its pages) was merged by session `9bea7e55`.
 - [`COORDINATION.md`](COORDINATION.md) records owners, verification and cross-session merge handling.
+  The landing page at `/` links every implementation and none of them replaced another.
 
 ## Verification and local preview
 

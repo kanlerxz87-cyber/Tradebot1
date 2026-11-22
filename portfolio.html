@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Simulated portfolio · Kalshi demo dashboard</title>
+<meta name="description" content="A Kalshi demo-environment dashboard: live swing alerts at the $0.10 threshold, price charts and order-book liquidity for gas prices, elections, culture, crypto and golf, with simulated strategies and resolution tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body data-generated="2026-11-22T07:20:33.260Z">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="brand" href="board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <nav class="main" aria-label="Main"><a href="board.html">Board</a><a href="dashboard.html">Alerts</a><a href="markets.html">Markets</a><a href="portfolio.html" aria-current="page">Portfolio</a><a href="strategies.html">Strategies</a><a href="demo-account.html">Demo account</a><a href="executive-summary.html">Summary</a><a href="sources.html">Sources</a><a href="methodology.html">Method</a><a href="suggestions.html">Ideas</a><a href="flagged.html">Flagged</a><a href="api.html">API</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap page">
+<section>
+  <div class="pill-row" style="margin-bottom:8px">
+    <span class="badge warn">simulation</span>
+    <span class="badge">one contract per entry</span>
+    <span class="badge">taker fees charged</span>
+  </div>
+  <h1>Simulated portfolio</h1>
+  <p class="muted" style="max-width:85ch">
+    Five strategies trading one contract at a time against demo market data, with the published
+    taker fee charged on every entry. Positions settle only when the exchange finalizes a
+    <code>yes</code> or <code>no</code> result. This is a test harness, not performance a real
+    account would have earned.
+  </p>
+  <div class="banner" id="data-banner" data-state="snapshot" role="status" aria-live="polite">
+    <span class="led" aria-hidden="true"></span><strong>Loading…</strong>
+  </div>
+</section>
+
+<section class="grid cols-5" aria-label="Portfolio figures">
+  <div class="card tight"><div class="stat"><span class="k">Equity</span><span class="v" id="p-equity">—</span><span class="s" id="p-equity-sub">starting cash + realized + unrealized</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Realized P&amp;L</span><span class="v" id="p-realized">—</span><span class="s">settled positions only</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Unrealized</span><span class="v" id="p-unrealized">—</span><span class="s">marked at the exit side of the book</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Fees paid</span><span class="v" id="p-fees">—</span><span class="s">published taker fee</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Win rate</span><span class="v" id="p-winrate">—</span><span class="s" id="p-winrate-sub">no settled trades yet</span></div></div>
+</section>
+
+<section>
+  <h2>Equity curve</h2>
+  <p class="small">Cumulative realized P&amp;L in dollars, plotted at the time each position settled. With no settled positions there is no curve, and none is drawn.</p>
+  <div class="chart-shell"><canvas class="chart" id="equity-chart" role="img" aria-label="Realized profit and loss over time"></canvas></div>
+</section>
+
+<section>
+  <div class="toolbar" style="margin-bottom:10px">
+    <h2 style="margin:0">By strategy</h2>
+    <span class="badge" id="p-positions">—</span>
+  </div>
+  <div class="table-wrap"><table class="compact" id="strategy-table">
+    <thead><tr><th>Strategy</th><th class="num">Trades</th><th class="num">Open</th><th class="num">Settled</th><th class="num">Wins</th><th class="num">Win rate</th><th class="num">Realized P&amp;L</th><th class="num">Fees</th><th>Rule source</th></tr></thead>
+    <tbody><tr><td colspan="9" class="empty">Loading…</td></tr></tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="toolbar" style="margin-bottom:10px">
+    <h2 style="margin:0">By topic</h2>
+  </div>
+  <div class="table-wrap"><table class="compact" id="topic-table">
+    <thead><tr><th>Topic</th><th class="num">Trades</th><th class="num">Settled</th><th class="num">Wins</th><th class="num">Realized P&amp;L</th><th class="num">Fees</th></tr></thead>
+    <tbody><tr><td colspan="6" class="empty">Loading…</td></tr></tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="toolbar" style="margin-bottom:10px">
+    <h2 style="margin:0">Positions</h2>
+    <div class="seg" id="pos-filter" role="group" aria-label="Filter positions">
+      <button data-f="all" aria-pressed="true">All</button>
+      <button data-f="open" aria-pressed="false">Open</button>
+      <button data-f="settled" aria-pressed="false">Settled</button>
+    </div>
+  </div>
+  <div class="table-wrap"><table class="compact" id="positions-table">
+    <thead><tr>
+      <th>Opened</th><th>Market</th><th>Strategy</th><th>Side</th><th class="num">Price</th><th class="num">Contracts</th>
+      <th class="num">Cost</th><th class="num">Fee</th><th>Status</th><th class="num">P&amp;L</th><th>Source</th>
+    </tr></thead>
+    <tbody><tr><td colspan="11" class="empty">Loading…</td></tr></tbody>
+  </table></div>
+</section>
+
+<section class="notice">
+  <p><strong>The demo account's real balance is not here.</strong> This page is the simulator. The
+  authenticated demo-account snapshot, captured by GitHub Actions from repository secrets, is on
+  <a href="demo-account.html">the demo account page</a>. The two are deliberately kept
+  apart: the simulator's $1,000 is a project choice, not Kalshi cash (flag
+  <a href="flagged.html#F-13">F-13</a>).</p>
+</section>
+
+<script type="module" src="assets/portfolio-page.js"></script>
+
+</main>
+<footer class="site">
+  <div class="wrap cols">
+    <div style="max-width:52ch">
+      <strong>Tradebot1</strong> — a dashboard over the <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">Kalshi demo environment</a>.
+      Demo markets use mock funds and Kalshi warns their prices may not reflect real markets.
+      This is not investment advice and nothing here is a forecast.
+      <div class="src" style="margin-top:8px">Data captured through https://external-api.demo.kalshi.co/trade-api/v2.</div>
+    </div>
+    <div>
+      <div><strong class="muted">Topics</strong></div>
+      <a href="categories/gas.html">Gas prices</a> · <a href="categories/elections.html">Elections</a> · <a href="categories/culture.html">Culture</a> · <a href="categories/crypto.html">Crypto</a> · <a href="categories/golf.html">Golf</a>
+    </div>
+    <div>
+      <div><strong class="muted">Review</strong></div>
+      <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
+      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:00Z (21m ago)</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
