@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verification | Kalshi demo live console</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="./"><span class="logo">&#9090;</span> KALSHI <span class="tag">/ DEMO</span></a>
+    <div class="sidebar-label">Console</div>
+    <nav class="nav" aria-label="Console">
+      <a href="./"><span class="icon">&#9638;</span> Live console</a>
+      <a href="verification.html" class="active"><span class="icon">&#8801;</span> Verification</a>
+      <a href="flagged.html"><span class="icon">&#9888;</span> Flagged for review</a>
+    </nav>
+    <div class="sidebar-label">Topics</div>
+    <nav class="nav" aria-label="Topics">
+      <a href="./#gas" class="t-gas"><span class="icon">&#9672;</span> Gas prices</a>
+      <a href="./#elections" class="t-elections"><span class="icon">&#9639;</span> Elections</a>
+      <a href="./#culture" class="t-culture"><span class="icon">&#10033;</span> Culture</a>
+      <a href="./#crypto" class="t-crypto"><span class="icon">&#8383;</span> Crypto</a>
+      <a href="./#golf" class="t-golf"><span class="icon">&#9873;</span> Golf</a>
+    </nav>
+    <div class="sidebar-label">Other dashboards</div>
+    <nav class="nav" aria-label="Other dashboards">
+      <a href="../"><span class="icon">&#9635;</span> Market monitor</a>
+      <a href="../desk/"><span class="icon">&#9636;</span> Research desk</a>
+      <a href="../../board.html"><span class="icon">&#9645;</span> Trade board</a>
+    </nav>
+    <div class="sidebar-bottom"><strong>&#9679; DEMO ENVIRONMENT</strong> Public demo API reads only. No order is placed from this site.</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><strong>Verification</strong> <span class="crumb">/ every fact, with its official source</span></div>
+      <div class="top-right"><a class="ghost" href="./">&#8592; Back to the console</a></div>
+    </div>
+
+    <section class="hero">
+      <span class="pill">RULE</span>
+      <h1>One row, one official source.</h1>
+      <p>
+        Every endpoint, field, threshold and fee below was checked against a Kalshi-published page, a
+        Kalshi-published document, or a verbatim response from a Kalshi host. Where a question cannot be
+        answered from an official source it is left out of this table and listed on
+        <a href="flagged.html">Flagged for review</a> instead. Nothing on this page is inferred.
+      </p>
+    </section>
+
+    <section class="card">
+      <header>
+        <h2>Verified facts</h2>
+        <span class="hint" id="fact-count"></span>
+      </header>
+      <div class="body flush">
+        <div class="scroll" style="max-height:none">
+          <table>
+            <thead><tr><th style="width:56px">ID</th><th>Fact as used on this site</th><th style="width:120px">Kind</th><th style="width:34%">Official source</th></tr></thead>
+            <tbody id="fact-rows"><tr><td colspan="4" class="empty">Loading…</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <div class="grid two">
+      <section class="card">
+        <header><h2>Fee model reproduced against the published table</h2></header>
+        <div class="body">
+          <div class="note">
+            <code>feeCents(p, C) = ceil(0.07 &times; C &times; p &times; (1-p))</code> to the cent, for a taker fill.
+            The published General Trading Fees Table (S12) prints 21 prices; the checker in
+            <code>docs/live/check_live.py</code> asserts all 21 in both columns on every run.
+          </div>
+          <table>
+            <thead><tr><th>Price</th><th class="num">Table: 1 contract</th><th class="num">Computed</th><th class="num">Table: 100 contracts</th><th class="num">Computed</th></tr></thead>
+            <tbody id="fee-rows"></tbody>
+          </table>
+          <p class="hint" style="margin-top:8px">Single-contract rows are the published table's rounding of a sub-cent fee; the console therefore shows both the six-decimal fee and the cent-rounded figure (S13).</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <header><h2>What was run, and what it proved</h2></header>
+        <div class="body">
+          <ul style="margin:0;padding-left:18px;font-size:.86rem;line-height:1.7">
+            <li><code>node --test docs/live/tests/*.test.mjs</code> &mdash; unit tests for quotes, books, swings, fees, routing, resolution and the ledger.</li>
+            <li><code>python3 docs/live/check_live.py</code> &mdash; data contract: every market row carries an <code>http(s)</code> source URL and a read time, every fact has an official URL, the 21-row fee table reproduces, and the console's element ids the shared checker looks for are present.</li>
+            <li>Live reads: <code>GET /exchange/status</code>, <code>/search/tags_by_categories</code>, <code>/series/KXAAAGASM</code>, <code>/series/KXDEMOFUTHOURLY</code>, <code>/events/KXAAAGASM-26NOV30</code>, <code>/markets?tickers=…</code> and <code>/markets/{ticker}/orderbook</code>, all against <code>external-api.demo.kalshi.co</code> on 2026-11-22 between 07:26Z and 07:29Z. Verbatim results are quoted on this page and on the flagged page.</li>
+            <li>The exact request URL that produced every value is committed beside the value in <code>docs/live/data/live.json</code>.</li>
+          </ul>
+          <h3 style="margin-top:14px">Not run</h3>
+          <ul style="margin:0;padding-left:18px;font-size:.86rem;line-height:1.7">
+            <li>No authenticated call of any kind: there is no demo API key in this repository and none was requested. Balance, positions and order placement are therefore unverified (see the flagged page).</li>
+            <li>No WebSocket subscription was established from a browser: the handshake requires a signed request (S10).</li>
+          </ul>
+        </div>
+      </section>
+    </div>
+
+    <section class="card">
+      <header><h2>Facts this console depends on, and how they are used</h2></header>
+      <div class="body flush">
+        <table>
+          <thead><tr><th>Behaviour</th><th>Implementation</th><th>Source</th></tr></thead>
+          <tbody>
+            <tr><td>Rank open events by traded dollars</td><td><code>dollarsOf()</code> = <code>last_price_dollars &times; volume_24h_fp</code>, both official fields; the row is blank when either is missing and the column is labelled as a product.</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets.md" target="_blank" rel="noopener noreferrer">S7</a></td></tr>
+            <tr><td>Detect a &plusmn;$0.10 swing</td><td><code>swing()</code> compares two of this page's own marks and returns null below the threshold, inclusive at exactly $0.10, symmetric in both directions.</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets.md" target="_blank" rel="noopener noreferrer">S21</a></td></tr>
+            <tr><td>Never use <code>previous_*</code> for a swing</td><td>Those fields are documented as "a day ago", so they seed nothing; the first observation is a baseline only.</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets.md" target="_blank" rel="noopener noreferrer">S21</a></td></tr>
+            <tr><td>Mark price</td><td><code>quoteOf()</code> uses the two-sided mid first, then the last trade, then the best bid; a <code>0.0000</code> and a <code>1.0000</code> ask on an empty side are treated as "no quote" and the row states which basis it used.</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">S4</a>, <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">S5</a></td></tr>
+            <tr><td>Contracts available at a price</td><td><code>contractsForYesAtMost()</code> sums the NO bids that fill a YES buy at or below a price; <code>walkYesBuy()</code> walks levels rather than assuming a single price fills the size.</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">S4</a></td></tr>
+            <tr><td>Chart ranges</td><td>30s / 5m / 1h / 6h / 24h switch the window and the candlestick interval (1, 60 or 1440 minutes).</td><td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer">S6</a></td></tr>
+            <tr><td>Resolution</td><td><code>resolutionOf()</code> reports a result only when the API's <code>result</code> field is <code>yes</code>, <code>no</code> or <code>scalar</code>; otherwise the row says open, closed awaiting determination, or determined with the settlement timer running.</td><td><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">S8</a>, <a href="https://docs.kalshi.com/api-reference/market/get-markets.md" target="_blank" rel="noopener noreferrer">S9</a></td></tr>
+            <tr><td>Topic routing</td><td>Gas &rarr; tag <em>Oil &amp; Gas</em>; Elections &rarr; category; Culture &rarr; category <em>Entertainment</em> (labelled derived); Crypto &rarr; category; Golf &rarr; tag. A keyword fallback is labelled on the row.</td><td><a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener noreferrer">S16</a>, <a href="https://docs.kalshi.com/api-reference/market/get-series-list.md" target="_blank" rel="noopener noreferrer">S17</a></td></tr>
+            <tr><td>Second feed</td><td><code>triageScore()</code> = weighted move size, contracts at the touch, spread and 24h volume, capped at 100. It ranks attention; it is not an expected return. Weights are printed on the console.</td><td>project rule, disclosed (not Kalshi data)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="foot">
+      Sources are Kalshi documentation at <code>docs.kalshi.com</code>, the Kalshi fee schedule PDF, and verbatim responses from
+      <code>external-api.demo.kalshi.co</code>. <a href="flagged.html">Flagged for review</a> lists every question this table cannot answer.
+    </footer>
+  </main>
+</div>
+<script type="module">
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const fmt = (n) => (Number.isFinite(n) ? (Math.round(n * 100) / 100).toFixed(2) : '—');
+  const feeCents = (p, c) => Math.ceil(0.07 * c * p * (1 - p) * 1e6 - 1e-9) / 1e6;
+  const roundUpCents = (p, c) => Math.ceil(feeCents(p, c) * 100 - 1e-9) / 100;
+
+  async function load() {
+    const facts = await fetch('data/sources.json', { cache: 'no-store' }).then((r) => r.json());
+    document.getElementById('fact-count').textContent = `${facts.facts.length} facts`;
+    document.getElementById('fact-rows').innerHTML = facts.facts
+      .map(
+        (fact) => `<tr>
+        <td class="mono">${esc(fact.id)}</td>
+        <td>${esc(fact.claim)}${fact.observed_from ? `<span class="sub">observed: <a href="${esc(fact.observed_from)}" target="_blank" rel="noopener noreferrer">${esc(fact.observed_from)}</a>${fact.observed_at ? ` &middot; ${esc(fact.observed_at)}` : ''}</span>` : ''}</td>
+        <td><span class="badge ${fact.kind === 'official-api' ? 'official' : ''}">${esc(fact.kind)}</span></td>
+        <td><a href="${esc(fact.url)}" target="_blank" rel="noopener noreferrer">${esc(fact.url)}</a></td>
+      </tr>`,
+      )
+      .join('');
+
+    const table = [
+      [0.01, 0.01, 0.07], [0.05, 0.01, 0.34], [0.1, 0.01, 0.63], [0.15, 0.01, 0.9], [0.2, 0.02, 1.12],
+      [0.25, 0.02, 1.32], [0.3, 0.02, 1.47], [0.35, 0.02, 1.6], [0.4, 0.02, 1.68], [0.45, 0.02, 1.74],
+      [0.5, 0.02, 1.75], [0.55, 0.02, 1.74], [0.6, 0.02, 1.68], [0.65, 0.02, 1.6], [0.7, 0.02, 1.47],
+      [0.75, 0.02, 1.32], [0.8, 0.02, 1.12], [0.85, 0.01, 0.9], [0.9, 0.01, 0.63], [0.95, 0.01, 0.34],
+      [0.99, 0.01, 0.07],
+    ];
+    document.getElementById('fee-rows').innerHTML = table
+      .map(([price, one, hundred]) => {
+        const c1 = roundUpCents(price, 1);
+        const c100 = roundUpCents(price, 100);
+        const ok1 = Math.abs(c1 - one) < 1e-9;
+        const ok100 = Math.abs(c100 - hundred) < 1e-9;
+        return `<tr><td class="mono">$${price.toFixed(2)}</td><td class="num">$${one.toFixed(2)}</td><td class="num ${ok1 ? 'up' : 'down'}">$${c1.toFixed(2)}</td><td class="num">$${hundred.toFixed(2)}</td><td class="num ${ok100 ? 'up' : 'down'}">$${c100.toFixed(2)}</td></tr>`;
+      })
+      .join('');
+  }
+  load().catch((error) => {
+    document.getElementById('fact-rows').innerHTML = `<tr><td colspan="4" class="empty">Could not load data/sources.json: ${esc(error.message)}</td></tr>`;
+  });
+</script>
+</body>
+</html>

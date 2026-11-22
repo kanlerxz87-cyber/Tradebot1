@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review | Kalshi demo live console</title>
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="./"><span class="logo">&#9090;</span> KALSHI <span class="tag">/ DEMO</span></a>
+    <div class="sidebar-label">Console</div>
+    <nav class="nav" aria-label="Console">
+      <a href="./"><span class="icon">&#9638;</span> Live console</a>
+      <a href="verification.html"><span class="icon">&#8801;</span> Verification</a>
+      <a href="flagged.html" class="active"><span class="icon">&#9888;</span> Flagged for review</a>
+    </nav>
+    <div class="sidebar-label">Other dashboards</div>
+    <nav class="nav" aria-label="Other dashboards">
+      <a href="../"><span class="icon">&#9635;</span> Market monitor</a>
+      <a href="../desk/"><span class="icon">&#9636;</span> Research desk</a>
+      <a href="../../board.html"><span class="icon">&#9645;</span> Trade board</a>
+    </nav>
+    <div class="sidebar-bottom"><strong>&#9679; DEMO ENVIRONMENT</strong> Public demo API reads only. No order is placed from this site.</div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div><strong>Flagged for review</strong> <span class="crumb">/ open questions, stated plainly</span></div>
+      <div class="top-right"><a class="ghost" href="./">&#8592; Back to the console</a></div>
+    </div>
+
+    <section class="hero">
+      <span class="pill demo">NON-BLOCKING</span>
+      <h1>Everything this console cannot claim.</h1>
+      <p>
+        These items are published rather than hidden. Each one names what is unknown, what the site does
+        instead, and the official source that defines the boundary. None of them blocks publication, and
+        none of them was papered over with a plausible-looking number.
+      </p>
+    </section>
+
+    <section class="card">
+      <header><h2>Open flags</h2><span class="hint" id="flag-count"></span></header>
+      <div class="body flush">
+        <table>
+          <thead><tr><th style="width:52px">ID</th><th style="width:110px">Severity</th><th>Flag</th><th style="width:30%">Source</th></tr></thead>
+          <tbody id="flag-rows"><tr><td colspan="4" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="card">
+      <header><h2>Verbatim observations behind the flags</h2></header>
+      <div class="body">
+        <p class="hint">Each block is a response exactly as the demo host returned it on 2026-11-22, with the request line above it. Nothing is paraphrased.</p>
+
+        <h3>F1 &middot; An empty book is reported as a 100&cent; ask</h3>
+        <pre class="mono" style="background:#04131b;border:1px solid #1c3341;border-radius:8px;padding:10px;overflow:auto;font-size:.78rem">GET https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASM-26NOV30-3.00/orderbook?depth=10
+200 {"orderbook_fp":{"no_dollars":[],"yes_dollars":[]}}
+
+market object, same market:
+"last_price_dollars":"0.9800","yes_bid_dollars":"0.0000","yes_ask_dollars":"1.0000",
+"no_bid_dollars":"0.0000","no_ask_dollars":"1.0000","yes_bid_size_fp":"0.00","yes_ask_size_fp":"0.00"</pre>
+        <p style="font-size:.86rem">An ask of <code>1.0000</code> beside a bid of <code>0.0000</code> with zero size on both sides is the empty book, not an offer at par. Taking the midpoint of that pair would print 50&cent; for a contract whose last trade was 98&cent;. The console therefore requires a two-sided, uncrossed book for a mid and otherwise falls back to the last trade, and it prints which basis it used on every row.</p>
+
+        <h3>F4 &middot; The demo BTC market is not in the Crypto category</h3>
+        <pre class="mono" style="background:#04131b;border:1px solid #1c3341;border-radius:8px;padding:10px;overflow:auto;font-size:.78rem">GET https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY
+200 {"series":{...,"categories":["Test"],"category":"Test","tags":["Demo"],
+    "frequency":"hourly","title":"Demo hourly event contract futures",
+    "settlement_sources":[{"name":"Coinbase Exchange",
+    "url":"https://api.exchange.coinbase.com/products/BTC-USD/candles"}]}}</pre>
+        <p style="font-size:.86rem">The only heavily traded demo market visible in the catalogue is a Bitcoin-price event filed under the <code>Test</code> category with the <code>Demo</code> tag. Routing it to Crypto would be an editorial choice, so it is not routed and this is stated on the Crypto tab. Production Crypto series are a separate question the demo catalogue cannot answer.</p>
+
+        <h3>F7 &middot; The demo prices disagree with production for the same gas contract</h3>
+        <pre class="mono" style="background:#04131b;border:1px solid #1c3341;border-radius:8px;padding:10px;overflow:auto;font-size:.78rem">demo:  KXAAAGASM-26NOV30-3.00  last_price_dollars 0.9800  (empty book)
+production, earlier session on main (docs/desk/data/sources.json S25):
+       GET /markets?series_ticker=KXAAAGASM&status=open returned strikes
+       3.45 / 3.55 / 3.65 — the 3.00 strike is not in the open production set</pre>
+        <p style="font-size:.86rem">This is expected of the demo environment (S14) but it means no demo price on this page can be read as an estimate of a production price. The console labels every figure as a demo value.</p>
+
+        <h3>F11 &middot; Unauthenticated WebSocket handshake</h3>
+        <pre class="mono" style="background:#04131b;border:1px solid #1c3341;border-radius:8px;padding:10px;overflow:auto;font-size:.78rem">recorded by the repository's connectivity probe (GitHub runner, run 44997761812):
+wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2   -> HTTP 401
+body: {"code":"token_authentication_failure","message":"token authentication failure"}
+server-side consumers: one batch of four markets between two page loads
+this browser: the console's self-test records the close event it actually receives</pre>
+        <p style="font-size:.86rem">A live stream therefore needs a signed handshake, which needs a private key, which a public static page cannot hold. The console polls instead and says so; it does not call itself a stream.</p>
+
+        <h3>F9 &middot; The demo catalogue may not contain Elections, Culture or Golf markets</h3>
+        <pre class="mono" style="background:#04131b;border:1px solid #1c3341;border-radius:8px;padding:10px;overflow:auto;font-size:.78rem">GET https://external-api.demo.kalshi.co/trade-api/v2/search/tags_by_categories
+200 tags_by_categories includes Crypto, Elections, Entertainment, Sports (Golf), Economics, Commodities ...
+    and no "Gas" and no "Culture" entry.</pre>
+        <p style="font-size:.86rem">The official category list is complete, but whether the <em>demo</em> catalogue carries open events in each of the five requested topics is a separate, empirical question answered only by the scheduled capture. Empty topic tabs are reported as empty rather than filled with examples from another topic.</p>
+      </div>
+    </section>
+
+    <footer class="foot">
+      Sources: <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">api_environments</a>,
+      <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">orderbook_responses</a>,
+      <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">market_lifecycle</a>,
+      <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">demo_env</a>,
+      <a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer">quick_start_websockets</a>.
+      See <a href="verification.html">Verification</a> for the full register.
+    </footer>
+  </main>
+</div>
+<script type="module">
+  const esc = (v) => String(v ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  fetch('data/flags.json', { cache: 'no-store' })
+    .then((response) => response.json())
+    .then((data) => {
+      document.getElementById('flag-count').textContent = `${data.flags.length} flags, ${data.flags.filter((flag) => flag.severity === 'high').length} high`;
+      document.getElementById('flag-rows').innerHTML = data.flags
+        .map(
+          (flag) => `<tr>
+          <td class="mono">${esc(flag.id)}</td>
+          <td><span class="badge ${flag.severity === 'high' ? 'derived' : ''}">${esc(flag.severity)}</span></td>
+          <td><strong>${esc(flag.title)}</strong><span class="sub">${esc(flag.detail)}</span><span class="sub"><em>Site behaviour:</em> ${esc(flag.behaviour)}</span></td>
+          <td>${flag.source && flag.source.url ? `<a href="${esc(flag.source.url)}" target="_blank" rel="noopener noreferrer">${esc(flag.source.label ?? flag.source.url)}</a>` : 'project rule'}</td>
+        </tr>`,
+        )
+        .join('');
+    })
+    .catch((error) => {
+      document.getElementById('flag-rows').innerHTML = `<tr><td colspan="4" class="empty">Could not load data/flags.json: ${esc(error.message)}</td></tr>`;
+    });
+</script>
+</body>
+</html>

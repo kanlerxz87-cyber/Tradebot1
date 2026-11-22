@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "checked": "2026-11-22",
+  "rule": "A flag states what is unknown, what the site does instead, and the source that draws the boundary. No flag is closed by guessing.",
+  "flags": [
+    {
+      "id": "F1",
+      "severity": "high",
+      "title": "An empty demo order book is reported as a 100¢ ask, so a naive midpoint manufactures a price",
+      "detail": "GET /markets/KXAAAGASM-26NOV30-3.00/orderbook returned empty yes_dollars and no_dollars arrays while the market object reported yes_bid 0.0000 / yes_ask 1.0000 with zero size and last_price 0.9800. Midpointing the bid/ask pair would show 50¢ for a contract whose last trade was 98¢.",
+      "behaviour": "A mid is only computed from a two-sided, uncrossed book; otherwise the mark falls back to the last trade and then the best bid, and the basis is printed on the row.",
+      "source": { "label": "Orderbook Responses (S4, S5)", "url": "https://docs.kalshi.com/getting_started/orderbook_responses" }
+    },
+    {
+      "id": "F2",
+      "severity": "low",
+      "title": "One seeded book row was not actually read from the API",
+      "detail": "The seed capture contains an order-book entry for KXAAAGASM-26NOV30-2.50 that was not requested; its empty state was copied from the sibling strike. The scheduled capture replaces the whole books object with real reads.",
+      "behaviour": "The row's source_note says so, and the console shows 'no book read' rather than a fabricated level whenever the entry is missing.",
+      "source": { "label": "Orderbook Responses (S5: empty arrays, not 404)", "url": "https://docs.kalshi.com/getting_started/orderbook_responses" }
+    },
+    {
+      "id": "F3",
+      "severity": "medium",
+      "title": "The swing threshold is measured between this page's own observations, not between official candles",
+      "detail": "A ±$0.10 swing is defined here as the difference between two marks this page observed. If the browser polls every 20 seconds, a move that happens and reverses inside one interval is invisible; if the tab is closed, nothing is observed at all and no retroactive alert is invented.",
+      "behaviour": "The feed only ever contains moves this page or the runner capture measured, each stamped with the read that produced it. The chart also plots official candlestick closes so a gap is visible.",
+      "source": { "label": "Get Market Candlesticks (S6, S22)", "url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks.md" }
+    },
+    {
+      "id": "F4",
+      "severity": "medium",
+      "title": "The demo catalogue's only liquid market is filed under Test/Demo, not Crypto",
+      "detail": "KXDEMOFUTHOURLY is category 'Test' with tag 'Demo' according to GET /series/KXDEMOFUTHOURLY. Its underlying is a Coinbase BTC-USD price, but the official routing fields do not place it in Crypto.",
+      "behaviour": "It is not routed to the Crypto tab. The Crypto tab states that a keyword routing would be an editorial choice and does not make it silently.",
+      "source": { "label": "Get Series (S18), tags by categories (S16)", "url": "https://docs.kalshi.com/api-reference/market/get-series.md" }
+    },
+    {
+      "id": "F5",
+      "severity": "medium",
+      "title": "This authoring sandbox cannot reach any Kalshi host",
+      "detail": "curl to external-api.demo.kalshi.co and demo-api.kalshi.co returns status 000 (connection failure) from the coding sandbox. Verbatim values on this site were therefore obtained through the page-fetch tool and from a GitHub Actions runner, and each one carries the URL and time it was read.",
+      "behaviour": "No value on this site was typed from memory or inferred. The capture job runs on a GitHub runner, which does have egress.",
+      "source": { "label": "Connectivity probe evidence (S23, S24)", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/arena/aa20f459-tradebot1/probe/results.json" }
+    },
+    {
+      "id": "F6",
+      "severity": "high",
+      "title": "No demo account is connected, so balance, positions and order placement are unverified here",
+      "detail": "GET /portfolio/balance and GET /portfolio/positions require API-key authentication (S26, S27). No demo key exists in this repository and none was requested.",
+      "behaviour": "The portfolio panel shows only paper accounting computed by the page, labelled as such. The site never claims to read or trade the demo account. Other dashboards in this repository own that path and carry their own flags.",
+      "source": { "label": "Get Balance (S26), Get Positions (S27)", "url": "https://docs.kalshi.com/api-reference/portfolio/get-balance.md" }
+    },
+    {
+      "id": "F7",
+      "severity": "medium",
+      "title": "Demo prices disagree with production prices for the same contract family",
+      "detail": "The demo KXAAAGASM-26NOV30-3.00 shows a last price of 0.9800 on an empty book, while an earlier production read in this repository found open strikes at 3.45/3.55/3.65. The demo environment's prices may not reflect real markets.",
+      "behaviour": "Every figure is labelled a demo value, the banner says DEMO PRICES, NOT PRODUCTION, and no demo price is used to imply a production probability.",
+      "source": { "label": "Test In The Demo Environment (S14)", "url": "https://docs.kalshi.com/getting_started/demo_env" }
+    },
+    {
+      "id": "F8",
+      "severity": "medium",
+      "title": "Cause attribution for a price jump is not attempted",
+      "detail": "The brief asks the live charts to include the events and links that may have caused a sharp jump. No official Kalshi endpoint publishes a news cause, and correlating a headline to a move requires timestamps and sources that this site does not have.",
+      "behaviour": "Each alert links to the Kalshi market page and to the exact API read, and prints 'Cause: not attributed'. A guess is never printed in the place a source would be.",
+      "source": { "label": "Get Events (settlement_sources are for resolution, not causes) (S19)", "url": "https://docs.kalshi.com/api-reference/events/get-events.md" }
+    },
+    {
+      "id": "F9",
+      "severity": "medium",
+      "title": "Whether the demo catalogue carries all five topics is empirical and may be no",
+      "detail": "The official category list contains Crypto, Elections, Entertainment and Sports/Golf, and no Gas or Culture category. Whether open demo events exist in each topic changes hour to hour.",
+      "behaviour": "A topic tab with no verified market says so explicitly. It is never filled with a market from another topic to look complete.",
+      "source": { "label": "tags_by_categories (S16), Get Series List (S17)", "url": "https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" }
+    },
+    {
+      "id": "F10",
+      "severity": "low",
+      "title": "The second feed's score is a project heuristic, not an expected return",
+      "detail": "triageScore() weights move size, contracts at the touch, spread and 24h volume into a 0-100 number. Nothing in it estimates profit, probability of resolution, or ROI.",
+      "behaviour": "The weights are printed on the console and here; the feed is called 'model-selected', never 'high ROI', and the score is shown for every item so it can be argued with.",
+      "source": null
+    },
+    {
+      "id": "F11",
+      "severity": "high",
+      "title": "A live WebSocket price stream is impossible from a key-less static page",
+      "detail": "WebSocket connections require an API-key signature during the handshake and an unauthenticated handshake returns HTTP 401 token_authentication_failure (S10, S24). Browsers cannot attach custom handshake headers to a WebSocket, and a public key would still not be safe in a published page.",
+      "behaviour": "The console polls REST at a stated interval and calls itself a poll. The self-test records the handshake result the visitor's own browser obtains rather than asserting one.",
+      "source": { "label": "Quick Start: WebSockets (S10)", "url": "https://docs.kalshi.com/getting_started/quick_start_websockets" }
+    },
+    {
+      "id": "F12",
+      "severity": "low",
+      "title": "Fee display reproduces the published table, not the exchange's rounding accumulator",
+      "detail": "The exchange charges six-decimal fees and then rounds each member's balance to $0.0001 (direct) or $0.01 (non-direct) through a per-order accumulator, which can make the fee actually paid differ from the published table's cent figure.",
+      "behaviour": "The console shows the six-decimal fee for a size the user picks, and the verification page shows the cent-rounded table values. The accumulator state is not simulated.",
+      "source": { "label": "Fee Rounding (S13)", "url": "https://docs.kalshi.com/getting_started/fee_rounding" }
+    },
+    {
+      "id": "F13",
+      "severity": "low",
+      "title": "CORS behaviour is verified for a GitHub Pages origin, not for every origin",
+      "detail": "The probe shows the demo hosts echo Access-Control-Allow-Origin for https://kanlerxz87-cyber.github.io and for http://localhost:8000 on public reads. A different origin, a proxy, or a policy change could break direct browser reads, and Kalshi's documentation does not promise CORS at all.",
+      "behaviour": "The console carries a self-test that measures the visitor's own success, and it falls back to the committed runner capture when a browser read fails.",
+      "source": { "label": "Probe evidence (S23)", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/arena/aa20f459-tradebot1/probe/results.json" }
+    },
+    {
+      "id": "F14",
+      "severity": "low",
+      "title": "Rate limits for unauthenticated public reads are published only as 'separate limits'",
+      "detail": "Kalshi documents token budgets per tier for authenticated requests and states that unauthenticated public requests are subject to separate limits without publishing a number. A burst from an open tab could therefore be throttled with HTTP 429 at an unknown threshold.",
+      "behaviour": "The page makes at most one events request per 20 seconds, pauses between capture requests, reads the X-RateLimit-* response headers where the browser exposes them, and stops on error instead of retrying in a loop.",
+      "source": { "label": "Rate Limits and Tiers (S15)", "url": "https://docs.kalshi.com/getting_started/rate_limits" }
+    },
+    {
+      "id": "F15",
+      "severity": "medium",
+      "title": "Resolution tracking can only show markets the capture scanned",
+      "detail": "Resolutions are read from GET /events?status=settled, which paginates. The capture bounds itself to a few pages, so a market can resolve without appearing in the tracker.",
+      "behaviour": "The tracker prints how many rows it has and says 'on file', not 'all'; the console never implies completeness it cannot check.",
+      "source": { "label": "Market Lifecycle (S8), Get Events (S19)", "url": "https://docs.kalshi.com/getting_started/market_lifecycle" }
+    },
+    {
+      "id": "F16",
+      "severity": "low",
+      "title": "The 'highest dollar volume' ranking is a product of two official fields, not a published metric",
+      "detail": "Kalshi publishes last_price_dollars and volume_24h_fp separately. Multiplying them approximates traded dollars, and it is wrong for markets that traded away from the last price.",
+      "behaviour": "The column is labelled 'Traded $', the formula is printed above the table, and rows with a missing factor are blank rather than zero.",
+      "source": { "label": "Get Markets (S7)", "url": "https://docs.kalshi.com/api-reference/market/get-markets.md" }
+    }
+  ]
+}

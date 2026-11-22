@@ -1,0 +1,181 @@
+{
+  "version": 1,
+  "environment": "demo",
+  "base_url": "https://external-api.demo.kalshi.co/trade-api/v2",
+  "root_source": "https://docs.kalshi.com/getting_started/api_environments",
+  "generated_at": "2026-11-22T07:28:00Z",
+  "started_at": "2026-11-22T07:26:00Z",
+  "seed": true,
+  "seed_note": "Hand-assembled from verbatim official demo-API reads made during this session; every row keeps the URL it came from in requests[] and source_url. It is NOT a collector run and not a catalogue scan: one gas event with two strike markets, included so the rendering, empty-book and strike-handling paths are exercised with real values. The scheduled capture replaces this file.",
+  "exchange": {
+    "exchange_active": true,
+    "trading_active": true,
+    "index_statuses": [
+      { "description": "Default", "exchange_active": true, "exchange_index": 0, "trading_active": true },
+      { "description": "Demo shard 1", "exchange_active": true, "exchange_index": 1, "trading_active": true },
+      { "description": "Demo shard 2", "exchange_active": true, "exchange_index": 2, "trading_active": true },
+      { "description": "", "exchange_active": true, "exchange_index": 3, "trading_active": true }
+    ],
+    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status",
+    "read_at": "2026-11-22T07:26:00Z"
+  },
+  "coverage": {
+    "event_pages_scanned": 0,
+    "events_carried": 1,
+    "markets_carried": 2,
+    "books_fetched": 2,
+    "resolutions_carried": 0,
+    "requests": 5,
+    "partial": true,
+    "note": "Seed file: one verbatim event with two strike markets. Not a catalogue scan."
+  },
+  "topics": [
+    {
+      "topic": "gas",
+      "label": "Gas prices",
+      "official_selector": "series tag \"Oil & Gas\" or \"Oil and energy\"",
+      "note": "Kalshi files US gas price (KXAAAGASM) under Economics with tags Oil & Gas / Oil and energy (S18); there is no Gas category (S16).",
+      "derived": false,
+      "series": [
+        {
+          "ticker": "KXAAAGASM",
+          "title": "US gas price",
+          "category": "Economics",
+          "categories": ["Economics"],
+          "tags": ["Oil & Gas", "Oil and energy"],
+          "settlement_sources": [{ "name": "AAA", "url": "https://gasprices.aaa.com/" }],
+          "routed_by": "official selector tags=\"Oil & Gas\"",
+          "routed_official": true,
+          "derived": false,
+          "selector_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXAAAGASM"
+        }
+      ],
+      "event_count": 1,
+      "market_count": 2
+    },
+    { "topic": "elections", "label": "Elections", "official_selector": "series category \"Elections\"", "note": "Elections is a published category in the official category list (S16). No Elections series matched in this seed read.", "derived": false, "series": [], "event_count": 0, "market_count": 0 },
+    { "topic": "culture", "label": "Culture", "official_selector": "series category \"Entertainment\"", "note": "Kalshi publishes no Culture category (S16). This tab maps the request to the official Entertainment category and says so on every row.", "derived": true, "series": [], "event_count": 0, "market_count": 0 },
+    { "topic": "crypto", "label": "Crypto", "official_selector": "series category \"Crypto\"", "note": "Crypto is a published category with its own tag list (S16). The demo BTC hourly market KXDEMOFUTHOURLY is category \"Test\" with tag \"Demo\", so it is NOT routed here; see F4 on the flagged page.", "derived": false, "series": [], "event_count": 0, "market_count": 0 },
+    { "topic": "golf", "label": "Golf", "official_selector": "series tag \"Golf\"", "note": "Golf is a tag inside Sports, not a category (S16, S17). No golf market with an open quote appeared in this seed read.", "derived": false, "series": [], "event_count": 0, "market_count": 0 }
+  ],
+  "events": [
+    {
+      "event_ticker": "KXAAAGASM-26NOV30",
+      "series_ticker": "KXAAAGASM",
+      "topic": "gas",
+      "title": "Gas prices in the US in Nov 2026?",
+      "sub_title": "On Nov 30, 2026",
+      "settlement_sources": [{ "name": "AAA", "url": "https://gasprices.aaa.com/" }],
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASM-26NOV30",
+      "read_at": "2026-11-22T07:28:00Z",
+      "markets": [
+        {
+          "ticker": "KXAAAGASM-26NOV30-3.00",
+          "event_ticker": "KXAAAGASM-26NOV30",
+          "series_ticker": "KXAAAGASM",
+          "topic": "gas",
+          "title": "Will average **gas prices** be above $3.00?",
+          "yes_sub_title": "Above 3.00",
+          "status": "active",
+          "result": "",
+          "close_time": "2026-11-30T04:59:00Z",
+          "expected_expiration_time": "2026-11-30T15:00:00Z",
+          "last_price_dollars": "0.9800",
+          "yes_bid_dollars": "0.0000",
+          "yes_ask_dollars": "1.0000",
+          "no_bid_dollars": "0.0000",
+          "no_ask_dollars": "1.0000",
+          "yes_bid_size_fp": "0.00",
+          "yes_ask_size_fp": "0.00",
+          "volume_fp": "345.04",
+          "volume_24h_fp": "0.00",
+          "open_interest_fp": "341.90",
+          "settlement_value_dollars": null,
+          "settlement_ts": null,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASM-26NOV30",
+          "read_at": "2026-11-22T07:28:00Z"
+        },
+        {
+          "ticker": "KXAAAGASM-26NOV30-2.50",
+          "event_ticker": "KXAAAGASM-26NOV30",
+          "series_ticker": "KXAAAGASM",
+          "topic": "gas",
+          "title": "Will average **gas prices** be above $2.50?",
+          "yes_sub_title": "Above 2.50",
+          "status": "active",
+          "result": "",
+          "close_time": "2026-11-30T04:59:00Z",
+          "expected_expiration_time": "2026-11-30T15:00:00Z",
+          "last_price_dollars": "0.0100",
+          "yes_bid_dollars": "0.0000",
+          "yes_ask_dollars": "1.0000",
+          "no_bid_dollars": "0.0000",
+          "no_ask_dollars": "1.0000",
+          "yes_bid_size_fp": "0.00",
+          "yes_ask_size_fp": "0.00",
+          "volume_fp": "3.16",
+          "volume_24h_fp": "0.00",
+          "open_interest_fp": "0.02",
+          "settlement_value_dollars": null,
+          "settlement_ts": null,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASM-26NOV30",
+          "read_at": "2026-11-22T07:28:00Z"
+        }
+      ]
+    }
+  ],
+  "books": {
+    "KXAAAGASM-26NOV30-3.00": {
+      "yes": [],
+      "no": [],
+      "bestYesBid": null,
+      "bestNoBid": null,
+      "yesAsk": null,
+      "noAsk": null,
+      "empty": true,
+      "twoSided": false,
+      "spread": null,
+      "mid": null,
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASM-26NOV30-3.00/orderbook?depth=10",
+      "read_at": "2026-11-22T07:28:00Z",
+      "source_note": "Verbatim response: {\"orderbook_fp\":{\"no_dollars\":[],\"yes_dollars\":[]}}"
+    },
+    "KXAAAGASM-26NOV30-2.50": {
+      "yes": [],
+      "no": [],
+      "bestYesBid": null,
+      "bestNoBid": null,
+      "yesAsk": null,
+      "noAsk": null,
+      "empty": true,
+      "twoSided": false,
+      "spread": null,
+      "mid": null,
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASM-26NOV30-2.50/orderbook?depth=10",
+      "read_at": "2026-11-22T07:28:00Z",
+      "source_note": "No book read was made for this strike; the empty state is copied from the sibling strike only to keep the shape consistent and is NOT a completed read. Flagged F2."
+    }
+  },
+  "resolutions": [],
+  "resolved_search": {
+    "requested": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&with_nested_markets=true&limit=200",
+    "result": "not run from this environment; see F5",
+    "read_at": null
+  },
+  "portfolio": {
+    "note": "Seed ledger for layout only. No simulator run produced these values, so the page labels them as illustrative and they are not a performance claim.",
+    "seed": true,
+    "cash": 1000,
+    "positions": [],
+    "fills": []
+  },
+  "errors": [],
+  "requests": [
+    { "label": "exchange status", "url": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status", "status": 200, "ok": true, "read_at": "2026-11-22T07:26:00Z" },
+    { "label": "tags by categories", "url": "https://external-api.demo.kalshi.co/trade-api/v2/search/tags_by_categories", "status": 200, "ok": true, "read_at": "2026-11-22T07:26:00Z" },
+    { "label": "series KXAAAGASM", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXAAAGASM", "status": 200, "ok": true, "read_at": "2026-11-22T07:26:00Z" },
+    { "label": "series KXDEMOFUTHOURLY", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY", "status": 200, "ok": true, "read_at": "2026-11-22T07:28:00Z" },
+    { "label": "event KXAAAGASM-26NOV30", "url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASM-26NOV30", "status": 200, "ok": true, "read_at": "2026-11-22T07:28:00Z" },
+    { "label": "orderbook KXAAAGASM-26NOV30-3.00", "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASM-26NOV30-3.00/orderbook?depth=10", "status": 200, "ok": true, "read_at": "2026-11-22T07:28:00Z" }
+  ]
+}
