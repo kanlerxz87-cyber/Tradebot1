@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Methodology — Kalshi Demo Dashboard</title><link rel="stylesheet" href="assets/style.css"></head>
+<body>
+<header><div class="logo">Kalshi <span>Demo</span> Dashboard</div>
+<nav><a href="index.html">Home</a><a href="dashboard.html">Live Dashboard</a><a href="portfolio.html">Portfolio &amp; Strategies</a><a href="methodology.html">Methodology</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for Review</a></nav></header>
+<main>
+<h1>Methodology</h1>
+<div class="card"><h2>Data flow</h2>
+<ol>
+<li>Browser polls <code>GET /markets?status=open</code> on the Kalshi demo REST API every 8 seconds (public endpoint — no API key needed; source: <a href="https://docs.kalshi.com/getting_started/making_your_first_request" target="_blank" rel="noopener">Making Your First Request</a>).</li>
+<li>Markets are filtered to 5 topics (gas prices, elections, culture, crypto, golf) by keyword match on ticker/title/event ticker, grouped by event, ranked by dollar activity (<code>volume_fp</code> + <code>open_interest_fp</code>).</li>
+<li>Each poll compares <code>last_price_dollars</code> to the previous poll; moves ≥ <b>$0.10</b> post to both alert chats (high-ROI chat additionally requires model score ≥ 60).</li>
+<li>Order book from <code>GET /markets/{ticker}/orderbook?depth=10</code> shows contracts available at each price.</li>
+<li>Markets are tracked until <code>status = settled</code>; <code>result</code> (<code>yes</code>/<code>no</code>) is logged and paper positions settle at $1.00/contract.</li>
+</ol>
+<p class="muted small">Why polling instead of WebSocket? Kalshi WebSocket channels require API-key authentication (signed requests — <a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">API Keys</a>). The demo WS endpoint is <code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code> (<a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a>); credentialed streaming is a documented roadmap item.</p></div>
+<div class="card"><h2>Model score (transparent heuristic, 0–100)</h2>
+<table><thead><tr><th>Component</th><th>Formula</th><th>Max</th></tr></thead><tbody>
+<tr><td>Liquidity (volume)</td><td><code>min(30, log10(volume+1) × 10)</code></td><td>30</td></tr>
+<tr><td>Open interest</td><td><code>min(20, log10(open_interest+1) × 8)</code></td><td>20</td></tr>
+<tr><td>Spread tightness</td><td><code>max(0, 20 − (ask−bid) × 200)</code></td><td>20</td></tr>
+<tr><td>Price extremity (near 50¢ = most room to move)</td><td><code>max(0, 20 − |last−0.5| × 40)</code></td><td>20</td></tr>
+<tr><td>Momentum bonus</td><td><code>min(10, |recent move| × 100)</code></td><td>10</td></tr>
+</tbody></table>
+<p class="muted small">This is a ranking heuristic for filtering alerts — <b>not</b> a prediction of returns. Paper-trading results are the only evidence, and they are simulated.</p></div>
+<div class="card"><h2>Strategies (paper)</h2>
+<table><thead><tr><th>Strategy</th><th>Rule on ≥ $0.10 alert</th></tr></thead><tbody>
+<tr><td>Momentum</td><td>Buy the direction of the jump (up → Yes, down → No)</td></tr>
+<tr><td>Mean-Reversion</td><td>Fade the jump (up → No, down → Yes)</td></tr>
+<tr><td>Favorite</td><td>Buy Yes when price &gt; $0.60 (off by default)</td></tr>
+<tr><td>Longshot</td><td>Buy Yes when price &lt; $0.40 (off by default)</td></tr>
+</tbody></table></div>
+<div class="card"><h2>Limitations</h2>
+<ul>
+<li>Demo prices “may not be reflective of those in real markets” (<a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a>).</li>
+<li>Topic mapping is a keyword heuristic — unverified tickers (see Flagged page).</li>
+<li>Alert “catalyst” links are curated official sources to check, not proven causes.</li>
+<li>Simulated fallback data is labeled and never mixed silently with live data.</li>
+</ul></div>
+</main>
+<footer>Tradebot1 · Kalshi demo · Paper trading — not financial advice</footer>
+<script src="assets/app.js"></script>
+</body></html>

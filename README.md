@@ -1,42 +1,46 @@
-# Kalshi Demo Research Dashboard
+# Tradebot1 — Kalshi Demo research
 
-[Dashboard (GitHub Pages)](https://kanlerxz87-cyber.github.io/Tradebot1/) · [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/executive-summary.html) · [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/review/) · [Coordination board](COORDINATION.md)
+[Primary research dashboard](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) · [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/executive-summary.html) · [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/review/) · [Alternative prototype](https://kanlerxz87-cyber.github.io/Tradebot1/site/)
 
-A credential-free **public demo** market-research dashboard for gas prices, elections, culture, crypto and golf. This repository initially contained only `# Tradebot1`; there was no existing application or account integration to audit. All new functionality is separate from a real Kalshi portfolio.
+The repository began as a one-line README. Two parallel sessions built independent implementations. **`docs/` is the primary credential-free research dashboard**: it never substitutes simulated prices for missing official observations. The previously merged `site/` prototype and `python/` client are preserved for comparison, but its clearly labeled simulated fallback is *not* official market data. Neither frontend accesses a real demo account.
 
-## What works
+## Primary dashboard (`docs/`)
 
-- Category subpages; source-linked market rows and event/market URLs. The ranking is a **derived proxy**, `last YES price × 24h contract volume`, over **up to four event pages and two non-combo market pages** (not all exchange events or official dollar volume). Conservative title/category matching may omit events.
-- Public REST fetch every 90 seconds, tracked tickers every 45 seconds, Kalshi candlesticks for minute/hour charts, in-session observations for seconds; a public orderbook snapshot for the selected contract. Data can lag and browser access to cross-origin REST has not been validated at the deployed origin.
-- Two scrolling lists of *observed* ±$0.10 last-YES-price moves: all matching moves and those meeting an explicitly disclosed spread/volume/price heuristic. A snapshot is never treated as a preceding observation, and a gap of ≥3 minutes suppresses alerts.
-- One automatic **local paper YES buy** per screened market at the reported ask, with localStorage persistence, marked at the reported bid, and payout only after the API says `status=finalized` and `result=yes/no`. No fees, slippage, order fills or trading-performance claims. Paper data is not synchronized across devices.
-- A scheduled 30-minute GitHub Pages workflow generates a **bounded public demo API snapshot** as a fallback when the browser cannot fetch. The timestamp and partial-coverage status are shown; build failures in the API fetch do not become fabricated market values.
+- Five separate topic pages: gas prices, elections, culture, crypto and golf. Every market, orderbook, paper ledger and lifecycle table row links to its official Kalshi public endpoint. Ranking is a derived **estimated 24h $ proxy**: sum per event of `last YES price × 24h contract volume` over scanned contracts, not exchange-reported turnover or a complete exchange ranking. The scan covers up to four event pages and two newest non-combo market pages; title/category rules can omit events.
+- Public REST discovery every 90 seconds, tracked tickers every 45 seconds, minute/hour Kalshi candles and seconds-level *browser session observations*, public orderbook snapshots. Listings can be cached; cross-origin browser access remains unverified.
+- Two scrolling lists of **observed** ≥$0.10 last-YES-price changes: all and an explicit spread/volume/ask-price screen. A published snapshot is a baseline, never an alert; ≥3-minute observation gaps suppress alerts. This screen does not predict ROI.
+- Automatic local **paper YES buys** at reported ask, marked at reported bid, finalized YES/NO payout per Kalshi `status=finalized` and `result=yes/no`. No fees, slippage, order-fill verification or actual trading. Local paper state persists only in this browser. Watched contracts appear in a lifecycle table until finalized while the session stays open.
+- A scheduled GitHub Pages workflow generates a bounded public demo API snapshot in its deployment artifact; empty/unavailable API responses never become invented values. A root redirect to `docs/` supports the existing legacy Pages `main /` source.
 
-## Explicitly not implemented
+## Other parallel-session deliverables (preserved)
 
-No authenticated demo account balance, real demo orders, WebSocket stream, ROI model, complete ranking, guaranteed seconds-level resolution, or news-price causal attribution. **Do not put API keys or signing private keys into GitHub Pages, frontend JavaScript, the repository, or localStorage.** A private authenticated backend is required for secure WebSocket subscriptions and demo-account execution. See [Flagged for Review](docs/review/index.html) for the item-by-item sources and status.
+- [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md), [`docs/VERIFICATION.md`](docs/VERIFICATION.md), [`site/`](site/) and [`python/`](python/) were merged separately by session `arena-39ef3867` before this integration. The alternative prototype includes clearly labeled simulated display values if browser API access fails. Treat them as examples, **not verified quotes**.
+- [`python/README.md`](python/README.md) describes a separate local demo API client requiring your own API credentials. Do not put any private key in this repository, the public website or localStorage.
+- [`COORDINATION.md`](COORDINATION.md) records both owners, verification and cross-session merge conflict handling.
 
-## Local development & verification
+## Verification and local preview
 
 ```sh
 node --test tests/*.test.mjs
 python3 tests/check_site.py
-python3 -m http.server 8000 --bind 0.0.0.0 --directory docs
+python3 python/test_simulator.py
+node --check docs/assets/app.mjs
+node --check site/assets/app.js
+python3 -m http.server 8000 --bind 0.0.0.0
 ```
 
-Open `http://localhost:8000/` locally. The site has no npm dependencies. `scripts/build_snapshot.py` is for an environment that can reach the official Kalshi demo API; it uses no account credentials. Run it only if you want to replace `docs/data/snapshot.json` with a newly observed public-data snapshot. GitHub Actions builds this automatically when deployed.
+Open `http://localhost:8000/docs/` for the primary dashboard or `http://localhost:8000/site/` for the alternative. No npm dependencies. `scripts/build_snapshot.py` fetches public demo observations only; GitHub Actions runs it on push/schedule when deployment is allowed.
 
-## Official sources checked on 2026-11-22
+## Official sources checked 2026-11-22
 
-- [Demo REST / WebSocket base URLs and credential separation](https://docs.kalshi.com/getting_started/api_environments)
+- [Demo endpoints and separate credentials](https://docs.kalshi.com/getting_started/api_environments)
 - [Public events, nested markets, pagination, multivariate exclusion](https://docs.kalshi.com/api-reference/events/get-events.md)
-- [Market quote, result and volume fields; cached listings](https://docs.kalshi.com/api-reference/market/get-markets.md)
-- [Public orderbook depth and bid-only representation](https://docs.kalshi.com/getting_started/orderbook_responses)
-- [Market candlestick intervals](https://docs.kalshi.com/api-reference/market/get-market-candlesticks)
-- [Signed WebSocket handshake, including public channels](https://docs.kalshi.com/getting_started/quick_start_websockets)
-- [Signed account requests](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests) and [V2 demo order endpoint](https://docs.kalshi.com/api-reference/orders/create-order-v2)
-- [Public demo endpoint response checked](https://external-api.demo.kalshi.co/trade-api/v2/markets?limit=3&status=open) (point-in-time example, not a stored claim about current quotes)
+- [Market quote/result/volume fields and caching](https://docs.kalshi.com/api-reference/market/get-markets.md)
+- [Lifecycle: REST finalized corresponds to settled filter](https://docs.kalshi.com/getting_started/market_lifecycle.md)
+- [Public orderbook levels](https://docs.kalshi.com/getting_started/orderbook_responses) and [candlestick intervals](https://docs.kalshi.com/api-reference/market/get-market-candlesticks)
+- [Signed WebSocket handshake](https://docs.kalshi.com/getting_started/quick_start_websockets), [signed account requests](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests), [V2 demo orders](https://docs.kalshi.com/api-reference/orders/create-order-v2)
+- [Sample public demo market](https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&mve_filter=exclude&limit=3) and [sample event ticker filter](https://external-api.demo.kalshi.co/trade-api/v2/events?tickers=KXDEMOFUTHOURLY-26NOV22H07,KXSENATEIAD-28&limit=200) checked point-in-time; no quotes from those samples are frozen into the dashboard.
 
-## Publication
+## Limits
 
-`.github/workflows/pages.yml` tests, fetches a fresh bounded public snapshot and deploys `docs/` to GitHub Pages on pushes to `main`, on its 30-minute schedule, or via workflow dispatch. The repository currently uses legacy Pages publication from `main /`; the root `index.html` redirects to `docs/` to keep the dashboard reachable even if GitHub Actions deployment cannot be enabled. The API attempt to switch the Pages build type to workflow returned HTTP 403 (integration permission), so scheduled snapshot publication is flagged as unverified. Never use the live production API for this demo dashboard.
+No authenticated demo portfolio or executed orders, secure WebSocket stream, calibrated ROI model, complete ranking, or verified news-price causal links. A separate private backend is required to sign WebSocket handshakes and demo-account orders. The repository Pages setting is legacy `main /`; a Pages-source API update returned HTTP 403 for this integration, although the earlier `site/` deployment workflow succeeded. Root `index.html` redirects to `docs/` as fallback. The post-merge workflow and published snapshot must be checked before considering scheduled refresh confirmed. See the [Flagged for Review page](docs/review/index.html).

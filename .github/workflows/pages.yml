@@ -1,4 +1,4 @@
-name: Verify and deploy Pages
+name: Verify and deploy both Pages dashboards
 on:
   push:
     branches: [main]
@@ -22,19 +22,27 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Verify logic and local links
+      - name: Verify both sessions' code and local links
         run: |
           node --test tests/*.test.mjs
           python3 tests/check_site.py
+          python3 python/test_simulator.py
+          node --check site/assets/app.js
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
+      - name: Stage legacy root, research dashboard, and original dashboard
+        if: github.event_name != 'pull_request'
+        run: |
+          mkdir -p public
+          cp index.html .nojekyll public/
+          cp -R docs site public/
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'
       - uses: actions/upload-pages-artifact@v3
         if: github.event_name != 'pull_request'
         with:
-          path: docs
+          path: public
   deploy:
     if: github.event_name != 'pull_request'
     environment:

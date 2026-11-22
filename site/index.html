@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kalshi Demo Dashboard — Tradebot1</title><link rel="stylesheet" href="assets/style.css"></head>
+<body>
+<header><div class="logo">Kalshi <span>Demo</span> Dashboard</div>
+<nav><a href="index.html">Home</a><a href="dashboard.html">Live Dashboard</a><a href="portfolio.html">Portfolio &amp; Strategies</a><a href="methodology.html">Methodology</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for Review</a></nav>
+<span id="mode-badge" class="badge badge-live">LIVE</span></header>
+<main>
+<h1>Kalshi Demo Trading Dashboard</h1>
+<p class="muted">Live tracking of the highest-dollar Kalshi demo events in <b>gas prices, elections, culture, crypto, and golf</b> — with ≥ $0.10 swing alerts, price charts, order-book liquidity, resolution tracking, and automated simulated trading.</p>
+<div id="mode-banner" class="banner live">✅ <b>LIVE</b> — connecting to Kalshi demo API…</div>
+<div class="kpi">
+<div class="box"><div class="v" id="kpi-markets">—</div><div class="l">Markets in scope</div></div>
+<div class="box"><div class="v" id="kpi-alerts">—</div><div class="l">≥ $0.10 alerts</div></div>
+<div class="box"><div class="v" id="kpi-equity">—</div><div class="l">Paper equity</div></div>
+<div class="box"><div class="v" id="kpi-resolved">—</div><div class="l">Resolved (yes/no)</div></div>
+</div>
+<div class="grid">
+<div class="card"><h2>🚀 Go to the live dashboard</h2><p>Two scrolling alert chats (all events + high-ROI filtered), topic tabs, price chart with seconds/minutes/hours windows, and live order-book depth.</p><p><a href="dashboard.html"><button>Open Live Dashboard →</button></a></p></div>
+<div class="card"><h2>📊 Portfolio &amp; strategies</h2><p>Automated simulated trades (Momentum, Mean-Reversion, Favorite, Longshot), equity curve, and performance categorized by topic × strategy × side.</p><p><a href="portfolio.html"><button>Open Portfolio →</button></a></p></div>
+<div class="card"><h2>🔍 How it works</h2><p>Polls the public Kalshi demo REST API from your browser, detects ≥ $0.10 moves, scores markets with a transparent heuristic, and paper-trades the signals. Full details on the Methodology page.</p><p><a href="methodology.html"><button>Read Methodology →</button></a></p></div>
+</div>
+<div class="card"><h2>Executive summary</h2>
+<p>Official demo endpoints (verified — see <a href="sources.html">Sources</a>): REST <code>https://external-api.demo.kalshi.co/trade-api/v2</code> · WebSocket <code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code> · demo site <a href="https://demo.kalshi.co/" target="_blank" rel="noopener">demo.kalshi.co</a> (mock funds). Public market endpoints need no API key; authenticated trading needs your own demo key + private key (instructions in <code>python/README.md</code>). Demo prices may not reflect real markets.</p>
+<p class="muted small">⚠️ If the live API is unreachable from your browser, the dashboard switches to clearly-labeled <b>simulated data</b> so every feature still works. Unverified items are listed on the <a href="flagged.html">Flagged for Review</a> page — nothing is inferred or filled in.</p></div>
+<p class="muted small" id="status-line"></p>
+</main>
+<footer>Tradebot1 · Kalshi demo environment only · Paper/simulated trading — not financial advice · Data: Kalshi API (docs.kalshi.com)</footer>
+<script src="assets/app.js"></script>
+<script>document.addEventListener("DOMContentLoaded",()=>{setInterval(()=>{const m=document.querySelectorAll("#markets-table tbody tr").length;const k1=document.getElementById("kpi-markets");if(k1)k1.textContent=S.markets.size;const k2=document.getElementById("kpi-alerts");if(k2)k2.textContent=S.alerts.length;const k3=document.getElementById("kpi-resolved");if(k3)k3.textContent=S.resolutions.length;},2000);});</script>
+</body></html>

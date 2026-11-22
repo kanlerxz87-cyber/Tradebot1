@@ -1,11 +1,23 @@
-# Coordination board
+# Coordination board — integrated sessions
 
-Repository branch for this Arena session: `arena/c9075e75-tradebot1` (session ID `c9075e75`). Arena fixes this branch; this session cannot create or switch to `session-<id>/<task>` or an integration branch. Do not edit files claimed below from another session. No other tasks were listed when this board was created on 2026-11-22.
+Arena fixes this session to branch `arena/c9075e75-tradebot1`; no session/worktree branch may be created or switched to here. Session `arena-39ef3867` independently merged PR #2 into `main` while this session was working on its separately claimed scope. Both projects are retained; no other session's site or Python files were edited here.
 
-| Task | Status | Owner | File scope | Claimed (UTC) | Sources / verification / irregularities |
-| --- | --- | --- | --- | --- | --- |
-| Kalshi demo research, static Pages dashboard, simulation, documentation, tests, and integration | In progress | c9075e75 | `COORDINATION.md`, `README.md`, `index.html`, `.nojekyll`, `.gitignore`, `docs/**`, `scripts/**`, `.github/**`, `tests/**` | 2026-11-22 | Checked [official Kalshi environments](https://docs.kalshi.com/getting_started/api_environments), [events](https://docs.kalshi.com/api-reference/events/get-events.md), [markets](https://docs.kalshi.com/api-reference/market/get-markets.md), [lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle.md), [candles](https://docs.kalshi.com/api-reference/market/get-market-candlesticks), [orderbook](https://docs.kalshi.com/getting_started/orderbook_responses) and [WebSockets](https://docs.kalshi.com/getting_started/quick_start_websockets); fetched demo market/event API examples including `tickers=` and `mve_filter=exclude`. Node tests and local link checker pass. Irregularities: public static site cannot safely authenticate WS/orders/portfolio; limited sampled coverage, no causal attribution or verified ROI; Pages source is legacy `main /` and update to workflow mode returned HTTP 403 (integration permission), listed on Flagged for Review. Root redirects to `docs/` as fallback. Deployment/PR pending. |
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Executive summary and requirements | done | arena-39ef3867 | `EXECUTIVE_SUMMARY.md` | See its source-linked document. |
+| Verification table | done | arena-39ef3867 | `docs/VERIFICATION.md` | See original session's citations and flagged items. |
+| Alternative live prototype, dual alerts, charts and resolution | done | arena-39ef3867 | `site/dashboard.html`, `site/assets/app.js`, `site/assets/style.css` | Simulated fallback is not verified Kalshi market data. |
+| Alternative simulator and local credentialed client | done | arena-39ef3867 | `site/portfolio.html`, `python/**` | See `python/README.md`; no credentials supplied. |
+| Alternative landing, methodology, sources and flagged page | done | arena-39ef3867 | `site/*.html` | Original site preserved at `/site/`. |
+| Source-linked research dashboard, category subpages, local paper ledger and lifecycle | In progress (deploy pending) | c9075e75 | `docs/index.html`, `docs/{gas,elections,culture,crypto,golf,review}/**`, `docs/executive-summary.html`, `docs/assets/**`, `docs/data/**`, `scripts/**`, `tests/**`, `index.html`, `.nojekyll`, `.gitignore` | Checked [environments](https://docs.kalshi.com/getting_started/api_environments), [events](https://docs.kalshi.com/api-reference/events/get-events.md), [markets](https://docs.kalshi.com/api-reference/market/get-markets.md), [lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle.md), [candles](https://docs.kalshi.com/api-reference/market/get-market-candlesticks), [orderbook](https://docs.kalshi.com/getting_started/orderbook_responses), [WebSockets](https://docs.kalshi.com/getting_started/quick_start_websockets); public demo event/market examples fetched and filters checked. Node tests, Python syntax and local link test pass. Partial sample, CORS, account credentials, ROI and causal attribution flagged at `/docs/review/`. |
+| Shared documentation and workflow integration | In progress (deploy pending) | c9075e75 + earlier arena-39ef3867 | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` | Both versions integrated, preserving original site under `/site/`, primary research site under `/docs/`. Page source remains legacy `main /`; API change to workflow source returned 403. Earlier `site/` Actions deployment succeeded. |
 
-## Handoffs and cross-scope requests
+## Conflict / handoff log
 
-None at creation. A claim older than 60 minutes with no commits can be taken over if the handoff is documented here. Do not overwrite another session's changes.
+- 2026-11-22: c9075e75 created and pushed claim before implementation. No existing COORDINATION.md was present locally at claim time.
+- 2026-11-22: arena-39ef3867 independently merged PR #2 into main. PR #3 from c9075e75 reported CONFLICTING. Fetched main, merged it *into the current branch without switching branches*. Add/add conflicts in `COORDINATION.md` and `.github/workflows/pages.yml`, content conflict in `README.md`. Resolved by combining both session boards, publication paths and verification commands; kept `site/` and `python/` untouched. No other session's work discarded.
+- 2026-11-22: Pending PR #3 integration checks, merge and Pages deployment confirmation. GitHub Pages permission limitation is published on `/docs/review/` and does not block source-linked site publication.
+
+## Scope requests
+
+The earlier `site/` prototype should be reviewed by its owning session if its simulated fallback is ever presented as verified market data. The root landing points to the separately verified `/docs/` dashboard instead.
