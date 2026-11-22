@@ -51,6 +51,7 @@ jobs:
           python3 -m pytest -q
           python3 tools/build_site.py --check
           python3 tools/check_links.py
+          python3 tools/check_gateway.py
       - name: Verify the engine site (session arena-7ae1c34f)
         run: |
           python3 -m engine.check_site --root docs/engine
@@ -65,6 +66,18 @@ jobs:
           python3 -m unittest discover -s live/tests
           python3 live/build_page.py --check
           python3 qa/audit.py --check
+      # Audit (session 73552f24): every finding re-checked, pages current, a source
+      # link on every row. Fails the build if a published verdict goes stale.
+      - name: Verify the audit site
+        run: |
+          python3 audit/verify.py --check
+          python3 audit/build_site.py --check
+          python3 audit/check_site.py
+      - name: Verify Demo API desk and V2 engine (session 17d84e4f)
+        run: |
+          python3 kalshi_engine/test_engine.py
+          python3 demo-desk/check_live_site.py
+          node --test demo-desk/test_live_core.mjs
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
@@ -93,7 +106,7 @@ jobs:
           set -euo pipefail
           mkdir -p public
           cp index.html .nojekyll public/
-          cp -R docs site public/
+          cp -R docs site demo-desk audit public/
           # The Node board app (session 9bea7e55): generated pages, their assets,
           # the five category pages and the JSON those pages read. Repository
           # internals (tools, tests, workflows) are never published.

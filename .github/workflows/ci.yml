@@ -46,6 +46,12 @@ jobs:
       - name: No broken internal links
         run: python tools/check_links.py
 
+      - name: Root gateway links are alive and published
+        run: python tools/check_gateway.py
+
+      - name: Engine site links and source links
+        run: python -m engine.check_site --root docs/engine
+
       - name: No credentials in the tree
         run: |
           set -e
@@ -54,6 +60,40 @@ jobs:
             exit 1
           fi
           echo "no key material found"
+
+  # ---------------------------------------------------------------------------
+  # Independent audit (session 73552f24). Re-runs every finding's check, so a
+  # page cannot keep publishing a verdict the code no longer supports.
+  # ---------------------------------------------------------------------------
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Re-run every audit check
+        run: python3 audit/verify.py --check
+
+      - name: Audit pages match their data
+        run: python3 audit/build_site.py --check
+
+      - name: Source link on every row, no broken links
+        run: python3 audit/check_site.py
+
+      - name: Audit regression tests
+        run: python -m pytest -q tests/test_audit.py
 
   # ---------------------------------------------------------------------------
   # Node dashboard (session 9bea7e55). Independent of the Python job above:
@@ -89,3 +129,19 @@ jobs:
 
       - name: Every page renders its data with source links
         run: node scripts/check-render.mjs
+
+  demo-desk-v2:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Run kalshi_engine V2 unit tests and demo-desk/ link & source checks
+        run: |
+          python3 kalshi_engine/test_engine.py
+          python3 demo-desk/check_live_site.py
+          node --test demo-desk/test_live_core.mjs
