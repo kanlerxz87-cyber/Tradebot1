@@ -362,6 +362,9 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 **Branch:** `arena/1662b94b-tradebot1` (base `521e795`, main head at claim time).
 **Status:** done — results below. Claimed 2026-11-22 (UTC) before any file was changed.
 
+**Pull request and merge record:** [PR #13](https://github.com/kanlerxz87-cyber/Tradebot1/pull/13) — merged with a merge commit (`8efef26`) at 2026-11-22T07:29:17Z, after the PR checks passed (`build` pass, `node-dashboard` pass, `test` pass; deploy skipped on PRs by design). The `main` push runs for the merge succeeded: CI, and "Verify and deploy both Pages dashboards". The live page was fetched after deploy: [docs/audit/fee-audit.html](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) serves the 21/21 table and the 13-series table.
+The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and #12; it was resolved by keeping both sides (no entries removed).
+
 ## Claimed tasks
 
 | # | Task | Status | Owner | Files / scope |
