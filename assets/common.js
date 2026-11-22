@@ -21,7 +21,11 @@ export function sitePath(rel) { return ROOT_PREFIX + rel; }
 
 export function money(v, digits = 2) {
   if (v === null || v === undefined || v === '' || Number.isNaN(Number(v))) return dash;
-  return `$${Number(v).toFixed(digits)}`;
+  // Group the dollar part so 1000 reads as $1,000.00.
+  const [whole, frac] = Math.abs(Number(v)).toFixed(digits).split('.');
+  const grouped = whole.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  const sign = Number(v) < 0 ? '-' : '';
+  return `$${sign}${grouped}${frac ? `.${frac}` : ''}`;
 }
 
 export function cents(v) {
