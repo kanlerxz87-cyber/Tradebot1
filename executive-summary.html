@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
 </head>
-<body data-generated="2026-11-22T07:25:03.442Z">
+<body data-generated="2026-11-22T07:29:10.193Z">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap site-inner">
@@ -138,9 +138,31 @@
     <div>
       <div><strong class="muted">Review</strong></div>
       <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
-      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:00Z (25m ago)</div>
+      <div class="src" style="margin-top:8px">Newest observation: <time datetime="2026-11-22T07:00:00Z" data-obs-iso="2026-11-22T07:00:00Z">2026-11-22 07:00Z</time> <span data-obs-rel class="dim"></span></div>
     </div>
   </div>
 </footer>
+<script>
+// The relative age ("24m ago") is computed in the visitor's browser. Baking it into
+// the HTML made it wrong the moment the page was served, and made the --check gate
+// fail for every page older than 90 seconds. The absolute UTC stamp stays in the
+// markup as the record; the script only annotates it.
+(() => {
+  const nodes = document.querySelectorAll('[data-obs-iso]');
+  if (!nodes.length) return;
+  const render = () => {
+    const now = Date.now();
+    for (const node of nodes) {
+      const ms = now - new Date(node.getAttribute('data-obs-iso')).getTime();
+      const s = Math.max(0, Math.round(ms / 1000));
+      const rel = s < 90 ? s + "s ago" : s < 5400 ? Math.round(s / 60) + "m ago" : s < 172800 ? Math.round(s / 3600) + "h ago" : Math.round(s / 86400) + "d ago";
+      const out = node.parentElement?.querySelector('[data-obs-rel]');
+      if (out) out.textContent = "(" + rel + ")";
+    }
+  };
+  render();
+  setInterval(render, 30000);
+})();
+</script>
 </body>
 </html>

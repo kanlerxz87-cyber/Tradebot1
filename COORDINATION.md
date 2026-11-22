@@ -367,3 +367,43 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 Fee formula (F1), demo-account balance (F2), browser CORS (F5), news causality (F5), the ROI model as a
 predictor (F12). All are stated on `docs/desk/flagged.html` with an official source link and the test that
 would clear them.
+
+---
+
+# Session `arena/568a5271-tradebot1` — audit-and-fix pass (no new site)
+
+**Branch:** `arena/568a5271-tradebot1`, based on `c8c1d28`, rebased onto `b5f896f` (PRs #9–#12 already
+merged). **Claimed scope:** `kalshi_trader/{swings,collector,cli}.py`, `tools/collector.mjs`,
+`scripts/build-site.mjs`, `docs/desk/assets/{js/app.js,css/site.css}`, `docs/desk/data/flags.json`,
+`README.md` (counts and one feature line only), `tests/`, `verification/2026-11-22-568a5271.md`,
+this section of `COORDINATION.md`, and the generated pages that follow from those sources.
+
+This session deliberately built **no new dashboard and edited no landing page and no navigation**:
+five parallel sites already exist and consolidation belongs to the integration session. What it did
+instead was audit the two live dashboards line by line and fix what a visitor could see was wrong.
+
+| Task | Status | Files | Verification |
+| - | - | - | - |
+| A1 Row-level audit of the published snapshot (300 markets, 1 alert) | done — 27 inconsistencies found | `docs/desk/data/latest.json` (read only) | `cli verify` now performs these checks on every run |
+| D1 Baked relative age + time-dependent build gate | done | `scripts/build-site.mjs`, 19 generated pages, `tests/site-determinism.test.mjs` | rebuild → wait → `--check` passes; 3 new tests |
+| D2 Collector wrote back only `price` from the mid-cycle sample | done | `kalshi_trader/collector.py`, `tests/test_collector.py` | 1 new regression test replaying a 14¢ two-sample cycle |
+| Feature: labelled "what may have caused this" search links on every alert | done — flag F16 | `kalshi_trader/swings.py`, `docs/desk/assets/js/app.js`, `docs/desk/assets/css/site.css`, `tests/test_swings.py` | 3 new tests; no cause is asserted anywhere |
+| D3 README counts and the "candidate news links" claim were stale | done | `README.md` | 146 pytest / 39 node tests, counted |
+| F15 and F16 flagged for review | done — 16 flags, 0 blocking | `docs/desk/data/flags.json`, `docs/desk/flagged.html` | `tools/build_site.py --check` current |
+| Repo hygiene: 1,762 tracked `__pycache__/*.pyc` files committed by earlier sessions | done — removed from the index, `__pycache__/`, `.venv/`, `node_modules/` ignored | `.gitignore`, index | `git ls-files | grep -c __pycache__` → 0 |
+| Verification record | done | `verification/2026-11-22-568a5271.md` | commands and outputs quoted |
+
+**Egress:** `docs.kalshi.com`, `external-api.kalshi.com`, `api.kalshi.com` and `demo-api.kalshi.co`
+all returned `000` from this sandbox (`github.com` returned `200`). No new Kalshi fact was asserted; the
+claims used are the ones already dated in `docs/desk/data/sources.json`. Live data is refreshed by the
+repository's own scheduled workflow, not from here.
+
+**Rebase note:** `git rebase origin/main` conflicted on the 19 generated pages and `COORDINATION.md`
+(main had regenerated the same pages with newer data). Resolved by taking main's pages verbatim,
+re-running the generators against main's data, and re-appending this section to main's board. Nothing
+from sessions `9bea7e55` or `arena-e3e5f70f` was discarded.
+
+**Non-overlap note:** files touched here that earlier sessions own — `kalshi_trader/*` and
+`docs/desk/*` (session `arena-e3e5f70f`, merged) and the root board's `scripts/`, `tools/`, `tests/`
+(session `9bea7e55`, merged). Both are closed; the changes are additive and each has a test. No file
+owned by session `89a39032` (integration, in progress) or `7ae1c34f` (`docs/engine/`) was modified.
