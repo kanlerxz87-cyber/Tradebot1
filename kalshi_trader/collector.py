@@ -104,16 +104,29 @@ def refresh_catalogue(client: RestClient, settings: Settings, *, force: bool = F
                     if not previous.get("tags") and entry.get("tags"):
                         previous["tags"] = entry["tags"]
 
+    totals = _counts(series)
+    # A full Sports/Entertainment sweep returns thousands of series (megabytes). Only the most
+    # active ones are rendered, so the published catalogue is trimmed; totals stay exact.
+    by_topic: dict[str, list[tuple[str, dict[str, Any]]]] = {}
+    for ticker, entry in series.items():
+        by_topic.setdefault(entry.get("topic") or "other", []).append((ticker, entry))
+    trimmed: dict[str, dict[str, Any]] = {}
+    for topic_id, items in by_topic.items():
+        items.sort(key=lambda kv: kv[1].get("volume") or 0.0, reverse=True)
+        for ticker, entry in items[:150]:
+            trimmed[ticker] = entry
+
     catalog = {
         "generated_at": _iso(),
         "schema": SCHEMA_VERSION,
-        "series": series,
-        "by_topic": _counts(series),
+        "series": trimmed,
+        "totals": totals,
+        "by_topic": _counts(trimmed),
         "errors": errors,
         "documentation": "https://docs.kalshi.com/getting_started/terms",
     }
     store.write_json(path, catalog)
-    log.info("series catalogue refreshed: %d series (%s)", len(series), catalog["by_topic"])
+    log.info("series catalogue refreshed: %d series (%s), %d published", len(series), totals, len(trimmed))
     return catalog
 
 
@@ -409,9 +422,9 @@ def run_cycle(
             "notional_24h_est": round(sum(m.get("notional_24h_est") or 0 for m in markets), 2),
             "volume_24h": round(sum(m.get("volume_24h") or 0 for m in markets), 2),
             "open_interest": round(sum(m.get("open_interest") or 0 for m in markets), 2),
-            "markets": markets,
+            "markets": [_publish_market(m) for m in markets],
             "events": events_block,
-            "top_market": (max(markets, key=lambda m: m.get("notional_24h_est") or 0) if markets else None),
+            "top_market": (_publish_market(max(markets, key=lambda m: m.get("notional_24h_est") or 0)) if markets else None),
         }
 
     previous_alerts = store.read_json(settings.data_dir / "alerts.json", {}) or {}
@@ -538,6 +551,26 @@ def _update_history(
     store.write_json(settings.data_dir / "history.json", {"generated_at": _iso(now), "series": trimmed})
 
 
+PUBLISH_DROP = (
+    "series_title",
+    "event_title",
+    "yes_sub_title",
+    "no_sub_title",
+    "expected_expiration_time",
+    "previous",
+    "no_bid",
+    "no_ask",
+    "oi_dollars_est",
+    "top_book_dollars_est",
+    "orderbook_url",
+)
+
+
+def _publish_market(market: dict[str, Any]) -> dict[str, Any]:
+    """Drop duplicated/derived fields from the published snapshot (bisected against the site)."""
+    return {k: v for k, v in market.items() if k not in PUBLISH_DROP}
+
+
 def _collect_resolutions(
     client: RestClient,
     current_markets: dict[str, dict[str, Any]],
@@ -561,7 +594,7 @@ def _collect_resolutions(
             raw = client.paginate(
                 "/markets",
                 "markets",
-                {"series_ticker": series_ticker, "status": "settled", "min_close_ts": _parse_iso(cutoff)},
+                {"series_ticker": series_ticker, "status": "settled", "min_close_ts": int(_parse_iso(cutoff) or 0)},
                 page_size=100,
                 max_pages=1,
             )
@@ -575,7 +608,8 @@ def _collect_resolutions(
                 normalize_market(market, api_base="")
             )
     rows = sorted(items.values(), key=lambda r: r.get("settled_ts") or r.get("close_time") or "", reverse=True)
-    return rows
+    # keep the payload bounded; the newest 400 settlements are plenty for the tracker
+    return rows[:400]
 
 
 def _resolution_row(market: dict[str, Any]) -> dict[str, Any]:
