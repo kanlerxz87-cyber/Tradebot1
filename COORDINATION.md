@@ -705,7 +705,10 @@ session did not force it.
 
 * PR [#25](https://github.com/kanlerxz87-cyber/Tradebot1/pull/25) merged to `main` at 2026-11-22T07:39:22Z
   (merge commit `3111605`); follow-up PR [#31](https://github.com/kanlerxz87-cyber/Tradebot1/pull/31)
-  (three display defects on the generated page) merged at 2026-11-22T07:47Z (merge commit `9fc44aa`).
+  (three display defects on the generated page) merged at 2026-11-22T07:47Z (merge commit `9fc44aa`),
+  and PR [#33](https://github.com/kanlerxz87-cyber/Tradebot1/pull/33) (audit wording, notional-drift
+  magnitude, merge record) merged at 2026-11-22T07:51:50Z (merge commit `ef9d3b9`). All checks passed on
+  #33, including the Pages `build` job.
 * The `Verify and deploy both Pages dashboards` run is cancelled within seconds on every PR and merge in this
   repository because the `pages` concurrency group is permanently occupied by main's continuous deploys. The
   site is published by the legacy `main /` Pages build instead, which succeeded after each merge
