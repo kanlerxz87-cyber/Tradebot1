@@ -1,3 +1,18 @@
+# Python build/test artifacts and virtualenvs.
+# NOTE: a merge on 2026-11-22 dropped these rules, and 3884 .venv files plus 1762 .pyc binaries
+# were committed to main as a result. They are restored here and the artifacts were untracked.
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+
 # Local state / secrets
 .env
 *.pem
