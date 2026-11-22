@@ -336,6 +336,60 @@ captured API responses, the price *paths* used to exercise the alert logic are s
   and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
 * **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
   `.gitignore` and this board; resolved the same way.
+# Session `arena/1662b94b-tradebot1` — official-source audit (`docs/audit/`)
+
+**Branch:** `arena/1662b94b-tradebot1` (base `521e795`, main head at claim time).
+**Status:** done — results below. Claimed 2026-11-22 (UTC) before any file was changed.
+
+## Claimed tasks
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| A1 | Re-verify the paper fee model against Kalshi's official fee schedule, line by line (every row of the schedule's general table recomputed with the repo's own `kalshi_trader/fees.taker_fee`) | done | `arena/1662b94b-tradebot1` | `docs/audit/**` (new) |
+| A2 | Cross-check the series-level fields the site relies on (category, tags, fee_type, fee_multiplier) for a sample of series in all five topics against the official Series endpoint | done | `arena/1662b94b-tradebot1` | `docs/audit/**` (new) |
+| A3 | Log irregularities and scope requests for the owning sessions (no edits to their files) | done | `arena/1662b94b-tradebot1` | this section of `COORDINATION.md` |
+
+**Not touched:** `kalshi_trader/**`, `docs/desk/**`, `docs/` monitor, `site/`, `python/`, `tools/`, `tests/`, `.github/**`, `index.html`, `README.md`, `EXECUTIVE_SUMMARY.md`, `docs/flagged` data. Shared nav/index changes are left to the integration session.
+
+**Egress note (this sandbox):** bash cannot reach `*.kalshi.co` / `*.kalshi.com` (TLS failure on `curl`, see F5). Official Kalshi pages and public GET endpoints were read through the fetch tool instead, and each row links the page it came from.
+
+## Results (2026-11-22 UTC)
+
+**Output:** [`docs/audit/fee-audit.html`](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) (live after the next Pages deploy). Generator and recomputation: `docs/audit/build.py` (`--check` exits 1 on any failed row).
+
+**Sources read (official only):**
+
+- Kalshi fee schedule PDF, "Last updated and effective: July 7, 2026": https://kalshi.com/docs/kalshi-fee-schedule.pdf
+- Kalshi fee-schedule page, "No upcoming fee changes scheduled", non-standard series list (160 series): https://kalshi.com/fee-schedule
+- Fee rounding: https://docs.kalshi.com/getting_started/fee_rounding
+- Get Series API reference (`fee_type`, `fee_multiplier` fields): https://docs.kalshi.com/api-reference/market/get-series
+- Glossary (`category`, `categories`, `tags`; worked example): https://docs.kalshi.com/getting_started/terms
+- Live official Series endpoint, production host, 13 sampled series (gas, golf, crypto, elections, culture): `https://external-api.kalshi.com/trade-api/v2/series/{ticker}`
+
+**Verification performed:**
+
+- 21 of 21 rows of the general fee table recomputed with `kalshi_trader.fees.taker_fee`: all match (1-contract and 100-contract columns).
+- Series fields compared with the repo's topic assignment in `docs/desk/data/series.json`: all 13 topic assignments match the expected topic.
+- Ledger (`app_data/paper_ledger.json`) checked for records on series with `fee_multiplier: 0`: 0 records, $0.00.
+- `pytest -q` (53 passed), `python tools/check_links.py` (272 links, OK), `python tests/check_site.py` (OK) — run after the page was added.
+- Every table row on the page carries a source link (41 rows, 0 without a link).
+
+**Irregularities and scope requests** (owned by `arena-e3e5f70f`; recorded here, not edited):
+
+1. **Review — per-series fee multiplier ignored.** `KXBTCY` and `KXETHY` return `fee_multiplier: 0` and the schedule lists them as no fees; the repo charges the general formula to every series. Latent (0 ledger records). Request: read `fee_multiplier` per series in `kalshi_trader/fees.py` / `paper.py`.
+2. **Review — flag F1 is out of date.** The fee schedule PDF and fee-schedule page are retrievable now and the general formula matches 21/21. Request: update `docs/desk/data/flags.json` F1 and `fees.VERIFIED`, citing the links above, after item 1 is handled.
+3. **Review — source S10 conflicts with the live record.** S10 (`docs/desk/data/sources.json`, `docs/desk/verification.html`) says KXAAAGASM has categories `[Economics, Commodities]`. The glossary gives that only as an example; the live endpoint returns `["Economics"]`. Request: correct S10 or cite the live record.
+4. **Note — maker fills not modeled.** The gas, PGA Tour and US Open series are `quadratic_with_maker_fees`. `maker_fee()` exists but nothing calls it. Request: state that maker fills are excluded from paper results.
+5. **Note — rounding detail unverified.** Repo rounds to the cent; Kalshi documents a $0.000001 trade fee plus balance rounding and rebates. Request: note the difference.
+6. **Confirmed (no action):** Golf = category `Sports` + tag `Golf` (KXPGATOUR, KXMASTERS, KXUSOPEN). Entertainment series exist for the Culture mapping (KXFIRSTSUPERBOWLSONG, KXRT).
+
+**Not verified (left blank, not inferred):** 147 of the 160 non-standard series on the fee-schedule page; maker-table values (the PDF gives the formula only); demo account balances, positions and fills (no demo credentials in the repo); browser access to Kalshi from the Pages site.
+
+**Integration requests (for the integration session, shared files not edited here):** add a link to `docs/audit/fee-audit.html` in `index.html` / `README.md` navigation; the `Flagged for Review` page (`docs/desk/flagged.html`) should carry items 1–5 above.
+
+**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. The commit that first tracked them is the merge that brought in PRs #11/#12 — not identified further here.
+
+**Sandbox note:** bash in this sandbox cannot reach `*.kalshi.co` or `*.kalshi.com` (TLS failure), so official pages and public GET endpoints were read through the fetch tool. Corroborates flag F5 on the existing Flagged page.
 
 ## Results — session `arena-e3e5f70f` (2026-11-22, after the first live cycles)
 
