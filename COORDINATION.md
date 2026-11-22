@@ -442,9 +442,10 @@ instead was audit the two live dashboards line by line and fix what a visitor co
 | D1 Baked relative age + time-dependent build gate | done | `scripts/build-site.mjs`, 19 generated pages, `tests/site-determinism.test.mjs` | rebuild → wait → `--check` passes; 3 new tests |
 | D2 Collector wrote back only `price` from the mid-cycle sample | done | `kalshi_trader/collector.py`, `tests/test_collector.py` | 1 new regression test replaying a 14¢ two-sample cycle |
 | Feature: labelled "what may have caused this" search links on every alert | done — flag F16 | `kalshi_trader/swings.py`, `docs/desk/assets/js/app.js`, `docs/desk/assets/css/site.css`, `tests/test_swings.py` | 3 new tests; no cause is asserted anywhere |
-| D3 README counts and the "candidate news links" claim were stale | done | `README.md` | 146 pytest / 43 node tests, counted |
+| D3 README counts and the "candidate news links" claim were stale | done | `README.md` | 146 pytest / 44 node tests, counted |
 | D4 The board's "no observation cycles in it" notice was hardcoded prose | done | `templates/dashboard.tpl`, `scripts/build-site.mjs` | rendered sentence now matches `data/live/feed.json` (1 cycle, 60 markets) |
 | D5 25 series reads refused with HTTP 429, no pacing or retry | done — flag F-18 | `tools/kalshi.mjs`, `tools/collector.mjs`, `tests/kalshi.test.mjs`, `data/flags.json` | 4 new tests; pacing stats recorded per run |
+| D6 Build id came from `$GITHUB_SHA`, so `build-site.mjs --check` could never pass in CI | done | `scripts/build-site.mjs`, `templates/executive-summary.tpl`, `tests/site-determinism.test.mjs`, `.github/workflows/ci.yml` | CI green ([run 44998989010](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998989010)); failing assertions now emitted as annotations |
 | F15, F16, F-18 flagged for review | done — desk 16 flags / board 18 flags, 0 blocking | `docs/desk/data/flags.json`, `docs/desk/flagged.html` | `tools/build_site.py --check` current |
 | Repo hygiene: 1,762 tracked `__pycache__/*.pyc` files committed by earlier sessions | done — removed from the index, `__pycache__/`, `.venv/`, `node_modules/` ignored | `.gitignore`, index | `git ls-files | grep -c __pycache__` → 0 |
 | Verification record | done | `verification/2026-11-22-568a5271.md` | commands and outputs quoted |
