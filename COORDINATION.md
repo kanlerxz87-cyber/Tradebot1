@@ -78,4 +78,17 @@ architecture below works around this honestly instead of faking numbers:
 **Irregularities flagged for review:** see `docs/FLAGGED_FOR_REVIEW.md` (also
 published as a site page). Nothing below blocked the merge, per instructions.
 
+**Local verification performed before opening the PR:**
+- `python3 -m unittest discover -s scripts/tests -t .` — 15/15 tests pass
+  (synthetic fixtures only, never real market data; see
+  `scripts/tests/test_alerts_and_strategies.py`).
+- `py_compile` over every file in `scripts/` — all compile.
+- Broken-internal-link scan over `docs/*.html` — none found.
+- `json.load()` over every file in `docs/data/**` — all parse.
+- A `jsdom`-based smoke test (Node, local only, not committed) loaded all 12
+  HTML pages against a local static server and executed their scripts —
+  zero runtime errors on any page.
+- All of the above are now also enforced on every push/PR by
+  `.github/workflows/ci.yml`.
+
 **PR / merge:** see entry appended at the end of this log once opened.
