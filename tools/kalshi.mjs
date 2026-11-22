@@ -81,11 +81,54 @@ export function createClient({
   timeoutMs = 20000,
   environment = 'demo',
   userAgent = 'Tradebot1-kalshi-dashboard',
+  // Pacing and 429 handling. The demo API answers 429 to a burst of series reads
+  // (observed 2026-11-22: 25 series failed in one cycle), so requests are spaced and
+  // retried with backoff. Docs: https://docs.kalshi.com/getting_started/rate_limits
+  minIntervalMs = 300,
+  maxRetries = 3,
+  baseBackoffMs = 750,
+  sleepImpl = null,
+  nowImpl = null,
 } = {}) {
   if (typeof fetchImpl !== 'function') throw new Error('fetch is not available');
   assertOfficialHost(root, { environment });
 
+  const sleep = sleepImpl ?? ((ms) => new Promise((resolve) => setTimeout(resolve, ms)));
+  const nowMs = nowImpl ?? (() => Date.now());
+  let lastRequestAt = 0;
+  let retries = 0;
+  let throttledMs = 0;
+
+  async function pace() {
+    const wait = minIntervalMs - (nowMs() - lastRequestAt);
+    if (wait > 0) {
+      await sleep(wait);
+      throttledMs += wait;
+    }
+    lastRequestAt = nowMs();
+  }
+
+  function backoffMs(res, attempt) {
+    const header = res?.headers?.get?.('retry-after');
+    const seconds = header == null ? NaN : Number(header);
+    if (Number.isFinite(seconds) && seconds >= 0) return Math.min(seconds * 1000, 30000);
+    return Math.min(baseBackoffMs * 2 ** attempt, 30000);
+  }
+
   async function request(path, params = {}) {
+    for (let attempt = 0; ; attempt += 1) {
+      try {
+        return await requestOnce(path, params);
+      } catch (err) {
+        const retryable = err instanceof KalshiError && (err.status === 429 || err.status === 503);
+        if (!retryable || attempt >= maxRetries) throw err;
+        retries += 1;
+        await sleep(backoffMs(err.response, attempt));
+      }
+    }
+  }
+
+  async function requestOnce(path, params = {}) {
     const url = new URL(root.replace(/\/$/, '') + path);
     for (const [k, v] of Object.entries(params)) {
       if (v === undefined || v === null || v === '') continue;
@@ -96,6 +139,7 @@ export function createClient({
     const controller = new AbortController();
     const timer = setTimeout(() => controller.abort(), timeoutMs);
     let res;
+    await pace();
     try {
       res = await fetchImpl(href, {
         signal: controller.signal,
@@ -110,11 +154,14 @@ export function createClient({
     let json = null;
     try { json = text ? JSON.parse(text) : null; } catch { /* keep null */ }
     if (!res.ok) {
-      throw new KalshiError(`HTTP ${res.status} for ${href}${json?.error ? `: ${json.error.code ?? json.error.message ?? ''}` : ''}`, {
+      const error = new KalshiError(`HTTP ${res.status} for ${href}${json?.error ? `: ${json.error.code ?? json.error.message ?? ''}` : ''}`, {
         status: res.status,
         code: json?.error?.code,
         url: href,
       });
+      // Kept so the retry loop can honour a Retry-After header.
+      error.response = res;
+      throw error;
     }
     if (json === null && text) throw new KalshiError(`Non-JSON response for ${href}`, { url: href });
     return json ?? {};
@@ -142,6 +189,8 @@ export function createClient({
     root,
     request,
     paginate,
+    /** Request-pacing statistics, reported with a cycle so the limits are visible. */
+    stats: () => ({ retries, throttledMs, minIntervalMs }),
     exchangeStatus: () => request('/exchange/status'),
     listSeries: (params) => paginate('/series', params, { key: 'series' }),
     getSeries: (ticker) => request(`/series/${encodeURIComponent(ticker)}`),

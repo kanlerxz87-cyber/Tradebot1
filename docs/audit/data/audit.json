@@ -12,8 +12,8 @@
     "factCount": 23,
     "itemCount": 13,
     "counts": {
-      "fixed": 5,
-      "open": 6,
+      "fixed": 6,
+      "open": 5,
       "verified": 0,
       "resolved": 2
     }
@@ -295,13 +295,13 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\", \"min_settled_ts\": cutoff",
           "note": "the query as it now stands on main",
-          "line": 652
+          "line": 658
         },
         {
           "file": "tests/test_collector.py",
           "needle": "min_close_ts is incompatible with status=settled",
           "note": "the parallel session's assertion, still passing",
-          "line": 181
+          "line": 182
         },
         {
           "file": "COORDINATION.md",
@@ -443,17 +443,17 @@
     },
     {
       "id": "AUD-06",
-      "title": "The browser monitor still files elections on a deprecated field",
+      "title": "Monitor uses series metadata instead of deprecated event category",
       "severity": "medium",
-      "status": "open",
-      "finding": "docs/assets/core.mjs decides the 'elections' topic with event.category. Get Events marks category deprecated and points to the series-level category, and the EventData schema does not list category as required. If the field is absent this rule never matches and elections events are silently dropped from that monitor, with no error to notice.",
-      "impact": "One of the five briefed topics can go empty on docs/ without any visible failure. The desk and the board discover elections through series metadata and are unaffected.",
+      "status": "fixed",
+      "finding": "The earlier monitor relied on event.category. The integrated monitor now joins series metadata and uses that metadata for topic classification; missing or ambiguous metadata is excluded and flagged rather than guessed.",
+      "impact": "The former event-category-only failure is corrected. Complete taxonomy coverage remains unverified.",
       "evidence": [
         {
           "file": "docs/assets/core.mjs",
-          "needle": "String(event?.category || '')",
-          "note": "the deprecated read",
-          "line": 14
+          "needle": "const metadata = event?.series_metadata || {};",
+          "note": "series-level metadata used by topic classification",
+          "line": 16
         }
       ],
       "sources": [
@@ -471,7 +471,7 @@
         "observed": "needle present: True",
         "expected": "needle present: True"
       },
-      "howToCheck": "Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own.",
+      "howToCheck": "Inspect the series join in docs/assets/app.mjs and classification in docs/assets/core.mjs; run Node topic tests. Full topic coverage remains flagged.",
       "repoSources": []
     },
     {
@@ -528,19 +528,19 @@
           "file": "scripts/build-site.mjs",
           "needle": "'AGO'",
           "note": "relative ages normalised",
-          "line": 135
+          "line": 161
         },
         {
           "file": "scripts/build-site.mjs",
           "needle": "build ID",
           "note": "the env-dependent build badge normalised",
-          "line": 139
+          "line": 165
         },
         {
           "file": "scripts/build-site.mjs",
           "needle": "buildId: process.env.GITHUB_SHA",
           "note": "where the difference came from",
-          "line": 79
+          "line": 71
         }
       ],
       "sources": [],
@@ -578,7 +578,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\"",
           "note": "a filter value, as documented",
-          "line": 652
+          "line": 658
         }
       ],
       "sources": [

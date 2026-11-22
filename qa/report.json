@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-22T07:53:36Z",
+  "generated_at": "2026-11-22T07:55:54Z",
   "counts": {
     "error": 0,
     "warn": 4,
-    "info": 9
+    "info": 8
   },
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
@@ -13,12 +13,12 @@
     "data/snapshot.json: 8 markets",
     "board data/snapshot.json: 8 rows, price bounds",
     "data/account.json: connected=False",
-    "docs/data/snapshot.json: 0 events, partial=True",
-    "monitor docs/data/snapshot.json: 0 rows, price bounds",
-    "73 HTML pages, 1280 internal references",
-    "tracked files: 292, bytecode/cache artefacts: 0",
+    "docs/data/snapshot.json: 28 events, partial=True",
+    "monitor docs/data/snapshot.json: 207 rows, price bounds",
+    "74 HTML pages, 1360 internal references",
+    "tracked files: 332, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 7192 paths"
+    "secret scan: 7266 paths"
   ],
   "findings": [
     {
@@ -165,17 +165,6 @@
       "action": ""
     },
     {
-      "id": "EMPTY-1",
-      "severity": "info",
-      "code": "EMPTY",
-      "title": "Monitor snapshot holds no markets",
-      "detail": "The page then renders an empty watchlist.",
-      "count": 0,
-      "examples": [],
-      "source": "docs/data/snapshot.json",
-      "action": ""
-    },
-    {
       "id": "EXTERNAL-1",
       "severity": "info",
       "code": "EXTERNAL",
@@ -246,7 +235,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
-      "detail": "0.53 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.57 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -257,7 +246,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.89 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.93 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",
