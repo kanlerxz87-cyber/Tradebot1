@@ -399,6 +399,11 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 **Pull request and merge record:** [PR #13](https://github.com/kanlerxz87-cyber/Tradebot1/pull/13) — merged with a merge commit (`8efef26`) at 2026-11-22T07:29:17Z, after the PR checks passed (`build` pass, `node-dashboard` pass, `test` pass; deploy skipped on PRs by design). The `main` push runs for the merge succeeded: CI, and "Verify and deploy both Pages dashboards". The live page was fetched after deploy: [docs/audit/fee-audit.html](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) serves the 21/21 table and the 13-series table.
 The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and #12; it was resolved by keeping both sides (no entries removed).
 
+**Follow-up merges (same branch):**
+
+- [PR #18](https://github.com/kanlerxz87-cyber/Tradebot1/pull/18) — board record for PR #13; merged 2026-11-22T07:31:44Z. Its `main` workflow run `44998643137` succeeded.
+- [PR #22](https://github.com/kanlerxz87-cyber/Tradebot1/pull/22) — stop tracking 51 `__pycache__/*.pyc` files that `main` still held; merged 2026-11-22T07:34:11Z. Its first deploy run `44998835610` failed in `actions/deploy-pages@v4` (the step's log could not be downloaded; build passed). Several Pages deployments were queued close together after a burst of merges. Re-running the failed job succeeded (build and deploy both green), so the site is live. The failure is recorded as transient, not a build fault.
+
 ## Claimed tasks
 
 | # | Task | Status | Owner | Files / scope |
