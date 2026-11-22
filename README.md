@@ -1,9 +1,11 @@
 # Tradebot1 — Kalshi demo-environment research
 
+[Start here](https://kanlerxz87-cyber.github.io/Tradebot1/) (landing: live status, topics, evidence) ·
 [Research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
-[Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
+[Integration audit](https://kanlerxz87-cyber.github.io/Tradebot1/audit.html) ·
 [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/executive-summary.html) ·
 [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) ·
+[Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
 [Prototype](https://kanlerxz87-cyber.github.io/Tradebot1/site/)
 
 The repository began as a one-line README. Parallel sessions built independent implementations of the
@@ -14,6 +16,12 @@ same brief; both are kept, because they make different trade-offs and each is us
 | **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 15 min |
 | `docs/` | **Market monitor** — browser-side dashboard, no backend | public demo REST polled from the visitor's browser |
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
+| `board.html`, `dashboard.html` | Node-only trade board and its live page, with their own collector, source register and 17 flags | public demo REST, collected server-side every 30 min |
+| `audit.html` | **Integration audit** — checks re-run, five defects found and fixed (with regression tests), requirement coverage, open irregularities | reads the committed snapshot |
+
+> The landing page is the single entry point: it shows the latest published cycle, per-topic counts and
+> the newest swing, all read from `docs/desk/data/*.json`. It prints “—” rather than estimating a value the
+> snapshot does not contain.
 
 Neither frontend touches a real demo account, and no production order path exists anywhere in the
 repository.

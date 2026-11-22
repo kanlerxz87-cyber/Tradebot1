@@ -306,3 +306,59 @@ gained **no** edits from this session. Consequences, all deliberate:
    snapshot" workflow fills it. Both workflows only ever read.
 3. If one implementation must eventually win, the landing page is the place to decide it — not a
    session's own claim row.
+
+## Session `arena-89a39032` — result
+
+| Task | Status | Owner | Files touched |
+| - | - | - | - |
+| I1 Repo review + line-by-line audit | done | `arena-89a39032` | `audit.html` (new) |
+| I2 Single clean landing page | done | `arena-89a39032` | `index.html` |
+| I3 Re-verify, PR, merge, deploy | in progress → recorded below | `arena-89a39032` | `COORDINATION.md`, `README.md`, `tools/check_links.py` |
+| I4 Defect fixes found during review (takeover, see note) | done | `arena-89a39032` | `kalshi_trader/collector.py`, `tools/build_site.py`, `tests/test_integration_fixes.py` (new), `docs/desk/data/*`, `docs/desk/topics/*` |
+
+### Sources and verification performed
+
+* Egress test, 2026-11-22: `curl -m 10` to `external-api.demo.kalshi.co`, `demo-api.kalshi.co`,
+  `docs.kalshi.com` and `kanlerxz87-cyber.github.io` all returned status `000` (no connection);
+  `api.github.com` returned `200`. **No Kalshi fact could be re-fetched from this sandbox.** Every such
+  fact on `audit.html` is attributed to the recording session with the official link, and marked
+  "not re-checked here". This corroborates flag F5 from `arena-e3e5f70f` and the note from `ef466564`.
+* Checks re-run locally: `pytest -q` **57 passed** (4 new regression tests), `npm test` **36 passed**,
+  `npm run check:links` **19 pages / 642 refs / 0 problems**, `npm run check:data` **all 9 files valid**,
+  `tools/check_links.py` **300 links / 13 pages**, `tools/build_site.py --check` **current**,
+  `tests/check_site.py` **21 pages**, `cli verify` **OK**.
+* Landing page rendered headlessly (jsdom + local HTTP server) and confirmed to read the published
+  snapshot: cycle `2026-11-22T07:21:40Z`, 300 markets, 1 alert, 308 settled, paper equity `$996.76`,
+  5×60 contracts per topic, newest alert row with its own Kalshi API link.
+* GitHub Actions history: "Collect market data" run
+  [44997328671](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997328671) success;
+  deploy run [44997857586](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997857586)
+  success; main carried an autonomous data commit `data: cycle 2026-11-22T07:23Z`.
+
+### Irregularities found (all published on `audit.html` §2 and §5, none blocking)
+
+Five defects, each reproduced from committed evidence before being changed and each covered by a test
+that fails on the previous code:
+
+1. `history.json` read as the whole envelope instead of its `series` map → history reset every cycle.
+   Evidence: two consecutive published cycles both held exactly 2 points per market; the requested
+   seconds/minutes/hours chart could never accumulate.
+2. Settled rows written with `topic: null` → all five topic pages said "No settled markets recorded yet"
+   while 308 settled markets were in the data.
+3. Settled sweep took the alphabetically first 10 series across all topics → 300 gas + 8 elections rows,
+   golf/culture/crypto never swept.
+4. Published resolution table capped at 120 rows globally → gas crowded the other topics out of
+   `latest.json`.
+5. Every resolution row linked the same generic settlement page instead of its own market URL.
+
+Also recorded, not edited in place (owned by other sessions): committed `docs/data/snapshot.json` is
+empty and only regenerated in CI; the desk reads production data while execution is paper (flag F6);
+demo account not connected (F2); browser CORS untested (F5); no causal news attribution is asserted.
+
+### Scope note / takeover
+
+`kalshi_trader/collector.py` and `tools/build_site.py` were `arena-e3e5f70f`'s files. That session's
+board marks T1–T9 done and its PR #9 is merged; defects 1–5 above are user-visible failures of features
+the brief explicitly asks for, and the fixes are minimal and test-covered. This session therefore fixed
+them in place rather than leaving the primary dashboard broken, kept every one of that session's tests
+passing, and recorded it here. Nothing of theirs was removed or rewritten.
