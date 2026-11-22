@@ -1,5 +1,6 @@
 # Runtime dependencies for the live engine and dashboard.
-# These are the exact versions installed and used for verification (Python 3.11).
+# Pinned versions are what was installed and used for verification (Python 3.11);
+# the ranged ones are what the other sessions' modules require. Both resolve together.
 fastapi==0.165.0
 uvicorn==0.54.0
 httpx==0.28.1

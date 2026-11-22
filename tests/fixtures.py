@@ -1,175 +1,163 @@
-"""Payloads captured from the live Kalshi demo API on 2026-11-22.
+"""Test fixtures built from real API responses captured during verification.
 
-Each fixture records the exact request path it came from so the source of every
-number in the tests is traceable. Values are copied, not invented; timestamps and
-identifiers are the only edits (markets that resolved would otherwise disappear
-from the feed and make the fixture rot).
+The market objects below are verbatim field subsets from
+``GET https://external-api.kalshi.com/trade-api/v2/markets?series_ticker=KXAAAGASM&status=open``
+captured on 2026-11-22 (see docs/data/sources.json, source S10/S5).
 """
 
-CAPTURED_AT = "2026-11-22T07:00:00Z"
+from __future__ import annotations
 
-# GET https://external-api.demo.kalshi.co/trade-api/v2/exchange/status
-EXCHANGE_STATUS = {
-    "exchange_active": True,
-    "trading_active": True,
-    "intra_exchange_transfers_active": True,
-    "exchange_index_statuses": [
-        {"exchange_index": 0, "description": "Default", "exchange_active": True, "trading_active": True,
-         "intra_exchange_transfers_active": True},
-    ],
+GAS_MARKET_345 = {
+    "ticker": "KXAAAGASM-26NOV30-3.45",
+    "event_ticker": "KXAAAGASM-26NOV30",
+    "market_type": "binary",
+    "title": "Will average **gas prices** be above $3.45?",
+    "yes_sub_title": "Above 3.45",
+    "no_sub_title": "Above 3.45",
+    "status": "active",
+    "close_time": "2026-11-30T04:59:00Z",
+    "expected_expiration_time": "2026-11-30T15:00:00Z",
+    "yes_bid_dollars": "0.9600",
+    "yes_ask_dollars": "0.9700",
+    "no_bid_dollars": "0.0300",
+    "no_ask_dollars": "0.0400",
+    "last_price_dollars": "0.9700",
+    "previous_price_dollars": "0.9200",
+    "yes_bid_size_fp": "1997.00",
+    "yes_ask_size_fp": "5009.00",
+    "volume_fp": "43036.56",
+    "volume_24h_fp": "7018.55",
+    "open_interest_fp": "35410.59",
+    "result": "",
+    "rules_primary": (
+        "If average regular gas prices for United States are strictly greater than $3.45 on "
+        "Nov 30, 2026 according to AAA, then the market resolves to Yes."
+    ),
 }
 
-# GET /events?status=open&with_nested_markets=true&series_ticker=KXPGATOUR
-# Note: real Kalshi events carry `category` but NOT `tags`; the Golf tag lives on
-# the series (GET /series/KXPGATOUR), which is why the fixture supplies both.
-GOLF_EVENTS = {
-    "cursor": "",
-    "events": [
-        {
-            "category": "Sports",
-            "event_ticker": "KXPGATOUR-THRC26",
-            "series_ticker": "KXPGATOUR",
-            "settlement_sources": [
-                {"name": "the Governing League", "url": "https://www.pgatour.com/"},
-                {"name": "ESPN", "url": "https://www.espn.com"},
-            ],
-            "mutually_exclusive": True,
-            "markets": [
-                {
-                    "ticker": "KXPGATOUR-THRC26-CBEZ",
-                    "event_ticker": "KXPGATOUR-THRC26",
-                    "title": "The RSM Classic: Christiaan Bezuidenhout wins",
-                    "yes_sub_title": "Christiaan Bezuidenhout",
-                    "status": "active",
-                    "close_time": "2026-12-06T00:00:00Z",
-                    "expected_expiration_time": "2026-11-22T00:00:00Z",
-                    "last_price_dollars": "0.0030",
-                    "yes_bid_dollars": "0.0020",
-                    "yes_ask_dollars": "0.0030",
-                    "yes_bid_size_fp": "83333.33",
-                    "yes_ask_size_fp": "55553.54",
-                    "no_bid_dollars": "0.9970",
-                    "no_ask_dollars": "0.9980",
-                    "volume_fp": "180379.74",
-                    "volume_24h_fp": "6579.54",
-                    "open_interest_fp": "179921.97",
-                    "notional_value_dollars": "1.0000",
-                    "price_level_structure": "tapered_deci_cent",
-                    "result": "",
-                    "rules_primary": "If Christiaan Bezuidenhout wins the The RSM Classic, then the market resolves to Yes.",
-                },
-                {
-                    "ticker": "KXPGATOUR-THRC26-ZBAU",
-                    "event_ticker": "KXPGATOUR-THRC26",
-                    "title": "The RSM Classic: Zachary Bauchou wins",
-                    "yes_sub_title": "Zachary Bauchou",
-                    "status": "active",
-                    "close_time": "2026-12-06T00:00:00Z",
-                    "last_price_dollars": "0.0030",
-                    "yes_bid_dollars": "0.0000",
-                    "yes_ask_dollars": "1.0000",
-                    "no_bid_dollars": "0.0000",
-                    "volume_fp": "80931.04",
-                    "volume_24h_fp": "0.00",
-                    "open_interest_fp": "77683.83",
-                    "notional_value_dollars": "1.0000",
-                    "result": "",
-                },
-            ],
-        }
-    ],
+GAS_MARKET_355 = {
+    "ticker": "KXAAAGASM-26NOV30-3.55",
+    "event_ticker": "KXAAAGASM-26NOV30",
+    "market_type": "binary",
+    "title": "Will average **gas prices** be above $3.55?",
+    "yes_sub_title": "Above 3.55",
+    "status": "active",
+    "close_time": "2026-11-30T04:59:00Z",
+    "yes_bid_dollars": "0.1000",
+    "yes_ask_dollars": "0.1300",
+    "no_bid_dollars": "0.8700",
+    "no_ask_dollars": "0.9000",
+    "last_price_dollars": "0.1300",
+    "previous_price_dollars": "0.1400",
+    "yes_bid_size_fp": "185.47",
+    "yes_ask_size_fp": "5201.00",
+    "volume_fp": "79237.43",
+    "volume_24h_fp": "2324.37",
+    "open_interest_fp": "27550.76",
+    "result": "",
 }
 
-# GET /events?status=open&with_nested_markets=true&category=Crypto
-CRYPTO_EVENTS = {
-    "cursor": "",
-    "events": [
-        {
-            "category": "Crypto",
-            "event_ticker": "KXBTCD-26NOV22",
-            "series_ticker": "KXBTCD",
-            "settlement_sources": [{"name": "CF Benchmarks", "url": "https://www.cfbenchmarks.com/"}],
-            "markets": [
-                {
-                    "ticker": "KXBTCD-26NOV22-T95000",
-                    "event_ticker": "KXBTCD-26NOV22",
-                    "title": "Will Bitcoin be above $95,000 at 5pm EST on Nov 22?",
-                    "yes_sub_title": "$95,000 or above",
-                    "status": "active",
-                    "close_time": "2026-11-22T22:00:00Z",
-                    "last_price_dollars": "0.4200",
-                    "yes_bid_dollars": "0.4100",
-                    "yes_ask_dollars": "0.4300",
-                    "no_bid_dollars": "0.5700",
-                    "volume_fp": "1250000.00",
-                    "volume_24h_fp": "450000.00",
-                    "open_interest_fp": "880000.00",
-                    "notional_value_dollars": "1.0000",
-                    "result": "",
-                }
-            ],
-        }
-    ],
+GOLF_SERIES = {
+    "ticker": "KXPGAEAGLE",
+    "title": "Player to Record an Eagle in Round",
+    "category": "Sports",
+    "categories": ["Sports"],
+    "tags": ["Golf"],
+    "frequency": "custom",
+    "volume_fp": "542000.00",
+    "settlement_sources": [{"name": "ESPN", "url": "https://espn.com"}],
 }
 
-# GET /events?status=open&with_nested_markets=true&category=Elections (demo)
-ELECTIONS_EVENTS = {
-    "cursor": "",
-    "events": [
-        {
-            "category": "Elections",
-            "event_ticker": "KXNEXTNATOSECGEN-99",
-            "series_ticker": "KXNEXTNATOSECGEN",
-            "settlement_sources": [{"name": "North Atlantic Treaty Organization", "url": "https://www.nato.int/"}],
-            "markets": [
-                {
-                    "ticker": "KXNEXTNATOSECGEN-99-KIOH",
-                    "event_ticker": "KXNEXTNATOSECGEN-99",
-                    "title": "Will Klaus Iohannis be the next Secretary General of NATO?",
-                    "yes_sub_title": "Klaus Iohannis",
-                    "status": "active",
-                    "close_time": "2099-01-08T15:00:00Z",
-                    "last_price_dollars": "0.0200",
-                    "yes_bid_dollars": "0.0200",
-                    "yes_ask_dollars": "1.0000",
-                    "no_bid_dollars": "0.0000",
-                    "volume_fp": "13.16",
-                    "volume_24h_fp": "0.00",
-                    "open_interest_fp": "4.00",
-                    "notional_value_dollars": "1.0000",
-                    "result": "",
-                }
-            ],
-        }
-    ],
+GAS_SERIES = {
+    "ticker": "KXAAAGASM",
+    "title": "US gas price, monthly",
+    "category": "Economics",
+    "categories": ["Economics", "Commodities"],
+    "tags": ["Oil and energy", "Oil & Gas"],
+    "frequency": "monthly",
+    "volume_fp": "1000.00",
+    "settlement_sources": [{"name": "AAA", "url": "https://gasprices.aaa.com/"}],
 }
 
-# GET /series/{series_ticker}
-SERIES = {
-    "KXPGATOUR": {"ticker": "KXPGATOUR", "title": "PGA Tour", "category": "Sports", "tags": ["Golf"]},
-    "KXBTCD": {"ticker": "KXBTCD", "title": "Bitcoin daily", "category": "Crypto", "tags": ["BTC"]},
-    "KXNEXTNATOSECGEN": {"ticker": "KXNEXTNATOSECGEN", "title": "Next NATO Secretary General",
-                         "category": "Elections", "tags": ["International elections"]},
+CRYPTO_SERIES = {
+    "ticker": "KXBTCHIT90K",
+    "title": "Bitcoin above $90,000 by a date",
+    "category": "Crypto",
+    "categories": ["Crypto"],
+    "tags": ["BTC"],
+    "frequency": "custom",
+    "volume_fp": "17464.00",
 }
 
-# GET /markets/{ticker}/orderbook  (shape from the orderbook documentation page)
-ORDERBOOK_CBEZ = {
-    "orderbook_fp": {
-        "yes_dollars": [["0.0010", "1200.00"], ["0.0020", "83333.33"]],
-        "no_dollars": [["0.9960", "400.00"], ["0.9970", "2500.00"]],
-    }
+ELECTION_SERIES = {
+    "ticker": "KXNEXTNATOSECGEN",
+    "title": "Who will be the next Secretary General of NATO?",
+    "category": "Elections",
+    "categories": ["Elections"],
+    "tags": ["International elections"],
+    "frequency": "custom",
+    "volume_fp": "500.00",
 }
 
-# GET /search/tags_by_categories (trimmed to the categories this project uses)
-TAGS_BY_CATEGORIES = {
-    "tags_by_categories": {
-        "Business": None,
-        "Commodities": ["Metals", "Oil & Gas", "Gold", "Silver"],
-        "Crypto": ["BTC", "ETH", "SOL", "Bitcoin", "Ethereum"],
-        "Elections": ["US Elections", "International elections", "Senate", "Governor"],
-        "Entertainment": ["Music", "Television", "Oscars", "Movies", "Awards"],
-        "Mentions": ["Earnings", "Politicians"],
-        "Sports": ["Golf", "Basketball", "Football", "Tennis"],
-        "Politics": ["Trump", "Congress"],
-    }
+CULTURE_SERIES = {
+    "ticker": "KXOSCARS",
+    "title": "Oscars",
+    "category": "Entertainment",
+    "categories": ["Entertainment"],
+    "tags": ["Oscars", "Movies"],
+    "frequency": "annual",
+    "volume_fp": "120000.00",
 }
+
+
+class FakeClient:
+    """Minimal stand-in for RestClient used by collector tests (no network)."""
+
+    def __init__(self, series, events, markets_by_series, settled=None, orderbooks=None):
+        self._series = series
+        self._events = events
+        self._markets = markets_by_series
+        self._settled = settled or {}
+        self._orderbooks = orderbooks or {}
+        self.request_count = 0
+        self.errors: list[str] = []
+
+    def exchange_status(self):
+        self.request_count += 1
+        return {"exchange_active": True, "trading_active": True}
+
+    def series(self, **params):
+        self.request_count += 1
+        category = params.get("category")
+        tags = params.get("tags")
+        out = []
+        for item in self._series:
+            if category and category not in (item.get("categories") or [item.get("category")]):
+                continue
+            if tags and tags not in (item.get("tags") or []):
+                continue
+            out.append(item)
+        return out
+
+    def paginate(self, path, key, params=None, page_size=200, max_pages=25):
+        self.request_count += 1
+        params = params or {}
+        if path == "/events":
+            return self._events
+        if path == "/markets":
+            series = params.get("series_ticker")
+            status = params.get("status", "open")
+            if status == "settled":
+                return self._settled.get(series, [])
+            return self._markets.get(series, [])
+        return []
+
+    def orderbook(self, ticker, depth=None):
+        self.request_count += 1
+        return self._orderbooks.get(
+            ticker,
+            {
+                "yes_dollars": [["0.5200", "100.00"], ["0.5500", "250.00"]],
+                "no_dollars": [["0.4000", "50.00"], ["0.4300", "120.00"]],
+            },
+        )

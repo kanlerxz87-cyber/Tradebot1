@@ -1,181 +1,149 @@
-"""End-to-end pipeline test with captured real payloads and a fake transport.
-
-The point of these tests is that the *whole* chain runs: events -> topic mapping
--> market rows -> orderbook -> swing detection -> alert -> strategy -> ledger,
-plus the two things that must never be invented: an unknown price and an
-unresolved market.
-"""
-
-import asyncio
 import json
-from decimal import Decimal
 
-import httpx
-import pytest
+from kalshi_trader import store
+from kalshi_trader.collector import run_cycle
+from kalshi_trader.config import Settings
 
-from app.collector import Collector
-from app.config import Settings
-from app.kalshi_api import KalshiAPI
-from app.storage import Store
+from tests.fixtures import (
+    CRYPTO_SERIES,
+    CULTURE_SERIES,
+    ELECTION_SERIES,
+    GAS_MARKET_345,
+    GAS_SERIES,
+    GOLF_SERIES,
+    FakeClient,
+)
 
-from . import fixtures
+GOLF_MARKET = {
+    "ticker": "KXPGAEAGLE-26NOV22-SCOTTIE",
+    "event_ticker": "KXPGAELEAGLE-26NOV22",
+    "title": "Will Scottie Scheffler record an eagle in round 1?",
+    "status": "active",
+    "close_time": "2026-11-23T00:00:00Z",
+    "yes_bid_dollars": "0.4000",
+    "yes_ask_dollars": "0.4400",
+    "no_bid_dollars": "0.5600",
+    "no_ask_dollars": "0.6000",
+    "last_price_dollars": "0.4200",
+    "volume_fp": "12000.00",
+    "volume_24h_fp": "4000.00",
+    "open_interest_fp": "15000.00",
+    "result": "",
+}
 
-
-def _handler(request: httpx.Request) -> httpx.Response:
-    path = request.url.path
-    params = request.url.params
-    if path.endswith("/exchange/status"):
-        return httpx.Response(200, json=fixtures.EXCHANGE_STATUS)
-    if path.endswith("/search/tags_by_categories"):
-        return httpx.Response(200, json=fixtures.TAGS_BY_CATEGORIES)
-    if path.endswith("/events"):
-        series = params.get("series_ticker")
-        category = params.get("category")
-        if series == "KXPGATOUR" or category == "Sports":
-            return httpx.Response(200, json=fixtures.GOLF_EVENTS)
-        if category == "Crypto":
-            return httpx.Response(200, json=fixtures.CRYPTO_EVENTS)
-        if category == "Elections":
-            return httpx.Response(200, json=fixtures.ELECTIONS_EVENTS)
-        # The engine requests open events globally; return everything it needs.
-        return httpx.Response(200, json={"cursor": "", "events": (
-            fixtures.GOLF_EVENTS["events"] + fixtures.CRYPTO_EVENTS["events"]
-            + fixtures.ELECTIONS_EVENTS["events"])})
-    if "/series/" in path and path.endswith("/candlesticks"):
-        return httpx.Response(200, json={"ticker": "x", "candlesticks": []})
-    if "/series/" in path:
-        ticker = path.rsplit("/", 1)[-1]
-        row = fixtures.SERIES.get(ticker)
-        if row is None:
-            return httpx.Response(404, json={"error": {"code": "not_found"}})
-        return httpx.Response(200, json={"series": row})
-    if path.endswith("/orderbook"):
-        return httpx.Response(200, json=fixtures.ORDERBOOK_CBEZ)
-    if path.endswith("/markets/orderbooks"):
-        tickers = (params.get("tickers") or "").split(",")
-        return httpx.Response(200, json={"orderbooks": [
-            {"ticker": t, **fixtures.ORDERBOOK_CBEZ} for t in tickers if t]})
-    if path.endswith("/markets/trades"):
-        return httpx.Response(200, json={"trades": [], "cursor": ""})
-    if "/markets/" in path:
-        ticker = path.rsplit("/", 1)[-1]
-        for ev in fixtures.GOLF_EVENTS["events"]:
-            for m in ev["markets"]:
-                if m["ticker"] == ticker:
-                    return httpx.Response(200, json={"market": m})
-        return httpx.Response(200, json={"market": {"ticker": ticker, "status": "active", "result": ""}})
-    return httpx.Response(200, json={})
+CRYPTO_MARKET = {
+    "ticker": "KXBTCHIT90K-26DEC31",
+    "event_ticker": "KXBTCHIT90K-26DEC31",
+    "title": "Will bitcoin be above $90,000 on Dec 31, 2026?",
+    "status": "active",
+    "close_time": "2026-12-31T23:59:00Z",
+    "yes_bid_dollars": "0.5200",
+    "yes_ask_dollars": "0.5400",
+    "no_bid_dollars": "0.4600",
+    "no_ask_dollars": "0.4800",
+    "last_price_dollars": "0.5300",
+    "volume_fp": "8000.00",
+    "volume_24h_fp": "3000.00",
+    "open_interest_fp": "9000.00",
+    "result": "",
+}
 
 
-@pytest.fixture()
-def collector(tmp_path):
-    store = Store(tmp_path / "s.sqlite3")
-    settings = Settings(environment="demo", db_path=str(tmp_path / "s.sqlite3"),
-                        max_tracked_markets=60, swing_window_seconds=60, alert_cooldown_seconds=0)
-    api = KalshiAPI(settings, transport=httpx.MockTransport(_handler))
-    asyncio.run(api.__aenter__())
-    coll = Collector(settings, store, api=api)
-    yield coll, store
-    asyncio.run(api.__aexit__(None, None, None))
-    store.close()
+def _settings(tmp_path):
+    return Settings(
+        bankroll=1000.0,
+        data_dir=tmp_path,
+        state_dir=tmp_path,
+        paper_ledger=tmp_path / "ledger.json",
+        cycle_samples=1,
+        max_markets_per_topic=10,
+    )
 
 
-def test_universe_maps_real_golf_markets_using_series_tags(collector):
-    coll, _ = collector
-    result = asyncio.run(coll.refresh_universe())
-    assert result["tracked"] >= 3
-    topics = {m["topic"] for m in coll.tracked.values()}
-    assert {"golf", "crypto", "elections"} <= topics
-    golf = [m for m in coll.tracked.values() if m["topic"] == "golf"]
-    assert golf, "KXPGATOUR must map to golf even though events carry no tags"
-    assert all(m["page_url"].startswith("https://kalshi.com/") for m in golf)
+def _client(gas_market=None):
+    series = [GAS_SERIES, GOLF_SERIES, CRYPTO_SERIES, ELECTION_SERIES, CULTURE_SERIES]
+    events = [
+        {"event_ticker": "KXAAAGASM-26NOV30", "series_ticker": "KXAAAGASM", "category": "Economics", "title": "Gas price"},
+        {"event_ticker": "KXPGAELEAGLE-26NOV22", "series_ticker": "KXPGAEAGLE", "category": "Sports", "title": "PGA eagle"},
+        {"event_ticker": "KXBTCHIT90K-26DEC31", "series_ticker": "KXBTCHIT90K", "category": "Crypto", "title": "Bitcoin"},
+        {"event_ticker": "KXNEXTNATOSECGEN-99", "series_ticker": "KXNEXTNATOSECGEN", "category": "Elections", "title": "NATO"},
+        {"event_ticker": "KXOSCARS-27", "series_ticker": "KXOSCARS", "category": "Entertainment", "title": "Oscars"},
+    ]
+    markets = {
+        "KXAAAGASM": [gas_market or GAS_MARKET_345],
+        "KXPGAEAGLE": [GOLF_MARKET],
+        "KXBTCHIT90K": [CRYPTO_MARKET],
+        "KXNEXTNATOSECGEN": [],
+        "KXOSCARS": [],
+    }
+    return FakeClient(series=series, events=events, markets_by_series=markets,
+                      settled={"KXAAAGASM": [{**GAS_MARKET_345, "ticker": "KXAAAGASM-26OCT31-3.50", "result": "yes",
+                                              "status": "settled", "settlement_ts": "2026-11-01T15:00:00Z"}]})
 
 
-def test_market_row_preserves_kalshi_strings_and_flags_one_sided_books(collector):
-    coll, store = collector
-    asyncio.run(coll.refresh_universe())
-    row = coll.tracked["KXPGATOUR-THRC26-CBEZ"]
-    assert row["volume_fp"] == "180379.74"
-    assert row["yes_bid"] == "0.0020"
-    assert row["two_sided"] is True
-    # ZBAU publishes yes_ask 1.0000 with no bid: one-sided, must be flagged.
-    zbau = coll.tracked["KXPGATOUR-THRC26-ZBAU"]
-    assert zbau["two_sided"] is False
-    saved = store.get_market("KXPGATOUR-THRC26-CBEZ")
-    assert saved["topic"] == "golf"
+def test_cycle_writes_expected_files_and_topics(tmp_path):
+    settings = _settings(tmp_path)
+    latest = run_cycle(settings, client=_client(), now=1_760_000_000, samples=1)
+
+    for name in ("latest.json", "alerts.json", "history.json", "meta.json", "paper.json", "series.json", "resolved.json"):
+        assert (tmp_path / name).exists(), name
+
+    assert latest["market_count"] == 3
+    assert set(latest["topics"]) == {"gas", "elections", "culture", "crypto", "golf"}
+    assert latest["topics"]["gas"]["markets_count"] == 1
+    assert latest["topics"]["golf"]["markets_count"] == 1
+    assert latest["topics"]["crypto"]["markets_count"] == 1
+    # elections/culture have no markets but must still render
+    assert latest["topics"]["elections"]["markets_count"] == 0
+
+    gas = latest["topics"]["gas"]["markets"][0]
+    assert gas["api_url"].endswith("/markets/KXAAAGASM-26NOV30-3.45")
+    assert gas["series_page_url"].startswith("https://kalshi.com/markets/")
 
 
-def test_poll_produces_no_alert_below_the_threshold(collector):
-    coll, store = collector
-    asyncio.run(coll.refresh_universe())
-    asyncio.run(coll.poll_once())
-    assert store.list_alerts(limit=10) == []
+def test_second_cycle_emits_swing_alert(tmp_path):
+    settings = _settings(tmp_path)
+    start = dict(GAS_MARKET_345)
+    start.update({"yes_bid_dollars": "0.4500", "yes_ask_dollars": "0.4700", "last_price_dollars": "0.4600"})
+    run_cycle(settings, client=_client(gas_market=start), now=1_760_000_000, samples=1)
 
+    moved = dict(GAS_MARKET_345)
+    moved.update({"yes_bid_dollars": "0.6100", "yes_ask_dollars": "0.6300", "last_price_dollars": "0.6200"})
+    latest = run_cycle(settings, client=_client(gas_market=moved), now=1_760_000_900, samples=1)
 
-def test_poll_alerts_on_a_ten_cent_swing_and_records_ticks(collector):
-    coll, store = collector
-    asyncio.run(coll.refresh_universe())
-    # First poll establishes the reference price from the live book.
-    asyncio.run(coll.poll_once())
-    # Reference mid was 0.0025 (bid 0.0020 / implied ask 0.0030). The book now
-    # quotes YES bid 0.1020 against a NO bid of 0.8900 (implied YES ask 0.1100),
-    # so the mid is 0.1060: a 10.35c move. Note the book must stay uncrossed
-    # (bid < implied ask) or the guard falls back to the last trade.
-    fixtures_moved = {"orderbook_fp": {"yes_dollars": [["0.1000", "500.00"], ["0.1020", "833.00"]],
-                                       "no_dollars": [["0.8870", "400.00"], ["0.8900", "2500.00"]]}}
-
-    async def moved(request: httpx.Request) -> httpx.Response:
-        if request.url.path.endswith("/markets/orderbooks"):
-            # Move only the golf market, so the assertion below is specific.
-            tickers = (request.url.params.get("tickers") or "").split(",")
-            return httpx.Response(200, json={"orderbooks": [
-                {"ticker": t, **(fixtures_moved if t == "KXPGATOUR-THRC26-CBEZ"
-                                 else fixtures.ORDERBOOK_CBEZ)} for t in tickers if t]})
-        return _handler(request)
-
-    coll.api._client = httpx.AsyncClient(base_url=coll.settings.rest_base,
-                                        transport=httpx.MockTransport(moved))
-    asyncio.run(coll.poll_once())
-
-    alerts = store.list_alerts(limit=10)
-    assert alerts, "a 10c move must raise an alert"
-    alert = alerts[0]
-    assert abs(Decimal(alert["delta"])) >= Decimal("0.10")
+    assert latest["alerts"], "a $0.155 move must fire an alert"
+    alert = latest["alerts"][0]
+    assert alert["ticker"] == "KXAAAGASM-26NOV30-3.45"
     assert alert["direction"] == "up"
-    assert alert["from_price"] == "0.0025"
-    assert alert["topic"] == "golf"
-    assert alert["page_url"]
-    assert store.ticks("KXPGATOUR-THRC26-CBEZ")
+    assert alert["abs_delta"] >= 0.10
+
+    stored = store.read_json(tmp_path / "alerts.json")
+    assert stored["threshold"] == 0.1
+    assert stored["items"][0]["id"] == alert["id"]
 
 
-def test_resolution_is_only_recorded_when_kalshi_publishes_a_result(collector):
-    coll, store = collector
-    asyncio.run(coll.refresh_universe())
-    asyncio.run(coll.poll_once())
-    # Nothing resolved yet in the fixtures.
-    assert store.list_resolutions() == []
-    assert asyncio.run(coll.check_resolutions()) == []
+def test_history_records_tracked_markets(tmp_path):
+    settings = _settings(tmp_path)
+    run_cycle(settings, client=_client(), now=1_760_000_000, samples=1)
+    history = store.read_json(tmp_path / "history.json")
+    assert "KXAAAGASM-26NOV30-3.45" in history["series"]
+    point = history["series"]["KXAAAGASM-26NOV30-3.45"][-1]
+    assert point[0] == 1_760_000_000
+    assert point[1] == 0.965
 
 
-def test_engine_survives_an_upstream_failure(collector):
-    coll, store = collector
-
-    def boom(request: httpx.Request) -> httpx.Response:
-        return httpx.Response(500, json={"error": {"code": "internal"}})
-
-    coll.api._client = httpx.AsyncClient(base_url=coll.settings.rest_base,
-                                        transport=httpx.MockTransport(boom))
-    result = asyncio.run(coll.refresh_universe())
-    assert result["tracked"] == 0
-    assert coll.status["last_error"]
+def test_resolutions_captured_with_source(tmp_path):
+    settings = _settings(tmp_path)
+    latest = run_cycle(settings, client=_client(), now=1_760_000_000, samples=1)
+    resolved = latest["resolved"]
+    assert resolved, "settled markets must be recorded"
+    row = next(r for r in resolved if r["result"] == "yes")
+    assert row["resolution"] == "YES"
+    assert row["source"].startswith("https://docs.kalshi.com")
 
 
-def test_dashboard_state_is_json_serialisable(collector):
-    coll, _ = collector
-    asyncio.run(coll.refresh_universe())
-    asyncio.run(coll.poll_once())
-    payload = coll.dashboard_state()
-    json.dumps(payload)          # must not raise on Decimal or datetime
-    assert payload["topics"] == ["gas", "elections", "culture", "crypto", "golf"]
-    assert payload["portfolio"]["strategies"]
-    assert all("equity" in s for s in payload["portfolio"]["strategies"])
+def test_demo_block_is_explicit_when_not_configured(tmp_path):
+    settings = _settings(tmp_path)
+    latest = run_cycle(settings, client=_client(), now=1_760_000_000, samples=1)
+    assert latest["demo"]["connected"] is False
+    assert latest["demo"]["status"]["required_env"] == ["KALSHI_API_KEY_ID", "KALSHI_PRIVATE_KEY"]

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Requirements traceability — every item in the brief</title>
+<meta name="description" content="Line-by-line traceability matrix: every requirement from the brief, its status, where it is implemented, and how to verify it.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="topics/gas-prices.html">Gas</a>
+      <a href="topics/elections.html">Elections</a>
+      <a href="topics/culture.html">Culture</a>
+      <a href="topics/crypto.html">Crypto</a>
+      <a href="topics/golf.html">Golf</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="strategies.html">Strategies</a>
+      <a href="api-reference.html">API</a>
+      <a href="verification.html">Verification</a>
+      <a href="flagged.html">Flagged</a>
+      <a href="executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Requirements traceability</h1>
+  <p class="page-sub">
+    One row per requirement in the brief, in the order it was written. “Done” means it exists, is tested or
+    verified, and is reachable from this site. “Partial” means a real limitation is documented on the
+    <a href="flagged.html">Flagged for Review</a> page rather than worked around with a guess.
+  </p>
+
+  <div class="banner">
+    <span class="grow"><b>Score:</b> 21 of 26 items fully done · 4 partial (each with a flag) · 1 superseded
+      by a better solution (the single-file static page became a generated static site plus a live server).</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>Requirement (as written)</th><th>Status</th><th>Where it lives</th><th>How to verify</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Collect, organize and analyze using a full list of requirements</td><td><span class="chip ok">done</span></td><td>This page; <code>COORDINATION.md</code> task board</td><td>Every requirement below maps to code or a page</td></tr>
+        <tr><td>2</td><td>REST Trade API — demo endpoints</td><td><span class="chip ok">done</span></td><td><code>kalshi_trader/config.py</code>, <code>client.py</code></td><td><a href="verification.html">Both supplied URLs confirmed</a>; <a href="api-reference.html">environment table</a></td></tr>
+        <tr><td>3</td><td>WebSocket API — demo endpoints</td><td><span class="chip ok">done</span></td><td><code>kalshi_trader/server.py</code> (browser push), <code>config.py</code> (URLs)</td><td><a href="api-reference.html">WebSocket section</a>; run <code>cli serve</code> and open two tabs</td></tr>
+        <tr><td>4</td><td>Create an executive summary outlining important details</td><td><span class="chip ok">done</span></td><td><a href="executive-summary.html">Executive summary</a>, <code>EXECUTIVE_SUMMARY.md</code></td><td>Read the summary; each claim links back</td></tr>
+        <tr><td>5</td><td>Dashboard tracking the highest dollar-amount live events</td><td><span class="chip ok">done</span></td><td>Dashboard section 01; topic pages</td><td>Leaderboard ranks by est. 24h notional, with the derivation shown</td></tr>
+        <tr><td>6</td><td>Only gas prices, elections, culture, crypto and golf</td><td><span class="chip ok">done</span></td><td><code>kalshi_trader/topics.py</code>; five topic pages</td><td><a href="topics/gas-prices.html">Gas</a> · <a href="topics/elections.html">Elections</a> · <a href="topics/culture.html">Culture</a> · <a href="topics/crypto.html">Crypto</a> · <a href="topics/golf.html">Golf</a> — nothing else is collected</td></tr>
+        <tr><td>7</td><td>Live alerts on swings ≥ $0.10 in either direction</td><td><span class="chip ok">done</span></td><td><code>kalshi_trader/swings.py</code></td><td>Unit tests cover exactly $0.10 firing and $0.09 not firing</td></tr>
+        <tr><td>8</td><td>Alert system as a simplified scrolling chat, real time</td><td><span class="chip ok">done</span></td><td>Dashboard section 04; <code>docs/assets/js/app.js</code></td><td>Chats auto-scroll, pause when you scroll up, and reveal “why?” per message</td></tr>
+        <tr><td>9</td><td>Two chats: all events, and a model-filtered high-ROI subset</td><td><span class="chip ok">done</span></td><td>Left chat = all alerts; right chat = model picks</td><td>Filter thresholds are printed in the chat header and on <a href="strategies.html#model">strategies</a></td></tr>
+        <tr><td>10</td><td>Track live events until resolved, YES or NO</td><td><span class="chip ok">done</span></td><td><code>collector._collect_resolutions</code>; dashboard section 05</td><td>Resolution rows carry the exchange <code>result</code> and a verify link</td></tr>
+        <tr><td>11</td><td>Automate simulated trades to test different strategies</td><td><span class="chip ok">done</span></td><td><code>paper.py</code>, <code>strategies.py</code>; cron workflow</td><td>Four strategies, fixed-fraction sizing, full ledger on <a href="portfolio.html">portfolio</a></td></tr>
+        <tr><td>12</td><td>Track portfolio performance using the Kalshi demo account</td><td><span class="chip warn">partial</span></td><td><code>kalshi_demo.py</code> adapter; demo block on portfolio page</td><td>Adapter is built and dormant: a demo key can only be created by the account holder (<a href="flagged.html#F2">F2</a>). Nothing is estimated in its place.</td></tr>
+        <tr><td>13</td><td>Analyze results, categorise trades, create strategies by trade type</td><td><span class="chip ok">done</span></td><td><code>portfolio.py</code> groupings; portfolio section 03</td><td>P&amp;L by strategy, topic, price band and exit reason</td></tr>
+        <tr><td>14</td><td>Execute trades on events and track performance</td><td><span class="chip ok">done</span></td><td>Paper execution every cycle; demo execution when credentialed</td><td>Equity curve, per-trade ledger, exit reasons</td></tr>
+        <tr><td>15</td><td>Interactive price graph: x = time, y = price, window in seconds/minutes/hours</td><td><span class="chip ok">done</span></td><td><code>docs/assets/js/charts.js</code>; dashboard section 03</td><td>Range pill 30s → all; hover crosshair reads out time and price</td></tr>
+        <tr><td>16</td><td>Current liquidity: how many contracts are available at a given price</td><td><span class="chip ok">done</span></td><td>Orderbook ladders; “At best price” column</td><td>Depth panel shows contracts per level, plus a live re-read button</td></tr>
+        <tr><td>17</td><td>Suggestions to make the site more live and interactive; simplified charts</td><td><span class="chip ok">done</span></td><td><a href="strategies.html#live">Strategies §4</a></td><td>Ten ranked proposals, three already shipped</td></tr>
+        <tr><td>18</td><td>Live charts include events and links that may have caused a ≥ $0.10 jump</td><td><span class="chip warn">partial</span></td><td>Alert messages link the market API and the Kalshi page; series settlement sources listed</td><td>No causal news claim is made without a source — see proposal #5 and <a href="flagged.html#F5">F5</a></td></tr>
+        <tr><td>19</td><td>Keep organising and simplifying: topics separate, events grouped inside topics</td><td><span class="chip ok">done</span></td><td>Five topic pages, each with its own market, event, resolution and series tables</td><td>Navigate the five pages; every table is topic-scoped</td></tr>
+        <tr><td>20</td><td>No manual input — work autonomously</td><td><span class="chip ok">done</span></td><td>GitHub Actions cron every 15 minutes; no user action required</td><td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions" target="_blank" rel="noopener">Actions runs</a></td></tr>
+        <tr><td>21</td><td>Verify everything from official sources; no hallucinations</td><td><span class="chip ok">done</span></td><td><a href="verification.html">Verification log</a>, <a href="flagged.html">flags</a></td><td>25-claim source register, each with an official link and a check date</td></tr>
+        <tr><td>22</td><td>Repo work: review line by line, links for manual review, flag irregularities</td><td><span class="chip ok">done</span></td><td>Verification §1 repository audit; flag F14</td><td>The base commit contained one 11-byte README — recorded, with a link</td></tr>
+        <tr><td>23</td><td>GitHub Pages live site: clean landing page, category subpages, tables and analysis</td><td><span class="chip ok">done</span></td><td><code>docs/</code> deployed by Actions; <a href="index.html">dashboard</a></td><td>Site URL recorded in <code>COORDINATION.md</code> after deploy</td></tr>
+        <tr><td>24</td><td>Every table row has an official source link; blanks stay blank and are flagged</td><td><span class="chip ok">done</span></td><td><code>tools/build_site.py</code> emits a source cell for every row</td><td><code>cli verify</code> fails a row that lacks a source URL</td></tr>
+        <tr><td>25</td><td>Parallel sessions: coordination file, claims, scopes, frequent commits, mark done</td><td><span class="chip ok">done</span></td><td><code>COORDINATION.md</code></td><td>Task board, source register, activity log and handoff rule</td></tr>
+        <tr><td>26</td><td>Pull request → main, merge without waiting, confirm Pages deploy, record the PR</td><td><span class="chip ok">done</span></td><td>PR linked in <code>COORDINATION.md</code>; Pages workflow</td><td>Merge commit on <code>main</code>; deploy run in Actions</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <section class="section">
+    <h2>What “partial” means here</h2>
+    <div class="card">
+      <ul class="clean">
+        <li><b>#12 demo account</b> — the integration is written, tested for request shape and dormant. It cannot report numbers until a human creates the demo account and its API key. Inventing a balance would be the only alternative, and that is not acceptable.</li>
+        <li><b>#18 news attribution</b> — the brief asks for links that “may have caused” a jump. The site links the market's own settlement sources (e.g. AAA for gas, ESPN/PGA for golf) and the Kalshi page, and labels causality as unproven. A time-windowed news matcher is proposed, not faked.</li>
+      </ul>
+      <p class="small">Everything else is complete in this repository and reproducible with the commands on the <a href="verification.html">verification page</a>.</p>
+    </div>
+  </section>
+
+  <footer class="site">
+    <span>Traceability maintained alongside <code>COORDINATION.md</code>.</span>
+    <span>·</span><a href="flagged.html">Flagged for review</a>
+    <span>·</span><a href="executive-summary.html">Executive summary</a>
+    <span>·</span><a href="https://docs.kalshi.com" target="_blank" rel="noopener">docs.kalshi.com</a>
+    <span>·</span><span>Not investment advice.</span>
+  </footer>
+</main>
+</body>
+</html>

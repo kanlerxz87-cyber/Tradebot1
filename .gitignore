@@ -1,11 +1,18 @@
-.venv/
-data/state/
-data/secrets/
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
 .pytest_cache/
 .ruff_cache/
+data/state/
+data/secrets/
 *.key
 *.pem
 .env
-engine/__pycache__/
+
+# Node (site tests)
+node_modules/
+
+# Build output kept in git on purpose: docs/ is the published GitHub Pages site.
