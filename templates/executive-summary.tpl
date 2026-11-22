@@ -1,0 +1,103 @@
+<section class="hero">
+  <div class="pill-row" style="margin-bottom:10px">
+    <span class="badge ok">executive summary</span>
+    <span class="badge">build {{BUILD_ID}}</span>
+    <span class="badge">data through {{NEWEST_OBS}}</span>
+  </div>
+  <h1>Executive summary</h1>
+  <p>
+    A working dashboard over Kalshi's demo exchange, limited to five topics, that watches for
+    $0.10 price swings, follows markets to a finalized <strong>yes</strong> or <strong>no</strong>,
+    and runs five simulated strategies. It is built so that a reader can check every number against
+    an official source, and so that anything unverified is published as unverified rather than
+    quietly filled in.
+  </p>
+</section>
+
+<section class="grid cols-4" aria-label="At a glance">
+  <div class="card tight"><div class="stat"><span class="k">Topics</span><span class="v">5</span><span class="s">gas, elections, culture, crypto, golf</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Alert threshold</span><span class="v">$0.10</span><span class="s">either direction, consecutive polls</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Strategies</span><span class="v">5</span><span class="s">1 contract each, taker fee charged</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Open flags</span><span class="v">17</span><span class="s">all published, none blocking</span></div></div>
+</section>
+
+<section>
+  <h2>What was asked for, and what exists</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Requirement</th><th>Status</th><th>Where</th><th>Honest limitation</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Track the highest-dollar live events</td><td><span class="badge ok">built</span></td><td><a href="[[ASSET]]index.html">Board</a></td><td>Ranked by resting bid dollars, which is a liquidity measure, not volume</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-market-orderbook" target="_blank" rel="noopener noreferrer nofollow">orderbook</a></td></tr>
+      <tr><td>Only gas prices, elections, culture, crypto, golf</td><td><span class="badge ok">built</span></td><td>Five topic pages</td><td>Gas is diesel-only in the demo catalogue; golf is a tag, not a category</td><td class="src"><a href="https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas" target="_blank" rel="noopener noreferrer nofollow">series</a></td></tr>
+      <tr><td>Alert on ≥ $0.10 swings, either direction</td><td><span class="badge ok">built</span></td><td><a href="[[ASSET]]dashboard.html">Live alerts</a></td><td>Compares two polls; a spike between polls is invisible</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer nofollow">caching</a></td></tr>
+      <tr><td>Two scrolling chats: all, and a filtered subset</td><td><span class="badge ok">built</span></td><td><a href="[[ASSET]]dashboard.html">Live alerts</a></td><td>The filter is a 0–100 heuristic, not ROI</td><td class="src"><a href="[[ASSET]]methodology.html">R2</a></td></tr>
+      <tr><td>Follow events until resolved, yes or no</td><td><span class="badge warn">built, no rows yet</span></td><td>Topic pages, market pages</td><td>No market in the capture had finalized; the table is empty rather than invented</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">lifecycle</a></td></tr>
+      <tr><td>Automate simulated trades across strategies</td><td><span class="badge ok">built</span></td><td><a href="[[ASSET]]portfolio.html">Portfolio</a></td><td>One contract per entry; no queue, impact or latency modelling</td><td class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer nofollow">fees</a></td></tr>
+      <tr><td>Track the real demo-account performance</td><td><span class="badge warn">built, not connected</span></td><td><a href="[[ASSET]]demo-account.html">Demo account</a></td><td>Needs repository secrets; shows "not connected" until then</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer nofollow">signing</a></td></tr>
+      <tr><td>Analyse and categorise trades by type</td><td><span class="badge ok">built</span></td><td><a href="[[ASSET]]portfolio.html">By strategy</a>, by topic</td><td>Sample size is tiny; no significance claimed</td><td class="src"><a href="[[ASSET]]strategies.html">rules</a></td></tr>
+      <tr><td>Live interactive graphs, x = time, y = price, seconds to hours</td><td><span class="badge ok">built</span></td><td><a href="[[ASSET]]market.html">Market detail</a></td><td>Only points the collector actually stored are plotted</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer nofollow">candles</a></td></tr>
+      <tr><td>Show liquidity: contracts available at a price</td><td><span class="badge ok">built</span></td><td>Market detail ladder</td><td>Ask side is derived, because Kalshi returns bids only</td><td class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer nofollow">mechanics</a></td></tr>
+      <tr><td>Link events and sites that may have caused a jump</td><td><span class="badge warn">partial by design</span></td><td>Alert rows</td><td>The API has no cause field; only the exchange's own settlement sources are linked</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener noreferrer nofollow">series</a></td></tr>
+      <tr><td>Organise by topic, events grouped</td><td><span class="badge ok">built</span></td><td>Topic pages, <a href="[[ASSET]]markets.html">Markets</a></td><td>Combo (KXMVE) markets are excluded from all topics</td><td class="src"><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer nofollow">events</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Key findings from the verified data</h2>
+  <div class="grid cols-2">
+    <div class="card">
+      <h3>1. The demo's topic taxonomy does not match the brief</h3>
+      <p class="small">Crypto, Elections and Culture exist as official series categories. Golf and Gas do not. Golf is a tag on Sports series. "Gas" as a tag returns only two diesel series, and a Gasoline tag does not exist at all. The dashboard adapts rather than pretending: it uses the tag where the category is missing, and says so on the topic page and in flags F-03 and F-04.</p>
+      <p class="small src"><a href="https://external-api.demo.kalshi.co/trade-api/v2/series?category=Golf" target="_blank" rel="noopener noreferrer nofollow">GET /series?category=Golf</a> · <a href="https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas" target="_blank" rel="noopener noreferrer nofollow">GET /series?tags=Gas</a></p>
+    </div>
+    <div class="card">
+      <h3>2. Liquidity in these topics is thin, and often one-sided</h3>
+      <p class="small">The golf markets inspected show a YES bid of $0.00 and a YES ask of $1.00 on every row, which is an empty book on both sides rather than a price. The gas series have no open markets at all. Any "highest dollar live events" ranking over the demo is therefore dominated by a handful of markets, and the board says so with a dash wherever a book is empty.</p>
+      <p class="small src"><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXLIVCOMPETE&status=open&limit=5" target="_blank" rel="noopener noreferrer nofollow">KXLIVCOMPETE markets</a></p>
+    </div>
+    <div class="card">
+      <h3>3. Sell-side prices must be derived, not read</h3>
+      <p class="small">Kalshi's order book contains bids only: a YES bid at X is a NO ask at 1−X. Any dashboard that shows an ask without saying it is derived is showing an inference as an observation. This build labels every derived ask and publishes the exchange's own explanation.</p>
+      <p class="small src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer nofollow">Kalshi: order-book responses</a></p>
+    </div>
+    <div class="card">
+      <h3>4. Fees are a real cost that most simulations skip</h3>
+      <p class="small">At $0.50, Kalshi charges $1.75 per 100 contracts, and the formula is symmetric so it costs the same on the way out. A simulated strategy that ignores the fee can look profitable while losing money. The model here charges the published fee on every entry; the one row of Kalshi's own fee table that its formula cannot reproduce is flagged as F-02 rather than special-cased.</p>
+      <p class="small src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer nofollow">Fee schedule</a></p>
+    </div>
+    <div class="card">
+      <h3>5. "Why did it move" cannot be answered from this API</h3>
+      <p class="small">No Kalshi endpoint returns a cause. The best available substitute is the settlement source list the exchange names for each series, which is where the outcome will be reported. This build links those and never labels an article as the cause of a move.</p>
+      <p class="small src"><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener noreferrer nofollow">Get Series</a></p>
+    </div>
+    <div class="card">
+      <h3>6. Execution cannot live in the page</h3>
+      <p class="small">Signed requests need a private key and a timestamp within 30 seconds of Kalshi's clock. A static Pages site cannot hold the key. This build keeps all signing in GitHub Actions, and deliberately does not send orders at all, so nothing here can trade by accident.</p>
+      <p class="small src"><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer nofollow">API keys</a></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>What is deliberately blank</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Blank thing</th><th>Why it is blank</th><th>What would fill it</th><th>Flag</th></tr></thead>
+    <tbody>
+      <tr><td>Resolved markets table</td><td>No market in the capture had been finalized by the exchange</td><td>The scheduled collector watching a market through <code>finalized</code></td><td class="src"><a href="[[ASSET]]flagged.html#F-08">F-08</a></td></tr>
+      <tr><td>Demo account balance</td><td>No API key is configured in this repository</td><td><code>KALSHI_API_KEY_ID</code> and <code>KALSHI_PRIVATE_KEY</code> as repository secrets</td><td class="src"><a href="[[ASSET]]flagged.html#F-13">F-13</a></td></tr>
+      <tr><td>Open gas and golf markets</td><td>The exchange returned none for those series at capture</td><td>Open markets appearing in the demo</td><td class="src"><a href="[[ASSET]]flagged.html#F-03">F-03</a></td></tr>
+      <tr><td>Cause of any price move</td><td>The API has no such field</td><td>Manual research, not automation</td><td class="src"><a href="[[ASSET]]flagged.html#F-12">F-12</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>How to audit this in ten minutes</h2>
+  <ol style="max-width:85ch">
+    <li>Open <a href="[[ASSET]]sources.html">Sources</a> and confirm the endpoint table matches <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer nofollow">Kalshi's environments page</a>.</li>
+    <li>Pick any market row and follow its source link to the demo API. Compare the bid and ask with the dashboard.</li>
+    <li>Open <a href="[[ASSET]]market.html?t=KXELONMARS-99">a market page</a> and check the ladder against <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXELONMARS-99/orderbook" target="_blank" rel="noopener noreferrer nofollow">the raw order book</a>. Confirm the ask column is the complement of the NO bids.</li>
+    <li>Read <a href="[[ASSET]]flagged.html">Flagged for review</a> and challenge any flag you disagree with.</li>
+    <li>Run <code>node --test tests/*.test.mjs</code> and confirm the fee model reproduces Kalshi's published table.</li>
+  </ol>
+</section>

@@ -1,19 +1,18 @@
 name: Collect live demo data
 
 # Kalshi's demo REST API is polled by this job, not by the visiting browser.
-# The collector then commits what it saw to data/live/, so the published site
-# always has a timestamped record even when a visitor's browser cannot reach
-# Kalshi (measured CORS behaviour is documented on flagged.html).
+# The collector commits what it saw to data/live/, so the published site always
+# has a timestamped record even when a visitor's browser cannot reach Kalshi.
 #
 # Rate limits: https://docs.kalshi.com/getting_started/rate_limits
 # Public reads are unauthenticated and separately limited; the collector caps
-# itself to a small number of requests per cycle and backs off on 429.
+# itself and the job probes the API before doing any work.
 
 on:
   schedule:
-    # Every 10 minutes. GitHub may delay scheduled runs; the site shows the
-    # actual observation time of every row rather than implying freshness.
-    - cron: '*/10 * * * *'
+    # Every 15 minutes. GitHub does not guarantee exact times, and the site
+    # shows the observation time of every row rather than implying freshness.
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -44,7 +43,7 @@ jobs:
       - name: Probe the demo API before collecting
         run: |
           set -euo pipefail
-          code=$(curl -s -m 20 -o /tmp/status.json -w '%{http_code}' \
+          code=$(curl -sS -m 25 -o /tmp/status.json -w '%{http_code}' \
             https://external-api.demo.kalshi.co/trade-api/v2/exchange/status)
           echo "HTTP $code"
           cat /tmp/status.json || true
@@ -57,7 +56,7 @@ jobs:
       - name: Run the collector
         run: node tools/collector.mjs ${{ inputs.dry_run && '--dry-run' || '' }}
 
-      - name: Validate the committed data against its own contract
+      - name: Validate the committed data against its contract
         run: node scripts/check-data.mjs
 
       - name: Commit the new observations
@@ -66,14 +65,18 @@ jobs:
           set -euo pipefail
           git config user.name 'kalshi-collector'
           git config user.email 'kalshi-collector@users.noreply.github.com'
-          git add data/live data/account.json 2>/dev/null || git add data/live
+          git add data/live
           if git diff --cached --quiet; then
             echo "No change to commit."
             exit 0
           fi
           git commit -m "data: live demo capture $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for attempt in 1 2 3; do
-            git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}" && break
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
             echo "push attempt $attempt failed; retrying"
             sleep 5
           done
+          echo "::error::could not push the capture"
+          exit 1

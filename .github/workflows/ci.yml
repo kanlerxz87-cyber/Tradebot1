@@ -1,0 +1,90 @@
+name: Verify and publish
+
+# Runs on every push and pull request. Builds the site, then holds it to every
+# check in the repository:
+#   tests/*.test.mjs     logic and the fee model against Kalshi's own table
+#   check-data.mjs       the committed JSON against its contract
+#   check-links.mjs      no broken internal link, asset or anchor
+#   check-render.mjs     every page renders its data with source links intact
+#   build-site --check   the committed HTML matches the templates and data
+# Publishing to Pages happens from main only, after all of that passes.
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install test-only dependency
+        run: npm install --no-audit --no-fund
+
+      - name: Unit tests
+        run: node --test tests/*.test.mjs
+
+      - name: Data contract
+        run: node scripts/check-data.mjs
+
+      - name: Build the site
+        run: node scripts/build-site.mjs
+
+      - name: Committed HTML matches templates and data
+        run: node scripts/build-site.mjs --check
+
+      - name: Internal links, assets and anchors
+        run: node scripts/check-links.mjs
+
+      - name: Every page renders its data with source links
+        run: node scripts/check-render.mjs
+
+  publish:
+    needs: verify
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+      - name: Stage only what is published
+        run: |
+          set -euo pipefail
+          mkdir -p _site
+          # The published site is the generated HTML, its assets, the five
+          # category pages and the data the pages read. Repository internals
+          # (tools, tests, workflows, .git) are not served.
+          cp -R assets categories data _site/
+          cp ./*.html _site/
+          cp .nojekyll _site/ 2>/dev/null || touch _site/.nojekyll
+          du -sh _site
+
+      - name: Upload the site
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
