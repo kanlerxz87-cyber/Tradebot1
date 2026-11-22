@@ -46,6 +46,7 @@
   <div class="card" style="margin-top:16px">
     <h2>3 · Environment &amp; the single biggest constraint</h2>
     <div class="callout danger"><strong>The build sandbox has no route to the Kalshi demo API</strong> (direct connections time out; only github.com and package registries are reachable), and <strong>no Kalshi demo API keys were provided</strong>. Consequently: (a) every <em>live</em> number on this site is fetched in the visitor's browser at page-open time, not baked in; (b) no historical demo data could be captured to validate alert thresholds empirically; (c) order placement on the demo account is implemented but <u>not</u> exercised — it is gated behind an explicit in-browser setting. Nothing on this site presents an unverifiable number as fact; rows that fail verification are blank and flagged.</div>
+    <p class="muted"><strong>Now measured, not assumed:</strong> a GitHub-hosted runner in this repository requested the public demo endpoints with this site's origin and got permissive CORS (<code>Access-Control-Allow-Origin</code> echoing the Pages origin, HTTP 200 on markets/order book/candles on both demo hosts) — so public data <em>does</em> load directly in the browser. The same probe confirmed signed requests and unsigned WebSocket upgrades are rejected (<a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/probe/results.json" target="_blank" rel="noopener noreferrer">probe/results.json ↗</a>).</p>
     <p class="muted">Second hard constraint, discovered from official WebSocket documentation: Kalshi's WebSocket handshake requires the same signed <code>KALSHI-ACCESS-*</code> headers as REST, and <strong>browsers cannot set custom headers on a WebSocket upgrade</strong>. The dashboard therefore defaults to authenticated-header-free <em>REST polling</em> (public data) and treats WebSocket streaming as an optional proxy integration — see <a href="suggestions.html#ws-proxy">Suggestions P0</a>.</p>
   </div>
 
@@ -109,7 +110,7 @@
   <div class="card" style="margin-top:16px">
     <h2>8 · Recommended next steps</h2>
     <ol class="muted" style="margin:0; padding-left:18px">
-      <li>Deploy the tiny WS proxy so alerts arrive by push, not poll (<a href="suggestions.html#ws-proxy">Suggestions P0-1</a>); add a Cloudflare Worker if CORS blocks direct browser reads.</li>
+      <li>Deploy the tiny WS proxy so alerts arrive by push, not poll (<a href="suggestions.html#ws-proxy">Suggestions P0-1</a>); public reads are already CORS-allowed (measured), so the proxy is needed only for signed/private streams.</li>
       <li>Capture settled-event history (cron job → JSON snapshot in repo or external store) to calibrate the model threshold of $0.10 and the ≥65 score against realized outcomes.</li>
       <li>Enable demo order execution behind the existing opt-in; reconcile fills automatically via <code>GET /portfolio/fills</code> + <code>market_positions</code> WS channel.</li>
       <li>Add Slack/Discord webhook fan-out for $0.10 alerts (<a href="suggestions.html">Suggestions P1</a>).</li>

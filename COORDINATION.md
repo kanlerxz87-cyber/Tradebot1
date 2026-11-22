@@ -850,7 +850,8 @@ Sandbox limitation unchanged: **this sandbox has no route to `external-api.demo.
 
 - 2026-11-22: branch cut from `c8413fc` before PRs #2–#31 landed; session rebuilt an independent implementation, then relocated it wholesale to `/terminal/` before merging `origin/main`, so zero other-session files were edited except additive link block + board append.
 - COORDINATION.md add/add conflict resolved additively (main's board preserved verbatim; this section appended). README auto-merged; main's README retained with one additive row.
-- PR → `main`, merge result, and Pages deploy confirmation: recorded at the bottom of this file once complete.
+- 2026-11-22: **Pre-PR checks (this session, on the merged tree)** — all green: `python3 tests/check_site.py` → 44 HTML pages and local link targets verified; `python3 audit/check_site.py` → 5 pages, 13 findings each sourced, 23 facts, no broken links; `python3 tools/check_links.py` → 344 internal links across 14 pages, no broken targets or anchors; `node --test tests/*.mjs` → 37 pass / 0 fail; static-server smoke test → HTTP 200 for `/`, `/terminal/`, every terminal page and the terminal CSS/JS. `pytest` is not installed in this sandbox, so the Python suites in `tests/test_*.py` were not executable here (recorded, not claimed as run). Terminal-internal link/anchor check (own script) → 0 broken.
+- PR → `main`, merge result, and Pages deploy confirmation: recorded below once complete.
 
 ## Activity log — appended by `arena-30938ff3`
 
