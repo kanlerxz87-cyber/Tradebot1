@@ -1,7 +1,12 @@
 {
   "meta": {
     "note": "Every unverified value, limitation and irregularity found in this build. None of these block publication; all are published on the Flagged for Review page so they can be checked and challenged.",
-    "severityLevels": ["high", "medium", "low", "info"]
+    "severityLevels": [
+      "high",
+      "medium",
+      "low",
+      "info"
+    ]
   },
   "flags": [
     {
@@ -12,20 +17,32 @@
       "impact": "If the collector has a defect, the first scheduled run will fail. The workflow probes /exchange/status with curl first and fails loudly rather than publishing an empty feed, and the collector refuses to overwrite existing data with an empty cycle.",
       "howToCheck": "Open the Collect live demo data workflow run in the Actions tab and read its log.",
       "sources": [
-        { "label": "Demo environment docs", "url": "https://docs.kalshi.com/getting_started/demo_env" },
-        { "label": "Actions runs", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/actions" }
+        {
+          "label": "Demo environment docs",
+          "url": "https://docs.kalshi.com/getting_started/demo_env"
+        },
+        {
+          "label": "Actions runs",
+          "url": "https://github.com/kanlerxz87-cyber/Tradebot1/actions"
+        }
       ]
     },
     {
       "id": "F-02",
-      "severity": "medium",
-      "title": "One row of Kalshi's own fee table cannot be reproduced from Kalshi's own fee formula",
-      "detail": "The fee schedule states fees = round up(M x 0.07 x C x P x (1-P)) and that the result is rounded so that fee plus position cost lands on a centicent. That formula, rounded up to $0.0001, gives $0.0007 at a $0.01 price, while the schedule's summary table prints $0.01. Rounding to the whole cent instead reproduces 20 of the 21 rows exactly in both the 1-contract and 100-contract columns. The $0.01 row is also the one whose extracted text layer is internally inconsistent (its 100-contract fee reads $1.00, which is the price column). This build charges the whole-cent rounding, which matches 20 of 21 rows, and does not special-case the remaining row.",
-      "impact": "Simulated fees for contracts priced at exactly $0.01 may differ from the exchange by up to $0.01 per contract.",
-      "howToCheck": "Read the Trading Fees section and the General Trading Fees Table in the PDF, then compare with tests/fees.test.mjs.",
+      "severity": "info",
+      "title": "Resolved 2026-11-22: the $0.01 fee row is reproducible when all four columns are read",
+      "detail": "The fee schedule's summary table has four columns - price of 1 contract, fee for 1 contract, price for 100 contracts, fee for 100 contracts. This project had read the third column as a fee, which made the $0.01 row look unreproducible: it printed $1.00 where a fee was expected, and $1.00 is the price of 100 contracts at one cent. The fee on that row is $0.07, and 0.07 x 100 x 0.01 x 0.99 = 0.0693 rounds up to $0.07 like every other row. With the columns read correctly, all 21 rows reproduce in both fee columns, so the formula and the table agree and nothing needs special-casing. The table has been corrected and the test now asserts 21 of 21 rows.",
+      "impact": "The simulated fee formula was already right; only the test fixture and this note were wrong. One separate rounding difference remains and is disclosed under AUD-04 on docs/audit/: the printed table is whole-cent rounded, while the exchange rounds a fill's trade fee to $0.000001 and aligns the balance to $0.0001, so this model can overstate a direct member's fee by up to one cent per fill.",
+      "howToCheck": "Open the PDF's General Trading Fees Table and count the columns (four: two prices, two fees), then run node --test tests/fees.test.mjs, which asserts every row.",
       "sources": [
-        { "label": "Kalshi fee schedule PDF", "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf" },
-        { "label": "Fee rounding", "url": "https://docs.kalshi.com/getting_started/fee_rounding" }
+        {
+          "label": "Kalshi fee schedule PDF (General Trading Fees Table)",
+          "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+        },
+        {
+          "label": "Fee rounding (trade fee to $0.000001, balance to $0.0001)",
+          "url": "https://docs.kalshi.com/getting_started/fee_rounding"
+        }
       ]
     },
     {
@@ -36,10 +53,22 @@
       "impact": "The gas-prices page will look empty until the demo has open fuel markets. That emptiness is real, not a bug.",
       "howToCheck": "GET /series?tags=Gas, GET /series?tags=Gasoline, GET /markets?series_ticker=DIESEL&status=open on the demo host.",
       "sources": [
-        { "label": "Demo series, Gas tag", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas" },
-        { "label": "Demo series, Gasoline tag", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gasoline" },
-        { "label": "Demo markets, DIESEL", "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=DIESEL&status=open" },
-        { "label": "Fee schedule naming KXAAAGASM", "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf" }
+        {
+          "label": "Demo series, Gas tag",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas"
+        },
+        {
+          "label": "Demo series, Gasoline tag",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gasoline"
+        },
+        {
+          "label": "Demo markets, DIESEL",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=DIESEL&status=open"
+        },
+        {
+          "label": "Fee schedule naming KXAAAGASM",
+          "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+        }
       ]
     },
     {
@@ -50,8 +79,14 @@
       "impact": "Golf discovery depends on Kalshi keeping the Golf tag on those series.",
       "howToCheck": "Compare GET /series?category=Golf with GET /series?tags=Golf.",
       "sources": [
-        { "label": "Demo series, Golf category", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Golf" },
-        { "label": "Demo series, Golf tag", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Golf" }
+        {
+          "label": "Demo series, Golf category",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Golf"
+        },
+        {
+          "label": "Demo series, Golf tag",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Golf"
+        }
       ]
     },
     {
@@ -62,9 +97,18 @@
       "impact": "The dashboard is not a census of every open Kalshi market, and never claims to be.",
       "howToCheck": "GET /markets?status=open&limit=3 and compare with GET /events?status=open.",
       "sources": [
-        { "label": "Demo open markets", "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=3" },
-        { "label": "Get Events (excludes multivariate)", "url": "https://docs.kalshi.com/api-reference/events/get-events" },
-        { "label": "Get Markets", "url": "https://docs.kalshi.com/api-reference/market/get-markets" }
+        {
+          "label": "Demo open markets",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=3"
+        },
+        {
+          "label": "Get Events (excludes multivariate)",
+          "url": "https://docs.kalshi.com/api-reference/events/get-events"
+        },
+        {
+          "label": "Get Markets",
+          "url": "https://docs.kalshi.com/api-reference/market/get-markets"
+        }
       ]
     },
     {
@@ -75,8 +119,14 @@
       "impact": "The demo-account page shows whatever the last authenticated snapshot job captured, stamped with its time. It is not a live account view.",
       "howToCheck": "Read the signing section of the API keys page; confirm the Pages site is static.",
       "sources": [
-        { "label": "API keys and signing", "url": "https://docs.kalshi.com/getting_started/api_keys" },
-        { "label": "Create Order (V2)", "url": "https://docs.kalshi.com/api-reference/orders/create-order-v2" }
+        {
+          "label": "API keys and signing",
+          "url": "https://docs.kalshi.com/getting_started/api_keys"
+        },
+        {
+          "label": "Create Order (V2)",
+          "url": "https://docs.kalshi.com/api-reference/orders/create-order-v2"
+        }
       ]
     },
     {
@@ -87,7 +137,10 @@
       "impact": "Some visitors may only ever see the committed snapshot. Every row shows its observation time so the difference is visible.",
       "howToCheck": "Open the browser console on the live dashboard and look for the data-source banner, which names either the live API or the snapshot.",
       "sources": [
-        { "label": "Public market-data quick start (no key required)", "url": "https://docs.kalshi.com/getting_started/quick_start_market_data" }
+        {
+          "label": "Public market-data quick start (no key required)",
+          "url": "https://docs.kalshi.com/getting_started/quick_start_market_data"
+        }
       ]
     },
     {
@@ -98,8 +151,14 @@
       "impact": "The \"how events resolved\" view will be empty until the collector has watched a market through to finalized.",
       "howToCheck": "GET /markets?status=settled&series_ticker=<topic series> and compare with what the page shows.",
       "sources": [
-        { "label": "Market lifecycle (finalized, result)", "url": "https://docs.kalshi.com/getting_started/market_lifecycle" },
-        { "label": "Get Markets (status=settled)", "url": "https://docs.kalshi.com/api-reference/market/get-markets" }
+        {
+          "label": "Market lifecycle (finalized, result)",
+          "url": "https://docs.kalshi.com/getting_started/market_lifecycle"
+        },
+        {
+          "label": "Get Markets (status=settled)",
+          "url": "https://docs.kalshi.com/api-reference/market/get-markets"
+        }
       ]
     },
     {
@@ -110,7 +169,10 @@
       "impact": "All performance figures are simulations on demo data.",
       "howToCheck": "Read the warning box on the demo environment page.",
       "sources": [
-        { "label": "Test In The Demo Environment", "url": "https://docs.kalshi.com/getting_started/demo_env" }
+        {
+          "label": "Test In The Demo Environment",
+          "url": "https://docs.kalshi.com/getting_started/demo_env"
+        }
       ]
     },
     {
@@ -121,7 +183,10 @@
       "impact": "Treat the filtered feed as a triage list, not a signal.",
       "howToCheck": "Read tools/alerts.mjs researchScore and the per-row score breakdown on the Alerts page.",
       "sources": [
-        { "label": "Project rule R2 (this repo)", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/sources.json" }
+        {
+          "label": "Project rule R2 (this repo)",
+          "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/sources.json"
+        }
       ]
     },
     {
@@ -132,9 +197,18 @@
       "impact": "Absence of an alert is not evidence that no move happened.",
       "howToCheck": "Compare the Get Markets caching note with the alerts rule in tools/alerts.mjs.",
       "sources": [
-        { "label": "Get Markets (responses are cached)", "url": "https://docs.kalshi.com/api-reference/market/get-markets" },
-        { "label": "WebSocket handshake requires authentication", "url": "https://docs.kalshi.com/getting_started/quick_start_websockets" },
-        { "label": "Rate limits", "url": "https://docs.kalshi.com/getting_started/rate_limits" }
+        {
+          "label": "Get Markets (responses are cached)",
+          "url": "https://docs.kalshi.com/api-reference/market/get-markets"
+        },
+        {
+          "label": "WebSocket handshake requires authentication",
+          "url": "https://docs.kalshi.com/getting_started/quick_start_websockets"
+        },
+        {
+          "label": "Rate limits",
+          "url": "https://docs.kalshi.com/getting_started/rate_limits"
+        }
       ]
     },
     {
@@ -145,8 +219,14 @@
       "impact": "The cause column is a research starting point, not an attribution.",
       "howToCheck": "Every alert row's settlement-source links come from the series' settlement_sources field in the API response.",
       "sources": [
-        { "label": "Get Series (settlement_sources field)", "url": "https://docs.kalshi.com/api-reference/market/get-series" },
-        { "label": "Example live response with settlement_sources", "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=open&limit=2&with_nested_markets=true" }
+        {
+          "label": "Get Series (settlement_sources field)",
+          "url": "https://docs.kalshi.com/api-reference/market/get-series"
+        },
+        {
+          "label": "Example live response with settlement_sources",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=open&limit=2&with_nested_markets=true"
+        }
       ]
     },
     {
@@ -157,8 +237,14 @@
       "impact": "The demo-account page will say \"not connected\" until the secrets are added.",
       "howToCheck": "Read data/account.json in the repo and the Demo account snapshot workflow log.",
       "sources": [
-        { "label": "API keys", "url": "https://docs.kalshi.com/getting_started/api_keys" },
-        { "label": "Creating a demo account (Kalshi help)", "url": "https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account" }
+        {
+          "label": "API keys",
+          "url": "https://docs.kalshi.com/getting_started/api_keys"
+        },
+        {
+          "label": "Creating a demo account (Kalshi help)",
+          "url": "https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account"
+        }
       ]
     },
     {
@@ -169,7 +255,10 @@
       "impact": "Treat a settlement-source link as \"Kalshi named this\", not \"this is authoritative\".",
       "howToCheck": "GET /series?category=Culture and read contract_url and settlement_sources.",
       "sources": [
-        { "label": "Demo series, Culture", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture" }
+        {
+          "label": "Demo series, Culture",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture"
+        }
       ]
     },
     {
@@ -180,8 +269,14 @@
       "impact": "Simulated P&L is optimistic in thin books.",
       "howToCheck": "Read the derived-asks note on any market page and the Orderbook Responses doc.",
       "sources": [
-        { "label": "Orderbook Responses", "url": "https://docs.kalshi.com/getting_started/orderbook_responses" },
-        { "label": "Fee schedule", "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf" }
+        {
+          "label": "Orderbook Responses",
+          "url": "https://docs.kalshi.com/getting_started/orderbook_responses"
+        },
+        {
+          "label": "Fee schedule",
+          "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+        }
       ]
     },
     {
@@ -192,7 +287,10 @@
       "impact": "A later integration pass may need to choose one canonical root.",
       "howToCheck": "Read COORDINATION.md on main and on both branches.",
       "sources": [
-        { "label": "Coordination board", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/COORDINATION.md" }
+        {
+          "label": "Coordination board",
+          "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/COORDINATION.md"
+        }
       ]
     },
     {
@@ -203,7 +301,10 @@
       "impact": "The dashboard is near-live, not tick-by-tick.",
       "howToCheck": "Compare the newest observation timestamp on the site with the Actions run history.",
       "sources": [
-        { "label": "GitHub Actions schedule event documentation", "url": "https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule" }
+        {
+          "label": "GitHub Actions schedule event documentation",
+          "url": "https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule"
+        }
       ]
     }
   ]

@@ -66,6 +66,13 @@ jobs:
           python3 -m unittest discover -s live/tests
           python3 live/build_page.py --check
           python3 qa/audit.py --check
+      # Audit (session 73552f24): every finding re-checked, pages current, a source
+      # link on every row. Fails the build if a published verdict goes stale.
+      - name: Verify the audit site
+        run: |
+          python3 audit/verify.py --check
+          python3 audit/build_site.py --check
+          python3 audit/check_site.py
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
