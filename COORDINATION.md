@@ -459,3 +459,6 @@ passing, and recorded it here. Nothing of theirs was removed or rewritten.
 - 2026-11-22: merged tree re-checked after each merge — `pytest` 146 passed, `npm test` 36 passed,
   `check:links` 19 pages / 644 refs, `check:data` valid, `tools/check_links.py` 301 links / 13 pages,
   `build_site --check` current, `tests/check_site.py` 37 pages.
+- 2026-11-22: root cause of the artifact commit identified — a merge had replaced `.gitignore` and dropped
+  `.venv/`, `__pycache__/`, `*.py[cod]` and `node_modules/`. Rules restored and verified with
+  `git check-ignore`; without that, untracking alone would have let the next `git add -A` re-add them.
