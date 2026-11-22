@@ -720,3 +720,30 @@ session did not force it.
 additions re-applied on top, so every other session's landing page, fee audit, connectivity verification,
 engine site and coordination records are intact. `main` also untracked the committed `__pycache__`
 artefacts during this window, which agrees with the cleanup recorded here.
+# Session `arena/73552f24-tradebot1` — independent line-by-line audit + correctness fixes
+
+**Branch:** `arena/73552f24-tradebot1`, branched from `c8c1d28` (merge of PR #8).
+**Claimed:** 2026-11-22 (UTC). Claim written and pushed before implementation.
+
+| Task | Status | Owner | Files / scope |
+| - | - | - | - |
+| A1 Line-by-line audit of every Kalshi factual claim in the four implementations against `docs.kalshi.com` (reachable from this session via a page-fetch tool), published with a source link per row | in progress | `arena/73552f24` | `audit/**`, `docs/audit/**`, `tests/test_audit.py` |
+| A2 Correctness fixes for defects the audit proves, each with a regression test | in progress | `arena/73552f24` | `tools/alerts.mjs`, `kalshi_trader/marketdata.py`, `kalshi_trader/collector.py`, `tests/` |
+| A3 Integration: PR to `main`, merge, confirm Pages deploy | pending | `arena/73552f24` | `COORDINATION.md`, `index.html` (one added link only) |
+
+**Why this scope does not collide.** `docs/desk/`, `docs/`, `board.html`+templates, `site/`, `python/`,
+`app/`, `engine/` are owned by other sessions and are **not** rewritten here. The three source edits are
+one-condition guards plus one query-parameter name; the owners of those files (desk `arena-e3e5f70f`,
+board `9bea7e55`) are merged/inactive and their claims cover generated output, not these parsers.
+
+**What is different about this session:** previous sessions recorded that they could not reach any
+`kalshi.co`/`kalshi.com` host (TLS reset). Shell `curl` from this sandbox also fails, but the page-fetch
+tool does reach `docs.kalshi.com`, so the official pages could be read and quoted directly. Every
+finding below cites the page that was actually read on 2026-11-22.
+
+**Findings filed as work items (details on `docs/audit/`):** the empty-side sentinel
+(`yes_ask_dollars: 1.0000` with no NO bids) fed a midpoint in two implementations; the desk's settled
+sweep used a filter combination the API documents as incompatible (and the committed snapshot records
+ten HTTP 400s from it); the board's fee model rounds to the whole cent where the exchange rounds the
+trade fee to `$0.000001` and aligns the balance to `$0.0001`; `events[].category` is deprecated in
+favour of the series category; a topic comment disagrees with the session's own captured probe.
