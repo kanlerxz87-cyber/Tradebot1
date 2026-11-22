@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#071019">
+<title>Kalshi demo live console | Tradebot1</title>
+<meta name="description" content="Live Kalshi demo console: five topics, dollar-ranked events, $0.10 swing alert feeds, price charts with time ranges, order-book depth, resolution tracking and a simulated portfolio.">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <a class="brand" href="./"><span class="logo">&#9090;</span> KALSHI <span class="tag">/ DEMO</span></a>
+    <div class="sidebar-label">Topics</div>
+    <nav class="nav" id="topic-nav" aria-label="Topics">
+      <a href="#all" class="active" data-topic-link="all"><span class="icon">&#9638;</span> All topics <span class="count" id="count-all">—</span></a>
+      <a href="#gas" id="gas" class="t-gas" data-topic-link="gas"><span class="icon">&#9672;</span> Gas prices <span class="count" id="count-gas">—</span></a>
+      <a href="#elections" id="elections" class="t-elections" data-topic-link="elections"><span class="icon">&#9639;</span> Elections <span class="count" id="count-elections">—</span></a>
+      <a href="#culture" id="culture" class="t-culture" data-topic-link="culture"><span class="icon">&#10033;</span> Culture <span class="count" id="count-culture">—</span></a>
+      <a href="#crypto" id="crypto" class="t-crypto" data-topic-link="crypto"><span class="icon">&#8383;</span> Crypto <span class="count" id="count-crypto">—</span></a>
+      <a href="#golf" id="golf" class="t-golf" data-topic-link="golf"><span class="icon">&#9873;</span> Golf <span class="count" id="count-golf">—</span></a>
+    </nav>
+    <div class="sidebar-label">Evidence</div>
+    <nav class="nav" aria-label="Evidence">
+      <a href="verification.html"><span class="icon">&#8801;</span> Verification</a>
+      <a href="flagged.html"><span class="icon">&#9888;</span> Flagged for review</a>
+      <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer"><span class="icon">&#8599;</span> Kalshi API docs</a>
+    </nav>
+    <div class="sidebar-label">Other dashboards</div>
+    <nav class="nav" aria-label="Other dashboards">
+      <a href="../"><span class="icon">&#9635;</span> Market monitor</a>
+      <a href="../desk/"><span class="icon">&#9636;</span> Research desk</a>
+      <a href="../../board.html"><span class="icon">&#9645;</span> Trade board</a>
+    </nav>
+    <div class="sidebar-bottom">
+      <strong>&#9679; DEMO ENVIRONMENT</strong>
+      Public demo API reads only. No API key is stored here and no order is ever placed.
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div>
+        <strong>Live console</strong> <span class="crumb" id="crumb">/ All topics</span>
+      </div>
+      <div class="top-right">
+        <span id="connection" class="status pending" role="status">Starting</span>
+        <button id="refresh" class="refresh" type="button">&#8635; Refresh now</button>
+        <button id="autopoll" class="ghost" type="button" aria-pressed="true">Auto-refresh: on</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <span class="pill">&#9679; PUBLIC DEMO API</span> <span class="pill demo">DEMO PRICES, NOT PRODUCTION</span>
+      <h1>Every &plusmn;10&cent; move, two feeds, and the book behind it.</h1>
+      <p>
+        The console ranks open events by traded dollars, watches a fixed set of markets, and records a
+        swing only when two of its <em>own</em> observations differ by $0.10 or more. The first feed shows
+        every swing; the second ranks them with a published 0&ndash;100 triage score. Selecting a market
+        draws its price path over the range you choose and lists the contracts resting at each price.
+      </p>
+    </section>
+
+    <section class="metrics" id="coverage" aria-label="Coverage">
+      <div class="metric"><div class="label">Events</div><div class="value" id="stat-events">—</div><div class="sub" id="stat-events-sub">in this topic</div></div>
+      <div class="metric"><div class="label">Markets</div><div class="value" id="stat-markets">—</div><div class="sub">carried from verified reads</div></div>
+      <div class="metric"><div class="label">Swings &ge; 10&cent;</div><div class="value" id="stat-alerts">—</div><div class="sub" id="stat-alerts-sub">observed this session</div></div>
+      <div class="metric"><div class="label">Books fetched</div><div class="value" id="stat-books">—</div><div class="sub">order-book depth reads</div></div>
+      <div class="metric"><div class="label">Resolved</div><div class="value" id="stat-resolved">—</div><div class="sub">yes / no outcomes on file</div></div>
+      <div class="metric"><div class="label">Data read</div><div class="value" id="stat-updated" style="font-size:.95rem">—</div><div class="sub" id="stat-source">—</div></div>
+    </section>
+
+    <div class="grid two" id="all">
+      <section class="card">
+        <header>
+          <h2>Highest dollar volume</h2>
+          <div class="toolbar">
+            <input id="search" type="search" placeholder="Filter by event, market or ticker" aria-label="Filter markets" style="font:inherit;font-size:.8rem;background:#10222e;border:1px solid #1c3341;border-radius:7px;padding:5px 8px;color:#e8f1f6;min-width:190px">
+            <button id="sort" class="range" type="button" data-rank="dollars" aria-label="Sort markets">Sort: traded $</button>
+            <span class="hint" id="rank-note">rank = last price × 24h contracts</span>
+          </div>
+        </header>
+        <div class="body flush">
+          <div class="scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Event / market</th>
+                  <th class="num">Mark</th>
+                  <th class="num">YES bid / ask</th>
+                  <th class="num">24h contracts</th>
+                  <th class="num">Traded $</th>
+                  <th>Status</th>
+                  <th>Source</th>
+                </tr>
+              </thead>
+              <tbody id="market-rows">
+                <tr><td colspan="7" class="empty">Loading verified demo data… <a href="https://docs.kalshi.com/getting_started/api_environments">source</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <header><h2>Selected market</h2><span class="hint" id="selected-ticker">none selected</span></header>
+        <div class="body" id="selected-body">
+          <p class="empty">Pick a market in the table to chart it and to see its book.</p>
+        </div>
+      </section>
+    </div>
+
+    <section class="card">
+      <header>
+        <h2>Price path <span class="hint" id="chart-scale"></span></h2>
+        <div class="toolbar" id="ranges" role="group" aria-label="Chart time range"></div>
+      </header>
+      <div class="chart-wrap">
+        <canvas id="chart" role="img" aria-label="Contract price over time"></canvas>
+        <div class="tooltip" id="chart-tip"></div>
+      </div>
+      <div class="legend">
+        <span><i style="background:#4cc9f0"></i> observed mark</span>
+        <span><i style="background:#3ddc97"></i> candlestick close (1m/1h)</span>
+        <span><i style="background:#ffc857"></i> &plusmn;10&cent; swing</span>
+      </div>
+      <div class="chart-note" id="chart-note">
+        The page polls the public REST API while it is open, so the line starts when you arrive.
+        Candlesticks come from the official endpoint and are labelled with their interval.
+      </div>
+    </section>
+
+    <div class="grid feeds">
+      <section class="card">
+        <header>
+          <h2>Feed 1 &middot; every swing &ge; 10&cent;</h2>
+          <span class="hint" id="feed-all-count">0</span>
+        </header>
+        <div class="feed" id="all-feed" aria-live="polite">
+          <p class="feed-empty">No swing has been observed yet. The feed stays empty rather than showing a move that was not measured.</p>
+        </div>
+      </section>
+      <section class="card">
+        <header>
+          <h2>Feed 2 &middot; model-selected</h2>
+          <span class="hint" id="feed-screen-count">0</span>
+        </header>
+        <div class="feed" id="screen-feed" aria-live="polite">
+          <p class="feed-empty">The filtered feed fills as swings clear the triage threshold.</p>
+        </div>
+      </section>
+    </div>
+
+    <div class="grid two">
+      <section class="card">
+        <header><h2>Order book &middot; contracts available at each price</h2></header>
+        <div class="body flush ladder" id="book-rows">
+          <p class="empty">No book loaded. Books are fetched for the markets carrying the most traded dollars.</p>
+        </div>
+      </section>
+
+      <section class="card">
+        <header>
+          <h2>Resolution tracker</h2>
+          <span class="hint" id="resolution-count">—</span>
+        </header>
+        <div class="body flush">
+          <div class="scroll">
+            <table>
+              <thead><tr><th>Event</th><th>Market</th><th>Result</th><th>Settled</th><th>Source</th></tr></thead>
+              <tbody id="resolved-rows"><tr><td colspan="5" class="empty">No resolved market on file yet. <a href="https://docs.kalshi.com/getting_started/market_lifecycle">lifecycle source</a></td></tr></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="grid two">
+      <section class="card">
+        <header>
+          <h2>Simulated portfolio</h2>
+          <span class="hint">paper only, no order is sent</span>
+        </header>
+        <div class="body" id="paper-body">
+          <div id="paper-rows">
+            <p class="empty">The simulator records fills this page calculates; it never contacts an order endpoint.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card">
+        <header><h2>Browser connectivity self-test</h2><button class="ghost" type="button" id="selftest">Run again</button></header>
+        <div class="body selftest" id="selftest-body">
+          <p class="hint">Measures, from this browser, whether the demo hosts answer and what they send back. Results are not asserted in advance.</p>
+        </div>
+      </section>
+    </div>
+
+    <footer class="foot">
+      Values are public Kalshi <strong>demo</strong> reads (S1, S14). The demo exchange's prices are generated by demo
+      participants and may not reflect production markets. Every figure here carries the request that produced it; see
+      <a href="verification.html">Verification</a> and <a href="flagged.html">Flagged for review</a>.
+    </footer>
+  </main>
+</div>
+<script type="module" src="assets/app.mjs"></script>
+</body>
+</html>

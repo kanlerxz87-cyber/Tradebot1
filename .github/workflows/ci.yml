@@ -67,6 +67,17 @@ jobs:
           fi
           echo "no key material found"
 
+      # Live console (session arena-1407d33b): unit + jsdom render tests, then the data gate that
+      # proves every market row carries an official source, every fact an official URL, and that
+      # the fee model still reproduces the published table.
+      - name: Verify the live console under docs/live
+        run: |
+          # Unit tests need nothing; the render tests load the real modules in jsdom, which the
+          # Node job installs and this job does not, so it is installed here explicitly.
+          npm install --no-audit --no-fund
+          node --test docs/live/tests/*.test.mjs
+          python3 docs/live/check_live.py
+
   # ---------------------------------------------------------------------------
   # Independent audit (session 73552f24). Re-runs every finding's check, so a
   # page cannot keep publishing a verdict the code no longer supports.

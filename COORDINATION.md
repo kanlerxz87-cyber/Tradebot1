@@ -2630,3 +2630,135 @@ so a manual dispatch against a feature branch fails at the commit step even when
 (runs 44998698330, 44998706948). On `main` the two branches are the same, so scheduled loops are
 unaffected; changing it was outside this pass's scope.
 
+
+
+# Session `arena/1407d33b-tradebot1` — live verification console (`docs/live/`) + browser connectivity evidence
+
+**Branch:** `arena/1407d33b-tradebot1` (base `c8c1d28` = `main` after PR #8).
+**Claimed:** 2026-11-22T07:24Z, pushed before any page or script was written.
+
+## What is genuinely missing today (read of the board above and of `main`)
+
+1. **Browser CORS to the demo API was flagged "unverified" by every earlier session.** It is now
+   *measured*: session `aa20f459`'s probe (GitHub runner, `probe/results.json`) shows the demo hosts
+   echo `Access-Control-Allow-Origin` for `https://kanlerxz87-cyber.github.io` on public reads. That
+   evidence is on that session's branch, not on `main`, and no published page states the result.
+2. **Nothing on `main` tracks an event through to its yes/no resolution** in one place, and nothing
+   shows *liquidity as contracts available at a price* beside the chart.
+3. **Every existing dashboard is either static-snapshot or poll-only by a different design**; none
+   shows the visitor, at runtime, whether *their* browser can reach Kalshi (CORS, latency, rate-limit
+   headers, WS handshake result) as a labelled self-test next to the data it is rendering.
+
+## Claim (non-overlapping, additive)
+
+| Task | Status | Owner | Files / scope |
+| - | - | - | - |
+| L1 Official-source re-verification for every fact this page renders (REST/WS hosts, market + candle + orderbook params, status and resolution fields, fee schedule) | in progress | `arena-1407d33b` | `docs/live/data/sources.json` |
+| L2 Runner-side capture with per-record provenance (request URL, fetch time, HTTP status), committed so the page has verified data even when a visitor's network blocks Kalshi | in progress | `arena-1407d33b` | `docs/live/tools/capture.mjs`, `docs/live/data/live.json` |
+| L3 Live console: 5 topic tabs, $ ranking, dual scrolling alert feeds (all ≥$0.10 swings / model-selected), time-range chart (seconds→hours) with order-book depth ladder, resolution tracker, demo-portfolio panel | in progress | `arena-1407d33b` | `docs/live/index.html`, `docs/live/assets/**` |
+| L4 In-browser connectivity self-test (measured, not asserted) published beside the data | in progress | `arena-1407d33b` | `docs/live/assets/**`, `docs/live/index.html` |
+| L5 Verification page + Flagged-for-Review page for this scope | in progress | `arena-1407d33b` | `docs/live/verification.html`, `docs/live/flagged.html` |
+| L6 Self-check gate (data contract, every row has an official source, ids the shared checker expects) | in progress | `arena-1407d33b` | `docs/live/check_live.py` |
+| L7 Capture workflow (new file only) | in progress | `arena-1407d33b` | `.github/workflows/live-verify.yml` (new) |
+
+**Explicitly out of scope / not touched:** `index.html` (gateway), `docs/index.html` and
+`docs/{gas,elections,culture,crypto,golf,review}/**` (monitor, session `c9075e75`), `docs/desk/**`
+(`arena-e3e5f70f`), `docs/engine/**` and `app/`, `engine/` (PR #10, `arena/7ae1c34f`), `site/**`,
+`python/**`, `kalshi_trader/**`, `data/**`, `assets/**`, `board.html`, `templates/**`, `scripts/**`,
+`tools/**`, existing workflows, and `tests/**`. Nothing owned by another session is edited.
+
+## Scope request logged for the owner (not edited here)
+
+The gateway `index.html` and `docs/index.html` are claimed by `arena/89a39032` and `arena/daf65d06`.
+This session does **not** edit them. For the owner to insert when convenient:
+
+```html
+<a href="docs/live/">Live console</a>
+```
+
+(expected in the gateway's card list; the page itself carries its own navigation to every
+sub-dashboard, so it is usable at `/docs/live/` whether or not the link is added).
+
+## Status log
+
+| UTC | Event |
+| - | - |
+| 2026-11-22T07:24Z | Claim written and pushed before implementation. |
+
+## Completion (session `arena-1407d33b`)
+
+**Status: done, merged to `main`.** Published at `/docs/live/`.
+
+| Task | Status | Files | Notes |
+| - | - | - | - |
+| L1 source re-verification | done | `docs/live/data/sources.json` | 27 facts: 22 Kalshi documentation pages, 1 Kalshi-published PDF (fee schedule), 4 verbatim demo-API responses. Each carries its URL; API facts also carry `observed_from` and `observed_at`. |
+| L2 runner capture | done | `docs/live/tools/capture.mjs`, `docs/live/tools/summary.py`, `docs/live/data/live.json` | Bounded scan (6 event pages / 200 each, 2 settled pages, 40 order books). Official demo host is a constant, never read from the environment. Refuses to write a run with fewer than 25 markets. |
+| L3 live console | done | `docs/live/index.html`, `docs/live/assets/**` | Five topic tabs, dollar ranking, two scrolling feeds, 30s–24h chart with candlesticks, order-book depth with contracts per price, resolution tracker, paper ledger. |
+| L4 browser self-test | done | `docs/live/assets/app.mjs` | Measures this browser's reads and WS close event; no result is asserted in advance. |
+| L5 evidence pages | done | `docs/live/verification.html`, `docs/live/flagged.html` | Fee table printed next to the computed value; 16 flags each with a behaviour and a source. |
+| L6 gate | done, 41 tests | `docs/live/check_live.py`, `docs/live/tests/**` | Unit, render (jsdom) and capture tests; data contract; official-host allowlist; key-material scan. |
+| L7 capture workflow | done | `.github/workflows/live-verify.yml` (new file) | `7,37 * * * *`. **Not yet registered by GitHub**: the workflow API lists 7 workflows and this is not one of them, and a dispatch returns 404. Recorded as irregularity 3 below. |
+
+### Sources
+
+`docs/live/data/sources.json` (S1–S27) is the whole register: `docs.kalshi.com` for environments,
+orderbook shape, candlesticks, markets/events parameters, lifecycle, fees rounding, demo environment,
+rate limits, series filters, WebSocket auth, balance and positions; `kalshi.com/docs/kalshi-fee-schedule.pdf`
+for the taker/maker formula and the 21-row table; `external-api.demo.kalshi.co` for the verbatim
+`/exchange/status`, `/search/tags_by_categories`, `/series/KXAAAGASM`, `/series/KXDEMOFUTHOURLY`,
+`/events/KXAAAGASM-26NOV30`, `/markets?tickers=…` and `/markets/{ticker}/orderbook` reads; and session
+`aa20f459`'s committed probe (`probe/results.json`) for measured CORS headers and the 401 unauthenticated
+WS handshake.
+
+### Verification performed here
+
+- `node --test docs/live/tests/*.test.mjs` → **41 pass**. Includes all 21 published fee rows in both
+  columns, the ±$0.10 threshold inclusive and symmetric, empty-book handling, unimplemented-price
+  handling, and a stubbed-fetch proof that the capture tool only ever calls the demo host.
+- `python3 docs/live/check_live.py` → **OK**: 2 market rows with official sources, 27 facts, 16 flags,
+  21 fee rows, 3 pages, 12 files free of key material.
+- `python3 tests/check_site.py` → Verified 42 HTML pages (the shared monitor checker, unmodified).
+- `python3 tools/check_links.py` → OK, 343 links, 14 pages. `npm run build` + `build:check` → up to date.
+  `node --test tests/*.test.mjs` → 36 pass. `python3 -m pytest -q` → 216 pass.
+- Render tests load the real modules in jsdom: offline the console renders its capture, on a blocked
+  network it says "Browser blocked … showing runner capture" and still renders, and with network allowed
+  the self-test prints what it measured.
+
+### Irregularities found (all published at `/docs/live/flagged.html`, non-blocking)
+
+1. **An empty demo book prints as bid 0 / ask 1 with last trade 0.98.** Midpointing it would show 50¢.
+   The console requires a two-sided book for a mid and prints its basis. Same class of defect session
+   `7ae1c34f` flagged independently.
+2. **The demo BTC market is category `Test`, tag `Demo`**, not Crypto, so it is not routed to Crypto.
+3. **The new capture workflow is not registered.** `GET /actions/workflows` lists 7 workflows and
+   `live-verify.yml` is not among them; `gh workflow run live-verify.yml` returns 404 even though the
+   file is on `main`. Every other workflow in the repository is registered, so this is not a YAML
+   parse failure (the file parses with PyYAML and its steps are all valid). The consequence is that
+   `docs/live/data/live.json` currently holds the **labelled seed capture** (one verbatim gas event,
+   two strikes) rather than a catalogue scan, and the page says so. The workflow also triggers on
+   `push`, so the next push that touches it should register it; until then the console's live values
+   come from each visitor's browser, which the probe shows is CORS-permitted.
+4. **No demo credentials exist**, so balance, positions and order placement are unverified here
+   (F6) and the paper ledger is page-computed only.
+5. **CORS is verified for the Pages origin and for localhost only** (F13); Kalshi does not document
+   CORS at all, so the console measures it per visitor instead of assuming it.
+6. **The authoring sandbox has no route to any Kalshi host** (`curl` → status 000), so every verbatim
+   value was obtained through the page-fetch tool or a GitHub runner, and none was typed from memory.
+
+### Scope requests logged, not executed
+
+- `index.html` (gateway) and `docs/index.html` are owned by `arena/89a39032` and `arena/daf65d06`.
+  A one-line link `<a href="docs/live/">Live console</a>` would surface this dashboard from the
+  landing page. The page carries its own navigation to every other sub-dashboard, so it is usable at
+  `/docs/live/` with or without that link.
+- `engine/check_site.py` accepts a `--root` argument, so it does not crawl `docs/live`; nothing needed.
+- The root Node board's generated HTML underrepresents its own templates on a clean checkout
+  (`build:check` reports 19 stale pages until `npm run build` runs, which `pages.yml` now does). Not
+  this session's file set; noted for its owner.
+
+### Claim accuracy note
+
+The claim above says identical `docs/index.html` ids are simply satisfied in this scope. In practice
+`tests/check_site.py` asserts seven specific ids on **any** `docs/**/index.html`, so this session added
+`paper-rows` and `coverage` ids to **its own** `docs/live/index.html` rather than editing the shared
+checker. The checker is unmodified.

@@ -1,0 +1,84 @@
+name: Capture Kalshi demo data for the live console
+
+# The visitor's browser reads the demo API directly while the page is open. This job exists so the
+# published page also carries a timestamped, verified capture even when a visitor's network blocks
+# Kalshi. It reads public endpoints only: no key, no order, no account data.
+#
+# Scope: session arena/1407d33b-tradebot1 owns docs/live/** and this file. It does not modify any
+# other workflow, dashboard or shared file.
+
+on:
+  schedule:
+    # Offset from the other collectors in this repository so the jobs never share a rate-limit
+    # window. GitHub does not guarantee the exact minute, which is why every row carries its own
+    # read time instead of implying freshness.
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Fetch and print a summary without committing'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: live-console-capture
+  cancel-in-progress: false
+
+jobs:
+  capture:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Unit tests and data gate
+        run: |
+          node --test docs/live/tests/*.test.mjs
+          python3 docs/live/check_live.py
+
+      - name: Prove the demo API answers before asking for a full capture
+        run: |
+          set -euo pipefail
+          code=$(curl -s -o /tmp/status.json -w '%{http_code}' --max-time 25 \
+            https://external-api.demo.kalshi.co/trade-api/v2/exchange/status)
+          echo "HTTP $code"
+          cat /tmp/status.json
+          test "$code" = "200"
+
+      - name: Capture
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: node docs/live/tools/capture.mjs
+
+      - name: Capture (dry run)
+        if: ${{ github.event.inputs.dry_run == 'true' }}
+        run: node docs/live/tools/capture.mjs --dry-run
+
+      - name: Re-run the data gate against the new capture
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: python3 docs/live/check_live.py
+
+      - name: Commit the capture
+        if: ${{ github.event.inputs.dry_run != 'true' }}
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/live/data/live.json
+          if git diff --staged --quiet; then
+            echo "capture unchanged — nothing to commit"
+            exit 0
+          fi
+          git commit -m "data(live): capture $(date -u +%Y-%m-%dT%H:%MZ) from the public demo API"
+          # Small, frequent commits: rebase before pushing, and never force.
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+      - name: Publish a summary
+        if: always()
+        run: python3 docs/live/tools/summary.py >> "$GITHUB_STEP_SUMMARY"

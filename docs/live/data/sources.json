@@ -1,0 +1,184 @@
+{
+  "version": 1,
+  "checked": "2026-11-22",
+  "note": "Every fact this page renders resolves to one of these entries. 'official-doc' and 'official-pdf' are Kalshi-published pages or documents; 'official-api' is a verbatim response from a Kalshi host, with the request that produced it. No third-party source is used for any number, field name or endpoint.",
+  "facts": [
+    {
+      "id": "S1",
+      "claim": "Demo REST Trade API recommended base URL is https://external-api.demo.kalshi.co/trade-api/v2; https://demo-api.kalshi.co/trade-api/v2 is also supported.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/api_environments"
+    },
+    {
+      "id": "S2",
+      "claim": "Demo WebSocket URL is wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2; wss://demo-api.kalshi.co/trade-api/ws/v2 is also supported.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/api_environments"
+    },
+    {
+      "id": "S3",
+      "claim": "The OpenAPI document lists exactly four servers: external-api.kalshi.com, api.elections.kalshi.com, external-api.demo.kalshi.co and demo-api.kalshi.co, all under /trade-api/v2.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/events/get-events.md"
+    },
+    {
+      "id": "S4",
+      "claim": "GET /markets/{ticker}/orderbook needs no authentication, returns orderbook_fp.yes_dollars and orderbook_fp.no_dollars, each a list of [price_dollars, count_fp] strings sorted ascending, best bid last, bids only; the implied YES ask is $1.00 minus the highest NO bid.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/orderbook_responses"
+    },
+    {
+      "id": "S5",
+      "claim": "An empty book and a ticker that matches no market both return HTTP 200 with empty arrays, so emptiness must never be read as a price of zero.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/orderbook_responses"
+    },
+    {
+      "id": "S6",
+      "claim": "Candlesticks: GET /series/{series_ticker}/markets/{ticker}/candlesticks with required start_ts and end_ts (Unix seconds) and period_interval in {1, 60, 1440} minutes; each candle has end_period_ts, yes_bid/yes_ask/price OHLC in *_dollars and volume_fp.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks"
+    },
+    {
+      "id": "S7",
+      "claim": "GET /markets accepts limit up to 1000 (default 100) with a cursor; GET /events accepts limit up to 200 (default 200) with a cursor.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets.md"
+    },
+    {
+      "id": "S8",
+      "claim": "Market status enum is initialized, inactive, active, closed, determined, disputed, amended, finalized; the status= filter maps unopened->initialized, open->active, paused->inactive, closed->past close_time not finalized, settled->finalized.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/market_lifecycle"
+    },
+    {
+      "id": "S9",
+      "claim": "result is one of 'yes', 'no', 'scalar' or the empty string, and settlement_ts / settlement_value_dollars are filled only after determination.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets.md"
+    },
+    {
+      "id": "S10",
+      "claim": "WebSocket connections require API-key authentication during the handshake; even public market-data channels (ticker, trade, market_lifecycle_v2) run over an authenticated session. A rejected handshake returns an HTTP error instead of upgrading.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/quick_start_websockets"
+    },
+    {
+      "id": "S11",
+      "claim": "The ticker channel message carries price_dollars, yes_bid_dollars, yes_ask_dollars, yes_bid_size_fp, yes_ask_size_fp, volume_fp, open_interest_fp, dollar_volume and ts_ms.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/websockets/market-ticker"
+    },
+    {
+      "id": "S12",
+      "claim": "Trading fee = round up(M x 0.07 x C x P x (1-P)) for taker fills; maker fee = round up(M x 0.0175 x C x P x (1-P)); there is no settlement fee. Schedule effective July 7, 2026.",
+      "kind": "official-pdf",
+      "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+    },
+    {
+      "id": "S13",
+      "claim": "Fees are six-decimal dollar amounts rounded up, with a per-order rounding accumulator; direct members' balances align to $0.0001 and non-direct to $0.01.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/fee_rounding"
+    },
+    {
+      "id": "S14",
+      "claim": "The demo environment uses mock funds, has credentials separate from production, and its prices and behaviour may not reflect real markets; the demo site is https://demo.kalshi.co/.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/demo_env"
+    },
+    {
+      "id": "S15",
+      "claim": "Rate limits are token buckets per tier; most requests cost 10 tokens; unauthenticated public requests are subject to separate limits and a limited request returns HTTP 429.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/getting_started/rate_limits"
+    },
+    {
+      "id": "S16",
+      "claim": "GET /search/tags_by_categories returns the official category-to-tag map: Crypto, Elections, Entertainment, Sports (with a Golf tag), Economics (with 'Oil and energy'), Commodities (with 'Oil & Gas'). There is no 'Culture' and no 'Gas' category.",
+      "kind": "official-api",
+      "url": "https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories",
+      "observed_from": "https://external-api.demo.kalshi.co/trade-api/v2/search/tags_by_categories",
+      "observed_at": "2026-11-22T07:26Z"
+    },
+    {
+      "id": "S17",
+      "claim": "GET /series supports category (exact, case-sensitive, matches any entry in the series' categories list) and tags filters and returns ticker, category, categories, tags and settlement_sources per series.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/market/get-series-list.md"
+    },
+    {
+      "id": "S18",
+      "claim": "GET /series/{ticker} returns the same fields for one series; for KXAAAGASM it returns categories ['Economics'], tags ['Oil & Gas','Oil and energy'] and settlement source AAA (https://gasprices.aaa.com/).",
+      "kind": "official-api",
+      "url": "https://docs.kalshi.com/api-reference/market/get-series.md",
+      "observed_from": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXAAAGASM",
+      "observed_at": "2026-11-22T07:26Z"
+    },
+    {
+      "id": "S19",
+      "claim": "GET /events?with_nested_markets=true returns each event with its markets array, so one paginated scan yields both event titles and live market quotes.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/events/get-events.md"
+    },
+    {
+      "id": "S20",
+      "claim": "GET /markets supports a comma-separated tickers filter, which allows one cheap request to refresh the quotes of a fixed watch list.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets.md",
+      "observed_from": "https://external-api.demo.kalshi.co/trade-api/v2/markets?tickers=KXAAAGASM-26NOV30-3.00,KXDEMOFUTHOURLY-26NOV22H08-UP",
+      "observed_at": "2026-11-22T07:27Z"
+    },
+    {
+      "id": "S21",
+      "claim": "previous_price_dollars, previous_yes_bid_dollars and previous_yes_ask_dollars are the values from a day ago, not from the previous poll; they cannot be used to detect a short-term swing.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets.md"
+    },
+    {
+      "id": "S22",
+      "claim": "Candlesticks for markets that settled before the historical cutoff are only available from GET /historical/markets/{ticker}/candlesticks, so an empty candlestick array is not proof of no trading.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks.md"
+    },
+    {
+      "id": "S23",
+      "claim": "The demo hosts echo Access-Control-Allow-Origin for the GitHub Pages origin on public reads (HTTP 200, credentials true), and the signed-order OPTIONS preflight returns 204 without listing the Kalshi signing headers among allowed request headers.",
+      "kind": "official-api",
+      "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/arena/aa20f459-tradebot1/probe/results.json",
+      "observed_from": "GitHub Actions runner probe, run 44997761812, 2026-11-22T07:20:24Z"
+    },
+    {
+      "id": "S24",
+      "claim": "An unauthenticated WebSocket handshake to both demo hosts is rejected with HTTP 401 and body {\"code\":\"token_authentication_failure\"}.",
+      "kind": "official-api",
+      "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/arena/aa20f459-tradebot1/probe/results.json",
+      "observed_from": "GitHub Actions runner probe, run 44997761812, 2026-11-22T07:20:24Z"
+    },
+    {
+      "id": "S25",
+      "claim": "GET /exchange/status returns exchange_active, trading_active and per-shard statuses; on 2026-11-22T07:26Z the demo exchange reported exchange_active=true and trading_active=true.",
+      "kind": "official-api",
+      "url": "https://docs.kalshi.com/api-reference/exchange/get-exchange-status",
+      "observed_from": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status",
+      "observed_at": "2026-11-22T07:26Z"
+    },
+    {
+      "id": "S26",
+      "claim": "GET /portfolio/balance requires API-key auth, returns balance in cents plus balance_dollars, portfolio_value in cents and updated_ts, and has its own rate-limit bucket of 1 request per second on Basic/Advanced tiers.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/portfolio/get-balance.md"
+    },
+    {
+      "id": "S27",
+      "claim": "GET /portfolio/positions requires API-key auth and returns market_positions[] with ticker, position_fp (positive = YES, negative = NO), market_exposure_dollars, realized_pnl_dollars, fees_paid_dollars and total_traded_dollars.",
+      "kind": "official-doc",
+      "url": "https://docs.kalshi.com/api-reference/portfolio/get-positions.md"
+    }
+  ],
+  "platform_limits": [
+    "The page is static GitHub Pages HTML/JS. It holds no API key, so it can read public market data only, and cannot place, amend or cancel any order.",
+    "A WebSocket price stream to Kalshi requires a signed handshake (S10). A browser page cannot hold that key safely, so this page polls REST and states its polling interval rather than claiming to be a stream.",
+    "The demo exchange's prices are generated by demo participants and may not reflect production prices (S14). They are labelled as demo values everywhere on this page."
+  ]
+}
