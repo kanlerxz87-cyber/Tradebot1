@@ -32,6 +32,14 @@ test('mid price needs both sides and refuses a 0 bid / 1 ask pair', () => {
   assert.equal(yesMid(0, 1), null);
 });
 
+test('AUD-01: one empty side is enough to disqualify a midpoint', () => {
+  // The live shape of all eight markets in data/snapshot.json: a real 14c bid and a
+  // reported ask of 1.0000 because the NO book is empty. (0.14 + 1.00) / 2 = 0.57 is a
+  // phantom, not a quote. https://docs.kalshi.com/getting_started/orderbook_responses
+  assert.equal(yesMid(0.14, 1.0), null);
+  assert.equal(yesMid(0, 0.42), null);
+});
+
 test('order book ladder derives asks from the opposite side of the book', () => {
   // Live shape from external-api.demo.kalshi.co for KXELONMARS-99 on 2026-11-22.
   const book = normaliseOrderbook({ orderbook_fp: { yes_dollars: [['0.0100', '11285.32'], ['0.1400', '2718.76']], no_dollars: [] } });

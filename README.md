@@ -1,6 +1,7 @@
 # Tradebot1 — Kalshi demo-environment research
 
 [Start here](https://kanlerxz87-cyber.github.io/Tradebot1/) (landing: live status, topics, evidence) ·
+[Independent audit](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/) ·
 [Research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
 [Repository review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/repo-review.html) ·
 [Integration audit](https://kanlerxz87-cyber.github.io/Tradebot1/audit.html) ·
@@ -79,6 +80,35 @@ their official sources, the tests that pin them, and what stays open),
 [`docs/desk/flagged.html`](docs/desk/flagged.html),
 [`docs/desk/requirements.html`](docs/desk/requirements.html),
 [`docs/desk/strategies.html`](docs/desk/strategies.html).
+
+## Independent audit (`docs/audit/`, session `73552f24`)
+
+A line-by-line audit of every factual claim the four implementations make, checked against
+`docs.kalshi.com` and the fee-schedule PDF on 2026-11-22. 23 official statements are stored with the
+verbatim excerpt they rest on; 13 findings each name a file and a line.
+
+```sh
+python3 audit/verify.py        # re-runs every finding's check, rewrites the data file
+python3 audit/build_site.py    # regenerates docs/audit/
+python3 audit/check_site.py    # a source link on every row, no broken links, pages current
+```
+
+`verify.py` executes the JavaScript with node and the Python with the repository's own modules. A
+finding marked *fixed* must pass its check and a finding marked *open* must still reproduce, so the
+published verdicts cannot drift from the code. Five defects were corrected with regression tests:
+
+| Finding | What was wrong | Fix |
+| - | - | - |
+| AUD-01 | The board's midpoint was built from an empty side: a 14c bid against the 1.0000 sentinel read as 57c, so the ≥ $0.10 feed could fire on quote mechanics | `tools/alerts.mjs` rejects a pair when either side is empty |
+| AUD-02 | The same phantom midpoint in the desk's normaliser, feeding its alerts, ROI screen and paper book | `kalshi_trader/marketdata.py` treats 1.0000 with no NO bid as no offer |
+| AUD-03 | The settled sweep sent `status=settled` with `min_close_ts`, which Get Markets documents as incompatible; the committed run records ten HTTP 400s and zero resolutions | `kalshi_trader/collector.py` uses `min_settled_ts` |
+| AUD-05 | "One fee-table row is unreproducible" was a four-column table read as three; the $0.01 row's fee for 100 is $0.07 and all 21 rows reproduce | `tools/fees.mjs`, `tests/fees.test.mjs`, flag F-02 rewritten |
+| AUD-08 | `build-site.mjs --check` compared wall-clock text, so it reported all 19 pages stale on every checkout | the gate ignores relative ages again |
+
+Seven items remain open and are published on `docs/audit/flagged.html` with their deciding source,
+including the cents-versus-centicent fee rounding (AUD-04) and the deprecated `event.category` read in
+the browser monitor (AUD-06). Nothing about a credentialed demo account, an executed order, a live
+WebSocket session or browser CORS is claimed anywhere: none of those could be observed here.
 
 ## Trade board (`board.html`, session `9bea7e55`)
 

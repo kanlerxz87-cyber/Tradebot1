@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Method · Kalshi audit</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body>
+<header class="site"><div class="wrap bar">
+  <a class="brand" href="index.html">Kalshi audit <span>· line by line</span></a>
+  <nav><a class="" href="index.html">Overview</a><a class="" href="findings.html">Findings</a><a class="" href="flagged.html">Flagged for review</a><a class="" href="sources.html">Official sources</a><a class="on" href="methodology.html">Method</a></nav>
+  <a class="back" href="../">All dashboards</a>
+</div></header>
+<main class="wrap">
+
+<section class="hero tight">
+  <p class="tag">Method</p>
+  <h1>How to reproduce this page</h1>
+  <p class="lede">Every page below was fetched from docs.kalshi.com (or the fee-schedule PDF) with a page-fetch tool on 2026-11-22 and quoted verbatim. Shell curl from this sandbox cannot reach kalshi hosts (TLS reset), which is the limitation earlier sessions reported; the page-fetch tool can, so these pages were read directly rather than cited from memory.</p>
+</section>
+
+<h2>Command line</h2>
+<pre class="block">python3 audit/verify.py          # re-run every check, rewrite the data file
+python3 audit/build_site.py      # regenerate these pages
+python3 audit/check_site.py      # gates: source on every row, no broken links, pages current
+python3 -m pytest -q             # the repository's Python suite, including the audit regressions
+node --test tests/*.test.mjs     # the repository's JavaScript suite</pre>
+
+<h2>Rules this page follows</h2>
+<ol class="rules">
+  <li><strong>A verdict needs a statement.</strong> If no official page says it, the row does not exist;
+  the item goes to <a href="flagged.html">Flagged for review</a> instead.</li>
+  <li><strong>A quote, not a paraphrase.</strong> Every source row carries the excerpt it rests on.</li>
+  <li><strong>A line, not an impression.</strong> Evidence is stored as a snippet and the printed line number
+  is resolved at build time.</li>
+  <li><strong>A check, not an assertion.</strong> <code>verify.py</code> executes the code and compares the
+  result with what the page claims; a mismatch fails the build.</li>
+  <li><strong>Nothing inferred.</strong> An absent value stays absent. Where a number could not be observed -
+  an authenticated balance, an executed fill, a live socket - no number is printed.</li>
+  <li><strong>Two vocabularies are not a contradiction.</strong> Where the documentation and an earlier flag
+  disagree, both are quoted and the point is settled, not repeated.</li>
+</ol>
+
+<h2>Scope and its limits</h2>
+<table class="grid">
+<thead><tr><th>Area</th><th>What this session could do</th><th>Source</th></tr></thead>
+<tbody>
+<tr><td>Official documentation</td><td>Read and quote directly (page fetch works from this sandbox)</td>
+    <td class="src"><a href="https://docs.kalshi.com/llms.txt" target="_blank" rel="noopener noreferrer">docs index</a></td></tr>
+<tr><td>Kalshi REST from a shell</td><td>Not possible: TLS reset on every kalshi host, as earlier sessions reported</td>
+    <td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">environments</a></td></tr>
+<tr><td>Live market data</td><td>Only the committed captures, read as data, never re-captured here</td>
+    <td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">get markets</a></td></tr>
+<tr><td>Authenticated demo account</td><td>Not attempted: no credentials exist in this repository and none were requested</td>
+    <td class="src"><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">demo environment</a></td></tr>
+<tr><td>Browser behaviour</td><td>Not tested: no browser session in this environment</td>
+    <td class="src"><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener noreferrer">market data quick start</a></td></tr>
+</tbody>
+</table>
+
+</main>
+<footer class="wrap">
+  <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
+  5 finding(s) fixed on this branch, 7 published as open,
+  1 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
+  <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
+     <a href="../desk/flagged.html">Desk flags</a> ·
+     <a href="../../flagged.html">Board flags</a> ·
+     <a href="https://docs.kalshi.com/getting_started/api_environments">Official API documentation</a></p>
+</footer>
+</body>
+</html>

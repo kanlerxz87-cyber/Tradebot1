@@ -1,6 +1,6 @@
 // Kalshi's published trading-fee formula, used to charge simulated fills.
 //
-// Source (official fee schedule PDF, "Trading Fees"):
+// Source (official fee schedule PDF, "Trading Fees", effective 2026-07-07):
 //   fees = round up ( M x 0.07 x C x P x (1 - P) )
 //   P  = price of a contract in dollars
 //   C  = number of contracts traded
@@ -8,21 +8,25 @@
 //   round up = "rounds up such that the fee + positionCost is rounded to a centicent"
 // https://kalshi.com/docs/kalshi-fee-schedule.pdf
 //
-// VERIFICATION NOTE (flag F-02). The formula alone, rounded up to $0.0001,
-// does NOT reproduce the schedule's own summary table: at $0.01 the formula
-// gives $0.0007, while the table prints $0.01. Rounding the formula's result up
-// to the whole cent reproduces 20 of the 21 rows exactly, both the 1-contract
-// and the 100-contract column:
+// AUDIT NOTE (2026-11-22). An earlier version of this file carried a flag (F-02)
+// saying the $0.01 row of the schedule's own table could not be reproduced. That
+// was a misreading of the table: it has FOUR columns -
 //
-//   $0.05 -> $0.01 / $0.34      $0.50 -> $0.02 / $1.75
-//   $0.20 -> $0.02 / $1.12      $0.99 -> $0.01 / $0.07
+//   | Price of 1 contract | Fee for 1 contract | Price for 100 contracts | Fee for 100 contracts |
+//   | $0.01               | $0.01              | $1.00                   | $0.07                 |
 //
-// The one row that does not reproduce is $0.01, and the PDF's own text layer
-// for that row is internally inconsistent (its 100-contract fee reads "$1.00",
-// which is the price column, not a fee). The whole-cent rule is therefore what
-// this model charges, and the single unreproducible row is flagged rather than
-// silently special-cased. Tests assert the 20 reproducible rows.
-
+// The "$1.00" on that row is the price of 100 contracts, not a fee. The fee is
+// $0.07, and 0.07 x 100 x 0.01 x 0.99 = 0.0693 rounds up to $0.07 like every
+// other row. All 21 rows now reproduce, in both fee columns, and the whole table
+// is asserted by tests/fees.test.mjs. See docs/audit/ item AUD-05.
+//
+// ROUNDING CAVEAT (kept honest, not fixed here). Rounding to the whole cent is
+// what reproduces the printed table, but it is not the exchange's per-fill rule:
+// docs.kalshi.com/getting_started/fee_rounding says the trade fee is rounded up to
+// $0.000001 and the balance is then aligned to $0.0001 (direct members). For a
+// direct member this model therefore overstates a fill's fee by up to $0.01. The
+// difference is disclosed on docs/audit/ (AUD-04) rather than silently changed,
+// because it also changes every historical P&L figure on the board.
 export const FEE_SOURCE = 'https://kalshi.com/docs/kalshi-fee-schedule.pdf';
 export const ROUNDING_SOURCE = 'https://docs.kalshi.com/getting_started/fee_rounding';
 
@@ -70,12 +74,11 @@ function clampPrice(price) {
 
 /**
  * The fee schedule's own table: [price, fee for 1 contract, fee for 100 contracts].
- * Source: https://kalshi.com/docs/kalshi-fee-schedule.pdf
- * The $0.01 row's printed 100-contract value is not reproducible from the PDF
- * text and is excluded (flag F-02); every other row is asserted by tests.
+ * Source: https://kalshi.com/docs/kalshi-fee-schedule.pdf (effective 2026-07-07).
+ * All 21 rows are reproducible and asserted by tests; see the AUDIT NOTE above.
  */
 export const PUBLISHED_FEE_TABLE = [
-  [0.01, 0.01, null], [0.05, 0.01, 0.34], [0.10, 0.01, 0.63], [0.15, 0.01, 0.90],
+  [0.01, 0.01, 0.07], [0.05, 0.01, 0.34], [0.10, 0.01, 0.63], [0.15, 0.01, 0.90],
   [0.20, 0.02, 1.12], [0.25, 0.02, 1.32], [0.30, 0.02, 1.47], [0.35, 0.02, 1.60],
   [0.40, 0.02, 1.68], [0.45, 0.02, 1.74], [0.50, 0.02, 1.75], [0.55, 0.02, 1.74],
   [0.60, 0.02, 1.68], [0.65, 0.02, 1.60], [0.70, 0.02, 1.47], [0.75, 0.02, 1.32],
