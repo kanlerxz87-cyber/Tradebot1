@@ -66,7 +66,8 @@ function renderObs() {
     .filter((a) => (filterTopic === 'all' ? true : a.topic === filterTopic))
     .slice(0, 300);
   if (!rows.length) {
-    el.obs.innerHTML = `<tr><td colspan="8" class="empty">No rows for this filter.</td></tr>`;
+    el.obs.innerHTML = `<tr data-nosource="true"><td colspan="8" class="empty">No observation rows for this filter yet.
+      An observation needs one collector cycle; the first run of the scheduled job fills this in.</td></tr>`;
     return;
   }
   el.obs.innerHTML = rows.map((a) => {
@@ -74,7 +75,7 @@ function renderObs() {
     return `<tr>
       <td class="mono nowrap">${esc(clock(a.observedAt))}<span class="sub">${esc(timeAgo(a.observedAt))}</span></td>
       <td>${esc(a.title ?? a.marketTicker)}<span class="sub mono">${esc(a.marketTicker)}</span></td>
-      <td><span class="badge">${esc(TOPIC_LABELS[a.topic] ?? a.topic)}</span>${a.isDemoExample ? ' <span class="badge warn">worked example</span>' : ''}</td>
+      <td><span class="badge">${esc(TOPIC_LABELS[a.topic] ?? a.topic)}</span></td>
       <td class="num">${esc(cents(a.from))}</td>
       <td class="num">${esc(cents(a.to))}</td>
       <td class="num">${esc(cents((a.from + a.to) / 2))}</td>

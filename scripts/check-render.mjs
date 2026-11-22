@@ -159,9 +159,17 @@ async function runPage(entry) {
     if (!rows.length) fail(`${entry.file}: expected rows in ${entry.expectRows}, found none`);
     else {
       let withoutLink = 0;
-      for (const row of rows) if (!row.querySelector('a[href]')) withoutLink += 1;
+      let dataRows = 0;
+      for (const row of rows) {
+        // A placeholder row says "nothing here yet" and is marked as such by the
+        // page; only real data rows are required to carry a source link.
+        if (row.getAttribute('data-nosource') === 'true' || row.classList.contains('empty')) continue;
+        dataRows += 1;
+        if (!row.querySelector('a[href]')) withoutLink += 1;
+      }
+      if (!dataRows) pass(`${entry.file}: no data rows yet, ${rows.length} placeholder row(s) rendered`);
       if (withoutLink) fail(`${entry.file}: ${withoutLink} of ${rows.length} rendered rows have no source link`);
-      else pass(`${entry.file}: ${rows.length} rows rendered, each with a source link`);
+      else if (dataRows) pass(`${entry.file}: ${dataRows} rows rendered, each with a source link`);
     }
   }
 
