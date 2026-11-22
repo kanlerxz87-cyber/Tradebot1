@@ -1,3 +1,12 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
 # Local state / secrets
 .env
 *.pem
@@ -5,9 +14,14 @@
 !docs/**/*.key
 secrets/
 state/
+data/state/
+data/secrets/
 *.db
 *.db-journal
 app_data/*.tmp
+
+# Node
+node_modules/
 
 # OS / editor
 .DS_Store

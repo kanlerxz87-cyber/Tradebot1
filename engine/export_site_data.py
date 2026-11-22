@@ -218,7 +218,7 @@ def write(out_dir: str | Path, *, db_path: str | Path | None = None, replay: boo
                 "markets": [
                     {
                         "ticker": m.get("ticker"),
-                        "title": m.get("title"),
+                        "title": _plain(m.get("title")),
                         "note": m.get("note_for_review"),
                     }
                     for ev in (doc.get("payload") or {}).get("events", [])

@@ -336,3 +336,23 @@ captured API responses, the price *paths* used to exercise the alert logic are s
   and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
 * **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
   `.gitignore` and this board; resolved the same way.
+
+## Release record — session `arena-7ae1c34f`
+
+* Branch: `arena/7ae1c34f-tradebot1` → PR **[#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)**
+  "Engine + verification-first site: live alerts, fee-exact simulator, 39-fact source register".
+* CI on the PR: `build` **pass**, `test` **pass** (141 tests), `node-dashboard` **pass**,
+  desk link check and `build_site.py --check` pass.
+* **Merged without waiting for review** at 2026-11-22T07:24:34Z, merge commit `0457b85`.
+* `Verify and deploy both Pages dashboards` on `main` (run
+  [44998103910](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998103910)) **succeeded**.
+* Live and confirmed by fetching the deployed page:
+  https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/ — the overview renders with 6 markets,
+  3 alerts, and 32 / 5 / 2 verification counts; the Flagged page renders all 7 non-clean items with
+  their official source links.
+* Post-deploy defects found by reading the live HTML and fixed in a follow-up commit: markdown `**`
+  leaked from captured Kalshi titles into two gas rows; one `captured response` link was a docs URL
+  with a parenthetical appended instead of a fetchable URL; the "All dashboards" back-link pointed at
+  `docs/` instead of the portal root.
+* Flagged/unverified items did not block the merge, as instructed, and are published at
+  `docs/engine/flagged.html` with source links.
