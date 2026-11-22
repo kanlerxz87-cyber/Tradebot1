@@ -285,3 +285,58 @@ gained **no** edits from this session. Consequences, all deliberate:
    snapshot" workflow fills it. Both workflows only ever read.
 3. If one implementation must eventually win, the landing page is the place to decide it — not a
    session's own claim row.
+
+---
+
+# Session `arena/1407d33b-tradebot1` — live verification console (`docs/live/`) + browser connectivity evidence
+
+**Branch:** `arena/1407d33b-tradebot1` (base `c8c1d28` = `main` after PR #8).
+**Claimed:** 2026-11-22T07:24Z, pushed before any page or script was written.
+
+## What is genuinely missing today (read of the board above and of `main`)
+
+1. **Browser CORS to the demo API was flagged "unverified" by every earlier session.** It is now
+   *measured*: session `aa20f459`'s probe (GitHub runner, `probe/results.json`) shows the demo hosts
+   echo `Access-Control-Allow-Origin` for `https://kanlerxz87-cyber.github.io` on public reads. That
+   evidence is on that session's branch, not on `main`, and no published page states the result.
+2. **Nothing on `main` tracks an event through to its yes/no resolution** in one place, and nothing
+   shows *liquidity as contracts available at a price* beside the chart.
+3. **Every existing dashboard is either static-snapshot or poll-only by a different design**; none
+   shows the visitor, at runtime, whether *their* browser can reach Kalshi (CORS, latency, rate-limit
+   headers, WS handshake result) as a labelled self-test next to the data it is rendering.
+
+## Claim (non-overlapping, additive)
+
+| Task | Status | Owner | Files / scope |
+| - | - | - | - |
+| L1 Official-source re-verification for every fact this page renders (REST/WS hosts, market + candle + orderbook params, status and resolution fields, fee schedule) | in progress | `arena-1407d33b` | `docs/live/data/sources.json` |
+| L2 Runner-side capture with per-record provenance (request URL, fetch time, HTTP status), committed so the page has verified data even when a visitor's network blocks Kalshi | in progress | `arena-1407d33b` | `docs/live/tools/capture.mjs`, `docs/live/data/live.json` |
+| L3 Live console: 5 topic tabs, $ ranking, dual scrolling alert feeds (all ≥$0.10 swings / model-selected), time-range chart (seconds→hours) with order-book depth ladder, resolution tracker, demo-portfolio panel | in progress | `arena-1407d33b` | `docs/live/index.html`, `docs/live/assets/**` |
+| L4 In-browser connectivity self-test (measured, not asserted) published beside the data | in progress | `arena-1407d33b` | `docs/live/assets/**`, `docs/live/index.html` |
+| L5 Verification page + Flagged-for-Review page for this scope | in progress | `arena-1407d33b` | `docs/live/verification.html`, `docs/live/flagged.html` |
+| L6 Self-check gate (data contract, every row has an official source, ids the shared checker expects) | in progress | `arena-1407d33b` | `docs/live/check_live.py` |
+| L7 Capture workflow (new file only) | in progress | `arena-1407d33b` | `.github/workflows/live-verify.yml` (new) |
+
+**Explicitly out of scope / not touched:** `index.html` (gateway), `docs/index.html` and
+`docs/{gas,elections,culture,crypto,golf,review}/**` (monitor, session `c9075e75`), `docs/desk/**`
+(`arena-e3e5f70f`), `docs/engine/**` and `app/`, `engine/` (PR #10, `arena/7ae1c34f`), `site/**`,
+`python/**`, `kalshi_trader/**`, `data/**`, `assets/**`, `board.html`, `templates/**`, `scripts/**`,
+`tools/**`, existing workflows, and `tests/**`. Nothing owned by another session is edited.
+
+## Scope request logged for the owner (not edited here)
+
+The gateway `index.html` and `docs/index.html` are claimed by `arena/89a39032` and `arena/daf65d06`.
+This session does **not** edit them. For the owner to insert when convenient:
+
+```html
+<a href="docs/live/">Live console</a>
+```
+
+(expected in the gateway's card list; the page itself carries its own navigation to every
+sub-dashboard, so it is usable at `/docs/live/` whether or not the link is added).
+
+## Status log
+
+| UTC | Event |
+| - | - |
+| 2026-11-22T07:24Z | Claim written and pushed before implementation. |
