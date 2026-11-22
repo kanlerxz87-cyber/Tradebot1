@@ -73,6 +73,11 @@ jobs:
           python3 audit/verify.py --check
           python3 audit/build_site.py --check
           python3 audit/check_site.py
+      - name: Verify Demo API desk and V2 engine (session 17d84e4f)
+        run: |
+          python3 kalshi_engine/test_engine.py
+          python3 demo-desk/check_live_site.py
+          node --test demo-desk/test_live_core.mjs
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
@@ -101,7 +106,7 @@ jobs:
           set -euo pipefail
           mkdir -p public
           cp index.html .nojekyll public/
-          cp -R docs site public/
+          cp -R docs site demo-desk audit public/
           # The Node board app (session 9bea7e55): generated pages, their assets,
           # the five category pages and the JSON those pages read. Repository
           # internals (tools, tests, workflows) are never published.

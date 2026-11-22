@@ -232,7 +232,8 @@
         "observed": "null,null",
         "expected": "null,null"
       },
-      "howToCheck": "node --test tests/alerts-strategies.test.mjs, then read Orderbook Responses: a bid of 0 or an ask of 1 is the absence of a level, not a price."
+      "howToCheck": "node --test tests/alerts-strategies.test.mjs, then read Orderbook Responses: a bid of 0 or an ask of 1 is the absence of a level, not a price.",
+      "repoSources": []
     },
     {
       "id": "AUD-02",
@@ -278,7 +279,8 @@
         "observed": "null,0.3",
         "expected": "null,0.3"
       },
-      "howToCheck": "python -m pytest tests/test_audit.py -q, then compare the two-sided fixture: a real 0.40 / 0.44 book still produces 0.42."
+      "howToCheck": "python -m pytest tests/test_audit.py -q, then compare the two-sided fixture: a real 0.40 / 0.44 book still produces 0.42.",
+      "repoSources": []
     },
     {
       "id": "AUD-03",
@@ -305,7 +307,7 @@
           "file": "COORDINATION.md",
           "needle": "ten HTTP 400s from it",
           "note": "this session's record of the failed cycle",
-          "line": 702
+          "line": 732
         }
       ],
       "sources": [
@@ -330,7 +332,8 @@
         "observed": "True,False,int",
         "expected": "True,False,int"
       },
-      "howToCheck": "Read the compatibility table in Get Markets, then python -m pytest tests/test_collector.py -q. The historical 400s are recorded in COORDINATION.md rather than in the working tree, because the data file was overwritten by later cycles."
+      "howToCheck": "Read the compatibility table in Get Markets, then python -m pytest tests/test_collector.py -q. The historical 400s are recorded in COORDINATION.md rather than in the working tree, because the data file was overwritten by later cycles.",
+      "repoSources": []
     },
     {
       "id": "AUD-04",
@@ -382,7 +385,8 @@
         "observed": "0.34,0.07",
         "expected": "0.34,0.07"
       },
-      "howToCheck": "Compare the table's 100-contract column with Fee Rounding's worked examples. A direct member's net fee on 100 contracts at $0.05 is $0.3325 before balance alignment, not $0.34."
+      "howToCheck": "Compare the table's 100-contract column with Fee Rounding's worked examples. A direct member's net fee on 100 contracts at $0.05 is $0.3325 before balance alignment, not $0.34.",
+      "repoSources": []
     },
     {
       "id": "AUD-05",
@@ -434,7 +438,8 @@
         "observed": "21,0,0.07",
         "expected": "21,0,0.07"
       },
-      "howToCheck": "Open the PDF's General Trading Fees Table and count the column headers, then node --test tests/fees.test.mjs."
+      "howToCheck": "Open the PDF's General Trading Fees Table and count the column headers, then node --test tests/fees.test.mjs.",
+      "repoSources": []
     },
     {
       "id": "AUD-06",
@@ -466,7 +471,8 @@
         "observed": "needle present: True",
         "expected": "needle present: True"
       },
-      "howToCheck": "Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own."
+      "howToCheck": "Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own.",
+      "repoSources": []
     },
     {
       "id": "AUD-07",
@@ -489,22 +495,25 @@
           "line": 67
         }
       ],
-      "sources": [
-        {
-          "id": "VF-01",
-          "page": "API Environments and Endpoints",
-          "url": "https://docs.kalshi.com/getting_started/api_environments",
-          "claim": "The demo Trade API v2 is served at external-api.demo.kalshi.co, with demo-api.kalshi.co also supported.",
-          "quote": "| Demo | `https://external-api.demo.kalshi.co/trade-api/v2` | `https://demo-api.kalshi.co/trade-api/v2` |"
-        }
-      ],
+      "sources": [],
       "check": {
         "kind": "text",
         "ok": true,
         "observed": "needle present: True",
         "expected": "needle present: True"
       },
-      "howToCheck": "Read the Culture probe in data/snapshot.json -> discoveryProbes and compare with the header comment in tools/topics.mjs."
+      "howToCheck": "Read the Culture probe in data/snapshot.json -> discoveryProbes and compare with the header comment in tools/topics.mjs.",
+      "repoSources": [
+        {
+          "label": "tools/topics.mjs — the comment",
+          "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/topics.mjs"
+        },
+        {
+          "label": "data/snapshot.json — discoveryProbes, the capture it disagrees with",
+          "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/snapshot.json"
+        }
+      ],
+      "noOfficialSource": "No official Kalshi page speaks to this: it is an internal disagreement between a comment and a capture taken from the same endpoint. The official statement underneath both is VF-01 (the demo root), which is why the comparison is possible at all."
     },
     {
       "id": "AUD-08",
@@ -534,15 +543,7 @@
           "line": 71
         }
       ],
-      "sources": [
-        {
-          "id": "VF-01",
-          "page": "API Environments and Endpoints",
-          "url": "https://docs.kalshi.com/getting_started/api_environments",
-          "claim": "The demo Trade API v2 is served at external-api.demo.kalshi.co, with demo-api.kalshi.co also supported.",
-          "quote": "| Demo | `https://external-api.demo.kalshi.co/trade-api/v2` | `https://demo-api.kalshi.co/trade-api/v2` |"
-        }
-      ],
+      "sources": [],
       "check": {
         "kind": "shell",
         "ok": true,
@@ -552,7 +553,18 @@
           "Site is up to date (19 pages)."
         ]
       },
-      "howToCheck": "node scripts/build-site.mjs --check exits 0, and GITHUB_SHA=abc1234 node scripts/build-site.mjs --check also exits 0; edit one data value and either exits 1."
+      "howToCheck": "node scripts/build-site.mjs --check exits 0, and GITHUB_SHA=abc1234 node scripts/build-site.mjs --check also exits 0; edit one data value and either exits 1.",
+      "repoSources": [
+        {
+          "label": "scripts/build-site.mjs — the gate",
+          "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/scripts/build-site.mjs"
+        },
+        {
+          "label": "the audited branch's own CI failures",
+          "url": "https://github.com/kanlerxz87-cyber/Tradebot1/pull/21"
+        }
+      ],
+      "noOfficialSource": "No official Kalshi page applies: this finding is about this repository's own build gate. It is verified by executing the gate, and the result of that execution is printed above."
     },
     {
       "id": "AUD-09",
@@ -590,14 +602,15 @@
         "ok": true,
         "observed": "no executable check"
       },
-      "howToCheck": "Read the two tables in Market Lifecycle: statuses returned by REST, then filter values and what they match."
+      "howToCheck": "Read the two tables in Market Lifecycle: statuses returned by REST, then filter values and what they match.",
+      "repoSources": []
     },
     {
       "id": "AUD-10",
       "title": "Two sessions disagree about Culture, and both are right about different roots",
       "severity": "low",
       "status": "open",
-      "finding": "One implementation reports that no Culture category exists and maps the topic to Entertainment; another captured GET /series?category=Culture against the demo root and got two series. The demo and production catalogues differ, so neither statement refutes the other, but a reader of the site sees only one of them at a time.",
+      "finding": "One implementation reports that no Culture category exists and maps the topic to Entertainment; another captured GET /series?category=Culture against the demo root and got two series. The demo and production catalogues differ, so neither statement refutes the other, but a reader of the site sees only one of them at a time. The two roots are not an error: VF-01 shows the demo and production Trade APIs are documented as separate environments with separate catalogues, so a category can exist in one and not the other.",
       "impact": "A trader could believe culture coverage is missing when the demo catalogue has it, or vice versa. No number on any page is wrong.",
       "evidence": [
         {
@@ -621,7 +634,8 @@
         "ok": true,
         "observed": "no executable check"
       },
-      "howToCheck": "Read discoveryProbes in data/snapshot.json (root recorded per probe) next to docs/desk/topics/culture.html (production catalogue)."
+      "howToCheck": "Read discoveryProbes in data/snapshot.json (root recorded per probe) next to docs/desk/topics/culture.html (production catalogue).",
+      "repoSources": []
     },
     {
       "id": "AUD-11",
@@ -673,11 +687,12 @@
         "observed": "needle present: True",
         "expected": "needle present: True"
       },
-      "howToCheck": "Compare TAKER_RATE and MAKER_RATE in kalshi_trader/fees.py with the two formulas in the fee schedule PDF, then read AUD-04 for the rounding difference that remains."
+      "howToCheck": "Compare TAKER_RATE and MAKER_RATE in kalshi_trader/fees.py with the two formulas in the fee schedule PDF, then read AUD-04 for the rounding difference that remains.",
+      "repoSources": []
     },
     {
       "id": "AUD-12",
-      "title": "`or` fallbacks hide a genuine zero quote behind the legacy field",
+      "title": "or-fallbacks hide a genuine zero quote behind the legacy field",
       "severity": "low",
       "status": "open",
       "finding": "Values are read as first_float(...) or price_from_cents(...). A leg whose real fixed-point value is 0.0 is falsy, so the reader falls through to the legacy cent field, which may be absent (None) or stale. The result is None or an old price where the true value is zero.",
@@ -712,7 +727,8 @@
         "observed": "needle present: True",
         "expected": "needle present: True"
       },
-      "howToCheck": "normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) returns 0.42, not 0.0. Use an explicit None check instead of `or`."
+      "howToCheck": "normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) returns 0.42, not 0.0. Use an explicit None check instead of `or`.",
+      "repoSources": []
     },
     {
       "id": "AUD-13",
@@ -744,7 +760,8 @@
         "observed": "needle present: True",
         "expected": "needle present: True"
       },
-      "howToCheck": "Read the environment table in API Environments and Endpoints, column 'Also supported'."
+      "howToCheck": "Read the environment table in API Environments and Endpoints, column 'Also supported'.",
+      "repoSources": []
     }
   ]
 }

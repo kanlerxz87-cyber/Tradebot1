@@ -60,7 +60,21 @@ def status_pill(status: str) -> str:
 
 
 def source_links(sources: list[dict]) -> str:
+    if not sources:
+        return '<span class="muted">no official page applies</span>'
     return " · ".join(link(s["url"], s["id"]) for s in sources)
+
+
+def repo_links(item: dict) -> str:
+    parts = [link(s["url"], s["label"]) for s in item.get("repoSources") or []]
+    if item.get("sources"):
+        parts.append(source_links(item["sources"]))
+    return " · ".join(parts)
+
+
+def no_source_note(item: dict) -> str:
+    note = item.get("noOfficialSource")
+    return f'<p class="src"><strong>Why there is no official source.</strong> {esc(note)}</p>' if note else ""
 
 
 def page(title: str, current: str, body: str, doc: dict) -> str:
@@ -108,7 +122,7 @@ def index(doc: dict) -> str:
     open_items = [i for i in doc["items"] if i["status"] == "open"]
     rows = "".join(
         f"<tr><td class='mono'>{esc(i['id'])}</td><td>{esc(i['title'])}</td>"
-        f"<td>{status_pill(i['status'])}</td><td class='src'>{source_links(i['sources'])}</td></tr>"
+        f"<td>{status_pill(i['status'])}</td><td class='src'>{repo_links(i)}</td></tr>"
         for i in doc["items"]
     )
     body = f"""
@@ -215,7 +229,8 @@ def findings(doc: dict) -> str:
   <h4>Evidence in this repository</h4>
   <ul class="evidence">{evidence}</ul>
   {check_html}
-  <p class="src"><strong>Official sources:</strong> {source_links(item['sources'])}</p>
+  <p class="src"><strong>Sources:</strong> {repo_links(item)}</p>
+  {no_source_note(item)}
   <p class="src"><strong>Re-check it yourself:</strong> {esc(item['howToCheck'])}</p>
 </article>""")
     body = f"""
@@ -239,7 +254,8 @@ def flagged(doc: dict) -> str:
     <h3>{esc(i['title'])}</h3></header>
   <p>{esc(i['finding'])}</p>
   <p><strong>Impact.</strong> {esc(i['impact'])}</p>
-  <p class="src"><strong>Deciding source:</strong> {source_links(i['sources'])}</p>
+  <p class="src"><strong>Deciding source:</strong> {repo_links(i)}</p>
+  {no_source_note(i)}
   <p class="src"><strong>How to check:</strong> {esc(i['howToCheck'])}</p>
 </article>"""
         for i in items

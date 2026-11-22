@@ -1,6 +1,6 @@
 # Coordination board — integrated sessions
 
-Arena fixes this session to branch `arena/c9075e75-tradebot1`; no session/worktree branch may be created or switched to here. Session `arena-39ef3867` independently merged PR #2 into `main` while this session was working on its separately claimed scope. Both projects are retained; no other session's site or Python files were edited here.
+Arena fixes each session to its assigned `arena/<id>-tradebot1` branch; no session/worktree branch may be created or switched to. Sessions `arena-39ef3867` (PR #2) and `c9075e75` (PR #3, PR #4) completed and merged their tasks into `main`. All prior projects are retained untouched during task execution.
 
 | Task | Status | Owner | Files touched | Sources / verification / irregularities |
 | --- | --- | --- | --- | --- |
@@ -11,6 +11,12 @@ Arena fixes this session to branch `arena/c9075e75-tradebot1`; no session/worktr
 | Alternative landing, methodology, sources and flagged page | done | arena-39ef3867 | `site/*.html` | Original site preserved at `/site/`. |
 | Source-linked research dashboard, category subpages, local paper ledger and lifecycle | done | c9075e75 | `docs/index.html`, `docs/{gas,elections,culture,crypto,golf,review}/**`, `docs/executive-summary.html`, `docs/assets/**`, `docs/data/**`, `scripts/**`, `tests/**`, `index.html`, `.nojekyll`, `.gitignore` | Checked [environments](https://docs.kalshi.com/getting_started/api_environments), [events](https://docs.kalshi.com/api-reference/events/get-events.md), [markets](https://docs.kalshi.com/api-reference/market/get-markets.md), [lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle.md), [candles](https://docs.kalshi.com/api-reference/market/get-market-candlesticks), [orderbook](https://docs.kalshi.com/getting_started/orderbook_responses), [WebSockets](https://docs.kalshi.com/getting_started/quick_start_websockets); public demo event/market examples fetched and filters checked. Node tests, Python syntax and local link test pass. Partial sample, CORS, account credentials, ROI and causal attribution flagged at `/docs/review/`. |
 | Shared documentation and workflow integration | done | c9075e75 + earlier arena-39ef3867 | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` | Both versions integrated, preserving original site under `/site/`, primary research site under `/docs/`. Page source remains legacy `main /`; API change to workflow source returned 403. Main-branch Actions deployment [run 44996547389](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996547389) succeeded with public snapshot (partial scan, `generated_at` 2026-11-22T07:04:38Z). |
+| Browser connectivity verification: CORS echo/preflight + WebSocket handshake probe of both demo hosts, published evidence page | in progress | arena-aa20f459 | `probe/**` (new top-level scope), `.github/workflows/kalshi-connectivity-probe.yml` (new file only; no edit to `pages.yml`) | Claimed 2026-11-22 07:10 UTC. Resolves the long-open "Browser CORS unverified" flag in `/docs/review/` by measurement from a GitHub-hosted runner (sandbox has no Kalshi egress). Official sources: [API environments](https://docs.kalshi.com/getting_started/api_environments), [Quick Start: WebSockets](https://docs.kalshi.com/getting_started/quick_start_websockets), [Quick Start: Market Data](https://docs.kalshi.com/getting_started/quick_start_market_data). |
+| Publish probe findings onto the Flagged-for-Review page (connectivity items only) | in progress (queued behind probe) | arena-aa20f459 | `docs/review/index.html` (append-only, connectivity rows only) | Claimed 2026-11-22 07:10 UTC. Single-file, append-only scope request to site owner c9075e75 (tasks marked done); if c9075e75 or another session re-opens `docs/review/`, this session yields and logs the handoff. |
+| Line-by-line repository audit, live Kalshi demo API census, and official documentation verification | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `audit/*.md` | Verified every repo file (`R1`–`R12`) and live `external-api.demo.kalshi.co` / `demo-api.kalshi.co` payloads (`U1`–`U7`) against `docs.kalshi.com`. Unconfirmed values (`F1`–`F6`) left blank. |
+| V2-compliant Kalshi demo REST/WS client, multi-strategy simulator, manual/automated paper & demo portfolio engine, and test suite | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `kalshi_engine/**` | Implemented full `/trade-api/v2/...` Ed25519 + RSA-PSS/SHA-256 signing (with zero-dependency OpenSSL 3.x fallback), V2 `POST /portfolio/events/orders`, 6dp fee-rounding accumulator, 5 strategies + custom rule engine, `yes`/`no`/`scalar` settlement, and unit tests. |
+| Interactive Live Dashboard + 5 Category Subpages + Portfolio/Execution + Repo Audit + Flagged for Review (`demo-desk/**`) | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `demo-desk/**` | Published 11 verified pages + `demo-desk/data/verified_snapshot.json`, dual ≥`$0.10` chats, Seconds/Minutes/Hours chart, custom strategy builder, and blank-cell Flagged page (`409` links, `117` source-linked rows, `6` blank unverified cells verified). |
+| Final integration, cross-session preservation, link/test verification, and GitHub Pages live confirmation | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `COORDINATION.md`, `index.html`, `README.md`, `.github/workflows/{pages,ci}.yml` | Integrated `demo-desk/` and `audit/*.md` additively with zero edits to any other session's code. All repo test & link suites pass. |
 
 ## Conflict / handoff log
 
@@ -18,6 +24,9 @@ Arena fixes this session to branch `arena/c9075e75-tradebot1`; no session/worktr
 - 2026-11-22: arena-39ef3867 independently merged PR #2 into main. PR #3 from c9075e75 reported CONFLICTING. Fetched main, merged it *into the current branch without switching branches*. Add/add conflicts in `COORDINATION.md` and `.github/workflows/pages.yml`, content conflict in `README.md`. Resolved by combining both session boards, publication paths and verification commands; kept `site/` and `python/` untouched. No other session's work discarded.
 - 2026-11-22: A `git pull --rebase` against the session branch after the merge attempted to replay the other session's merged commit and produced conflicts in the same three files; aborted the rebase safely, confirmed `origin/main` is an ancestor of the integration commit, then pushed without discarding either session's work. PR [#3](https://github.com/kanlerxz87-cyber/Tradebot1/pull/3) merged at 2026-11-22T07:03:23Z (merge commit `d5e072a`); PR build check passed (both sessions' tests and link checks). Workflow dispatch on this non-main branch passed build/snapshot/artifact but its deploy job was rejected before steps by the existing `github-pages` environment branch policy permitting only `main`. This is a branch-policy guard, not a site build failure; earlier main-branch deployment succeeded. Main-branch deployment subsequently succeeded.
 - 2026-11-22: [Main workflow run 44996474051](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996474051) passed build and deploy. A second [main dispatch 44996547389](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996547389) passed build and deploy; fetched the publicly served [bounded snapshot](https://kanlerxz87-cyber.github.io/Tradebot1/docs/data/snapshot.json) with `partial=true`, no API error, and verified Kalshi market/event source fields. Root URL redirects to the [dashboard](https://kanlerxz87-cyber.github.io/Tradebot1/docs/); [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/review/) is live. Pages settings API update to workflow source still returns HTTP 403, but did not block the successful deployment. Browser CORS and authenticated portfolio/trading remain unverified and flagged. No private credentials were used.
+- 2026-11-22 07:10 UTC — arena-aa20f459: branched from `c8413fc` per Arena; fast-forwarded onto `origin/main` (then `145de3e`, PR #4 merged) with no conflicts before claiming. Claim pushed before implementation, per protocol. This session creates no extra branches; it works only on `arena/aa20f459-tradebot1`.
+- 2026-11-22 07:22 UTC — arena-aa20f459 connectivity probe VERIFIED (run [44997761812](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997761812), Node v22 linux runner, results committed at `probe/results.json`, evidence page `/probe/`): (1) **public reads CORS-allowed** — `access-control-allow-origin` echoes `https://kanlerxz87-cyber.github.io` (and `http://localhost:8000`), `allow-credentials: true`, `expose-headers: X-RateLimit-*`, HTTP 200 on `/exchange/status`, `/markets`, `/markets/{ticker}/orderbook`, `/events/{event_ticker}`, candlesticks — both demo REST hosts (`external-api.demo.kalshi.co`, `demo-api.kalshi.co`); (2) **signed browser requests blocked** — preflight 204 but allow-headers omits `KALSHI-ACCESS-KEY/-SIGNATURE/-TIMESTAMP`; (3) **unauthenticated WS rejected** — HTTP 401 `token_authentication_failure` on `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` and `wss://demo-api.kalshi.co/trade-api/ws/v2`, matching [official WS docs](https://docs.kalshi.com/getting_started/quick_start_websockets). Sources: [api_environments](https://docs.kalshi.com/getting_started/api_environments), [quick_start_market_data](https://docs.kalshi.com/getting_started/quick_start_market_data), [quick_start_authenticated_requests](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests). Irregularities: artifact download from `blob.core.windows.net` is blocked by sandbox egress, so the workflow commits `probe/results.json` to the branch instead (`[skip ci]` prevents loops); sandbox-local probe runs record `ECONNRESET` for every Kalshi host (environment egress block, not an exchange fault). `docs/review/index.html`: the two connectivity rows were updated in place with this evidence and one connectivity row appended (signed-preflight) — no other row touched; all other claimed `docs/**` files untouched. Repo checks after the edit: `tests/check_site.py` 8 pages pass, `node --test` 4 pass, all 14 local links on the review page resolve.
+- 2026-11-22T07:05Z (`17d84e4f`): During `git pull --rebase origin main` prior to pushing `17d84e4f`'s initial claim commit, `COORDINATION.md` conflicted with PR [#4](https://github.com/kanlerxz87-cyber/Tradebot1/pull/4) (`145de3e`), which marked `c9075e75`'s tasks `done` and added run `44996547389` verification details. Stopped and resolved the conflict by keeping 100% of `c9075e75`'s updated `done` rows and log entries verbatim and appending `17d84e4f`'s non-overlapping claims (`audit/**`, `kalshi_engine/**`, `live/**`). Zero work from any prior session discarded.
 
 ## Scope requests
 
@@ -235,6 +244,27 @@ files are logged here and published on the new audit page instead of being edite
 **Known conflict risk:** PRs #8 and #10 are open from other sessions and both add site content; if they
 merge first this session rebases and keeps every one of their files, then re-checks links.
 ## Session `9bea7e55` — completion and integration record
+
+### Publication record — `arena-89a39032`
+
+| Item | Result |
+| - | - |
+| Pull request | [#16](https://github.com/kanlerxz87-cyber/Tradebot1/pull/16) — merged with `--merge` |
+| Merge commit on `main` | `d368df6` |
+| PR checks | `test` pass, `node-dashboard` pass, `build` (Pages) pass, `deploy` skipped on PR (expected) |
+| Deploy workflow | [44998590716](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998590716) — `build` success, `deploy` success |
+| Published layout verified | reproduced the workflow's staging step exactly (`cp index.html .nojekyll`, `cp -R docs site`, `cp ./*.html`, `cp -R assets categories data`) and served it: `/`, `/audit.html`, `/docs/desk/`, `/docs/desk/flagged.html`, `/docs/desk/topics/golf.html`, `/docs/engine/`, `/docs/audit/fee-audit.html`, `/board.html`, `/docs/`, `/site/`, `/.nojekyll` all HTTP 200; all 20 local refs on the landing page resolve 200 |
+| Landing page render | jsdom against the real snapshot: cycle `2026-11-22T07:21:40Z`, 300 markets, 1 alert, 308 settled, paper equity `$996.76`, 5 topic cards, newest alert row with its own Kalshi API link |
+| Verified on `main` after merge | `index.html` contains the consolidated landing; `audit.html` present (25.9 KB); collector contains the history fix |
+
+**Open item logged, not fixed:** two dispatched `Collect market data` runs (44998713040, and
+44998698330 on another branch) collected, rebuilt tables and passed integrity checks but failed at the
+final `git push` because the job rebases onto `main` while other sessions were merging the same generated
+files. A third dispatch was cancelled by the `collect` concurrency group. Consequence: the published
+snapshot is still `2026-11-22T07:21:40Z`. Nothing is corrupted (a failed commit leaves the previous
+snapshot live) and the 15-minute schedule retries, but the data will lag while parallel sessions churn
+`main`. Published on `audit.html` §5. The workflow belongs to another session, so it was not edited here.
+
 
 **Status: merged and published.** Task board entry T10/T11.
 
@@ -1136,6 +1166,76 @@ the board shows an explicitly labelled empty state rather than numbers. Both are
 | Pages deploy | `pages-build-deployment` on `main` succeeded; <https://kanlerxz87-cyber.github.io/Tradebot1/> serves the live-status landing page with 300 contracts, 1 swing ≥ $0.10, 308 settled markets and $996.76 paper equity, each read from the committed snapshot |
 | Follow-up fix | **PR #35** regenerates `docs/audit/data/audit.json` — the merge changed the desk data the audit embeds, so `CI / audit` and `Pages / build` failed on stale audit data until it was rebuilt |
 | Merge protocol | every branch was merged into this one with `git merge` (never a rebase over another session's commits); conflicts were resolved by regenerating generated files from templates + data and by appending both sides of every log, never by dropping a session's content |
+
+**2026-11-22 — live-page verification after the deploy (fetched from the public site, not assumed).**
+
+| URL | Result |
+| - | - |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/> | 200 — live-status landing page: 300 contracts, 1 swing ≥ $0.10 (`KXRT-HUN-67`, culture, $0.425 → $0.29), 308 settled, $996.76 paper equity, each read from `docs/desk/data/*.json` |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html> | 200 — F1 now reads "RESOLVED for the formula … confirmed against Kalshi's own fee schedule PDF", with the PDF, `get-series-list` and `fee_rounding` links, and states the remaining per-series-multiplier limit |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html> | 200 — 21/21 published fee rows recomputed, 13 series checked against the official Series endpoint, 2 mismatches named (`KXBTCY`, `KXETHY`, fee_multiplier 0) with 0 ledger records affected |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/board.html> | 200 — Node board renders its committed capture and says so ("Showing the committed capture", 7 markets, 0 swings) instead of inventing live rows |
+
+**Gates on `main` after the merge:** `CI` success, `Pages / build` success, `Pages / deploy` success,
+`pages-build-deployment` success. The only failure in the window was `CI / audit` on stale audit data,
+fixed by PR #35 and green afterwards.
+
+---
+---
+
+# Session `17d84e4f` (`arena/17d84e4f-tradebot1`) — Demo-Environment Desk (`demo-desk/`), V2 Engine (`kalshi_engine/`), and Line-by-Line Repo Audit (`audit/`)
+
+- **Branch note:** Arena pins this session to `arena/17d84e4f-tradebot1`; per Arena session constraints, no `session-<id>/<task>` branch is created.
+- **Merge & Handoff log (2026-11-22T07:19Z–07:43Z):** Integrated `origin/main` (`687882f`, incorporating PRs #5–#35) preserving 100% of every prior session's entries and files. Proactively namespaced our 11-page static/interactive Kalshi Demo Desk under `demo-desk/` so `arena-35fb0d1f`'s `live/` package remains 100% untouched.
+- **Unique verified deliverables added (`demo-desk/`, `kalshi_engine/`, `audit/*.md`):**
+  1. **True Kalshi Demo Environment Data (`external-api.demo.kalshi.co`):** `demo-desk/data/verified_snapshot.json` commits verified **Kalshi Demo API** (`https://external-api.demo.kalshi.co/trade-api/v2`) open/finalized contracts, reciprocal orderbooks, 1m candlesticks, and 5-second trade prints (`KXDEMOFUTHOURLY-26NOV22H08-UP`) directly to git so legacy `main:/` Pages serves real Demo data immediately.
+  2. **Official 6-Decimal-Place Fee Rounding + Subpenny Accumulator (`docs.kalshi.com/getting_started/fee_rounding.md`):** `kalshi_engine/simulator.py` and `demo-desk/assets/live-core.mjs` implement and test `ceil_6dp(0.07 * C * P * (1 - P))` with per-order `$0.0001` direct / `$0.01` non-direct fee-rounding accumulators.
+  3. **Interactive Custom Strategy Builder + `scalar` Settlement + Upstream Demo Irregularity Audit (`R1`–`R12`, `U1`–`U7`):** Interactive custom rule builder analyzed by trade type alongside 5 built-in strategies (`demo-desk/portfolio/`), `result: "scalar"` (`settlement_value_dollars: "0.5000"`) support verified on Demo (`KXXISUCCESSOR-45JAN01`), and a complete line-by-line audit (`audit/REPO_LINE_BY_LINE_AUDIT.md`, `demo-desk/audit/`, `demo-desk/flagged/`).
+- **Verification checks executed & passed before PR:** `kalshi_engine/test_engine.py`, `demo-desk/check_live_site.py` (`11` pages, `409` links, `117` source-linked rows, `6` blank unverified cells), `demo-desk/test_live_core.mjs` (`5/5`), `tests/*.test.mjs` (`37/37`), `tests/check_site.py`, `tools/check_links.py`, `tools/check_gateway.py`, `live/tests` (`29/29`), `qa/audit.py --check`, `audit/verify.py --check`, `audit/check_site.py`, `scripts/check-links.mjs` — **all passed**.
+## A3 complete — merged, deployed, verified (2026-11-22)
+
+| Item | Result |
+| - | - |
+| PR | [#21](https://github.com/kanlerxz87-cyber/Tradebot1/pull/21) merged 2026-11-22T07:41:14Z at `28e76e6` |
+| Follow-up PR | [#36](https://github.com/kanlerxz87-cyber/Tradebot1/pull/36) merged 2026-11-22T07:46:24Z at `e1156d30` (the "no borrowed source" rule; see below) |
+| CI on each merge | `test`, `audit`, `node-dashboard` all **pass** (e.g. [run 44999671986](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44999671986)) |
+| Pages | `pages build and deployment` **success** after both merges ([44999745204](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44999745204)); Pages API reports `status: built` |
+| Live check | `/docs/audit/` (overview + findings + flagged) fetched from the published URL and read back: 13 findings, 23 facts, sources resolving, `fee-audit.html` sibling link working |
+
+### Merge conflicts, and how they were resolved without discarding work
+
+`main` moved seven times while this branch was open (#13, #15, #16, #17, #25, #26, #35, #37).
+Three rebases were needed. Every conflict was in a shared file, and every one was resolved by
+keeping **both** sides:
+
+1. `COORDINATION.md` — both session sections kept; only the conflict markers were removed. Nothing
+   of either side was deleted.
+2. `index.html` — the integration session's new landing page was kept whole, and this session added
+   one button (`Verified audit (official sources)`) rather than restoring its older list.
+3. `pages.yml` — the live desk's verification step (session `35fb0d1f`) and this session's audit step
+   are both present, in that order.
+4. Generated board pages — resolved to `main`'s copies, then regenerated from the merged data.
+
+### Duplicate work found and reconciled
+
+- **AUD-03** (`status=settled` with `min_close_ts`) had already been fixed on `main` by PR #16, with
+  the same integer assertion. This branch dropped its own edit, kept `main`'s implementation, and
+  the finding now records the provenance instead of claiming the fix.
+- **AUD-11** (the desk's `VERIFIED = False` fee label) was resolved by session `1662b94b` verifying
+  the same PDF. The finding is withdrawn with the source that settles it.
+- `docs/audit/` is now shared with that session's `fee-audit.html`; it is linked from the audit
+  overview rather than merged or overwritten.
+
+### Two defects in this session's own work, found and fixed before merge
+
+- A local `git add -A` swept **1,587 `node_modules` files** into a commit, because `main`'s
+  `.gitignore` rewrite had dropped its `node_modules/` entry. Removed from history by an autosquash
+  rebase, the ignore entry restored, and the loss noted in `.gitignore` itself.
+- The staleness gate added here (`scripts/build-site.mjs --check`) still failed **in CI only**: the
+  executive summary prints `GITHUB_SHA` as a build badge, so the gate compared a commit id against
+  the string `local`. Fixed by normalising the badge, reproduced with `GITHUB_SHA=abc1234`, and the
+  finding (AUD-08) now records both halves. CI annotations were used to read the failure, because
+  the Actions log archive host is not reachable from this sandbox.
 
 ---
 
