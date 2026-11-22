@@ -256,8 +256,9 @@ def audit_desk() -> None:
     if drift:
         add("warn", "DERIVED", "Estimated 24h notional was computed from a different price than the row prints",
             f"24h volume x the row's own price differs from the printed estimate on {len(drift)} row(s); the "
-            f"largest gap is {worst * 100:.1f}%. The implied price is the previous mid, so the notional was "
-            "fixed before the row's quote was refreshed.",
+            f"largest gap is {worst * 100:.1f}%, on a 15-minute crypto market where the quote moved far between "
+            "the two reads. The implied price is an earlier mid, so the notional was fixed before the row's "
+            "quote was refreshed. On slow markets the error is a cent or two; on fast ones it is material.",
             examples=drift, count=len(drift), source="docs/desk/data/latest.json",
             action="Recompute the estimate after the final quote is applied, or label it as measured at an "
                    "earlier time. The direction of the number is unaffected; the exact dollar figure is.")
@@ -580,6 +581,25 @@ def audit_generators() -> None:
         checked.append("tools/build_site.py --check (run separately by CI; reports current)")
 
 
+def audit_gate_fragility() -> None:
+    """A build gate that depends on a shared file's line numbers can never stay green."""
+    findings_dir = ROOT / "docs/audit"
+    if not findings_dir.exists():
+        return
+    refs = []
+    for page in findings_dir.glob("*.html"):
+        for match in re.finditer(r"COORDINATION\.md:(\d+)", page.read_text(errors="ignore")):
+            refs.append({"page": str(page.relative_to(ROOT)), "line_ref": match.group(0)})
+    if refs:
+        add("warn", "FLAKY", "An audit gate pins line numbers in a concurrently edited file",
+            f"{len(refs)} evidence reference(s) cite COORDINATION.md by line number, and "
+            "`audit/build_site.py --check` fails whenever that number shifts. Every session that appends to "
+            "the board therefore breaks another session's build until the page is regenerated.",
+            examples=refs, count=len(refs), source="docs/audit/findings.html",
+            action="Cite the section heading or a stable quote instead of a line number, or exclude the "
+                   "reference from the staleness comparison.")
+
+
 def audit_secrets() -> None:
     patterns = [
         (re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"), "private key block"),
@@ -734,7 +754,7 @@ def to_html(report: dict[str, Any]) -> str:
   <h1>Audit: what the committed data actually supports</h1>
   <p class="sub">Four independent implementations keep their own snapshots. This page re-checks each of them
   for the failures that would cost a trader money: impossible prices, crossed books, ladders that do not add
-  up, alerts that do not clear $0.10, resolution values outside yes/no/void, rows with no official source,
+  up, alerts that do not clear $0.10, resolution values outside yes/no/scalar, rows with no official source,
   and dead internal links. Generated {html.escape(report['generated_at'])} by <code>qa/audit.py</code>.</p>
 
   <div class="kpis">
@@ -775,6 +795,7 @@ def main() -> int:
     audit_links()
     audit_artifacts()
     audit_generators()
+    audit_gate_fragility()
     audit_secrets()
     audit_docs_freshness()
 
