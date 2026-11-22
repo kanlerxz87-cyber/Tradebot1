@@ -720,3 +720,91 @@ session did not force it.
 additions re-applied on top, so every other session's landing page, fee audit, connectivity verification,
 engine site and coordination records are intact. `main` also untracked the committed `__pycache__`
 artefacts during this window, which agrees with the cleanup recorded here.
+# Session `arena/73552f24-tradebot1` — independent line-by-line audit + correctness fixes
+
+**Branch:** `arena/73552f24-tradebot1`, branched from `c8c1d28` (merge of PR #8).
+**Claimed:** 2026-11-22 (UTC). Claim written and pushed before implementation.
+
+| Task | Status | Owner | Files / scope |
+| - | - | - | - |
+| A1 Line-by-line audit of every Kalshi factual claim in the four implementations against `docs.kalshi.com` (reachable from this session via a page-fetch tool), published with a source link per row | in progress | `arena/73552f24` | `audit/**`, `docs/audit/**`, `tests/test_audit.py` |
+| A2 Correctness fixes for defects the audit proves, each with a regression test | in progress | `arena/73552f24` | `tools/alerts.mjs`, `kalshi_trader/marketdata.py`, `kalshi_trader/collector.py`, `tests/` |
+| A3 Integration: PR to `main`, merge, confirm Pages deploy | pending | `arena/73552f24` | `COORDINATION.md`, `index.html` (one added link only) |
+
+**Why this scope does not collide.** `docs/desk/`, `docs/`, `board.html`+templates, `site/`, `python/`,
+`app/`, `engine/` are owned by other sessions and are **not** rewritten here. The three source edits are
+one-condition guards plus one query-parameter name; the owners of those files (desk `arena-e3e5f70f`,
+board `9bea7e55`) are merged/inactive and their claims cover generated output, not these parsers.
+
+**What is different about this session:** previous sessions recorded that they could not reach any
+`kalshi.co`/`kalshi.com` host (TLS reset). Shell `curl` from this sandbox also fails, but the page-fetch
+tool does reach `docs.kalshi.com`, so the official pages could be read and quoted directly. Every
+finding below cites the page that was actually read on 2026-11-22.
+
+**Findings filed as work items (details on `docs/audit/`):** the empty-side sentinel
+(`yes_ask_dollars: 1.0000` with no NO bids) fed a midpoint in two implementations; the desk's settled
+sweep used a filter combination the API documents as incompatible (and the committed snapshot records
+ten HTTP 400s from it); the board's fee model rounds to the whole cent where the exchange rounds the
+trade fee to `$0.000001` and aligns the balance to `$0.0001`; `events[].category` is deprecated in
+favour of the series category; a topic comment disagrees with the session's own captured probe.
+
+## A1–A2 complete — audit published, five defects corrected (2026-11-22)
+
+**Published at** `docs/audit/` (Overview, Findings, Flagged for review, Official sources, Method).
+**Machine-checked:** `audit/facts.json` (23 official statements, each with URL + verbatim quote),
+`audit/items.json` (13 findings), `audit/verify.py` (re-executes every check), `audit/build_site.py`,
+`audit/check_site.py`.
+
+| Task | Status | Owner | Files |
+| - | - | - | - |
+| A1 Line-by-line audit of all four implementations | **done** | `arena/73552f24` | `audit/**`, `docs/audit/**`, `tests/test_audit.py` |
+| A2 Correctness fixes with regression tests | **done** | `arena/73552f24` | `tools/alerts.mjs`, `tools/fees.mjs`, `kalshi_trader/marketdata.py`, `kalshi_trader/collector.py`, `scripts/build-site.mjs`, `data/flags.json`, `tests/{alerts-strategies.test.mjs,fees.test.mjs,test_collector.py,test_audit.py,tests/check_site.py}` |
+| A3 Integration PR + deploy | in progress | `arena/73552f24` | `README.md`, `index.html` (one link), `COORDINATION.md`, `.github/workflows/{ci,pages}.yml` |
+
+### Sources used (read on 2026-11-22, not recalled)
+
+[API environments](https://docs.kalshi.com/getting_started/api_environments) ·
+[orderbook responses](https://docs.kalshi.com/getting_started/orderbook_responses) ·
+[fixed-point representation](https://docs.kalshi.com/getting_started/fixed_point_migration) ·
+[market lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle) ·
+[get markets](https://docs.kalshi.com/api-reference/market/get-markets) ·
+[get events](https://docs.kalshi.com/api-reference/events/get-events) ·
+[candlesticks](https://docs.kalshi.com/api-reference/market/get-market-candlesticks) ·
+[fee rounding](https://docs.kalshi.com/getting_started/fee_rounding) ·
+[fee schedule PDF](https://kalshi.com/docs/kalshi-fee-schedule.pdf)
+
+### Verification performed
+
+`python -m pytest -q` 60 passed (adds `tests/test_audit.py`); `node --test tests/*.test.mjs` 37 passed;
+`audit/verify.py --check`, `audit/build_site.py --check`, `audit/check_site.py` clean;
+`tools/check_links.py` 272 links; `python3 tests/check_site.py` 26 pages; `node scripts/check-links.mjs`
+19 pages / 642 references; `node scripts/check-render.mjs` all pages render with source links.
+
+### Findings and corrections (full text on `docs/audit/`)
+
+1. **AUD-01/02 (fixed, high).** The empty-side sentinel `yes_ask_dollars: 1.0000` — the shape of all
+   eight markets in `data/snapshot.json`, whose NO books are empty — was fed into a midpoint by the Node
+   board (`yesMid`) and by the desk's `normalize_market`. A 14c bid read as 57c, so the ≥ $0.10 feeds
+   could fire on quote mechanics. Both now treat either empty side as no quote.
+2. **AUD-03 (fixed, high).** `status=settled` with `min_close_ts` is a combination Get Markets documents
+   as incompatible; `docs/desk/data/latest.json` records ten HTTP 400s from it and zero resolutions. Now
+   `min_settled_ts`. The resolution tracker had never been able to record a settlement.
+3. **AUD-05 (fixed, medium).** "One fee-table row is unreproducible" was a four-column table read as
+   three. The $0.01 row's fee for 100 contracts is $0.07; all 21 rows reproduce. Board flag F-02 rewritten.
+4. **AUD-08 (fixed, medium).** `build-site.mjs --check` compared wall-clock text and reported all 19
+   pages stale on every checkout, so the documented verification command always failed.
+5. **AUD-04/06/07/10/11/12/13 (open, published).** Cent-versus-centicent fee rounding; the deprecated
+   `event.category` read in the browser monitor; a stale comment about the Culture probe count; the
+   Culture disagreement between demo and production catalogues; the desk's stale `VERIFIED = False`
+   label; `or` fallbacks over a genuine 0.0; and the non-recommended production host default.
+6. **AUD-09 (flag withdrawn).** The "docs say open/settled, API returns active/finalized" flag is not a
+   contradiction: Market Lifecycle documents both vocabularies and maps them.
+
+### Irregularities in the audit itself, stated up front
+
+- Shell access to Kalshi is still impossible from this sandbox; the official pages were read with a
+  page-fetch tool. Every quote is stored in `audit/facts.json` so it can be re-read by hand.
+- No credential exists here, so nothing claims an authenticated read, an executed order, a live
+  WebSocket session or a browser CORS result. Those stay unclaimed, as earlier sessions left them.
+- `docs/audit/` is added to the monitor checker's skip list (`tests/check_site.py`), matching how
+  `docs/desk` is handled; the audit has its own stricter gate in `audit/check_site.py`.

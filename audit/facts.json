@@ -1,0 +1,171 @@
+{
+  "meta": {
+    "checkedOn": "2026-11-22",
+    "session": "arena/73552f24-tradebot1",
+    "howRead": "Every page below was fetched from docs.kalshi.com (or the fee-schedule PDF) with a page-fetch tool on 2026-11-22 and quoted verbatim. Shell curl from this sandbox cannot reach kalshi hosts (TLS reset), which is the limitation earlier sessions reported; the page-fetch tool can, so these pages were read directly rather than cited from memory.",
+    "note": "A fact here is an official statement. A quote is a short verbatim excerpt, with markdown escapes removed and [..] marking an elision. Nothing in this file is inferred."
+  },
+  "facts": [
+    {
+      "id": "VF-01",
+      "page": "API Environments and Endpoints",
+      "url": "https://docs.kalshi.com/getting_started/api_environments",
+      "claim": "The demo Trade API v2 is served at external-api.demo.kalshi.co, with demo-api.kalshi.co also supported.",
+      "quote": "| Demo | `https://external-api.demo.kalshi.co/trade-api/v2` | `https://demo-api.kalshi.co/trade-api/v2` |"
+    },
+    {
+      "id": "VF-02",
+      "page": "API Environments and Endpoints",
+      "url": "https://docs.kalshi.com/getting_started/api_environments",
+      "claim": "The demo WebSocket endpoint is wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2, with the demo-api host also supported.",
+      "quote": "| Demo | `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` | `wss://demo-api.kalshi.co/trade-api/ws/v2` |"
+    },
+    {
+      "id": "VF-03",
+      "page": "API Environments and Endpoints",
+      "url": "https://docs.kalshi.com/getting_started/api_environments",
+      "claim": "For production, external-api.kalshi.com is recommended and api.elections.kalshi.com is also supported.",
+      "quote": "| Production | `https://external-api.kalshi.com/trade-api/v2` | `https://api.elections.kalshi.com/trade-api/v2` |"
+    },
+    {
+      "id": "VF-04",
+      "page": "API Environments and Endpoints — Request Signing",
+      "url": "https://docs.kalshi.com/getting_started/api_environments",
+      "claim": "A signed request covers the full path from the API root and excludes the query string; the host is not signed.",
+      "quote": "Sign the full request path from the API root, without query parameters. [..] `/trade-api/v2/portfolio/orders` [..] not the hostname and not the query string."
+    },
+    {
+      "id": "VF-05",
+      "page": "Orderbook Responses",
+      "url": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "claim": "The order book returns bids only, and the ask on one side is the complement of the best bid on the other side.",
+      "quote": "A **YES BID** at price X is equivalent to a **NO ASK** at price ($1.00 - X)"
+    },
+    {
+      "id": "VF-06",
+      "page": "Orderbook Responses",
+      "url": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "claim": "Levels are ascending by price, so the best bid is the last element of each array.",
+      "quote": "Arrays are sorted by price in **ascending order** [..] The **highest** bid (best bid) is the **last** element in each array"
+    },
+    {
+      "id": "VF-07",
+      "page": "Orderbook Responses",
+      "url": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "claim": "An empty book and an unknown ticker both return 200 with empty arrays, not 404.",
+      "quote": "A market with no resting orders returns empty `yes_dollars` and `no_dollars` arrays. So does a ticker that does not match any market: the endpoint returns `200` with empty arrays rather than `404`"
+    },
+    {
+      "id": "VF-08",
+      "page": "Orderbook Responses",
+      "url": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "claim": "The order book is wrapped in orderbook_fp with yes_dollars and no_dollars string pairs [price, count].",
+      "quote": "The orderbook response is wrapped in an `orderbook_fp` object containing two arrays of bids: `yes_dollars` for YES positions and `no_dollars` for NO positions. Each bid is a two-element string array: `[price_dollars, count_fp]`."
+    },
+    {
+      "id": "VF-09",
+      "page": "Fixed-Point Representation",
+      "url": "https://docs.kalshi.com/getting_started/fixed_point_migration",
+      "claim": "Prices are dollar strings with a _dollars suffix (up to 4 dp) and quantities are _fp strings (2 dp).",
+      "quote": "**Prices**: fixed-point dollar strings (`_dollars` suffix), up to 4 decimal places [..] **Contract quantities**: fixed-point strings (`_fp` suffix), up to 2 decimal places"
+    },
+    {
+      "id": "VF-10",
+      "page": "Market Lifecycle",
+      "url": "https://docs.kalshi.com/getting_started/market_lifecycle",
+      "claim": "REST market status is initialized, active, inactive, closed, determined, disputed, amended or finalized.",
+      "quote": "| `finalized` | Settlement complete. Positions have been paid out. Terminal state. |"
+    },
+    {
+      "id": "VF-11",
+      "page": "Market Lifecycle",
+      "url": "https://docs.kalshi.com/getting_started/market_lifecycle",
+      "claim": "The status filter value settled matches markets whose response status is finalized, and open matches active.",
+      "quote": "| `settled` | `finalized` |"
+    },
+    {
+      "id": "VF-12",
+      "page": "Get Markets",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "claim": "Timestamp filters are status-specific: min_close_ts pairs with closed, and settled pairs with min_settled_ts.",
+      "quote": "| min_close_ts, max_close_ts | `closed`, *empty* | [..] | min_settled_ts, max_settled_ts | `settled`, *empty* |"
+    },
+    {
+      "id": "VF-13",
+      "page": "Get Markets",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "claim": "The Market object's required price and size fields are the fixed-point ones: yes_bid_dollars, yes_ask_dollars, volume_fp, open_interest_fp.",
+      "quote": "- yes_bid_dollars [..] - volume_fp [..] - open_interest_fp"
+    },
+    {
+      "id": "VF-14",
+      "page": "Get Markets",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "claim": "result is yes, no, scalar or empty; a binary market resolves to yes or no.",
+      "quote": "result: type: string enum: - 'yes' - 'no' - scalar - ''"
+    },
+    {
+      "id": "VF-15",
+      "page": "Get Market Candlesticks",
+      "url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks",
+      "claim": "Candle periods are 1, 60 or 1440 minutes, timestamps are seconds, and one request spans at most 5,000 periods.",
+      "quote": "Valid values are 1 (1 minute), 60 (1 hour), or 1440 (1 day). [..] One request can span at most 5,000 periods."
+    },
+    {
+      "id": "VF-16",
+      "page": "Get Market Candlesticks",
+      "url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks",
+      "claim": "A candlestick's trade-price block is OHLC under price, with _dollars fields (close_dollars).",
+      "quote": "- yes_bid [..] - price: $ref: '#/components/schemas/PriceDistribution' description: >- Open, high, low, close (OHLC) and more data for trade YES contract prices"
+    },
+    {
+      "id": "VF-17",
+      "page": "Kalshi Fee Schedule (PDF, effective 2026-07-07)",
+      "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "claim": "The general taker fee is round up(M x 0.07 x C x P x (1 - P)).",
+      "quote": "fees = round up(M x 0.07 x C x P x (1-P)) [..] P = the price of a contract in dollars (50 cents is 0.5) [..] C = the number of contracts being traded [..] M = the multiplier for each contract (default is 1 unless otherwise indicated)"
+    },
+    {
+      "id": "VF-18",
+      "page": "Kalshi Fee Schedule (PDF) — Maker Fees",
+      "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "claim": "The maker fee is round up(M x 0.0175 x C x P x (1 - P)) with M defaulting to 0, and there is no settlement fee.",
+      "quote": "fees = round up(M x 0.0175 x C x P x (1-P)) [..] M = the multiplier for each contract (default is 0 unless otherwise indicated) [..] There is no settlement fee."
+    },
+    {
+      "id": "VF-19",
+      "page": "Kalshi Fee Schedule (PDF) — General Trading Fees Table",
+      "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "claim": "The summary fee table has four columns: price for 1, fee for 1, price for 100, fee for 100. The one-cent row's fee for 100 is $0.07.",
+      "quote": "| Price of 1 contract | Fee for 1 contract | Price for 100 contracts | Fee for 100 contracts | [..] | $0.01 | $0.01 | $1.00 | $0.07 |"
+    },
+    {
+      "id": "VF-20",
+      "page": "Fee Rounding",
+      "url": "https://docs.kalshi.com/getting_started/fee_rounding",
+      "claim": "A fill's trade fee is rounded up to $0.000001, then the balance is aligned to $0.0001 (direct member) or $0.01 (non-direct), with a rebate accumulator.",
+      "quote": "**Trade fee** | Fee from the fee model, rounded up to the nearest `$0.000001` [..] Direct member balances are aligned to `$0.0001` (`0.01c`) [..] **Net fee** = trade fee + rounding fee - rebate"
+    },
+    {
+      "id": "VF-21",
+      "page": "Get Events",
+      "url": "https://docs.kalshi.com/api-reference/events/get-events",
+      "claim": "An event's category field is deprecated; the series-level category is the supported place to read it.",
+      "quote": "category: type: string description: Event category (deprecated, use series-level category instead)."
+    },
+    {
+      "id": "VF-22",
+      "page": "Get Markets",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "claim": "Markets settled before the historical cutoff are only available through /historical/markets.",
+      "quote": "Markets that settled before the historical cutoff are only available via `GET /historical/markets`."
+    },
+    {
+      "id": "VF-23",
+      "page": "API Environments and Endpoints — Fill and order updates",
+      "url": "https://docs.kalshi.com/getting_started/api_environments",
+      "claim": "The dedicated user WebSocket hosts serve only the fill and user_orders channels; any other channel returns error code 8 there.",
+      "quote": "These hosts serve the `fill` and `user_orders` channels today [..] Subscribing to any other channel returns error code 8 (`Unknown channel name`), so keep your other subscriptions on the hosts above."
+    }
+  ]
+}
