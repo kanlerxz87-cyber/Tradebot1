@@ -66,8 +66,8 @@ export function paperSummary(state,markets,now=Date.now()) {
       if(position.status==='settled'){realized+=position.grossPnl;return position;}
       const market=markets.get(position.ticker);
       const bid=price(market?.[`${position.side}_bid_dollars`]);
-      const age=now-(market?._meta?.observedAt||0);
-      const usable=bid!==null&&age>=0&&age<=45000&&market?._meta?.kind!=='snapshot';
+      const age=now-(market?._meta?.quoteAt||market?._meta?.observedAt||0);
+      const usable=bid!==null&&age>=0&&age<=45000&&['rest','backend'].includes(market?._meta?.kind);
       if(!usable)complete=false;else mark+=bid;
       return {...position,grossPnl:usable?(Math.round(bid*SCALE)-position.costMicros)/SCALE:null};
     });

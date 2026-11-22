@@ -149,7 +149,9 @@ class Runtime:
             record = {
                 "event_ticker": event_ticker, "series_ticker": event.get("series_ticker"),
                 "title": event.get("title"), "topic": topic, "topic_rule": reason,
-                "category": series.get("category"), "settlement_sources": event.get("settlement_sources"),
+                "category": series.get("category"),
+                "settlement_sources": event.get("settlement_sources") or series.get("settlement_sources"),
+                "settlement_sources_from": "event" if event.get("settlement_sources") else "series",
                 "series_source_url": source_url("series", series["ticker"], self.settings.rest_url),
                 "source_url": source_url("events", event_ticker, self.settings.rest_url),
                 "observed_at": iso_time(now_ms()),
@@ -196,7 +198,8 @@ class Runtime:
         if self.state["websocket"] == "connected" and old.get("price_source", "").startswith("websocket"):
             for key in ("last_price_dollars", "yes_bid_dollars", "yes_ask_dollars", "no_bid_dollars",
                         "no_ask_dollars", "price_observed_ms", "price_source", "volume_fp", "open_interest_fp",
-                        "yes_bid_size_fp", "yes_ask_size_fp", "dollar_volume", "dollar_open_interest"):
+                        "yes_bid_size_fp", "yes_ask_size_fp", "dollar_volume", "dollar_open_interest",
+                        "quote_observed_ms", "notional_observed_ms"):
                 normalized[key] = old.get(key)
         else:
             # Keep an explicitly timestamped last WS notional value without claiming it is fresh.

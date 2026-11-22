@@ -74,6 +74,8 @@ def add_event(events, event, series):
     existing = events.get(ticker, {"markets": []})
     record = {key: event[key] for key in ("event_ticker", "series_ticker", "title", "settlement_sources") if key in event}
     record.update(topic=topic, topic_rule=rule,
+                  settlement_sources=event.get("settlement_sources") or metadata.get("settlement_sources") or [],
+                  settlement_sources_from="event" if event.get("settlement_sources") else "series",
                   series_metadata={key: metadata.get(key) for key in ("title", "category", "tags")},
                   series_source_url=BASE + "/series/" + urllib.parse.quote(metadata["ticker"], safe=""),
                   source_url=BASE + "/events/" + urllib.parse.quote(ticker, safe=""),

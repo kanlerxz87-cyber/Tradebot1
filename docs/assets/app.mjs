@@ -41,7 +41,7 @@ function recordMarket(raw,event,kind='rest',at=Date.now()) {
   const observed=toMs(at);
   const previous=state.markets.get(raw.ticker);
   if(previous?._meta?.observedAt&&observed!==null&&observed<previous._meta.observedAt)return;
-  const market={...raw,event_ticker:raw.event_ticker||event.event_ticker,_meta:{kind,observedAt:observed}};
+  const market={...raw,event_ticker:raw.event_ticker||event.event_ticker,_meta:{kind,observedAt:observed,quoteAt:toMs(raw.quote_observed_ms)||observed}};
   state.events.set(event.event_ticker,event);state.markets.set(market.ticker,market);
   // A snapshot keeps its source timestamp and is NEVER an alert baseline or paper fill.
   const value=sample(market);
@@ -98,17 +98,22 @@ function renderFeeds(){
 }
 function localPaper(){return paperSummary(state.paper,state.markets);}
 function paperRows(){
-  if(state.backendActive&&state.backendPaper?.accounts){return Object.entries(state.backendPaper.accounts).flatMap(([strategy,account])=>(account.positions||[]).map(p=>({ticker:p.ticker,topic:p.topic,strategy,side:p.outcome,count:p.count,entry:p.average_price,at:p.timestamp_ms,status:p.status,result:p.result,grossPnl:p.realized_gross_pnl,source_url:p.source_url,assumption:'Server depth-based hypothetical fill'})));}
+  if(state.backendPaper?.accounts){return Object.entries(state.backendPaper.accounts).flatMap(([strategy,account])=>(account.positions||[]).map(p=>({ticker:p.ticker,topic:p.topic,strategy,side:p.outcome,count:p.count,entry:p.average_price,at:p.timestamp_ms,status:p.status,result:p.result,grossPnl:p.gross_pnl??p.realized_gross_pnl,source_url:p.source_url,assumption:'Server depth-based hypothetical fill'})));}
   return Object.values(localPaper().accounts).flatMap(account=>account.positions);
 }
 function renderPaper(){
   const rows=paperRows().filter(p=>state.topic==='all'||p.topic===state.topic).sort((a,b)=>b.at-a.at);
   if($('paper-rows'))$('paper-rows').innerHTML=rows.length?rows.slice(0,state.view==='portfolio'?500:8).map(p=>`<tr><td>${esc(p.strategy.replaceAll('_',' '))}<small>${esc(LABELS[p.topic]||p.topic)} · hypothetical</small></td><td><span class="ticker">${esc(p.ticker)}</span><small>${utc(p.at)}</small></td><td>${esc(p.side.toUpperCase())} / ${count(p.count)}</td><td class="num">${dollars(p.entry)}</td><td>${esc(p.result?.toUpperCase()||p.status)}</td><td class="num ${p.grossPnl!==null&&Number(p.grossPnl)<0?'down':'up'}">${dollars(p.grossPnl)}</td><td>${sourceLink(p.source_url||marketUrl(p.ticker))}</td></tr>`).join(''):`<tr><td colspan="7" class="empty">No hypothetical fills yet. Strategies wait for observed swings and confirmed quote size.<br>${sourceLink(DOCS.orderbook,'Liquidity specification ↗')}</td></tr>`;
-  text('paper-summary',`${rows.length} hypothetical entries · ${state.backendActive?'persistent server':'this browser'} ledger · gross only; fees and net ROI unverified`);
+  text('paper-summary',`${rows.length} hypothetical entries · ${state.backendPaper?.accounts?'persistent server':'this browser'} ledger · gross only; fees and net ROI unverified`);
+  if($('analysis-rows')){
+    const groups=new Map();
+    for(const row of rows){const key=`${row.topic}:${row.strategy}:${row.side}`;if(!groups.has(key))groups.set(key,{topic:row.topic,strategy:row.strategy,side:row.side,rows:[]});groups.get(key).rows.push(row);}
+    $('analysis-rows').innerHTML=[...groups.values()].map(group=>{const settled=group.rows.filter(p=>p.status==='settled');const realized=settled.every(p=>p.grossPnl!==null&&p.grossPnl!==undefined)?settled.reduce((sum,p)=>sum+Number(p.grossPnl),0):null;return `<tr><td>${esc(LABELS[group.topic]||group.topic)}</td><td>${esc(group.strategy.replaceAll('_',' '))}</td><td>${esc(group.side.toUpperCase())}</td><td class="num">${group.rows.length}</td><td class="num">${settled.length}</td><td class="num">${dollars(realized)}</td><td>${sourceLink(group.rows[0].source_url||marketUrl(group.rows[0].ticker),'Underlying record ↗')}<small>Local hypothetical aggregate</small></td></tr>`;}).join('')||`<tr><td colspan="7" class="empty">No hypothetical entries to group. No performance results have been invented.<br>${sourceLink(DOCS.portfolio,'Account performance specification ↗')}</td></tr>`;
+  }
   if($('strategy-cards')){
     const local=localPaper();
     $('strategy-cards').innerHTML=STRATEGIES.map(strategy=>{
-      const backend=state.backendActive&&state.backendPaper?.accounts?.[strategy];
+      const backend=state.backendPaper?.accounts?.[strategy];
       const account=backend?{cash:backend.cash,grossEquity:backend.gross_equity,positions:backend.positions}:local.accounts[strategy];
       return `<article class="panel strategy-card"><div class="eyebrow">HYPOTHESIS ${strategy==='momentum'?'01':'02'}</div><h3>${strategy==='momentum'?'Momentum':'Mean reversion'}</h3><p>${strategy==='momentum'?'Follow the direction of an observed price swing.':'Test a reversal after an observed price swing.'} No validated edge is assumed.</p><div class="strategy-stats"><div><label>Simulated cash</label><strong>${dollars(account.cash)}</strong></div><div><label>Gross equity</label><strong>${dollars(account.grossEquity)}</strong></div><div><label>Paper entries</label><strong>${account.positions.length}</strong></div></div><small>$1,000 starting cash is a simulation assumption. Fees, net ROI and real execution are unverified. ${sourceLink(DOCS.orders,'Execution specification ↗')}</small></article>`;
     }).join('');
@@ -203,7 +208,7 @@ async function discover(){
   try{
     if(!state.series.size){const data=await publicRead('/series');if(!Array.isArray(data.series))throw Error('Series unavailable');for(const series of data.series)if(series?.ticker)state.series.set(series.ticker,series);}
     let cursor='',pages=0;const seen=new Set();let observed=0;
-    do{const data=await publicRead('/events',{status:'open',with_nested_markets:'true',limit:200,...(cursor?{cursor}:{})});if(!Array.isArray(data.events))throw Error('Events unavailable');for(const rawEvent of data.events){const series=state.series.get(rawEvent.series_ticker);const event={...rawEvent,series_metadata:series,source_url:eventUrl(rawEvent.event_ticker)};if(!topicFor(event))continue;for(const market of event.markets||[]){recordMarket(market,event,'rest',Date.now());observed++;}}
+    do{const data=await publicRead('/events',{status:'open',with_nested_markets:'true',limit:200,...(cursor?{cursor}:{})});if(!Array.isArray(data.events))throw Error('Events unavailable');for(const rawEvent of data.events){const series=state.series.get(rawEvent.series_ticker);const event={...rawEvent,series_metadata:series,settlement_sources:rawEvent.settlement_sources||series?.settlement_sources||[],series_source_url:series?.ticker?`${BASE}/series/${encodeURIComponent(series.ticker)}`:null,source_url:eventUrl(rawEvent.event_ticker)};if(!topicFor(event))continue;for(const market of event.markets||[]){recordMarket(market,event,'rest',Date.now());observed++;}}
       if(data.cursor===undefined)throw Error('Pagination unverified');cursor=data.cursor;pages++;if(cursor&&seen.has(cursor))throw Error('Repeated pagination cursor');if(cursor)seen.add(cursor);
     }while(cursor&&pages<4);
     state.source=`Browser demo REST · ${pages} event pages`;state.partial=Boolean(cursor);state.updated=Date.now();status('Demo REST · sampled','ok');text('data-mode',`Public demo REST · ${observed} contract observations in this scan · not tick-by-tick`);text('feed-mode','REST observations · sampled every 20s');persist();render();maybeSelect();

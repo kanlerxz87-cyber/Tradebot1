@@ -90,6 +90,7 @@ def normalize_market(raw: dict, topic: str, observed_ms: int, base: str = DEFAUL
         "observed_at": iso_time(observed_ms),
         "observed_ms": observed_ms,
         "price_observed_ms": observed_ms,
+        "quote_observed_ms": observed_ms,
         "price_source": "rest_observation",
         "dollar_volume": number(raw.get("dollar_volume"), D(0)),
         "dollar_open_interest": number(raw.get("dollar_open_interest"), D(0)),

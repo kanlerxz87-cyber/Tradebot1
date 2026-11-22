@@ -13,9 +13,9 @@ def screen(alert: dict, history: list[dict], market: dict, book: OrderBook | Non
            now_ms: int) -> dict | None:
     if market.get("status") != "active" or book is None or not book.valid:
         return None
-    if book.observed_ms is None or now_ms - book.observed_ms > 10_000:
+    if book.observed_ms is None or not 0 <= now_ms - book.observed_ms <= 10_000:
         return None
-    if now_ms - market.get("price_observed_ms", 0) > 10_000:
+    if not 0 <= now_ms - market.get("price_observed_ms", 0) <= 10_000:
         return None
     # Strictly earlier observations only: no lookahead in fair-value hypotheses.
     prior = [decimal(point["price_dollars"]) for point in history
@@ -186,17 +186,25 @@ class PaperEngine:
     def summary(self, markets: dict[str, dict], now_ms: int) -> dict:
         accounts = {}
         for name, account in self.state["accounts"].items():
-            marks = []
+            marks, positions = [], []
             for position in account["positions"]:
+                row = {**position, "unrealized_gross_pnl": None,
+                       "gross_pnl": position["realized_gross_pnl"]}
+                positions.append(row)
                 if position["status"] != "open":
                     continue
                 market = markets.get(position["ticker"], {})
-                # Mark to available bid, never latest trade; missing/stale quotes stay null.
-                bid = decimal(market.get(f"{position['outcome']}_bid_dollars"))
-                if bid is None or now_ms - market.get("price_observed_ms", 0) > 45_000:
+                # A fresh last trade does not make an old bid fresh. Quote and trade
+                # clocks are separate; mark to bid only in the valid quote window.
+                bid = decimal(market.get(f"{position['outcome']}_bid_dollars"), D(0), ONE)
+                quote_age = now_ms - (market.get("quote_observed_ms") or 0)
+                if bid is None or not 0 <= quote_age <= 45_000:
                     marks.append(None)
                 else:
-                    marks.append(bid * D(position["count"]))
+                    mark = bid * D(position["count"])
+                    marks.append(mark)
+                    row["unrealized_gross_pnl"] = str(mark - D(position["cost"]))
+                    row["gross_pnl"] = row["unrealized_gross_pnl"]
             marked = sum(marks, D(0)) if all(mark is not None for mark in marks) else None
             settled = [p for p in account["positions"] if p["status"] == "settled"]
             wins = sum(D(p["realized_gross_pnl"]) > 0 for p in settled)
@@ -205,7 +213,7 @@ class PaperEngine:
                 topic = position["topic"]
                 by_topic[topic] = str(D(by_topic.get(topic, "0")) + D(position["realized_gross_pnl"]))
             accounts[name] = {
-                **account,
+                **account, "positions": positions,
                 "marked_position_value": str(marked) if marked is not None else None,
                 "gross_equity": str(D(account["cash"]) + marked) if marked is not None else None,
                 "win_rate": str(D(wins) / len(settled)) if settled else None,

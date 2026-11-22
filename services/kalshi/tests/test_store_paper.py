@@ -1,6 +1,7 @@
 """Persistent-ledger invariants with explicitly synthetic cash and orderbooks."""
 
 from decimal import Decimal as D
+import sqlite3
 
 import pytest
 
@@ -14,6 +15,58 @@ def make_book(ticker, timestamp, yes=None, no=None):
     book.snapshot(yes if yes is not None else [["0.48", "100"]],
                   no if no is not None else [["0.48", "100"]], timestamp, "https://docs.kalshi.com")
     return book
+
+
+@pytest.mark.parametrize("old_version", [0, 1])
+def test_legacy_timestamp_schema_migrates_without_losing_history(tmp_path, old_version):
+    path = str(tmp_path / "legacy.sqlite3")
+    db = sqlite3.connect(path)
+    db.executescript("""
+        CREATE TABLE observations (
+            ticker TEXT NOT NULL, ts_ms INTEGER NOT NULL, price TEXT NOT NULL,
+            source_url TEXT NOT NULL, kind TEXT NOT NULL, PRIMARY KEY(ticker, ts_ms)
+        );
+        CREATE INDEX observations_time ON observations(ticker, ts_ms);
+        INSERT INTO observations VALUES ('TEST', 1000, '0.4', 'synthetic-source', 'rest_sample');
+        INSERT INTO observations VALUES ('TEST', 1001, '0.5', 'synthetic-source', 'rest_sample');
+    """)
+    db.execute(f"PRAGMA user_version={old_version}")
+    db.close()
+    store = Store(path)
+    assert store.db.execute("PRAGMA user_version").fetchone()[0] == 2
+    assert [row["price_dollars"] for row in store.history("TEST", 0)] == ["0.4", "0.5"]
+    assert store.observation("TEST", 1001, "0.6", "synthetic-source", "trade", "trade-1")
+    assert store.observation("TEST", 1001, "0.7", "synthetic-source", "trade", "trade-2")
+    assert not store.observation("TEST", 1001, "0.6", "synthetic-source", "trade", "trade-1")
+    store.close()
+    store = Store(path)
+    assert len(store.history("TEST", 0)) == 4
+    assert len(list(store.db.execute("PRAGMA index_list(observations)"))) == 2
+    store.close()
+
+
+def test_event_id_schema_with_old_version_is_preserved(tmp_path):
+    path = str(tmp_path / "early-event-ids.sqlite3")
+    store = Store(path)
+    store.observation("TEST", 1000, "0.4", "synthetic-source", "trade", "existing-id")
+    store.db.execute("PRAGMA user_version=1")
+    store.close()
+    store = Store(path)
+    assert store.db.execute("SELECT event_id FROM observations").fetchone()[0] == "existing-id"
+    assert store.db.execute("PRAGMA user_version").fetchone()[0] == 2
+    store.close()
+
+
+def test_newer_database_cannot_be_silently_downgraded(tmp_path):
+    path = str(tmp_path / "future.sqlite3")
+    db = sqlite3.connect(path)
+    db.execute("PRAGMA user_version=99")
+    db.close()
+    with pytest.raises(ValueError, match="newer"):
+        Store(path)
+    db = sqlite3.connect(path)
+    assert db.execute("PRAGMA user_version").fetchone()[0] == 99
+    db.close()
 
 
 def test_observations_deduplicate_trade_ids_not_milliseconds(store):
@@ -95,6 +148,20 @@ def test_stale_mark_is_null_and_net_roi_unknown(store, market):
     summary = engine.summary({market["ticker"]: market}, market["observed_ms"] + 46_000)
     assert summary["accounts"]["momentum"]["gross_equity"] is None
     assert summary["accounts"]["momentum"]["net_roi"] is None
+
+
+def test_new_trade_cannot_refresh_a_stale_quote_mark(store, market):
+    engine = PaperEngine(store)
+    at = market["observed_ms"]
+    engine.buy("momentum", market, "yes", D(10), D("0.52"), make_book(market["ticker"], at), at, "a")
+    stale = {**market, "price_observed_ms": at, "quote_observed_ms": at - 46_000}
+    account = engine.summary({market["ticker"]: stale}, at)["accounts"]["momentum"]
+    assert account["gross_equity"] is None
+    assert account["positions"][0]["gross_pnl"] is None
+    fresh = {**market, "quote_observed_ms": at}
+    account = engine.summary({market["ticker"]: fresh}, at)["accounts"]["momentum"]
+    assert D(account["positions"][0]["gross_pnl"]) == D("-0.4")
+    assert engine.state["accounts"]["momentum"]["positions"][0]["realized_gross_pnl"] is None
 
 
 def test_screen_needs_prior_samples_fresh_depth_and_reports_only_hypothesis(market):

@@ -20,6 +20,10 @@ class Store:
         if path != ":memory:":
             Path(path).chmod(0o600)
         self.db.row_factory = sqlite3.Row
+        version = self.db.execute("PRAGMA user_version").fetchone()[0]
+        if version > 2:
+            self.db.close()
+            raise ValueError("Database schema is newer than this service; refusing a downgrade")
         self.db.execute("PRAGMA journal_mode=WAL")
         self.db.execute("PRAGMA busy_timeout=5000")
         self.db.executescript("""
@@ -42,9 +46,43 @@ class Store:
                 client_id TEXT PRIMARY KEY, reserved TEXT NOT NULL, state TEXT NOT NULL,
                 request TEXT NOT NULL, response TEXT, created_ms INTEGER NOT NULL
             );
-            PRAGMA user_version=1;
         """)
         self.db.commit()
+        try:
+            self._migrate_observations()
+        except Exception:
+            self.db.close()
+            raise
+
+    def _migrate_observations(self):
+        """Upgrade the early timestamp-keyed schema without losing observed history.
+
+        Version 1 existed both before and after event_id was added. Inspect the
+        columns/primary key rather than trusting that version alone. Everything,
+        including the version marker, changes in a single rollback-safe transaction.
+        """
+        columns = list(self.db.execute("PRAGMA table_info(observations)"))
+        names = {column["name"] for column in columns}
+        primary = [column["name"] for column in sorted(columns, key=lambda row: row["pk"]) if column["pk"]]
+        if not {"ticker", "ts_ms", "price", "source_url", "kind"}.issubset(names):
+            raise ValueError("Unrecognized observations schema; preserve database for manual recovery")
+        with self.transaction():
+            if "event_id" not in names or primary != ["ticker", "event_id"]:
+                self.db.execute("ALTER TABLE observations RENAME TO observations_legacy_v1")
+                self.db.execute("""CREATE TABLE observations (
+                    ticker TEXT NOT NULL, ts_ms INTEGER NOT NULL, price TEXT NOT NULL,
+                    source_url TEXT NOT NULL, kind TEXT NOT NULL, event_id TEXT NOT NULL,
+                    PRIMARY KEY(ticker, event_id)
+                )""")
+                # An old receipt timestamp is not an exchange trade ID. Label it as
+                # a migration-local identity, not a source-supplied factual value.
+                legacy_id = "'legacy-local:' || kind || ':' || ts_ms || ':' || rowid"
+                identity = f"COALESCE(NULLIF(event_id, ''), {legacy_id})" if "event_id" in names else legacy_id
+                self.db.execute("INSERT INTO observations SELECT ticker, ts_ms, price, source_url, kind, "
+                                + identity + " FROM observations_legacy_v1")
+                self.db.execute("DROP TABLE observations_legacy_v1")
+                self.db.execute("CREATE INDEX observations_time ON observations(ticker, ts_ms)")
+            self.db.execute("PRAGMA user_version=2")
 
     def close(self):
         self.db.close()
