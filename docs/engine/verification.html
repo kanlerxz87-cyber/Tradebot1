@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verification · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html" class="active">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Verification register</h1>
+<p class="lede">Every claim this project makes about Kalshi, the official source that states it, and
+what was actually checked. 32 verified, 5 flagged,
+2 unverified, out of 39.</p>
+<div class="note">A fact is &#x27;verified&#x27; only when an official Kalshi page or an official Kalshi API response states or demonstrates it. &#x27;unverified&#x27; means it could not be checked. &#x27;flagged&#x27; means it was checked and something disagrees, or a known limitation exists. Nothing is inferred.</div>
+<div class="tblwrap"><table>
+<thead><tr><th>ID</th><th>Claim</th><th>Status</th><th>How it was checked</th><th>Official source</th>
+<th>Notes</th></tr></thead>
+<tbody><tr>
+<td class="mono">rest-demo-url</td>
+<td>The recommended demo REST base URL is https://external-api.demo.kalshi.co/trade-api/v2<div class="mono muted">https://external-api.demo.kalshi.co/trade-api/v2</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Sandbox GET /exchange/status against this host returned 200 with exchange_active=true and four exchange_index_statuses entries.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">demo-api.kalshi.co is documented as &#x27;also supported&#x27;.</td>
+</tr><tr>
+<td class="mono">rest-prod-url</td>
+<td>The recommended production REST base URL is https://external-api.kalshi.com/trade-api/v2<div class="mono muted">https://external-api.kalshi.com/trade-api/v2</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Live GET /search/tags_by_categories and GET /series on this host returned 200 during this session (via the page fetch tool; the sandbox&#x27;s own egress is TLS-blocked).</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">ws-demo-url</td>
+<td>The recommended demo WebSocket URL is wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2<div class="mono muted">wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Documented value copied verbatim. Not exercised: the sandbox cannot open an outbound TLS connection, and no demo API key exists for this repo.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">Connection code is written and unit-tested for its signed payload, but a live handshake has NOT been observed. Flagged for review.</td>
+</tr><tr>
+<td class="mono">ws-prod-url</td>
+<td>The production WebSocket URL is wss://external-api-ws.kalshi.com/trade-api/ws/v2<div class="mono muted">wss://external-api-ws.kalshi.com/trade-api/ws/v2</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Documented value copied verbatim.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">ws-sign-path</td>
+<td>The WebSocket handshake signs timestamp + &#x27;GET&#x27; + &#x27;/trade-api/ws/v2&#x27; (no /v2 REST prefix)<div class="mono muted">/trade-api/ws/v2</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Implemented in app/ws.py; tests/test_auth.py asserts the signed path.</td>
+<td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_websockets</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">auth-headers</td>
+<td>Authenticated requests send KALSHI-ACCESS-KEY, KALSHI-ACCESS-SIGNATURE and KALSHI-ACCESS-TIMESTAMP (milliseconds)<div class="mono muted">three headers</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>app/auth.py implements exactly these three; no other header is sent for signing.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_keys</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">auth-presign</td>
+<td>The signed message is timestamp + HTTP method + request path, with the query string removed<div class="mono muted">/trade-api/v2/...</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>signing_path() strips the query string; tests cover REST and WebSocket paths.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_keys</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">auth-algorithms</td>
+<td>Ed25519 signs the message directly; RSA uses RSA-PSS with SHA-256, MGF1-SHA256 and a salt length equal to the digest length<div class="mono muted">Ed25519 | RSA-PSS</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Both paths implemented; tests verify each signature against the public key.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_keys</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">auth-clock</td>
+<td>KALSHI-ACCESS-TIMESTAMP must be within 30 seconds of Kalshi&#x27;s clock<div class="mono muted">30 seconds</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Timestamp generated per attempt, immediately before sending.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_keys</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">auth-live-handshake</td>
+<td>A signed request against the demo account succeeds<div class="mono muted">--</div></td>
+<td><span class="tag warn">unverified</span></td>
+<td>NOT PERFORMED: no demo API key exists in this repository, and none can be created from here. The signing code is unit-tested but has never authenticated against Kalshi.</td>
+<td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_keys</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">Cannot be closed without the account owner supplying a demo key. Needs review.</td>
+</tr><tr>
+<td class="mono">orderbook-bids-only</td>
+<td>The orderbook returns bids only. A YES bid at X equals a NO ask at (1 - X); a NO bid at Y equals a YES ask at (1 - Y)<div class="mono muted">bids only; asks implied</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>app/money.py implements implied_yes_ask/implied_no_ask; the documented example (YES bid 0.42, NO bid 0.56 -&gt; YES ask 0.44, spread 0.02) is a unit test.</td>
+<td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">orderbook-sorted</td>
+<td>Orderbook arrays are sorted ascending by price, so the best bid is the LAST element<div class="mono muted">best bid = last element</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Orderbook.from_payload sorts defensively and takes [-1]; unit-tested.</td>
+<td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">orderbook-empty</td>
+<td>An unknown ticker returns 200 with empty arrays, not 404<div class="mono muted">empty arrays, HTTP 200</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Code treats an empty book as unknown, never as price 0; unit-tested.</td>
+<td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">orderbook-batch</td>
+<td>GET /markets/orderbooks accepts up to 100 tickers per call<div class="mono muted">100 tickers</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Client chunks requests in blocks of 100 and falls back to per-market calls if the batch endpoint errors.</td>
+<td><a href="https://docs.kalshi.com/api-reference/market/get-multiple-market-orderbooks" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-multiple-market-orderbooks</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">fixed-point</td>
+<td>Prices and quantities are fixed-point strings such as yes_bid_dollars=&#x27;0.5600&#x27; and volume_fp=&#x27;10.00&#x27;<div class="mono muted">string decimals</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>All parsing goes through app.money.to_decimal; unknown values stay None instead of 0.</td>
+<td><a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener">docs.kalshi.com/getting_started/fixed_point_migration</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">fee-taker</td>
+<td>General taker fee = round up(M x 0.07 x C x P x (1-P)), default M = 1<div class="mono muted">0.07</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>app/money.fee_dollars reproduces all 21 per-contract and all 21 per-100-contract values in the published General Trading Fees Table exactly (42/42 in tests/test_fees.py).</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a>
+<div class="mono muted">official-filing</div></td>
+<td class="muted">Fee schedule &#x27;Last updated and effective: July 7, 2026&#x27;.</td>
+</tr><tr>
+<td class="mono">fee-maker</td>
+<td>Maker fee = round up(M x 0.0175 x C x P x (1-P)), default M = 0<div class="mono muted">0.0175, default multiplier 0</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Implemented with a 0.0175 multiplier and exposed as `maker=True`. The published default M of 0 means ordinary resting orders are free; the simulator only charges maker fees when a strategy explicitly asks for a maker entry.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a>
+<div class="mono muted">official-filing</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">fee-no-settlement</td>
+<td>There is no settlement fee and no membership fee<div class="mono muted">none</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Settlement path in app/simulator.py charges zero fee; tests assert fee == 0 on settlement.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a>
+<div class="mono muted">official-filing</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">fee-rounding</td>
+<td>Fees are six-decimal dollar amounts; the trade fee is rounded up to the nearest $0.000001, then a rounding fee/rebate aligns the balance<div class="mono muted">$0.000001</div></td>
+<td><span class="tag bad">flagged</span></td>
+<td>Both rounding modes implemented (&#x27;cent&#x27; for the published table, &#x27;micro&#x27; for fill-level). The full rounding-fee and rebate accumulator is NOT modelled; the simulator charges the trade fee only.</td>
+<td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">docs.kalshi.com/getting_started/fee_rounding</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">Simulated P&amp;L can differ from the exchange by fractions of a cent per fill because the rebate accumulator is not implemented.</td>
+</tr><tr>
+<td class="mono">fee-nonstandard</td>
+<td>Some series carry their own fee multiplier; the schedule lists KXAAAGASM (US gas price) at maker 1 / taker 1<div class="mono muted">per-series multipliers</div></td>
+<td><span class="tag bad">flagged</span></td>
+<td>The simulator applies the general 0.07 / 0.0175 multipliers and does not read per-series multipliers from the schedule.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a>
+<div class="mono muted">official-filing</div></td>
+<td class="muted">Series with multiplier 0 (fee-free, e.g. KXBTCY) would be overcharged in simulation, and series with multiplier &gt; 1 undercharged. Needs review.</td>
+</tr><tr>
+<td class="mono">market-status-values</td>
+<td>Market status values are unopened, open, closed and settled<div class="mono muted">unopened|open|closed|settled (documented)</div></td>
+<td><span class="tag bad">flagged</span></td>
+<td>Live GET /markets?status=settled on 2026-11-22 returned markets with status &#x27;finalized&#x27; -- a value absent from the documented enum. Open markets return &#x27;active&#x27;.</td>
+<td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-markets</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">Code treats active as open and finalized/closed/settled/determined as terminal. The documented enum and the live API disagree; needs review.</td>
+</tr><tr>
+<td class="mono">events-category-filter</td>
+<td>GET /events?category=... returns events in that category<div class="mono muted">server-side filter</div></td>
+<td><span class="tag bad">flagged</span></td>
+<td>Live demo request with category=Crypto returned a World event (KXELONMARS-99) and an Elections event; a production request with category=Entertainment returned a &#x27;Science and Technology&#x27; event.</td>
+<td><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener">docs.kalshi.com/api-reference/events/get-events</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">The engine therefore fetches open events and filters by published fields client-side. Do not rely on the server-side category filter.</td>
+</tr><tr>
+<td class="mono">tags-on-series</td>
+<td>Series carry the published `tags`; events do not<div class="mono muted">tags live on GET /series/{ticker}</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Live GET /series?limit=3 and GET /series/KXPGATOUR include a tags array; live GET /events payloads contain no tags key. Golf is only detectable via the series tag.</td>
+<td><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-series</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">The engine caches series tags in SQLite and looks them up per refresh (budgeted).</td>
+</tr><tr>
+<td class="mono">taxonomy</td>
+<td>Categories are Business, Climate and Weather, Commodities, Companies, Crypto, Economics, Elections, Entertainment, Financials, Mentions, Politics, Science and Technology, Social, Sports; Sports includes the tag &#x27;Golf&#x27;<div class="mono muted">14 categories</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Response captured 2026-11-22: 14 category keys, &#x27;Golf&#x27; present under Sports, &#x27;Oil &amp; Gas&#x27; present under Commodities.</td>
+<td><a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">API/search/tags_by_categories</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted">There is no &#x27;Gas&#x27; and no &#x27;Culture&#x27; category. Those two dashboard topics are derived - see app/topics.py and the site&#x27;s methodology page.</td>
+</tr><tr>
+<td class="mono">gas-category</td>
+<td>Kalshi&#x27;s AAA gas markets are filed under the Economics category, not Commodities<div class="mono muted">category = &#x27;Economics&#x27;</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Live event KXAAAGASM-26NOV30 returned category &#x27;Economics&#x27; with rules referencing AAA (&#x27;according to AAA&#x27;), while Kalshi&#x27;s own fee schedule lists series KXAAAGASM as &#x27;US gas price&#x27;.</td>
+<td><a href="https://external-api.kalshi.com/trade-api/v2/events?limit=1&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXAAAGASM" target="_blank" rel="noopener">API/events?limit=1&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXAAAGAS</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted">Matching gas by category alone would miss every gas market, so the engine also matches the documented series ticker and gas keywords.</td>
+</tr><tr>
+<td class="mono">web-golf-example</td>
+<td>Kalshi&#x27;s golf markets use series KXPGATOUR and event tickers such as KXPGATOUR-PGC26<div class="mono muted">KXPGATOUR</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Kalshi&#x27;s own public market page states &#x27;Series KXPGATOUR, Event KXPGATOUR-PGC26, Market KXPGATOUR-PGC26-ARAI&#x27;. Independently confirmed by live GET /events?series_ticker=KXPGATOUR.</td>
+<td><a href="https://kalshi.com/markets/kxpgatour/pga-tour/kxpgatour-pgc26" target="_blank" rel="noopener">kalshi.com/markets/kxpgatour/pga-tour/kxpgatour-pgc26</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">candlesticks</td>
+<td>Candlesticks use period_interval 1, 60 or 1440 minutes and at most 5,000 periods per request<div class="mono muted">1|60|1440 min, 5000 periods</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Client validates both limits and raises before sending an invalid request.</td>
+<td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-market-candlesticks</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">trades-ts-seconds</td>
+<td>GET /markets/trades min_ts and max_ts are Unix seconds; milliseconds are rejected with 400<div class="mono muted">seconds</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Client passes integers as documented.</td>
+<td><a href="https://docs.kalshi.com/api-reference/market/get-trades" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-trades</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">order-v2-fields</td>
+<td>POST /portfolio/events/orders requires ticker, side (bid/ask), count, price, time_in_force and self_trade_prevention_type; prices and counts are fixed-point strings; 201 means accepted, not resting<div class="mono muted">V2 shape</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Payload builder sends exactly those fields with fixed-point strings and reads remaining_count.</td>
+<td><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2" target="_blank" rel="noopener">docs.kalshi.com/api-reference/orders/create-order-v2</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">Never exercised against a live account (no key). Legacy /portfolio/orders writes are documented as removed and returning 410.</td>
+</tr><tr>
+<td class="mono">rate-limits</td>
+<td>Rate limits are token buckets; most requests cost 10 tokens; 429 responses carry no Retry-After and should be retried with exponential backoff<div class="mono muted">token bucket</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Client retries 429 and 5xx with exponential backoff and records X-RateLimit-* headers.</td>
+<td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs.kalshi.com/getting_started/rate_limits</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">lifecycle-resolution</td>
+<td>market_lifecycle_v2 messages carry result, determination_ts and settlement_value when a market is determined<div class="mono muted">result | determination_ts | settlement_value</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Handler reads those three fields. REST fallback reads result and settlement_value_dollars from GET /markets/{ticker}.</td>
+<td><a href="https://docs.kalshi.com/websockets/market-and-event-lifecycle" target="_blank" rel="noopener">docs.kalshi.com/websockets/market-and-event-lifecycle</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">ticker-channel</td>
+<td>ticker messages carry price_dollars, yes_bid_dollars, yes_ask_dollars and ts_ms, conflated to one flush per second<div class="mono muted">1s flush</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Handler parses exactly those fields; ts is taken from ts_ms.</td>
+<td><a href="https://docs.kalshi.com/websockets/market-ticker" target="_blank" rel="noopener">docs.kalshi.com/websockets/market-ticker</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">demo-not-real</td>
+<td>Demo prices and behaviour may not reflect real markets<div class="mono muted">quoted</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Verified live: demo events include placeholder strikes (custom_strike {&#x27;demo strike&#x27;: &#x27;demo strike&#x27;}) and 2099 expiries, and nearly every golf quote is 0.0000/1.0000.</td>
+<td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs.kalshi.com/getting_started/demo_env</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">This is why the static site is labelled as demo data throughout.</td>
+</tr><tr>
+<td class="mono">sandbox-egress</td>
+<td>The build sandbox cannot open outbound TLS connections to Kalshi<div class="mono muted">TLS reset</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>curl to external-api.demo.kalshi.co resolved to 54.71.122.8/44.226.28.91 then failed with &#x27;OpenSSL SSL_connect: SSL_ERROR_SYSCALL&#x27;. The same URL fetched through the page-fetch tool returned 200, so the API is up and the block is the sandbox&#x27;s egress.</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">external-api.demo.kalshi.co/trade-api/v2/exchange/status</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted">Consequence: the running app falls back to captured-payload replay inside this sandbox. On a machine with normal egress the same code path is live.</td>
+</tr><tr>
+<td class="mono">cors-unknown</td>
+<td>Kalshi&#x27;s API sends Access-Control-Allow-Origin, so a static browser page could poll it directly with no server<div class="mono muted">--</div></td>
+<td><span class="tag warn">unverified</span></td>
+<td>NOT ESTABLISHED. No official page states a CORS policy, and response headers could not be inspected from this sandbox.</td>
+<td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_market_data</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">The static site therefore does not call Kalshi from the browser. It reads captured snapshots only. Needs review if a browser-only live feed is wanted.</td>
+</tr><tr>
+<td class="mono">pages-https</td>
+<td>GitHub Pages serves the repository from https://kanlerxz87-cyber.github.io/Tradebot1/<div class="mono muted">published over HTTPS</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>GitHub API reported status &#x27;built&#x27;, source branch main, path &#x27;/&#x27;, public true.</td>
+<td><a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages" target="_blank" rel="noopener">api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted"></td>
+</tr><tr>
+<td class="mono">culture-catalog-empty</td>
+<td>Several Entertainment series are catalogued but had no open market on 2026-11-22<div class="mono muted">6 series, 0 open markets</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Series KXNFLVIEW, KXTOPALBUMDONTBEDUMB, KXNETFLIXSHOWRANKD, KXPERFORMSTYLESMSG, KXAWARDSCMAVDOTY and KXGRAMMYNOMCOUNTKL were each queried at /markets?series_ticker=... with status=open and status=unopened; all returned an empty list.</td>
+<td><a href="https://external-api.kalshi.com/trade-api/v2/series?limit=4&amp;category=Entertainment" target="_blank" rel="noopener">API/series?limit=4&amp;category=Entertainment</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted">This is why the Culture topic can legitimately be empty. The site shows the captured series catalogue instead of inventing a market price.</td>
+</tr><tr>
+<td class="mono">mve-combo-markets</td>
+<td>Multivariate (KXMVE...) markets bundle several unrelated legs into one ticker<div class="mono muted">excluded from topic boards</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>24 of the first 60 open markets returned were KXMVECROSSCATEGORY combos whose mve_selected_legs span e.g. NFL rushing props and European soccer matches.</td>
+<td><a href="https://external-api.kalshi.com/trade-api/v2/markets?limit=60&amp;status=open" target="_blank" rel="noopener">API/markets?limit=60&amp;status=open</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted">A combo cannot belong to a single topic, so combo tickers are excluded. They also dominate the open-market list, which is why the live board filters them out.</td>
+</tr><tr>
+<td class="mono">golf-already-resolved</td>
+<td>The demo golf event used in the replay resolves shortly after capture<div class="mono muted">KXPGATOUR-THRC26</div></td>
+<td><span class="tag bad">flagged</span></td>
+<td>Captured at 07:05Z with expected_expiration_time 2026-11-22T00:00:00Z and result &#x27;&#x27;; the market is still listed as active while its expiration time is in the past.</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXPGATOUR" target="_blank" rel="noopener">external-api.demo.kalshi.co/trade-api/v2/events?limit=2&amp;status=open&amp;with_neste</a>
+<div class="mono muted">official-live-api</div></td>
+<td class="muted">The demo environment keeps expired markets open, so a &#x27;live&#x27; board can contain markets whose stated expiry has passed. The UI shows the closing time rather than assuming it is tradeable. Needs review.</td>
+</tr></tbody></table></div>
+<p class="muted">Checked at 2026-11-22T07:00:00Z. The machine-readable copy is
+<a href="data/verification.json">data/verification.json</a>.</p>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

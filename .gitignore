@@ -1,16 +1,3 @@
-# Python
-__pycache__/
-*.py[cod]
-.venv/
-venv/
-*.egg-info/
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Node
-node_modules/
-
 # Local state / secrets
 .env
 *.pem
@@ -32,3 +19,5 @@ app_data/*.tmp
 public/
 _site/
 coverage/
+
+# Build output kept in git on purpose: docs/ is the published GitHub Pages site.

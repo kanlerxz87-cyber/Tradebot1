@@ -285,3 +285,54 @@ gained **no** edits from this session. Consequences, all deliberate:
    snapshot" workflow fills it. Both workflows only ever read.
 3. If one implementation must eventually win, the landing page is the place to decide it — not a
    session's own claim row.
+
+---
+
+# Session `arena-7ae1c34f` — live engine, verification register and `docs/engine/`
+
+An independent implementation of the brief, merged **additively**. Scope: `app/**`, `engine/**`,
+`data/**`, its own `tests/test_*.py`, and the published site under **`docs/engine/`**. No file of
+`docs/desk/`, the `docs/` monitor, `site/`, `python/`, `assets/`, or the Node board (`board.html`,
+`assets/*.js`) was rewritten. Shared files touched: this board, the root gateway `index.html` (one
+added card), `requirements.txt`, `.gitignore`, `tests/check_site.py` (a documented skip, exactly as
+`docs/desk` is skipped) and `.github/workflows/pages.yml` (one added verification step).
+
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Live engine: Kalshi REST/WS client, orderbook maths, published fee model, ≥ $0.10 swing detector with two feeds, resolution tracking, six-strategy simulated book, FastAPI dashboard | done | `7ae1c34f` | `app/**`, `engine/**`, `tests/test_*.py` | 141 Python tests pass. Fee code reproduces **42/42** published fee-table values. |
+| Verification register | done | `7ae1c34f` | `engine/verification.py`, `docs/engine/data/verification.json` | **39 facts: 32 verified** (each with an official URL), **5 flagged**, **2 unverified**. |
+| Static site from the engine's own data | done | `7ae1c34f` | `engine/build_site.py`, `engine/check_site.py`, `docs/engine/**` | Gate fails on a broken link, an unsourced table row or an unrendered template. `docs/engine` is byte-identical to a fresh regeneration. |
+
+## Findings a reviewer should compare against the other implementations
+
+* **No Gas and no Culture category exists** in `GET /search/tags_by_categories`; Golf is a *Sports* tag
+  and Oil & Gas a *Commodities* tag, so those two topics are derived and each row records its rule.
+* **Gas markets are filed as `Economics`**, not Commodities.
+* **`?category=` does not filter** `/events` — a `Crypto` request returned World and Elections events.
+* **Documented status values are contradicted**: live responses use `active` and `finalized` where the
+  docs say `open` and `settled`.
+* **A one-sided book reads as a 100-cent collapse** (`no_bid 0.0000` beside `yes_ask 1.0000`). Any
+  implementation that watches the ask alone will emit constant false ≥ $0.10 alerts. This engine
+  requires a two-sided uncrossed book for a mid, else the last trade, else the best bid, and labels
+  quote-only moves.
+* **Demo quotes are placeholders and disagree with production**: demo `KXAAAGASM-26NOV30-3.00` showed
+  99c while Kalshi's public page showed "Above 3.50" at 47c with strikes 3.45/3.50/3.55.
+* **`KXMVE…` combos** span unrelated legs (NFL props + European soccer) and are excluded.
+
+## Not verified / flagged (published at `docs/engine/flagged.html`)
+
+No demo API key exists here, so signing is unit-tested but has never authenticated; the WS handshake is
+implemented but never observed live; browser CORS is undocumented. Per-series fee multipliers and the fee
+rounding rebate accumulator are not modelled. The `docs/engine/` snapshot is labelled `captured-replay`
+on every page because the build environment has no route to Kalshi: market/strike/quote values are real
+captured API responses, the price *paths* used to exercise the alert logic are scripted.
+
+## Log
+
+* **2026-11-22 07:52** — `pages.yml` now verifies `docs/engine` and rebuilds it, proving reproducibility.
+* **2026-11-22 07:45** — merged `origin/main` (desk + monitor + tests). Conflicts in `COORDINATION.md`,
+  `requirements.txt`, `.gitignore` and three test module names that collide with the desk's. Resolved by
+  keeping the desk's modules intact and this session's tests under their own names; `requirements.txt`
+  and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
+* **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
+  `.gitignore` and this board; resolved the same way.
