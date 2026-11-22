@@ -72,8 +72,20 @@ jobs:
       - name: Install test-only dependency
         run: npm install --no-audit --no-fund
 
+      # Failures are re-published as workflow annotations: the runner's raw log is not
+      # always reachable from a review session, but `check-runs/<id>/annotations` is.
       - name: Unit tests
-        run: node --test tests/*.test.mjs
+        run: |
+          set +e
+          node --test tests/*.test.mjs > /tmp/node-tests.log 2>&1
+          status=$?
+          if [ "$status" -ne 0 ]; then
+            echo "node --test failed (exit $status); failing assertions below"
+            grep -E "^not ok|AssertionError|Error:|expected:|actual:" /tmp/node-tests.log | head -30 | sed 's/^/::error::/' || true
+          else
+            tail -8 /tmp/node-tests.log
+          fi
+          exit "$status"
 
       - name: Data contract
         run: node scripts/check-data.mjs
