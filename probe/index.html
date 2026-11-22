@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalshi Demo — Browser Connectivity Verification</title>
+<style>
+  :root { --bg:#0b1420; --panel:#12202f; --line:#22384c; --text:#dce7ef; --muted:#8ea7b1; --ok:#35dbab; --bad:#ff6b6b; --warn:#f4c150; --accent:#5ab0ff; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  header { padding:28px 5vw 18px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#0e1a28,#0b1420); }
+  h1 { margin:0 0 6px; font-size:1.55rem; }
+  h2 { margin:34px 0 12px; font-size:1.15rem; border-left:3px solid var(--accent); padding-left:10px; }
+  p.sub { color:var(--muted); margin:4px 0; }
+  main { padding:10px 5vw 60px; max-width:1180px; margin:0 auto; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin-top:18px; }
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:10px; padding:14px 16px; }
+  .card .k { color:var(--muted); font-size:.82rem; text-transform:uppercase; letter-spacing:.06em; }
+  .card .v { font-size:1.2rem; font-weight:700; margin-top:6px; }
+  .ok { color:var(--ok); } .bad { color:var(--bad); } .warn { color:var(--warn); }
+  table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:10px; overflow:hidden; font-size:.88rem; }
+  th,td { padding:9px 11px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+  th { background:#0e1b2a; color:var(--muted); font-weight:600; position:sticky; top:0; }
+  tr:last-child td { border-bottom:none; }
+  code { background:#0e1b2a; border:1px solid var(--line); border-radius:5px; padding:1px 6px; font-size:.85em; }
+  a { color:var(--accent); }
+  .mono { font-family:ui-monospace,Menlo,Consolas,monospace; font-size:.84rem; word-break:break-all; }
+  .tag { display:inline-block; padding:1px 8px; border-radius:999px; font-size:.78rem; font-weight:700; border:1px solid var(--line); }
+  .tag.ok { color:var(--ok); border-color:var(--ok); } .tag.bad { color:var(--bad); border-color:var(--bad); }
+  .tag.warn { color:var(--warn); border-color:var(--warn); } .tag.na { color:var(--muted); }
+  .note { background:#0e1b2a; border:1px solid var(--line); border-left:3px solid var(--warn); border-radius:8px; padding:12px 14px; margin:14px 0; color:var(--muted); }
+  .note strong { color:var(--text); }
+  ul { color:var(--muted); } li { margin:5px 0; }
+  footer { color:var(--muted); font-size:.82rem; padding:20px 5vw; border-top:1px solid var(--line); }
+</style>
+</head>
+<body>
+<header>
+  <h1>Kalshi Demo — Browser Connectivity Verification</h1>
+  <p class="sub">Empirical probe of what a visitor's browser can and cannot reach on the Kalshi <strong>demo</strong> Trade API. Every value below is read from the machine-generated <code>results.json</code> — nothing is inferred.</p>
+  <p class="sub" id="meta">Loading <code>probe/results.json</code>…</p>
+</header>
+<main>
+  <div class="cards" id="cards"></div>
+
+  <h2>What this decides for the dashboard</h2>
+  <ul id="implications"></ul>
+
+  <h2>Raw evidence — every probe, every header</h2>
+  <div style="overflow-x:auto"><table id="evidence">
+    <thead><tr><th>Probe</th><th>Kind</th><th>Status</th><th>ACAO</th><th>Allow-Credentials</th><th>Allow-Headers</th><th>Rate-limit (limit/remaining)</th><th>Time</th><th>Error</th></tr></thead>
+    <tbody><tr><td colspan="9">Waiting for results…</td></tr></tbody>
+  </table></div>
+
+  <h2>Verdicts (computed by the probe)</h2>
+  <div style="overflow-x:auto"><table id="verdicts">
+    <thead><tr><th>Question</th><th>Answer</th><th>Evidence</th></tr></thead>
+    <tbody><tr><td colspan="3">Waiting for results…</td></tr></tbody>
+  </table></div>
+
+  <h2>Sources &amp; reproduction</h2>
+  <table id="sources">
+    <thead><tr><th>Claim under test</th><th>Official source</th></tr></thead>
+    <tbody>
+      <tr><td>Demo REST hosts <code>external-api.demo.kalshi.co</code> and <code>demo-api.kalshi.co</code>; demo WS hosts</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">docs.kalshi.com — API Environments and Endpoints ↗</a></td></tr>
+      <tr><td>Public market-data reads need no API key</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener noreferrer">docs.kalshi.com — Quick Start: Market Data ↗</a></td></tr>
+      <tr><td>Signed requests carry <code>KALSHI-ACCESS-KEY/-SIGNATURE/-TIMESTAMP</code> headers</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_authenticated_requests" target="_blank" rel="noopener noreferrer">docs.kalshi.com — Quick Start: Authenticated Requests ↗</a></td></tr>
+      <tr><td>WebSocket handshake requires authentication</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer">docs.kalshi.com — Quick Start: WebSockets ↗</a></td></tr>
+      <tr><td>Unauthenticated public requests are limited separately; back off on 429</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener noreferrer">docs.kalshi.com — Rate Limits and Tiers ↗</a></td></tr>
+      <tr><td>The probe itself (run it anywhere with Node 18+)</td><td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/arena/aa20f459-tradebot1/probe/kalshi-probe.mjs" target="_blank" rel="noopener noreferrer">probe/kalshi-probe.mjs on GitHub ↗</a> · workflow <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/arena/aa20f459-tradebot1/.github/workflows/kalshi-connectivity-probe.yml" target="_blank" rel="noopener noreferrer">kalshi-connectivity-probe.yml ↗</a></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note" id="limits"><strong>Scope &amp; limits:</strong> this probe measures HTTP status codes and CORS response headers only. It uses no API keys, places no orders, and reads no account data. A result here describes network reachability from the runner's network at <span id="limits-time">—</span>; the exchange can change behavior at any time. If the table shows only connection errors, the runner had no egress to Kalshi hosts — treat that run as inconclusive, not as a failure of the exchange.</div>
+</main>
+<footer>Kalshi, Inc. demo environment · probe page generated from <code>probe/results.json</code> · no cookies, no trackers, no credentials</footer>
+<script>
+const $ = id => document.getElementById(id);
+const esc = v => String(v ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const bool = v => v === true ? '<span class="tag ok">YES</span>' : v === false ? '<span class="tag bad">NO</span>' : '<span class="tag na">unknown</span>';
+const statusTag = s => s == null ? '<span class="tag na">no response</span>' : (s >= 200 && s < 400 ? `<span class="tag ok">${s}</span>` : `<span class="tag bad">${s}</span>`);
+const orDash = v => v == null || v === '' ? '—' : esc(v);
+
+fetch('./results.json', {cache:'no-store'})
+  .then(r => { if (!r.ok) throw Error('HTTP '+r.status); return r.json(); })
+  .then(render)
+  .catch(err => {
+    $('meta').textContent = 'probe/results.json not available yet — the probe has not run or its artifact has not been committed. This page never invents values.';
+    console.error(err);
+  });
+
+function render(r) {
+  const v = r.verdicts || {};
+  $('meta').innerHTML = `Generated <strong>${esc(r.generated_at || '—')}</strong> · runner <span class="mono">${esc(r.runner?.node || '?')} ${esc(r.runner?.os || '')}</span> · ${esc(r.runner?.sandbox_note || '')}${r.runner?.github_run_id ? ` · <a href="https://github.com/${esc(r.runner.github_repository || 'kanlerxz87-cyber/Tradebot1')}/actions/runs/${esc(r.runner.github_run_id)}" target="_blank" rel="noopener noreferrer">Actions run ↗</a>` : ''}`;
+  $('limits-time').textContent = r.generated_at || '—';
+
+  const ws = (v.ws_unauthenticated_handshake || []).map(x => x.status ?? x.error).join(', ') || '—';
+  $('cards').innerHTML = `
+    <div class="card"><div class="k">Public reads from a browser (Pages origin)</div><div class="v">${bool(v.public_reads_cors_allowed_for_pages_origin)}</div></div>
+    <div class="card"><div class="k">Signed requests (orders/portfolio) from a browser</div><div class="v">${bool(v.signed_requests_preflight_allowed_from_browser)}</div></div>
+    <div class="card"><div class="k">Unauthenticated WebSocket handshake</div><div class="v">${orDash(ws)}</div></div>
+    <div class="card"><div class="k">Second origin also allowed (echo vs wildcard)</div><div class="v">${bool(v.origin_b_also_echoed)}</div></div>`;
+
+  const impl = [];
+  impl.push(v.public_reads_cors_allowed_for_pages_origin
+    ? '<strong>Live mode works:</strong> the dashboard can poll public demo market data directly from the browser — no proxy needed for reads.'
+    : '<strong>Live mode is blocked for this origin:</strong> the dashboard must fall back to the published snapshot until CORS allows this origin.');
+  impl.push(v.signed_requests_preflight_allowed_from_browser
+    ? '<strong>Orders from the browser may be possible</strong> (preflight allows the signing headers) — still requires the user\'s own API key, which this project never handles in the page.'
+    : '<strong>A static page can never place orders or read a portfolio:</strong> the preflight does not allow <code>KALSHI-ACCESS-*</code> headers, so execution requires a trusted backend (see <code>services/kalshi/</code>) or a local tool with credentials.');
+  impl.push((v.ws_unauthenticated_handshake || []).some(x => x.status === 101)
+    ? '<strong>Unauthenticated WS accepted</strong> (unexpected vs docs — re-check before relying on it).'
+    : '<strong>WebSocket requires an authenticated handshake</strong> (matches official docs), so the browser uses REST polling; a signed WS stream belongs to a backend.');
+  impl.push(v.rate_limit_headers_observed
+    ? '<strong>Rate-limit headers are exposed</strong> — the client can honor <code>X-RateLimit-*</code> and back off on 429.'
+    : '<strong>No rate-limit headers observed in this run</strong> — the client must still back off on 429 per docs.');
+  $('implications').innerHTML = impl.map(x => `<li>${x}</li>`).join('');
+
+  const probes = r.probes || [];
+  $('evidence').querySelector('tbody').innerHTML = probes.length ? probes.map(p => `
+    <tr>
+      <td>${esc(p.name)}</td>
+      <td>${esc(p.kind)}</td>
+      <td>${statusTag(p.status)}</td>
+      <td class="mono">${orDash(p.cors?.['access-control-allow-origin'])}</td>
+      <td class="mono">${orDash(p.cors?.['access-control-allow-credentials'])}</td>
+      <td class="mono">${orDash(p.cors?.['access-control-allow-headers'])}</td>
+      <td class="mono">${orDash(p.rate_limit?.['x-ratelimit-limit'] ? p.rate_limit['x-ratelimit-limit'] + ' / ' + p.rate_limit['x-ratelimit-remaining'] : null)}</td>
+      <td>${p.ms ?? '—'} ms</td>
+      <td class="mono">${orDash(p.error)}</td>
+    </tr>`).join('') : '<tr><td colspan="9">No probes recorded.</td></tr>';
+
+  const rows = [
+    ['Can a visitor\'s browser read public demo market data (this origin)?', v.public_reads_cors_allowed_for_pages_origin,
+      (v.public_reads_cors_allowed_detail || []).map(d => `${esc(d.status)} ${esc(d.allow_origin ?? 'no ACAO')}`).join(' · ') || 'no 200 responses'],
+    ['Is the ACAO an echo of any origin, or a wildcard?', v.origin_b_also_echoed,
+      `Origin A <code>${esc((r.origins_tested || [])[0] || '')}</code> and Origin B <code>${esc((r.origins_tested || [])[1] || '')}</code> tested; signed preflight allow-headers: <span class="mono">${orDash(v.signed_preflight_allow_headers)}</span>`],
+    ['Can a browser send KALSHI-ACCESS-* headers (orders/portfolio)?', v.signed_requests_preflight_allowed_from_browser,
+      `preflight status ${orDash(v.signed_preflight_status)}`],
+    ['Does an unauthenticated WS handshake succeed?', (v.ws_unauthenticated_handshake || []).some(x => x.status === 101),
+      (v.ws_unauthenticated_handshake || []).map(x => `${esc(x.name)}: ${x.status ?? esc(x.error)}`).join(' · ') || '—'],
+    ['Are X-RateLimit-* headers exposed?', v.rate_limit_headers_observed, 'see evidence table'],
+  ];
+  $('verdicts').querySelector('tbody').innerHTML = rows.map(([q, a, e]) =>
+    `<tr><td>${q}</td><td>${bool(a)}</td><td>${e}</td></tr>`).join('');
+}
+</script>
+</body>
+</html>
