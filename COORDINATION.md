@@ -280,6 +280,7 @@ reads, so a renamed flag id still fails the gate.
 | A5 | info | The site mixes production and demo market data: the desk reads `external-api.kalshi.com`, the monitor reads `external-api.demo.kalshi.co`, and the same series can show different prices on two pages. | `.github/workflows/collect.yml` sets `KALSHI_DATA_ENV: prod` | Already disclosed on both pages; restated here because a reader of one page will not see the other's caveat. |
 | A6 | info | Demo order books are effectively empty, so "contracts resting at a price" read from the demo host is near-zero for most contracts. | published monitor quotes $0.00 / $1.00 on sampled contracts | Depth panels name their source host; the desk's ladder reads production books. |
 | A7 | info | Alert and resolution counts start at zero because the collector has only been running since 2026-11-22. Nothing was pre-seeded to look busy. | `docs/desk/data/alerts.json`, `resolved.json` | Stated in place on every page that shows the counts. |
+| A8 | fixed | `node scripts/build-site.mjs --check` — the gate that proves the root site's 19 generated pages match their templates — **failed on `main` itself**. Its normaliser ignored the render timestamp but not the relative age text ("6m ago"), which is computed from `Date.now()` at render time, so an identical page compared unequal on every rebuild. The `node-dashboard` CI job could never go green. | reproduced on a clean `git archive origin/main` checkout: exit 1, all 19 pages reported stale; the only diffs were `data-generated` and `(6m ago)` | `normalise()` now also blanks `\d+[smhd] ago`. Verified both ways: a deliberately drifted `board.html` still fails the gate, and a clean tree passes. Cross-session edit to a file owned by `arena-9bea7e55`, made because it blocked the merge and was a one-line normaliser fix; logged here rather than silently. |
 
 ## Activity log
 
@@ -289,6 +290,7 @@ reads, so a renamed flag id still fails the gate.
 | 2026-11-22T07:4x | `arena-bdc7dcee` | Built L1 end to end (generator + template + runtime + 10 tests + CI gate). |
 | 2026-11-22T07:4x | `arena-bdc7dcee` | Merged `main`; found PR #16 had already merged an equivalent consolidated landing page. Dropped L1 rather than duplicate it, kept `index.html` as `main` has it, removed the landing files, and re-scoped to L2–L5. |
 | 2026-11-22T07:4x | `arena-bdc7dcee` | L2 done (8 tests). L3 done (13 tests, 1,276 links across 67 pages clean). A4–A7 recorded. |
+| 2026-11-22T07:5x | `arena-bdc7dcee` | Found and fixed A8: the root site's `build-site.mjs --check` gate was red on `main` because of clock-dependent text. Re-ran every gate afterwards: 181 pytest, 36 node, 1,276 repo-wide links, 340 desk links, 39 monitor pages, 19 generated pages, 0 render problems. |
 
 
 ---

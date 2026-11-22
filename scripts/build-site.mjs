@@ -120,9 +120,14 @@ async function main() {
   console.log(`Wrote ${written.length} pages.`);
 }
 
-/** Ignore the generated-at line when comparing, so a no-op rebuild is a no-op. */
+/** Ignore values that depend on the wall clock when comparing, so a no-op rebuild is a no-op.
+ *  - data-generated is the render timestamp.
+ *  - "6m ago" is relative to the clock at render time, so it drifts on every rebuild and made
+ *    `--check` fail on an otherwise identical page. */
 function normalise(html) {
-  return html.replace(/data-generated="[^"]*"/g, 'data-generated=""');
+  return html
+    .replace(/data-generated="[^"]*"/g, 'data-generated=""')
+    .replace(/\b\d+[smhd] ago\b/g, '#');
 }
 
 function readJson(rel, fallback) {
