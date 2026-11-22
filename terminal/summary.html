@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive Summary — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="Executive summary: scope, architecture, verified API facts, what is simulated vs live, constraints, risks and next steps for the Tradebot1 Kalshi demo command center.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="summary.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <h1 class="page-title">Executive Summary</h1>
+  <p class="page-sub">Tradebot1 — a live Kalshi <strong>demo-environment</strong> command center for the five requested verticals (gas prices, elections, culture, crypto, golf), with $0.10+ swing alerting, a model-approved high-ROI feed, simulated strategy research, and transparent verification. Prepared 2026-11-22 (UTC).</p>
+
+  <div class="card">
+    <h2>1 · The ask, condensed</h2>
+    <ol class="muted" style="margin:0; padding-left:18px">
+      <li>Collect, organize, analyze the Kalshi demo environment (Trade API v2; REST + WebSocket).</li>
+      <li>Live dashboard of highest-dollar open events in <strong>gas, elections, culture, crypto, golf</strong>; track until resolved (YES/NO).</li>
+      <li>Real-time alerting for swings ≥ $0.10 either way, rendered as two scrolling feeds: <em>all events</em> and <em>model-approved high-ROI</em>.</li>
+      <li>Simulated trade execution for strategy testing; portfolio performance on the demo account; trade categorization; strategy creation from trade types.</li>
+      <li>Live interactive charts (X = time — seconds/minutes/hours; Y = contract price) and per-price liquidity (contracts available at each price).</li>
+      <li>Suggestions to make the site more live/interactive; simplified graphs; every sharp move (≥ $0.10) paired with possible-cause links.</li>
+      <li>GitHub Pages site; landing page + categorized subpages; tables; clean dashboard UI; everything verified or flagged.</li>
+    </ol>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>2 · What was delivered</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Deliverable</th><th>Where</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>Live dashboard (topics, ranking by est. notional, canvas price chart with 30s–6h windows, order-book ladder with contract counts per price, two scrolling alert feeds, $0.10 swing banner + possible-driver links, paper buy, optional demo buy)</td><td><a href="dashboard.html">dashboard.html</a></td><td><span class="badge ok">Built</span> <span class="badge unverified">live values unverifiable from build sandbox</span></td></tr>
+        <tr><td>Events &amp; resolution tracking (open → settled, YES/NO badges, CSV export)</td><td><a href="events.html">events.html</a></td><td><span class="badge ok">Built</span></td></tr>
+        <tr><td>Strategy Lab (Monte Carlo, 5 archetypes, per-strategy / per-topic / per-trade-type analysis, equity curves)</td><td><a href="strategies.html">strategies.html</a></td><td><span class="badge ok">Built</span> <span class="badge info">simulation by design</span></td></tr>
+        <tr><td>Portfolio (browser-local paper ledger + optional Kalshi demo account: balance, positions, fills, resting orders)</td><td><a href="portfolio.html">portfolio.html</a></td><td><span class="badge ok">Built</span></td></tr>
+        <tr><td>Executive summary, verification table, flagged-for-review register, repo review, interactivity suggestions</td><td>this page · <a href="verification.html">verification</a> · <a href="flagged.html">flagged</a> · <a href="repo-review.html">repo-review</a> · <a href="suggestions.html">suggestions</a></td><td><span class="badge ok">Built</span></td></tr>
+        <tr><td>GitHub Pages site, categorized landing page, verified-source policy, honesty badges (LIVE / SIMULATED / UNVERIFIED)</td><td><a href="index.html">index.html</a> + all pages</td><td><span class="badge ok">Built</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>3 · Environment &amp; the single biggest constraint</h2>
+    <div class="callout danger"><strong>The build sandbox has no route to the Kalshi demo API</strong> (direct connections time out; only github.com and package registries are reachable), and <strong>no Kalshi demo API keys were provided</strong>. Consequently: (a) every <em>live</em> number on this site is fetched in the visitor's browser at page-open time, not baked in; (b) no historical demo data could be captured to validate alert thresholds empirically; (c) order placement on the demo account is implemented but <u>not</u> exercised — it is gated behind an explicit in-browser setting. Nothing on this site presents an unverifiable number as fact; rows that fail verification are blank and flagged.</div>
+    <p class="muted"><strong>Now measured, not assumed:</strong> a GitHub-hosted runner in this repository requested the public demo endpoints with this site's origin and got permissive CORS (<code>Access-Control-Allow-Origin</code> echoing the Pages origin, HTTP 200 on markets/order book/candles on both demo hosts) — so public data <em>does</em> load directly in the browser. The same probe confirmed signed requests and unsigned WebSocket upgrades are rejected (<a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/probe/results.json" target="_blank" rel="noopener noreferrer">probe/results.json ↗</a>).</p>
+    <p class="muted">Second hard constraint, discovered from official WebSocket documentation: Kalshi's WebSocket handshake requires the same signed <code>KALSHI-ACCESS-*</code> headers as REST, and <strong>browsers cannot set custom headers on a WebSocket upgrade</strong>. The dashboard therefore defaults to authenticated-header-free <em>REST polling</em> (public data) and treats WebSocket streaming as an optional proxy integration — see <a href="suggestions.html#ws-proxy">Suggestions P0</a>.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>4 · Architecture</h2>
+    <pre class="small">Visitor's browser (GitHub Pages static site, no build step)
+  │
+  ├─ Public reads (no key):  GET /events?status=open&amp;with_nested_markets=true
+  │                          GET /markets/{ticker}/orderbook · GET /exchange/status
+  │                          GET /series/{series}/markets/{ticker}/candlesticks (used by tooling)
+  ├─ Signed reads/trades (user's demo key, localStorage only):
+  │                          GET /portfolio/balance · GET /portfolio/positions
+  │                          GET /portfolio/fills · GET /portfolio/orders?status=resting
+  │                          POST /portfolio/events/orders (V2; opt-in, untested from this origin)
+  ├─ WS proxy (optional, not included): adds KALSHI-ACCESS-* to handshake → ticker/trade/orderbook_delta
+  └─ Fallback: clearly-labeled SIMULATED feed (random-walk) when the API is unreachable</pre>
+    <p class="small muted">All pages are dependency-free vanilla JS + a hand-rolled canvas chart; there is no backend and no database. State (paper ledger, alert log, equity history, settings) lives in the browser's localStorage under the <code>tbs_</code> prefix.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px" id="model">
+    <h2>5 · The high-ROI model (transparent, not predictive)</h2>
+    <p class="muted">The “Model-approved” feed filters the same ≥ $0.10 swing alerts down to contracts scoring <strong>≥ 65 / 100</strong>. The score is a documented heuristic assembled from fields the dashboard already fetches:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Component</th><th class="num">Points</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Base</td><td class="num">30</td><td>Every tracked contract starts here.</td></tr>
+        <tr><td>Liquidity rank by est. notional (vol × last)</td><td class="num">+25 top-decile / +18 top-quartile / +10 top-half</td><td>Thin books move $0.10 on noise; liquid books move on information.</td></tr>
+        <tr><td>Spread (yes ask − yes bid)</td><td class="num">+20 ≤ 3¢ · +12 ≤ 7¢ · +6 ≤ 12¢</td><td>Round-trip cost discipline.</td></tr>
+        <tr><td>Decisive move magnitude</td><td class="num">+15 ≥ $0.10 · +8 ≥ $0.05</td><td>Confirms the alert is a dislocation worth studying.</td></tr>
+        <tr><td>Favorable entry band $0.55–$0.85</td><td class="num">+8</td><td>Meaningful upside with real probability weight.</td></tr>
+        <tr><td>Open interest ≥ 50k (+7) / ≥ 10k (+4)</td><td class="num">≤ +7</td><td>Resolution liquidity and crowding signal.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small muted" style="margin-top:8px">“Implied ROI if YES” shown in tables = (1 − P)/P — pure arithmetic. The model has <strong>no</strong> historical calibration yet (no settled demo history was captured; see Flagged). Treat it as a prioritization screen, never as a buy signal.</p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>6 · Verified facts used on this site (checked 2026-11-22)</h2>
+    <ul class="muted" style="margin:0; padding-left:18px">
+      <li>Demo REST base URL: <code>https://external-api.demo.kalshi.co/trade-api/v2</code> (legacy <code>demo-api.kalshi.co</code> supported) — <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">docs.kalshi.com ↗</a></li>
+      <li>Demo WebSocket: <code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code>; authenticated handshake over <code>GET /trade-api/ws/v2</code>; public channels <code>ticker</code>/<code>trade</code> need no per-channel auth — <a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer">quick_start_websockets ↗</a></li>
+      <li>Public market-data endpoints need no key; <code>/portfolio/*</code> and WS do; demo keys ≠ production keys — <a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">api_keys ↗</a></li>
+      <li>Signing: <code>ts + METHOD + path-from-root (no query)</code>; headers <code>KALSHI-ACCESS-KEY / -TIMESTAMP / -SIGNATURE</code>; Ed25519 default since 2026-10-01, RSA-PSS supported — <a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">api_keys ↗</a></li>
+      <li>Rate limits are token-based; default cost 10 tokens/request; separate read/write buckets; unauthenticated public traffic has separate limits; HTTP 429 → back off — <a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener noreferrer">rate_limits ↗</a></li>
+      <li>Order surface: V2 <code>POST /portfolio/events/orders</code>; legacy <code>POST /portfolio/orders</code> — <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">environments ↗</a> (V2 corroborated by third parties; not executed from this session)</li>
+      <li>Full row-by-row table with dates &amp; statuses: <a href="verification.html">Verification page</a>. Anything not confirmable is blank + flagged: <a href="flagged.html">Flagged for Review</a>.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>7 · Risks &amp; honest caveats</h2>
+    <ul class="muted" style="margin:0; padding-left:18px">
+      <li>Demo markets are shallow and occasionally repriced by admin action; $0.10 alerts may fire on seed/test prints, not news.</li>
+      <li>“Possible drivers” links are search/reference entry points — never proven causation. Each is labeled as such in the UI.</li>
+      <li>Est. notional (volume × last price) is a derived proxy, not an official Kalshi metric; it exists to rank $ magnitude, nothing more.</li>
+      <li>Paper ledger marks come from browser-local state and may lag; reconcile against the demo account before acting.</li>
+      <li>Strategy Lab results are Monte Carlo on synthetic paths. They verify the harness and fee model; they are not predictive.</li>
+    </ul>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>8 · Recommended next steps</h2>
+    <ol class="muted" style="margin:0; padding-left:18px">
+      <li>Deploy the tiny WS proxy so alerts arrive by push, not poll (<a href="suggestions.html#ws-proxy">Suggestions P0-1</a>); public reads are already CORS-allowed (measured), so the proxy is needed only for signed/private streams.</li>
+      <li>Capture settled-event history (cron job → JSON snapshot in repo or external store) to calibrate the model threshold of $0.10 and the ≥65 score against realized outcomes.</li>
+      <li>Enable demo order execution behind the existing opt-in; reconcile fills automatically via <code>GET /portfolio/fills</code> + <code>market_positions</code> WS channel.</li>
+      <li>Add Slack/Discord webhook fan-out for $0.10 alerts (<a href="suggestions.html">Suggestions P1</a>).</li>
+      <li>Per-topic playbooks: gas ↔ EIA surprises; elections ↔ polling/results days; crypto ↔ funding &amp; ETF flows; golf ↔ major leaderboards; culture ↔ awards calendar.</li>
+    </ol>
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+</body>
+</html>

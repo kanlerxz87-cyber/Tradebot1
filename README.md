@@ -11,6 +11,7 @@
 [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/executive-summary.html) ·
 [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) ·
 [Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
+[Browser terminal](https://kanlerxz87-cyber.github.io/Tradebot1/terminal/) ·
 [Prototype](https://kanlerxz87-cyber.github.io/Tradebot1/site/)
 
 The repository began as a one-line README. Parallel sessions built independent implementations of the
@@ -26,6 +27,7 @@ same brief; both are kept, because they make different trade-offs and each is us
 | `audit.html` | **Integration audit** — checks re-run, five defects found and fixed (with regression tests), requirement coverage, open irregularities | reads the committed snapshot |
 | `docs/engine/` | **Engine view** — the Python engine's own site: 39-entry verification register, five topic tables, both alert feeds, six-strategy fee-exact simulator | captured API responses (replay) + a live engine |
 | `docs/audit/fee-audit.html` | **Fee audit** — all 21 rows of Kalshi's published general fee table recomputed with `kalshi_trader/fees.py`, plus the per-series multiplier limits | the schedule PDF + the committed ledger |
+| **`terminal/`** | **Browser terminal** — dependency-free, zero-build vanilla HTML/CSS/JS that calls the **public demo REST API straight from the visitor's browser** (no backend, no committed snapshots): landing, live dashboard (gas, elections, culture, crypto, golf), two ≥ $0.10 alert chats (all events + model-approved), 30 s–6 h price chart, order-book liquidity ladder, YES/NO resolution tracker, five-strategy Monte-Carlo lab, local paper ledger + optional demo-account connect, executive summary, verification (V-01…V-36), flagged register (F-01…F-16), repo review, suggestions | public demo REST, read by the visiting browser (CORS measured allowed) |
 
 > The landing page is the single entry point: it shows the latest published cycle, per-topic counts and
 > the newest swing, all read from `docs/desk/data/*.json`. It prints “—” rather than estimating a value the

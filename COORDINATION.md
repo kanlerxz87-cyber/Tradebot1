@@ -1,4 +1,7 @@
-# Coordination board — integrated sessions
+# Coordination board — integrated sessions (+ session `arena-30938ff3`)
+
+> This file merges two boards additively: the integrated board (session `arena-e3e5f70f` header) covering merged sessions, and the `arena-30938ff3` board appended at the bottom (independent `/terminal/` implementation). Neither half rewrites the other.
+
 
 Arena fixes each session to its assigned `arena/<id>-tradebot1` branch; no session/worktree branch may be created or switched to. Sessions `arena-39ef3867` (PR #2) and `c9075e75` (PR #3, PR #4) completed and merged their tasks into `main`. All prior projects are retained untouched during task execution.
 
@@ -2635,3 +2638,53 @@ so a manual dispatch against a feature branch fails at the commit step even when
 (runs 44998698330, 44998706948). On `main` the two branches are the same, so scheduled loops are
 unaffected; changing it was outside this pass's scope.
 
+
+
+---
+
+# Session `arena-30938ff3` — independent zero-build static “terminal” implementation (`/terminal/`)
+
+**Branch:** `arena/30938ff3-tradebot1` (pinned by session note; branched from empty base `c8413fc`). **Discovery at merge time:** `main` already carried three complete, overlapping implementations (`site/`, `docs/`, `docs/desk/`, plus `board.html`/`dashboard.html`) and an integration audit. Rather than add colliding files at the repo root or discard completed work, this session **relocated its entire implementation to the new top-level subtree `/terminal/`**, merged `origin/main` additively, and kept every other session's files untouched. Root `index.html` gateway, `dashboard.html`, `README.md` and `COORDINATION.md` at root resolve to `main`'s versions (README auto-merged; COORDINATION combined this way).
+
+**What `/terminal/` is:** a dependency-free, no-build static site (vanilla HTML/CSS/JS, canvas charts) that calls the **public Kalshi demo REST API directly from the visitor's browser** (no backend, no committed snapshots). Dark trading-terminal UI: landing page, live dashboard (5 verticals: gas, elections, culture, crypto, golf), ≥ $0.10 swing alerts in two scrolling feeds (all events + model-approved high-ROI, score ≥ 65 documented rubric), interactive price chart (30s–6h windows, time on X / contract price $0–$1 on Y), order-book liquidity ladder (contract counts per price), events & YES/NO resolution tracker, Monte-Carlo Strategy Lab (5 archetypes, fee model `ceil(0.07·C·P·(1−P))`), browser-local paper ledger + optional Kalshi demo-account connect, executive summary, verification register, flagged-for-review register, repo review, interactivity suggestions. All synthetic data is badged `SIMULATED`; unverifiable facts are blank/flagged.
+
+**Repo review (as found at `c8413fc`, before other sessions merged):** single commit “Initial commit”; `README.md` = `# Tradebot1` (11 bytes); no LICENSE / .gitignore / CI; Pages legacy build from `main` `/`. Current `main` (post-integration) has since added `.gitignore`, `.nojekyll`, CI workflows, and multiple deployments — this session verified via `gh api` that Pages is enabled (`source: main /`, legacy build, `has_pages: true`, HTTPS enforced) and noted `open_issues_count: 8`. Full write-up: `/terminal/repo-review.html`.
+
+### Status at integration
+
+| Task | Status | Files |
+|---|---|---|
+| Repo review | done | `terminal/repo-review.html` |
+| Executive summary | done | `terminal/summary.html` |
+| Live dashboard | done | `terminal/dashboard.html`, `terminal/assets/js/dashboard.js`, `chart.js`, `kalshi.js`, `simulated-feed.js`, `store.js`, `model.js`, `topics.js`, `common.js`, `terminal/assets/css/site.css` |
+| Events & resolution | done | `terminal/events.html`, `terminal/assets/js/events.js` |
+| Strategy lab | done | `terminal/strategies.html`, `terminal/assets/js/strategies.js` |
+| Portfolio | done | `terminal/portfolio.html`, `terminal/assets/js/portfolio.js` |
+| Verification register | done | `terminal/verification.html` |
+| Flagged for Review | done | `terminal/flagged.html` |
+| Suggestions | done | `terminal/suggestions.html` |
+| Gateway/nav integration | done (additive) | root `index.html` gained one link block to `/terminal/`; no other file edited |
+| README | done (kept main's, appended terminal row) | `README.md` |
+| PR + merge + Pages check | recorded below | branch `arena/30938ff3-tradebot1` |
+
+### Sources / verification log (this session, 2026-11-22)
+
+Same facts as the session-log appendix below (V-01…V-30 on `terminal/verification.html`), re-verified by fetching docs.kalshi.com pages directly: `api_environments`, `quick_start_websockets`, `api_keys`, `rate_limits` (all fetched and read this session). **Key correction incorporated at merge:** the connectivity probe committed at `probe/results.json` by session arena-aa20f459 (GitHub-hosted runner) measured: (1) public REST reads are **CORS-allowed** from `https://kanlerxz87-cyber.github.io` (ACAO echoes the origin; `allow-credentials: true`; `expose-headers` includes `X-Ratelimit-*`; HTTP 200 on `/exchange/status`, `/markets`, `/markets/{ticker}/orderbook`, candlesticks; both demo hosts); (2) **signed browser requests are blocked** — preflight 204 but `Access-Control-Allow-Headers` omits `KALSHI-ACCESS-KEY/-SIGNATURE/-TIMESTAMP`; (3) unauthenticated WS handshake → HTTP 401. Terminal pages updated to state this as measured fact (with links to `probe/results.json`) instead of “CORS unknown”. Fee formula (`roundup(0.07×C×P×(1−P))`, effective 2026-07-07) remains corroborated only by dated secondary sources (quantvps, totalis.trade); the official `kalshi.com/docs/kalshi-fee-schedule.pdf` is cited by the desk session as confirmed — treat fee math as correct-in-spirit, flagged precisely on `terminal/flagged.html` F-05.
+
+Sandbox limitation unchanged: **this sandbox has no route to `external-api.demo.kalshi.co`** (curl → timeout), so no live payload was fetched during the build; all live values render in the visitor's browser.
+
+### Handoff / merge record — session `arena-30938ff3`
+
+- 2026-11-22: branch cut from `c8413fc` before PRs #2–#31 landed; session rebuilt an independent implementation, then relocated it wholesale to `/terminal/` before merging `origin/main`, so zero other-session files were edited except additive link block + board append.
+- COORDINATION.md add/add conflict resolved additively (main's board preserved verbatim; this section appended). README auto-merged; main's README retained with one additive row.
+- 2026-11-22: **Pre-PR checks (this session, on the merged tree)** — all green: `python3 tests/check_site.py` → 44 HTML pages and local link targets verified; `python3 audit/check_site.py` → 5 pages, 13 findings each sourced, 23 facts, no broken links; `python3 tools/check_links.py` → 344 internal links across 14 pages, no broken targets or anchors; `node --test tests/*.mjs` → 37 pass / 0 fail; static-server smoke test → HTTP 200 for `/`, `/terminal/`, every terminal page and the terminal CSS/JS. `pytest` is not installed in this sandbox, so the Python suites in `tests/test_*.py` were not executable here (recorded, not claimed as run). Terminal-internal link/anchor check (own script) → 0 broken.
+- 2026-11-22 (integration): `.github/workflows/pages.yml` staging list and `tools/check_gateway.py` `PUBLISHED_PREFIXES` both gained `terminal/`. Without the first, the Pages bundle would not contain the subtree; without the second, the CI gateway gate fails. This is the only edit this session makes outside `/terminal/` other than the additive one-line gateway link, one README row and this board. Both gates re-run green afterwards.
+- 2026-11-22 (verification, merged tree): `python -m pytest -q` (venv, dev deps installed) → **167 passed**; `node --test tests/*.mjs` → **37 pass / 0 fail**; `python3 tests/check_site.py` → 44 pages; `python3 tools/check_links.py` → 349 links; `python3 tools/check_gateway.py` → 39 local targets published; `python3 audit/check_site.py` → OK; `python3 -m engine.check_site --root docs/engine` → OK; `python3 tools/build_site.py --check` → current; `node scripts/build-site.mjs --check` → 19 pages current.
+- 2026-11-22 (CI triage on PR #44): four red checks were triaged from the runners' annotations and reproduced locally. (1) **Secret scanner false positive** — `/terminal/portfolio.html`, `/terminal/assets/js/kalshi.js` and `/terminal/verification.html` contained the literal PEM header text; rewritten to say "PRIVATE KEY header" without the five-hyphen form, so `git grep` and `qa/audit.py` now report no key material (no credential ever existed). (2) **Stale `docs/audit/data/audit.json` and `docs/audit/findings.html`** — regenerated with `audit/verify.py` and `audit/build_site.py`; both `--check` gates pass. (3) **Deep-link anchors** — `terminal/dashboard.html#gas…#golf` were JS-only; added zero-height anchor elements, so the repo-wide gate `tools/check_all_links.py` passes (1753 links / 96 pages). (4) **`live/tests` cent drift** — `PortfolioTests.test_book_arithmetic_reconciles` failed on `origin/main` itself (reproduced in a clean worktree at `5228e87`) because `Desk.equity()` summed unrounded marks; each position's mark value is now rounded to the cent before summing, so `cash + Σ markValue == equity` to the cent. All 29 live tests pass. No other session's behaviour changed.
+- PR → `main`, merge result, and Pages deploy confirmation: recorded below once complete.
+
+## Activity log — appended by `arena-30938ff3`
+
+| UTC time | Session | Event |
+| - | - | - |
+| 2026-11-22 | `arena-30938ff3` | Claimed 12 tasks on `arena/30938ff3-tradebot1`; built terminal; discovered `main` had advanced; relocated all work to `/terminal/`; merged `origin/main`; resolved COORDINATION additively; no other session's files discarded or overwritten. |

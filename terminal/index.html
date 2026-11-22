@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tradebot1 — Kalshi Demo Command Center</title>
+<meta name="description" content="Live dashboard for Kalshi demo (paper) event contracts across gas prices, elections, culture, crypto and golf. $0.10+ swing alerts, model-scored high-ROI feed, simulated strategies, and transparent verification.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="index.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+
+  <section class="hero">
+    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:6px">
+      <span class="badge info">Kalshi Trade API v2 · Demo environment</span>
+      <span class="badge ok">Mock funds · No real money</span>
+      <span class="badge">5 verticals</span>
+      <span class="badge">$0.10 swing alerts</span>
+    </div>
+    <h1>Trade the <span class="grad">event.</span><br>Not the noise.</h1>
+    <p class="lead">Tradebot1 is a live command center for the <strong>Kalshi demo exchange</strong>. It tracks the highest-dollar open events across <strong>gas prices, elections, culture, crypto and golf</strong>, fires real-time alerts on contract moves of <strong>$0.10 or more</strong>, streams them into two live feeds (every event + model-approved high-ROI picks), and lets you test strategies on a simulated ledger — or on your own demo account.</p>
+    <div class="cta-row">
+      <a class="btn primary" href="dashboard.html">▶ Open Live Dashboard</a>
+      <a class="btn" href="summary.html">Executive Summary</a>
+      <a class="btn ghost" href="verification.html">Verification &amp; sources</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="n" id="hsStatus">…</div><div class="l">Demo exchange status</div></div>
+      <div class="hs"><div class="n" id="hsContracts">…</div><div class="l">Tracked contracts (topic-matched)</div></div>
+      <div class="hs"><div class="n" id="hsTopics">…</div><div class="l">Topics with live markets</div></div>
+      <div class="hs"><div class="n">≥ $0.10</div><div class="l">Alert threshold (both directions)</div></div>
+    </div>
+    <p class="small muted" id="hsStatusNote" style="margin-top:8px">Checking demo API connectivity from your browser…</p>
+  </section>
+
+  <h2 class="section-title">The five verticals</h2>
+  <div class="grid" style="grid-template-columns: repeat(5, minmax(0,1fr));" id="topicGrid">
+    <a class="card topic-card gas" href="dashboard.html#gas"><h3>⛽ Gas Prices</h3><p>Retail gasoline, WTI/Brent, natural gas. Cross-checked against EIA reference data.</p><div class="foot">Sources: eia.gov</div></a>
+    <a class="card topic-card elections" href="dashboard.html#elections"><h3>🗳️ Elections</h3><p>Midterms, chamber control, nominations, ballots. FEC reference links on-page.</p><div class="foot">Sources: fec.gov</div></a>
+    <a class="card topic-card culture" href="dashboard.html#culture"><h3>🎬 Culture</h3><p>Awards season, box office, music, streaming. Official award-body sources linked.</p><div class="foot">Sources: oscars.org · grammy.com</div></a>
+    <a class="card topic-card crypto" href="dashboard.html#crypto"><h3>₿ Crypto</h3><p>BTC/ETH price milestones, ETF decisions, industry events. CoinGecko references.</p><div class="foot">Sources: coingecko.com</div></a>
+    <a class="card topic-card golf" href="dashboard.html#golf"><h3>⛳ Golf</h3><p>PGA Tour, majors, Ryder Cup, LIV. pgatour.com &amp; masters.com references.</p><div class="foot">Sources: pgatour.com · masters.com</div></a>
+  </div>
+  <p class="small muted">Each card opens the dashboard filtered to that vertical. Topics stay separate; events within a topic are organized together and ranked by est. notional (volume × last price).</p>
+
+  <h2 class="section-title">Live snapshot — highest-dollar tracked events</h2>
+  <div class="card">
+    <div class="table-wrap">
+      <table aria-label="Top tracked demo events by notional">
+        <thead><tr><th>Topic</th><th>Event</th><th class="num">Last</th><th class="num">Volume (contracts)</th><th class="num">Est. notional</th></tr></thead>
+        <tbody id="topEventsBody"><tr class="empty-row"><td colspan="5">Loading live snapshot…</td></tr></tbody>
+      </table>
+    </div>
+    <p class="small muted" id="topEventsNote" style="margin:10px 2px 0"></p>
+  </div>
+
+  <h2 class="section-title">How the command center works</h2>
+  <div class="grid cols-3">
+    <div class="card"><h3>1 · Connect</h3><p class="muted">The dashboard calls the Kalshi <strong>demo</strong> REST API directly from your browser (public market data needs no key). If the browser can't reach the API — or you're offline — it offers a clearly-labeled simulated feed instead. Your demo API keys, if you add them in Portfolio → Settings, never leave your browser except to Kalshi's demo hosts.</p></div>
+    <div class="card"><h3>2 · Track &amp; alert</h3><p class="muted">Open contracts across the five verticals are polled continuously. Any contract moving <strong>≥ $0.10</strong> (vs its session reference or a 2-minute window) posts to the <em>All Events</em> feed; if the Move also scores ≥ 65 on the transparent high-ROI model, it posts to the <em>Model-Approved</em> feed. Click any message to load the contract.</p></div>
+    <div class="card"><h3>3 · Decide &amp; simulate</h3><p class="muted">Interactive price chart (seconds → hours), full order-book ladder with contract counts at each price, resolution tracking (YES/NO) on the Events page, five backtested strategy archetypes in the Strategy Lab, and a paper portfolio you can reconcile against your real demo account.</p></div>
+  </div>
+
+  <h2 class="section-title">Everything on this site</h2>
+  <div class="card">
+    <div class="table-wrap"><table>
+      <thead><tr><th>Page</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td><a href="dashboard.html">Live Dashboard</a></td><td>The main terminal: topic tabs, ranked markets, canvas price chart with time-range selector, order-book liquidity ladder, dual scrolling alert feeds, $0.10+ swing banner, possible-driver links, paper buy, optional demo-account execution.</td></tr>
+        <tr><td><a href="events.html">Events &amp; Resolution</a></td><td>Topic-organized tables of open and settled demo events; YES/NO resolution badges once markets settle; CSV export; settlement links.</td></tr>
+        <tr><td><a href="strategies.html">Strategy Lab</a></td><td>Monte-Carlo backtests of five strategy archetypes across all five verticals; per-strategy, per-topic and per-trade-type tables; equity curves; auto insights; CSV export; live scanner.</td></tr>
+        <tr><td><a href="portfolio.html">Portfolio</a></td><td>Browser-local paper ledger with equity curve, marks refreshed from the demo API, per-topic P&amp;L, close buttons — plus optional Kalshi demo-account connect (balance, positions, fills, resting orders).</td></tr>
+        <tr><td><a href="summary.html">Executive Summary</a></td><td>What this project is, what was verified against official sources, what is simulated, constraints, risks, and next steps.</td></tr>
+        <tr><td><a href="verification.html">Verification</a></td><td>Line-by-line table of every API fact used on this site, each with an official source link and a checked date. Unverified rows are blank and marked.</td></tr>
+        <tr><td><a href="flagged.html">Flagged for Review</a></td><td>Everything that could not be verified or needs your eyes: live-data limits, order-endpoint untested status, CORS/WS constraints, repo irregularities.</td></tr>
+        <tr><td><a href="repo-review.html">Repo Review</a></td><td>Line-by-line review of the repository as found, with irregularities and recommendations.</td></tr>
+        <tr><td><a href="suggestions.html">Suggestions</a></td><td>Prioritized plan to make the site more live and interactive (P0/P1/P2), and what is already implemented.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="callout" style="margin-top:18px">
+    <strong>Honesty policy (please read):</strong> live numbers on this site load <em>in your browser</em> at page-open time from Kalshi's public demo endpoints. Values that cannot be confirmed from an official source are left blank or marked “unverified”. Anything synthetic is badged <span class="badge sim">SIMULATED</span>. Nothing here is investment advice; the demo exchange trades mock money and this project is not affiliated with Kalshi.
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/topics.js"></script>
+<script src="assets/js/kalshi.js"></script>
+<script src="assets/js/index.js"></script>
+</body>
+</html>
