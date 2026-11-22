@@ -21,6 +21,7 @@ comment says it does.
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -226,12 +227,18 @@ def main() -> int:
         doc = build()
     except AuditError as exc:
         print(f"audit verification FAILED: {exc}", file=sys.stderr)
+        # Annotations are the one part of an Actions log the API can read back, so a
+        # failure in CI says why without needing the log archive.
+        if os.environ.get("GITHUB_ACTIONS"):
+            print(f"::error::audit verification failed: {exc}")
         return 1
     text = json.dumps(doc, indent=2, ensure_ascii=False) + "\n"
     if check_only:
         current = DATA_OUT.read_text() if DATA_OUT.exists() else ""
         if current != text:
             print("docs/audit/data/audit.json is stale - run python3 audit/verify.py", file=sys.stderr)
+            if os.environ.get("GITHUB_ACTIONS"):
+                print("::error::docs/audit/data/audit.json is stale - run python3 audit/verify.py")
             return 1
         print(f"audit data is current ({doc['meta']['itemCount']} findings, {doc['meta']['factCount']} facts)")
         return 0

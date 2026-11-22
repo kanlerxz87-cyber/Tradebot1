@@ -103,6 +103,11 @@ def test_settled_sweep_is_bounded_and_reports_errors():
 
 
 # ---------------------------------------------------------------- audit gates
+import shutil
+
+import pytest
+
+
 def _audit_module():
     import importlib.util
     from pathlib import Path
@@ -115,6 +120,8 @@ def _audit_module():
 
 
 def test_audit_register_is_internally_consistent():
+    if shutil.which("node") is None:
+        pytest.skip("node is required to re-execute the audit's JavaScript checks")
     doc = _audit_module().build()
     ids = [item["id"] for item in doc["items"]]
     assert len(ids) == len(set(ids))
@@ -128,6 +135,8 @@ def test_audit_register_is_internally_consistent():
 
 
 def test_every_audit_check_agrees_with_its_published_status():
+    if shutil.which("node") is None:
+        pytest.skip("node is required to re-execute the audit's JavaScript checks")
     doc = _audit_module().build()
     for item in doc["items"]:
         if item["status"] in {"fixed", "open"}:
