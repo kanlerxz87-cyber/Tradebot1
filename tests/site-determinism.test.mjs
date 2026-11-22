@@ -50,3 +50,16 @@ test('build-site.mjs --check still passes after the clock moves past the build',
   const { stdout } = await run(process.execPath, [path.join(ROOT, 'scripts/build-site.mjs'), '--check'], { cwd: ROOT });
   assert.match(stdout, /up to date/);
 });
+
+test('the build id comes from the data, not from the environment', async () => {
+  // A page generated in one CI run could never match the same data rendered in another
+  // when the badge carried $GITHUB_SHA: `--check` was guaranteed to fail in CI and pass
+  // locally. The id is a hash of the data timestamps now, so any SHA gives the same render.
+  const env = { ...process.env, GITHUB_SHA: 'deadbeefcafe' };
+  const { stdout } = await run(process.execPath, [path.join(ROOT, 'scripts/build-site.mjs'), '--check'], { cwd: ROOT, env });
+  assert.match(stdout, /up to date/);
+  const html = await readFile(path.join(ROOT, 'executive-summary.html'), 'utf8');
+  const badge = html.match(/data build ([0-9a-f]{7})/);
+  assert.ok(badge, 'the badge shows a data-derived id');
+  assert.ok(!html.includes('deadbee'), 'no environment value leaks into the page');
+});

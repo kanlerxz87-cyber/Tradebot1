@@ -1,7 +1,7 @@
 <section class="hero">
   <div class="pill-row" style="margin-bottom:10px">
     <span class="badge ok">executive summary</span>
-    <span class="badge">build {{BUILD_ID}}</span>
+    <span class="badge">data build {{BUILD_ID}}</span>
     <span class="badge">data through {{NEWEST_OBS}}</span>
   </div>
   <h1>Executive summary</h1>

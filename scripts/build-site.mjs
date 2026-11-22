@@ -19,6 +19,7 @@
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 const ROOT = path.resolve(new URL('..', import.meta.url).pathname);
 const TEMPLATES = path.join(ROOT, 'templates');
@@ -62,6 +63,22 @@ const PAGES = [
 
 const CATEGORY_FILES = TOPICS.map((t) => ({ file: t.href, title: t.label, nav: t.label, topic: t.id }));
 
+/**
+ * A short, environment-independent identifier for the data this build renders.
+ * Changes when the data changes, and never when the machine or the commit changes.
+ */
+function dataBuildId({ snapshot, liveState, liveFeed, sources }) {
+  const parts = [
+    snapshot?.meta?.capturedAt ?? null,
+    liveState?.updatedAt ?? null,
+    liveFeed?.updatedAt ?? null,
+    liveFeed?.alerts?.[0]?.id ?? null,
+    sources?.meta?.checkedAt ?? sources?.meta?.generatedAt ?? null,
+    (snapshot?.markets ?? []).length,
+  ];
+  return createHash('sha1').update(JSON.stringify(parts)).digest('hex').slice(0, 7);
+}
+
 async function main() {
   const [snapshot, sources, flagged, liveState, liveFeed, portfolio, account] = await Promise.all([
     readJson('data/snapshot.json', {}),
@@ -76,7 +93,11 @@ async function main() {
   const ctx = {
     generatedAt: new Date().toISOString(),
     snapshot, sources, flagged, liveState, liveFeed, portfolio, account,
-    buildId: process.env.GITHUB_SHA?.slice(0, 7) ?? 'local',
+    // The build id is derived from the DATA, never from the environment. It used to be
+    // $GITHUB_SHA, which meant a page generated in one CI run could never match the same
+    // data rendered in another (different SHA) — so `--check` was guaranteed to fail in CI
+    // and pass locally. A hash of the data timestamps is identical everywhere the data is.
+    buildId: dataBuildId({ snapshot, liveState, liveFeed, sources }),
   };
 
   const written = [];
