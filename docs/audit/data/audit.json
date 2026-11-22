@@ -293,7 +293,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\", \"min_settled_ts\"",
           "note": "the corrected query, with the documented pairing in a comment",
-          "line": 603
+          "line": 639
         },
         {
           "file": "tests/test_collector.py",
@@ -305,7 +305,7 @@
           "file": "COORDINATION.md",
           "needle": "ten HTTP 400s from it",
           "note": "the session record of the failed cycle",
-          "line": 448
+          "line": 546
         }
       ],
       "sources": [
@@ -554,7 +554,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\"",
           "note": "a filter value, as documented",
-          "line": 603
+          "line": 639
         }
       ],
       "sources": [

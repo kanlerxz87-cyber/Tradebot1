@@ -62,7 +62,7 @@
   <p><strong>Impact.</strong> 'Track events until they resolve' could not work while every settled query was rejected, and an empty resolution table looks like a quiet week rather than an error.</p>
   <p><strong>Correction.</strong> The sweep now sends min_settled_ts with status=settled, and the parameter is asserted as an integer by test.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:603</code> — the corrected query, with the documented pairing in a comment<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;</pre></li><li><code>tests/test_collector.py:179</code> — regression test: the old parameter is asserted absent<pre>min_settled_ts must be an int</pre></li><li><code>COORDINATION.md:448</code> — the session record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:639</code> — the corrected query, with the documented pairing in a comment<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;</pre></li><li><code>tests/test_collector.py:179</code> — regression test: the old parameter is asserted absent<pre>min_settled_ts must be an int</pre></li><li><code>COORDINATION.md:546</code> — the session record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>True,False,int</code> against expected <code>True,False,int</code></p>
   <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></p>
   <p class="src"><strong>Re-check it yourself:</strong> Read the compatibility table in Get Markets, then python -m pytest tests/test_collector.py -q. The historical 400s are recorded in COORDINATION.md rather than in the working tree, because the data file was overwritten by later cycles.</p>
@@ -152,7 +152,7 @@
   <p><strong>Impact.</strong> None on the code; the earlier flag can be closed with a source rather than left open.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:603</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:639</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
   <p class='check muted'>No executable check: this finding is a documentation reconciliation.</p>
   <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-10</a> · <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a></p>
   <p class="src"><strong>Re-check it yourself:</strong> Read the two tables in Market Lifecycle: statuses returned by REST, then filter values and what they match.</p>
