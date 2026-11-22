@@ -76,6 +76,7 @@
 
   <div class="cta">
     <a class="btn" href="docs/desk/">Open the live desk →</a>
+    <a class="btn ghost" href="live/">Demo API &amp; custom strategy desk →</a>
     <a class="btn ghost" href="docs/desk/flagged.html">Flagged for review</a>
     <a class="btn ghost" href="audit.html">Integration audit</a>
     <a class="btn ghost" href="docs/desk/executive-summary.html">Executive summary</a>
@@ -117,6 +118,8 @@
       <tr><td><a href="docs/desk/portfolio.html">Portfolio</a></td><td>Simulated book: cash, open positions, realised and unrealised P&amp;L, per-strategy and per-topic breakdown. Demo-account connection is not configured.</td><td><span class="tag live">paper</span></td></tr>
       <tr><td><a href="docs/desk/strategies.html">Strategies</a></td><td>Four rule-based strategies, how trades are categorised, and the results of each type so far.</td><td><span class="tag live">live</span></td></tr>
       <tr><td><a href="docs/desk/api-reference.html">API reference</a></td><td>The endpoints this project uses, the environment they point at, and the official documentation for each.</td><td><span class="tag live">live</span></td></tr>
+      <tr><td><a href="live/audit/">Demo API &amp; repo line-by-line audit</a></td><td>Code findings (<code>R1</code>–<code>R12</code>) and upstream Kalshi Demo API anomalies (<code>U1</code>–<code>U5</code>), verified against <a href="https://docs.kalshi.com/getting_started/fee_rounding.md">Kalshi 6dp fee rounding</a> and <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status">live Demo status</a>.</td><td><span class="tag review">verified</span></td></tr>
+      <tr><td><a href="live/flagged/">Demo desk — Flagged for review</a></td><td>Unconfirmed values left blank alongside upstream Demo metadata flags, linked to <a href="https://docs.kalshi.com/getting_started/demo_env.md">official Demo docs</a>.</td><td><span class="tag review">needs review</span></td></tr>
     </tbody>
   </table>
 
@@ -124,6 +127,7 @@
   <table>
     <thead><tr><th>Site</th><th>What it is</th><th>Data source</th><th>Status</th></tr></thead>
     <tbody>
+      <tr><td><a href="live/">Demo API &amp; custom strategy desk</a></td><td>Dedicated Kalshi Demo API desk with 5s trade-print replay (<code>KXDEMOFUTHOURLY-26NOV22H08-UP</code>), <a href="live/portfolio/">interactive custom strategy builder</a> by trade type, 6dp fee-rounding accumulator, and <code>scalar</code> settlement support.</td><td>Committed verified <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status">Kalshi Demo REST</a> snapshot + optional V2 relay (<code>kalshi_engine/</code>)</td><td><span class="tag live">live</span></td></tr>
       <tr><td><a href="docs/">Market monitor</a></td><td>Browser-side monitor that polls public endpoints from your own session; topic subpages under <code>docs/</code>.</td><td>Demo REST, read by the visiting browser (CORS untested)</td><td><span class="tag archive">review</span></td></tr>
       <tr><td><a href="board.html">Trade board</a></td><td>Dependency-free Node implementation with its own source register and flags.</td><td>Demo REST via a scheduled collector</td><td><span class="tag archive">review</span></td></tr>
       <tr><td><a href="dashboard.html">Live board (root)</a></td><td>Second Node dashboard sharing the trade board's collector.</td><td>Demo REST via a scheduled collector</td><td><span class="tag archive">review</span></td></tr>
