@@ -1,5 +1,57 @@
 {
- "generated_at": "2026-11-22T07:14:46Z",
+ "generated_at": "2026-11-22T07:21:40Z",
  "threshold": 0.1,
- "items": []
+ "items": [
+  {
+   "id": "277bfcc32aee",
+   "ts": 1795332100,
+   "iso": "2026-11-22T07:21:40Z",
+   "ticker": "KXRT-HUN-67",
+   "topic": "culture",
+   "title": "The Hunger Games: Sunrise on the Reaping Rotten Tomatoes score?",
+   "subtitle": "Above 67",
+   "series_ticker": "KXRT",
+   "direction": "down",
+   "from_price": 0.425,
+   "to_price": 0.29,
+   "delta": -0.135,
+   "abs_delta": 0.135,
+   "pct_change": -31.76,
+   "basis": "mid",
+   "price": 0.29,
+   "yes_bid": 0.27,
+   "yes_ask": 0.31,
+   "spread": 0.04,
+   "volume_24h": 22999.83,
+   "open_interest": 37503.28,
+   "top_book_contracts": 37.7,
+   "close_time": "2026-11-23T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HUN-67",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "model": {
+    "score": 0.5252,
+    "roi_pct_est": 12.68,
+    "direction": "no",
+    "components": {
+     "momentum": 0.06,
+     "liquidity": 0.2,
+     "open_interest": 0.1372,
+     "band": 0.058,
+     "time": 0.15,
+     "spread": -0.08
+    },
+    "reasons": [
+     "move -0.03 over the lookback (0 price points)",
+     "24h volume 23,000 contracts",
+     "open interest 37,503",
+     "book spread $0.04",
+     "time to close 31.6h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  }
+ ]
 }
