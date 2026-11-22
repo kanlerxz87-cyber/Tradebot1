@@ -1,0 +1,56 @@
+name: CI
+
+on:
+  push:
+    paths-ignore:
+      - "docs/data/**"
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Unit tests
+        run: python -m pytest -q
+
+      - name: Verify published data integrity
+        run: |
+          if [ -f docs/data/latest.json ]; then
+            python -m kalshi_trader.cli verify
+          else
+            echo "no snapshot yet — skipping data integrity check"
+          fi
+
+      - name: Site generation is current
+        run: python tools/build_site.py --check
+
+      - name: No broken internal links
+        run: python tools/check_links.py
+
+      - name: No credentials in the tree
+        run: |
+          set -e
+          if git grep -nE "BEGIN (RSA |EC |)PRIVATE KEY|KALSHI-ACCESS-SIGNATURE: [A-Za-z0-9+/]{40}" -- . ':!*.md' ':!docs/assets/**'; then
+            echo "::error::possible private key material committed"
+            exit 1
+          fi
+          echo "no key material found"

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review — unverified items and irregularities</title>
+<meta name="description" content="Everything in this build that could not be confirmed from an official Kalshi source, plus every place the implementation deviates from a literal reading of the brief. Each item states its handling and what would clear it.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="topics/gas-prices.html">Gas</a>
+      <a href="topics/elections.html">Elections</a>
+      <a href="topics/culture.html">Culture</a>
+      <a href="topics/crypto.html">Crypto</a>
+      <a href="topics/golf.html">Golf</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="strategies.html">Strategies</a>
+      <a href="api-reference.html">API</a>
+      <a href="verification.html">Verification</a>
+      <a class="active" href="flagged.html">Flagged</a>
+      <a href="executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Flagged for review</h1>
+  <p class="page-sub">
+    These items do not block the release — the site states its uncertainty rather than hiding it.
+    Two are material for interpreting results: the fee model (<a href="#F1">F1</a>) and the missing demo
+    account (<a href="#F2">F2</a>). The rest are documentation, mapping and hosting realities.
+  </p>
+
+  <div class="banner warn">
+    <b>Reading guide:</b>&nbsp;<span class="grow">
+      <span class="chip warn">warn</span> affects a number you can see on the site ·
+      <span class="chip">info</span> affects interpretation or completeness ·
+      <span class="chip bad">blocker</span> would mean a value is wrong (none currently).
+    </span>
+  </div>
+
+  <div id="flagsTable"><!-- DATA:START -->
+<div class="table-wrap"><table>
+<thead><tr><th>ID</th><th>Severity</th><th>Item</th></tr></thead>
+<tbody><tr id="F1">
+  <td class="ticker">F1</td>
+  <td><span class="chip warn">warn</span></td>
+  <td>
+    <b>Trading-fee formula is unverified</b>
+    <div class="meta" style="margin-top:4px">The paper book charges a fee of ceil_to_cent(0.07 × contracts × price × (1 − price)). Kalshi&#x27;s fee schedule PDF (linked from the fee_type field of GET /series) could not be retrieved during this session, so the formula is only supported by third-party write-ups, not by an official Kalshi document.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Every ledger entry is labelled fee_model=quadratic_unverified; the portfolio page states the caveat next to P&amp;L; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Retrieve the current fee schedule PDF and set VERIFIED=True with the published rate in kalshi_trader/fees.py.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a> · <a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-series-list</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">docs.kalshi.com/getting_started/fee_rounding</a></div>
+  </td>
+</tr><tr id="F2">
+  <td class="ticker">F2</td>
+  <td><span class="chip warn">warn</span></td>
+  <td>
+    <b>Demo account is not connected — no live demo P&amp;L</b>
+    <div class="meta" style="margin-top:4px">A Kalshi demo account and its API key can only be created by the account holder (demo.kalshi.co sign-up plus test-funding). This session cannot create one, so no demo balance, positions or fills exist to report. Nothing is estimated in their place.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Simulated trading runs autonomously in an internal ledger. The demo adapter (kalshi_trader/kalshi_demo.py) activates automatically when KALSHI_API_KEY_ID and KALSHI_PRIVATE_KEY are present; the dashboard shows an explicit &#x27;not connected&#x27; block until then.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Add demo API credentials as repository secrets; the next scheduled cycle reads the demo balance and mirrors new entries as demo orders.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account" target="_blank" rel="noopener">help.kalshi.com/en/articles/13823775-creating-and-us</a> · <a href="https://docs.kalshi.com/api-reference/portfolio/get-balance" target="_blank" rel="noopener">docs.kalshi.com/api-reference/portfolio/get-balance</a></div>
+  </td>
+</tr><tr id="F3">
+  <td class="ticker">F3</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>&#x27;Culture&#x27; is a mapping, not an official Kalshi category</b>
+    <div class="meta" style="margin-top:4px">The official category list contains Entertainment, Social, Mentions, Politics and others — there is no &#x27;Culture&#x27; category. The brief&#x27;s culture topic is mapped to the official Entertainment category plus Social when a series carries it, which is a documented editorial decision.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> The mapping is declared in kalshi_trader/topics.py, printed on the Culture page, and every row keeps its raw category so the mapping can be audited or changed.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> If Kalshi publishes a Culture category, add it to the mapping and drop Entertainment/Social.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">docs.kalshi.com/getting_started/terms</a> · <a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener">docs.kalshi.com/api-reference/search/get-tags-for-se</a></div>
+  </td>
+</tr><tr id="F4">
+  <td class="ticker">F4</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Golf and gas-price topics need two matching paths</b>
+    <div class="meta" style="margin-top:4px">Golf is a tag under Sports, and the US gas-price series KXAAAGASM sits under Economics/Commodities. Series that omit the tag or the expected title would otherwise be missed, so a keyword fallback (golf/PGA/LPGA/Ryder Cup/LIV; gas price/gasoline/average gas) is used after the taxonomy match.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Taxonomy match always wins; the fallback is only applied when the official fields do not classify the series. Both paths are unit-tested and visible in the code.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Drop the keyword fallback once Kalshi guarantees complete tagging for these series.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">docs.kalshi.com/getting_started/terms</a> · <a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener">docs.kalshi.com/api-reference/search/get-tags-for-se</a></div>
+  </td>
+</tr><tr id="F5">
+  <td class="ticker">F5</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Browser CORS access to the Kalshi API is untested</b>
+    <div class="meta" style="margin-top:4px">GitHub Pages is static, so live data must come either from a committed snapshot or from the visitor&#x27;s browser calling Kalshi directly. Whether Kalshi sends permissive CORS headers could not be determined from the documentation.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> The published snapshot is the default data path (it cannot be blocked by CORS). The UI offers an explicit &#x27;test live access&#x27; action and reports the result honestly; the included local server provides a same-origin proxy and WebSocket push.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Confirm CORS behaviour in a browser, or deploy the included server behind the site.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_market_d</a> · <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a></div>
+  </td>
+</tr><tr id="F6">
+  <td class="ticker">F6</td>
+  <td><span class="chip warn">warn</span></td>
+  <td>
+    <b>Market data source is production while execution is paper</b>
+    <div class="meta" style="margin-top:4px">Market data uses the production public endpoints because they are keyless, carry real volume and reflect real prices. Execution is the internal paper ledger. Kalshi warns that demo prices may not reflect real markets, so demo fills and production marks would not be strictly comparable.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> The dashboard always names its data environment and execution mode. Switching to demo data is one environment variable (KALSHI_DATA_ENV=demo).</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Run the dashboard against the demo environment once demo credentials exist, and compare the two books side by side.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs.kalshi.com/getting_started/demo_env</a> · <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a></div>
+  </td>
+</tr><tr id="F7">
+  <td class="ticker">F7</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Alert timing is cycle-resolution, not tick-resolution</b>
+    <div class="meta" style="margin-top:4px">Kalshi documents that REST market reads are cached briefly and can lag by seconds. The scheduled collector runs every 15 minutes, so a swing is detected between consecutive cycles; the live server and direct mode raise the resolution to seconds.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Every alert records its timestamp, the compared-from price and the basis (midpoint or last), so the detection window is auditable rather than implied.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Subscribe to the orderbook_delta WebSocket channel for tick-level detection once credentials exist.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_market_d</a> · <a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs.kalshi.com/getting_started/rate_limits</a></div>
+  </td>
+</tr><tr id="F8">
+  <td class="ticker">F8</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Dollar-volume and dollar-open-interest figures are derived</b>
+    <div class="meta" style="margin-top:4px">The market object reports contract counts (volume_24h_fp, open_interest_fp), not dollars. &#x27;Est. 24h $&#x27; is computed as volume_24h × price and &#x27;OI $&#x27; as open interest × price.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Derived fields carry an _est suffix, are listed in DERIVED_FIELDS in kalshi_trader/marketdata.py, and the dashboard labels them &#x27;estimated, derived&#x27; wherever they appear.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Use the dollar_volume field from the ticker WebSocket channel, which Kalshi reports directly.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-markets</a></div>
+  </td>
+</tr><tr id="F9">
+  <td class="ticker">F9</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Orderbook asks are implied, not reported</b>
+    <div class="meta" style="margin-top:4px">Kalshi returns bids only. YES asks are computed as $1.00 − the best NO bid, and NO asks as $1.00 − the best YES bid.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> The depth panel labels the ask column &#x27;implied from NO bids&#x27; and the methodology page shows the arithmetic.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> None needed; this is how a binary book works.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a></div>
+  </td>
+</tr><tr id="F10">
+  <td class="ticker">F10</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>GitHub Pages cannot schedule work</b>
+    <div class="meta" style="margin-top:4px">The published site is static. Freshness depends on the GitHub Actions cron job that collects data and commits it under docs/data/.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> The page shows the snapshot age and turns the freshness chip amber after 30 minutes; the workflow and its last run are linked from the verification page.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Run the included server for true live streaming, or accept the 15-minute cadence.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.github.com/en/pages" target="_blank" rel="noopener">docs.github.com/en/pages</a></div>
+  </td>
+</tr><tr id="F11">
+  <td class="ticker">F11</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Ed25519 default-key claim is not used</b>
+    <div class="meta" style="margin-top:4px">Some third-party guides state that Ed25519 became the default API key type on 2026-10-01. The official pages read during this session describe support for both RSA (RSA-PSS/SHA-256) and Ed25519 but do not state a default date.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> The signer detects the key type at runtime and supports both; no claim about a default is made anywhere on the site.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Cite the official announcement if one is published.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/api-reference/portfolio/get-positions" target="_blank" rel="noopener">docs.kalshi.com/api-reference/portfolio/get-position</a> · <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a></div>
+  </td>
+</tr><tr id="F12">
+  <td class="ticker">F12</td>
+  <td><span class="chip warn">warn</span></td>
+  <td>
+    <b>The ROI model is a transparent heuristic, not a validated alpha</b>
+    <div class="meta" style="margin-top:4px">The high-ROI chat is filtered by a hand-built score (momentum, liquidity, open interest, price band, time to close, spread penalty). It has no backtested accuracy claim; its hit rate is whatever the autonomous book records from now on.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Every pick exposes its components, inputs and version; the strategies page states plainly that the weights are starting assumptions to be replaced by measured results.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Re-fit the weights on accumulated paper results and publish the out-of-sample comparison.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">docs.kalshi.com/getting_started/market_lifecycle</a></div>
+  </td>
+</tr><tr id="F13">
+  <td class="ticker">F13</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Per-topic caps bound the ranking universe</b>
+    <div class="meta" style="margin-top:4px">Each cycle keeps at most 40 series and 60 markets per topic after scanning all open events, ranking by estimated notional. &#x27;Highest dollar amount live events&#x27; therefore means the highest inside the tracked subset, not a guarantee of the global top of the exchange.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> The caps are configuration (MAX_SERIES_PER_TOPIC, KALSHI_MAX_MARKETS_PER_TOPIC) and the counts actually scanned are printed on each topic page.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Raise the caps (at a request-cost trade-off) or paginate more aggressively.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-markets</a></div>
+  </td>
+</tr><tr id="F14">
+  <td class="ticker">F14</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>Repo was empty at the start of this session</b>
+    <div class="meta" style="margin-top:4px">The repository contained a single 11-byte README.md at commit c8413fc, no code, no tests and no COORDINATION.md. Every table and claim on this site therefore had to be created and sourced in this session; there was no pre-existing data to audit.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> COORDINATION.md records the initial state, the task claims, the source list and the verification performed. No claim inherited from an unverified source exists on the site.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Nothing to resolve; recorded for auditability.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fcae9e3388b1bd7fd433fac1500630b4140" target="_blank" rel="noopener">github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fc</a></div>
+  </td>
+</tr></tbody></table></div>
+<!-- DATA:END --></div>
+
+  <section class="section">
+    <h2>Requesting a change</h2>
+    <div class="card">
+      <p class="small">
+        Every flag has an ID and a stable anchor, so a change request can be specific:
+        “F1 — fees: here is the current schedule PDF” or “F3 — culture: include Mentions as well”.
+        The verification page lists where each item is implemented, and the automated tests pin the
+        behaviour that would change.
+      </p>
+    </div>
+  </section>
+
+  <footer class="site">
+    <span>Flag register maintained in <code>docs/data/flags.json</code>.</span>
+    <span>·</span><a href="verification.html">Verification log</a>
+    <span>·</span><a href="requirements.html">Requirements</a>
+    <span>·</span><span>Not investment advice.</span>
+  </footer>
+</main>
+</body>
+</html>
