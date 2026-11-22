@@ -125,7 +125,7 @@ const Kalshi = (() => {
     const signedPath = SIGN_PREFIX + path.split('?')[0];
     const msg = new TextEncoder().encode(ts + method.toUpperCase() + signedPath);
     const pkcs8 = pemToArrayBuffer(pem);
-    if (!pkcs8) throw new Error('Could not parse the private key PEM. Expected a PEM block whose header contains PRIVATE KEY.'));
+    if (!pkcs8) throw new Error('Could not parse the private key PEM. Expected a PEM block whose header contains PRIVATE KEY.');
 
     // Try Ed25519 first (Kalshi default for new keys since 2026-10-01), then RSA-PSS.
     const attempts = [
