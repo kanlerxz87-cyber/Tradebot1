@@ -22,7 +22,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "live"))
-from desk import DEMO_REST, DEMO_WS, FEE_RATE_MAKER, FEE_RATE_TAKER, THRESHOLD, TOPIC_LABELS  # noqa: E402
+from desk import DEMO_REST, DEMO_WS, FEE_RATE_MAKER, clean_title, FEE_RATE_TAKER, THRESHOLD, TOPIC_LABELS  # noqa: E402
 
 OUT = ROOT / "live.html"
 SNAPSHOT = ROOT / "docs/desk/data/latest.json"
@@ -71,11 +71,23 @@ UNVERIFIED = [
 ]
 
 
-def load_topics() -> tuple[dict, str]:
+def load_topics() -> tuple[dict, str, str]:
+    """Return (topics, generated_at, rest_base) from the committed capture."""
     if not SNAPSHOT.exists():
-        return {}, ""
+        return {}, "", ""
     payload = json.loads(SNAPSHOT.read_text())
-    return payload.get("topics") or {}, payload.get("generated_at") or ""
+    return (
+        payload.get("topics") or {},
+        payload.get("generated_at") or "",
+        payload.get("rest_base") or "",
+    )
+
+
+def count(value) -> str:
+    try:
+        return format(float(value), ",.0f")
+    except (TypeError, ValueError):
+        return "—"
 
 
 def money(value) -> str:
@@ -98,14 +110,14 @@ def topic_rows(topics: dict) -> str:
         block = topics.get(topic) or {}
         markets = sorted(block.get("markets") or [], key=lambda m: m.get("notional_24h_est") or 0, reverse=True)[:6]
         rows = "".join(
-            f"<tr><td>{html.escape(str(m.get('title') or m.get('ticker')))}"
+            f"<tr><td>{html.escape(clean_title(m.get('title')) or str(m.get('ticker') or ''))}"
             f"<br><code>{html.escape(str(m.get('ticker') or ''))}</code></td>"
             f"<td class='num'>{cents(m.get('yes_bid'))}</td>"
             f"<td class='num'>{cents(m.get('yes_ask'))}</td>"
             f"<td class='num'>{cents(m.get('mid'))}</td>"
-            f"<td class='num'>{money(m.get('volume_24h'))}</td>"
+            f"<td class='num'>{count(m.get('volume_24h'))}</td>"
             f"<td class='num'>{money(m.get('notional_24h_est'))}</td>"
-            f"<td class='num'>{money(m.get('top_book_contracts'))}</td>"
+            f"<td class='num'>{count(m.get('top_book_contracts'))}</td>"
             f"<td><a href='{html.escape(str(m.get('api_url') or ''))}' rel='noopener noreferrer'>API ↗</a> "
             f"<a href='{html.escape(str(m.get('series_page_url') or ''))}' rel='noopener noreferrer'>page ↗</a></td></tr>"
             for m in markets
@@ -121,7 +133,7 @@ def topic_rows(topics: dict) -> str:
 
 
 def render() -> str:
-    topics, captured_at = load_topics()
+    topics, captured_at, rest_base = load_topics()
     verification_rows = "".join(
         f"<tr><td>{html.escape(fact)}</td><td>{html.escape(observed)}</td>"
         f"<td><a href='{html.escape(url)}' rel='noopener noreferrer'>{html.escape(url.split('//')[-1][:52])} ↗</a></td>"
@@ -208,7 +220,8 @@ def render() -> str:
   <p class="dim"><a href="index.html">← All dashboards</a> · <a href="qa.html">Audit</a> · Kalshi research, not advice</p>
   <h1>Live desk: one process, five topics, two alert chats</h1>
   <p class="lede">A dependency-free Python server (<code>live/</code>) plus a single-page dashboard. It tracks
-  gas prices, elections, culture, crypto and golf; alerts on every move of <b>${THRESHOLD * 100:.0f}¢ or more</b>
+  gas prices, elections, culture, crypto and golf; alerts on every move of
+  <b>{THRESHOLD * 100:.0f}¢ ($0.10) or more</b>
   in either direction; charts price against time with selectable windows; shows resting contracts at each
   price; runs four automatic strategies in a simulated book; and keeps each market until Kalshi finalises it.
   This page is the published record of what it does and what has been verified — the process itself runs on
@@ -243,7 +256,8 @@ python3 live/build_page.py --check                 # this page is current</pre>
 
   <h2>The snapshot the dashboard starts from</h2>
   <p class="dim" style="font-size:12px">Captured {html.escape(captured_at or "—")} from
-  <code>{html.escape((topics.get("gas") or {}).get("blurb", "")[:0] or "the committed research-desk capture")}</code>.
+  <code>{html.escape(rest_base or "the committed research-desk capture")}</code> — the research desk's
+  capture, recorded in <code>docs/desk/data/latest.json</code>.
   Rows are the top six per topic by estimated 24h notional — a derived figure (price × 24h contracts), not
   exchange-reported turnover. Every row links to the API URL and the public market page it came from.</p>
   {topic_rows(topics)}
