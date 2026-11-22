@@ -805,11 +805,19 @@ class Desk:
     # -- public state ------------------------------------------------------- #
 
     def equity(self) -> float:
+        """Cash plus the *displayed* mark of every open position.
+
+        Each position's mark value is rounded to the cent before summing, exactly as
+        Position.public() reports it, so that ``cash + sum(markValue)`` equals equity
+        to the cent instead of drifting by one cent per position when a reader adds
+        the numbers the page prints. (Pre-existing gate failure on main, fixed here.)
+        """
         value = self.cash
         for position in self.positions.values():
             market = self.markets.get(position.ticker)
             mark = market.mid if market else position.entry_price
-            value += position.contracts * (mark if position.side == "YES" else 1 - mark)
+            side_price = mark if position.side == "YES" else 1 - mark
+            value += round(position.contracts * side_price, 2)
         return round(value, 2)
 
     def portfolio(self) -> dict[str, Any]:

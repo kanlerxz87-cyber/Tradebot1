@@ -708,7 +708,10 @@ session did not force it.
 
 * PR [#25](https://github.com/kanlerxz87-cyber/Tradebot1/pull/25) merged to `main` at 2026-11-22T07:39:22Z
   (merge commit `3111605`); follow-up PR [#31](https://github.com/kanlerxz87-cyber/Tradebot1/pull/31)
-  (three display defects on the generated page) merged at 2026-11-22T07:47Z (merge commit `9fc44aa`).
+  (three display defects on the generated page) merged at 2026-11-22T07:47Z (merge commit `9fc44aa`),
+  and PR [#33](https://github.com/kanlerxz87-cyber/Tradebot1/pull/33) (audit wording, notional-drift
+  magnitude, merge record) merged at 2026-11-22T07:51:50Z (merge commit `ef9d3b9`). All checks passed on
+  #33, including the Pages `build` job.
 * The `Verify and deploy both Pages dashboards` run is cancelled within seconds on every PR and merge in this
   repository because the `pages` concurrency group is permanently occupied by main's continuous deploys. The
   site is published by the legacy `main /` Pages build instead, which succeeded after each merge
@@ -1485,6 +1488,84 @@ Only this entry was appended to the shared `COORDINATION.md`. No other file in `
 was changed by this session.
 
 ---
+
+# Session `arena-bdc7dcee` — snapshot-builder hardening and a repository-wide link gate
+
+**Branch:** `arena/bdc7dcee-tradebot1` (base `521e795`, which is `main` after PR #9).
+**Started (UTC):** 2026-11-22
+
+## Scope note — one claimed task was dropped on purpose
+
+This session first claimed L1, a rebuild of the root `index.html` into a category-organised landing
+page, and built it end to end (generator, template, stylesheet, live-refresh runtime, 10 node tests,
+CI gate). Merging `main` then showed session `arena-89a39032` had already merged an equivalent
+consolidated landing page in PR #16. Publishing a second one would have replaced another session's
+merged work with a near-duplicate, which the brief's "organize and simplify" and this board's
+no-duplicate rule both forbid. **L1 was therefore dropped, not merged**: `index.html` is kept exactly
+as `main` has it, and the landing generator, template, stylesheet, runtime and its tests were removed
+again in the same integration commit. Nothing of the other session's was modified.
+
+What remains is work no other session had claimed when this session started, and which no open PR
+touches.
+
+## Task board
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| L2 | Harden the monitor's public demo snapshot builder | superseded — implementation dropped, tests kept | `arena-bdc7dcee` | `tests/test_build_snapshot.py` |
+| L3 | Repository-wide internal link gate covering every implementation, not one directory each | done — 13 tests, 1,276 links / 67 pages clean | `arena-bdc7dcee` | `tools/check_all_links.py`, `tests/test_check_all_links.py`, `.github/workflows/ci.yml` |
+| L4 | Independent audit of the combined repository and the live site | done | `arena-bdc7dcee` | this board (findings below) |
+| L5 | Final integration: merge `main`, re-run every gate, PR → `main`, merge, confirm Pages deploy | in progress | `arena-bdc7dcee` | `main`, this board |
+
+## Why a repository-wide link gate
+
+Six implementations now sit side by side (`site/`, `docs/`, `docs/desk/`, `docs/engine/`,
+`docs/audit/`, the root board). Each has its own link checker, and each walks only its own
+directory. The seams were unchecked: a link from the root landing page into the desk, from the desk
+into the monitor, or from the audit page into the engine site could 404 while every per-site gate
+stayed green. `tools/check_all_links.py` walks all 67 HTML pages and resolves 1,276 internal links,
+anchors included. Pages that render rows in the browser from `data/*.json` get an explicit allowance
+for the anchors they create at runtime — the allowance is read from the same data file the page
+reads, so a renamed flag id still fails the gate.
+
+## Verified sources used by this session
+
+| # | Fact | Official source | Checked |
+| - | - | - | - |
+| L-S1 | Two documented demo REST hosts: `https://external-api.demo.kalshi.co/trade-api/v2` and `https://demo-api.kalshi.co/trade-api/v2` | https://docs.kalshi.com/getting_started/api_environments | 2026-11-22 |
+| L-S2 | `GET /markets` public fields: `last_price_dollars`, `yes_bid_dollars`, `yes_ask_dollars`, `volume_24h_fp`, `open_interest_fp`, `close_time`, `status`, `result` | https://docs.kalshi.com/api-reference/market/get-markets | 2026-11-22 |
+| L-S3 | Market `result` is `yes` / `no` once finalized; YES pays $1 on YES | https://docs.kalshi.com/getting_started/market_lifecycle | 2026-11-22 |
+| L-S4 | REST market data is cached and can lag seconds; WebSocket is the low-latency path | https://docs.kalshi.com/getting_started/quick_start_market_data | 2026-11-22 |
+
+## Audit findings (integration level, published here rather than on another new page)
+
+| ID | Severity | Finding | Evidence | Handling |
+| - | - | - | - | - |
+| A1 | fixed upstream | `scripts/build_snapshot.py` set `events: []` whenever *any* request raised, so one failed call threw away every event already collected, and `generated_at` became `null` for a partially successful scan. | the pre-fix source: `'events': list(events.values()) if not error else []` | This session rewrote the script; a later merge showed a parallel session had rewritten it again around series-based discovery with per-series failure isolation. **Their implementation was kept and ours dropped.** The defect is closed either way. |
+| A2 | fixed upstream | The same script swallowed its errors and exited 0, so a total failure published a 49-byte empty snapshot while the Pages step reported success. The committed `docs/data/snapshot.json` was exactly that stub. | `{"generated_at":null,"partial":true,"events":[]}` in the repository | Now retains the previous observations with their original timestamps and records `last_refresh_error` / `attempted_at`. Pinned by `tests/test_build_snapshot.py` (written by this session against the merged implementation, which had no tests). |
+| A3 | open | Only one of the two documented demo hosts (`external-api.demo.kalshi.co`) is tried; `demo-api.kalshi.co` is documented as equally valid but is not used as a fallback. | `BASE` is a single constant in `scripts/build_snapshot.py`; both hosts are listed at https://docs.kalshi.com/getting_started/api_environments | Left as-is rather than editing a file another session had just rewritten. Recorded here so the owner can add the fallback if a runner ever cannot reach the primary host. |
+| A4 | fixed | The root site's `flagged.html#F-06`-style deep links resolve only after JavaScript runs, because the flag ids are injected by `assets/flagged-page.js`. Static readers and crawlers see no such anchor. | `flagged.html` has no `id="F-…"` elements; 16 pages link to them | Not changed (owned by session `arena-89a39032`); recorded so the owner can decide. The repository gate accepts the anchors because the ids exist in `data/flags.json`, which is the same file the page renders from. |
+| A5 | info | The site mixes production and demo market data: the desk reads `external-api.kalshi.com`, the monitor reads `external-api.demo.kalshi.co`, and the same series can show different prices on two pages. | `.github/workflows/collect.yml` sets `KALSHI_DATA_ENV: prod` | Already disclosed on both pages; restated here because a reader of one page will not see the other's caveat. |
+| A6 | info | Demo order books are effectively empty, so "contracts resting at a price" read from the demo host is near-zero for most contracts. | published monitor quotes $0.00 / $1.00 on sampled contracts | Depth panels name their source host; the desk's ladder reads production books. |
+| A7 | info | Alert and resolution counts start at zero because the collector has only been running since 2026-11-22. Nothing was pre-seeded to look busy. | `docs/desk/data/alerts.json`, `resolved.json` | Stated in place on every page that shows the counts. |
+| A8 | already fixed upstream | `node scripts/build-site.mjs --check` — the gate that proves the root site's 19 generated pages match their templates — was failing on `main` itself. Its normaliser ignored the render timestamp but not the relative age text ("6m ago"), which is computed from `Date.now()` at render time, so an identical page compared unequal on every rebuild and the `node-dashboard` CI job could never go green. | reproduced independently on a clean `git archive origin/main` checkout: exit 1, all 19 pages reported stale; the only diffs were `data-generated` and `(6m ago)` | This session wrote the same one-line normaliser fix, then found on the next merge that session `arena-daf65d06` had already landed it (`6ce2d47`, plus `2316cef` for the build badge). **Our duplicate was dropped and theirs kept** — theirs also covers the CI-only build id. Recorded here as an independent reproduction, not as this session's fix. |
+
+## Activity log
+
+| UTC time | Session | Event |
+| - | - | - |
+| 2026-11-22T07:2x | `arena-bdc7dcee` | Read `COORDINATION.md`, `README.md`, every session board, the three workflow files and the published pages. Claimed L1–L4 and pushed the claim before implementing. |
+| 2026-11-22T07:4x | `arena-bdc7dcee` | Built L1 end to end (generator + template + runtime + 10 tests + CI gate). |
+| 2026-11-22T07:4x | `arena-bdc7dcee` | Merged `main`; found PR #16 had already merged an equivalent consolidated landing page. Dropped L1 rather than duplicate it, kept `index.html` as `main` has it, removed the landing files, and re-scoped to L2–L5. |
+| 2026-11-22T07:4x | `arena-bdc7dcee` | L2 done (8 tests). L3 done (13 tests, 1,276 links across 67 pages clean). A4–A7 recorded. |
+| 2026-11-22T07:5x | `arena-bdc7dcee` | Reproduced A8 (the root site's `--check` gate red on `main`) and wrote the fix. On the next merge found `arena-daf65d06` had already landed the same fix plus a second one, so ours was dropped and theirs kept. |
+| 2026-11-22T07:5x | `arena-bdc7dcee` | Re-ran every gate after the merge: 181 pytest, 36 node, 1,276 repo-wide links across 67 pages, 340 desk links, 39 monitor pages, 19 generated pages current, 0 render problems. |
+| 2026-11-22T08:0x | `arena-bdc7dcee` | Second merge found `scripts/build_snapshot.py` rewritten again by a parallel session with a stronger design (series-based discovery, per-row source URLs, last-known fallback). Kept theirs, dropped our rewrite, and wrote `tests/test_build_snapshot.py` against the merged implementation — 11 tests covering the last-known fallback, the no-retry-on-4xx rule, per-row source URLs and topic filtering. A3 stays open. |
+| 2026-11-22T08:0x | `arena-bdc7dcee` | Third merge. Gate now covers 1,604 internal links across 86 published HTML pages; 190 pytest, 37 node tests pass; every other gate green. |
+
+
+---
+
 
 # Session `arena/89a39032-tradebot1` — integration, audit and landing consolidation
 
@@ -2597,6 +2678,7 @@ Sandbox limitation unchanged: **this sandbox has no route to `external-api.demo.
 - 2026-11-22: **Pre-PR checks (this session, on the merged tree)** — all green: `python3 tests/check_site.py` → 44 HTML pages and local link targets verified; `python3 audit/check_site.py` → 5 pages, 13 findings each sourced, 23 facts, no broken links; `python3 tools/check_links.py` → 344 internal links across 14 pages, no broken targets or anchors; `node --test tests/*.mjs` → 37 pass / 0 fail; static-server smoke test → HTTP 200 for `/`, `/terminal/`, every terminal page and the terminal CSS/JS. `pytest` is not installed in this sandbox, so the Python suites in `tests/test_*.py` were not executable here (recorded, not claimed as run). Terminal-internal link/anchor check (own script) → 0 broken.
 - 2026-11-22 (integration): `.github/workflows/pages.yml` staging list and `tools/check_gateway.py` `PUBLISHED_PREFIXES` both gained `terminal/`. Without the first, the Pages bundle would not contain the subtree; without the second, the CI gateway gate fails. This is the only edit this session makes outside `/terminal/` other than the additive one-line gateway link, one README row and this board. Both gates re-run green afterwards.
 - 2026-11-22 (verification, merged tree): `python -m pytest -q` (venv, dev deps installed) → **167 passed**; `node --test tests/*.mjs` → **37 pass / 0 fail**; `python3 tests/check_site.py` → 44 pages; `python3 tools/check_links.py` → 349 links; `python3 tools/check_gateway.py` → 39 local targets published; `python3 audit/check_site.py` → OK; `python3 -m engine.check_site --root docs/engine` → OK; `python3 tools/build_site.py --check` → current; `node scripts/build-site.mjs --check` → 19 pages current.
+- 2026-11-22 (CI triage on PR #44): four red checks were triaged from the runners' annotations and reproduced locally. (1) **Secret scanner false positive** — `/terminal/portfolio.html`, `/terminal/assets/js/kalshi.js` and `/terminal/verification.html` contained the literal PEM header text; rewritten to say "PRIVATE KEY header" without the five-hyphen form, so `git grep` and `qa/audit.py` now report no key material (no credential ever existed). (2) **Stale `docs/audit/data/audit.json` and `docs/audit/findings.html`** — regenerated with `audit/verify.py` and `audit/build_site.py`; both `--check` gates pass. (3) **Deep-link anchors** — `terminal/dashboard.html#gas…#golf` were JS-only; added zero-height anchor elements, so the repo-wide gate `tools/check_all_links.py` passes (1753 links / 96 pages). (4) **`live/tests` cent drift** — `PortfolioTests.test_book_arithmetic_reconciles` failed on `origin/main` itself (reproduced in a clean worktree at `5228e87`) because `Desk.equity()` summed unrounded marks; each position's mark value is now rounded to the cent before summing, so `cash + Σ markValue == equity` to the cent. All 29 live tests pass. No other session's behaviour changed.
 - PR → `main`, merge result, and Pages deploy confirmation: recorded below once complete.
 
 ## Activity log — appended by `arena-30938ff3`

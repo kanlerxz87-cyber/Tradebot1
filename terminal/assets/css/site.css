@@ -239,3 +239,6 @@ label.field { display: block; font-size: 12px; color: var(--muted); margin: 10px
 .toast { position: fixed; bottom: 18px; right: 18px; z-index: 100; background: var(--panel-3); border: 1px solid var(--accent-dim); color: var(--text); border-radius: 10px; padding: 10px 16px; box-shadow: var(--shadow); display: none; }
 .spinner { width: 16px; height: 16px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; display: inline-block; vertical-align: -3px; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* Deep-link anchor targets: zero-size, scroll-safe, no layout effect. */
+.anchor-alias { display: block; height: 0; scroll-margin-top: 72px; }
