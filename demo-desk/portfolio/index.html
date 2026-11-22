@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio &amp; Strategy Lab — Kalshi Demo API Desk</title>
+  <link rel="stylesheet" href="../assets/live.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span>Kalshi Demo API Desk</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+    </div>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="active">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+  </div>
+</header>
+<main class="wrap">
+
+  <section class="hero">
+    <span class="badge accent">Multi-Strategy Automation · Custom Rule Builder · Trade-Type Analytics</span>
+    <h1>Simulated &amp; Demo Portfolio Lab — Existing &amp; Custom Strategies Analyzed by Trade Type</h1>
+    <p>
+      Automates simulated trades across 5 built-in strategies plus user-defined custom strategies, tracks open &amp; settled positions with Kalshi's official
+      <a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6-decimal-place fee-rounding accumulator</a>,
+      and categorizes every fill by <strong>strategy</strong> and <strong>trade type</strong>. For authenticated Kalshi Demo V2 execution (`POST /trade-api/v2/portfolio/events/orders`), run `python3 -m kalshi_engine.relay_server` locally with your Demo API keys.
+    </p>
+    <div class="toolbar">
+      <button id="btn-reset-ledger" type="button">Reset &amp; Re-Seed Verified Simulation</button>
+      <a class="btn primary" href="../index.html">Back to Live Desk &amp; 5s Replay &rarr;</a>
+    </div>
+  </section>
+
+  <section class="kpi-grid">
+    <div class="kpi"><div class="label">Portfolio Equity</div><div class="val" id="kpi-equity">$10,000.00</div><div class="sub">Starting Bankroll: $10,000.00</div></div>
+    <div class="kpi"><div class="label">Net Total PnL</div><div class="val" id="kpi-pnl">+$0.00</div><div class="sub">Mark-to-Market + Finalized</div></div>
+    <div class="kpi"><div class="label">6dp Fees Charged</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Verify Fee Spec ↗</a></div></div>
+    <div class="kpi"><div class="label">Authenticated Demo Balance</div><div class="val">Unverified</div><div class="sub"><a href="../flagged/index.html">See Flagged F1 (No Keys in Repo) ↗</a></div></div>
+  </section>
+
+  <section class="grid-equal">
+    <div class="card" style="margin-bottom:0;">
+      <h2><span>Active Automated Strategies (Toggle On/Off)</span><span class="badge ok">5 Built-In Models</span></h2>
+      <div id="strategy-toggles"></div>
+      <div class="table-wrap" style="margin-top:10px;">
+        <table>
+          <thead><tr><th>Strategy ID</th><th>Trade Type</th><th>Execution Rule</th><th>Official Spec</th></tr></thead>
+          <tbody>
+        <tr>
+          <td class="mono"><strong>momentum_breakout</strong></td>
+          <td><span class="badge accent">breakout_momentum</span></td>
+          <td>Buys YES on &gt;=+$0.10 jump or NO on &lt;=-$0.10 drop within [$0.12, $0.88].</td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>mean_reversion_fade</strong></td>
+          <td><span class="badge accent">mean_reversion</span></td>
+          <td>Fades &gt;=$0.10 spikes: buys NO at YES &gt;=$0.60 or buys YES at YES &lt;=$0.40.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>high_roi_selective</strong></td>
+          <td><span class="badge accent">selective_value</span></td>
+          <td>Trades only alerts passing Selective High-ROI chat (net ROI &gt;=12%, spread &lt;=$0.08, depth &gt;=25).</td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>favorite_compounder</strong></td>
+          <td><span class="badge accent">tail_convexity</span></td>
+          <td>Compounds high-probability contracts in [$0.62, $0.92] on upward &gt;=$0.10 confirmation.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>longshot_asymmetric</strong></td>
+          <td><span class="badge accent">tail_convexity</span></td>
+          <td>Capped convexity allocation in [$0.05, $0.25] on upward &gt;=$0.10 momentum.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+        </tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <h2><span>Create &amp; Backtest Custom Strategy</span><span class="badge accent">Evaluated by Trade Type</span></h2>
+      <p class="subnote">Define a custom rule below. On save, it immediately backtests against all verified &ge;$0.10 Demo swings and runs live on future alerts.</p>
+      <form id="custom-strategy-form" class="form-grid">
+        <div class="field"><label for="cs-name">Strategy Name</label><input id="cs-name" type="text" value="Custom Election/Crypto Fade" required></div>
+        <div class="field">
+          <label for="cs-type">Trade Type Category</label>
+          <select id="cs-type">
+            <option value="custom_rule">custom_rule</option>
+            <option value="breakout_momentum">breakout_momentum</option>
+            <option value="mean_reversion">mean_reversion</option>
+            <option value="selective_value">selective_value</option>
+            <option value="tail_convexity">tail_convexity</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cs-topic">Topic Filter</label>
+          <select id="cs-topic">
+            <option value="any">All 5 Topics</option>
+            <option value="Crypto">Crypto</option>
+            <option value="Elections">Elections</option>
+            <option value="Gas Prices">Gas Prices</option>
+            <option value="Culture">Culture</option>
+            <option value="Golf">Golf</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cs-dir">Swing Direction</label>
+          <select id="cs-dir">
+            <option value="any">Either (&ge;$0.10)</option>
+            <option value="up">Up Jump Only</option>
+            <option value="down">Down Drop Only</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="cs-side">Order Action</label>
+          <select id="cs-side">
+            <option value="follow">Follow Move (Momentum)</option>
+            <option value="fade">Fade Move (Mean-Revert)</option>
+            <option value="yes">Always BUY YES</option>
+            <option value="no">Always BUY NO</option>
+          </select>
+        </div>
+        <div class="field"><label for="cs-delta">Min |&Delta;Price| ($)</label><input id="cs-delta" type="number" step="0.05" min="0.10" max="0.90" value="0.10"></div>
+        <div class="field"><label for="cs-minp">Min YES Price ($)</label><input id="cs-minp" type="number" step="0.01" min="0.01" max="0.95" value="0.15"></div>
+        <div class="field"><label for="cs-maxp">Max YES Price ($)</label><input id="cs-maxp" type="number" step="0.01" min="0.05" max="0.99" value="0.85"></div>
+        <div class="field"><label for="cs-contracts">Contracts / Signal</label><input id="cs-contracts" type="number" min="1" max="500" value="12"></div>
+        <div class="field"><button type="submit" class="primary" style="width:100%;justify-content:center;">Add &amp; Run Custom Strategy</button></div>
+      </form>
+
+      <h3>Registered Custom Strategies</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Trade Type</th><th>Filter Conditions</th><th>Sizing</th><th>Source</th></tr></thead>
+          <tbody id="custom-strategies-list">
+            <tr>
+              <td><strong>Custom Crypto Oversold Buyer</strong></td>
+              <td><span class="badge accent">custom_rule</span></td>
+              <td>Crypto · dir=down · |&Delta;|&ge;$0.10 · [$0.25, $0.48]</td>
+              <td class="mono">YES &times; 15</td>
+              <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid-equal" style="margin-top:18px;">
+    <div class="card" style="margin-bottom:0;">
+      <h2>Performance Breakdown by Strategy (Built-In &amp; Custom)</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Strategy</th><th class="num">Trades</th><th class="num">Contracts</th><th class="num">Notional</th><th class="num">Fees</th><th class="num">Net PnL</th><th class="num">Win %</th><th>Spec Link</th></tr>
+          </thead>
+          <tbody id="analytics-by-strategy">
+            <tr><td><strong>Selective High-ROI Model</strong></td><td class="num">5</td><td class="num">100</td><td class="num">$55.00</td><td class="num">$1.5800</td><td class="num up-txt">+$7.42</td><td class="num">60%</td><td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi Fee Spec ↗</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:0;">
+      <h2>Performance Breakdown by Trade Type Category</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Trade Type</th><th class="num">Trades</th><th class="num">Contracts</th><th class="num">Notional</th><th class="num">Fees</th><th class="num">Net PnL</th><th class="num">Win %</th><th>Spec Link</th></tr>
+          </thead>
+          <tbody id="analytics-by-type">
+            <tr><td><span class="badge accent">selective_value</span></td><td class="num">5</td><td class="num">100</td><td class="num">$55.00</td><td class="num">$1.5800</td><td class="num up-txt">+$7.42</td><td class="num">60%</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order.md" target="_blank" rel="noopener">V2 Order Spec ↗</a></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card" style="margin-top:18px;">
+    <h2>Manual Demo Order Execution Ticket</h2>
+    <form id="quick-order-form" class="form-grid">
+      <div class="field"><label for="quick-ticker">Contract</label><select id="quick-ticker"></select></div>
+      <div class="field"><label for="quick-side">Side</label><select id="quick-side"><option value="yes">BUY YES</option><option value="no">BUY NO</option></select></div>
+      <div class="field"><label for="quick-contracts">Contracts</label><input id="quick-contracts" type="number" min="1" max="1000" value="10"></div>
+      <div class="field"><button type="submit" class="primary" style="width:100%;justify-content:center;">Execute Manual Trade</button></div>
+    </form>
+    <div id="quick-order-msg" style="margin-top:8px;font-size:12px;"></div>
+  </section>
+
+  <section class="card">
+    <h2>Categorized Trade &amp; Settlement Ledger</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>UTC Time</th><th>Ticker</th><th>Topic</th><th>Strategy</th><th>Trade Type</th><th>Fill</th><th class="num">Fee</th><th>Status / PnL</th><th>Official API</th></tr>
+        </thead>
+        <tbody id="trade-ledger-body">
+          <tr>
+            <td class="mono">2026-11-22T06:55:00Z</td><td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H07-UP</strong></td><td>Crypto</td>
+            <td>Selective High-ROI Model</td><td><span class="badge">selective_value</span></td><td class="mono">YES &times; 20 @ $0.5500</td>
+            <td class="num">$0.3465</td><td><span class="badge ok">Finalized (yes) +$8.65</span></td>
+            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H07-UP" target="_blank" rel="noopener">Market API ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+<footer class="site-footer">
+  <div>
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Zero production order endpoints exist in this desk.
+  </div>
+  <div>
+    <a href="../flagged/index.html">Flagged for Review</a> ·
+    <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
+    <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>
+  </div>
+</footer>
+</main>
+<script type="module">import { bootLivePage } from "../assets/live-app.mjs"; bootLivePage({ dataPath: "../data/verified_snapshot.json", topic: "ALL" });</script>
+</body>
+</html>
