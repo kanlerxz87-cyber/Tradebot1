@@ -21,3 +21,6 @@ _site/
 coverage/
 
 # Build output kept in git on purpose: docs/ is the published GitHub Pages site.
+
+# Python virtualenv
+.venv/
