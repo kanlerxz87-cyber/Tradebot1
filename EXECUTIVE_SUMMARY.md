@@ -83,9 +83,10 @@ the [verification page](https://kanlerxz87-cyber.github.io/Tradebot1/verificatio
 ### 4. What the numbers mean (and do not)
 
 * Performance figures are **paper**, not exchange fills. Fees are modelled with the published Kalshi
-  schedule (verified 2026-11-22, 42/42 table values), but exchange rebates and per-series multipliers
-  are not modelled.
-* Alerts are cycle-resolution: the cron runs every 15 minutes; the live server and direct mode raise
+  schedule (verified 2026-11-22, 42/42 table values), but exchange rebates, maker fills and per-series
+  multipliers are not modelled.
+* Alerts are cycle-resolution: the desk collector runs every 30 minutes (the Pages build budget), so a
+  10-cent move that reverses inside one window can be missed; the live server and direct mode raise
   that to seconds.
 * Dollar-volume rankings use `volume_24h × price`, a derived figure labelled `_est` everywhere.
 * The high-ROI chat is a noise filter, not a forecast. Its accuracy is whatever the ledger records.

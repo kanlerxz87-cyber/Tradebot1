@@ -1,6 +1,6 @@
 name: Collect market data
 
-# The autonomous loop. Every 15 minutes it reads the public Kalshi API (no key needed),
+# The autonomous loop. Every 30 minutes it reads the public Kalshi API (no key needed),
 # records prices, detects >= $0.10 swings, advances the paper-trading book, regenerates the
 # static tables and publishes the site.
 #
@@ -10,7 +10,7 @@ name: Collect market data
 
 on:
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "*/30 * * * *"
   workflow_dispatch:
     inputs:
       samples:
