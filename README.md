@@ -84,7 +84,7 @@ No API key is needed for market data. `cli demo-status` reports whether demo cre
 without any code change.
 
 Deeper reading: [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md),
-[`docs/desk/repo-review.html`](docs/desk/repo-review.html) (line-by-line code review: six defects,
+[`docs/desk/repo-review.html`](docs/desk/repo-review.html) (line-by-line code review: seven defects,
 their official sources, the tests that pin them, and what stays open),
 [`docs/desk/verification.html`](docs/desk/verification.html),
 [`docs/desk/flagged.html`](docs/desk/flagged.html),

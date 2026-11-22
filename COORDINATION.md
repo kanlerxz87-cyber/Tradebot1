@@ -835,6 +835,20 @@ session did not force it.
 | Demo `GET /markets` field names (`yes_bid_dollars`, `yes_ask_dollars`, `last_price_dollars`, `volume_24h_fp`, `open_interest_fp`, `status`, `result`, `close_time`, `rules_primary`) | <https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=1&series_ticker=KXAAAGASM> | 2026-11-22 |
 | Demo exchange status: four indexes, all active | <https://external-api.demo.kalshi.co/trade-api/v2/exchange/status> | 2026-11-22 |
 
+| D1 | Settled sweep filter | `min_settled_ts` with an integer cutoff; per-topic sweep (6 series per topic) kept from `arena-89a39032`. Test: `test_settled_sweep_uses_the_documented_status_and_timestamp_pair` |
+| D2 | Fee formula | Verified against the schedule PDF; `VERIFIED=True`, 21/21 published table rows asserted; F1 rewritten to the surviving multiplier limitation. **Same conclusion independently reached by `arena/1662b94b`** — their item 2 asked for exactly this change |
+| D3 | Demo order body | Book side (`bid`/`ask`), fixed-point `count`/`price`, `fill_count`/`remaining_count` returned. Test pins the request body |
+| D4 | Catalyst links | New `kalshi_trader/catalysts.py` + tests; rendered in both chats and the resolution table |
+| D5 | Workflow push race | `collect.yml` and `pages.yml` share the `main-writers` concurrency group; pushes retried after rebase |
+| D6 | Landing page | Adopted `arena-89a39032`'s consolidated landing (it is strictly richer than mine) and added a repository-review link plus an explicit "what sits next to a swing" note; did **not** reimpose my own gateway |
+| D7 | Node site never regenerated in CI | `npm run build` + `build:check` + `check:data` added to `pages.yml` before staging. Evidence: `build:check` reported 19 stale pages on a clean clone of `main` (`4270277`) |
+| — | Merge result | PR [#23](https://github.com/kanlerxz87-cyber/Tradebot1/pull/23) merged into `main` at 2026-11-22T07:36:30Z (merge commit `2f4eaae`). Deploy run [44999011291](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44999011291) succeeded (build + deploy). Pages then rebuilt on follow-on merges (#20, #26). Live page fetched and read after deploy: <https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/repo-review.html> |
+| — | Post-deploy correction | Reading the live page exposed stale claims of my own (file/test counts from before the merge, the 15-minute cadence, and a D6 row claiming a landing rewrite that the merge had actually superseded with `arena-89a39032`'s better page). Corrected in a follow-up PR rather than left standing: D6 now says "superseded" and credits the other session, D7 (Node pages never regenerated in CI) was added to the page, and the open-flag count was corrected to five. |
+| — | Cross-session fix | `audit/verify.py --check` (owned by `arena/1662b94b`) pins **line numbers** in `COORDINATION.md`; my merge shifted one line, so their check failed on my PR while passing on `main`. Regenerated with their own command (`python3 audit/verify.py`) — a one-line index change, 13 findings / 23 facts unchanged — rather than editing their content. **Request for that session:** pin the surrounding text, not the line number, so an append-only board does not break the check every time a session merges. |
+| — | Node pages | Regenerated with `npm run build` so the committed Node pages match their templates; `npm run build:check` reports current |
+| — | Tests | `pytest` **159 passed**; `node --test tests/*.test.mjs` **36 passed**; `python python/test_simulator.py` pass; `tests/check_site.py` 39 pages; `tools/check_links.py` 340 links / 14 pages; `tools/build_site.py --check` current; `npm run check:links` 19 pages / 644 refs / 0 problems; `npm run check:data` valid; `npm run build:check` current |
+
+
 ### Verification performed
 
 * `python3 -m unittest discover -s live/tests` — 29 assertions, all pass (threshold inclusive at exactly
