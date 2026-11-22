@@ -320,7 +320,13 @@ def run_cycle(
 
     # 5. history + alerts ------------------------------------------------
     history_path = settings.data_dir / "history.json"
-    history: dict[str, list[list[float]]] = store.read_json(history_path, {}) or {}
+    # history.json stores {"generated_at": ..., "series": {ticker: [points]}}. Reading the
+    # envelope instead of its "series" map made every cycle start from an empty history, so
+    # charts never accumulated more than one cycle's samples. Read the map.
+    history_state = store.read_json(history_path, {}) or {}
+    history: dict[str, list[list[float]]] = (
+        history_state.get("series", {}) if isinstance(history_state, dict) else {}
+    ) or {}
     meta_path = settings.data_dir / "meta.json"
     meta: dict[str, Any] = store.read_json(meta_path, {}) or {}
     last_prices: dict[str, list[float]] = meta.get("last_prices", {})
@@ -392,7 +398,8 @@ def run_cycle(
     resolved_state: dict[str, Any] = store.read_json(resolved_path, {}) or {}
     resolved_items: list[dict[str, Any]] = list(resolved_state.get("items", []))
     resolved_items = _collect_resolutions(
-        client, market_by_ticker, series_by_topic, resolved_items, errors, now
+        client, market_by_ticker, series_by_topic, resolved_items, errors, now,
+        api_base=getattr(client, "base_url", "") or settings.rest_base,
     )
 
     # 9. demo account ------------------------------------------------------
@@ -449,7 +456,7 @@ def run_cycle(
         "watchlist": watchlist,
         "paper": paper_snapshot,
         "performance": performance,
-        "resolved": resolved_items[:120],
+        "resolved": cap_resolved_per_topic(resolved_items),
         "demo": demo_state,
         "fees": fee_mod.metadata(),
         "model": {
@@ -571,6 +578,12 @@ def _publish_market(market: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in market.items() if k not in PUBLISH_DROP}
 
 
+# A settled sweep costs one request per series. Taking the alphabetically first ten series
+# across *all* topics spent the whole budget on gas/elections and never reached golf, culture
+# or crypto, so those topics showed an empty resolution table. Sweep a fixed number per topic.
+PER_TOPIC_SETTLED_SERIES = 6
+
+
 def _collect_resolutions(
     client: RestClient,
     current_markets: dict[str, dict[str, Any]],
@@ -578,16 +591,39 @@ def _collect_resolutions(
     existing: list[dict[str, Any]],
     errors: list[str],
     now: int,
+    api_base: str = "",
 ) -> list[dict[str, Any]]:
-    items = {item.get("ticker"): item for item in existing if item.get("ticker")}
+    series_to_topic: dict[str, str] = {
+        series_ticker: topic
+        for topic, tickers in series_by_topic.items()
+        for series_ticker in tickers
+    }
+
+    # Re-read stored rows: backfill the topic (rows written before the fix had topic=None,
+    # which silently hid every settlement from the per-topic tables) and a per-market URL.
+    items: dict[str, dict[str, Any]] = {}
+    for item in existing:
+        ticker = item.get("ticker")
+        if not ticker:
+            continue
+        row = dict(item)
+        if not row.get("topic") and row.get("series_ticker"):
+            row["topic"] = series_to_topic.get(row["series_ticker"])
+        if not row.get("api_url") and api_base:
+            row["api_url"] = f"{api_base.rstrip('/')}/markets/{ticker}"
+        items[ticker] = row
 
     # markets that settled while we were watching them
     for market in current_markets.values():
         if market.get("result") in {"yes", "no"}:
-            items[market["ticker"]] = _resolution_row(market)
+            rows = _resolution_row(market, api_base=api_base)
+            rows["topic"] = rows.get("topic") or series_to_topic.get(market.get("series_ticker") or "")
+            items[market["ticker"]] = rows
 
-    # settled markets for the series we follow (bounded sweep)
-    series = sorted({s for lst in series_by_topic.values() for s in lst})[:10]
+    # settled markets for the series we follow (bounded sweep, per topic)
+    series = []
+    for topic in sorted(series_by_topic):
+        series.extend(sorted({s for s in series_by_topic[topic]})[:PER_TOPIC_SETTLED_SERIES])
     cutoff = (datetime.now(tz=timezone.utc) - timedelta(days=21)).strftime("%Y-%m-%dT%H:%M:%SZ")
     for series_ticker in series:
         try:
@@ -604,16 +640,41 @@ def _collect_resolutions(
         for market in raw:
             if market.get("result") not in {"yes", "no"}:
                 continue
-            items[market.get("ticker")] = _resolution_row(
-                normalize_market(market, api_base="")
-            )
+            row = _resolution_row(normalize_market(market, api_base=""), api_base=api_base)
+            row["topic"] = series_to_topic.get(series_ticker)
+            items[market.get("ticker")] = row
     rows = sorted(items.values(), key=lambda r: r.get("settled_ts") or r.get("close_time") or "", reverse=True)
     # keep the payload bounded; the newest 400 settlements are plenty for the tracker
     return rows[:400]
 
 
-def _resolution_row(market: dict[str, Any]) -> dict[str, Any]:
+def cap_resolved_per_topic(
+    rows: list[dict[str, Any]], *, per_topic: int = 60, unattributed: int = 20
+) -> list[dict[str, Any]]:
+    """Bound the published resolution table *per topic*, not globally.
+
+    ``rows`` is newest-first. A single global cap let gas (300 settlements in one sweep)
+    push every other topic out of the payload, so elections, culture, crypto and golf pages
+    rendered "No settled markets recorded yet" while rows existed. Keep a slice per topic.
+    """
+    counts: dict[str | None, int] = {}
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        topic = row.get("topic")
+        limit = per_topic if topic else unattributed
+        if counts.get(topic, 0) >= limit:
+            continue
+        counts[topic] = counts.get(topic, 0) + 1
+        out.append(row)
+    return out
+
+
+def _resolution_row(market: dict[str, Any], api_base: str = "") -> dict[str, Any]:
     result = (market.get("result") or "").lower()
+    ticker = market.get("ticker")
+    api_url = market.get("api_url") or (
+        f"{api_base.rstrip('/')}/markets/{ticker}" if api_base and ticker else None
+    )
     return {
         "ticker": market.get("ticker"),
         "title": market.get("title"),
@@ -625,7 +686,7 @@ def _resolution_row(market: dict[str, Any]) -> dict[str, Any]:
         "settled_ts": market.get("settlement_ts") or market.get("close_time"),
         "found_at": _iso(),
         "settlement_value": market.get("settlement_value_dollars"),
-        "api_url": market.get("api_url"),
+        "api_url": api_url,
         "series_page_url": market.get("series_page_url"),
         "source": "https://docs.kalshi.com/getting_started/market_settlement",
     }
