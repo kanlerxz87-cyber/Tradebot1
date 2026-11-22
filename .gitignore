@@ -1,6 +1,6 @@
-# Python build/test artifacts and virtualenvs.
-# NOTE: a merge on 2026-11-22 dropped these rules, and 3884 .venv files plus 1762 .pyc binaries
-# were committed to main as a result. They are restored here and the artifacts were untracked.
+# Python artifacts and virtualenvs.
+# Two 2026-11-22 merges dropped these rules and committed a virtualenv plus .pyc binaries to main;
+# sessions arena/89a39032 and arena/1662b94b both untracked them. Keep the union of the rules.
 __pycache__/
 *.py[cod]
 *.egg-info/
@@ -36,3 +36,6 @@ _site/
 coverage/
 
 # Build output kept in git on purpose: docs/ is the published GitHub Pages site.
+
+# Python virtualenv
+.venv/
