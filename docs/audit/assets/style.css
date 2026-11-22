@@ -1,0 +1,52 @@
+:root{--bg:#0b0f14;--panel:#121922;--line:#1f2a37;--text:#e6edf5;--dim:#93a2b5;--ok:#22c98a;--warn:#f2b233;--bad:#f4645f;--blue:#5aa9f7}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.6 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px}
+header.site{border-bottom:1px solid var(--line);background:#0d131a;position:sticky;top:0;z-index:5}
+.bar{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:12px 20px;flex-wrap:wrap}
+.brand{font-weight:650;color:var(--text)}.brand span{color:var(--dim);font-weight:400}
+nav{display:flex;gap:14px;flex-wrap:wrap;font-size:14px}
+nav a{color:var(--dim)}nav a.on{color:var(--text);border-bottom:2px solid var(--ok);padding-bottom:2px}
+.back{font-size:13px;color:var(--dim)}
+main{padding:28px 20px 10px}
+.hero{margin-bottom:26px}.hero.tight h1{font-size:26px}
+h1{font-size:32px;line-height:1.2;margin:6px 0 12px;letter-spacing:-.02em}
+h2{font-size:18px;margin:34px 0 10px}
+h3{font-size:16px;margin:6px 0 8px}
+h4{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--dim);margin:16px 0 6px}
+.tag{margin:0;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--ok)}
+.lede{color:#c4d0de;max-width:76ch}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:20px}
+.stats div{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.stats b{display:block;font-size:26px;line-height:1.1}.stats span{color:var(--dim);font-size:13px}
+.outcomes{padding-left:20px}.outcomes li{margin:8px 0}
+table.grid{width:100%;border-collapse:collapse;margin:10px 0 8px;font-size:14px}
+table.grid th{text-align:left;color:var(--dim);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.07em;border-bottom:1px solid var(--line);padding:8px}
+table.grid td{border-bottom:1px solid var(--line);padding:10px 8px;vertical-align:top}
+table.quotes td{width:33%}
+.quote{color:var(--dim);font-size:13px;margin-top:6px;border-left:2px solid var(--line);padding-left:10px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+.pill{display:inline-block;font-size:11.5px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);color:var(--dim);white-space:nowrap}
+.st-fixed{color:#07130d;background:var(--ok);border-color:var(--ok)}
+.st-open{color:#231703;background:var(--warn);border-color:var(--warn)}
+.st-verified{color:#06121f;background:var(--blue);border-color:var(--blue)}
+.st-resolved{color:var(--dim)}
+.sev-high{color:var(--bad);border-color:#4a2321}.sev-medium{color:#f0a35e;border-color:#4a3520}.sev-low{color:var(--dim)}.sev-info{color:var(--dim)}
+.finding{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px;margin:16px 0}
+.finding header{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.finding header h3{flex:1 1 100%;margin:2px 0 6px}
+.id{color:var(--dim)}
+.evidence{padding-left:0;list-style:none;margin:0}
+.evidence li{margin:10px 0}
+pre{background:#0a0f15;border:1px solid var(--line);border-radius:6px;padding:8px 10px;overflow:auto;font-size:12.5px;margin:4px 0 0}
+pre.block{white-space:pre-wrap}
+.check{font-size:13px;margin:12px 0 6px}.check.ok code{color:var(--ok)}.muted{color:var(--dim)}
+.src{color:var(--dim);font-size:13px}
+.note{color:var(--dim);font-size:13px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card p{color:#c4d0de;font-size:14px;margin:0}
+.rules{padding-left:20px}.rules li{margin:8px 0;color:#c4d0de}
+footer{border-top:1px solid var(--line);margin-top:34px;padding:16px 20px 40px;color:var(--dim);font-size:13px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;background:#0a0f15;padding:1px 4px;border-radius:4px}

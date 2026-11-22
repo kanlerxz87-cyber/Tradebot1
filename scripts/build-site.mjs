@@ -120,14 +120,23 @@ async function main() {
   console.log(`Wrote ${written.length} pages.`);
 }
 
-/** Ignore values that depend on the wall clock when comparing, so a no-op rebuild is a no-op.
- *  - data-generated is the render timestamp.
- *  - "6m ago" is relative to the clock at render time, so it drifts on every rebuild and made
- *    `--check` fail on an otherwise identical page. */
+/**
+ * Ignore wall-clock-derived text when comparing, so a no-op rebuild is a no-op.
+ *
+ * Two things in a rendered page are a function of the moment of rendering rather
+ * than of the committed data: the `data-generated` attribute and every relative age
+ * ("21m ago"). Comparing them made `--check` fail on any checkout older than the
+ * committed timestamp - a verification gate that always failed and therefore
+ * verified nothing (audit item AUD-08).
+ */
 function normalise(html) {
   return html
     .replace(/data-generated="[^"]*"/g, 'data-generated=""')
-    .replace(/\b\d+[smhd] ago\b/g, '#');
+    .replace(/\b\d+[smhd] ago\b/g, 'AGO')
+    // The executive summary prints the build id, which is GITHUB_SHA in Actions and
+    // "local" elsewhere. That made the gate fail only in CI, which is worse than
+    // failing everywhere: the one place it mattered was the one place it could not run.
+    .replace(/<span class="badge">build [^<]*<\/span>/g, '<span class="badge">build ID</span>');
 }
 
 function readJson(rel, fallback) {

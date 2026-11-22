@@ -109,6 +109,14 @@ def test_build_output_and_dependencies_are_not_walked(tmp_path):
     assert run(tmp_path) == 0, "generated output must not be gated as if it were source"
 
 
+def test_server_rendered_uis_are_not_walked(tmp_path):
+    """app/static/ and live/static/ are served by their own servers, not by GitHub Pages."""
+    write(tmp_path, "live/static/index.html", page(body='<a href="qa.html">Audit</a>'))
+    write(tmp_path, "app/static/index.html", page(body='<a href="/api/state">State</a>'))
+    write(tmp_path, "index.html", page())
+    assert run(tmp_path) == 0
+
+
 def test_the_repository_itself_is_clean():
     """The real gate. If this fails, a page in the repository has a broken internal link."""
     assert check_all_links.main([], root=Path(__file__).resolve().parent.parent) == 0

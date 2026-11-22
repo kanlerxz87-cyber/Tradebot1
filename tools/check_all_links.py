@@ -38,9 +38,11 @@ ROOT = Path(__file__).resolve().parent.parent
 SKIP_DIRS = {
     ".git", ".venv", "venv", "node_modules", "public", "dist", "build", "out", "coverage",
     "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".arena", ".cache",
-    # The FastAPI UI in app/static/ is served by a live server with its own /static and /api
-    # mounts. It is not published by GitHub Pages, so its server-absolute URLs are not site links.
+    # The FastAPI UI in app/static/ and the live-desk UI in live/static/ are served by their own
+    # servers with their own mounts. Neither is published by GitHub Pages — the published pages are
+    # the generated ones at the repository root — so their server-relative URLs are not site links.
     "app/static",
+    "live/static",
 }
 # The published site is served under /Tradebot1/, so an absolute path may carry that prefix.
 SITE_PREFIXES = ("/Tradebot1/",)
