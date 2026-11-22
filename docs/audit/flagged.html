@@ -30,6 +30,7 @@
   <p>Both fee implementations round the formula's result up to the whole cent, which is what reproduces the printed summary table. It is not the per-fill rule: Fee Rounding states that a trade fee is rounded up to $0.000001 and the balance is then aligned to $0.0001 for a direct member, with a rebate accumulator across an order's fills. At 100 contracts and $0.05 the two rules differ by $0.0075 (0.34 versus 0.3325).</p>
   <p><strong>Impact.</strong> Every simulated P&amp;L figure is at most one cent per fill pessimistic. The difference is disclosed here and next to the performance numbers rather than silently changed, because changing it would also rewrite historical results on the board.</p>
   <p class="src"><strong>Deciding source:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
+  
   <p class="src"><strong>How to check:</strong> Compare the table's 100-contract column with Fee Rounding's worked examples. A direct member's net fee on 100 contracts at $0.05 is $0.3325 before balance alignment, not $0.34.</p>
 </article>
 <article class="finding" id="AUD-06">
@@ -38,6 +39,7 @@
   <p>docs/assets/core.mjs decides the 'elections' topic with event.category. Get Events marks category deprecated and points to the series-level category, and the EventData schema does not list category as required. If the field is absent this rule never matches and elections events are silently dropped from that monitor, with no error to notice.</p>
   <p><strong>Impact.</strong> One of the five briefed topics can go empty on docs/ without any visible failure. The desk and the board discover elections through series metadata and are unaffected.</p>
   <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">VF-21</a></p>
+  
   <p class="src"><strong>How to check:</strong> Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own.</p>
 </article>
 <article class="finding" id="AUD-07">
@@ -45,23 +47,26 @@
     <h3>A topic comment disagrees with the same session's own captured probe</h3></header>
   <p>tools/topics.mjs says the Culture discovery request returns 'exactly 1 series (KXXBANNEDGROK)'. The probe recorded in data/snapshot.json for the same request against the same demo root returns two: KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1. A reader tracing the rule by hand would think the rule was broken.</p>
   <p><strong>Impact.</strong> Documentation only: the code and the capture agree with each other, the comment does not.</p>
-  <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
+  <p class="src"><strong>Deciding source:</strong> <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/topics.mjs" target="_blank" rel="noopener noreferrer">tools/topics.mjs — the comment</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/snapshot.json" target="_blank" rel="noopener noreferrer">data/snapshot.json — discoveryProbes, the capture it disagrees with</a></p>
+  <p class="src"><strong>Why there is no official source.</strong> No official Kalshi page speaks to this: it is an internal disagreement between a comment and a capture taken from the same endpoint. The official statement underneath both is VF-01 (the demo root), which is why the comparison is possible at all.</p>
   <p class="src"><strong>How to check:</strong> Read the Culture probe in data/snapshot.json -&gt; discoveryProbes and compare with the header comment in tools/topics.mjs.</p>
 </article>
 <article class="finding" id="AUD-10">
   <header><span class="mono id">AUD-10</span> <span class="pill sev-low">low</span>
     <h3>Two sessions disagree about Culture, and both are right about different roots</h3></header>
-  <p>One implementation reports that no Culture category exists and maps the topic to Entertainment; another captured GET /series?category=Culture against the demo root and got two series. The demo and production catalogues differ, so neither statement refutes the other, but a reader of the site sees only one of them at a time.</p>
+  <p>One implementation reports that no Culture category exists and maps the topic to Entertainment; another captured GET /series?category=Culture against the demo root and got two series. The demo and production catalogues differ, so neither statement refutes the other, but a reader of the site sees only one of them at a time. The two roots are not an error: VF-01 shows the demo and production Trade APIs are documented as separate environments with separate catalogues, so a category can exist in one and not the other.</p>
   <p><strong>Impact.</strong> A trader could believe culture coverage is missing when the demo catalogue has it, or vice versa. No number on any page is wrong.</p>
   <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
+  
   <p class="src"><strong>How to check:</strong> Read discoveryProbes in data/snapshot.json (root recorded per probe) next to docs/desk/topics/culture.html (production catalogue).</p>
 </article>
 <article class="finding" id="AUD-12">
   <header><span class="mono id">AUD-12</span> <span class="pill sev-low">low</span>
-    <h3>`or` fallbacks hide a genuine zero quote behind the legacy field</h3></header>
+    <h3>or-fallbacks hide a genuine zero quote behind the legacy field</h3></header>
   <p>Values are read as first_float(...) or price_from_cents(...). A leg whose real fixed-point value is 0.0 is falsy, so the reader falls through to the legacy cent field, which may be absent (None) or stale. The result is None or an old price where the true value is zero.</p>
   <p><strong>Impact.</strong> Low: zero prices are the boundary of the book, and downstream guards treat them as an empty side anyway. It is still the wrong way to choose between two representations.</p>
   <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">VF-09</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
+  
   <p class="src"><strong>How to check:</strong> normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) returns 0.42, not 0.0. Use an explicit None check instead of `or`.</p>
 </article>
 <article class="finding" id="AUD-13">
@@ -70,6 +75,7 @@
   <p>The desk and the Node client default to api.elections.kalshi.com for production reads. That host is documented as supported, so no request is wrong, but external-api.kalshi.com is the recommended host for API traders. Nothing in this repository needs to change for correctness; a future session may want to switch the default.</p>
   <p><strong>Impact.</strong> None today: both hosts are supported and serve the same data.</p>
   <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-03</a></p>
+  
   <p class="src"><strong>How to check:</strong> Read the environment table in API Environments and Endpoints, column 'Also supported'.</p>
 </article>
 <p class="note">Not on this list, because no evidence was found for them either way: authenticated demo-account

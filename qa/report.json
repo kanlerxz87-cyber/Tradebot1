@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T07:44:49Z",
+  "generated_at": "2026-11-22T07:46:37Z",
   "counts": {
     "error": 0,
     "warn": 4,
@@ -18,7 +18,7 @@
     "73 HTML pages, 1275 internal references",
     "tracked files: 265, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 6924 paths"
+    "secret scan: 7005 paths"
   ],
   "findings": [
     {
@@ -235,7 +235,7 @@
       "examples": [
         {
           "page": "docs/audit/findings.html",
-          "line_ref": "COORDINATION.md:715"
+          "line_ref": "COORDINATION.md:717"
         }
       ],
       "source": "docs/audit/findings.html",
@@ -246,7 +246,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
-      "detail": "0.39 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.42 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -257,7 +257,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.75 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.78 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",

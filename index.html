@@ -140,7 +140,8 @@
 
   <div class="note" id="limits">
     <strong>Known limits, stated rather than hidden.</strong> The public site is refreshed by scheduled CI
-    cycles (15 and 30 minutes), not by a WebSocket; a browser session can therefore see a swing that the
+    cycles (every 30 minutes: the Python collector, the Node collector and the Pages build are all on a
+    30-minute cadence), not by a WebSocket; a browser session can therefore see a swing that the
     published feed has not recorded yet, and 10¢ moves between two cycles can be missed. Prices come from
     Kalshi's public market data; execution is simulated in this repository. No demo-account credentials are
     configured, so no demo balance or fill is shown — the paper book is not a demo account. Every item that
