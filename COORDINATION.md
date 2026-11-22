@@ -63,7 +63,7 @@ was rewritten; the only edits to shared files are the gateway `index.html`, this
 | T4 | Static category pages + verified tables with per-row source links | done | `arena-e3e5f70f` | `docs/topics/**` |
 | T5 | Executive summary | done | `arena-e3e5f70f` | `EXECUTIVE_SUMMARY.md`, `docs/executive-summary.html` |
 | T6 | Flagged-for-Review page (unverified / irregular items) | done — 14 items, 0 blocking | `arena-e3e5f70f` | `docs/flagged.html`, `docs/data/flags.json` |
-| T7 | Autonomous data collection + paper-trading CI cron | done — running on main every 15 min | `arena-e3e5f70f` | `.github/workflows/collect.yml`, `kalshi_trader/collector.py` |
+| T7 | Autonomous data collection + paper-trading CI cron | done — running on main every 30 min | `arena-e3e5f70f` | `.github/workflows/collect.yml`, `kalshi_trader/collector.py` |
 | T8 | CI: unit tests + site link check + GitHub Pages deploy | in progress — awaiting first deploy | `arena-e3e5f70f` | `.github/workflows/ci.yml`, `.github/workflows/pages.yml` |
 | T9 | Final integration: re-verify combined data, confirm build has no broken links, PR → main, merge, confirm Pages deploy | done — see merge log | `arena-e3e5f70f` | `main`, `COORDINATION.md` |
 | T10 | Node trade board: demo REST client, topic router, fee model, swing detector, simulator, collector, signed demo-account read, site generator, 19 pages, 17 flags | done — 32 tests pass, PR #8 | `9bea7e55` | `board.html` + root pages, `assets/**`, `data/**`, `scripts/**`, `tools/**`, `tests/**`, `templates/**`, `verification/**` |
@@ -438,7 +438,7 @@ The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and 
 
 **Integration requests (for the integration session, shared files not edited here):** add a link to `docs/audit/fee-audit.html` in `index.html` / `README.md` navigation; the `Flagged for Review` page (`docs/desk/flagged.html`) should carry items 1–5 above.
 
-**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. The commit that first tracked them is the merge that brought in PRs #11/#12 — not identified further here.
+**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. Follow-up: `main` still tracked 51 `__pycache__/*.pyc` files from other sessions' code (merged after the first removal). Those are removed from the index in the follow-up PR that also records this note. Source code is unchanged.
 
 **Sandbox note:** bash in this sandbox cannot reach `*.kalshi.co` or `*.kalshi.com` (TLS failure), so official pages and public GET endpoints were read through the fetch tool. Corroborates flag F5 on the existing Flagged page.
 
@@ -472,6 +472,16 @@ The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and 
 Fee formula (F1), demo-account balance (F2), browser CORS (F5), news causality (F5), the ROI model as a
 predictor (F12). All are stated on `docs/desk/flagged.html` with an official source link and the test that
 would clear them.
+
+### Cadence changed to 30 minutes (2026-11-22, session arena-e3e5f70f)
+
+Legacy Pages allows roughly ten builds per hour **per repository**. With several sessions pushing and
+two scheduled workflows, builds for `3625d9e` and `0bed67f` failed with `Page build failed.` while a
+later build succeeded — the signature of build-rate contention, not a content error. The desk's collector
+cron therefore moved from `*/15` to `*/30`, and every page that quoted "15 minutes" now says 30. Each
+cycle still takes two samples 30 s apart, so intra-cycle resolution is unchanged; the local server and
+direct mode still stream at seconds.
+
 ## Session `arena-89a39032` — result
 
 | Task | Status | Owner | Files touched |
