@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-11-22T07:42:09Z",
+  "generated_at": "2026-11-22T07:44:49Z",
   "counts": {
     "error": 0,
-    "warn": 3,
+    "warn": 4,
     "info": 9
   },
   "checked": [
@@ -15,10 +15,10 @@
     "data/account.json: connected=False",
     "docs/data/snapshot.json: 0 events, partial=True",
     "monitor docs/data/snapshot.json: 0 rows, price bounds",
-    "68 HTML pages, 1218 internal references",
-    "tracked files: 247, bytecode/cache artefacts: 0",
+    "73 HTML pages, 1275 internal references",
+    "tracked files: 265, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 6874 paths"
+    "secret scan: 6924 paths"
   ],
   "findings": [
     {
@@ -226,11 +226,27 @@
       "action": "Compare the page with the timestamp and relative-time fields normalised, or drop the strict comparison from the gate. CI does not currently run this check."
     },
     {
+      "id": "FLAKY-1",
+      "severity": "warn",
+      "code": "FLAKY",
+      "title": "An audit gate pins line numbers in a concurrently edited file",
+      "detail": "1 evidence reference(s) cite COORDINATION.md by line number, and `audit/build_site.py --check` fails whenever that number shifts. Every session that appends to the board therefore breaks another session's build until the page is regenerated.",
+      "count": 1,
+      "examples": [
+        {
+          "page": "docs/audit/findings.html",
+          "line_ref": "COORDINATION.md:715"
+        }
+      ],
+      "source": "docs/audit/findings.html",
+      "action": "Cite the section heading or a stable quote instead of a line number, or exclude the reference from the staleness comparison."
+    },
+    {
       "id": "FRESH-1",
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
-      "detail": "0.34 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.39 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -241,7 +257,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.70 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.75 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",

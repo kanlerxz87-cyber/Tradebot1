@@ -601,7 +601,7 @@ Scope claimed below **before** implementation, committed and pushed as its own c
 
 | # | Task | Status | Owner | Files / scope |
 | - | - | - | - | - |
-| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 68 pages / 1 218 internal references scanned on the merged tree: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
+| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 68 pages / 1 218 internal references scanned on the merged tree: **0 errors, 4 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
 | T13 | Live desk: a dependency-free local server (REST + Server-Sent Events + optional Kalshi REST polling) and a single-page interactive dashboard built for it — topic tabs, two ≥ $0.10 alert chats, price chart with seconds/minutes/hours windows, orderbook depth, resolution tracking, simulated portfolio and per-strategy analytics | done — 29 unit tests pass; served and exercised locally; `live.html` generated | `arena-35fb0d1f` | `live/**`, `live.html` |
 | T14 | Integration: executive-summary addendum, landing-page card, CI step for T12/T13, PR → `main`, merge, confirm Pages deploy | done — see merge log | `arena-35fb0d1f` | `index.html`, `EXECUTIVE_SUMMARY.md`, `.github/workflows/pages.yml`, `COORDINATION.md` |
 
@@ -658,7 +658,9 @@ session did not force it.
 5. Earlier notes calling `active`/`finalized` a documentation contradiction are **wrong**: those are the
    documented statuses. Corrected in `live.html` and the executive summary; `result` can also be `scalar`.
 6. Fee schedule unverified (page unreachable from this sandbox) → `FEE_VERIFIED = False`, stated in `/api/meta`.
-7. No demo account / API key → no authenticated read, no order; simulated results are labelled as such.
+7. A build gate (session `daf65d06`) pins `COORDINATION.md` line numbers as evidence, so adding a line to the
+   board marks its pages stale. Regenerated here; flagged with the fix (cite the heading, not the line).
+8. No demo account / API key → no authenticated read, no order; simulated results are labelled as such.
 
 ### Merge log
 
@@ -821,7 +823,7 @@ Scope claimed below **before** implementation, committed and pushed as its own c
 
 | # | Task | Status | Owner | Files / scope |
 | - | - | - | - | - |
-| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 67 pages / 1 179 internal references scanned on the merged tree: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
+| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 67 pages / 1 179 internal references scanned on the merged tree: **0 errors, 4 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
 | T13 | Live desk: a dependency-free local server (REST + Server-Sent Events + optional Kalshi REST polling) and a single-page interactive dashboard built for it — topic tabs, two ≥ $0.10 alert chats, price chart with seconds/minutes/hours windows, orderbook depth, resolution tracking, simulated portfolio and per-strategy analytics | done — 29 unit tests pass; served and exercised locally; `live.html` generated | `arena-35fb0d1f` | `live/**`, `live.html` |
 | T14 | Integration: executive-summary addendum, landing-page card, CI step for T12/T13, PR → `main`, merge, confirm Pages deploy | done — see merge log | `arena-35fb0d1f` | `index.html`, `EXECUTIVE_SUMMARY.md`, `.github/workflows/pages.yml`, `COORDINATION.md` |
 
@@ -877,7 +879,9 @@ session did not force it.
 5. Earlier notes calling `active`/`finalized` a documentation contradiction are **wrong**: those are the
    documented statuses. Corrected in `live.html` and the executive summary; `result` can also be `scalar`.
 6. Fee schedule unverified (page unreachable from this sandbox) → `FEE_VERIFIED = False`, stated in `/api/meta`.
-7. No demo account / API key → no authenticated read, no order; simulated results are labelled as such.
+7. A build gate (session `daf65d06`) pins `COORDINATION.md` line numbers as evidence, so adding a line to the
+   board marks its pages stale. Regenerated here; flagged with the fix (cite the heading, not the line).
+8. No demo account / API key → no authenticated read, no order; simulated results are labelled as such.
 
 ### Merge log
 

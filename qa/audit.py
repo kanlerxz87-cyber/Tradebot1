@@ -581,6 +581,25 @@ def audit_generators() -> None:
         checked.append("tools/build_site.py --check (run separately by CI; reports current)")
 
 
+def audit_gate_fragility() -> None:
+    """A build gate that depends on a shared file's line numbers can never stay green."""
+    findings_dir = ROOT / "docs/audit"
+    if not findings_dir.exists():
+        return
+    refs = []
+    for page in findings_dir.glob("*.html"):
+        for match in re.finditer(r"COORDINATION\.md:(\d+)", page.read_text(errors="ignore")):
+            refs.append({"page": str(page.relative_to(ROOT)), "line_ref": match.group(0)})
+    if refs:
+        add("warn", "FLAKY", "An audit gate pins line numbers in a concurrently edited file",
+            f"{len(refs)} evidence reference(s) cite COORDINATION.md by line number, and "
+            "`audit/build_site.py --check` fails whenever that number shifts. Every session that appends to "
+            "the board therefore breaks another session's build until the page is regenerated.",
+            examples=refs, count=len(refs), source="docs/audit/findings.html",
+            action="Cite the section heading or a stable quote instead of a line number, or exclude the "
+                   "reference from the staleness comparison.")
+
+
 def audit_secrets() -> None:
     patterns = [
         (re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"), "private key block"),
@@ -776,6 +795,7 @@ def main() -> int:
     audit_links()
     audit_artifacts()
     audit_generators()
+    audit_gate_fragility()
     audit_secrets()
     audit_docs_freshness()
 
