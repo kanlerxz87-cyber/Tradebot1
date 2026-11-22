@@ -42,7 +42,48 @@
     <h2>1 · Headline and ledger metrics</h2>
     <p class="hint">Equity = cash + contracts × current mark. Realised P&L only counts closed trades.</p>
     <div id="portfolioStatic"><!-- DATA:START -->
-<div class="card"><div class="empty">No paper ledger yet.</div></div>
+
+<div class="grid kpi">
+  <div class="card"><span class="label">Equity</span><span class="value">$998.47</span><span class="foot">start $1,000.00</span></div>
+  <div class="card"><span class="label">Total P&L</span><span class="value down">−1.53</span><span class="foot">−0.15% on bankroll</span></div>
+  <div class="card"><span class="label">Realised</span><span class="value">0.00</span><span class="foot">unrealised −1.53</span></div>
+  <div class="card"><span class="label">Cash / open</span><span class="value">$763.85</span><span class="foot">12 positions</span></div>
+</div>
+
+<div class="banner warn" style="margin-top:14px">
+  <b>Fee model:</b>&nbsp;<span class="grow">quadratic_unverified —
+  0.07 × contracts × price × (1 − price) rounded up to the cent. The official fee-schedule PDF could not be retrieved during this build, so this figure is flagged unverified and every P&L number inherits that caveat.</span>
+</div>
+
+<div class="grid two" style="margin-top:16px">
+  <div class="card"><h3>Ledger metrics</h3>
+    <div class="table-wrap" style="max-height:none"><table><tbody><tr><td>Closed trades</td><td class="num">0</td></tr><tr><td>Wins / losses / flat</td><td class="num">0 / 0 / 0</td></tr><tr><td>Win rate</td><td class="num">0.0%</td></tr><tr><td>Gross win / gross loss</td><td class="num">$0.00 / $0.00</td></tr><tr><td>Profit factor</td><td class="num">n/a</td></tr><tr><td>Expectancy per trade</td><td class="num">$0.00</td></tr><tr><td>Average win / average loss</td><td class="num">$0.00 / $0.00</td></tr><tr><td>Fees paid</td><td class="num">$0.00</td></tr><tr><td>Average hold</td><td class="num">0.0 h</td></tr><tr><td>Max drawdown</td><td class="num">$0.00 (0.0%)</td></tr></tbody></table></div>
+  </div>
+  <div class="card"><h3>Open positions</h3>
+    <div class="empty">No open positions.</div>
+  </div>
+</div>
+
+<div class="grid two" style="margin-top:16px">
+  <div class="card"><h3>By strategy</h3><div class="empty">No closed trades yet.</div></div>
+  <div class="card"><h3>By topic</h3><div class="empty">No closed trades yet.</div></div>
+</div>
+<div class="grid two" style="margin-top:16px">
+  <div class="card"><h3>By entry price band</h3><div class="empty">No closed trades yet.</div></div>
+  <div class="card"><h3>By exit reason</h3><div class="empty">No closed trades yet.</div></div>
+</div>
+
+<div class="section">
+  <h2>Trade ledger</h2>
+  <p class="hint">Most recent 0 closed trades. Every entry is reproducible from the
+    recorded entry/exit prices, contract count and fee model.</p>
+  <div class="table-wrap" style="max-height:520px"><table>
+  <thead><tr><th>Closed</th><th>Market</th><th>Topic</th><th>Strategy</th><th class="center">Side</th>
+  <th class="num">Contracts</th><th class="num">Entry → exit</th><th class="num">Fees</th><th class="num">P&L</th>
+  <th class="num">ROI</th><th>Exit reason</th></tr></thead>
+  <tbody><tr><td colspan="11"><div class="empty">No closed trades yet.</div></td></tr></tbody></table></div>
+</div>
+
 <!-- DATA:END --></div>
   </section>
 
