@@ -104,8 +104,8 @@
       <h2>Kalshi demo API credentials</h2>
       <label class="field" for="setKeyId">API key ID (demo)</label>
       <input id="setKeyId" class="input" autocomplete="off" spellcheck="false" placeholder="e.g. a952bcbe-…">
-      <label class="field" for="setPem">Private key (PEM — Ed25519 “BEGIN PRIVATE KEY” or RSA)</label>
-      <textarea id="setPem" class="input" rows="7" spellcheck="false" placeholder="-----BEGIN PRIVATE KEY-----&#10;…&#10;-----END PRIVATE KEY-----"></textarea>
+      <label class="field" for="setPem">Private key (PEM — Ed25519 PKCS#8, or RSA)</label>
+      <textarea id="setPem" class="input" rows="7" spellcheck="false" placeholder="Paste the PEM block from Kalshi: five hyphens, the key-header words, base64 lines, then the matching footer."></textarea>
       <label class="field" for="setWsProxy">Optional WebSocket proxy URL (browsers can't sign WS handshakes natively)</label>
       <input id="setWsProxy" class="input" autocomplete="off" spellcheck="false" placeholder="wss://your-proxy.example.com/trade-api/ws/v2">
       <p class="small muted" style="margin:6px 2px">A tiny server-side shim must add the three <code>KALSHI-ACCESS-*</code> headers to the handshake. See <a href="suggestions.html#ws-proxy">Suggestions → WS proxy</a>. Without it, the dashboard polls REST — fully functional, just not push-based.</p>

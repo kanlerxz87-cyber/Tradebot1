@@ -76,7 +76,7 @@ const Kalshi = (() => {
   }
 
   /* ---------- signing ---------- */
-  /* Kalshi-generated RSA keys are PKCS#1 ("BEGIN RSA PRIVATE KEY"), which WebCrypto
+  /* Kalshi-generated RSA keys are PKCS#1 (the "RSA PRIVATE KEY" header), which WebCrypto
      cannot import directly. Wrap them in a PKCS#8 PrivateKeyInfo (RFC 5208) on the fly:
      SEQUENCE { INTEGER 0, AlgorithmIdentifier(rsaEncryption), OCTET STRING(pkcs1Der) } */
   function derLen(n) {
@@ -93,7 +93,7 @@ const Kalshi = (() => {
   }
 
   function pemToArrayBuffer(pem) {
-    const isPkcs1 = /BEGIN RSA PRIVATE KEY/.test(String(pem));
+    const isPkcs1 = /RSA PRIVATE KEY/.test(String(pem));
     const b64 = String(pem)
       .replace(/-----BEGIN [^-]+-----/g, '')
       .replace(/-----END [^-]+-----/g, '')
@@ -125,7 +125,7 @@ const Kalshi = (() => {
     const signedPath = SIGN_PREFIX + path.split('?')[0];
     const msg = new TextEncoder().encode(ts + method.toUpperCase() + signedPath);
     const pkcs8 = pemToArrayBuffer(pem);
-    if (!pkcs8) throw new Error('Could not parse the private key PEM. Expected a PEM block (e.g. -----BEGIN PRIVATE KEY-----).');
+    if (!pkcs8) throw new Error('Could not parse the private key PEM. Expected a PEM block whose header contains PRIVATE KEY.'));
 
     // Try Ed25519 first (Kalshi default for new keys since 2026-10-01), then RSA-PSS.
     const attempts = [
