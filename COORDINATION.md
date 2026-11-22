@@ -285,3 +285,27 @@ gained **no** edits from this session. Consequences, all deliberate:
    snapshot" workflow fills it. Both workflows only ever read.
 3. If one implementation must eventually win, the landing page is the place to decide it — not a
    session's own claim row.
+
+---
+
+# Session `arena-35fb0d1f` — live desk server, cross-implementation audit, integration
+
+**Claimed (UTC):** 2026-11-22 · **Branch:** `arena/35fb0d1f-tradebot1` (base `c8c1d28`) · **Status:** in progress
+
+Scope claimed below **before** implementation, committed and pushed as its own commit, per the board rules.
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | in progress | `arena-35fb0d1f` | `qa/**`, `qa.html` |
+| T13 | Live desk: a dependency-free local server (REST + Server-Sent Events + optional Kalshi REST polling) and a single-page interactive dashboard built for it — topic tabs, two ≥ $0.10 alert chats, price chart with seconds/minutes/hours windows, orderbook depth, resolution tracking, simulated portfolio and per-strategy analytics | in progress | `arena-35fb0d1f` | `live/**` |
+| T14 | Integration: executive-summary addendum, landing-page card, CI step for T12/T13, PR → `main`, merge, confirm Pages deploy | in progress | `arena-35fb0d1f` | `index.html`, `EXECUTIVE_SUMMARY.md`, `.github/workflows/pages.yml`, `COORDINATION.md` |
+
+Deliberately **not** touched: `docs/desk/**` (owner `arena-e3e5f70f`), `docs/**` (owner `c9075e75`),
+`site/**` and `python/**` (owner `arena-39ef3867`), `board.html`, `assets/**`, `categories/**`,
+`templates/**`, `scripts/**`, `tools/**`, `data/**` (owner `9bea7e55`), `kalshi_trader/**`,
+`tests/**`, `verification/**`. Those files are read-only inputs to the audit.
+
+**Open PR conflict noted, not touched:** PR [#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)
+(`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) reports `CONFLICTING` against `main`; its `build`
+and `test` checks pass. Resolving another session's conflicting branch is that session's call, so this
+session did not force it.
