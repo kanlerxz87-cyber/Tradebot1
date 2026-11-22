@@ -115,7 +115,8 @@ function renderMetrics() {
   $('stat-resolved').textContent = (state.capture?.resolutions ?? []).filter((row) => state.topic === 'all' || row.topic === state.topic).length.toLocaleString('en-US');
   const readAt = state.lastRead ?? state.capture?.generated_at ?? null;
   $('stat-updated').textContent = readAt ? timeOf(readAt) : '—';
-  $('stat-source').textContent = state.origin === 'browser' ? 'this browser, live' : 'runner capture (static)';
+  const watch = (state.capture?.topics ?? []).reduce((total, topic) => total + (topic.series ?? []).length, 0);
+  $('stat-source').textContent = `${state.origin === 'browser' ? 'this browser, live' : 'runner capture'} · ${watch} series watched`;
 }
 
 function renderTable() {
@@ -240,7 +241,7 @@ function renderFeeds() {
       </div>
       <strong>${esc(alert.title)}</strong>
       <span class="meta"><span class="topic-tag ${esc(alert.topic)}">${esc(alert.topic)}</span> ${esc(alert.ticker)} &middot; score <span class="score">${alert.score}</span> &middot; ${esc(alert.basis)} basis &middot; ${esc(alert.origin)} read</span>
-      <span class="meta">${alert.liquidity === null ? 'liquidity: no book read' : `contracts at touch: ${fmtQty(alert.liquidity)}`} &middot; spread ${alert.spread === null ? 'one-sided' : fmtCents(alert.spread)}</span>
+      <span class="meta">${alert.liquidity === null ? 'contracts at touch: no book read' : `contracts at touch: ${fmtQty(alert.liquidity)}`} &middot; spread ${alert.spread === null ? 'one-sided' : fmtCents(alert.spread)}</span>
       <a href="https://kalshi.com/markets/${esc((alert.seriesTicker ?? '').toLowerCase())}" target="_blank" rel="noopener noreferrer">Kalshi market page &#8599;</a>
       &middot; <a href="${esc(alert.sourceUrl ?? '#')}" target="_blank" rel="noopener noreferrer">API read &#8599;</a>
       <span class="meta">Cause: not attributed. No official article has been matched to this move.</span>
@@ -470,7 +471,10 @@ function absorbEvents(events, origin, readAt) {
         const move = swing(before.mark, quote.mark);
         if (move) {
           const book = state.books.get(ticker);
-          const liquidity = book ? (quote.yesAsk !== null ? contractsForYesAtMost(book, quote.yesAsk) : null) : null;
+          // A missing or empty book means "not measured". Reporting 0 contracts would claim the
+          // market had no resting size, which an empty read cannot establish (S5).
+          const usable = book && !book.empty && (book.no?.length || book.yes?.length);
+          const liquidity = usable && quote.yesAsk !== null ? contractsForYesAtMost(book, quote.yesAsk) : null;
           const volume = num(market.volume_24h_fp);
           const score = triageScore({ moveAbs: move.delta, sizeAtTouch: liquidity, spread: quote.spread, volume24h: volume });
           const alert = {
@@ -516,13 +520,27 @@ async function pollBrowser() {
     const data = await response.json();
     const readAt = new Date().toISOString();
     const keep = new Set((state.capture?.topics ?? []).flatMap((topic) => (topic.series ?? []).map((series) => series.ticker)));
+    const topicOfSeries = (ticker) =>
+      (state.capture?.topics ?? []).find((topic) => (topic.series ?? []).some((series) => series.ticker === ticker))?.topic;
+    const readUrl = `${BASE}/events?status=open&with_nested_markets=true&limit=200`;
     const events = (data.events ?? [])
       .filter((event) => keep.has(event.series_ticker))
-      .map((event) => ({
-        ...event,
-        topic: (state.capture?.topics ?? []).find((topic) => (topic.series ?? []).some((series) => series.ticker === event.series_ticker))?.topic,
-        markets: (event.markets ?? []).map((market) => ({ ...market, series_ticker: event.series_ticker, source_url: `${BASE}/events?status=open&with_nested_markets=true&limit=200` })),
-      }));
+      .map((event) => {
+        const topic = topicOfSeries(event.series_ticker);
+        return {
+          ...event,
+          topic,
+          // The topic must travel with each market, because the table, the alerts and the topic
+          // filter all read it from the market row.
+          markets: (event.markets ?? []).map((market) => ({
+            ...market,
+            series_ticker: event.series_ticker,
+            topic,
+            source_url: readUrl,
+            read_at: readAt,
+          })),
+        };
+      });
     // Keep the capture's own market rows too, so a topic the demo catalogue drops does not vanish.
     const merged = new Map((state.capture?.events ?? []).map((event) => [event.event_ticker, event]));
     for (const event of events) merged.set(event.event_ticker, { ...(merged.get(event.event_ticker) ?? {}), ...event });
@@ -531,7 +549,8 @@ async function pollBrowser() {
     state.lastRead = readAt;
     state.origin = 'browser';
     state.browserOk = true;
-    setStatus(`Live · ${moved} new swing${moved === 1 ? '' : 's'} · ${timeOf(readAt)}`, 'ok');
+    const total = state.alerts.length;
+    setStatus(`Live · read ${timeOf(readAt)} · ${total} swing${total === 1 ? '' : 's'} this session${moved ? ` (${moved} new)` : ''}`, 'ok');
     renderAll();
   } catch (error) {
     state.browserOk = false;
