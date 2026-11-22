@@ -1,9 +1,12 @@
 # Tradebot1 — Kalshi demo-environment research
 
+[Start here](https://kanlerxz87-cyber.github.io/Tradebot1/) (landing: live status, topics, evidence) ·
 [Research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
-[Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
+[Repository review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/repo-review.html) ·
+[Integration audit](https://kanlerxz87-cyber.github.io/Tradebot1/audit.html) ·
 [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/executive-summary.html) ·
 [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) ·
+[Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
 [Prototype](https://kanlerxz87-cyber.github.io/Tradebot1/site/)
 
 The repository began as a one-line README. Parallel sessions built independent implementations of the
@@ -11,9 +14,15 @@ same brief; both are kept, because they make different trade-offs and each is us
 
 | Path | What it is | Data source |
 | - | - | - |
-| **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 15 min |
+| **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 30 min |
 | `docs/` | **Market monitor** — browser-side dashboard, no backend | public demo REST polled from the visitor's browser |
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
+| `board.html`, `dashboard.html` | Node-only trade board and its live page, with their own collector, source register and 17 flags | public demo REST, collected server-side every 30 min |
+| `audit.html` | **Integration audit** — checks re-run, five defects found and fixed (with regression tests), requirement coverage, open irregularities | reads the committed snapshot |
+
+> The landing page is the single entry point: it shows the latest published cycle, per-topic counts and
+> the newest swing, all read from `docs/desk/data/*.json`. It prints “—” rather than estimating a value the
+> snapshot does not contain.
 
 Neither frontend touches a real demo account, and no production order path exists anywhere in the
 repository.
@@ -26,26 +35,33 @@ The autonomous half of the repository: a Python package and a 15-minute GitHub A
   (gas → `KXAAAGASM` + Economics/Commodities; elections → `Elections`; culture → `Entertainment`
   (+ `Social`), because no Culture category exists; crypto → `Crypto`; golf → `Sports` tag `Golf`).
   Each topic gets its own page; events stay grouped inside a topic.
-* **Alerts** — `|Δ mid| ≥ $0.10` (tolerance 1e-9, last-trade fallback), stored with price, size,
-  volume, open interest and two labelled context links (a news search built from the market's own
-  title, and the web search equivalent — searches, never an attribution of cause), and rendered as two
-  scrolling chats: every move, and the subset that passes a published six-weight ROI screen (score ≥ 0.45).
+* **Alerts** — `|Δ mid| ≥ $0.10` (tolerance 1e-9, last-trade fallback), rendered as two scrolling
+  chats: every move, and the subset that passes a published six-weight ROI screen (score ≥ 0.45).
+  Each alert also carries two separate blocks of links (`kalshi_trader/catalysts.py`): **Contract
+  sources**, taken only from fields the API returns (series page, market object, filed terms, the
+  exchange's own named settlement source), and **Possible catalysts**, which are date-restricted news
+  searches marked unverified. No causal claim is ever made about why a contract moved.
 * **Lifecycle** — every followed event is polled until Kalshi marks it settled, then recorded as YES or
   NO with the market's own `result`, plus the payout the book actually received.
 * **Trading** — four strategies (momentum, fade, late favourite, cheap upside) with fixed-fraction
   sizing (2% of equity, 12-open cap, book-depth cap), spread + modelled fees, settlement at $1/$0.
   Analytics by strategy, topic, price band and exit reason.
 * **Verification** — every table row carries an official `docs.kalshi.com` link and a check date;
-  anything unconfirmed is blank and listed on `docs/desk/flagged.html` (14 items, 0 blocking).
-* **Automation** — `.github/workflows/collect.yml` (every 15 min) collects, rebuilds the static tables,
+  anything unconfirmed is blank and listed on `docs/desk/flagged.html` (14 items, 0 blocking). The
+  trading-fee formula is confirmed against Kalshi's own
+  [fee schedule](https://kalshi.com/docs/kalshi-fee-schedule.pdf) and all 21 published table rows are
+  asserted in `tests/test_model_fees.py`; only the per-series multiplier is still approximated (F1).
+* **Automation** — `.github/workflows/collect.yml` (every 30 min) collects, rebuilds the static tables,
   runs integrity + link gates, commits the snapshot and ledger, then verifies the published URL.
-  `.github/workflows/ci.yml` runs 48 unit tests on every push and PR.
+  `.github/workflows/ci.yml` runs the Python suite (159 tests) on every push and PR, and
+  `.github/workflows/pages.yml` runs the Python suite, the Node suite, both link checkers and the
+  static generators before it publishes.
 
 Local use:
 
 ```sh
 python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
-.venv/bin/python -m pytest -q                     # 145 tests
+.venv/bin/python -m pytest -q                     # 160 tests
 .venv/bin/python -m kalshi_trader.cli collect     # one live cycle → docs/desk/data/*.json
 .venv/bin/python -m kalshi_trader.cli serve       # site + API + WebSocket on :8000
 .venv/bin/python tools/build_site.py --check      # generated tables current
@@ -56,7 +72,9 @@ No API key is needed for market data. `cli demo-status` reports whether demo cre
 `KALSHI_API_KEY_ID` and `KALSHI_PRIVATE_KEY` are added as repository secrets, the demo adapter activates
 without any code change.
 
-Deeper reading: [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md) (both implementations),
+Deeper reading: [`EXECUTIVE_SUMMARY.md`](EXECUTIVE_SUMMARY.md),
+[`docs/desk/repo-review.html`](docs/desk/repo-review.html) (line-by-line code review: six defects,
+their official sources, the tests that pin them, and what stays open),
 [`docs/desk/verification.html`](docs/desk/verification.html),
 [`docs/desk/flagged.html`](docs/desk/flagged.html),
 [`docs/desk/requirements.html`](docs/desk/requirements.html),
@@ -85,7 +103,7 @@ npm install                     # jsdom, used only by the render test
 npm test                        # 44 assertions, including Kalshi's own fee table
 node scripts/check-data.mjs     # the committed JSON against its contract
 node scripts/build-site.mjs && node scripts/build-site.mjs --check
-node scripts/check-links.mjs    # 19 pages, 642 references, 0 problems
+node scripts/check-links.mjs    # 19 pages, 642 references
 node scripts/check-render.mjs   # jsdom render of every page, source links intact
 node tools/collector.mjs --dry-run    # fetch without writing (needs egress)
 ```

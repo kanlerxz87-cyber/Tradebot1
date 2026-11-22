@@ -15,7 +15,8 @@ from __future__ import annotations
 import hashlib
 from datetime import datetime, timezone
 from typing import Any, Iterable
-from urllib.parse import quote_plus
+
+from . import catalysts
 
 TOLERANCE = 1e-9
 
@@ -23,49 +24,6 @@ TOLERANCE = 1e-9
 def _alert_id(ticker: str, ts: int, direction: str) -> str:
     raw = f"{ticker}|{ts}|{direction}".encode()
     return hashlib.sha1(raw).hexdigest()[:12]
-
-
-# What may explain a move ------------------------------------------------
-#
-# The brief asks for "website links that may have caused a sharp jump". There is no
-# reliable way to attribute a Kalshi price move to one article, so these are search
-# links built from the market's own official title, and they say so. Nothing here
-# claims that an article exists or that it caused the move.
-CONTEXT_PREFIX = "https://news.google.com/search?q="
-CONTEXT_NOTE = (
-    "Search links built from the market's own title, opened at the reader's "
-    "discretion. They are not evidence that any article exists or caused this move; "
-    "no cause is attributed anywhere in this project."
-)
-
-
-def context_links(market: dict[str, Any]) -> list[dict[str, Any]]:
-    """Return labelled, non-attributing links for the market behind an alert."""
-    links: list[dict[str, Any]] = []
-    api_url = market.get("api_url")
-    page_url = market.get("series_page_url")
-    if api_url:
-        links.append({"kind": "record", "label": "This market on the Kalshi API", "url": api_url})
-    if page_url:
-        links.append({"kind": "record", "label": "Kalshi market page", "url": page_url})
-    title = (market.get("title") or "").strip()
-    if title:
-        query = quote_plus(title)
-        links.append(
-            {
-                "kind": "search",
-                "label": "Search news for this title",
-                "url": f"{CONTEXT_PREFIX}{query}",
-            }
-        )
-        links.append(
-            {
-                "kind": "search",
-                "label": "Search the web for this title",
-                "url": f"https://duckduckgo.com/?q={query}",
-            }
-        )
-    return links
 
 
 def iso(ts: int | float) -> str:
@@ -80,6 +38,7 @@ def build_alert(
     *,
     threshold: float = 0.10,
     basis: str = "mid",
+    series_meta: dict[str, Any] | None = None,
 ) -> dict[str, Any] | None:
     """Return an alert dict when ``|to_price - from_price| >= threshold``, else ``None``."""
     if from_price is None or to_price is None:
@@ -115,9 +74,10 @@ def build_alert(
         "close_time": market.get("close_time"),
         "api_url": market.get("api_url"),
         "series_page_url": market.get("series_page_url"),
-        "context_links": context_links(market),
-        "context_note": CONTEXT_NOTE,
         "threshold": threshold,
+        # Links a reader can open next to the move: Kalshi's own contract links, plus
+        # time-boxed search queries. Never a claim about what caused the move.
+        "catalysts": catalysts.for_market(market, series_meta, iso=iso(ts)),
     }
 
 
@@ -127,6 +87,7 @@ def detect(
     ts: int,
     *,
     threshold: float = 0.10,
+    series_meta: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
     """Compare each market's current price to the last recorded price.
 
@@ -144,7 +105,10 @@ def detect(
         from_price = previous[0]
         basis = "mid" if market.get("mid") is not None else "last"
         to_price = market.get("mid") if market.get("mid") is not None else market.get("last")
-        alert = build_alert(market, from_price, to_price, ts, threshold=threshold, basis=basis)
+        meta = (series_meta or {}).get(str(market.get("series_ticker") or ""))
+        alert = build_alert(
+            market, from_price, to_price, ts, threshold=threshold, basis=basis, series_meta=meta
+        )
         if alert:
             alerts.append(alert)
     alerts.sort(key=lambda a: a["abs_delta"], reverse=True)

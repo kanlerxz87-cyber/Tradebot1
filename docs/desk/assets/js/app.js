@@ -391,7 +391,7 @@
         <div class="chart-shell" id="priceChart"></div>
         <div class="chart-note">
           X axis = time (UTC clock), Y axis = contract price in dollars. Red/green dashed lines mark recorded ≥ $0.10 swings.
-          ${range.seconds && inWindow.length < 2 ? `<b>Only ${inWindow.length} point(s) in this window</b> — the snapshot is published every 15 minutes, so seconds/minutes windows fill only while the live server or direct mode is connected.` : ""}
+          ${range.seconds && inWindow.length < 2 ? `<b>Only ${inWindow.length} point(s) in this window</b> — the snapshot is published every 30 minutes, so seconds/minutes windows fill only while the live server or direct mode is connected.` : ""}
         </div>
       </div>`;
 
@@ -466,29 +466,25 @@
   }
 
   /* ---------------------------------------------------------------- chats */
+  function catalystMarkup(alert) {
+    const c = alert.catalysts || {};
+    const official = (c.official || []).slice(0, 4);
+    const search = (c.search || []).slice(0, 3);
+    if (!official.length && !search.length) return "";
+    const pair = (item, cls) =>
+      `<a class="${cls}" href="${esc(item.url)}" target="_blank" rel="noopener" title="${esc(item.note || "")}">${esc(item.label)}</a>`;
+    const off = official.length
+      ? `<div class="cat"><span class="cat-label">Contract sources</span>${official.map((i) => pair(i, "src")).join("")}</div>`
+      : "";
+    const srch = search.length
+      ? `<div class="cat"><span class="cat-label warn">Possible catalysts (searches, unverified)</span>${search.map((i) => pair(i, "srch")).join("")}</div>`
+      : "";
+    return `<div class="catalysts">${off}${srch}</div>`;
+  }
+
   function alertMarkup(alert, opts) {
     const dir = alert.direction === "up" ? "up" : "down";
     const model = alert.model || {};
-    // Source and context links recorded with the alert. "record" links go to the
-    // official Kalshi record; "search" links are queries built from the market's own
-    // title and are labelled as such, because nothing here attributes a cause.
-    const recorded = (alert.context_links || []).filter((l) => l && l.url);
-    const contextLinks = recorded.length
-      ? recorded
-          .map(
-            (l) =>
-              `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer"${
-                l.kind === "search" ? ' title="A search built from the market title. It is not evidence that any article caused this move."' : ""
-              }>${esc(l.label)}</a>${l.kind === "search" ? '<span class="small dim"> search</span>' : ""}`,
-          )
-          .join("")
-      : `<a href="${esc(alert.api_url || "#")}" target="_blank" rel="noopener">market API</a>
-         <a href="${esc(alert.series_page_url || "#")}" target="_blank" rel="noopener">Kalshi page</a>`;
-    const why = [
-      model.score !== undefined ? `model score ${Number(model.score).toFixed(2)} · est. ROI ${Number(model.roi_pct_est).toFixed(1)}%` : null,
-      model.reasons ? model.reasons.join(" · ") : null,
-      alert.model && alert.model.note ? `<i>${esc(alert.model.note)}</i>` : null,
-    ].filter(Boolean).join("<br>");
     return `
       <div class="msg" data-alert="${esc(alert.id)}">
         <div class="ts">${clock(alert.iso)}<br><span style="font-size:9.5px">UTC</span></div>
@@ -502,9 +498,11 @@
           <div class="title">${esc(clampText(alert.title, 110))}</div>
           <div class="links">
             <span class="mono small">${esc(alert.ticker)}</span>
-            ${contextLinks}
+            <a href="${esc(alert.api_url || "#")}" target="_blank" rel="noopener">market API</a>
+            <a href="${esc(alert.series_page_url || "#")}" target="_blank" rel="noopener">Kalshi page</a>
             <button class="toggle">why?</button>
           </div>
+          ${catalystMarkup(alert)}
           <div class="why">${why || "No model verdict recorded for this alert."}</div>
         </div>
       </div>`;
@@ -562,7 +560,10 @@
               <td>${topicChip(r.topic)}</td>
               <td><span class="chip ${r.resolution === "YES" ? "ok" : "bad"}">${esc(r.resolution || "—")}</span></td>
               <td class="meta">${esc((r.close_time || r.settled_ts || "—").slice(0, 16).replace("T", " "))}</td>
-              <td><a href="${esc(r.api_url || r.source || "#")}" target="_blank" rel="noopener">verify</a></td>
+              <td>
+                <a href="${esc(r.api_url || r.source || "#")}" target="_blank" rel="noopener">verify</a>
+                ${((r.catalysts || {}).official || []).slice(0, 1).map((i) => ` · <a href="${esc(i.url)}" target="_blank" rel="noopener">${esc(i.label)}</a>`).join("")}
+              </td>
             </tr>`).join("")}
           </tbody>
         </table>
@@ -604,7 +605,7 @@
       </div>
       ${errors.length ? `<div class="banner warn" style="margin-top:10px"><b>${errors.length} collection warning(s):</b><span class="grow">${errors.map((e) => esc(e)).join(" · ")}</span></div>` : ""}
       <div class="banner" style="margin-top:10px">
-        <span class="grow"><b>Snapshot cadence.</b> The public site is refreshed by a GitHub Actions cron job (15 minutes). The two chats, the chart and the orderbook also support a live upgrade: run <code>python -m kalshi_trader.cli serve</code> for WebSocket pushes, or press “Fetch live orderbook” to test direct browser access.</span>
+        <span class="grow"><b>Snapshot cadence.</b> The public site is refreshed by a GitHub Actions cron job (30 minutes). The two chats, the chart and the orderbook also support a live upgrade: run <code>python -m kalshi_trader.cli serve</code> for WebSocket pushes, or press “Fetch live orderbook” to test direct browser access.</span>
       </div>`;
   }
 

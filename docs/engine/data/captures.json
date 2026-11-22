@@ -2,7 +2,7 @@
   "captures": [
     {
       "key": "crypto_btc",
-      "url": "https://docs.kalshi.com/getting_started/quick_start_market_data (KXBTCD series structure)",
+      "url": "https://docs.kalshi.com/getting_started/quick_start_market_data",
       "captured_at_utc": "2026-11-22T07:05:00Z",
       "method": "direct HTTPS GET; payload copied without editing values",
       "markets": [
@@ -41,12 +41,12 @@
       "markets": [
         {
           "ticker": "KXAAAGASM-26NOV30-3.00",
-          "title": "Will average **gas prices** be above $3.00?",
+          "title": "Will average gas prices be above $3.00?",
           "note": "Demo quote (0.9900) copied verbatim from the demo API. Kalshi's public page lists strikes 3.45/3.50/3.55 rather than 3.00, so the live series may not list this strike. Flagged for review."
         },
         {
           "ticker": "KXAAAGASM-26NOV30-3.50",
-          "title": "Will average **gas prices** be above $3.50?",
+          "title": "Will average gas prices be above $3.50?",
           "note": "Kalshi's public series page for KXAAAGASM shows 'Above 3.50' quoted Yes 47c / No 54c at capture, i.e. the LIVE market is near 50c. This demo capture quotes it at 0.3000 and is used only to exercise the alert math. Strike grid (3.45/3.50/3.55) is copied from the public page; the 0.2950 bid is derived from the observed 1c spread. Flagged for review."
         }
       ]

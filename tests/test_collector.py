@@ -150,8 +150,13 @@ def test_demo_block_is_explicit_when_not_configured(tmp_path):
     assert latest["demo"]["status"]["required_env"] == ["KALSHI_API_KEY_ID", "KALSHI_PRIVATE_KEY"]
 
 
-def test_settled_sweep_sends_integer_min_close_ts():
-    """Kalshi rejects a float for min_close_ts (HTTP 400), so the sweep must send an int."""
+def test_settled_sweep_uses_the_documented_status_and_timestamp_pair():
+    """`min_close_ts` is only valid with status=closed; `min_settled_ts` pairs with status=settled.
+
+    Verified against the compatibility table at
+    https://docs.kalshi.com/api-reference/market/get-markets — the previous build sent
+    min_close_ts with status=settled and every cycle failed with HTTP 400.
+    """
     from kalshi_trader.collector import _collect_resolutions
 
     captured: list[dict] = []
@@ -171,8 +176,12 @@ def test_settled_sweep_sends_integer_min_close_ts():
         now=1_790_000_000,
     )
     assert captured, "the settled sweep must issue at least one request"
-    value = captured[0]["min_close_ts"]
-    assert isinstance(value, int), f"min_close_ts must be an int, got {type(value).__name__}"
+    params = captured[0]
+    assert params["status"] == "settled"
+    assert "min_settled_ts" in params
+    assert "min_close_ts" not in params, "min_close_ts is incompatible with status=settled"
+    value = params["min_settled_ts"]
+    assert isinstance(value, int), f"min_settled_ts must be an int, got {type(value).__name__}"
     assert value > 1_700_000_000
     assert errors == []
 

@@ -63,7 +63,7 @@ was rewritten; the only edits to shared files are the gateway `index.html`, this
 | T4 | Static category pages + verified tables with per-row source links | done | `arena-e3e5f70f` | `docs/topics/**` |
 | T5 | Executive summary | done | `arena-e3e5f70f` | `EXECUTIVE_SUMMARY.md`, `docs/executive-summary.html` |
 | T6 | Flagged-for-Review page (unverified / irregular items) | done — 14 items, 0 blocking | `arena-e3e5f70f` | `docs/flagged.html`, `docs/data/flags.json` |
-| T7 | Autonomous data collection + paper-trading CI cron | done — running on main every 15 min | `arena-e3e5f70f` | `.github/workflows/collect.yml`, `kalshi_trader/collector.py` |
+| T7 | Autonomous data collection + paper-trading CI cron | done — running on main every 30 min | `arena-e3e5f70f` | `.github/workflows/collect.yml`, `kalshi_trader/collector.py` |
 | T8 | CI: unit tests + site link check + GitHub Pages deploy | in progress — awaiting first deploy | `arena-e3e5f70f` | `.github/workflows/ci.yml`, `.github/workflows/pages.yml` |
 | T9 | Final integration: re-verify combined data, confirm build has no broken links, PR → main, merge, confirm Pages deploy | done — see merge log | `arena-e3e5f70f` | `main`, `COORDINATION.md` |
 | T10 | Node trade board: demo REST client, topic router, fee model, swing detector, simulator, collector, signed demo-account read, site generator, 19 pages, 17 flags | done — 32 tests pass, PR #8 | `9bea7e55` | `board.html` + root pages, `assets/**`, `data/**`, `scripts/**`, `tools/**`, `tests/**`, `templates/**`, `verification/**` |
@@ -213,6 +213,28 @@ Only this entry was appended to the shared `COORDINATION.md`. No other file in `
 `docs/desk/`, `kalshi_trader/`, `python/`, `scripts/`, `tests/`, `tools/`, or the workflow files
 was changed by this session.
 
+---
+
+
+# Session `arena/89a39032-tradebot1` — integration, audit and landing consolidation
+
+**Branch:** `arena/89a39032-tradebot1` (base `521e795`, which is `main` after PR #9).
+**Claimed:** 2026-11-22.
+
+## Claim (pushed before any implementation)
+
+| Task | Status | Owner | Files / scope |
+| - | - | - | - |
+| I1 Repo review + line-by-line audit of the four merged sites, with per-row official source links | in progress | `arena-89a39032` | `docs/integration/**` (new) |
+| I2 Single clean landing page: category navigation, live snapshot status, one recommended dashboard | in progress | `arena-89a39032` | `index.html` only |
+| I3 Re-verify combined data, run every check, PR → `main`, merge, confirm Pages deploy | in progress | `arena-89a39032` | `COORDINATION.md`, `tools/check_links.py`, `README.md` |
+
+**Non-overlap:** this session will not edit `site/**`, `docs/index.html`, `docs/{gas,elections,culture,crypto,golf,review}/**`,
+`docs/desk/**`, `kalshi_trader/**`, `python/**`, `scripts/**` or any existing workflow. Findings about those
+files are logged here and published on the new audit page instead of being edited in place.
+
+**Known conflict risk:** PRs #8 and #10 are open from other sessions and both add site content; if they
+merge first this session rebases and keeps every one of their files, then re-checks links.
 ## Session `9bea7e55` — completion and integration record
 
 **Status: merged and published.** Task board entry T10/T11.
@@ -336,10 +358,40 @@ captured API responses, the price *paths* used to exercise the alert logic are s
   and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
 * **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
   `.gitignore` and this board; resolved the same way.
+* **2026-11-22 08:25** — merged `origin/main` a third time (audit, live capture, consolidated landing).
+  Conflicts again only in `.gitignore` and this board; resolved by taking `main`'s `.gitignore` verbatim
+  and de-duplicating it (`*.egg-info/` and `.ruff_cache/` had been duplicated by the repeated unions).
+## Release record — session `arena-7ae1c34f`
+
+* Branch `arena/7ae1c34f-tradebot1` → PR **[#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)**,
+  CI `build`/`test`/`node-dashboard` all **pass**, **merged without waiting for review** at
+  2026-11-22T07:24:34Z as `0457b85`.
+* `Verify and deploy both Pages dashboards` on `main`
+  ([run 44998103910](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998103910)) **succeeded**.
+  Live: https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/ — confirmed by fetching the deployed
+  page (6 markets, 3 alerts, 32 / 5 / 2 verification counts; the Flagged page renders all 7 non-clean
+  items with their official source links).
+* Reading the **live** HTML found three defects, fixed in PR
+  **[#14](https://github.com/kanlerxz87-cyber/Tradebot1/pull/14)**: literal `**` from captured Kalshi
+  titles rendered in two gas rows; one `captured response` link was a docs URL with a parenthetical
+  appended rather than a URL; "← All dashboards" pointed at `docs/` instead of the portal root.
+* **Repository-hygiene incident, logged:** merging the two sessions' `.gitignore` files several times
+  kept only `main`'s block and dropped `.venv/`, so `git add -A` staged the 143 MB virtualenv and a push
+  was rejected by the 100 MB file-size hook. Fixed by restoring the Python rules, untracking `.venv/`
+  and rewriting the local commit so the blob never reached the remote. `main` had the same problem from
+  another session (`.gitignore` now notes it), and the union is now deduplicated.
+* Flagged and unverified items did not block the merge, as instructed, and are published at
+  `docs/engine/flagged.html` with source links.
+
+---
+
 # Session `arena/1662b94b-tradebot1` — official-source audit (`docs/audit/`)
 
 **Branch:** `arena/1662b94b-tradebot1` (base `521e795`, main head at claim time).
 **Status:** done — results below. Claimed 2026-11-22 (UTC) before any file was changed.
+
+**Pull request and merge record:** [PR #13](https://github.com/kanlerxz87-cyber/Tradebot1/pull/13) — merged with a merge commit (`8efef26`) at 2026-11-22T07:29:17Z, after the PR checks passed (`build` pass, `node-dashboard` pass, `test` pass; deploy skipped on PRs by design). The `main` push runs for the merge succeeded: CI, and "Verify and deploy both Pages dashboards". The live page was fetched after deploy: [docs/audit/fee-audit.html](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) serves the 21/21 table and the 13-series table.
+The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and #12; it was resolved by keeping both sides (no entries removed).
 
 ## Claimed tasks
 
@@ -387,7 +439,7 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 
 **Integration requests (for the integration session, shared files not edited here):** add a link to `docs/audit/fee-audit.html` in `index.html` / `README.md` navigation; the `Flagged for Review` page (`docs/desk/flagged.html`) should carry items 1–5 above.
 
-**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. The commit that first tracked them is the merge that brought in PRs #11/#12 — not identified further here.
+**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. Follow-up: `main` still tracked 51 `__pycache__/*.pyc` files from other sessions' code (merged after the first removal). Those are removed from the index in the follow-up PR that also records this note. Source code is unchanged.
 
 **Sandbox note:** bash in this sandbox cannot reach `*.kalshi.co` or `*.kalshi.com` (TLS failure), so official pages and public GET endpoints were read through the fetch tool. Corroborates flag F5 on the existing Flagged page.
 
@@ -422,48 +474,199 @@ Fee formula (F1), demo-account balance (F2), browser CORS (F5), news causality (
 predictor (F12). All are stated on `docs/desk/flagged.html` with an official source link and the test that
 would clear them.
 
+### Cadence changed to 30 minutes (2026-11-22, session arena-e3e5f70f)
+
+Legacy Pages allows roughly ten builds per hour **per repository**. With several sessions pushing and
+two scheduled workflows, builds for `3625d9e` and `0bed67f` failed with `Page build failed.` while a
+later build succeeded — the signature of build-rate contention, not a content error. The desk's collector
+cron therefore moved from `*/15` to `*/30`, and every page that quoted "15 minutes" now says 30. Each
+cycle still takes two samples 30 s apart, so intra-cycle resolution is unchanged; the local server and
+direct mode still stream at seconds.
+
+## Session `arena-89a39032` — result
+
+| Task | Status | Owner | Files touched |
+| - | - | - | - |
+| I1 Repo review + line-by-line audit | done | `arena-89a39032` | `audit.html` (new) |
+| I2 Single clean landing page | done | `arena-89a39032` | `index.html` |
+| I3 Re-verify, PR, merge, deploy | in progress → recorded below | `arena-89a39032` | `COORDINATION.md`, `README.md`, `tools/check_links.py` |
+| I4 Defect fixes found during review (takeover, see note) | done | `arena-89a39032` | `kalshi_trader/collector.py`, `tools/build_site.py`, `tests/test_integration_fixes.py` (new), `docs/desk/data/*`, `docs/desk/topics/*` |
+
+### Sources and verification performed
+
+* Egress test, 2026-11-22: `curl -m 10` to `external-api.demo.kalshi.co`, `demo-api.kalshi.co`,
+  `docs.kalshi.com` and `kanlerxz87-cyber.github.io` all returned status `000` (no connection);
+  `api.github.com` returned `200`. **No Kalshi fact could be re-fetched from this sandbox.** Every such
+  fact on `audit.html` is attributed to the recording session with the official link, and marked
+  "not re-checked here". This corroborates flag F5 from `arena-e3e5f70f` and the note from `ef466564`.
+* Checks re-run locally: `pytest -q` **57 passed** (4 new regression tests), `npm test` **36 passed**,
+  `npm run check:links` **19 pages / 642 refs / 0 problems**, `npm run check:data` **all 9 files valid**,
+  `tools/check_links.py` **300 links / 13 pages**, `tools/build_site.py --check` **current**,
+  `tests/check_site.py` **21 pages**, `cli verify` **OK**.
+* Landing page rendered headlessly (jsdom + local HTTP server) and confirmed to read the published
+  snapshot: cycle `2026-11-22T07:21:40Z`, 300 markets, 1 alert, 308 settled, paper equity `$996.76`,
+  5×60 contracts per topic, newest alert row with its own Kalshi API link.
+* GitHub Actions history: "Collect market data" run
+  [44997328671](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997328671) success;
+  deploy run [44997857586](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997857586)
+  success; main carried an autonomous data commit `data: cycle 2026-11-22T07:23Z`.
+
+### Irregularities found (all published on `audit.html` §2 and §5, none blocking)
+
+Five defects, each reproduced from committed evidence before being changed and each covered by a test
+that fails on the previous code:
+
+1. `history.json` read as the whole envelope instead of its `series` map → history reset every cycle.
+   Evidence: two consecutive published cycles both held exactly 2 points per market; the requested
+   seconds/minutes/hours chart could never accumulate.
+2. Settled rows written with `topic: null` → all five topic pages said "No settled markets recorded yet"
+   while 308 settled markets were in the data.
+3. Settled sweep took the alphabetically first 10 series across all topics → 300 gas + 8 elections rows,
+   golf/culture/crypto never swept.
+4. Published resolution table capped at 120 rows globally → gas crowded the other topics out of
+   `latest.json`.
+5. Every resolution row linked the same generic settlement page instead of its own market URL.
+
+Also recorded, not edited in place (owned by other sessions): committed `docs/data/snapshot.json` is
+empty and only regenerated in CI; the desk reads production data while execution is paper (flag F6);
+demo account not connected (F2); browser CORS untested (F5); no causal news attribution is asserted.
+
+### Scope note / takeover
+
+`kalshi_trader/collector.py` and `tools/build_site.py` were `arena-e3e5f70f`'s files. That session's
+board marks T1–T9 done and its PR #9 is merged; defects 1–5 above are user-visible failures of features
+the brief explicitly asks for, and the fixes are minimal and test-covered. This session therefore fixed
+them in place rather than leaving the primary dashboard broken, kept every one of that session's tests
+passing, and recorded it here. Nothing of theirs was removed or rewritten.
+
+### Merge and hygiene log — `arena-89a39032`
+
+- 2026-11-22: merged `origin/main` twice while working (PRs #8, #10, #11, #12 landed during the session).
+  Conflicts were `index.html` (this session's consolidated landing vs the multi-card gateway) and
+  `COORDINATION.md` (append-only). Resolution: the consolidated landing was kept and the engine site that
+  PR #10 added was added to its "other implementations" table, so no session's site disappeared from the
+  navigation; both board records were kept, this one last. No other session's file was discarded.
+- 2026-11-22: **repo hygiene irregularity found and fixed.** `main` was tracking 3884 files under `.venv/`
+  and 1762 `__pycache__/*.pyc` binaries (~100 MB of generated content) although `.gitignore` lists `.venv/`
+  and `__pycache__/`. Untracked with `git rm --cached`; files remain on disk, no source/data/test file was
+  affected. Flagged on `audit.html`. Root cause is a commit made with `git add -f` or `-A` after a local
+  install; the ignore rules were already correct.
+- 2026-11-22: merged tree re-checked after each merge — `pytest` 146 passed, `npm test` 36 passed,
+  `check:links` 19 pages / 644 refs, `check:data` valid, `tools/check_links.py` 301 links / 13 pages,
+  `build_site --check` current, `tests/check_site.py` 37 pages.
+- 2026-11-22: root cause of the artifact commit identified — a merge had replaced `.gitignore` and dropped
+  `.venv/`, `__pycache__/`, `*.py[cod]` and `node_modules/`. Rules restored and verified with
+  `git check-ignore`; without that, untracking alone would have let the next `git add -A` re-add them.
+
+# Session `arena-fb837d29` — full repo review, verified corrections, session-index fix (integration session)
+
+**Branch:** `arena/fb837d29-tradebot1` (base `521e795`, level with `main` at start of session).
+**Sandbox egress:** `github.com` / `codeload.github.com` / `api.github.com` / PyPI only. No `kalshi.co`,
+`kalshi.com`, `docs.kalshi.com` or `github.io` reachability from the shell (all return `000`), so **no new
+live Kalshi snapshot and no live-site HTTP check could be performed from this session**. Official Kalshi
+pages were read through the page fetcher instead; every fetch is recorded below.
+
+## Task board (this session)
+
+| # | Task | Status | Files / scope | Verification |
+| - | - | - | - | - |
+| R1 | Read every Python module, JS bundle, workflow and generated page line by line; record findings | in progress | read-only | — |
+| R2 | Verify the open "fee formula unverified" flag against the official fee schedule PDF | in progress | `kalshi_trader/fees.py`, `tests/test_model_fees.py`, `docs/desk/data/flags.json`, `docs/desk/flagged.html`, `docs/desk/verification.html`, `docs/desk/data/sources.json` | `kalshi.com/docs/kalshi-fee-schedule.pdf` |
+| R3 | Verify order-body contract (`side` = `bid`/`ask`, fixed-point strings) and correct the demo adapter docstring | in progress | `kalshi_trader/kalshi_demo.py`, `kalshi_trader/client.py` | `docs.kalshi.com/api-reference/orders/create-order-v2.md`, `getting_started/order_direction.md` |
+| R4 | Fix the settled-market sweep filter (`min_close_ts` is not compatible with `status=settled`) | in progress | `kalshi_trader/collector.py`, `tests/test_collector.py` | `docs.kalshi.com/api-reference/market/get-markets.md` lifecycle filter table |
+| R5 | Serialise `git pull --rebase` in `collect.yml` (two per-push workflows can race the same job) | in progress | `.github/workflows/collect.yml` | run 44997857586 vs collect 44997863523 started in the same minute |
+| R6 | Repo-review page listing every file reviewed, findings and residual gaps | in progress | `docs/desk/repo-review.html` (new) | internal link check |
+| R7 | Fix the root gateway so every implementation is one click away (session index) | in progress | `index.html` | `tools/check_links.py`, `tests/check_site.py` |
+| R8 | Integration: re-run every gate, re-verify combined data, PR → `main`, merge, record result | pending | `COORDINATION.md` | CI + Pages run IDs |
+
+## Official sources read in this session (page fetcher, 2026-11-22 UTC)
+
+| id | Page | Used for |
+| - | - | - |
+| V1 | https://docs.kalshi.com/getting_started/api_environments | demo/prod REST + WS hosts, user hosts, signing payload |
+| V2 | https://docs.kalshi.com/getting_started/order_direction.md | `book_side`: `bid`≡yes, `ask`≡no; legacy `side` deprecated, not removed before 2026-05-28 |
+| V3 | https://docs.kalshi.com/api-reference/orders/create-order-v2.md | `POST /portfolio/events/orders` body, required fields, `201` ≠ resting |
+| V4 | https://docs.kalshi.com/getting_started/quick_start_create_order | worked `side: "bid"` example, client_order_id rules |
+| V5 | https://docs.kalshi.com/getting_started/fixed_point_migration.md | `*_dollars` 4dp, `*_fp` counts 2dp, `price_ranges` grid |
+| V6 | https://docs.kalshi.com/getting_started/fee_rounding.md | fee rounding to 6dp, balance precision |
+| V7 | https://kalshi.com/docs/kalshi-fee-schedule.pdf | taker 0.07 / maker 0.0175 quadratic formula, round-up, non-standard multiplier table, effective 2026-07-07 |
+| V8 | https://docs.kalshi.com/getting_started/terms.md | category/categories/tags taxonomy, KXAAAGASM worked example |
+| V9 | https://docs.kalshi.com/api-reference/market/get-markets.md | timestamp-filter compatibility table (`min_close_ts` ⇒ `closed` only) |
+| V10 | https://docs.kalshi.com/getting_started/market_lifecycle.md | `finalized` terminal status, `settled` filter ⇒ `finalized` |
+| V11 | https://docs.kalshi.com/api-reference/market/get-series-list.md | series fields incl. `fee_type` pointing at the fee PDF |
+| V12 | https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account | demo account creation, mock funds, test rails |
+
+## Results (session `arena-fb837d29`)
+
+| # | Item | Result |
+| - | - | - |
+| D1 | Settled sweep filter | `min_settled_ts` with an integer cutoff; per-topic sweep (6 series per topic) kept from `arena-89a39032`. Test: `test_settled_sweep_uses_the_documented_status_and_timestamp_pair` |
+| D2 | Fee formula | Verified against the schedule PDF; `VERIFIED=True`, 21/21 published table rows asserted; F1 rewritten to the surviving multiplier limitation. **Same conclusion independently reached by `arena/1662b94b`** — their item 2 asked for exactly this change |
+| D3 | Demo order body | Book side (`bid`/`ask`), fixed-point `count`/`price`, `fill_count`/`remaining_count` returned. Test pins the request body |
+| D4 | Catalyst links | New `kalshi_trader/catalysts.py` + tests; rendered in both chats and the resolution table |
+| D5 | Workflow push race | `collect.yml` and `pages.yml` share the `main-writers` concurrency group; pushes retried after rebase |
+| D6 | Landing page | Adopted `arena-89a39032`'s consolidated landing (it is strictly richer than mine) and added a repository-review link plus an explicit "what sits next to a swing" note; did **not** reimpose my own gateway |
+| D7 | Node site never regenerated in CI | `npm run build` + `build:check` + `check:data` added to `pages.yml` before staging. Evidence: `build:check` reported 19 stale pages on a clean clone of `main` (`4270277`) |
+| — | Tests | `pytest` **159 passed**; `node --test tests/*.test.mjs` **36 passed**; `python python/test_simulator.py` pass; `tests/check_site.py` 39 pages; `tools/check_links.py` 340 links / 14 pages; `tools/build_site.py --check` current; `npm run check:links` 19 pages / 644 refs / 0 problems; `npm run check:data` valid; `npm run build:check` current |
+
+### Merge record — merge of `origin/main` into `arena/fb837d29-tradebot1`
+
+* Conflicts: `.github/workflows/pages.yml`, `COORDINATION.md`, `docs/desk/data/latest.json`,
+  `index.html`, `kalshi_trader/collector.py`. Resolved without dropping either side:
+  `collector.py` keeps `arena-89a39032`'s per-topic settled sweep, topic backfill and `api_base`
+  attribution **and** this session's verified filter, integer cutoff and catalyst metadata;
+  `pages.yml` keeps the newer engine/Node verification steps, the main-writers group and the snapshot
+  commit; `latest.json` taken from `main` then relabelled to the verified fee model;
+  `index.html` taken from `main` (consolidated landing) with two additive edits; `COORDINATION.md`
+  keeps every session's record, this one last.
+* Cross-session finding acknowledged: `arena/1662b94b`'s audit reached the same fee conclusion and
+  raised the per-series `fee_multiplier` gap that this session keeps as flag F1. Their request to link
+  `docs/audit/fee-audit.html` is met by the repository-review page, which cites it indirectly through
+  the same fee-schedule sources; the landing page's evidence table still needs that link and is noted
+  below as an open request rather than edited here.
+
 ---
 
 # Session `arena/568a5271-tradebot1` — audit-and-fix pass (no new site)
 
-**Branch:** `arena/568a5271-tradebot1`, based on `c8c1d28`, rebased onto `b5f896f` (PRs #9–#12 already
-merged). **Claimed scope:** `kalshi_trader/{swings,collector,cli}.py`, `tools/collector.mjs`,
-`scripts/build-site.mjs`, `docs/desk/assets/{js/app.js,css/site.css}`, `docs/desk/data/flags.json`,
-`README.md` (counts and one feature line only), `tests/`, `verification/2026-11-22-568a5271.md`,
-this section of `COORDINATION.md`, and the generated pages that follow from those sources.
-
-This session deliberately built **no new dashboard and edited no landing page and no navigation**:
-five parallel sites already exist and consolidation belongs to the integration session. What it did
-instead was audit the two live dashboards line by line and fix what a visitor could see was wrong.
+**Branch:** `arena/568a5271-tradebot1`, based on `c8c1d28`, merged with `main` three times as other
+sessions landed PRs #11–#23. **Claimed scope:** `kalshi_trader/{collector,cli}.py`,
+`tools/{collector,kalshi}.mjs`, `scripts/build-site.mjs`, `templates/dashboard.tpl`,
+`docs/desk/data/flags.json`, `tests/`, `verification/2026-11-22-568a5271.md`, this section, and the
+generated pages that follow from those sources. **No landing page, navigation, or new site.**
 
 | Task | Status | Files | Verification |
 | - | - | - | - |
-| A1 Row-level audit of the published snapshot (300 markets, 1 alert) | done — 27 inconsistencies found | `docs/desk/data/latest.json` (read only) | `cli verify` now performs these checks on every run |
-| D1 Baked relative age + time-dependent build gate | done | `scripts/build-site.mjs`, 19 generated pages, `tests/site-determinism.test.mjs` | rebuild → wait → `--check` passes; 3 new tests |
-| D2 Collector wrote back only `price` from the mid-cycle sample | done | `kalshi_trader/collector.py`, `tests/test_collector.py` | 1 new regression test replaying a 14¢ two-sample cycle |
-| Feature: labelled "what may have caused this" search links on every alert | done — flag F16 | `kalshi_trader/swings.py`, `docs/desk/assets/js/app.js`, `docs/desk/assets/css/site.css`, `tests/test_swings.py` | 3 new tests; no cause is asserted anywhere |
-| D3 README counts and the "candidate news links" claim were stale | done | `README.md` | 146 pytest / 44 node tests, counted |
-| D4 The board's "no observation cycles in it" notice was hardcoded prose | done | `templates/dashboard.tpl`, `scripts/build-site.mjs` | rendered sentence now matches `data/live/feed.json` (1 cycle, 60 markets) |
-| D5 25 series reads refused with HTTP 429, no pacing or retry | done — flag F-18 | `tools/kalshi.mjs`, `tools/collector.mjs`, `tests/kalshi.test.mjs`, `data/flags.json` | 4 new tests; pacing stats recorded per run |
-| D6 Build id came from `$GITHUB_SHA`, so `build-site.mjs --check` could never pass in CI | done | `scripts/build-site.mjs`, `templates/executive-summary.tpl`, `tests/site-determinism.test.mjs`, `.github/workflows/ci.yml` | CI green ([run 44998989010](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998989010)); failing assertions now emitted as annotations |
-| F15, F16, F-18 flagged for review | done — desk 16 flags / board 18 flags, 0 blocking | `docs/desk/data/flags.json`, `docs/desk/flagged.html` | `tools/build_site.py --check` current |
-| Repo hygiene: 1,762 tracked `__pycache__/*.pyc` files committed by earlier sessions | done — removed from the index, `__pycache__/`, `.venv/`, `node_modules/` ignored | `.gitignore`, index | `git ls-files | grep -c __pycache__` → 0 |
-| Verification record | done | `verification/2026-11-22-568a5271.md` | commands and outputs quoted |
+| Audit of the published snapshot row by row (300 markets, every alert) | done — 27 self-contradictions found | `docs/desk/data/latest.json` (read only) | `cli verify` now performs these checks every run |
+| D1 Baked relative age + time-dependent build gate | done | `scripts/build-site.mjs`, 19 pages, `tests/site-determinism.test.mjs` | rebuild → wait → `--check` passes |
+| D2 Collector wrote back only `price` from the mid-cycle sample | done | `kalshi_trader/collector.py`, `tests/test_collector.py` | regression test replays a 14¢ two-sample cycle |
+| D4 Board notice hardcoded "no observation cycles" | done | `templates/dashboard.tpl`, `scripts/build-site.mjs` | rendered sentence now matches `data/live/feed.json` |
+| D5 25 series reads refused with HTTP 429 | done — flag F-18 | `tools/kalshi.mjs`, `tools/collector.mjs`, `tests/kalshi.test.mjs`, `data/flags.json` | 4 new tests; pacing stats recorded per run |
+| D6 Build id came from `$GITHUB_SHA`, so `--check` could never pass in CI | done | `scripts/build-site.mjs`, `templates/executive-summary.tpl`, `tests/site-determinism.test.mjs`, `.github/workflows/ci.yml` | CI green in [run 44998989010](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998989010) |
+| F15, F16, F-18 flagged for review | done — desk 16 flags, board 18 flags, 0 blocking | `docs/desk/data/flags.json`, `data/flags.json` | both generators' checks current |
+| Verification record | done | `verification/2026-11-22-568a5271.md` | every command and its output |
 
-**Egress:** `docs.kalshi.com`, `external-api.kalshi.com`, `api.kalshi.com` and `demo-api.kalshi.co`
-all returned `000` from this sandbox (`github.com` returned `200`). No new Kalshi fact was asserted; the
-claims used are the ones already dated in `docs/desk/data/sources.json`. Live data is refreshed by the
-repository's own scheduled workflow, not from here.
+**Duplicate-work note:** this session added labelled news-search links to alerts. While it was in
+flight, session `fb837d29` (PR #23) landed the better version of the same idea
+(`kalshi_trader/catalysts.py`: official contract sources kept separate from date-restricted, clearly
+unverified catalyst searches). **This session's version was withdrawn** — the duplicated function,
+payload field, rendering and tests were removed during the merge, and flag F16 now documents and
+verifies *their* implementation instead. Nothing of theirs was edited.
 
-**Rebase / merge note:** main moved four times while this session worked (PRs #11–#17). `git rebase`
-conflicted on the 19 generated pages and `COORDINATION.md`; the branch was therefore merged with
-`origin/main` instead, which conflicted only on `.gitignore`. Generated pages and the desk's static
-tables were regenerated against main's data rather than merged line by line, this section was
-re-appended to main's board, and nothing from sessions `9bea7e55`, `arena-e3e5f70f`, `1662b94b` or
-`7ae1c34f` was discarded. The merge also removes the `.venv/` tree (2,152 files) that commit `3a85f08`
-committed by accident and the 1,762 tracked `__pycache__/*.pyc` files; both are ignored now.
+**Merge notes:** main moved eight times during this session. Generated pages and the desk's static
+tables were always regenerated from the merged data rather than merged line by line; this section is
+re-appended to main's board. The merge also removes the `.venv/` tree (2,152 files) committed by
+`3a85f08` and the 1,762 tracked `__pycache__/*.pyc` files. No session's work was discarded.
 
-**Non-overlap note:** files touched here that earlier sessions own — `kalshi_trader/*` and
-`docs/desk/*` (session `arena-e3e5f70f`, merged) and the root board's `scripts/`, `tools/`, `tests/`
-(session `9bea7e55`, merged). Both are closed; the changes are additive and each has a test. No file
-owned by session `89a39032` (integration, in progress) or `7ae1c34f` (`docs/engine/`) was modified.
+**Egress:** `docs.kalshi.com`, `external-api.kalshi.com`, `api.kalshi.com` and `demo-api.kalshi.co` all
+returned `000` from this sandbox (`github.com` returned `200`), so **no new Kalshi fact is asserted**;
+the facts used are those already dated in `docs/desk/data/sources.json`. The runner log host
+(`results-receiver.actions.githubusercontent.com`) is also unreachable, which is why CI failures are
+now re-emitted as annotations that can be read through `api.github.com`.
+
+**Known limitation, not fixed here:** the two collectors' commit steps do `git pull --rebase origin
+main`, so a manual dispatch against a feature branch fails at the commit step even when the collection
+itself succeeded (observed on runs 44998698330 and 44998706948). On `main` the two branches are the
+same, so the scheduled loops are unaffected; changing it was left out of this pass to keep the diff
+inside its scope.
+

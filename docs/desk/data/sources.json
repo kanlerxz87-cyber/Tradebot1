@@ -1,6 +1,6 @@
 {
   "checked_at": "2026-11-22",
-  "note": "Every row below was read directly from an official Kalshi source during this session (2026-11-22 UTC). Third-party pages are never used as a source for a factual claim on this site.",
+  "note": "Every row below was read directly from an official Kalshi source on 2026-11-22 UTC (S25-S27 were added in the repository-review pass of the same date). Third-party pages are never used as a source for a factual claim on this site.",
   "sources": [
     {
       "id": "S1",
@@ -10,64 +10,8 @@
       "verified": true
     },
     {
-      "id": "S2",
-      "claim": "Demo WebSocket URL is wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2; wss://demo-api.kalshi.co/trade-api/ws/v2 is also supported. Production is wss://external-api-ws.kalshi.com/trade-api/ws/v2.",
-      "url": "https://docs.kalshi.com/getting_started/api_environments",
-      "publisher": "Kalshi documentation",
-      "verified": true
-    },
-    {
-      "id": "S3",
-      "claim": "Authenticated requests carry KALSHI-ACCESS-KEY, KALSHI-ACCESS-SIGNATURE and KALSHI-ACCESS-TIMESTAMP. The signed text is timestamp + HTTP method + request path, excluding the query string and host.",
-      "url": "https://docs.kalshi.com/getting_started/api_environments",
-      "publisher": "Kalshi documentation — Request Signing section",
-      "verified": true
-    },
-    {
-      "id": "S4",
-      "claim": "RSA keys sign with RSA-PSS and SHA-256; Ed25519 keys sign the message directly. Signatures are base64 in KALSHI-ACCESS-SIGNATURE; the timestamp is Unix milliseconds.",
-      "url": "https://docs.kalshi.com/api-reference/portfolio/get-positions",
-      "publisher": "Kalshi documentation — securitySchemes",
-      "verified": true
-    },
-    {
-      "id": "S5",
-      "claim": "Public market-data endpoints (series, events, markets, orderbook) require no API key.",
-      "url": "https://docs.kalshi.com/getting_started/quick_start_market_data",
-      "publisher": "Kalshi documentation",
-      "verified": true
-    },
-    {
-      "id": "S6",
-      "claim": "Market objects expose yes_bid_dollars, yes_ask_dollars, no_bid_dollars, no_ask_dollars, last_price_dollars, previous_price_dollars, volume_fp, volume_24h_fp, open_interest_fp, yes_bid_size_fp, yes_ask_size_fp, status, result, close_time and rules_primary.",
-      "url": "https://docs.kalshi.com/api-reference/market/get-markets",
-      "publisher": "Kalshi documentation",
-      "verified": true
-    },
-    {
-      "id": "S7",
-      "claim": "Orderbook responses contain only bids: orderbook_fp.yes_dollars and orderbook_fp.no_dollars as [price_dollars, count_fp] pairs sorted ascending; the best bid is the last element; asks are implied as $1.00 − the opposite side's bid.",
-      "url": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "publisher": "Kalshi documentation",
-      "verified": true
-    },
-    {
-      "id": "S8",
-      "claim": "Candlesticks: GET /series/{series_ticker}/markets/{ticker}/candlesticks with start_ts and end_ts in seconds and period_interval of 1, 60 or 1440 minutes; at most 5,000 periods per request.",
-      "url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks",
-      "publisher": "Kalshi documentation",
-      "verified": true
-    },
-    {
-      "id": "S9",
-      "claim": "A series has one primary category, a categories discovery list and a tags subcategory list. The category filter matches any entry in categories. Official categories include Elections, Crypto, Entertainment, Sports, Economics and Commodities.",
-      "url": "https://docs.kalshi.com/getting_started/terms",
-      "publisher": "Kalshi documentation — Kalshi Glossary",
-      "verified": true
-    },
-    {
       "id": "S10",
-      "claim": "Golf is a tag (subcategory) inside the Sports category. Full category→tag map retrieved from the live API.",
+      "claim": "Golf is a tag (subcategory) inside the Sports category. Full category\u2192tag map retrieved from the live API.",
       "url": "https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories",
       "publisher": "Kalshi documentation + live GET /search/tags_by_categories",
       "verified": true
@@ -76,7 +20,7 @@
       "id": "S11",
       "claim": "The monthly US gas price series is KXAAAGASM: primary category Economics, categories [Economics, Commodities], tags [Oil and energy, Oil & Gas], one event per month with one market per strike.",
       "url": "https://docs.kalshi.com/getting_started/terms",
-      "publisher": "Kalshi documentation — worked example in the glossary",
+      "publisher": "Kalshi documentation \u2014 worked example in the glossary",
       "verified": true
     },
     {
@@ -88,14 +32,14 @@
     },
     {
       "id": "S13",
-      "claim": "Order placement uses POST /portfolio/events/orders with ticker, side, count, price, time_in_force, self_trade_prevention_type and an optional client_order_id; HTTP 201 means the order was accepted (not necessarily resting).",
-      "url": "https://docs.kalshi.com/getting_started/quick_start_create_order",
+      "claim": "Order placement uses POST /portfolio/events/orders (Create Order V2) with ticker, side, count, price, time_in_force, self_trade_prevention_type and an optional client_order_id; `side` is the book side (bid = yes, ask = no), count is a fixed-point string and price a fixed-point dollar string; HTTP 201 means accepted, not necessarily resting.",
+      "url": "https://docs.kalshi.com/api-reference/orders/create-order-v2",
       "publisher": "Kalshi documentation",
       "verified": true
     },
     {
       "id": "S14",
-      "claim": "Rate limits are token buckets per tier; most requests cost 10 tokens; GET /portfolio/balance has its own bucket of 1–5 requests per second; unauthenticated public requests are limited separately and 429s should be retried with backoff.",
+      "claim": "Rate limits are token buckets per tier; most requests cost 10 tokens; GET /portfolio/balance has its own bucket of 1\u20135 requests per second; unauthenticated public requests are limited separately and 429s should be retried with backoff.",
       "url": "https://docs.kalshi.com/getting_started/rate_limits",
       "publisher": "Kalshi documentation",
       "verified": true
@@ -109,7 +53,7 @@
     },
     {
       "id": "S16",
-      "claim": "WebSocket connections use the same Kalshi API-key authentication, subscribe via {\"id\":1,\"cmd\":\"subscribe\",\"params\":{\"channels\":[…],\"market_tickers\":[…]}}, and must resubscribe after a reconnect.",
+      "claim": "WebSocket connections use the same Kalshi API-key authentication, subscribe via {\"id\":1,\"cmd\":\"subscribe\",\"params\":{\"channels\":[\u2026],\"market_tickers\":[\u2026]}}, and must resubscribe after a reconnect.",
       "url": "https://docs.kalshi.com/getting_started/quick_start_websockets",
       "publisher": "Kalshi documentation",
       "verified": true
@@ -136,6 +80,13 @@
       "verified": true
     },
     {
+      "id": "S2",
+      "claim": "Demo WebSocket URL is wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2; wss://demo-api.kalshi.co/trade-api/ws/v2 is also supported. Production is wss://external-api-ws.kalshi.com/trade-api/ws/v2.",
+      "url": "https://docs.kalshi.com/getting_started/api_environments",
+      "publisher": "Kalshi documentation",
+      "verified": true
+    },
+    {
       "id": "S20",
       "claim": "The demo environment is https://demo.kalshi.co, uses mock funds, has credentials separate from production, and Kalshi warns that demo prices and behaviour may not reflect real markets.",
       "url": "https://docs.kalshi.com/getting_started/demo_env",
@@ -153,14 +104,14 @@
       "id": "S22",
       "claim": "REST market data is cached briefly, so prices, sizes and status can lag the exchange by several seconds; WebSockets are the documented mechanism for current prices.",
       "url": "https://docs.kalshi.com/getting_started/quick_start_market_data",
-      "publisher": "Kalshi documentation — Data Freshness section",
+      "publisher": "Kalshi documentation \u2014 Data Freshness section",
       "verified": true
     },
     {
       "id": "S23",
       "claim": "OpenAPI spec lists four supported servers: external-api.kalshi.com, api.elections.kalshi.com, external-api.demo.kalshi.co and demo-api.kalshi.co, all under /trade-api/v2.",
       "url": "https://docs.kalshi.com/openapi.yaml",
-      "publisher": "Kalshi documentation — OpenAPI spec",
+      "publisher": "Kalshi documentation \u2014 OpenAPI spec",
       "verified": true
     },
     {
@@ -175,6 +126,69 @@
       "claim": "Live production read on 2026-11-22: GET /markets?series_ticker=KXAAAGASM&status=open returned strikes 3.45 / 3.55 / 3.65 with prices, volume_fp and open_interest_fp; GET /series?tags=Golf returned KXPGAEAGLE, KXLIVR1LEAD and KXRYDERCUPCAPTAIN among others.",
       "url": "https://external-api.kalshi.com/trade-api/v2/markets?series_ticker=KXAAAGASM&status=open",
       "publisher": "Kalshi production API (live read)",
+      "verified": true
+    },
+    {
+      "id": "S3",
+      "claim": "Authenticated requests carry KALSHI-ACCESS-KEY, KALSHI-ACCESS-SIGNATURE and KALSHI-ACCESS-TIMESTAMP. The signed text is timestamp + HTTP method + request path, excluding the query string and host.",
+      "url": "https://docs.kalshi.com/getting_started/api_environments",
+      "publisher": "Kalshi documentation \u2014 Request Signing section",
+      "verified": true
+    },
+    {
+      "id": "S4",
+      "claim": "RSA keys sign with RSA-PSS and SHA-256; Ed25519 keys sign the message directly. Signatures are base64 in KALSHI-ACCESS-SIGNATURE; the timestamp is Unix milliseconds.",
+      "url": "https://docs.kalshi.com/api-reference/portfolio/get-positions",
+      "publisher": "Kalshi documentation \u2014 securitySchemes",
+      "verified": true
+    },
+    {
+      "id": "S5",
+      "claim": "Public market-data endpoints (series, events, markets, orderbook) require no API key.",
+      "url": "https://docs.kalshi.com/getting_started/quick_start_market_data",
+      "publisher": "Kalshi documentation",
+      "verified": true
+    },
+    {
+      "id": "S6",
+      "claim": "Market objects expose yes_bid_dollars, yes_ask_dollars, no_bid_dollars, no_ask_dollars, last_price_dollars, previous_price_dollars, volume_fp, volume_24h_fp, open_interest_fp, yes_bid_size_fp, yes_ask_size_fp, status, result, close_time and rules_primary.",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "publisher": "Kalshi documentation",
+      "verified": true
+    },
+    {
+      "id": "S7",
+      "claim": "Orderbook responses contain only bids: orderbook_fp.yes_dollars and orderbook_fp.no_dollars as [price_dollars, count_fp] pairs sorted ascending; the best bid is the last element; asks are implied as $1.00 \u2212 the opposite side's bid.",
+      "url": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "publisher": "Kalshi documentation",
+      "verified": true
+    },
+    {
+      "id": "S8",
+      "claim": "Candlesticks: GET /series/{series_ticker}/markets/{ticker}/candlesticks with start_ts and end_ts in seconds and period_interval of 1, 60 or 1440 minutes; at most 5,000 periods per request.",
+      "url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks",
+      "publisher": "Kalshi documentation",
+      "verified": true
+    },
+    {
+      "id": "S9",
+      "claim": "A series has one primary category, a categories discovery list and a tags subcategory list. The category filter matches any entry in categories. Official categories include Elections, Crypto, Entertainment, Sports, Economics and Commodities.",
+      "url": "https://docs.kalshi.com/getting_started/terms",
+      "publisher": "Kalshi documentation \u2014 Kalshi Glossary",
+      "verified": true
+    },
+    {
+      "id": "S26",
+      "claim": "Trading fees are roundup(M x 0.07 x C x P x (1 - P)) for taker fills and roundup(M x 0.0175 x C x P x (1 - P)) for maker fills, where P is the contract price in dollars and M a per-series multiplier. The published table gives $0.02 for one contract at $0.50 and $1.75 for 100 contracts at $0.50. Schedule effective 2026-07-07.",
+      "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "publisher": "Kalshi fee schedule",
+      "verified": true
+    },
+    {
+      "id": "S27",
+      "claim": "Timestamp filters on GET /markets are only valid with specific status values: min_close_ts with status=closed and min_settled_ts with status=settled. Status `settled` in the REST filter corresponds to the terminal `finalized` market status.",
+      "url": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "publisher": "Kalshi documentation",
       "verified": true
     }
   ]
