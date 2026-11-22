@@ -1,0 +1,11 @@
+# Runtime dependencies for the live engine and dashboard.
+# Pinned versions are what was installed and used for verification (Python 3.11);
+# the ranged ones are what the other sessions' modules require. Both resolve together.
+fastapi==0.165.0
+uvicorn==0.54.0
+httpx==0.28.1
+websockets==17.4
+cryptography==50.0.2
+
+# Development / test only
+pytest==9.2.0

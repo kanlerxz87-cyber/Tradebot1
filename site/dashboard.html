@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Live Dashboard — Kalshi Demo</title><link rel="stylesheet" href="assets/style.css"></head>
+<body>
+<header><div class="logo">Kalshi <span>Demo</span> Dashboard</div>
+<nav><a href="index.html">Home</a><a href="dashboard.html">Live Dashboard</a><a href="portfolio.html">Portfolio &amp; Strategies</a><a href="methodology.html">Methodology</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for Review</a></nav>
+<span id="mode-badge" class="badge badge-live">LIVE</span></header>
+<main>
+<h1>Live Dashboard</h1>
+<div id="mode-banner" class="banner live">✅ <b>LIVE</b> — connecting…</div>
+<div class="card">
+<label>API base: <select id="base-select">
+<option value="https://external-api.demo.kalshi.co/trade-api/v2">Demo (recommended)</option>
+<option value="https://demo-api.kalshi.co/trade-api/v2">Demo (alternate host)</option>
+<option value="https://external-api.kalshi.com/trade-api/v2">Production (public data only)</option>
+</select></label>
+<button id="pause-btn">⏸ Pause</button>
+<button id="mode-toggle">Toggle Live/Simulated</button>
+<span class="muted small">Polls every 8s · Alerts on ≥ $0.10 swings · Topics: gas prices, elections, culture, crypto, golf only</span>
+</div>
+<div id="topic-pills" class="card"></div>
+<div class="grid">
+<div class="card"><h2>💬 All Alerts (≥ $0.10 swings)</h2><div id="chat-all" class="chat"></div></div>
+<div class="card"><h2>⭐ High-ROI Alerts (model score ≥ 60)</h2><div id="chat-roi" class="chat"></div></div>
+</div>
+<div class="card"><h2>📈 Price Chart <span class="muted small">(X = time, Y = contract price)</span></h2>
+<div id="window-btns"></div>
+<canvas id="price-chart" class="chart"></canvas>
+<p class="muted small">Orange dots = ≥ $0.10 jumps. Click a market below to select it. “Check catalysts” links in alerts are curated official sources to investigate — not causal claims.</p></div>
+<div class="card"><h2>📚 Order Book — contracts available at each price</h2><div id="orderbook"><p class="muted small">Select a market…</p></div></div>
+<div class="card"><h2>🏆 Highest-Dollar Live Events (grouped by topic)</h2><div id="markets-table"></div></div>
+<div class="card"><h2>✅ Resolutions (tracked until settled — yes/no)</h2><div id="resolutions-table"></div></div>
+<p class="muted small" id="status-line"></p>
+</main>
+<footer>Tradebot1 · Kalshi demo · Paper trading — not financial advice · <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo docs</a></footer>
+<script src="assets/app.js"></script>
+</body></html>

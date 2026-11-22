@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary — Kalshi Trader</title>
+<meta name="description" content="Executive summary: what was built, the verified API facts it rests on, the decisions taken, the numbers it produces, and the risks that remain.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="topics/gas-prices.html">Gas</a>
+      <a href="topics/elections.html">Elections</a>
+      <a href="topics/culture.html">Culture</a>
+      <a href="topics/crypto.html">Crypto</a>
+      <a href="topics/golf.html">Golf</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="strategies.html">Strategies</a>
+      <a href="api-reference.html">API</a>
+      <a href="verification.html">Verification</a>
+      <a href="repo-review.html">Repo review</a>
+      <a href="flagged.html">Flagged</a>
+      <a class="active" href="executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap narrow">
+  <h1 class="page-title">Executive summary</h1>
+  <p class="page-sub">
+    A live research desk for five Kalshi topics — gas prices, elections, culture, crypto, golf — that
+    detects ≥ $0.10 price swings, ranks them, tracks events to settlement, and trades the same signals
+    autonomously in a simulated book. Built from an empty repository, verified against official Kalshi
+    documentation, and published as a static site refreshed by a scheduled job.
+  </p>
+
+  <section class="section">
+    <h2>The one-paragraph version</h2>
+    <div class="card">
+      <p style="margin-top:0">
+        Kalshi's public market-data API needs no key, which makes a fully autonomous dashboard possible:
+        a scheduled job scans every open event, filters to the five requested topics using Kalshi's own
+        category and tag taxonomy, records prices, detects moves of at least ten cents, and writes a
+        compact JSON snapshot that a static site renders. A second, independent loop trades those signals
+        in a simulated ledger and settles positions on the exchange's reported outcome, so every strategy
+        has a record instead of an opinion. Execution against a real demo account is implemented and
+        dormant: it activates the moment demo credentials exist, and until then the site says so instead
+        of inventing a balance.
+      </p>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>What is live</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Delivered</h3>
+        <ul class="clean">
+          <li><a href="index.html">Dashboard</a> — five-topic market table, highest-dollar event leaderboard, two alert chats, price chart with 30s→all windows, orderbook depth, resolution tracker, portfolio strip.</li>
+          <li>Five <a href="topics/gas-prices.html">topic pages</a> with server-rendered tables and a source link on every row.</li>
+          <li><a href="strategies.html">Four strategies</a>, a transparent ROI score, and the exact thresholds behind the second chat.</li>
+          <li><a href="portfolio.html">Portfolio analytics</a> — equity curve, win rate, profit factor, expectancy, drawdown, P&amp;L by strategy, topic, price band and exit reason.</li>
+          <li><a href="verification.html">Verification log</a> with 25 sourced claims plus live API reads.</li>
+          <li><a href="flagged.html">Flagged for review</a> — 14 items, each with handling and a clear condition.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Autonomy</h3>
+        <ul class="clean">
+          <li>A GitHub Actions cron runs the collector every 30 minutes, commits the new snapshot and advances the paper book.</li>
+          <li>No user action is required for the site to stay current; a stale snapshot is visibly labelled after 30 minutes.</li>
+          <li>Every failure (network, rate limit, unknown field) is recorded in the snapshot and printed on the page rather than silently swallowed.</li>
+          <li>The local server adds seconds-level collection, a same-origin proxy and WebSocket push when you want a faster loop.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Verified findings that shaped the build</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Finding</th><th>Consequence</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>The marketplace exposes four server roots; the <code>external-api</code> hosts are the recommended ones and the shared <code>demo-api</code>/<code>elections</code> hosts remain supported.</td><td>Both supplied demo URLs are correct and used.</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Public market data needs no API key; account data and orders do.</td><td>The dashboard can run with zero secrets.</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>The orderbook contains <b>bids only</b>; asks are implied as $1.00 − the opposite bid.</td><td>Depth, spread and every simulated fill price are derived explicitly and labelled.</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Categories live on the <b>series</b>, not the market; tags are subcategories.</td><td>Topic filtering runs on the series catalogue plus event categories, never on ticker prefixes.</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>There is no <code>Culture</code> category; <code>Golf</code> is a tag under <code>Sports</code>; the US gas-price series is <code>KXAAAGASM</code> under Economics/Commodities.</td><td>Culture is a documented mapping to Entertainment; Golf and Gas use tag/series matching with a tested keyword fallback.</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">glossary</a> · <a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">tag map</a></td></tr>
+        <tr><td>REST market reads are cached for a short time and can lag several seconds.</td><td>Alerts are honest about being cycle-resolution; WebSocket streaming is the upgrade path.</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Rate limits are token buckets, and unauthenticated traffic is limited separately.</td><td>The collector paces requests, backs off on 429 and caps pages per series.</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>Decisions worth knowing</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Data from production, execution in paper</h3>
+        <p class="small">Production public data is keyless, real and carries real volume. The demo environment is a sandbox that Kalshi itself warns may not reflect real markets. Reading production and executing in a simulated book keeps the two roles honest; switching to demo data is one environment variable. Flagged as <a href="flagged.html#F6">F6</a>.</p>
+      </div>
+      <div class="card">
+        <h3>Static site plus a real collector</h3>
+        <p class="small">GitHub Pages cannot poll an exchange, so the alternative is either a fake “live” label or a scheduled collector that commits what it saw. The second is real: the page always shows the snapshot's timestamp and turns amber after 30 minutes. Flagged as <a href="flagged.html#F10">F10</a>.</p>
+      </div>
+      <div class="card">
+        <h3>Nothing is estimated into a blank</h3>
+        <p class="small">No demo balance, no fee number presented as official, no causal news claim. Missing values render as “—” and the reason appears on the Flagged page. This is the single rule the whole build is organised around.</p>
+      </div>
+      <div class="card">
+        <h3>The model is deliberately boring</h3>
+        <p class="small">Six weighted components, published weights, a version string, and a disclaimer printed next to every result. It exists to reduce alert noise, not to predict. Its accuracy will be whatever the ledger measures.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Numbers in this build</h2>
+    <div class="grid kpi">
+      <div class="card"><span class="label">Topics</span><span class="value">5</span><span class="foot">gas, elections, culture, crypto, golf</span></div>
+      <div class="card"><span class="label">Alert threshold</span><span class="value">$0.10</span><span class="foot">inclusive, either direction</span></div>
+      <div class="card"><span class="label">Strategies</span><span class="value">4</span><span class="foot">2 alert-driven, 2 standing</span></div>
+      <div class="card"><span class="label">Unit tests</span><span class="value">48</span><span class="foot">signing → settlement math</span></div>
+      <div class="card"><span class="label">Sourced claims</span><span class="value">25</span><span class="foot">each with an official link</span></div>
+      <div class="card"><span class="label">Flagged items</span><span class="value">14</span><span class="foot">0 blocking</span></div>
+    </div>
+    <p class="small" style="margin-top:10px">Live counts (markets, alerts, P&amp;L) are on the <a href="index.html">dashboard</a> and change every cycle; the figures above are structural, not performance claims.</p>
+  </section>
+
+  <section class="section">
+    <h2>Risks and open items</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Risk</th><th>Impact</th><th>Mitigation in place</th></tr></thead>
+      <tbody>
+        <tr><td>Per-series fee multiplier approximated (<a href="flagged.html#F1">F1</a>)</td><td>P&amp;L is off by at most the per-series multiplier on affected contracts</td><td>Formula verified against Kalshi's schedule; round-up never understates; fees can be switched off to compare</td></tr>
+        <tr><td>No demo credentials (<a href="flagged.html#F2">F2</a>)</td><td>No real demo-account P&amp;L yet</td><td>Adapter ready; simulated ledger continues independently</td></tr>
+        <tr><td>Small sample</td><td>Early performance is noise</td><td>Instrumentation first; no strategy is described as profitable</td></tr>
+        <tr><td>Cycle-resolution detection (<a href="flagged.html#F7">F7</a>)</td><td>Very fast round-trips can be missed</td><td>Window recorded per alert; WebSocket upgrade documented</td></tr>
+        <tr><td>Model is heuristic (<a href="flagged.html#F12">F12</a>)</td><td>High-ROI chat may not outperform the noise</td><td>Weights published; comparison with the unfiltered chat is possible from the same data</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>Next three moves</h2>
+    <div class="card">
+      <ol class="clean" style="list-style:decimal">
+        <li>Create the demo account and add <code>KALSHI_API_KEY_ID</code> plus <code>KALSHI_PRIVATE_KEY</code> as repository secrets — that single step turns paper results into exchange-confirmed results.</li>
+        <li>Retrieve the current fee schedule and flip <code>VERIFIED = True</code> in <code>fees.py</code>, which clears F1.</li>
+        <li>Promote the collector to <code>orderbook_delta</code> streaming once credentialed, so alerts fire on ticks instead of cycles.</li>
+      </ol>
+    </div>
+  </section>
+
+  <footer class="site">
+    <span>Summarised 2026-11-22 UTC.</span>
+    <span>·</span><a href="verification.html">Verification log</a>
+    <span>·</span><a href="flagged.html">Flagged for review</a>
+    <span>·</span><a href="requirements.html">Requirements</a>
+    <span>·</span><span>Not investment advice. Demo/paper only.</span>
+  </footer>
+</main>
+</body>
+</html>

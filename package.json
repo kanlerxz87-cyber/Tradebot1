@@ -1,0 +1,27 @@
+{
+  "name": "tradebot1-kalshi-demo-dashboard",
+  "private": true,
+  "version": "1.0.0",
+  "description": "A dashboard over the Kalshi demo exchange: swing alerts, charts, order-book liquidity, simulated strategies and resolution tracking.",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build-site.mjs",
+    "build:check": "node scripts/build-site.mjs --check",
+    "check:links": "node scripts/check-links.mjs",
+    "check:data": "node scripts/check-data.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "test:site": "node scripts/check-render.mjs",
+    "collect": "node tools/collector.mjs",
+    "verify": "npm run test && npm run build && npm run build:check && npm run check:links && npm run check:data && npm run test:site"
+  },
+  "dependencies": {
+    "jsdom": "^31.0.1",
+    "playwright-core": "^1.65.1"
+  },
+  "devDependencies": {
+    "jsdom": "^31.0.1"
+  }
+}

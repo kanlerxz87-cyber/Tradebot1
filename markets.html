@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Markets · Kalshi demo dashboard</title>
+<meta name="description" content="A Kalshi demo-environment dashboard: live swing alerts at the $0.10 threshold, price charts and order-book liquidity for gas prices, elections, culture, crypto and golf, with simulated strategies and resolution tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body data-generated="2026-11-22T07:35:04.176Z">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="brand" href="board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <nav class="main" aria-label="Main"><a href="board.html">Board</a><a href="dashboard.html">Alerts</a><a href="markets.html" aria-current="page">Markets</a><a href="portfolio.html">Portfolio</a><a href="strategies.html">Strategies</a><a href="demo-account.html">Demo account</a><a href="executive-summary.html">Summary</a><a href="sources.html">Sources</a><a href="methodology.html">Method</a><a href="suggestions.html">Ideas</a><a href="flagged.html">Flagged</a><a href="api.html">API</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap page">
+<section>
+  <h1>Markets</h1>
+  <p class="muted" style="max-width:85ch">
+    Every market this dashboard tracks, grouped by topic, with the exchange's own status and
+    result. Events stay inside their topic and markets stay grouped under their event, which is
+    how the brief asked for it to be organised.
+  </p>
+  <div class="banner" id="data-banner" data-state="snapshot" role="status" aria-live="polite">
+    <span class="led" aria-hidden="true"></span><strong>Loading…</strong>
+  </div>
+</section>
+
+<section class="toolbar">
+  <div class="seg" id="state-filter" role="group" aria-label="Filter by state">
+    <button data-state="all" aria-pressed="true">All</button>
+    <button data-state="open" aria-pressed="false">Open</button>
+    <button data-state="resolved" aria-pressed="false">Resolved</button>
+    <button data-state="awaiting" aria-pressed="false">Awaiting result</button>
+  </div>
+  <input type="search" id="q" placeholder="Filter by title or ticker…" aria-label="Filter markets" style="min-width:240px">
+</section>
+
+<section id="groups" class="stack"></section>
+
+<section>
+  <h2>Status meanings</h2>
+  <div class="table-wrap"><table class="compact">
+    <thead><tr><th>Exchange status</th><th>What it means</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">active</td><td>Open for trading.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">market lifecycle</a></td></tr>
+      <tr><td class="mono">inactive</td><td>Trading paused by the exchange; the market has not closed.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">market lifecycle</a></td></tr>
+      <tr><td class="mono">closed</td><td>Past close time, awaiting determination.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">market lifecycle</a></td></tr>
+      <tr><td class="mono">determined</td><td>Result known, settlement timer running; can still be disputed.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">market lifecycle</a></td></tr>
+      <tr><td class="mono">finalized</td><td>Settlement complete and positions paid out. Terminal.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">market lifecycle</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<script type="module" src="assets/markets-page.js"></script>
+
+</main>
+<footer class="site">
+  <div class="wrap cols">
+    <div style="max-width:52ch">
+      <strong>Tradebot1</strong> — a dashboard over the <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">Kalshi demo environment</a>.
+      Demo markets use mock funds and Kalshi warns their prices may not reflect real markets.
+      This is not investment advice and nothing here is a forecast.
+      <div class="src" style="margin-top:8px">Data captured through https://external-api.demo.kalshi.co/trade-api/v2.</div>
+    </div>
+    <div>
+      <div><strong class="muted">Topics</strong></div>
+      <a href="categories/gas.html">Gas prices</a> · <a href="categories/elections.html">Elections</a> · <a href="categories/culture.html">Culture</a> · <a href="categories/crypto.html">Crypto</a> · <a href="categories/golf.html">Golf</a>
+    </div>
+    <div>
+      <div><strong class="muted">Review</strong></div>
+      <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
+      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:29Z (6m ago)</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
