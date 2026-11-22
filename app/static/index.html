@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="dot" id="status-dot" title="engine status"></span>
+    <h1>Kalshi Live Dashboard</h1>
+    <span class="env" id="env-badge">demo</span>
+  </div>
+  <nav class="tabs" id="topic-tabs" aria-label="Topic filters">
+    <button class="tab active" data-topic="all">All</button>
+  </nav>
+  <div class="topbar-right">
+    <span class="muted" id="last-update">--</span>
+    <button class="ghost" id="refresh-btn" title="Refresh market universe">Refresh</button>
+  </div>
+</header>
+
+<section class="statusbar">
+  <div><span class="label">Alert rule</span> <strong id="rule">≥ $0.10 move</strong></div>
+  <div><span class="label">Tracked markets</span> <strong id="stat-tracked">--</strong></div>
+  <div><span class="label">Alerts</span> <strong id="stat-alerts">--</strong></div>
+  <div><span class="label">High ROI</span> <strong id="stat-selective">--</strong></div>
+  <div><span class="label">Feed</span> <strong id="stat-ws">REST</strong></div>
+  <div class="warn hidden" id="engine-error"></div>
+</section>
+
+<main>
+  <!-- Two live alert chats -->
+  <section class="panel chats">
+    <div class="chat-col">
+      <h2>All events <span class="pill">≥ $0.10 either direction</span></h2>
+      <p class="help">Every contract swing that meets the threshold. Quote-only moves are labelled, because a one-sided book can print a false spread.</p>
+      <div class="chat" id="chat-all" role="log" aria-live="polite"></div>
+    </div>
+    <div class="chat-col">
+      <h2>High ROI (model-selected) <span class="pill accent" id="selective-threshold">score ≥ 0.55</span></h2>
+      <p class="help">Filtered by the trade-quality score: magnitude, book depth, fee/spread drag, time to close, and quote confirmation. Heuristic ranking, not a probability of profit.</p>
+      <div class="chat" id="chat-selective" role="log" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <!-- Market board -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Live events by topic</h2>
+      <label class="inline">Sort
+        <select id="sort-select">
+          <option value="dollar_volume">Traded notional (est.)</option>
+          <option value="volume_fp">Contracts traded</option>
+          <option value="open_interest_fp">Open interest</option>
+          <option value="abs_move">Biggest move</option>
+          <option value="close_time">Closing soonest</option>
+        </select>
+      </label>
+    </div>
+    <div class="table-wrap">
+      <table id="market-table">
+        <thead>
+          <tr>
+            <th>Market</th><th>Topic</th><th class="num">Price</th><th class="num">Bid</th>
+            <th class="num">Ask</th><th class="num">Spread</th><th class="num">Depth @10c</th>
+            <th class="num">Liquidity</th><th class="num">Volume</th><th>Closes</th><th>Source</th>
+          </tr>
+        </thead>
+        <tbody id="market-body"><tr><td colspan="11" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Chart -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Price movement <span class="muted" id="chart-title"></span></h2>
+      <div class="ranges" id="range-buttons">
+        <button data-sec="10" class="active">10s</button>
+        <button data-sec="60">1m</button>
+        <button data-sec="300">5m</button>
+        <button data-sec="900">15m</button>
+        <button data-sec="3600">1h</button>
+        <button data-sec="14400">4h</button>
+        <button data-sec="86400">1d</button>
+      </div>
+    </div>
+    <p class="help">Y axis: contract price in cents. X axis: time. The shaded band marks the $0.10 alert threshold around the last price. Select a market row to chart it.</p>
+    <canvas id="chart" height="260" aria-label="Price chart"></canvas>
+    <div class="chart-legend"><span class="k line"></span> mid price <span class="k band"></span> ±$0.10 band <span class="k mark"></span> alerts</div>
+  </section>
+
+  <!-- Portfolios -->
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Simulated portfolios by strategy</h2>
+      <span class="muted" id="sim-mode"></span>
+    </div>
+    <div class="table-wrap">
+      <table id="portfolio-table">
+        <thead>
+          <tr><th>Strategy</th><th>Category</th><th class="num">Start</th><th class="num">Cash</th>
+          <th class="num">Open value</th><th class="num">Equity</th><th class="num">Return</th>
+          <th class="num">Realized</th><th class="num">Fees</th><th class="num">Win %</th><th class="num">Open</th></tr>
+        </thead>
+        <tbody id="portfolio-body"><tr><td colspan="11" class="empty">Loading…</td></tr></tbody>
+      </table>
+    </div>
+    <div class="two-col">
+      <div>
+        <h3>Open positions</h3>
+        <div class="table-wrap">
+          <table><thead><tr><th>Strategy</th><th>Market</th><th class="num">Qty</th><th class="num">Entry</th>
+          <th class="num">Mark</th><th class="num">Unrealized</th></tr></thead>
+          <tbody id="positions-body"><tr><td colspan="6" class="empty">No open positions</td></tr></tbody></table>
+        </div>
+      </div>
+      <div>
+        <h3>Recent simulated fills</h3>
+        <div class="table-wrap">
+          <table><thead><tr><th>Time</th><th>Strategy</th><th>Market</th><th>Action</th>
+          <th class="num">Qty</th><th class="num">Price</th><th>Status</th></tr></thead>
+          <tbody id="events-body"><tr><td colspan="7" class="empty">No fills yet</td></tr></tbody></table>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category analytics -->
+  <section class="panel">
+    <div class="panel-head"><h2>Trade categorization</h2><span class="muted" id="analytics-note"></span></div>
+    <p class="help">Realised trades grouped by strategy category, topic, and side. Proceeds are net of fees; settlement payouts carry no fee by Kalshi's schedule.</p>
+    <div class="table-wrap">
+      <table><thead><tr><th>Dimension</th><th>Value</th><th class="num">Trades</th>
+      <th class="num">Proceeds</th><th class="num">Fees</th><th class="num">Settled</th></tr></thead>
+      <tbody id="analytics-body"><tr><td colspan="6" class="empty">No realised trades yet</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <!-- Resolutions -->
+  <section class="panel">
+    <div class="panel-head"><h2>Resolved events</h2><span class="muted">tracked until determination</span></div>
+    <p class="help">Resolution comes from Kalshi's own fields (<code>result</code> and <code>settlement_value_dollars</code> on <code>GET /markets/{ticker}</code>, or the <code>market_lifecycle_v2</code> socket). A blank result means not yet determined.</p>
+    <div class="table-wrap">
+      <table><thead><tr><th>Market</th><th>Topic</th><th>Result</th><th class="num">Settlement</th>
+      <th>Determined</th><th>Source</th></tr></thead>
+      <tbody id="resolution-body"><tr><td colspan="6" class="empty">Nothing resolved yet</td></tr></tbody></table>
+    </div>
+  </section>
+
+  <footer>
+    <p>Market data: Kalshi Trade API v2 (demo). Prices are fixed-point dollar strings from Kalshi;
+    nothing on this page is inferred. Missing values render as <code>--</code>.
+    <a href="/api/verification" target="_blank" rel="noopener">Verified facts &amp; sources</a>.</p>
+    <p class="muted">Demo prices may not reflect real markets (Kalshi demo environment documentation). Simulated results only.</p>
+  </footer>
+</main>
+<script src="/static/app.js"></script>
+</body>
+</html>
