@@ -1,5 +1,10 @@
 name: Deploy site
 
+# GitHub Pages for this repository publishes `main` from the repository root in legacy mode,
+# so a push to main is the deployment. That also means a workflow-crafted artifact cannot be
+# deployed (the Pages API rejects build_type changes from this token), so this job only gates
+# the build: it fails loudly if the committed site is stale or has broken links.
+
 on:
   push:
     branches: [main]
@@ -7,24 +12,20 @@ on:
       - "docs/**"
       - "tools/**"
       - "kalshi_trader/**"
+      - "index.html"
       - ".github/workflows/pages.yml"
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: pages-checks
+  cancel-in-progress: true
 
 jobs:
-  deploy:
+  checks:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
 
@@ -35,16 +36,25 @@ jobs:
       - name: Rebuild generated tables from the committed snapshot
         run: python tools/build_site.py
 
-      - name: Refuse to deploy a broken site
+      - name: Site must be current and fully linked
         run: |
           python tools/build_site.py --check
           python tools/check_links.py
 
-      - uses: actions/configure-pages@v5
+      - name: Gateway page points at a real target
+        run: |
+          set -e
+          grep -q 'url=docs/' index.html
+          test -f docs/index.html
+          echo "root gateway → docs/index.html ok"
 
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: docs
-
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Wait for the published site to serve the new build
+        continue-on-error: true
+        run: |
+          for i in $(seq 1 20); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' https://kanlerxz87-cyber.github.io/Tradebot1/docs/index.html)
+            echo "attempt $i → HTTP $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 15
+          done
+          echo "::warning::published site did not answer 200 within ~5 minutes"
