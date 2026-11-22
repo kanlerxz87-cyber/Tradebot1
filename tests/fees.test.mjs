@@ -6,23 +6,25 @@ import { takerFee, makerFee, roundUpCenticent, roundUpCent, PUBLISHED_FEE_TABLE,
 // wrong implementation cannot pass just by being self-consistent.
 // Source: https://kalshi.com/docs/kalshi-fee-schedule.pdf
 
+test('the published table has 21 rows and all of them reproduce (AUD-05)', () => {
+  // The schedule prints four columns: price for 1, fee for 1, price for 100, fee for 100.
+  // Reading the third column as a fee made the $0.01 row look unreproducible; its real
+  // fee for 100 contracts is $0.07. https://kalshi.com/docs/kalshi-fee-schedule.pdf
+  assert.equal(PUBLISHED_FEE_TABLE.length, 21);
+  assert.equal(takerFee(100, 0.01), 0.07);
+  assert.equal(takerFee(1, 0.01), 0.01);
+});
+
 test('taker fee matches every reproducible published single-contract row', () => {
   for (const [price, publishedFee] of PUBLISHED_FEE_TABLE) {
     assert.equal(takerFee(1, price), publishedFee, `1 contract at $${price}`);
   }
 });
 
-test('taker fee matches every reproducible published 100-contract row', () => {
+test('taker fee matches every published 100-contract row', () => {
   for (const [price, , publishedFee100] of PUBLISHED_FEE_TABLE) {
-    if (publishedFee100 == null) continue;
     assert.equal(takerFee(100, price), publishedFee100, `100 contracts at $${price}`);
   }
-});
-
-test('exactly one published row is excluded as unreproducible, and it is the $0.01 row', () => {
-  const excluded = PUBLISHED_FEE_TABLE.filter(([, , f100]) => f100 == null);
-  assert.equal(excluded.length, 1);
-  assert.equal(excluded[0][0], 0.01);
 });
 
 test('rounding helpers round up, never down', () => {
