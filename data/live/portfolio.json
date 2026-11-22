@@ -18,7 +18,7 @@
     "stakedInOpenPositions": 0,
     "equity": 1000
   },
-  "updatedAt": "2026-11-22T07:29:11.440Z",
-  "runId": "2026-11-22T07-29-11-440Z",
+  "updatedAt": "2026-11-22T15:38:47.457Z",
+  "runId": "2026-11-22T15-38-47-457Z",
   "note": "No simulated position has been opened yet: opening one requires an observation cycle from tools/collector.mjs, and the authoring sandbox cannot reach the Kalshi demo API. The record is empty rather than seeded with invented trades."
 }
