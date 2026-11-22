@@ -74,7 +74,7 @@ Local use:
 
 ```sh
 python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
-.venv/bin/python -m pytest -q                     # 159 tests
+.venv/bin/python -m pytest -q                     # 168 tests
 .venv/bin/python -m kalshi_trader.cli collect     # one live cycle → docs/desk/data/*.json
 .venv/bin/python -m kalshi_trader.cli serve       # site + API + WebSocket on :8000
 .venv/bin/python tools/build_site.py --check      # generated tables current
@@ -142,7 +142,7 @@ pages read only committed files, so the site works with no backend and no key.
 
 ```sh
 npm install                     # jsdom, used only by the render test
-npm test                        # 32 assertions, including Kalshi's own fee table
+npm test                        # 45 assertions, including Kalshi's own fee table
 node scripts/check-data.mjs     # the committed JSON against its contract
 node scripts/build-site.mjs && node scripts/build-site.mjs --check
 node scripts/check-links.mjs    # 19 pages, 642 references

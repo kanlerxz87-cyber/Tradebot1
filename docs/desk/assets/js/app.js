@@ -485,11 +485,6 @@
   function alertMarkup(alert, opts) {
     const dir = alert.direction === "up" ? "up" : "down";
     const model = alert.model || {};
-    const why = [
-      model.score !== undefined ? `model score ${Number(model.score).toFixed(2)} · est. ROI ${Number(model.roi_pct_est).toFixed(1)}%` : null,
-      model.reasons ? model.reasons.join(" · ") : null,
-      alert.model && alert.model.note ? `<i>${esc(alert.model.note)}</i>` : null,
-    ].filter(Boolean).join("<br>");
     return `
       <div class="msg" data-alert="${esc(alert.id)}">
         <div class="ts">${clock(alert.iso)}<br><span style="font-size:9.5px">UTC</span></div>

@@ -295,13 +295,13 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\", \"min_settled_ts\": cutoff",
           "note": "the query as it now stands on main",
-          "line": 652
+          "line": 658
         },
         {
           "file": "tests/test_collector.py",
           "needle": "min_close_ts is incompatible with status=settled",
           "note": "the parallel session's assertion, still passing",
-          "line": 181
+          "line": 182
         },
         {
           "file": "COORDINATION.md",
@@ -528,19 +528,19 @@
           "file": "scripts/build-site.mjs",
           "needle": "'AGO'",
           "note": "relative ages normalised",
-          "line": 135
+          "line": 161
         },
         {
           "file": "scripts/build-site.mjs",
           "needle": "build ID",
           "note": "the env-dependent build badge normalised",
-          "line": 139
+          "line": 165
         },
         {
           "file": "scripts/build-site.mjs",
           "needle": "buildId: process.env.GITHUB_SHA",
           "note": "where the difference came from",
-          "line": 79
+          "line": 71
         }
       ],
       "sources": [],
@@ -578,7 +578,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\"",
           "note": "a filter value, as documented",
-          "line": 652
+          "line": 658
         }
       ],
       "sources": [
