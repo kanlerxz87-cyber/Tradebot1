@@ -21,8 +21,9 @@ on:
 permissions:
   contents: write
 
+# Shares a group with pages.yml: both jobs commit to main and must never push concurrently.
 concurrency:
-  group: collect
+  group: main-writers
   cancel-in-progress: false
 
 jobs:
@@ -61,8 +62,9 @@ jobs:
           python tools/check_links.py
 
       - name: Commit the new snapshot and ledger
-        # Several sessions push to main all day, so a single push regularly loses the race with
-        # "stale info". Retry with a rebase instead of failing the cycle.
+        # Several sessions push to main all day, so a bare push regularly loses the race with
+        # "stale info". Retry with a rebase, and warn rather than fail if the race is finally lost
+        # (the next cycle re-collects, so at most one interval is missed).
         run: |
           set -u
           git config user.name "kalshi-trader-bot"
@@ -79,6 +81,7 @@ jobs:
               exit 0
             fi
             git rebase --abort 2>/dev/null || true
+            echo "push attempt $attempt failed; retrying after backoff"
             sleep $((attempt * 5))
           done
           echo "::warning::could not publish this cycle after 5 attempts; the next cycle retries"

@@ -128,3 +128,69 @@ def test_run_cycle_opens_and_marks(settings):
     result = run_cycle(ledger, [market], scored, [alert], 1_700_000_000)
     assert len(result["opened"]) == 1
     assert result["equity"] > 0
+
+
+def test_demo_order_body_uses_book_side_and_fixed_point_strings(monkeypatch):
+    """Body contract from https://docs.kalshi.com/api-reference/orders/create-order-v2.md
+    and the side mapping in https://docs.kalshi.com/getting_started/order_direction.md."""
+    from unittest.mock import PropertyMock
+
+    from kalshi_trader.kalshi_demo import DemoAccount
+
+    sent: list[dict] = []
+
+    class FakeClient:
+        def create_order(self, **kwargs):
+            sent.append(kwargs)
+            return {"order_id": "o-1", "fill_count": "0.00", "remaining_count": "10.00"}
+
+    monkeypatch.setattr(DemoAccount, "configured", PropertyMock(return_value=True))
+    account = DemoAccount.__new__(DemoAccount)
+    account.settings = None
+    account._client = FakeClient()
+    account.last_error = None
+
+    yes = account.place_order("T-1", "yes", 10, 0.42)
+    no = account.place_order("T-1", "no", 5, 0.31)
+
+    assert sent[0]["side"] == "bid" and sent[1]["side"] == "ask"
+    assert sent[0]["count"] == "10.00" and sent[1]["count"] == "5.00"
+    assert sent[0]["price"] == "0.4200" and sent[1]["price"] == "0.3100"
+    # The price sent for a NO order is the no-leg price, which is the outcome price.
+    assert yes["remaining_count"] == "10.00" and yes["resting"] is True
+    assert no["ok"] is True
+
+
+def test_pnl_identity_holds_with_entry_fees(tmp_path):
+    """realised + unrealised must equal total P&L, and the entry fee is charged exactly once."""
+    from kalshi_trader.config import Settings
+    from kalshi_trader.paper import PaperLedger
+
+    settings = Settings(data_dir=tmp_path, bankroll=1000.0, risk_per_trade=0.02)
+    ledger = PaperLedger(settings)
+    market = {
+        "ticker": "T-1",
+        "topic": "gas",
+        "title": "T",
+        "yes_bid": 0.40,
+        "yes_ask": 0.42,
+        "volume_24h": 5000.0,
+        "top_book_contracts": 0,
+        "close_time": "2099-01-01T00:00:00Z",
+    }
+    position = ledger.open_position(market, "late_favorite", "yes", "test", 1_700_000_000)
+    assert position is not None
+
+    # On entry the position is carried at cost, so the only P&L so far is the fee actually paid.
+    first = ledger.snapshot(1_700_000_001)
+    assert first["unrealized_pnl"] == round(-position["entry_fee"], 2)
+    assert first["total_pnl"] == round(first["realized_pnl"] + first["unrealized_pnl"], 2)
+    assert first["cash"] == round(1000.0 - position["cost"] - position["entry_fee"], 2)
+
+    # Once marked at the bid, unrealised is the spread loss plus that same fee — not twice.
+    ledger.mark_and_exit({"T-1": dict(market)}, 1_700_000_002)
+    marked = ledger.snapshot(1_700_000_003)
+    spread_loss = position["contracts"] * (0.40 - 0.42)
+    assert marked["unrealized_pnl"] == round(spread_loss - position["entry_fee"], 2)
+    assert marked["total_pnl"] == round(marked["realized_pnl"] + marked["unrealized_pnl"], 2)
+    assert marked["equity"] == round(marked["cash"] + position["contracts"] * 0.40, 2)

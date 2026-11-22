@@ -1,0 +1,434 @@
+{
+  "generated_at": "2026-11-22T07:36:39.944Z",
+  "runner": {
+    "node": "v22.23.5",
+    "os": "linux x64",
+    "github_run_id": "44999010064",
+    "github_repository": "kanlerxz87-cyber/Tradebot1",
+    "sandbox_note": "GitHub-hosted runner (has egress to kalshi.co)"
+  },
+  "origins_tested": [
+    "https://kanlerxz87-cyber.github.io",
+    "http://localhost:8000"
+  ],
+  "probes": [
+    {
+      "name": "external-api.demo (recommended) GET /exchange/status",
+      "kind": "rest",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 228,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin, Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"exchange_active\":true,\"exchange_index_statuses\":[{\"description\":\"Default\",\"exchange_active\":true,\"exchange_index\":0,\"intra_exchange_transfers_active\":true,\"trading_active\":true},{\"description\":\"Demo shard 1\",\"exchange_active\":true,\"exchange_index\":1,\"intra_exchange_transfers_active\":true,\"trading_active\":true},{\"description\":\"Demo shard 2\",\"exchange_active\":true,\"exchange_index\":2,\"intra_exchang",
+      "body_bytes": 632,
+      "error": null
+    },
+    {
+      "name": "external-api.demo (recommended) GET /markets?limit=1&status=open (Origin A)",
+      "kind": "rest",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 139,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin, Accept-Encoding, Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"cursor\":\"CgwI_raK2AYQsOXL1AESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNkRQNFg3VUJWSkNQT1RIWk0tM1VHV0lMVURW\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-24T22:00:00Z\",\"created_time\":\"2026-11-22T07:36:30.445838Z\",\"custom_strike\":{\"Associated Events\":\"KXCHLLDPGAME-26NOV22HUADCO,KXNCAAWBGAME-26NOV22CSBSF\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXCHLLDPGAME-26NOV22HUADCO-TIE,KX",
+      "body_bytes": 2280,
+      "error": null
+    },
+    {
+      "name": "external-api.demo (recommended) GET /markets?limit=1&status=open (Origin B)",
+      "kind": "rest",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 41,
+      "cors": {
+        "access-control-allow-origin": "http://localhost:8000",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin, Accept-Encoding, Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"cursor\":\"CgwI_raK2AYQsOXL1AESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNkRQNFg3VUJWSkNQT1RIWk0tM1VHV0lMVURW\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-24T22:00:00Z\",\"created_time\":\"2026-11-22T07:36:30.445838Z\",\"custom_strike\":{\"Associated Events\":\"KXCHLLDPGAME-26NOV22HUADCO,KXNCAAWBGAME-26NOV22CSBSF\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXCHLLDPGAME-26NOV22HUADCO-TIE,KX",
+      "body_bytes": 2280,
+      "error": null
+    },
+    {
+      "name": "external-api.demo (recommended) OPTIONS preflight signed POST /portfolio/events/orders",
+      "kind": "preflight",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 204,
+      "ms": 38,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
+        "access-control-allow-headers": "Origin,Content-Length,Content-Type,Idempotency-Key,X-Csrf-Token,X-Aws-Waf-Token,Traceparent,Tracestate,X-Gclid,X-Msclkid,X-Gbraid,X-Fbclid,X-Fbp,X-Fbc,X-Rdt-Cid,X-Ttclid,X-Ttp,X-Twclid,X-Sc-Cid,X-Idfa,X-Device-Idfv,X-Advertising-Id,X-Firebase-App-Instance-Id,X-Appsflyer-Web-Id,X-Af-Channel,X-Af-Media-Source,X-Appsflyer-Device-Id,X-Att-Status,X-Signature",
+        "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+      },
+      "rate_limit": {},
+      "body_sample": "",
+      "body_bytes": 0,
+      "error": null
+    },
+    {
+      "name": "external-api.demo (recommended) OPTIONS preflight GET /markets (content-type json)",
+      "kind": "preflight",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 204,
+      "ms": 38,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
+        "access-control-allow-headers": "Origin,Content-Length,Content-Type,Idempotency-Key,X-Csrf-Token,X-Aws-Waf-Token,Traceparent,Tracestate,X-Gclid,X-Msclkid,X-Gbraid,X-Fbclid,X-Fbp,X-Fbc,X-Rdt-Cid,X-Ttclid,X-Ttp,X-Twclid,X-Sc-Cid,X-Idfa,X-Device-Idfv,X-Advertising-Id,X-Firebase-App-Instance-Id,X-Appsflyer-Web-Id,X-Af-Channel,X-Af-Media-Source,X-Appsflyer-Device-Id,X-Att-Status,X-Signature",
+        "vary": "Origin, Access-Control-Request-Method, Access-Control-Request-Headers"
+      },
+      "rate_limit": {},
+      "body_sample": "",
+      "body_bytes": 0,
+      "error": null
+    },
+    {
+      "name": "external-api.demo (recommended) GET /markets/{ticker}/orderbook",
+      "kind": "rest",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 39,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin"
+      },
+      "rate_limit": {
+        "x-ratelimit-limit": "600",
+        "x-ratelimit-cost": "10"
+      },
+      "body_sample": "{\"orderbook_fp\":{\"no_dollars\":[],\"yes_dollars\":[]}}",
+      "body_bytes": 51,
+      "error": null
+    },
+    {
+      "name": "external-api.demo (recommended) GET /events/{event_ticker}",
+      "kind": "rest",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 46,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin, Accept-Encoding, Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"event\":{\"category\":\"Exotics\",\"collateral_return_type\":\"\",\"event_ticker\":\"KXMVECROSSCATEGORY-S2026DP4X7UBVJCPOTHZM\",\"exchange_index\":1,\"last_updated_ts\":\"2026-11-22T07:36:30.452397Z\",\"mutually_exclusive\":false,\"series_ticker\":\"KXMVECROSSCATEGORY\",\"settlement_sources\":[{\"name\":\"the league governing the game\",\"url\":\"https://www.ncaa.com/sports/football/fbs\"},{\"name\":\"the league governing the game\",",
+      "body_bytes": 2686,
+      "error": null
+    },
+    {
+      "name": "external-api.demo (recommended) GET candlesticks (period 1m)",
+      "kind": "rest",
+      "host": "external-api.demo.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 41,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin, Accept-Encoding"
+      },
+      "rate_limit": {
+        "x-ratelimit-limit": "600",
+        "x-ratelimit-remaining": "478",
+        "x-ratelimit-reset": "0.61",
+        "x-ratelimit-cost": "50"
+      },
+      "body_sample": "{\"candlesticks\":[],\"ticker\":\"KXMVECROSSCATEGORY-S2026DP4X7UBVJCPOTHZM-3UGWILUDV\"}",
+      "body_bytes": 81,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) GET /exchange/status",
+      "kind": "rest",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 116,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin,Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"exchange_active\":true,\"exchange_index_statuses\":[{\"description\":\"Default\",\"exchange_active\":true,\"exchange_index\":0,\"intra_exchange_transfers_active\":true,\"trading_active\":true},{\"description\":\"Demo shard 1\",\"exchange_active\":true,\"exchange_index\":1,\"intra_exchange_transfers_active\":true,\"trading_active\":true},{\"description\":\"Demo shard 2\",\"exchange_active\":true,\"exchange_index\":2,\"intra_exchang",
+      "body_bytes": 632,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) GET /markets?limit=1&status=open (Origin A)",
+      "kind": "rest",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 162,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin,Accept-Encoding,Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"cursor\":\"CgwI_raK2AYQsOXL1AESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNkRQNFg3VUJWSkNQT1RIWk0tM1VHV0lMVURW\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-24T22:00:00Z\",\"created_time\":\"2026-11-22T07:36:30.445838Z\",\"custom_strike\":{\"Associated Events\":\"KXCHLLDPGAME-26NOV22HUADCO,KXNCAAWBGAME-26NOV22CSBSF\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXCHLLDPGAME-26NOV22HUADCO-TIE,KX",
+      "body_bytes": 2280,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) GET /markets?limit=1&status=open (Origin B)",
+      "kind": "rest",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 49,
+      "cors": {
+        "access-control-allow-origin": "http://localhost:8000",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin,Accept-Encoding,Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"cursor\":\"CgwI_raK2AYQsOXL1AESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNkRQNFg3VUJWSkNQT1RIWk0tM1VHV0lMVURW\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-24T22:00:00Z\",\"created_time\":\"2026-11-22T07:36:30.445838Z\",\"custom_strike\":{\"Associated Events\":\"KXCHLLDPGAME-26NOV22HUADCO,KXNCAAWBGAME-26NOV22CSBSF\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXCHLLDPGAME-26NOV22HUADCO-TIE,KX",
+      "body_bytes": 2280,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) OPTIONS preflight signed POST /portfolio/events/orders",
+      "kind": "preflight",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 204,
+      "ms": 48,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
+        "access-control-allow-headers": "Origin,Content-Length,Content-Type,Idempotency-Key,X-Csrf-Token,X-Aws-Waf-Token,Traceparent,Tracestate,X-Gclid,X-Msclkid,X-Gbraid,X-Fbclid,X-Fbp,X-Fbc,X-Rdt-Cid,X-Ttclid,X-Ttp,X-Twclid,X-Sc-Cid,X-Idfa,X-Device-Idfv,X-Advertising-Id,X-Firebase-App-Instance-Id,X-Appsflyer-Web-Id,X-Af-Channel,X-Af-Media-Source,X-Appsflyer-Device-Id,X-Att-Status,X-Signature",
+        "vary": "Origin"
+      },
+      "rate_limit": {},
+      "body_sample": "",
+      "body_bytes": 0,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) OPTIONS preflight GET /markets (content-type json)",
+      "kind": "preflight",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 204,
+      "ms": 48,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-allow-methods": "GET,POST,PUT,PATCH,DELETE,HEAD,OPTIONS",
+        "access-control-allow-headers": "Origin,Content-Length,Content-Type,Idempotency-Key,X-Csrf-Token,X-Aws-Waf-Token,Traceparent,Tracestate,X-Gclid,X-Msclkid,X-Gbraid,X-Fbclid,X-Fbp,X-Fbc,X-Rdt-Cid,X-Ttclid,X-Ttp,X-Twclid,X-Sc-Cid,X-Idfa,X-Device-Idfv,X-Advertising-Id,X-Firebase-App-Instance-Id,X-Appsflyer-Web-Id,X-Af-Channel,X-Af-Media-Source,X-Appsflyer-Device-Id,X-Att-Status,X-Signature",
+        "vary": "Origin"
+      },
+      "rate_limit": {},
+      "body_sample": "",
+      "body_bytes": 0,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) GET /markets/{ticker}/orderbook",
+      "kind": "rest",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 50,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin"
+      },
+      "rate_limit": {
+        "x-ratelimit-limit": "600",
+        "x-ratelimit-cost": "10"
+      },
+      "body_sample": "{\"orderbook_fp\":{\"no_dollars\":[],\"yes_dollars\":[]}}",
+      "body_bytes": 51,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) GET /events/{event_ticker}",
+      "kind": "rest",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 93,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin,Accept-Encoding,Accept-Language"
+      },
+      "rate_limit": {},
+      "body_sample": "{\"event\":{\"category\":\"Exotics\",\"collateral_return_type\":\"\",\"event_ticker\":\"KXMVECROSSCATEGORY-S2026DP4X7UBVJCPOTHZM\",\"exchange_index\":1,\"last_updated_ts\":\"2026-11-22T07:36:30.452397Z\",\"mutually_exclusive\":false,\"series_ticker\":\"KXMVECROSSCATEGORY\",\"settlement_sources\":[{\"name\":\"the league governing the game\",\"url\":\"https://www.ncaa.com/sports/football/fbs\"},{\"name\":\"the league governing the game\",",
+      "body_bytes": 2686,
+      "error": null
+    },
+    {
+      "name": "demo-api (legacy supported) GET candlesticks (period 1m)",
+      "kind": "rest",
+      "host": "demo-api.kalshi.co",
+      "ok": true,
+      "status": 200,
+      "ms": 54,
+      "cors": {
+        "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
+        "access-control-allow-credentials": "true",
+        "access-control-expose-headers": "X-Csrf-Token,X-Ratelimit-Limit,X-Ratelimit-Remaining,X-Ratelimit-Reset,X-Ratelimit-Cost",
+        "vary": "Origin,Accept-Encoding"
+      },
+      "rate_limit": {
+        "x-ratelimit-limit": "600",
+        "x-ratelimit-remaining": "442",
+        "x-ratelimit-reset": "0.79",
+        "x-ratelimit-cost": "50"
+      },
+      "body_sample": "{\"candlesticks\":[],\"ticker\":\"KXMVECROSSCATEGORY-S2026DP4X7UBVJCPOTHZM-3UGWILUDV\"}",
+      "body_bytes": 81,
+      "error": null
+    },
+    {
+      "name": "external-api-ws.demo (recommended) WS handshake (no auth headers)",
+      "kind": "ws",
+      "host": "external-api-ws.demo.kalshi.co",
+      "status": 401,
+      "ms": 186,
+      "headers": {},
+      "body_sample": "{\"code\":\"token_authentication_failure\",\"message\":\"token authentication failure\"}",
+      "error": null
+    },
+    {
+      "name": "demo-api ws (legacy supported) WS handshake (no auth headers)",
+      "kind": "ws",
+      "host": "demo-api.kalshi.co",
+      "status": 401,
+      "ms": 185,
+      "headers": {
+        "connection": "close"
+      },
+      "body_sample": "{\"code\":\"token_authentication_failure\",\"message\":\"token authentication failure\"}",
+      "error": null
+    }
+  ],
+  "verdicts": {
+    "public_reads_cors_allowed_for_pages_origin": true,
+    "public_reads_cors_allowed_detail": [
+      {
+        "name": "external-api.demo (recommended) GET /exchange/status",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "external-api.demo (recommended) GET /markets?limit=1&status=open (Origin A)",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "external-api.demo (recommended) GET /markets/{ticker}/orderbook",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "external-api.demo (recommended) GET /events/{event_ticker}",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "external-api.demo (recommended) GET candlesticks (period 1m)",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "demo-api (legacy supported) GET /exchange/status",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "demo-api (legacy supported) GET /markets?limit=1&status=open (Origin A)",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "demo-api (legacy supported) GET /markets/{ticker}/orderbook",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "demo-api (legacy supported) GET /events/{event_ticker}",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      },
+      {
+        "name": "demo-api (legacy supported) GET candlesticks (period 1m)",
+        "status": 200,
+        "allow_origin": "https://kanlerxz87-cyber.github.io",
+        "allow_credentials": "true"
+      }
+    ],
+    "origin_b_also_echoed": true,
+    "signed_requests_preflight_allowed_from_browser": false,
+    "signed_preflight_allow_headers": "Origin,Content-Length,Content-Type,Idempotency-Key,X-Csrf-Token,X-Aws-Waf-Token,Traceparent,Tracestate,X-Gclid,X-Msclkid,X-Gbraid,X-Fbclid,X-Fbp,X-Fbc,X-Rdt-Cid,X-Ttclid,X-Ttp,X-Twclid,X-Sc-Cid,X-Idfa,X-Device-Idfv,X-Advertising-Id,X-Firebase-App-Instance-Id,X-Appsflyer-Web-Id,X-Af-Channel,X-Af-Media-Source,X-Appsflyer-Device-Id,X-Att-Status,X-Signature",
+    "signed_preflight_status": 204,
+    "ws_unauthenticated_handshake": [
+      {
+        "name": "external-api-ws.demo (recommended) WS handshake (no auth headers)",
+        "status": 401,
+        "error": null
+      },
+      {
+        "name": "demo-api ws (legacy supported) WS handshake (no auth headers)",
+        "status": 401,
+        "error": null
+      }
+    ],
+    "rate_limit_headers_observed": true
+  },
+  "sources": [
+    "https://docs.kalshi.com/getting_started/api_environments",
+    "https://docs.kalshi.com/getting_started/quick_start_market_data",
+    "https://docs.kalshi.com/getting_started/quick_start_authenticated_requests",
+    "https://docs.kalshi.com/getting_started/quick_start_websockets"
+  ]
+}
