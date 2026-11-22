@@ -21,7 +21,7 @@
           {
             "ticker": "KXAAAGASM-26NOV30-3.00",
             "event_ticker": "KXAAAGASM-26NOV30",
-            "title": "Will average **gas prices** be above $3.00?",
+            "title": "Will average gas prices be above $3.00?",
             "yes_sub_title": "Above 3.00",
             "status": "active",
             "close_time": "2026-11-30T04:59:00Z",
@@ -45,7 +45,7 @@
           {
             "ticker": "KXAAAGASM-26NOV30-3.50",
             "event_ticker": "KXAAAGASM-26NOV30",
-            "title": "Will average **gas prices** be above $3.50?",
+            "title": "Will average gas prices be above $3.50?",
             "yes_sub_title": "Above 3.50",
             "status": "active",
             "close_time": "2026-11-30T04:59:00Z",
