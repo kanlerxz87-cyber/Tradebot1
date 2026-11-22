@@ -561,7 +561,7 @@ def _collect_resolutions(
             raw = client.paginate(
                 "/markets",
                 "markets",
-                {"series_ticker": series_ticker, "status": "settled", "min_close_ts": _parse_iso(cutoff)},
+                {"series_ticker": series_ticker, "status": "settled", "min_close_ts": int(_parse_iso(cutoff) or 0)},
                 page_size=100,
                 max_pages=1,
             )
@@ -575,7 +575,8 @@ def _collect_resolutions(
                 normalize_market(market, api_base="")
             )
     rows = sorted(items.values(), key=lambda r: r.get("settled_ts") or r.get("close_time") or "", reverse=True)
-    return rows
+    # keep the payload bounded; the newest 400 settlements are plenty for the tracker
+    return rows[:400]
 
 
 def _resolution_row(market: dict[str, Any]) -> dict[str, Any]:
