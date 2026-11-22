@@ -13,9 +13,9 @@
     "itemCount": 13,
     "counts": {
       "fixed": 5,
-      "open": 7,
+      "open": 6,
       "verified": 0,
-      "resolved": 1
+      "resolved": 2
     }
   },
   "facts": [
@@ -282,30 +282,30 @@
     },
     {
       "id": "AUD-03",
-      "title": "The settled-market sweep sent a filter combination the API rejects, so the tracker recorded none",
+      "title": "The settled sweep sent a filter combination the API rejects, so the tracker recorded nothing",
       "severity": "high",
       "status": "fixed",
       "finding": "The desk asked GET /markets for status=settled together with min_close_ts. Get Markets documents min_close_ts as compatible with closed (or no status) and pairs settled with min_settled_ts instead. The cycle recorded in this repository before the fix failed this way for each series it swept, with HTTP 400 'Invalid format for parameter min_close_ts', and the resolution list stayed empty; the record of that cycle is quoted on COORDINATION.md. A parallel session has since reworked the same sweep for a different defect (series selection and row caps, PR #16), so the 120 rows now published are theirs as much as this fix's - what is asserted here is only that the parameter is the documented one.",
       "impact": "'Track events until they resolve' could not work while every settled query was rejected, and an empty resolution table looks like a quiet week rather than an error.",
-      "fix": "The sweep now sends min_settled_ts with status=settled, and the parameter is asserted as an integer by test.",
+      "fix": "The sweep now sends min_settled_ts with status=settled. A parallel session reached the same conclusion from the same table and landed the one-line change on main first (PR #16, with a per-topic series sweep and the same integer assertion); this branch therefore keeps main's implementation and its test rather than duplicating the edit. What this audit adds is the official statement behind it and a re-check that runs on every build.",
       "evidence": [
         {
           "file": "kalshi_trader/collector.py",
-          "needle": "\"status\": \"settled\", \"min_settled_ts\"",
-          "note": "the corrected query, with the documented pairing in a comment",
-          "line": 639
+          "needle": "\"status\": \"settled\", \"min_settled_ts\": cutoff",
+          "note": "the query as it now stands on main",
+          "line": 652
         },
         {
           "file": "tests/test_collector.py",
-          "needle": "min_settled_ts must be an int",
-          "note": "regression test: the old parameter is asserted absent",
-          "line": 179
+          "needle": "min_close_ts is incompatible with status=settled",
+          "note": "the parallel session's assertion, still passing",
+          "line": 181
         },
         {
           "file": "COORDINATION.md",
           "needle": "ten HTTP 400s from it",
-          "note": "the session record of the failed cycle",
-          "line": 546
+          "note": "this session's record of the failed cycle",
+          "line": 664
         }
       ],
       "sources": [
@@ -350,7 +350,7 @@
           "file": "kalshi_trader/fees.py",
           "needle": "ceil(raw * 100.0",
           "note": "the desk rounds to the cent too",
-          "line": 47
+          "line": 52
         }
       ],
       "sources": [
@@ -566,7 +566,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\"",
           "note": "a filter value, as documented",
-          "line": 639
+          "line": 652
         }
       ],
       "sources": [
@@ -625,17 +625,23 @@
     },
     {
       "id": "AUD-11",
-      "title": "The desk still labels a now-verifiable fee model UNVERIFIED",
-      "severity": "low",
-      "status": "open",
-      "finding": "kalshi_trader/fees.py sets VERIFIED = False and explains that the fee schedule could not be retrieved. The schedule is retrievable and is the source now quoted here: the taker rate, the maker rate and the maker default all match the code. The label is honest about the session that wrote it but is now wrong about the model, and every ledger row carries the stale label.",
-      "impact": "Readers discount performance figures that are, for the formula, correctly modelled. The remaining real caveat is the rounding in AUD-04.",
+      "title": "Flag withdrawn: the desk's fee model is verified now, and was verified here too",
+      "severity": "info",
+      "status": "resolved",
+      "finding": "kalshi_trader/fees.py carried VERIFIED = False and an explanation that the fee schedule could not be retrieved. The schedule is retrievable and is quoted in this audit's sources: the taker rate, the maker rate and the maker default all match. A parallel session verified the same model against the same PDF and set VERIFIED = True, so the stale label this audit set out to flag no longer exists. The model's own caveat - that the paper book rounds up to the cent - is now stated in the code as well.",
+      "impact": "None now: the label was corrected before this branch merged, and the rounding caveat is kept in AUD-04.",
       "evidence": [
         {
           "file": "kalshi_trader/fees.py",
-          "needle": "VERIFIED = False",
-          "note": "the stale label",
-          "line": 30
+          "needle": "VERIFIED = True",
+          "note": "the label, after the parallel fix",
+          "line": 34
+        },
+        {
+          "file": "kalshi_trader/fees.py",
+          "needle": "rounds up to the cent, which never understates the fee",
+          "note": "the rounding caveat, stated in the code",
+          "line": 43
         }
       ],
       "sources": [
@@ -652,6 +658,13 @@
           "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
           "claim": "The maker fee is round up(M x 0.0175 x C x P x (1 - P)) with M defaulting to 0, and there is no settlement fee.",
           "quote": "fees = round up(M x 0.0175 x C x P x (1-P)) [..] M = the multiplier for each contract (default is 0 unless otherwise indicated) [..] There is no settlement fee."
+        },
+        {
+          "id": "VF-20",
+          "page": "Fee Rounding",
+          "url": "https://docs.kalshi.com/getting_started/fee_rounding",
+          "claim": "A fill's trade fee is rounded up to $0.000001, then the balance is aligned to $0.0001 (direct member) or $0.01 (non-direct), with a rebate accumulator.",
+          "quote": "**Trade fee** | Fee from the fee model, rounded up to the nearest `$0.000001` [..] Direct member balances are aligned to `$0.0001` (`0.01c`) [..] **Net fee** = trade fee + rounding fee - rebate"
         }
       ],
       "check": {
@@ -660,7 +673,7 @@
         "observed": "needle present: True",
         "expected": "needle present: True"
       },
-      "howToCheck": "Compare TAKER_RATE and MAKER_RATE in kalshi_trader/fees.py with the two formulas in the fee schedule PDF."
+      "howToCheck": "Compare TAKER_RATE and MAKER_RATE in kalshi_trader/fees.py with the two formulas in the fee schedule PDF, then read AUD-04 for the rounding difference that remains."
     },
     {
       "id": "AUD-12",

@@ -17,7 +17,7 @@
 
 <section class="hero tight">
   <p class="tag">Flagged for review</p>
-  <h1>7 items that are proved but not corrected here, or cannot be proved at all</h1>
+  <h1>6 items that are proved but not corrected here, or cannot be proved at all</h1>
   <p class="lede">Nothing on this page blocks publication, and nothing on it is silently smoothed over: each
   item says what is wrong, who it affects, which official page decides it, and what would fix it. Items that
   need a credential, a browser or an API call this session could not make are listed with that reason rather
@@ -56,14 +56,6 @@
   <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
   <p class="src"><strong>How to check:</strong> Read discoveryProbes in data/snapshot.json (root recorded per probe) next to docs/desk/topics/culture.html (production catalogue).</p>
 </article>
-<article class="finding" id="AUD-11">
-  <header><span class="mono id">AUD-11</span> <span class="pill sev-low">low</span>
-    <h3>The desk still labels a now-verifiable fee model UNVERIFIED</h3></header>
-  <p>kalshi_trader/fees.py sets VERIFIED = False and explains that the fee schedule could not be retrieved. The schedule is retrievable and is the source now quoted here: the taker rate, the maker rate and the maker default all match the code. The label is honest about the session that wrote it but is now wrong about the model, and every ledger row carries the stale label.</p>
-  <p><strong>Impact.</strong> Readers discount performance figures that are, for the formula, correctly modelled. The remaining real caveat is the rounding in AUD-04.</p>
-  <p class="src"><strong>Deciding source:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-18</a></p>
-  <p class="src"><strong>How to check:</strong> Compare TAKER_RATE and MAKER_RATE in kalshi_trader/fees.py with the two formulas in the fee schedule PDF.</p>
-</article>
 <article class="finding" id="AUD-12">
   <header><span class="mono id">AUD-12</span> <span class="pill sev-low">low</span>
     <h3>`or` fallbacks hide a genuine zero quote behind the legacy field</h3></header>
@@ -87,8 +79,8 @@ individual dashboards' own review pages, where they were first raised.</p>
 </main>
 <footer class="wrap">
   <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
-  5 finding(s) fixed on this branch, 7 published as open,
-  1 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
+  5 finding(s) fixed and re-checked, 6 published as open,
+  2 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
   <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
      <a href="../desk/flagged.html">Desk flags</a> ·
      <a href="../../flagged.html">Board flags</a> ·

@@ -30,7 +30,7 @@ NAV = [
 ]
 
 STATUS_LABEL = {
-    "fixed": "Fixed on this branch",
+    "fixed": "Fixed, re-checked on every build",
     "open": "Open — flagged",
     "verified": "Verified",
     "resolved": "Flag withdrawn",
@@ -89,7 +89,7 @@ def page(title: str, current: str, body: str, doc: dict) -> str:
 </main>
 <footer class="wrap">
   <p>Read against <strong>{meta["factCount"]} official statements</strong> checked on {esc(meta["checkedOn"])}:
-  {meta["counts"]["fixed"]} finding(s) fixed on this branch, {counts["open"]} published as open,
+  {meta["counts"]["fixed"]} finding(s) fixed and re-checked, {counts["open"]} published as open,
   {counts["resolved"]} earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
   <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
      <a href="../desk/flagged.html">Desk flags</a> ·
@@ -121,7 +121,7 @@ def index(doc: dict) -> str:
   <div class="stats">
     <div><b>{meta["factCount"]}</b><span>official statements read and quoted</span></div>
     <div><b>{meta["itemCount"]}</b><span>findings, each with a file and a line</span></div>
-    <div><b>{counts["fixed"]}</b><span>corrected here, with regression tests</span></div>
+    <div><b>{counts["fixed"]}</b><span>corrected, each with a regression test</span></div>
     <div><b>{counts["open"]}</b><span>published unresolved</span></div>
   </div>
 </section>
@@ -143,6 +143,9 @@ def index(doc: dict) -> str:
 <p class="note">Line numbers, file paths and check output for each row are on
 <a href="findings.html">Findings</a>. Anything unresolved is on
 <a href="flagged.html">Flagged for review</a>, with the source that decides it.</p>
+
+<p class="note">A sibling page in this folder, <a href="fee-audit.html">Fee audit</a>, checks the same fee model and
+the series taxonomy from a different session; it is linked rather than merged so both readings stay visible.</p>
 
 <h2>How the audit was done</h2>
 <div class="cols">
@@ -172,7 +175,7 @@ def index(doc: dict) -> str:
 <tbody>
 <tr><td class="mono">tools/alerts.mjs</td><td>A midpoint is refused when either side of the book is empty</td><td>AUD-01 {status_pill("fixed")}</td><td class="mono">tests/alerts-strategies.test.mjs</td><td class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses">order book semantics</a></td></tr>
 <tr><td class="mono">kalshi_trader/marketdata.py</td><td>An ask of 1.0000 with no NO bid is treated as no offer</td><td>AUD-02 {status_pill("fixed")}</td><td class="mono">tests/test_audit.py</td><td class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses">order book semantics</a></td></tr>
-<tr><td class="mono">kalshi_trader/collector.py</td><td>Settled sweep uses <code>min_settled_ts</code> with <code>status=settled</code></td><td>AUD-03 {status_pill("fixed")}</td><td class="mono">tests/test_collector.py</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets">Get Markets filters</a></td></tr>
+<tr><td class="mono">kalshi_trader/collector.py</td><td>Settled sweep uses <code>min_settled_ts</code> (landed on main by PR #16 first; verified here, test kept)</td><td>AUD-03 {status_pill("fixed")}</td><td class="mono">tests/test_collector.py</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets">Get Markets filters</a></td></tr>
 <tr><td class="mono">tools/fees.mjs</td><td>Fee table read across all four columns; 21 of 21 rows reproduce</td><td>AUD-05 {status_pill("fixed")}</td><td class="mono">tests/fees.test.mjs</td><td class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf">fee schedule</a></td></tr>
 <tr><td class="mono">scripts/build-site.mjs</td><td>The staleness gate ignores wall-clock text again</td><td>AUD-08 {status_pill("fixed")}</td><td class="mono">audit/verify.py</td><td class="src"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/scripts/build-site.mjs">the gate itself</a></td></tr>
 </tbody>
