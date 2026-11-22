@@ -1,0 +1,218 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Integration audit — Kalshi Trader</title>
+<meta name="description" content="Line-by-line review of every implementation in this repository: checks run, defects found and fixed, requirement coverage, and the irregularities that remain open with their sources.">
+<style>
+  :root { --bg:#08131c; --panel:#0e1d29; --panel2:#122636; --line:#1e3a4d; --text:#e6f1f7;
+    --dim:#93aebc; --accent:#35dbab; --warn:#f0b429; --bad:#ef5b6b; --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--text); font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  a { color:var(--accent); }
+  .wrap { max-width:1120px; margin:0 auto; padding:26px 18px 64px; }
+  header.top { display:flex; flex-wrap:wrap; gap:10px; justify-content:space-between; align-items:baseline;
+    border-bottom:1px solid var(--line); padding-bottom:14px; font-size:13px; color:var(--dim); }
+  header.top a { text-decoration:none; }
+  h1 { font-size:26px; margin:24px 0 6px; letter-spacing:-.02em; }
+  .lede { color:var(--dim); max-width:80ch; }
+  h2 { font-size:16px; margin:34px 0 4px; }
+  h2 .sub { display:block; font-weight:400; font-size:13px; color:var(--dim); margin-top:3px; }
+  table { width:100%; border-collapse:collapse; margin-top:10px; background:var(--panel);
+    border:1px solid var(--line); border-radius:10px; overflow:hidden; }
+  th,td { text-align:left; padding:9px 11px; border-bottom:1px solid var(--line); font-size:13px; vertical-align:top; }
+  th { font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--dim); background:var(--panel2); }
+  tr:last-child td { border-bottom:0; }
+  td.num,th.num { text-align:right; font-family:var(--mono); }
+  code { font-family:var(--mono); font-size:12px; }
+  .tag { display:inline-block; font-size:10px; letter-spacing:.06em; text-transform:uppercase;
+    border:1px solid currentColor; border-radius:999px; padding:1px 7px; white-space:nowrap; }
+  .ok { color:var(--accent); } .warn { color:var(--warn); } .bad { color:var(--bad); } .mute { color:var(--dim); }
+  .note { background:var(--panel); border:1px solid var(--line); border-left:3px solid var(--warn);
+    border-radius:8px; padding:12px 14px; font-size:13px; color:var(--dim); margin-top:16px; }
+  ul { color:var(--dim); font-size:13px; }
+  footer { margin-top:36px; border-top:1px solid var(--line); padding-top:14px; font-size:12px; color:var(--dim); }
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="top">
+    <div><a href="./">← Kalshi Trader</a> · <a href="docs/desk/">live desk</a> · <a href="docs/desk/flagged.html">flagged for review</a></div>
+    <div>Integration session <code>arena/89a39032-tradebot1</code> · 2026-11-22</div>
+  </header>
+
+  <h1>Integration audit</h1>
+  <p class="lede">This page records what was reviewed, what was re-run, what was fixed, and what could not be
+    checked. It covers every implementation merged into this repository from the same brief. Where a value
+    could not be confirmed it is marked <span class="tag warn">unverified</span> and left blank — never filled in by inference.</p>
+
+  <div class="note">
+    <strong>Read this first — the reviewing sandbox could not reach Kalshi.</strong>
+    On 2026-11-22 this session's environment resolved only <code>github.com</code>, <code>api.github.com</code>
+    and the package registries. Every Kalshi host returned HTTP <code>000</code> (no connection):
+    <code>https://external-api.demo.kalshi.co/trade-api/v2/exchange/status</code>,
+    <code>https://demo-api.kalshi.co/trade-api/v2/exchange/status</code>,
+    <code>https://docs.kalshi.com/getting_started/api_environments</code>, and also the published site
+    <code>https://kanlerxz87-cyber.github.io/Tradebot1/</code>. So this session could <em>not</em> re-fetch
+    Kalshi documentation or market data. Every Kalshi fact below is therefore either (a) reproduced from the
+    data file committed by the scheduled collector, which ran inside GitHub Actions where Kalshi <em>is</em>
+    reachable, or (b) attributed to the session that recorded it, with the official link for your own check.
+    Nothing is asserted as freshly re-verified when it was not.
+  </div>
+
+  <h2>1. Checks run in this session<span class="sub">All of these execute locally and are reproducible from the repository root.</span></h2>
+  <table>
+    <thead><tr><th>Check</th><th>Command</th><th class="num">Result</th><th>What it proves</th></tr></thead>
+    <tbody>
+      <tr><td>Python unit tests</td><td><code>.venv/bin/python -m pytest -q</code></td><td class="num">57 passed</td><td>Signing, normalisation, orderbook maths, $0.10 boundary, topics, sizing, settlement, collector cycle, plus 4 new regression tests for the defects in §2.</td></tr>
+      <tr><td>Node unit tests</td><td><code>npm test</code></td><td class="num">36 passed</td><td>The dependency-free board's collector, alerts, fees, strategies and topic rules.</td></tr>
+      <tr><td>Board link check</td><td><code>npm run check:links</code></td><td class="num">19 pages, 642 refs, 0 problems</td><td>No broken internal target or anchor across the root board's pages.</td></tr>
+      <tr><td>Board data contract</td><td><code>npm run check:data</code></td><td class="num">all 9 files valid</td><td>Every committed data row carries an official source URL; nothing is invented when a feed is empty.</td></tr>
+      <tr><td>Desk link check</td><td><code>python3 tools/check_links.py</code></td><td class="num">271 links, 13 pages</td><td>Desk pages, the root landing page and this page: no broken link or anchor.</td></tr>
+      <tr><td>Desk page generator</td><td><code>python3 tools/build_site.py --check</code></td><td class="num">current</td><td>The committed topic tables match the committed snapshot.</td></tr>
+      <tr><td>Monitor pages</td><td><code>python3 tests/check_site.py</code></td><td class="num">21 pages verified</td><td>The <code>docs/</code> monitor's pages parse and its local targets exist.</td></tr>
+      <tr><td>Snapshot integrity</td><td><code>python3 -m kalshi_trader.cli verify</code></td><td class="num">OK</td><td>Schema, envelope shape and cross-file references of the published JSON.</td></tr>
+      <tr><td>Published snapshot</td><td>read <code>docs/desk/data/latest.json</code></td><td class="num">300 markets, 0 errors</td><td>The scheduled collector produced a complete cycle without API errors (see §3).</td></tr>
+    </tbody>
+  </table>
+
+  <h2>2. Defects found and fixed<span class="sub">Each was reproduced from committed evidence before being changed, and each now has a regression test that fails against the previous code.</span></h2>
+  <table>
+    <thead><tr><th>#</th><th>Defect</th><th>Evidence it was real</th><th>Effect a visitor saw</th><th>Fix</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>D1</td>
+        <td>Price history never accumulated: the collector read the whole <code>history.json</code> envelope instead of its <code>series</code> map, so each cycle started from an empty history.</td>
+        <td>Two consecutive published cycles (commits <code>521e795</code>, <code>73ef9dd</code>) both stored exactly 2 points per market — it could never grow.</td>
+        <td>The chart could not show more than one cycle of samples, and the “hours” range could never fill, although the brief asks for seconds / minutes / hours ranges.</td>
+        <td>Read <code>history_state["series"]</code>. Test: <code>test_history_accumulates_across_cycles</code>.</td>
+      </tr>
+      <tr>
+        <td>D2</td>
+        <td>Settled markets were written with <code>topic = null</code>, and the page generator filters resolutions by topic.</td>
+        <td>All 308 rows in the committed <code>resolved.json</code> had <code>topic: null</code>.</td>
+        <td>Every topic page said “No settled markets recorded yet — resolution tracking starts with the first collection cycle” while 308 settled markets were in the data.</td>
+        <td>Assign the topic from the official series taxonomy; backfill stored rows; generator falls back to the series taxonomy. Tests: <code>test_resolution_rows_have_topic_and_own_market_url</code>.</td>
+      </tr>
+      <tr>
+        <td>D3</td>
+        <td>The bounded settled sweep took the alphabetically first ten series across <em>all</em> topics.</td>
+        <td>Tickers sort alphabetically, so <code>KXAAAGAS*</code> and elections consumed the ten slots; the committed 308 rows were 300 gas + 8 elections, and golf, culture and crypto had none.</td>
+        <td>Those three topics could never show a resolution, whatever happened on the exchange.</td>
+        <td>Sweep 6 series <em>per topic</em>. Test: <code>test_sweep_reaches_every_topic_not_only_the_alphabetically_first</code>.</td>
+      </tr>
+      <tr>
+        <td>D4</td>
+        <td>The published resolution table was capped at 120 rows globally.</td>
+        <td>All 120 published rows were gas; elections' 8 rows were dropped from <code>latest.json</code> even after D2 was fixed.</td>
+        <td>Elections would have shown an empty table on its own topic page.</td>
+        <td>Cap per topic (60) plus an unattributed bucket. Test: <code>test_published_resolutions_are_capped_per_topic</code>.</td>
+      </tr>
+      <tr>
+        <td>D5</td>
+        <td>Resolution rows linked every row to one generic settlement-document page instead of the market itself.</td>
+        <td><code>api_url</code> was null on all 308 rows; both tables render <code>api_url || source</code>, so all rows fell back to the same generic URL.</td>
+        <td>The brief requires a source link on every table row; a shared generic link does not let a reader verify <em>that</em> row.</td>
+        <td>Rows now carry <code>&lt;rest_base&gt;/markets/&lt;ticker&gt;</code>. After the backfill all 308 rows have their own official URL.</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="lede">After the fixes the committed snapshot renders 60 gas and 8 elections resolution rows, each with
+    its own <code>verify</code> link. Golf, culture and crypto resolutions remain empty <em>until the next scheduled
+    collector cycle</em>, because the sweep that would fetch them had never run under the old logic; the unit test
+    proves the new sweep requests them. That is a timing fact, not a claim that rows exist.</p>
+
+  <h2>3. State of the automation<span class="sub">Taken from the committed snapshot and the GitHub Actions history — not from the page's own claims.</span></h2>
+  <table>
+    <thead><tr><th>Item</th><th>Observed</th><th>Where it came from</th></tr></thead>
+    <tbody>
+      <tr><td>Last collector cycle</td><td><code>2026-11-22T07:21:40Z</code>, 300 markets, 133.5 s, 0 API errors</td><td><code>docs/desk/data/latest.json</code></td></tr>
+      <tr><td>Data environment</td><td><code>prod</code> — Kalshi's public <em>production</em> REST base, not the demo base</td><td>same file, <code>data_env</code> + <code>rest_base</code></td></tr>
+      <tr><td>Swing alerts recorded</td><td>1 (KXRT-HUN-67, culture, mid 0.425 → 0.29, −$0.135)</td><td><code>alerts.json</code></td></tr>
+      <tr><td>Settled markets recorded</td><td>308 (300 gas, 8 elections) — 65 YES, 243 NO</td><td><code>resolved.json</code></td></tr>
+      <tr><td>Paper book</td><td>equity $996.76, 12 open positions, total P&amp;L −$3.24, 0 closed trades</td><td><code>paper.json</code></td></tr>
+      <tr><td>Demo account</td><td><span class="tag warn">not connected</span> — no credentials configured; no balance is shown</td><td><code>latest.json → demo</code>, flag F2</td></tr>
+      <tr><td>Collector cadence</td><td>Python collector <code>*/15</code>, Node collector <code>13,43 * * * *</code></td><td><code>.github/workflows/collect.yml</code>, <code>collect-node.yml</code></td></tr>
+      <tr><td>Successful production runs</td><td>“Collect market data” <a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997328671">44997328671</a> (success); deploy <a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997857586">44997857586</a> (success)</td><td>GitHub Actions API</td></tr>
+    </tbody>
+  </table>
+
+  <h2>4. Requirement coverage<span class="sub">The brief, line by line, with where it is implemented. “Flagged” means the site refuses to assert the value rather than inventing it.</span></h2>
+  <table>
+    <thead><tr><th>Requirement</th><th>Status</th><th>Where it is implemented</th><th>Limit or source</th></tr></thead>
+    <tbody>
+      <tr><td>Executive summary of important details</td><td><span class="tag ok">done</span></td><td><a href="docs/desk/executive-summary.html">Executive summary</a>, <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/EXECUTIVE_SUMMARY.md">EXECUTIVE_SUMMARY.md</a></td><td>—</td></tr>
+      <tr><td>Dashboard of highest-dollar live events, five topics only</td><td><span class="tag ok">done</span></td><td><a href="docs/desk/">Desk</a> landing, per-topic tables</td><td>Ranked by an <em>estimated</em> 24h traded dollars (price × volume); flag F8.</td></tr>
+      <tr><td>Topics: gas, elections, culture, crypto, golf — kept separate</td><td><span class="tag ok">done</span></td><td><code>kalshi_trader/topics.py</code>, five topic pages</td><td>“Culture” is an editorial mapping to Entertainment/Social — Kalshi has no Culture category; flag F3.</td></tr>
+      <tr><td>Alert on any move ≥ $0.10 in either direction</td><td><span class="tag ok">done</span></td><td><code>kalshi_trader/swings.py</code>, threshold inclusive</td><td>Detected between collection cycles (15 min), not per tick; flag F7.</td></tr>
+      <tr><td>Two scrolling alert chats: all moves, and the model's high-ROI subset</td><td><span class="tag ok">done</span></td><td>Desk dashboard, both feeds</td><td>The ROI score is a transparent heuristic, not validated alpha; flag F12.</td></tr>
+      <tr><td>Track events until resolved, showing YES or NO</td><td><span class="tag ok">done</span></td><td>Resolution tracker + five topic tables; 308 rows with the exchange's own <code>result</code></td><td>Golf/culture/crypto populate from the next cycle (defect D3, fixed).</td></tr>
+      <tr><td>Automate simulated trades to test strategies</td><td><span class="tag ok">done</span></td><td><code>kalshi_trader/paper.py</code>, <code>strategies.py</code></td><td>12 open positions, 0 closed so no win rate exists yet — shown as blank, not zero-filled.</td></tr>
+      <tr><td>Track portfolio performance on the Kalshi <em>demo account</em></td><td><span class="tag warn">flagged</span></td><td>Adapter <code>kalshi_demo.py</code>, ready but inactive</td><td>A demo account and its key can only be created by the account holder. No demo balance is shown; flag F2.</td></tr>
+      <tr><td>Categorise trades and build strategies per type</td><td><span class="tag ok">done</span></td><td><a href="docs/desk/portfolio.html">Portfolio</a>, <a href="docs/desk/strategies.html">Strategies</a></td><td>Breakdowns are empty until trades close.</td></tr>
+      <tr><td>Execute trades on events and track performance</td><td><span class="tag warn">paper only</span></td><td>Paper ledger; demo order path behind credentials</td><td>No demo key configured, so no exchange-side fill exists to show.</td></tr>
+      <tr><td>Price chart: x = time (seconds / minutes / hours), y = contract price</td><td><span class="tag ok">done</span></td><td>Desk chart with range selector</td><td>History accumulation was broken (D1) and is now fixed; depth grows one cycle at a time.</td></tr>
+      <tr><td>Current liquidity: how many contracts at a given price</td><td><span class="tag ok">done</span></td><td>Orderbook depth panel, resting bid sizes</td><td>Kalshi reports bids only; asks are implied by $1.00 − opposite bid; flag F9.</td></tr>
+      <tr><td>Website links that may have caused a sharp jump</td><td><span class="tag warn">flagged</span></td><td>Links to the market, its series page and listed settlement sources</td><td>No causal news attribution is asserted: nothing verifies which article moved a price; flag F12 and §5.</td></tr>
+      <tr><td>Live, interactive, simple charts</td><td><span class="tag ok">done</span></td><td>Hand-drawn SVG chart, no chart library</td><td>Public site is polled from CI, not a WebSocket; flag F10. A local server adds a live WS upgrade.</td></tr>
+      <tr><td>Suggestions to make the site more live</td><td><span class="tag ok">done</span></td><td><a href="suggestions.html">Suggestions</a>, <a href="docs/desk/requirements.html">requirements matrix</a></td><td>Proposals are labelled as proposals, not implemented features.</td></tr>
+      <tr><td>No manual input required</td><td><span class="tag ok">done</span></td><td>Scheduled collectors commit data and regenerate tables</td><td>GitHub does not guarantee cron timing; flag F10.</td></tr>
+      <tr><td>“Verified against official sources, no hallucinations”</td><td><span class="tag warn">partly</span></td><td>Per-row source links; verification log; this page</td><td>Values that cannot be confirmed are blank and flagged. This sandbox could not reach Kalshi at all (§0 note).</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Irregularities open for review<span class="sub">Grouped rather than duplicated. Each item links to the page that owns it and to a source where one exists.</span></h2>
+  <table>
+    <thead><tr><th>Item</th><th>Why it matters</th><th>Owner page</th><th>Official source</th></tr></thead>
+    <tbody>
+      <tr><td>Demo account not connected</td><td>The brief asks for demo-account P&amp;L; only the account holder can create the key, so the paper book is shown and labelled as such.</td><td><a href="docs/desk/flagged.html">F2</a></td><td><a href="https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account">Kalshi help: demo account</a></td></tr>
+      <tr><td>Trading-fee formula unverified</td><td>Paper P&amp;L depends on it. The fee schedule could not be retrieved, so entries are labelled <code>fee_model=quadratic_unverified</code>.</td><td><a href="docs/desk/flagged.html">F1</a></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf">Kalshi fee schedule (PDF)</a></td></tr>
+      <tr><td>Market data is production, execution is paper</td><td>The brief names the demo environment; the collector reads public production prices because demo catalogue coverage for these five topics is thin. Both facts are labelled in the data (<code>data_env</code>).</td><td><a href="docs/desk/flagged.html">F6</a></td><td><a href="https://docs.kalshi.com/getting_started/api_environments">API environments</a></td></tr>
+      <tr><td>Browser CORS to Kalshi untested</td><td>The <code>docs/</code> monitor fetches from the visitor's browser; if Kalshi does not allow that origin the page stays empty. This sandbox could not test it (§0).</td><td><a href="docs/desk/flagged.html">F5</a>, <a href="docs/review/">monitor review</a></td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets">Get Markets</a></td></tr>
+      <tr><td>Alert timing is per cycle, not per tick</td><td>A 10¢ spike and reversal between two cycles is invisible. Stated on the desk and here.</td><td><a href="docs/desk/flagged.html">F7</a></td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets">WebSocket quick start</a></td></tr>
+      <tr><td>ROI score is a heuristic</td><td>“High-ROI” is a model score, not measured performance; no closed trades exist yet to validate it.</td><td><a href="docs/desk/flagged.html">F12</a></td><td>—</td></tr>
+      <tr><td>No causal news attribution</td><td>Nothing in the public APIs says <em>why</em> a price moved. The site links the market, its series page and Kalshi's listed settlement sources; it does not assert an article caused a jump.</td><td>this page</td><td><a href="https://docs.kalshi.com/api-reference/events/get-event">Get Event</a></td></tr>
+      <tr><td>Four parallel implementations</td><td>Independent sessions each built a dashboard. Rather than delete anyone's work, the desk is primary and the others are labelled on the landing page. Their numbers are not blended into the desk's.</td><td><a href="./">landing page</a></td><td>—</td></tr>
+      <tr><td>Generated artifacts were tracked in git</td><td><code>main</code> tracked 3884 files under <code>.venv/</code> and 1762 <code>__pycache__/*.pyc</code> binaries (~100 MB) after a merge dropped <code>.venv/</code>, <code>__pycache__/</code> and <code>*.py[cod]</code> from <code>.gitignore</code>. Both fixed here: the ignore rules are restored (verified with <code>git check-ignore</code>) and the artifacts are untracked with <code>git rm --cached</code>. Nothing was deleted from disk and no source, data or test file changed.</td><td>this page</td><td>—</td></tr>
+      <tr><td>17 further flags on the Node board</td><td>Separate register, including F-01 (its collector was never exercised from its authoring sandbox).</td><td><a href="flagged.html">board flags</a></td><td><a href="https://docs.kalshi.com/getting_started/rate_limits">Rate limits</a></td></tr>
+      <tr><td>Committed <code>docs/data/snapshot.json</code> is empty</td><td>It is regenerated by CI before publishing, so the live page is populated; the repository copy is stale. Recorded here rather than edited, because the file belongs to another session.</td><td><a href="docs/review/">monitor review</a></td><td><a href="https://docs.kalshi.com/api-reference/events/get-events.md">Get Events</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>6. Sources used for the Kalshi facts<span class="sub">Official Kalshi documentation, as cited by the session that recorded each fact. This sandbox could not re-fetch them (§0) — the links are here so the claim can be checked in one click.</span></h2>
+  <table>
+    <thead><tr><th>Fact</th><th>Official source</th><th>Re-checked here?</th></tr></thead>
+    <tbody>
+      <tr><td>Demo REST base <code>https://external-api.demo.kalshi.co/trade-api/v2</code> (and <code>demo-api.kalshi.co</code>)</td><td><a href="https://docs.kalshi.com/getting_started/api_environments">docs.kalshi.com/getting_started/api_environments</a></td><td><span class="tag warn">no — host unreachable</span></td></tr>
+      <tr><td>Demo WebSocket <code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code></td><td><a href="https://docs.kalshi.com/getting_started/api_environments">same page</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Request-signing headers and signed text</td><td><a href="https://docs.kalshi.com/getting_started/api_environments">same page (Request Signing)</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Public market data needs no key</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data">quick_start_market_data</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Orderbook returns bids only; asks implied</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses">orderbook_responses</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Candlesticks: <code>period_interval</code> 1 / 60 / 1440 minutes</td><td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks">get-market-candlesticks</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Market lifecycle and the <code>result</code> field</td><td><a href="https://docs.kalshi.com/getting_started/market_lifecycle">market_lifecycle</a> · <a href="https://docs.kalshi.com/getting_started/market_settlement">market_settlement</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Rate limits are token buckets</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits">rate_limits</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Official category list (no “Culture”; Golf is a Sports tag)</td><td><a href="https://docs.kalshi.com/getting_started/terms">getting_started/terms</a></td><td><span class="tag warn">no</span></td></tr>
+      <tr><td>Live market tickers quoted on this page</td><td><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status">demo exchange status</a> · <a href="https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HUN-67">KXRT-HUN-67</a></td><td><span class="tag warn">no</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <strong>What would clear the open items.</strong> Add <code>KALSHI_API_KEY_ID</code> and
+    <code>KALSHI_PRIVATE_KEY</code> as repository secrets for a demo account → the demo adapter reads the balance
+    and flags F2 clears. Retrieve Kalshi's current fee schedule → set the published rate in
+    <code>kalshi_trader/fees.py</code> and F1 clears. Run the collector from a network with Kalshi access and
+    compare the demo and production catalogues → F6 and F5 can be settled with evidence rather than caveats.
+  </div>
+
+  <footer>
+    <p><strong>Scope of this page.</strong> It records the integration review performed by session
+      <code>arena/89a39032-tradebot1</code> on 2026-11-22, the five defects it fixed with regression tests, and the
+      items it could not verify. Files belonging to other sessions were not edited in place; findings about them
+      are listed in §5. The shared task board is <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/COORDINATION.md">COORDINATION.md</a>.</p>
+    <p>Independent research, not affiliated with Kalshi, not investment advice. Kalshi market data belongs to
+      Kalshi — <a href="https://docs.kalshi.com/getting_started/api_environments">official API documentation</a>.</p>
+  </footer>
+</main>
+</body>
+</html>
