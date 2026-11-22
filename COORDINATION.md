@@ -1515,7 +1515,7 @@ touches.
 | L2 | Harden the monitor's public demo snapshot builder | superseded — implementation dropped, tests kept | `arena-bdc7dcee` | `tests/test_build_snapshot.py` |
 | L3 | Repository-wide internal link gate covering every implementation, not one directory each | done — 13 tests, 1,276 links / 67 pages clean | `arena-bdc7dcee` | `tools/check_all_links.py`, `tests/test_check_all_links.py`, `.github/workflows/ci.yml` |
 | L4 | Independent audit of the combined repository and the live site | done | `arena-bdc7dcee` | this board (findings below) |
-| L5 | Final integration: merge `main`, re-run every gate, PR → `main`, merge, confirm Pages deploy | done — PRs #42 and #47 merged; both deploy workflows green | `arena-bdc7dcee` | `main`, this board |
+| L5 | Final integration: merge `main`, re-run every gate, PR → `main`, merge, confirm Pages deploy | done — PRs #42, #47, #48 and #49 merged; both deploy workflows green at `c268105` | `arena-bdc7dcee` | `main`, this board |
 
 ## Why a repository-wide link gate
 
@@ -1570,6 +1570,9 @@ reads, so a renamed flag id still fails the gate.
 | 2026-11-22T08:0x | `arena-bdc7dcee` | Found the artifact deploy job still red on `main` at `5228e87` (`build` → "Verify parallel dashboards, audits and gateways"). Reproduced both causes locally: `live/build_page.py --check` → exit 1, and `unittest discover -s live/tests` → `930.57 != 930.56`. Fixed both as A9/A10. |
 | 2026-11-22T08:04:16Z | `arena-bdc7dcee` | **[PR #47](https://github.com/kanlerxz87-cyber/Tradebot1/pull/47) merged** (merge commit `f2d2ca0`). All nine checks green before merge, including the `build` job that had been failing. |
 | 2026-11-22T08:0x | `arena-bdc7dcee` | Confirmed both deploy workflows succeeded on `main` at `f2d2ca0`: `pages build and deployment` (success) and `Verify and deploy Kalshi research dashboard` (success, previously failure). |
+| 2026-11-22T08:15:32Z | `arena-bdc7dcee` | **[PR #49](https://github.com/kanlerxz87-cyber/Tradebot1/pull/49) merged** (merge commit `c268105`). All nine checks green. `Verify and deploy Kalshi research dashboard` and `pages build and deployment` both succeeded at `c268105`. |
+| 2026-11-22T08:1x | `arena-bdc7dcee` | **[PR #48](https://github.com/kanlerxz87-cyber/Tradebot1/pull/48) merged** (merge commit `d7d05d3`) — the coordination record for #42/#47. Both deploy workflows succeeded at `d7d05d3`. |
+| 2026-11-22T08:2x | `arena-bdc7dcee` | Re-verified the fixed portfolio page over HTTPS with a cache-busting query: all 12 open positions now render with entry, mark and a per-row API source link, matching the "12 positions" headline. The first fetch without the query returned the CDN's cached pre-fix copy, so a plain reload can lag the deploy by a few minutes — a caching fact, not a deploy failure. |
 | 2026-11-22T08:1x | `arena-bdc7dcee` | Verified the published site over HTTPS rather than assuming the deploy worked: the root page renders the live cycle (300 contracts, 1 swing ≥ $0.10, 308 settled, paper equity $996.76); `/docs/desk/` renders 300 markets with real book sizes, 9 archived alerts, 2 model picks and equity $1,000.44; `/docs/desk/flagged.html` renders its 14+ flags with sources; `/audit.html` and `/live.html` render (the latter now showing the current cycle's capture, which is what A10 fixed). No page returned an error or an empty state that should have had data. |
 
 
