@@ -76,7 +76,7 @@ def normalize_market(raw: dict, topic: str, observed_ms: int, base: str = DEFAUL
         "topic": topic,
         "status": raw.get("status"),
         "reported_result": raw.get("result") or None,
-        "result": raw.get("result") if raw.get("status") in {"settled", "finalized"}
+        "result": raw.get("result") if raw.get("status") == "finalized"
         and raw.get("result") in {"yes", "no"} else None,
         "settlement_value_dollars": number(raw.get("settlement_value_dollars"), D(0), ONE),
         "notional_value_dollars": number(raw.get("notional_value_dollars"), D(0)),

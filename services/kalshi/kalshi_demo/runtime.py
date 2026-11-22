@@ -185,9 +185,12 @@ class Runtime:
         self.state["last_rest_success"] = iso_time(now_ms())
         self.state["errors"].pop("poll", None)
 
-    def ingest_market(self, raw: dict, topic: str, observed_ms: int | None = None):
+    def ingest_market(self, raw: dict, topic: str, observed_ms: int | None = None,
+                      source_path: str | None = None):
         received_ms = observed_ms if observed_ms is not None else now_ms()
         normalized = normalize_market(raw, topic, received_ms, self.settings.rest_url)
+        if source_path:
+            normalized["source_url"] = self.settings.rest_url + source_path
         old = self.markets.get(normalized["ticker"], {})
         # REST snapshots may be cached. Do not overwrite a current WebSocket price with them.
         if self.state["websocket"] == "connected" and old.get("price_source", "").startswith("websocket"):
@@ -209,16 +212,18 @@ class Runtime:
     async def refresh_market(self, ticker: str):
         if ticker not in self.markets:
             return
+        path = f"/markets/{ticker}"
         try:
-            data = await self.client.get(f"/markets/{ticker}")
+            data = await self.client.get(path)
         except UpstreamError as exc:
             if exc.status != 404:
                 raise
-            data = await self.client.get(f"/historical/markets/{ticker}")
+            path = f"/historical/markets/{ticker}"
+            data = await self.client.get(path)
         raw = data.get("market")
         if not isinstance(raw, dict):
             raise UpstreamError("missing_market_object")
-        self.ingest_market(raw, self.markets[ticker]["topic"])
+        self.ingest_market(raw, self.markets[ticker]["topic"], source_path=path)
         self.state["errors"].pop(f"market:{ticker}", None)
 
     def price_observation(self, market: dict, timestamp_ms: int, kind: str, event_id: str | None = None):
@@ -303,9 +308,10 @@ class Runtime:
             stamp = message.get("ts_ms")
             if not isinstance(stamp, int) or stamp > received + 30_000:
                 raise ValueError("Missing or future exchange timestamp")
-            if stamp < market.get("price_observed_ms", 0) and market.get("price_source", "").startswith("websocket"):
-                return
-            if kind == "ticker":
+            # Quote flushes and trade notifications are different channels. A later ticker
+            # must not suppress an earlier-arriving trade's alert, nor regress the current price.
+            if kind == "ticker" and stamp >= market.get("quote_observed_ms", 0):
+                market["quote_observed_ms"] = stamp
                 for key in ("yes_bid_dollars", "yes_ask_dollars", "volume_fp", "open_interest_fp",
                             "yes_bid_size_fp", "yes_ask_size_fp", "dollar_volume", "dollar_open_interest"):
                     market[key] = number(message.get(key), D(0), ONE if "_dollars" in key else None)
@@ -318,14 +324,18 @@ class Runtime:
             price_key = "yes_price_dollars" if kind == "trade" else "price_dollars"
             price = number(message.get(price_key), D(0), ONE)
             if price is not None:
-                market["last_price_dollars"] = price
-                market["price_observed_ms"] = stamp
-                market["price_source"] = "websocket_" + kind
                 if kind == "trade":
                     trade_id = message.get("trade_id")
                     if not isinstance(trade_id, str) or not trade_id:
                         raise ValueError("Missing trade ID")
-                    self.price_observation(market, stamp, "websocket_trade", trade_id)
+                    trade_market = {**market, "last_price_dollars": price, "price_observed_ms": stamp,
+                                    "price_source": "websocket_trade"}
+                    self.price_observation(trade_market, stamp, "websocket_trade", trade_id)
+                if (stamp >= market.get("price_observed_ms", 0)
+                        or not market.get("price_source", "").startswith("websocket")):
+                    market["last_price_dollars"] = price
+                    market["price_observed_ms"] = stamp
+                    market["price_source"] = "websocket_" + kind
             market["observed_at"], market["observed_ms"] = iso_time(received), received
             self.store.put("markets", ticker, market)
         self.state["last_stream_message"] = iso_time(received)

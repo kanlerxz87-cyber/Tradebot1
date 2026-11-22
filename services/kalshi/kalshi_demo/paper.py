@@ -86,9 +86,8 @@ class PaperEngine:
             raise ValueError("Unknown strategy or outcome")
         if requested_count <= 0 or limit_price <= 0 or limit_price >= 1:
             return None
-        if market.get("status") != "active" or market.get("notional_value_dollars") != "1.0000" and (
-            decimal(market.get("notional_value_dollars")) != ONE
-        ):
+        if (market.get("status") != "active" or not market.get("event_ticker")
+                or decimal(market.get("notional_value_dollars")) != ONE):
             return None
         if market.get("settlement_bounds_type") not in {None, "", "default"}:
             return None
@@ -102,7 +101,11 @@ class PaperEngine:
             return None
         # At most $20 per event/strategy. No leverage, no synthetic fills beyond visible depth.
         cash = D(account["cash"])
-        budget, remaining, fills = min(cash, D("20")), requested_count, []
+        event_exposure = sum((D(position["cost"]) for position in account["positions"]
+                              if position["event_ticker"] == market["event_ticker"]
+                              and position["status"] == "open"), D(0))
+        budget = min(cash, max(D(0), D("20") - event_exposure))
+        remaining, fills = requested_count, []
         for price, available in book.asks(outcome):
             if price > limit_price or price <= 0 or remaining <= 0:
                 break
