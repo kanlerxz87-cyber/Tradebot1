@@ -62,7 +62,7 @@
   <p><strong>Impact.</strong> 'Track events until they resolve' could not work while every settled query was rejected, and an empty resolution table looks like a quiet week rather than an error.</p>
   <p><strong>Correction.</strong> The sweep now sends min_settled_ts with status=settled. A parallel session reached the same conclusion from the same table and landed the one-line change on main first (PR #16, with a per-topic series sweep and the same integer assertion); this branch therefore keeps main's implementation and its test rather than duplicating the edit. What this audit adds is the official statement behind it and a re-check that runs on every build.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:652</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:181</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:702</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:658</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:182</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:702</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>True,False,int</code> against expected <code>True,False,int</code></p>
   <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></p>
   <p class="src"><strong>Re-check it yourself:</strong> Read the compatibility table in Get Markets, then python -m pytest tests/test_collector.py -q. The historical 400s are recorded in COORDINATION.md rather than in the working tree, because the data file was overwritten by later cycles.</p>
@@ -137,7 +137,7 @@
   <p><strong>Impact.</strong> A published verification command that always fails gets ignored, and with it the source-link gate it was meant to protect. The failure that only happened in CI was the worse of the two, because that is where the site is actually built.</p>
   <p><strong>Correction.</strong> The comparison normalises relative ages and the build badge as well as the generated stamp. A no-op rebuild is a no-op in both environments, and a genuine data change still fails the check.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>scripts/build-site.mjs:135</code> — relative ages normalised<pre>'AGO'</pre></li><li><code>scripts/build-site.mjs:139</code> — the env-dependent build badge normalised<pre>build ID</pre></li><li><code>scripts/build-site.mjs:79</code> — where the difference came from<pre>buildId: process.env.GITHUB_SHA</pre></li></ul>
+  <ul class="evidence"><li><code>scripts/build-site.mjs:161</code> — relative ages normalised<pre>'AGO'</pre></li><li><code>scripts/build-site.mjs:165</code> — the env-dependent build badge normalised<pre>build ID</pre></li><li><code>scripts/build-site.mjs:71</code> — where the difference came from<pre>buildId: process.env.GITHUB_SHA</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>exit 0</code> against expected <code>exit 0</code></p>
   <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
   <p class="src"><strong>Re-check it yourself:</strong> node scripts/build-site.mjs --check exits 0, and GITHUB_SHA=abc1234 node scripts/build-site.mjs --check also exits 0; edit one data value and either exits 1.</p>
@@ -152,7 +152,7 @@
   <p><strong>Impact.</strong> None on the code; the earlier flag can be closed with a source rather than left open.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:652</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:658</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
   <p class='check muted'>No executable check: this finding is a documentation reconciliation.</p>
   <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-10</a> · <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a></p>
   <p class="src"><strong>Re-check it yourself:</strong> Read the two tables in Market Lifecycle: statuses returned by REST, then filter values and what they match.</p>
