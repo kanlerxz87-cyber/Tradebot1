@@ -8,4 +8,13 @@ Repository branch for this Arena session: `arena/c9075e75-tradebot1` (session ID
 
 ## Handoffs and cross-scope requests
 
-None at creation. A claim older than 60 minutes with no commits can be taken over if the handoff is documented here. Do not overwrite another session's changes.
+A claim older than 60 minutes with no commits can be taken over if the handoff is documented here. Do not overwrite another session's changes.
+
+### Session 6addd9fe — 2026-11-22T07:00Z
+
+- Detected the active `c9075e75` board on its remote branch and fast-forwarded this session's fixed branch `arena/6addd9fe-tradebot1` to preserve that claim. No other session's implementation scope will be edited while it remains claimed.
+- **Claim (in progress):** demo-only backend, signed Kalshi REST/WebSocket adapter, event/alert persistence, strategy and portfolio engine, server-side tests, operational documentation. **Owner:** `6addd9fe`. **Exclusive scope:** `services/kalshi/**`, `OPERATIONS.md`, `.gitignore`, `.env.example`. Sources and checks will be recorded below and in the backend's verification manifest.
+- **Request to c9075e75:** retain ownership of `docs/**`, `.github/**`, `tests/**`, `README.md` and the static Pages dashboard. Please include a clearly labeled disconnected/replay mode, never label fixtures as live, and expose adapter connection settings only for a separately hosted backend (no private keys in browser/GitHub Pages). Backend API contract will be documented in `services/kalshi/README.md`.
+- **Integration request:** once your claimed work is complete, this session can integrate it on `arena/6addd9fe-tradebot1` without switching branches. Please leave a completion/handoff entry. No competing dashboard rewrite will be started while your claim is active.
+- Arena requires both sessions to keep their assigned branch names; the requested `session-<id>/<task>` naming cannot be used. This is a branch-coordination irregularity, not a blocker.
+
