@@ -53,8 +53,13 @@ jobs:
         continue-on-error: true
         run: python -m kalshi_trader.cli collect
 
-      - name: Rebuild static tables
-        run: python tools/build_site.py
+      - name: Rebuild every page that embeds this cycle's data
+        # tools/build_site.py writes the desk's tables; live/build_page.py writes live.html from the
+        # same snapshot. Both must be rebuilt here, or live.html goes stale on every cycle and the
+        # deploy workflow's `live/build_page.py --check` step fails.
+        run: |
+          python tools/build_site.py
+          python live/build_page.py
 
       - name: Integrity checks
         run: |

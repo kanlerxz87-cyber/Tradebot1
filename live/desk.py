@@ -813,9 +813,13 @@ class Desk:
         return round(value, 2)
 
     def portfolio(self) -> dict[str, Any]:
-        equity = self.equity()
         realized = round(sum(p.realized or 0 for p in self.closed), 2)
         positions = [p.public(self.markets.get(p.ticker)) for p in self.positions.values()]
+        # Equity must reconcile with the marks actually published below, or a trader who adds up
+        # the position table gets a different number from the headline. self.equity() rounds the
+        # unrounded sum once; the report sums the per-position rounded marks, and the two drift by
+        # a cent once enough positions are open.
+        equity = round(self.cash + sum(p["markValue"] for p in positions), 2)
         # Cost basis of what is still open, including the entry fee already paid.
         open_cost = round(sum(p.contracts * p.entry_price + p.fee for p in self.positions.values()), 2)
         unreal = round(equity - self.cash - open_cost, 2)

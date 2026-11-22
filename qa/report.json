@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-11-22T07:55:54Z",
+  "generated_at": "2026-11-22T08:02:20Z",
   "counts": {
     "error": 0,
-    "warn": 4,
+    "warn": 3,
     "info": 8
   },
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
     "docs/desk latest.json: 300 rows, price bounds",
-    "docs/desk/data/alerts.json: 1 alerts",
-    "docs/desk/data/history.json: 62 tracked series, sample length 2",
+    "docs/desk/data/alerts.json: 8 alerts",
+    "docs/desk/data/history.json: 65 tracked series, sample length 4",
     "data/snapshot.json: 8 markets",
     "board data/snapshot.json: 8 rows, price bounds",
     "data/account.json: connected=False",
     "docs/data/snapshot.json: 28 events, partial=True",
     "monitor docs/data/snapshot.json: 207 rows, price bounds",
     "74 HTML pages, 1360 internal references",
-    "tracked files: 332, bytecode/cache artefacts: 0",
+    "tracked files: 329, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 7266 paths"
+    "secret scan: 6973 paths"
   ],
   "findings": [
     {
@@ -32,102 +32,42 @@
         {
           "ticker": "KXAAAGASW-26NOV23-3.6300",
           "problems": [
-            "yes_depth_contracts 10908.16 != ladder sum 10372.16"
-          ]
-        },
-        {
-          "ticker": "KXDSENATESEATS-27-ABOVE52",
-          "problems": [
-            "yes_depth_contracts 80029.84 != ladder sum 73529.84"
+            "yes_depth_contracts 11206.17 != ladder sum 10670.17"
           ]
         },
         {
           "ticker": "KXGAMEAWARDS-2026-GTA",
           "problems": [
-            "yes_depth_contracts 40645.37 != ladder sum 40605.37"
-          ]
-        },
-        {
-          "ticker": "KXBTC15M-26NOV220230-30",
-          "problems": [
-            "yes_depth_contracts 40978.45 != ladder sum 33048.59"
+            "yes_depth_contracts 50444.0 != ladder sum 50404.0"
           ]
         },
         {
           "ticker": "KXBTC50VS100-BTC-26DEC31",
           "problems": [
-            "yes_depth_contracts 9590.62 != ladder sum 9489.62"
+            "yes_depth_contracts 9044.28 != ladder sum 8834.28"
           ]
         },
         {
-          "ticker": "KXBTCD-26NOV2217-T56999.99",
+          "ticker": "KXBTCD-26NOV2203-T58799.99",
           "problems": [
-            "yes_depth_contracts 21983.19 != ladder sum 21823.09"
+            "yes_depth_contracts 15647.3 != ladder sum 13929.3"
+          ]
+        },
+        {
+          "ticker": "KXBTCD-26NOV2203-T58999.99",
+          "problems": [
+            "yes_depth_contracts 7880.34 != ladder sum 6118.14"
+          ]
+        },
+        {
+          "ticker": "KXBTCD-26NOV2203-T58899.99",
+          "problems": [
+            "yes_depth_contracts 22798.43 != ladder sum 21080.43"
           ]
         }
       ],
       "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
       "action": "Recompute from the raw payload or blank the derived field."
-    },
-    {
-      "id": "DERIVED-1",
-      "severity": "warn",
-      "code": "DERIVED",
-      "title": "Estimated 24h notional was computed from a different price than the row prints",
-      "detail": "24h volume x the row's own price differs from the printed estimate on 15 row(s); the largest gap is 32.2%, on a 15-minute crypto market where the quote moved far between the two reads. The implied price is an earlier mid, so the notional was fixed before the row's quote was refreshed. On slow markets the error is a cent or two; on fast ones it is material.",
-      "count": 15,
-      "examples": [
-        {
-          "ticker": "KXAAAGASW-26NOV23-3.6350",
-          "volume_24h": 89765.86,
-          "printed_price": 0.3,
-          "implied_price_used": 0.29,
-          "stated": 26032.1,
-          "recomputed": 26929.76
-        },
-        {
-          "ticker": "KXOSCARNOMPIC-27-PRO",
-          "volume_24h": 4933.57,
-          "printed_price": 0.705,
-          "implied_price_used": 0.7,
-          "stated": 3453.5,
-          "recomputed": 3478.17
-        },
-        {
-          "ticker": "KXRT-IPL-89",
-          "volume_24h": 3750.18,
-          "printed_price": 0.405,
-          "implied_price_used": 0.4,
-          "stated": 1500.07,
-          "recomputed": 1518.82
-        },
-        {
-          "ticker": "KXBTC15M-26NOV220230-30",
-          "volume_24h": 784790.55,
-          "printed_price": 0.295,
-          "implied_price_used": 0.435,
-          "stated": 341383.89,
-          "recomputed": 231513.21
-        },
-        {
-          "ticker": "KXBTC50VS100-BTC-26DEC31",
-          "volume_24h": 461274.64,
-          "printed_price": 0.39,
-          "implied_price_used": 0.4,
-          "stated": 184509.86,
-          "recomputed": 179897.11
-        },
-        {
-          "ticker": "KXETH15M-26NOV220230-30",
-          "volume_24h": 40138.47,
-          "printed_price": 0.735,
-          "implied_price_used": 0.705,
-          "stated": 28297.62,
-          "recomputed": 29501.78
-        }
-      ],
-      "source": "docs/desk/data/latest.json",
-      "action": "Recompute the estimate after the final quote is applied, or label it as measured at an earlier time. The direction of the number is unaffected; the exact dollar figure is."
     },
     {
       "id": "STATUS-1",
@@ -234,8 +174,8 @@
       "id": "FRESH-1",
       "severity": "info",
       "code": "FRESH",
-      "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
-      "detail": "0.57 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "title": "docs/desk/data/latest.json captured 2026-11-22T07:54:39Z",
+      "detail": "0.13 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -246,7 +186,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.93 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "1.04 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",
