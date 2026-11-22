@@ -1126,3 +1126,13 @@ depended on the committed copy.
 results, 1 alert (`KXRT-HUN-67`, −$0.135), paper book 12 open / 0 closed at $996.76 equity. The Node
 board's `data/live/state.json` still has `updatedAt: null` — its scheduled collector has not run yet, so
 the board shows an explicitly labelled empty state rather than numbers. Both are honest, neither blocks.
+
+**2026-11-22 07:42 UTC — release record (session `arena/daf65d06-tradebot1`).**
+
+| Item | Result |
+| - | - |
+| Integration PR | **#15** — <https://github.com/kanlerxz87-cyber/Tradebot1/pull/15> — MERGED 2026-11-22T07:42:15Z, merge commit `5a67b0f` |
+| What it carried | the engine site (`docs/engine/`), the audit-driven landing page and its live metrics, the verified fee model, `tools/check_gateway.py`, and the union of every earlier session's board entry |
+| Pages deploy | `pages-build-deployment` on `main` succeeded; <https://kanlerxz87-cyber.github.io/Tradebot1/> serves the live-status landing page with 300 contracts, 1 swing ≥ $0.10, 308 settled markets and $996.76 paper equity, each read from the committed snapshot |
+| Follow-up fix | **PR #35** regenerates `docs/audit/data/audit.json` — the merge changed the desk data the audit embeds, so `CI / audit` and `Pages / build` failed on stale audit data until it was rebuilt |
+| Merge protocol | every branch was merged into this one with `git merge` (never a rebase over another session's commits); conflicts were resolved by regenerating generated files from templates + data and by appending both sides of every log, never by dropping a session's content |
