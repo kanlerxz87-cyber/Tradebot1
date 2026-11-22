@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalshi Live Desk — gas, elections, culture, crypto, golf</title>
+<meta name="description" content="Live Kalshi desk: five topics only, $0.10 swing alerts in two scrolling chats, price chart by seconds/minutes/hours, order-book liquidity, a simulated book with per-strategy analytics and resolution tracking.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="mark">◆</span>
+    <span class="brand-text">KALSHI <em>/ LIVE DESK</em></span>
+  </div>
+  <nav class="topnav" aria-label="Sections">
+    <a href="#events">Events</a>
+    <a href="#chart">Chart</a>
+    <a href="#book">Liquidity</a>
+    <a href="#portfolio">Portfolio</a>
+    <a href="#analysis">Analysis</a>
+    <a href="#resolution">Resolution</a>
+  </nav>
+  <div class="status">
+    <span id="modeBadge" class="badge mode">connecting</span>
+    <span id="clock" class="clock">--:--:--</span>
+    <span id="conn" class="conn" title="Event stream">●</span>
+  </div>
+</header>
+
+<div id="modeBanner" class="banner" hidden>
+  <strong id="bannerTitle">SIMULATED</strong>
+  <span id="bannerText"></span>
+</div>
+
+<main>
+  <section class="kpis" id="kpis" aria-label="Key figures">
+    <div class="kpi"><label>Est. 24h notional</label><strong id="kpiNotional">—</strong><small>price × 24h contracts, derived</small></div>
+    <div class="kpi"><label>Markets tracked</label><strong id="kpiMarkets">—</strong><small id="kpiMarketsFoot">five topics only</small></div>
+    <div class="kpi"><label>Alerts · last hour</label><strong id="kpiAlerts">—</strong><small>≥ $0.10 moves</small></div>
+    <div class="kpi"><label>Largest move</label><strong id="kpiBiggest">—</strong><small id="kpiBiggestFoot">this session</small></div>
+    <div class="kpi"><label>Sim equity</label><strong id="kpiEquity">—</strong><small id="kpiEquityFoot">starts at $1,000</small></div>
+    <div class="kpi"><label>Open / closed</label><strong id="kpiPositions">—</strong><small id="kpiPositionsFoot">auto strategy book</small></div>
+  </section>
+
+  <section class="split" id="events">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2>Highest-dollar live events</h2>
+          <p>Grouped by event inside each topic, ranked by estimated 24h traded dollars. Click a contract to chart it.</p>
+        </div>
+        <span class="stamp" id="snapshotStamp">—</span>
+      </div>
+      <div class="tabs" id="topicTabs" role="tablist"></div>
+      <div class="table-wrap">
+        <table class="market-table">
+          <thead>
+            <tr>
+              <th scope="col">Event / contract</th>
+              <th scope="col" class="num">YES bid</th>
+              <th scope="col" class="num">YES ask</th>
+              <th scope="col" class="num">Mid</th>
+              <th scope="col" class="num">24h vol</th>
+              <th scope="col" class="num">Est. 24h $</th>
+              <th scope="col" class="num">At best</th>
+              <th scope="col">Source</th>
+            </tr>
+          </thead>
+          <tbody id="marketRows">
+            <tr><td colspan="8" class="empty">Loading the captured snapshot…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <aside class="feeds">
+      <div class="panel feed">
+        <div class="panel-head compact">
+          <div><h2>All moves <span class="chip live">live</span></h2><p>Every ≥ $0.10 swing, both directions</p></div>
+          <span class="count" id="allCount">0</span>
+        </div>
+        <div class="feed-body" id="allFeed" role="log" aria-live="polite"><p class="empty">Waiting for the first swing…</p></div>
+      </div>
+      <div class="panel feed">
+        <div class="panel-head compact">
+          <div><h2>Model picks <span class="chip model">filtered</span></h2><p>Same moves, score ≥ 55 · not a forecast</p></div>
+          <span class="count" id="modelCount">0</span>
+        </div>
+        <div class="feed-body" id="modelFeed" role="log" aria-live="polite"><p class="empty">No screened move yet.</p></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="split" id="chart">
+    <div class="panel">
+      <div class="panel-head">
+        <div>
+          <h2 id="chartTitle">Contract</h2>
+          <p id="chartSub">Select a contract above.</p>
+        </div>
+        <div class="ranges" id="ranges" role="group" aria-label="Chart window">
+          <button data-seconds="30">30s</button>
+          <button data-seconds="60">1m</button>
+          <button data-seconds="300" class="active">5m</button>
+          <button data-seconds="900">15m</button>
+          <button data-seconds="3600">1h</button>
+          <button data-seconds="14400">4h</button>
+        </div>
+      </div>
+      <div class="chart-shell">
+        <canvas id="chartCanvas" height="280" aria-label="Contract mid-price by time" role="img"></canvas>
+        <p class="chart-note" id="chartNote">Waiting for observations.</p>
+      </div>
+      <div class="chart-meta" id="chartMeta"></div>
+    </div>
+    <div class="panel" id="book">
+      <div class="panel-head">
+        <div><h2>Liquidity</h2><p>Contracts resting at each price · bids only, as the API returns them</p></div>
+        <a class="link" id="bookSource" href="https://docs.kalshi.com/getting_started/orderbook_responses" rel="noopener noreferrer">docs ↗</a>
+      </div>
+      <div id="bookBody" class="book"></div>
+      <p class="fineprint">An ask is the complement of the opposite side's bid: YES ask = $1 − best NO bid. Depth is what is resting now, not what will fill you.</p>
+    </div>
+  </section>
+
+  <section class="panel" id="portfolio">
+    <div class="panel-head">
+      <div>
+        <h2>Simulated book</h2>
+        <p>Four automatic rules trade the alert stream. Equity starts at $1,000, risk 2% per trade, 12 open positions maximum, spread and fee paid on entry.</p>
+      </div>
+      <div class="folio-stats" id="folioStats"></div>
+    </div>
+    <div class="split-inner">
+      <div class="equity-shell">
+        <canvas id="equityCanvas" height="170" aria-label="Simulated equity by time" role="img"></canvas>
+        <p class="fineprint">Equity curve of the simulated book. Not a real account, not the Kalshi demo account.</p>
+      </div>
+      <div class="table-wrap">
+        <table class="market-table small">
+          <thead><tr><th scope="col">Strategy</th><th scope="col">Contract</th><th scope="col" class="num">Entry</th><th scope="col" class="num">Mark</th><th scope="col" class="num">P&amp;L</th><th scope="col">Open</th></tr></thead>
+          <tbody id="positionRows"><tr><td colspan="6" class="empty">No open positions yet.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" id="analysis">
+    <div class="panel-head">
+      <div><h2>Results by trade type</h2><p>Closed simulated trades grouped four ways. Every row is computed from trades this process actually made; an empty row means it has made none.</p></div>
+      <div class="tabs small" id="analysisTabs">
+        <button data-group="byStrategy" class="active">Strategy</button>
+        <button data-group="byTopic">Topic</button>
+        <button data-group="byPriceBand">Price band</button>
+        <button data-group="byExitReason">Exit</button>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="market-table small">
+        <thead><tr><th scope="col">Group</th><th scope="col" class="num">Trades</th><th scope="col" class="num">Win rate</th><th scope="col" class="num">P&amp;L</th><th scope="col" class="num">Avg P&amp;L</th><th scope="col" class="num">Avg hold (h)</th></tr></thead>
+        <tbody id="analysisRows"><tr><td colspan="6" class="empty">No closed trades yet — strategies exit on take-profit, stop-loss or a time stop, so this fills within minutes.</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="split" id="resolution">
+    <div class="panel">
+      <div class="panel-head">
+        <div><h2>Resolution watch</h2><p>Tracked until Kalshi finalises the market. The result column is filled only from Kalshi's own <code>result</code> field.</p></div>
+        <a class="link" href="https://docs.kalshi.com/getting_started/market_lifecycle" rel="noopener noreferrer">lifecycle ↗</a>
+      </div>
+      <div class="table-wrap">
+        <table class="market-table small">
+          <thead><tr><th scope="col">Contract</th><th scope="col">Topic</th><th scope="col" class="num">Closes in</th><th scope="col">Status</th><th scope="col">Result</th></tr></thead>
+          <tbody id="watchRows"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-head">
+        <div><h2>Resolved</h2><p>Terminal states only. A closed market awaiting determination is not a resolution.</p></div>
+        <span class="count" id="resolvedCount">0</span>
+      </div>
+      <div class="table-wrap">
+        <table class="market-table small">
+          <thead><tr><th scope="col">Contract</th><th scope="col">Status</th><th scope="col">Result</th><th scope="col">Recorded</th></tr></thead>
+          <tbody id="resolvedRows"><tr><td colspan="4" class="empty">Nothing has finalised in the captured snapshot yet.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel disclosure">
+    <h2>What this page is, exactly</h2>
+    <div id="limits" class="limits"></div>
+    <p class="fineprint" id="sourceLine"></p>
+    <p class="fineprint">
+      Official sources:
+      <a href="https://docs.kalshi.com/getting_started/api_environments" rel="noopener noreferrer">environments</a> ·
+      <a href="https://docs.kalshi.com/getting_started/orderbook_responses" rel="noopener noreferrer">order book</a> ·
+      <a href="https://docs.kalshi.com/getting_started/market_lifecycle" rel="noopener noreferrer">lifecycle</a> ·
+      <a href="https://docs.kalshi.com/getting_started/fees" rel="noopener noreferrer">fees</a> ·
+      <a href="https://docs.kalshi.com/getting_started/quick_start_websockets" rel="noopener noreferrer">WebSocket</a>.
+      Repository:
+      <a href="https://github.com/kanlerxz87-cyber/Tradebot1" rel="noopener noreferrer">github.com/kanlerxz87-cyber/Tradebot1</a>.
+      Cross-implementation audit: <a href="qa.html">qa.html</a> on the published site.
+    </p>
+  </section>
+</main>
+
+<footer class="foot">
+  <span>Kalshi demo environment · research and simulation only · no orders, no credentials</span>
+  <span id="tickLine">—</span>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

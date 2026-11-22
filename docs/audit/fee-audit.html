@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Official-source audit — fee model and series fields</title>
+<meta name="description" content="Line-by-line check of the paper fee model and series fields against Kalshi's official fee schedule and Series API, with every row linked to its source.">
+<link rel="stylesheet" href="../desk/assets/css/site.css">
+<style>
+.kpi-num { font-size: 26px; font-weight: 700; margin: 4px 0; font-variant-numeric: tabular-nums; }
+.audit-cards .card { min-height: 0; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="../desk/index.html">Dashboard</a>
+      <a href="../desk/topics/gas-prices.html">Gas</a>
+      <a href="../desk/topics/elections.html">Elections</a>
+      <a href="../desk/topics/culture.html">Culture</a>
+      <a href="../desk/topics/crypto.html">Crypto</a>
+      <a href="../desk/topics/golf.html">Golf</a>
+      <a href="../desk/portfolio.html">Portfolio</a>
+      <a href="../desk/verification.html">Verification</a>
+      <a class="active" href="fee-audit.html">Fee audit</a>
+      <a href="../desk/flagged.html">Flagged</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Fee model and series fields — official-source audit</h1>
+  <p class="page-sub">
+    Checked 2026-11-22 (UTC). Every row links the official page or endpoint it came from. A value Kalshi did not state is left out
+    and listed under <a href="#unverified">Not verified</a>. Nothing here is a trading recommendation.
+  </p>
+
+  <section class="section">
+    <h2>1 · Summary</h2>
+    <div class="grid audit-cards" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr))">
+      <div class="card"><div class="small">Official table rows recomputed</div><div class="kpi-num">21 / 21</div><div class="small">with the repo's <code>fees.taker_fee</code></div></div>
+      <div class="card"><div class="small">Series checked against the official API</div><div class="kpi-num">13</div><div class="small">across gas, golf, crypto, elections, culture</div></div>
+      <div class="card"><div class="small">Series where the repo model is wrong</div><div class="kpi-num">2</div><div class="small">fee_multiplier 0 (no fees)</div></div>
+      <div class="card"><div class="small">Ledger records on those series</div><div class="kpi-num">0</div><div class="small">latent: none traded yet</div></div>
+    </div>
+    <p class="small">Verdict: the taker formula the repo uses is the one Kalshi publishes. The model is still incomplete: it ignores per-series multipliers and maker fills. See section 4.</p>
+  </section>
+
+  <section class="section">
+    <h2>2 · General fee table, line by line</h2>
+    <p class="hint">Each official row was recomputed with <code>kalshi_trader.fees.taker_fee</code> (the function the paper ledger calls). The formula is <code>round up(M × 0.07 × C × P × (1 − P))</code>, M = 1 by default.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Price (1 contract)</th><th>Official fee, 1</th><th>Repo fee, 1</th><th>Official fee, 100</th><th>Repo fee, 100</th><th>Result</th><th>Source</th></tr></thead>
+      <tbody>
+<tr><td>$0.01</td><td>$0.01</td><td>$0.01</td><td>$0.07</td><td>$0.07</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.05</td><td>$0.01</td><td>$0.01</td><td>$0.34</td><td>$0.34</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.10</td><td>$0.01</td><td>$0.01</td><td>$0.63</td><td>$0.63</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.15</td><td>$0.01</td><td>$0.01</td><td>$0.90</td><td>$0.90</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.20</td><td>$0.02</td><td>$0.02</td><td>$1.12</td><td>$1.12</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.25</td><td>$0.02</td><td>$0.02</td><td>$1.32</td><td>$1.32</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.30</td><td>$0.02</td><td>$0.02</td><td>$1.47</td><td>$1.47</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.35</td><td>$0.02</td><td>$0.02</td><td>$1.60</td><td>$1.60</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.40</td><td>$0.02</td><td>$0.02</td><td>$1.68</td><td>$1.68</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.45</td><td>$0.02</td><td>$0.02</td><td>$1.74</td><td>$1.74</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.50</td><td>$0.02</td><td>$0.02</td><td>$1.75</td><td>$1.75</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.55</td><td>$0.02</td><td>$0.02</td><td>$1.74</td><td>$1.74</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.60</td><td>$0.02</td><td>$0.02</td><td>$1.68</td><td>$1.68</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.65</td><td>$0.02</td><td>$0.02</td><td>$1.60</td><td>$1.60</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.70</td><td>$0.02</td><td>$0.02</td><td>$1.47</td><td>$1.47</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.75</td><td>$0.02</td><td>$0.02</td><td>$1.32</td><td>$1.32</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.80</td><td>$0.02</td><td>$0.02</td><td>$1.12</td><td>$1.12</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.85</td><td>$0.01</td><td>$0.01</td><td>$0.90</td><td>$0.90</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.90</td><td>$0.01</td><td>$0.01</td><td>$0.63</td><td>$0.63</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.95</td><td>$0.01</td><td>$0.01</td><td>$0.34</td><td>$0.34</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+<tr><td>$0.99</td><td>$0.01</td><td>$0.01</td><td>$0.07</td><td>$0.07</td><td><span class="chip ok">matches</span></td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">PDF table</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>3 · Series fields from the official Series endpoint</h2>
+    <p class="hint">Fields as returned by <code>GET /trade-api/v2/series/{ticker}</code> on the production host. "Repo topic" is read from <code>docs/desk/data/series.json</code>.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Ticker</th><th>Title (official)</th><th>Category</th><th>Tags</th><th>fee_type</th><th>fee_multiplier</th><th>Last updated</th><th>Repo topic</th><th>Repo model vs official</th><th>Source</th></tr></thead>
+      <tbody>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASM" target="_blank" rel="noopener">KXAAAGASM</a></td><td>US gas price</td><td>Economics</td><td>Oil &amp; Gas, Oil and energy</td><td class="mono">quadratic_with_maker_fees</td><td>1</td><td>2026-11-13</td><td>gas</td><td><span class="chip warn">taker formula consistent; maker fills not modeled</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASM" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPGATOUR" target="_blank" rel="noopener">KXPGATOUR</a></td><td>PGA Tour</td><td>Sports</td><td>Golf</td><td class="mono">quadratic_with_maker_fees</td><td>1</td><td>2026-11-11</td><td>golf</td><td><span class="chip warn">taker formula consistent; maker fills not modeled</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPGATOUR" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXMASTERS" target="_blank" rel="noopener">KXMASTERS</a></td><td>Masters Tournament</td><td>Sports</td><td>Golf</td><td class="mono">quadratic</td><td>1</td><td>2026-09-22</td><td>golf</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXMASTERS" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXUSOPEN" target="_blank" rel="noopener">KXUSOPEN</a></td><td>US Open</td><td>Sports</td><td>Golf</td><td class="mono">quadratic_with_maker_fees</td><td>1</td><td>2026-11-11</td><td>golf</td><td><span class="chip warn">taker formula consistent; maker fills not modeled</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXUSOPEN" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXBTCY" target="_blank" rel="noopener">KXBTCY</a></td><td>BTC price range EOY</td><td>Crypto</td><td>Crypto, BTC, Bitcoin</td><td class="mono">quadratic</td><td>0</td><td>2026-11-13</td><td>crypto</td><td><span class="chip bad">mismatch — repo charges a fee; official: no fee</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXBTCY" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXETHY" target="_blank" rel="noopener">KXETHY</a></td><td>ETH price EOY</td><td>Crypto</td><td>Crypto, Ethereum, ETH</td><td class="mono">quadratic</td><td>0</td><td>2026-11-13</td><td>crypto</td><td><span class="chip bad">mismatch — repo charges a fee; official: no fee</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXETHY" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXBTC15M" target="_blank" rel="noopener">KXBTC15M</a></td><td>BTC 15 min</td><td>Crypto</td><td>Crypto, BTC, 15 min, Bitcoin</td><td class="mono">quadratic</td><td>1</td><td>2026-11-13</td><td>crypto</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXBTC15M" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXBTCD" target="_blank" rel="noopener">KXBTCD</a></td><td>Bitcoin price Above/below</td><td>Crypto</td><td>Crypto, Hourly, BTC, Bitcoin</td><td class="mono">quadratic</td><td>1</td><td>2026-11-13</td><td>crypto</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXBTCD" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/PRES" target="_blank" rel="noopener">PRES</a></td><td>Presidential elections</td><td>Elections</td><td>US Elections</td><td class="mono">quadratic</td><td>1</td><td>2026-10-07</td><td>elections</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/PRES" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPRESNOMD" target="_blank" rel="noopener">KXPRESNOMD</a></td><td>Democratic Primary winner</td><td>Elections</td><td>2028, Nomination race, US Elections</td><td class="mono">quadratic</td><td>1</td><td>2026-11-19</td><td>elections</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPRESNOMD" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/CONTROLH" target="_blank" rel="noopener">CONTROLH</a></td><td>House winner</td><td>Elections</td><td>House control, House, US Elections</td><td class="mono">quadratic</td><td>1</td><td>2026-11-13</td><td>elections</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/CONTROLH" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXFIRSTSUPERBOWLSONG" target="_blank" rel="noopener">KXFIRSTSUPERBOWLSONG</a></td><td>What will be the first Super Bowl Song played during halfitme?</td><td>Entertainment</td><td>Live Music</td><td class="mono">quadratic</td><td>1</td><td>2026-10-27</td><td>culture</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXFIRSTSUPERBOWLSONG" target="_blank" rel="noopener">official API</a></td></tr>
+<tr><td class="mono"><a href="https://external-api.kalshi.com/trade-api/v2/series/KXRT" target="_blank" rel="noopener">KXRT</a></td><td>Rotten Tomatoes Scores</td><td>Entertainment</td><td>Rotten Tomatoes</td><td class="mono">quadratic</td><td>1</td><td>2026-11-17</td><td>culture</td><td><span class="chip ok">consistent with repo model</span></td><td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXRT" target="_blank" rel="noopener">official API</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>4 · Irregularities and requests for review</h2>
+    <p class="hint">Owned by other sessions, so this page records them rather than editing their files. Scope requests are also logged in <code>COORDINATION.md</code>.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Status</th><th>Item</th><th>Finding</th><th>Requested action (owner)</th><th>Sources</th></tr></thead>
+      <tbody>
+<tr><td><span class="chip warn">review</span></td><td><b>Fee model ignores per-series fee_multiplier</b></td><td>The paper book applies one global formula to every series. The official Series endpoint returns <code>fee_multiplier: 0</code> for <code>KXBTCY</code> and <code>KXETHY</code>, and the official schedule lists both as <b>no fees</b>. Ledger records on these series: <b>0</b> (fees charged: $0.00). The impact is latent, not current.</td><td>e3e5f70f: read <code>fee_multiplier</code> per series in <code>kalshi_trader/fees.py</code> / <code>paper.py</code>.</td><td><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener">link 1</a> · <a href="https://kalshi.com/fee-schedule" target="_blank" rel="noopener">link 2</a></td></tr>
+<tr><td><span class="chip warn">review</span></td><td><b>Flag F1 says the fee schedule could not be retrieved — it can now</b></td><td>Kalshi's fee schedule PDF ("Last updated and effective: July 7, 2026") and the fee-schedule page ("No upcoming fee changes scheduled") are both retrievable. The general taker formula matches <b>21 of 21</b> official table rows recomputed with the repo's function.</td><td>e3e5f70f: update <code>docs/desk/data/flags.json</code> F1 and <code>fees.VERIFIED</code> with these links, after the per-series change above.</td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">link 1</a> · <a href="https://kalshi.com/fee-schedule" target="_blank" rel="noopener">link 2</a></td></tr>
+<tr><td><span class="chip warn">review</span></td><td><b>Source S10 conflicts with the live Series record</b></td><td>S10 states the gas series has <code>categories [Economics, Commodities]</code>. The glossary's worked example says the same, but it is introduced as an example. The live Series endpoint returns <code>categories: ["Economics"]</code> (the repo's own <code>series.json</code> also stores only Economics).</td><td>e3e5f70f: correct S10 in <code>docs/desk/data/sources.json</code> and <code>docs/desk/verification.html</code>, or cite the live record.</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">link 1</a> · <a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">link 2</a></td></tr>
+<tr><td><span class="chip info">note</span></td><td><b>Maker fees are not modeled</b></td><td>Official maker formula: <code>round up(M × 0.0175 × C × P × (1−P))</code>, default M = 0 unless a series says otherwise. The sampled gas, PGA Tour and US Open series are <code>quadratic_with_maker_fees</code>. The repo defines <code>maker_fee()</code> but nothing calls it; every simulated fill is taker-priced.</td><td>e3e5f70f: state in the paper results that maker fills are excluded, or model them.</td><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">link 1</a> · <a href="https://kalshi.com/fee-schedule" target="_blank" rel="noopener">link 2</a></td></tr>
+<tr><td><span class="chip info">note</span></td><td><b>Rounding mechanics differ in sub-cent detail</b></td><td>The repo rounds each fee up to the cent. Kalshi documents a trade fee rounded up to $0.000001, then a rounding fee and a rebate that align the balance to $0.01 (non-direct members) or $0.0001 (direct). The cent-level result is not shown to be identical for every fill, so this is unverified.</td><td>e3e5f70f: note the difference on the fees page.</td><td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">link 1</a></td></tr>
+<tr><td><span class="chip info">note</span></td><td><b>Confirmed: Golf is the tag 'Golf' under category 'Sports'</b></td><td>KXPGATOUR, KXMASTERS and KXUSOPEN all return <code>category: Sports</code> and <code>tags: ["Golf"]</code>, matching S9.</td><td>No action.</td><td><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener">link 1</a></td></tr>
+<tr><td><span class="chip info">note</span></td><td><b>Confirmed: Entertainment series present for the Culture mapping</b></td><td>KXFIRSTSUPERBOWLSONG and KXRT return <code>category: Entertainment</code>, which the repo's Culture mapping (flag F3) uses.</td><td>No action.</td><td><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener">link 1</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section" id="unverified">
+    <h2>5 · Not verified</h2>
+    <ul>
+      <li>The official <a href="https://kalshi.com/fee-schedule">fee-schedule page</a> lists 160 non-standard series; only the 13 sampled series above were reconciled against the official endpoint. The other tracked series are not checked.</li>
+      <li>Maker-fee table values: the PDF gives the formula (0.0175 × C × P × (1−P)) but no printed maker table rows, so no maker row is recomputed.</li>
+      <li>Demo account balances, positions, fills and fees: no demo credentials exist in this repository, so none were read.</li>
+      <li>Browser access to Kalshi APIs: not tested from this page.</li>
+    </ul>
+  </section>
+
+  <footer class="site">
+    <span>Verification performed 2026-11-22 UTC.</span>
+    <span>·</span><a href="../desk/flagged.html">Flagged for review</a>
+    <span>·</span><a href="../desk/verification.html">Verification log</a>
+    <span>·</span><span>Not investment advice.</span>
+  </footer>
+</main>
+</body>
+</html>

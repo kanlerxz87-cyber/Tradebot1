@@ -5,15 +5,15 @@
     {
       "id": "F1",
       "severity": "warn",
-      "title": "Trading-fee formula is unverified",
-      "detail": "The paper book charges a fee of ceil_to_cent(0.07 × contracts × price × (1 − price)). Kalshi's fee schedule PDF (linked from the fee_type field of GET /series) could not be retrieved during this session, so the formula is only supported by third-party write-ups, not by an official Kalshi document.",
-      "handling": "Every ledger entry is labelled fee_model=quadratic_unverified; the portfolio page states the caveat next to P&L; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them.",
+      "title": "Fee multiplier M is applied as 1 for series not listed in the schedule",
+      "detail": "RESOLVED for the formula. The general and maker formulas are now confirmed against Kalshi's own fee schedule PDF (effective 2026-07-07): taker roundup(0.07 × C × P × (1 − P)), maker roundup(0.0175 × …), and the tests reproduce the PDF's published table (1 contract at $0.50 → $0.02; 100 contracts at $0.50 → $1.75). One part is still approximate: the PDF lists per-series multipliers M and several series carry M = 0 (fee-free). The paper book applies M = 1 unless a series is known to be fee-free, so a fee-free series is charged the default fee.",
+      "handling": "fees.VERIFIED is true and every ledger entry is labelled fee_model=quadratic; the paper book rounds the fee up to the cent, which can only overstate a fee, never understate it; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them.",
       "sources": [
         "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
         "https://docs.kalshi.com/api-reference/market/get-series-list",
         "https://docs.kalshi.com/getting_started/fee_rounding"
       ],
-      "resolve": "Retrieve the current fee schedule PDF and set VERIFIED=True with the published rate in kalshi_trader/fees.py."
+      "resolve": "Encode the full non-standard multiplier table (including the M = 0 fee-free series) in kalshi_trader/fees.py, then re-run the tests."
     },
     {
       "id": "F2",
@@ -79,7 +79,7 @@
       "id": "F7",
       "severity": "info",
       "title": "Alert timing is cycle-resolution, not tick-resolution",
-      "detail": "Kalshi documents that REST market reads are cached briefly and can lag by seconds. The scheduled collector runs every 15 minutes, so a swing is detected between consecutive cycles; the live server and direct mode raise the resolution to seconds.",
+      "detail": "Kalshi documents that REST market reads are cached briefly and can lag by seconds. The scheduled collector runs every 30 minutes, so a swing is detected between consecutive cycles; the live server and direct mode raise the resolution to seconds.",
       "handling": "Every alert records its timestamp, the compared-from price and the basis (midpoint or last), so the detection window is auditable rather than implied.",
       "sources": [
         "https://docs.kalshi.com/getting_started/quick_start_market_data",
@@ -118,7 +118,7 @@
       "sources": [
         "https://docs.github.com/en/pages"
       ],
-      "resolve": "Run the included server for true live streaming, or accept the 15-minute cadence."
+      "resolve": "Run the included server for true live streaming, or accept the 30-minute cadence."
     },
     {
       "id": "F11",

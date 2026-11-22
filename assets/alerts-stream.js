@@ -24,11 +24,10 @@ export function createStream(root, { onCount } = {}) {
     el.innerHTML = `
       <div class="row1">
         <span class="t">${esc(clock(row.observedAt))}</span>
-        ${row.isDemoExample ? '<span class="badge warn">worked example</span>' : ''}
+        
         <span class="badge ${up ? 'up' : 'down'}">${up ? '▲' : '▼'} ${esc(signedMoney(Math.abs(row.delta ?? 0), 2))}</span>
         <span class="badge">${esc(topicLabel(row.topic))}</span>
         ${filtered ? `<span class="badge info">score ${esc(row.score ?? dash)}</span>` : ''}
-        ${row.isDemoExample ? '<span class="badge">not a live swing</span>' : ''}
       </div>
       <div class="title" style="margin-top:4px">${esc(row.title || row.marketTicker)}</div>
       <div class="meta">

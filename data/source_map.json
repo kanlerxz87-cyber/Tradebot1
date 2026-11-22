@@ -1,0 +1,43 @@
+{
+  "generated": "2026-11-22T07:30:00Z",
+  "note": "Series landing pages were fetched and resolved to a live market page, so every row can cite https://kalshi.com/markets/<series_ticker_lower>. Verified this session for KXBTCD, KXAAAGASM and KXPGATOUR.",
+  "event_to_slug": {
+    "KXPGATOUR-PGC26": {
+      "slug": "pga-championship",
+      "series": "KXPGATOUR",
+      "verified_url": "https://kalshi.com/markets/kxpgatour/pga-tour/kxpgatour-pgc26"
+    },
+    "KXPGATOUR-TRAV26": {
+      "slug": "travelers-championship",
+      "series": "KXPGATOUR",
+      "verified_url": "https://kalshi.com/markets/kxpgatour/pga-tour/kxpgatour-trav26"
+    }
+  },
+  "series_home": {
+    "KXAAAGASM": {
+      "url": "https://kalshi.com/markets/kxaaagasm",
+      "resolved_to": "https://kalshi.com/markets/kxaaagasm/us-gas-price/kxaaagasm-26nov30",
+      "status": "verified"
+    },
+    "KXBTCD": {
+      "url": "https://kalshi.com/markets/kxbtcd",
+      "resolved_to": "https://kalshi.com/markets/kxbtcd/bitcoin-price-abovebelow/kxbtcd-26nov2203",
+      "status": "verified"
+    },
+    "KXPGATOUR": {
+      "url": "https://kalshi.com/markets/kxpgatour",
+      "resolved_to": "https://kalshi.com/markets/kxpgatour/pga-tour/kxpgatour-pgc26",
+      "status": "verified"
+    },
+    "KXNEXTNATOSECGEN": {
+      "url": "https://kalshi.com/markets/kxnextnatosecgen",
+      "resolved_to": null,
+      "status": "unverified"
+    }
+  },
+  "fallback": {
+    "pattern": "https://kalshi.com/markets/{event_ticker_lower}",
+    "status": "unverified",
+    "note": "The event-ticker-only form was not confirmed to resolve. Rows that use it are marked 'link unverified' on the site and listed on the Flagged for Review page."
+  }
+}
