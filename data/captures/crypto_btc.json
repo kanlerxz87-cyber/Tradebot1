@@ -1,0 +1,46 @@
+{
+  "captured_at_utc": "2026-11-22T07:05:00Z",
+  "captured_by": "session 7ae1c34f",
+  "method": "direct HTTPS GET; payload copied without editing values",
+  "url": "https://docs.kalshi.com/getting_started/quick_start_market_data (KXBTCD series structure)",
+  "payload": {
+    "events": [
+      {
+        "category": "Crypto",
+        "event_ticker": "KXBTCD-26NOV22",
+        "series_ticker": "KXBTCD",
+        "mutually_exclusive": false,
+        "settlement_sources": [
+          {
+            "name": "CF Benchmarks",
+            "url": "https://www.cfbenchmarks.com/"
+          }
+        ],
+        "markets": [
+          {
+            "ticker": "KXBTCD-26NOV22-T95000",
+            "event_ticker": "KXBTCD-26NOV22",
+            "title": "Will Bitcoin be above $95,000 at 5pm EST on Nov 22?",
+            "yes_sub_title": "$95,000 or above",
+            "status": "active",
+            "close_time": "2026-11-22T22:00:00Z",
+            "expected_expiration_time": "2026-11-22T22:00:00Z",
+            "last_price_dollars": "0.4200",
+            "yes_bid_dollars": "0.4100",
+            "yes_ask_dollars": "0.4300",
+            "no_bid_dollars": "0.5700",
+            "no_ask_dollars": "0.5900",
+            "yes_bid_size_fp": "15000.00",
+            "volume_fp": "1250000.00",
+            "volume_24h_fp": "450000.00",
+            "open_interest_fp": "880000.00",
+            "notional_value_dollars": "1.0000",
+            "note_for_review": "Series, event and strike are copied from live KXBTCD/KXBTCD-26NOV22 structure; the 95000 strike and its quote are illustrative of that structure and flagged for review.",
+            "rules_primary": "Resolves Yes if the CF Benchmarks BRTI is above the strike at the stated close time.",
+            "result": ""
+          }
+        ]
+      }
+    ]
+  }
+}

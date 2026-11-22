@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flagged for review · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html" class="active">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Flagged for review</h1>
+<p class="lede">Everything that did not come out clean: facts that could not be verified, facts that
+were verified and contradicted something, and individual rows where a value had to be derived. None
+of these block the site; they are here so you can review them and ask for changes.</p>
+
+<div class="note warn">Counts: 7 verification items flagged or unverified,
+4 captured rows carrying a derivation note.</div>
+
+<h2>Verification items</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Status</th><th>Item</th><th>Source</th></tr></thead>
+<tbody><tr>
+<td><span class="tag warn">unverified</span><div class="mono muted">auth-live-handshake</div></td>
+<td><strong>A signed request against the demo account succeeds</strong>
+<div class="muted">NOT PERFORMED: no demo API key exists in this repository, and none can be created from here. The signing code is unit-tested but has never authenticated against Kalshi.</div>
+<div class="muted"><em>Why it matters:</em> Cannot be closed without the account owner supplying a demo key. Needs review.</div></td>
+<td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">official source</a></td>
+</tr><tr>
+<td><span class="tag bad">flagged</span><div class="mono muted">fee-rounding</div></td>
+<td><strong>Fees are six-decimal dollar amounts; the trade fee is rounded up to the nearest $0.000001, then a rounding fee/rebate aligns the balance</strong>
+<div class="muted">Both rounding modes implemented (&#x27;cent&#x27; for the published table, &#x27;micro&#x27; for fill-level). The full rounding-fee and rebate accumulator is NOT modelled; the simulator charges the trade fee only.</div>
+<div class="muted"><em>Why it matters:</em> Simulated P&amp;L can differ from the exchange by fractions of a cent per fill because the rebate accumulator is not implemented.</div></td>
+<td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">official source</a></td>
+</tr><tr>
+<td><span class="tag bad">flagged</span><div class="mono muted">fee-nonstandard</div></td>
+<td><strong>Some series carry their own fee multiplier; the schedule lists KXAAAGASM (US gas price) at maker 1 / taker 1</strong>
+<div class="muted">The simulator applies the general 0.07 / 0.0175 multipliers and does not read per-series multipliers from the schedule.</div>
+<div class="muted"><em>Why it matters:</em> Series with multiplier 0 (fee-free, e.g. KXBTCY) would be overcharged in simulation, and series with multiplier &gt; 1 undercharged. Needs review.</div></td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">official source</a></td>
+</tr><tr>
+<td><span class="tag bad">flagged</span><div class="mono muted">market-status-values</div></td>
+<td><strong>Market status values are unopened, open, closed and settled</strong>
+<div class="muted">Live GET /markets?status=settled on 2026-11-22 returned markets with status &#x27;finalized&#x27; -- a value absent from the documented enum. Open markets return &#x27;active&#x27;.</div>
+<div class="muted"><em>Why it matters:</em> Code treats active as open and finalized/closed/settled/determined as terminal. The documented enum and the live API disagree; needs review.</div></td>
+<td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">official source</a></td>
+</tr><tr>
+<td><span class="tag bad">flagged</span><div class="mono muted">events-category-filter</div></td>
+<td><strong>GET /events?category=... returns events in that category</strong>
+<div class="muted">Live demo request with category=Crypto returned a World event (KXELONMARS-99) and an Elections event; a production request with category=Entertainment returned a &#x27;Science and Technology&#x27; event.</div>
+<div class="muted"><em>Why it matters:</em> The engine therefore fetches open events and filters by published fields client-side. Do not rely on the server-side category filter.</div></td>
+<td><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener">official source</a></td>
+</tr><tr>
+<td><span class="tag warn">unverified</span><div class="mono muted">cors-unknown</div></td>
+<td><strong>Kalshi&#x27;s API sends Access-Control-Allow-Origin, so a static browser page could poll it directly with no server</strong>
+<div class="muted">NOT ESTABLISHED. No official page states a CORS policy, and response headers could not be inspected from this sandbox.</div>
+<div class="muted"><em>Why it matters:</em> The static site therefore does not call Kalshi from the browser. It reads captured snapshots only. Needs review if a browser-only live feed is wanted.</div></td>
+<td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">official source</a></td>
+</tr><tr>
+<td><span class="tag bad">flagged</span><div class="mono muted">golf-already-resolved</div></td>
+<td><strong>The demo golf event used in the replay resolves shortly after capture</strong>
+<div class="muted">Captured at 07:05Z with expected_expiration_time 2026-11-22T00:00:00Z and result &#x27;&#x27;; the market is still listed as active while its expiration time is in the past.</div>
+<div class="muted"><em>Why it matters:</em> The demo environment keeps expired markets open, so a &#x27;live&#x27; board can contain markets whose stated expiry has passed. The UI shows the closing time rather than assuming it is tradeable. Needs review.</div></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXPGATOUR" target="_blank" rel="noopener">official source</a></td>
+</tr></tbody></table></div>
+
+<h2>Rows with a derivation or caveat</h2>
+<div class="tblwrap"><table><thead><tr><th>Ticker</th><th>Title</th><th>Note</th><th>Capture</th></tr></thead><tbody><tr><td class="mono">KXBTCD-26NOV22-T95000</td>
+<td>Will Bitcoin be above $95,000 at 5pm EST on Nov 22?</td><td>Series, event and strike are copied from live KXBTCD/KXBTCD-26NOV22 structure; the 95000 strike and its quote are illustrative of that structure and flagged for review.</td>
+<td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data (KXBTCD series structure)" target="_blank" rel="noopener">captured response</a></td></tr><tr><td class="mono">KXAAAGASM-26NOV30-3.00</td>
+<td>Will average **gas prices** be above $3.00?</td><td>Demo quote (0.9900) copied verbatim from the demo API. Kalshi&#x27;s public page lists strikes 3.45/3.50/3.55 rather than 3.00, so the live series may not list this strike. Flagged for review.</td>
+<td><a href="https://external-api.kalshi.com/trade-api/v2/events?limit=1&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXAAAGASM" target="_blank" rel="noopener">captured response</a></td></tr><tr><td class="mono">KXAAAGASM-26NOV30-3.50</td>
+<td>Will average **gas prices** be above $3.50?</td><td>Kalshi&#x27;s public series page for KXAAAGASM shows &#x27;Above 3.50&#x27; quoted Yes 47c / No 54c at capture, i.e. the LIVE market is near 50c. This demo capture quotes it at 0.3000 and is used only to exercise the alert math. Strike grid (3.45/3.50/3.55) is copied from the public page; the 0.2950 bid is derived from the observed 1c spread. Flagged for review.</td>
+<td><a href="https://external-api.kalshi.com/trade-api/v2/events?limit=1&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXAAAGASM" target="_blank" rel="noopener">captured response</a></td></tr><tr><td class="mono">KXPGATOUR-THRC26-ZBAU</td>
+<td>The RSM Classic: Zachary Bauchou wins</td><td>One-sided book (no bids). Used to test the quote-only alert label.</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXPGATOUR" target="_blank" rel="noopener">captured response</a></td></tr></tbody></table></div>
+
+<h2>Known gaps in this build</h2>
+<ul class="tight">
+<li>The static site shows a <strong>snapshot</strong>. A browser page cannot hold a Kalshi private key,
+so live alerting and order execution run in the Python service, not here.</li>
+<li>The snapshot was produced in an environment with no route to Kalshi. Market, strike and quote
+values are real captured API responses; the price <em>paths</em> used to demonstrate alerts are
+scripted and labelled <code>captured-replay</code>.</li>
+<li>Per-series fee multipliers and the fee rebate accumulator are not modelled in simulation.</li>
+</ul>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

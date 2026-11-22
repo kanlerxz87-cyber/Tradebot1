@@ -320,3 +320,53 @@ Scope is integration-only: no new dashboard, no rewrite of `docs/desk/`, `docs/`
 3. `docs/desk/data/paper.json`: 12 open paper positions, 0 closed trades, equity $998.47 on $1,000 — consistent with a book opened in the first cycles and not yet settled. Not a bug.
 4. Four parallel implementations now exist (`docs/desk/`, `docs/`, root `board.html`, `site/`) plus PR #10's `docs/engine/` pending. Gateway `index.html` lists three + archive; if PR #10 merges, a fifth card is needed (PR #10 already adds one — verify on merge).
 
+---
+
+# Session `arena-7ae1c34f` — live engine, verification register and `docs/engine/`
+
+Fourth independent implementation of the same brief. Scope: **`app/**`, `engine/**`, `data/**`,
+`tests/test_*.py` (engine fixtures/collector/topics/site), `requirements.txt`, and the published site
+under **`docs/engine/`**. Nothing from `docs/desk/`, `docs/` (monitor), `site/` or `python/` was
+rewritten; the only shared files touched are this board, the root gateway `index.html` (one added
+card) and `requirements.txt` / `.gitignore` (conflict resolution keeping both sessions' lines).
+
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Live engine: Kalshi REST/WS client, orderbook maths, fee model, swing alerts, resolution tracking, strategy simulator, FastAPI dashboard | done | `7ae1c34f` | `app/**`, `.venv`-independent tests | 111 Python tests pass. Fee implementation reproduces all 42 published fee-table values. |
+| Verification register | done | `7ae1c34f` | `engine/verification.py`, `data/verification.json`, `docs/engine/verification.html` | 39 facts: **32 verified** with an official source link each, **5 flagged**, **2 unverified**. |
+| Static site from the engine's own data | done | `7ae1c34f` | `engine/build_site.py`, `engine/check_site.py`, `docs/engine/**` | `engine/check_site.py` fails on a broken link, an unsourced table row or an unrendered template. Every topic row links to `https://kalshi.com/markets/<series>` (verified for KXBTCD, KXAAAGASM, KXPGATOUR). |
+
+## Findings from this session worth cross-checking against the other sites
+
+* **No Gas and no Culture category exists** in Kalshi's `tags_by_categories`; Golf is a *Sports* tag and
+  Oil & Gas a *Commodities* tag. Those two topics must be derived, and each row records the rule used.
+* **Gas markets are filed as `Economics`**, not Commodities.
+* **`?category=` does not filter** `/events` — a `Crypto` request returned World and Elections events.
+* **Documented market status values are wrong in practice**: live responses use `active` and
+  `finalized` where the docs say `open` and `settled`.
+* **A one-sided book reads as a 100-cent collapse** (`no_bid 0.0000` beside `yes_ask 1.0000`); a naive
+  ask-watcher would fire constant false ≥ $0.10 alerts. The engine requires a two-sided uncrossed book
+  for a mid, else falls back to the last trade, else the best bid, and labels quote-only moves.
+* **Demo quotes are placeholders and disagree with production**: demo `KXAAAGASM-26NOV30-3.00` showed
+  99c while Kalshi's public page showed "Above 3.50" at 47c with strikes 3.45/3.50/3.55.
+* **`KXMVE…` combo markets** span unrelated legs (NFL props + European soccer); excluded from topic
+  boards.
+
+## Not verified / flagged (published on `docs/engine/flagged.html`)
+
+No demo API key exists here, so signing is unit-tested but has never authenticated; the WS handshake
+is implemented, never observed; browser CORS is undocumented. Per-series fee multipliers and the fee
+rounding rebate accumulator are not modelled. The `docs/engine/` snapshot is labelled
+`captured-replay` on every page because the build environment has no route to Kalshi.
+
+## Log
+
+* **2026-11-22 07:52** — wired `engine/check_site.py` and a reproducible rebuild of `docs/engine`
+  into `.github/workflows/pages.yml` as its own step, so the engine site cannot regress to a broken
+  link or an unsourced row without failing the build. Verified locally: `docs/engine` is byte-identical
+  to a fresh build from `docs/engine/data`.
+* **2026-11-22 07:45** — merged `origin/main` into `arena/7ae1c34f-tradebot1`. Conflicts:
+  `COORDINATION.md`, `requirements.txt`, `.gitignore` (add/add) and three test files whose names
+  collide with the desk's tests. Resolved by keeping the desk's modules and test files intact and
+  keeping this session's engine tests under their own modules; `requirements.txt` and `.gitignore`
+  contain both sets of lines. **No other session's work was discarded.**
