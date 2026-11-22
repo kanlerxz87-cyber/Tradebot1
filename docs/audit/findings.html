@@ -64,7 +64,7 @@
   <p><strong>Impact.</strong> 'Track events until they resolve' could not work while every settled query was rejected, and an empty resolution table looks like a quiet week rather than an error.</p>
   <p><strong>Correction.</strong> The sweep now sends min_settled_ts with status=settled. A parallel session reached the same conclusion from the same table and landed the one-line change on main first (PR #16, with a per-topic series sweep and the same integer assertion); this branch therefore keeps main's implementation and its test rather than duplicating the edit. What this audit adds is the official statement behind it and a re-check that runs on every build.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:652</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:181</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:702</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:652</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:181</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:747</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>True,False,int</code> against expected <code>True,False,int</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></p>
   
@@ -105,18 +105,18 @@
 <article class="finding" id="AUD-06">
   <header>
     <span class="mono id">AUD-06</span>
-    <span class="pill st-open">Open — flagged</span> <span class="pill sev-medium">medium</span>
-    <h3>The browser monitor still files elections on a deprecated field</h3>
+    <span class="pill st-fixed">Fixed, re-checked on every build</span> <span class="pill sev-medium">medium</span>
+    <h3>Monitor uses series metadata instead of deprecated event category</h3>
   </header>
-  <p>docs/assets/core.mjs decides the 'elections' topic with event.category. Get Events marks category deprecated and points to the series-level category, and the EventData schema does not list category as required. If the field is absent this rule never matches and elections events are silently dropped from that monitor, with no error to notice.</p>
-  <p><strong>Impact.</strong> One of the five briefed topics can go empty on docs/ without any visible failure. The desk and the board discover elections through series metadata and are unaffected.</p>
+  <p>The earlier monitor relied on event.category. The integrated monitor now joins series metadata and uses that metadata for topic classification; missing or ambiguous metadata is excluded and flagged rather than guessed.</p>
+  <p><strong>Impact.</strong> The former event-category-only failure is corrected. Complete taxonomy coverage remains unverified.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>docs/assets/core.mjs:14</code> — the deprecated read<pre>String(event?.category || '')</pre></li></ul>
+  <ul class="evidence"><li><code>docs/assets/core.mjs:16</code> — series-level metadata used by topic classification<pre>const metadata = event?.series_metadata || {};</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">VF-21</a></p>
   
-  <p class="src"><strong>Re-check it yourself:</strong> Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own.</p>
+  <p class="src"><strong>Re-check it yourself:</strong> Inspect the series join in docs/assets/app.mjs and classification in docs/assets/core.mjs; run Node topic tests. Full topic coverage remains flagged.</p>
 </article>
 <article class="finding" id="AUD-07">
   <header>
@@ -234,7 +234,7 @@
 </main>
 <footer class="wrap">
   <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
-  5 finding(s) fixed and re-checked, 6 published as open,
+  6 finding(s) fixed and re-checked, 5 published as open,
   2 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
   <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
      <a href="../desk/flagged.html">Desk flags</a> ·
