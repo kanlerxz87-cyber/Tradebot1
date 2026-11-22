@@ -56,6 +56,29 @@ def _load_captures() -> dict[str, dict]:
     return out
 
 
+def series_catalog(captures: dict[str, dict] | None = None) -> list[dict]:
+    """Series captured without an open market (catalogued, currently unlisted).
+
+    Shown as a catalogue rather than dropped, and never turned into a fake
+    market row: an awards-ceremony series with no open market has no price, and
+    a price would have to be invented.
+    """
+    captures = captures if captures is not None else _load_captures()
+    out = []
+    for key, capture in captures.items():
+        for series in (capture.get("payload") or {}).get("series") or []:
+            out.append({
+                "ticker": series.get("ticker"),
+                "title": series.get("title"),
+                "category": series.get("category"),
+                "tags": series.get("tags") or [],
+                "capture_url": capture.get("url"),
+                "captured_at_utc": capture.get("captured_at_utc"),
+                "note": capture.get("note_for_review"),
+            })
+    return out
+
+
 def _iter_markets(capture: dict):
     payload = capture.get("payload") or {}
     events = payload.get("events")
@@ -109,7 +132,7 @@ def build_replay(store: Store, settings: Settings, *, steps: int = 6,
                 "result": market.get("result") or None,
                 "settlement_value": market.get("settlement_value_dollars"),
                 "rules_primary": market.get("rules_primary"),
-                "page_url": topic_page_url(event.get("event_ticker")),
+                "page_url": topic_page_url(event.get("event_ticker"), series),
                 "volume_fp": str(market.get("volume_fp") or "0"),
                 "open_interest_fp": str(market.get("open_interest_fp") or "0"),
                 "last_price": market.get("last_price_dollars"),

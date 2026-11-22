@@ -302,7 +302,7 @@ class Collector:
             "result": market.get("result") or None,
             "settlement_value": market.get("settlement_value_dollars") or None,
             "rules_primary": market.get("rules_primary"),
-            "page_url": topic_page_url(market.get("event_ticker") or event.get("event_ticker")),
+            "page_url": topic_page_url(market.get("event_ticker") or event.get("event_ticker"), series),
             "volume_fp": str(volume),
             "open_interest_fp": str(oi),
             "last_price": str(last) if last is not None else None,

@@ -163,13 +163,17 @@ def match_topic(
     return TopicMatch("other", "none", "No published Kalshi field maps to the tracked topics")
 
 
-def topic_page_url(event_ticker: str | None) -> str | None:
+def topic_page_url(event_ticker: str | None, series_ticker: str | None = None) -> str | None:
     """Public kalshi.com URL for manual review.
 
-    kalshi.com market pages live under /markets/<series>/<slug>/<event>; the
-    series slug is not returned by the API, so we link the stable event search
-    path, which resolves for any ticker.
+    `https://kalshi.com/markets/<series_ticker>` was fetched for KXBTCD, KXAAAGASM
+    and KXPGATOUR during this session and resolved to a live market page each
+    time, so it is the verified form. The event-ticker-only form is NOT verified
+    to resolve; when only an event ticker is known the caller gets a link that is
+    labelled unverified on the site.
     """
+    if series_ticker:
+        return f"https://kalshi.com/markets/{series_ticker.lower()}"
     if not event_ticker:
         return None
     return f"https://kalshi.com/markets/{event_ticker.lower()}"

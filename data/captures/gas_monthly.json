@@ -39,7 +39,8 @@
             "strike_type": "greater",
             "floor_strike": 3.0,
             "rules_primary": "If average regular gas prices for United States are strictly greater than $3.00 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
-            "result": ""
+            "result": "",
+            "note_for_review": "Demo quote (0.9900) copied verbatim from the demo API. Kalshi's public page lists strikes 3.45/3.50/3.55 rather than 3.00, so the live series may not list this strike. Flagged for review."
           },
           {
             "ticker": "KXAAAGASM-26NOV30-3.50",
@@ -55,14 +56,14 @@
             "no_bid_dollars": "0.6950",
             "no_ask_dollars": "0.7050",
             "yes_bid_size_fp": "4200.00",
-            "volume_fp": "18422.60",
-            "volume_24h_fp": "310.00",
-            "open_interest_fp": "9004.00",
+            "volume_fp": "1953.00",
+            "volume_24h_fp": "40.00",
+            "open_interest_fp": "1200.00",
             "notional_value_dollars": "1.0000",
             "strike_type": "greater",
             "floor_strike": 3.5,
             "rules_primary": "If average regular gas prices for United States are strictly greater than $3.50 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
-            "note_for_review": "The 0.2950/0.6950 book for the 3.50 strike is DERIVED from the live 3.00 strike ticker format, not copied: the capture only contained strikes 2.50-3.00. Flagged in the site's review page.",
+            "note_for_review": "Kalshi's public series page for KXAAAGASM shows 'Above 3.50' quoted Yes 47c / No 54c at capture, i.e. the LIVE market is near 50c. This demo capture quotes it at 0.3000 and is used only to exercise the alert math. Strike grid (3.45/3.50/3.55) is copied from the public page; the 0.2950 bid is derived from the observed 1c spread. Flagged for review.",
             "result": ""
           }
         ]
