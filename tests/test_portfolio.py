@@ -18,7 +18,7 @@ def test_summarize_groups_and_metrics():
         "total_pnl": 50,
         "roi_pct": 5.0,
         "open_positions": [],
-        "fee_model": "quadratic_unverified",
+        "fee_model": "quadratic_verified",
         "fee_verified": False,
         "equity_curve": [[1, 1000], [2, 1050]],
         "trades": [
