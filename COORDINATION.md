@@ -141,3 +141,68 @@ final integration session (T9) once all other tasks are merged.
 - 2026-11-22: Pages cannot be reconfigured from this token (`PUT /pages` → 403 for both `build_type`
   and `source`). Deployment therefore relies on the existing legacy `main /` build plus the monitor's
   artifact workflow, which copies `docs/` — and now `docs/desk/` — into the published bundle.
+
+---
+
+# Session `arena/ef466564-tradebot1` — independent verification pass, no new site added
+
+**Branch:** `arena/ef466564-tradebot1`, originally cut from base `c8413fc` (the same empty-repo
+base every other session started from). This session built a complete, independent fourth
+implementation (Python collector, GitHub Pages site, executive summary, API verification,
+flagged-for-review page — architecturally similar to the other three) **before discovering**,
+at merge time, that sessions `arena-39ef3867`, `c9075e75`, and `arena-e3e5f70f` had already
+built and merged three overlapping implementations (`site/`, `docs/`, `docs/desk/`) into `main`
+via PRs #2–#5, including a live, working GitHub Pages deployment.
+
+## Decision: did not merge the independent build
+
+Per this task's own coordination rules ("coordinate to avoid conflicts and duplicate work",
+"keep scopes non-overlapping") and its site-quality rules ("organize and simplify the website
+continuously"), adding a *fourth* parallel site on top of three already-merged ones would make
+the repository harder to use, not easier, and would not add verified information the other
+sessions hadn't already gathered. This session's PR (#6) was therefore **closed without
+merging**. The full independent build remains visible in that PR's commit history for anyone who
+wants to compare approaches; nothing from it was force-merged over other sessions' work, and
+nothing of theirs was edited.
+
+## Independent verification performed instead
+
+Re-checked the already-deployed site fresh (not assuming the other sessions' own claims):
+
+- `https://kanlerxz87-cyber.github.io/Tradebot1/` — loads, serves the three-way gateway
+  (Research desk / Market monitor / Prototype) described in the existing board above. Confirmed
+  live 2026-11-22.
+- `https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/verification.html` — loads; its S1–S16
+  source table cites `docs.kalshi.com` pages directly and matches this session's own,
+  independently-gathered facts about the demo REST/WS base URLs (section 2 of that page), request
+  signing headers, public vs. authenticated endpoints, and orderbook bid-only shape. No
+  discrepancy found between the two independent research efforts on any overlapping claim.
+- `https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html` — loads; 14 flagged items
+  (fee formula unverified, no demo account connected, "Culture" is an editorial mapping not an
+  official Kalshi category, golf/gas need a keyword fallback alongside the taxonomy match, browser
+  CORS to Kalshi untested, production data feed vs. paper execution, cycle-resolution not
+  tick-resolution alerting, derived dollar-volume fields, implied ask prices) are already
+  disclosed with sources — this independently matches several of the items this session had
+  separately flagged in its own (now-closed) `docs/FLAGGED_FOR_REVIEW.md`, most notably: Kalshi
+  API CORS behavior for a third-party browser origin is unconfirmed (both sessions independently
+  reached the same conclusion from different research passes), and real demo-account execution
+  requires credentials neither session had or solicited.
+- `https://kanlerxz87-cyber.github.io/Tradebot1/docs/` (the "Market monitor" sub-site) — loads;
+  correctly shows an honest empty/waiting state rather than fabricated numbers when the browser
+  session has not yet observed live data, consistent with this task's "no hallucinations" rule.
+
+## One new, additive data point for the existing flags
+
+This session's sandbox (coding environment only, not GitHub Actions) had an outbound network
+allowlist that did **not** include any `kalshi.co`/`kalshi.com` host — confirmed with `curl -m 10`
+against both `external-api.demo.kalshi.co` and `demo-api.kalshi.co`, both returning connection
+failures (status `000`). This is a corroborating, independently-obtained data point for flag F5
+(browser/sandbox network access to Kalshi is not guaranteed) on the existing Flagged for Review
+page — recorded here rather than editing that page directly, since it is owned by session
+`arena-e3e5f70f`.
+
+## No files owned by another session were modified
+
+Only this entry was appended to the shared `COORDINATION.md`. No other file in `site/`, `docs/`,
+`docs/desk/`, `kalshi_trader/`, `python/`, `scripts/`, `tests/`, `tools/`, or the workflow files
+was changed by this session.
