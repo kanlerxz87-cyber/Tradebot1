@@ -266,8 +266,10 @@ alongside them.
 2. **The board's `--check` gate could never pass twice.** `scripts/build-site.mjs --check` compared
    regenerated pages against the committed ones *including* a build timestamp and relative "21m ago"
    ages, so it failed on any rebuild more than a minute after the commit. Those clock-derived fragments
-   are now normalised out of the comparison, which keeps the gate meaningful (data, rows and links are
-   still compared) and stops it from failing CI for a reason unrelated to correctness.
+   are now normalised out of the comparison, so the gate keeps comparing the generated shell (navigation,
+   headings, static tables and links) instead of failing for a reason unrelated to correctness. The live
+   rows are rendered in the browser from JSON and are gated separately by `scripts/check-data.mjs` (data
+   contract) and `scripts/check-render.mjs` (every rendered row must carry a source link).
 
 **Sources re-checked directly in this pass** (in addition to the 26 desk rows and 39 engine register
 entries): [API environments](https://docs.kalshi.com/getting_started/api_environments) (REST/WS demo and

@@ -386,9 +386,13 @@ deployed (`board.html` → `docs/engine/`, every `docs/` sub-site), so the live 
 
 **2026-11-22 — rendered regenerated, not hand-edited.** `node scripts/build-site.mjs` was run after the
 merge; the only differences were its own build stamp and relative "Nm ago" footer ages, which is also why
-its `--check` gate could never pass twice. `normalise()` in `scripts/build-site.mjs` now ignores
-`data-generated` and `N<m|h|d> ago` fragments, so the gate compares content again. Verified with a
-negative control (a changed data field still fails the gate).
+its `--check` gate could never pass twice: the comparison included the wall clock. `normalise()` in
+`scripts/build-site.mjs` now ignores `data-generated` and `N<m|h|d> ago` fragments. Scope, stated exactly
+because a negative control on `data/live/*.json` and `data/flags.json` did **not** change the output:
+`--check` compares the generated HTML *shell* (nav, headings, static commentary tables, links). The
+live rows are rendered in the browser from JSON, so data drift is caught by `scripts/check-data.mjs`
+(contract) and `scripts/check-render.mjs` (jsdom: every rendered row must carry a source link), not by
+`--check`. Both of those pass.
 
 **2026-11-22 — flag F1 resolved with an official source, in the desk's own files.** The fee schedule PDF
 the desk recorded as unretrievable is public: <https://kalshi.com/docs/kalshi-fee-schedule.pdf>
