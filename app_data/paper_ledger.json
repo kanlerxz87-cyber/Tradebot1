@@ -1,7 +1,7 @@
 {
  "version": 1,
  "created_at": "2026-11-22T07:16:59Z",
- "updated_at": "2026-11-22T15:47:33Z",
+ "updated_at": "2026-11-22T21:25:20Z",
  "bankroll_start": 1000.0,
  "cash": 763.85,
  "fee_model": "quadratic",
@@ -31,7 +31,7 @@
    "last_mark": 0.95,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T52999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2717-T53999.99:late_favorite": {
    "id": "pos-95fe47140d",
@@ -82,10 +82,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.90 in [0.85, 0.96], 24h volume 9,892, closes in 134.8h",
    "model_score": 0.5159,
-   "last_mark": 0.96,
+   "last_mark": 0.95,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T52499.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2717-T51999.99:late_favorite": {
    "id": "pos-3aa52cb867",
@@ -109,10 +109,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.92 in [0.85, 0.96], 24h volume 9,733, closes in 134.8h",
    "model_score": 0.5158,
-   "last_mark": 0.95,
+   "last_mark": 0.96,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T51999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2217-T57749.99:late_favorite": {
    "id": "pos-f5c7d8413e",
@@ -136,10 +136,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.85 in [0.85, 0.96], 24h volume 32,242, closes in 14.8h",
    "model_score": 0.4899,
-   "last_mark": 0.98,
+   "last_mark": 0.99,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T57749.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2203-T58799.99:late_favorite": {
    "id": "pos-b3b6154c29",
@@ -190,10 +190,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.89 in [0.85, 0.96], 24h volume 50,929, closes in 14.8h",
    "model_score": 0.4872,
-   "last_mark": 0.98,
+   "last_mark": 0.99,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T57499.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2217-T56999.99:late_favorite": {
    "id": "pos-55e961dd89",
@@ -217,10 +217,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.94 in [0.85, 0.96], 24h volume 62,591, closes in 14.8h",
    "model_score": 0.4851,
-   "last_mark": 0.98,
+   "last_mark": 0.99,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T56999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2217-T57249.99:late_favorite": {
    "id": "pos-d140a125f9",
@@ -244,10 +244,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.91 in [0.85, 0.96], 24h volume 26,410, closes in 14.8h",
    "model_score": 0.4801,
-   "last_mark": 0.98,
+   "last_mark": 0.99,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T57249.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2217-T56499.99:late_favorite": {
    "id": "pos-256e450aad",
@@ -271,10 +271,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.95 in [0.85, 0.96], 24h volume 32,689, closes in 14.8h",
    "model_score": 0.4724,
-   "last_mark": 0.98,
+   "last_mark": 0.99,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T56499.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2217-T56749.99:late_favorite": {
    "id": "pos-8513d01931",
@@ -298,10 +298,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.95 in [0.85, 0.96], 24h volume 27,542, closes in 14.8h",
    "model_score": 0.4715,
-   "last_mark": 0.98,
+   "last_mark": 0.99,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T56749.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795362324
+   "last_mark_ts": 1795382591
   },
   "KXBTCD-26NOV2203-T58699.99:late_favorite": {
    "id": "pos-777cc2eb6f",
@@ -348,6 +348,10 @@
   [
    1795362324,
    1014.24
+  ],
+  [
+   1795382591,
+   1015.5
   ]
  ],
  "rejected": [
@@ -510,6 +514,72 @@
   {
    "ts": 1795362324,
    "ticker": "KXBTCMINY-27JAN01-50000.00",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXBTCD-26NOV2217-T60499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXPGATOP10-THRC26-MTHO",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXBTCD-26NOV2217-T60249.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXBTCD-26NOV2217-T60749.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXBTCD-26NOV2217-T61249.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXBTCD-26NOV2217-T61249.99",
+   "strategy": "cheap_upside",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXPGATOUR-THRC26-RHOJ",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXBTCD-26NOV2217-T59999.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXRT-HUN-67",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXPGATOP20-THRC26-MTHO",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795382591,
+   "ticker": "KXBTCD-26NOV2217-T59749.99",
    "strategy": "momentum",
    "reason": "max open positions reached"
   }
