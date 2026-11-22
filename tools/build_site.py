@@ -329,8 +329,16 @@ def build_topic_page(topic_id: str, latest: dict[str, Any], series_catalog: dict
     block = (latest.get("topics") or {}).get(topic_id) or {}
     markets = block.get("markets") or []
     events = block.get("events") or []
-    resolved = [r for r in (latest.get("resolved") or []) if r.get("topic") == topic_id]
     series = [s for s in (series_catalog.get("series") or {}).values() if s.get("topic") == topic_id]
+    # A resolution row written by an older collector carried topic=None; fall back to the
+    # series taxonomy that is already in the payload so the row cannot vanish from its topic.
+    series_for_topic = {s.get("ticker") for s in series}
+    resolved = [
+        r
+        for r in (latest.get("resolved") or [])
+        if r.get("topic") == topic_id
+        or (not r.get("topic") and r.get("series_ticker") in series_for_topic)
+    ]
     series_total = (series_catalog.get("totals") or {}).get(topic_id, len(series))
     generated = latest.get("generated_at")
 
