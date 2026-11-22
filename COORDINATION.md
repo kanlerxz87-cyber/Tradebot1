@@ -206,3 +206,25 @@ page — recorded here rather than editing that page directly, since it is owned
 Only this entry was appended to the shared `COORDINATION.md`. No other file in `site/`, `docs/`,
 `docs/desk/`, `kalshi_trader/`, `python/`, `scripts/`, `tests/`, `tools/`, or the workflow files
 was changed by this session.
+
+---
+
+# Session `arena/89a39032-tradebot1` — integration, audit and landing consolidation
+
+**Branch:** `arena/89a39032-tradebot1` (base `521e795`, which is `main` after PR #9).
+**Claimed:** 2026-11-22.
+
+## Claim (pushed before any implementation)
+
+| Task | Status | Owner | Files / scope |
+| - | - | - | - |
+| I1 Repo review + line-by-line audit of the four merged sites, with per-row official source links | in progress | `arena-89a39032` | `docs/integration/**` (new) |
+| I2 Single clean landing page: category navigation, live snapshot status, one recommended dashboard | in progress | `arena-89a39032` | `index.html` only |
+| I3 Re-verify combined data, run every check, PR → `main`, merge, confirm Pages deploy | in progress | `arena-89a39032` | `COORDINATION.md`, `tools/check_links.py`, `README.md` |
+
+**Non-overlap:** this session will not edit `site/**`, `docs/index.html`, `docs/{gas,elections,culture,crypto,golf,review}/**`,
+`docs/desk/**`, `kalshi_trader/**`, `python/**`, `scripts/**` or any existing workflow. Findings about those
+files are logged here and published on the new audit page instead of being edited in place.
+
+**Known conflict risk:** PRs #8 and #10 are open from other sessions and both add site content; if they
+merge first this session rebases and keeps every one of their files, then re-checks links.
