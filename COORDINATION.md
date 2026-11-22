@@ -1136,3 +1136,16 @@ the board shows an explicitly labelled empty state rather than numbers. Both are
 | Pages deploy | `pages-build-deployment` on `main` succeeded; <https://kanlerxz87-cyber.github.io/Tradebot1/> serves the live-status landing page with 300 contracts, 1 swing ≥ $0.10, 308 settled markets and $996.76 paper equity, each read from the committed snapshot |
 | Follow-up fix | **PR #35** regenerates `docs/audit/data/audit.json` — the merge changed the desk data the audit embeds, so `CI / audit` and `Pages / build` failed on stale audit data until it was rebuilt |
 | Merge protocol | every branch was merged into this one with `git merge` (never a rebase over another session's commits); conflicts were resolved by regenerating generated files from templates + data and by appending both sides of every log, never by dropping a session's content |
+
+**2026-11-22 — live-page verification after the deploy (fetched from the public site, not assumed).**
+
+| URL | Result |
+| - | - |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/> | 200 — live-status landing page: 300 contracts, 1 swing ≥ $0.10 (`KXRT-HUN-67`, culture, $0.425 → $0.29), 308 settled, $996.76 paper equity, each read from `docs/desk/data/*.json` |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html> | 200 — F1 now reads "RESOLVED for the formula … confirmed against Kalshi's own fee schedule PDF", with the PDF, `get-series-list` and `fee_rounding` links, and states the remaining per-series-multiplier limit |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html> | 200 — 21/21 published fee rows recomputed, 13 series checked against the official Series endpoint, 2 mismatches named (`KXBTCY`, `KXETHY`, fee_multiplier 0) with 0 ledger records affected |
+| <https://kanlerxz87-cyber.github.io/Tradebot1/board.html> | 200 — Node board renders its committed capture and says so ("Showing the committed capture", 7 markets, 0 swings) instead of inventing live rows |
+
+**Gates on `main` after the merge:** `CI` success, `Pages / build` success, `Pages / deploy` success,
+`pages-build-deployment` success. The only failure in the window was `CI / audit` on stale audit data,
+fixed by PR #35 and green afterwards.
