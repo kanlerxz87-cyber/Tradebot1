@@ -127,7 +127,11 @@ def test_audit_register_is_internally_consistent():
     assert len(ids) == len(set(ids))
     assert doc["meta"]["factCount"] == len(doc["facts"])
     for item in doc["items"]:
-        assert item["sources"], item["id"]
+        assert item["sources"] or item["repoSources"], item["id"]
+        if not item["sources"]:
+            # A finding with no official page behind it must say why, rather than
+            # borrowing a source that does not decide it.
+            assert item.get("noOfficialSource"), item["id"]
         for source in item["sources"]:
             assert source["url"].startswith("https://")
         for evidence in item["evidence"]:

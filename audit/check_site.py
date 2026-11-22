@@ -46,11 +46,16 @@ def main() -> int:
             bad(f"{fact['id']}: no verbatim quote")
 
     for item in doc["items"]:
-        if not item["sources"]:
-            bad(f"{item['id']}: no source")
+        if not item["sources"] and not item.get("repoSources"):
+            bad(f"{item['id']}: no source at all")
+        if not item["sources"] and not item.get("noOfficialSource"):
+            bad(f"{item['id']}: no official source and no explanation for its absence")
         for source in item["sources"]:
             if source["url"] not in fact_urls:
                 bad(f"{item['id']}: source {source['url']} is not in the fact register")
+        for source in item.get("repoSources") or []:
+            if not source["url"].startswith("https://"):
+                bad(f"{item['id']}: repo source is not https")
         if item["status"] == "fixed" and not item["check"]["ok"]:
             bad(f"{item['id']}: published as fixed, check does not pass")
 
