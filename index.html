@@ -120,13 +120,14 @@
     </tbody>
   </table>
 
-  <h2>Other implementations kept for review<span class="sub">Four independent sessions built dashboards from the same brief. The desk above is the primary one; these are preserved unchanged so their approaches can be compared, and they are labelled rather than merged into the desk's numbers.</span></h2>
+  <h2>Other implementations kept for review<span class="sub">Several independent sessions built dashboards from the same brief. The desk above is the primary one; these are preserved unchanged so their approaches can be compared, and they are labelled rather than merged into the desk's numbers.</span></h2>
   <table>
     <thead><tr><th>Site</th><th>What it is</th><th>Data source</th><th>Status</th></tr></thead>
     <tbody>
       <tr><td><a href="docs/">Market monitor</a></td><td>Browser-side monitor that polls public endpoints from your own session; topic subpages under <code>docs/</code>.</td><td>Demo REST, read by the visiting browser (CORS untested)</td><td><span class="tag archive">review</span></td></tr>
       <tr><td><a href="board.html">Trade board</a></td><td>Dependency-free Node implementation with its own source register and flags.</td><td>Demo REST via a scheduled collector</td><td><span class="tag archive">review</span></td></tr>
       <tr><td><a href="dashboard.html">Live board (root)</a></td><td>Second Node dashboard sharing the trade board's collector.</td><td>Demo REST via a scheduled collector</td><td><span class="tag archive">review</span></td></tr>
+      <tr><td><a href="docs/engine/">Engine verification view</a></td><td>The Python engine's own site: a 39-item verification register linking every fact to the official Kalshi page or API response behind it.</td><td>Same collector as the desk</td><td><span class="tag archive">review</span></td></tr>
       <tr><td><a href="site/">Prototype</a></td><td>The first standalone prototype. Uses clearly labelled simulated fallback data.</td><td>Simulated fallback</td><td><span class="tag archive">archive</span></td></tr>
     </tbody>
   </table>

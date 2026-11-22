@@ -174,7 +174,7 @@ function renderLadders() {
         <td style="min-width:80px"><div class="depthbar"><span style="width:${maxAsk ? (s / maxAsk) * 100 : 0}%"></span></div></td>
         <td class="src">${sourceLink(bookUrl, 'book')}</td>
       </tr>`).join('')
-    : '<tr><td colspan="5" class="empty">No NO bids, so no YES asks can be derived.</td></tr>';
+    : '<tr class="placeholder" data-nosource="true"><td colspan="5" class="empty">No NO bids, so no YES asks can be derived.</td></tr>';
 
   setText(el['depth-bid'], yes.length ? num(yes.reduce((s, [, q]) => s + q, 0), 2) : dash);
   setText(el['depth-ask'], asks.length ? num(asks.reduce((s, [, q]) => s + q, 0), 2) : dash);

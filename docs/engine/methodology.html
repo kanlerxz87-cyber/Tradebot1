@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Methodology · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html" class="active">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Methodology</h1>
+<p class="lede">How a market gets into a topic, how an alert is decided, how the high-ROI score works,
+how fees are computed, and what the simulator does and does not do. Each rule names its source.</p>
+
+<h2>Topic assignment</h2>
+<p>Kalshi publishes its taxonomy at <code>GET /search/tags_by_categories</code>: 14 categories, with
+<em>Golf</em> as a tag under <em>Sports</em> and <em>Oil &amp; Gas</em> as a tag under
+<em>Commodities</em>. There is no Gas and no Culture category, so those two topics are derived:</p>
+<div class="tblwrap"><table>
+<thead><tr><th>Topic</th><th>Rule</th><th>Confidence label</th></tr></thead><tbody>
+<tr><td>Gas prices</td><td>Kalshi tag <em>Oil &amp; Gas</em> / <em>Gas</em>; or a documented gas series
+ticker such as <code>KXAAAGASM</code>; or gas/crude/AAA in the title</td><td>tag / keyword</td></tr>
+<tr><td>Elections</td><td>Kalshi category <em>Elections</em></td><td>category</td></tr>
+<tr><td>Culture</td><td>Kalshi category <em>Entertainment</em> or <em>Mentions</em>; or an
+entertainment tag such as <em>Music</em>, <em>Oscars</em>, <em>Movies</em></td><td>category / tag</td></tr>
+<tr><td>Crypto</td><td>Kalshi category <em>Crypto</em></td><td>category</td></tr>
+<tr><td>Golf</td><td>Kalshi category <em>Sports</em> with tag <em>Golf</em>, or a known golf series
+ticker</td><td>tag</td></tr>
+</tbody></table></div>
+<p>Tags live on the <em>series</em>, not the event — verified by comparing live
+<code>GET /events</code> (no <code>tags</code> key) with <code>GET /series/{ticker}</code> (has
+<code>tags</code>). The engine caches series tags in SQLite. Multivariate <code>KXMVE…</code> combos
+are excluded: one ticker can bundle NFL props and European soccer, so it cannot belong to one topic.</p>
+
+<h2>The alert rule</h2>
+<ul class="tight">
+<li>Threshold: <code>|Δprice| ≥ $0.10</code>, either direction, checked against the previous sample and
+against the sample one rolling window (default 60s) earlier — so a fast jump and a slow drift both fire.</li>
+<li>Price: mid of best YES bid and implied YES ask on a two-sided, uncrossed book; otherwise the last
+trade; otherwise the best bid. Asks are implied as <code>1 − opposite best bid</code> because the book
+returns bids only.</li>
+<li>Confidence: <em>confirmed</em> when a trade or two two-sided quotes agree; <em>quote-only</em>
+when the move exists only in a one-sided quote.</li>
+<li>De-duplication: a per-market cooldown suppresses same-direction repeats; a direction flip always
+alerts.</li>
+</ul>
+
+<h2>High-ROI score</h2>
+<p>A weighted mean of five components, each in [0,1], computed from values Kalshi actually returns:</p>
+<div class="tblwrap"><table><thead><tr><th>Component</th><th>Weight</th><th>Inputs</th></tr></thead><tbody>
+<tr><td>Magnitude</td><td>0.30</td><td>size of the move relative to 4× the threshold</td></tr>
+<tr><td>Liquidity</td><td>0.25</td><td>contracts buyable within 10c, from the order book</td></tr>
+<tr><td>Cost</td><td>0.20</td><td>spread and taker fee as a share of contract price</td></tr>
+<tr><td>Horizon</td><td>0.15</td><td>hours until the market closes</td></tr>
+<tr><td>Confirmation</td><td>0.10</td><td>trade-backed (1.0) vs quote-only (0.35)</td></tr>
+</tbody></table></div>
+<p>Unknown inputs score conservatively and add a caveat rather than being assumed. The published
+minimum score for the selective feed is 0.55. <strong>This is a ranking of trade quality, not a
+probability of profit.</strong></p>
+
+<h2>Fees</h2>
+<p>From Kalshi's published fee schedule (effective 2026-07-07):</p>
+<ul class="tight">
+<li>Taker: <code>roundup(M × 0.07 × C × P × (1−P))</code>, default M = 1.</li>
+<li>Maker: <code>roundup(M × 0.0175 × C × P × (1−P))</code>, default M = 0.</li>
+<li>No settlement fee, no membership fee.</li>
+</ul>
+<p>This project's implementation reproduces every value in the published per-contract and
+per-100-contract tables (42/42, asserted in the test suite). Rounded <em>fee + position cost</em> up to
+the cent, then the position cost subtracted, which is how the published table behaves.</p>
+
+<h2>Simulation</h2>
+<ul class="tight">
+<li>Six strategies, each a distinct trade <em>category</em>: trend following, contrarian, asymmetric
+payoff, high-probability carry, event driven, and an unfiltered control benchmark.</li>
+<li>Buys execute at the side's implied ask, sells at that side's best bid — executable prices, not mids.</li>
+<li>Each strategy starts at $10,000 with its own ledger, so returns are comparable.</li>
+<li>Positions are opened once and closed once per market; exits are take-profit, stop-loss, max hold,
+or settlement.</li>
+<li>Resolution pays $1 per contract for the winning side and $0 for the loser, with no fee.</li>
+<li>An empty book means no trade, with the rejection reason recorded.</li>
+</ul>
+<div class="note warn"><strong>Limitations.</strong> Per-series fee multipliers are not applied, and the
+exchange's fee rounding rebate is not modelled. Simulated results are simulations of a demo
+environment whose prices Kalshi itself says may not reflect real markets.</div>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

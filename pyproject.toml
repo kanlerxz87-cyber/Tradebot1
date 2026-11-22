@@ -1,0 +1,14 @@
+[project]
+name = "tradebot1-kalshi-dashboard"
+version = "1.0.0"
+description = "Live Kalshi dashboard with $0.10 swing alerting and simulated trading strategies"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+filterwarnings = ["error::DeprecationWarning:app.*"]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
