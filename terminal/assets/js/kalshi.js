@@ -76,7 +76,24 @@ const Kalshi = (() => {
   }
 
   /* ---------- signing ---------- */
+  /* Kalshi-generated RSA keys are PKCS#1 ("BEGIN RSA PRIVATE KEY"), which WebCrypto
+     cannot import directly. Wrap them in a PKCS#8 PrivateKeyInfo (RFC 5208) on the fly:
+     SEQUENCE { INTEGER 0, AlgorithmIdentifier(rsaEncryption), OCTET STRING(pkcs1Der) } */
+  function derLen(n) {
+    if (n < 0x80) return [n];
+    if (n < 0x100) return [0x81, n];
+    return [0x82, (n >> 8) & 0xff, n & 0xff];
+  }
+  function wrapPkcs1ToPkcs8(pkcs1) {
+    const algId = [0x30, 0x0d, 0x06, 0x09, 0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x01, 0x01, 0x05, 0x00];
+    const version = [0x02, 0x01, 0x00];
+    const octet = [0x04, ...derLen(pkcs1.length), ...new Uint8Array(pkcs1)];
+    const content = [...version, ...algId, ...octet];
+    return new Uint8Array([0x30, ...derLen(content.length), ...content]).buffer;
+  }
+
   function pemToArrayBuffer(pem) {
+    const isPkcs1 = /BEGIN RSA PRIVATE KEY/.test(String(pem));
     const b64 = String(pem)
       .replace(/-----BEGIN [^-]+-----/g, '')
       .replace(/-----END [^-]+-----/g, '')
@@ -86,6 +103,7 @@ const Kalshi = (() => {
       const bin = atob(b64);
       const buf = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) buf[i] = bin.charCodeAt(i);
+      if (isPkcs1) return wrapPkcs1ToPkcs8(buf.buffer);
       return buf.buffer;
     } catch { return null; }
   }

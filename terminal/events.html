@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Events &amp; Resolution — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="Open and settled Kalshi demo events across gas, elections, culture, crypto and golf — tracked until resolution, with YES/NO badges, volume, open interest and CSV export.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="events.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <h1 class="page-title">Events &amp; Resolution</h1>
+  <p class="page-sub">Live tracking of every open contract in the five verticals <em>until it resolves</em> — settlement source applied, result posted YES or NO. Switch to <strong>Settled</strong> to review how events resolved. Data loads from the Kalshi demo API in your browser; nothing is fabricated.</p>
+
+  <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:12px">
+    <div class="seg" role="group" aria-label="Event status">
+      <button class="status-btn active" data-status="open">OPEN</button>
+      <button class="status-btn" data-status="settled">SETTLED / RESOLVED</button>
+      <button class="status-btn" data-status="all">ALL</button>
+    </div>
+    <div class="chips" id="topicButtons" role="group" aria-label="Topic filter">
+      <button class="chip topic-btn active" data-topic="all">All topics</button>
+      <button class="chip topic-btn" data-topic="gas">Gas</button>
+      <button class="chip topic-btn" data-topic="elections">Elections</button>
+      <button class="chip topic-btn" data-topic="culture">Culture</button>
+      <button class="chip topic-btn" data-topic="crypto">Crypto</button>
+      <button class="chip topic-btn" data-topic="golf">Golf</button>
+    </div>
+    <input id="eventSearch" class="input" style="max-width:260px" type="search" placeholder="Filter by keyword…" aria-label="Filter events">
+    <button id="exportCsvBtn" class="btn small">⬇ Export CSV</button>
+    <span class="small muted" id="eventCount">0</span> contracts
+  </div>
+
+  <div class="callout danger" id="eventsError" style="display:none">
+    <strong>Couldn't load from the demo API.</strong> <span id="eventsErrorText"></span>
+    <div class="cta-row" style="margin-top:10px">
+      <button id="eventsRetryBtn" class="btn small">↻ Retry</button>
+      <button id="eventsSimBtn" class="btn small primary">Load simulated sample (labeled)</button>
+    </div>
+  </div>
+  <div class="callout warn" id="simNote" style="display:none"><strong>SIMULATED SAMPLE.</strong> Fictional contracts, open status only — simulated settlements are intentionally <u>never</u> synthesized, so the YES/NO column will show “—” in this mode.</div>
+
+  <p class="small muted" id="eventsStatus" style="margin:0 2px 12px">Loading…</p>
+
+  <div id="eventsWrap"><div class="card"><div class="muted" style="text-align:center; padding:24px">Loading events…</div></div></div>
+
+  <div class="card" style="margin-top:18px">
+    <h2>How resolution works on Kalshi</h2>
+    <p class="muted">Kalshi event contracts pay <strong>$1.00 for YES</strong> (correct) and <strong>$0.00</strong> for NO. Each market carries written rules naming a settlement source; when the event occurs (or doesn't), the exchange settles the contract and the <code>result</code> field becomes <code>yes</code> or <code>no</code>. This page reads exactly those fields from <code>GET /events?status=settled</code> / <code>GET /markets</code> in the demo environment. Where a value can't be confirmed, it shows “—” and is flagged on the <a href="flagged.html">Flagged for Review</a> page — never invented.</p>
+    <p class="small muted">Kalshi market rules and settlement sources are viewable on each contract's rules page (link “Kalshi ↗” per row). Demo settlements use the same mechanics with mock funds. Official API reference: <a href="https://docs.kalshi.com/" target="_blank" rel="noopener noreferrer">docs.kalshi.com ↗</a></p>
+    <details style="margin-top:6px">
+      <summary class="small muted" style="cursor:pointer">Illustrative example of the YES/NO settlement display (static example, not a real contract)</summary>
+      <div class="table-wrap" style="margin-top:10px"><table>
+        <thead><tr><th>Example contract</th><th>Status</th><th>Resolution</th></tr></thead>
+        <tbody>
+          <tr><td>EXAMPLE ONLY — “Will X happen before date Y?” <span class="badge">EXAMPLE</span></td><td>settled</td><td><span class="badge ok">YES ✓</span> paid $1.00 per YES contract</td></tr>
+          <tr><td>EXAMPLE ONLY — “Will A beat B in event C?” <span class="badge">EXAMPLE</span></td><td>settled</td><td><span class="badge err" style="background:#3a1414;color:#ff9b9b;border-color:#7a2c2c">NO ✗</span> paid $0.00 per YES contract</td></tr>
+        </tbody>
+      </table></div>
+      <p class="small muted">Static illustrative rows. Actual resolutions shown above come only from the demo API's <code>result</code> field.</p>
+    </details>
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/topics.js"></script>
+<script src="assets/js/kalshi.js"></script>
+<script src="assets/js/simulated-feed.js"></script>
+<script src="assets/js/events.js"></script>
+</body>
+</html>

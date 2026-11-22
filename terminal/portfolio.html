@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="Track paper-trading results and your Kalshi demo account: equity curve, positions, fills, resting orders, per-topic P&L — plus local API-key settings (never committed).">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+<style>.equity-wrap{position:relative;height:240px}.equity-wrap canvas{width:100%;height:100%;display:block}</style>
+</head>
+<body data-page="portfolio.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <h1 class="page-title">Portfolio</h1>
+  <p class="page-sub">Two ledgers side by side: a <strong>paper</strong> portfolio kept in this browser (instant, no keys), and your real <strong>Kalshi demo account</strong> (mock funds; optional, read + trade with your demo API key). Marks refresh from the live demo API when reachable.</p>
+
+  <div class="seg" role="tablist" aria-label="Portfolio view" style="margin-bottom:16px">
+    <button class="pf-tab active" data-tab="paper">Paper ledger</button>
+    <button class="pf-tab" data-tab="demo">Demo account</button>
+    <button class="pf-tab" data-tab="settings">Settings &amp; API keys</button>
+  </div>
+
+  <!-- ============ PAPER ============ -->
+  <section class="pf-pane" data-pane="paper">
+    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin-bottom:12px">
+      <button id="refreshPaperBtn" class="btn primary small">↻ Refresh marks</button>
+      <button id="resetPaperBtn" class="btn small danger">Reset paper ledger</button>
+      <span class="small muted" id="paperMarksNote"></span>
+    </div>
+
+    <div class="grid cols-4" style="margin-bottom:16px">
+      <div class="card stat"><div class="label">Equity</div><div class="value" id="paperEquity">—</div><div class="small muted">cash + open value</div></div>
+      <div class="card stat"><div class="label">Cash</div><div class="value" id="paperCash">—</div><div class="small muted">buying power</div></div>
+      <div class="card stat"><div class="label">Realized P&amp;L</div><div class="value" id="paperRealized">—</div><div class="small muted">closed trades, net of fees</div></div>
+      <div class="card stat"><div class="label">Unrealized P&amp;L</div><div class="value" id="paperUnrealized">—</div><div class="small muted">open positions vs avg cost</div></div>
+    </div>
+
+    <div class="grid cols-2" style="align-items:start">
+      <div class="card">
+        <h2>Equity curve (this browser)</h2>
+        <div class="equity-wrap"><canvas id="paperEquityChart" role="img" aria-label="Paper portfolio equity over time"></canvas></div>
+        <p class="small muted" style="margin:8px 2px 0">Builds a point per visit/refresh, per browser. Cleared with “Reset paper ledger”.</p>
+      </div>
+      <div class="card">
+        <h2>Realized P&amp;L by vertical</h2>
+        <div class="table-wrap"><table><thead><tr><th>Vertical</th><th class="num">Realized P&amp;L</th></tr></thead><tbody id="paperTopicBody"><tr class="empty-row"><td colspan="2">No closed trades yet.</td></tr></tbody></table></div>
+        <p class="small muted" style="margin:8px 2px 0">Open value: <span id="paperOpenValue" class="mono">—</span></p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Open paper positions</h2>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Ticker</th><th>Vertical</th><th class="num">Qty</th><th class="num">Avg cost</th><th class="num">Mark</th><th class="num">Value</th><th class="num">P&amp;L</th><th class="num">ROI</th><th></th></tr></thead>
+        <tbody id="paperPositionsBody"><tr class="empty-row"><td colspan="9">Loading…</td></tr></tbody>
+      </table></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>Paper trade history</h2>
+      <div class="table-wrap" style="max-height:420px; overflow-y:auto"><table>
+        <thead><tr><th>Time</th><th>Side</th><th>Ticker</th><th>Vertical</th><th class="num">Qty</th><th class="num">Price</th><th class="num">Fee</th><th class="num">P&amp;L</th></tr></thead>
+        <tbody id="paperTradesBody"><tr class="empty-row"><td colspan="8">Loading…</td></tr></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ============ DEMO ACCOUNT ============ -->
+  <section class="pf-pane" data-pane="demo" style="display:none">
+    <div class="callout">Uses your <strong>demo</strong> API key (Settings tab). Requests are signed in your browser and sent only to <code>external-api.demo.kalshi.co</code>. Demo and production keys are not interchangeable — a production key will fail here by design.</div>
+    <div style="display:flex; gap:12px; align-items:center; flex-wrap:wrap; margin:12px 0">
+      <button id="demoConnectBtn" class="btn primary">↻ Connect &amp; refresh</button>
+      <span id="demoStatus" class="small muted">Not connected.</span>
+    </div>
+    <div class="callout danger" id="demoError" style="display:none"><strong>Connection failed.</strong> <span id="demoErrorText"></span></div>
+
+    <div class="grid cols-2" style="margin-bottom:16px">
+      <div class="card stat"><div class="label">Demo balance</div><div class="value" id="demoBalance">—</div><div class="small muted">GET /portfolio/balance</div></div>
+      <div class="card stat"><div class="label">Portfolio value</div><div class="value" id="demoPortfolioValue">—</div><div class="small muted">field name varies; see raw response below</div></div>
+    </div>
+
+    <div class="card">
+      <h2>Demo positions</h2>
+      <div class="table-wrap"><table><thead><tr><th>Ticker</th><th class="num">Position</th><th class="num">Exposure</th><th class="num">Realized P&amp;L</th><th class="num">Fees paid</th></tr></thead><tbody id="demoPositionsBody"><tr class="empty-row"><td colspan="5">Connect to load positions.</td></tr></tbody></table></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Resting orders</h2>
+      <div class="table-wrap"><table><thead><tr><th>Ticker</th><th>Side</th><th class="num">Remaining</th><th class="num">Price</th><th>Status</th></tr></thead><tbody id="demoOrdersBody"><tr class="empty-row"><td colspan="5">Connect to load orders.</td></tr></tbody></table></div>
+    </div>
+    <div class="card" style="margin-top:16px">
+      <h2>Recent fills</h2>
+      <div class="table-wrap"><table><thead><tr><th>Time</th><th>Ticker</th><th>Side</th><th class="num">Count</th><th class="num">Price</th><th>Liquidity</th></tr></thead><tbody id="demoFillsBody"><tr class="empty-row"><td colspan="6">Connect to load fills.</td></tr></tbody></table></div>
+    </div>
+    <details class="card" style="margin-top:16px"><summary class="small muted" style="cursor:pointer">Raw demo API responses (for debugging)</summary><pre id="demoRaw" class="small" style="max-height:340px; overflow:auto; margin-top:10px">Connect to see raw JSON.</pre></details>
+    <p class="small muted" style="margin-top:10px">Demo site: <a href="https://demo.kalshi.com" target="_blank" rel="noopener noreferrer">demo.kalshi.com ↗</a> · API docs: <a href="https://docs.kalshi.com/" target="_blank" rel="noopener noreferrer">docs.kalshi.com ↗</a></p>
+  </section>
+
+  <!-- ============ SETTINGS ============ -->
+  <section class="pf-pane" data-pane="settings" style="display:none">
+    <div class="callout warn"><strong>Private by construction.</strong> These values are stored in <code>localStorage</code> of this browser only. They are never written to the repo, never sent to this site's host (GitHub Pages serves static files; we log nothing), and are transmitted only to Kalshi's demo hosts when you connect. Clear them here anytime.</div>
+    <div class="card" style="max-width:820px">
+      <h2>Kalshi demo API credentials</h2>
+      <label class="field" for="setKeyId">API key ID (demo)</label>
+      <input id="setKeyId" class="input" autocomplete="off" spellcheck="false" placeholder="e.g. a952bcbe-…">
+      <label class="field" for="setPem">Private key (PEM — Ed25519 “BEGIN PRIVATE KEY” or RSA)</label>
+      <textarea id="setPem" class="input" rows="7" spellcheck="false" placeholder="-----BEGIN PRIVATE KEY-----&#10;…&#10;-----END PRIVATE KEY-----"></textarea>
+      <label class="field" for="setWsProxy">Optional WebSocket proxy URL (browsers can't sign WS handshakes natively)</label>
+      <input id="setWsProxy" class="input" autocomplete="off" spellcheck="false" placeholder="wss://your-proxy.example.com/trade-api/ws/v2">
+      <p class="small muted" style="margin:6px 2px">A tiny server-side shim must add the three <code>KALSHI-ACCESS-*</code> headers to the handshake. See <a href="suggestions.html#ws-proxy">Suggestions → WS proxy</a>. Without it, the dashboard polls REST — fully functional, just not push-based.</p>
+      <div class="callout danger" style="margin-top:12px">
+        <label style="display:flex; gap:10px; align-items:flex-start; cursor:pointer; margin:0">
+          <input type="checkbox" id="setEnableOrders" style="margin-top:3px">
+          <span><strong>Enable demo-account order execution.</strong> “Demo-account buy YES” on the Live Dashboard will place real orders on your Kalshi <strong>demo</strong> account (mock funds, not real money). Order placement uses the V2 endpoint <code>POST /portfolio/events/orders</code>; its behavior from this site's origin has <u>not</u> been verified end-to-end. See <a href="flagged.html">Flagged for Review</a>.</span>
+        </label>
+      </div>
+      <div style="display:flex; gap:10px; margin-top:14px">
+        <button id="saveSettingsBtn" class="btn primary">Save locally</button>
+        <button id="clearSettingsBtn" class="btn ghost">Clear from this browser</button>
+      </div>
+    </div>
+    <div class="card" style="max-width:820px; margin-top:16px">
+      <h2>Where do I get demo API keys?</h2>
+      <ol class="muted" style="margin:0; padding-left:18px">
+        <li>Create/log in to the demo environment at <a href="https://demo.kalshi.com" target="_blank" rel="noopener noreferrer">demo.kalshi.com ↗</a>.</li>
+        <li>Profile → <strong>API Keys</strong> → <em>Create New API Key</em> (Ed25519 default; RSA also supported). Save the private PEM — it's shown once.</li>
+        <li>Paste the key ID and PEM above. Production keys do <strong>not</strong> work on demo endpoints.</li>
+      </ol>
+      <p class="small muted" style="margin-top:8px">Official instructions: <a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">docs.kalshi.com → API Keys ↗</a></p>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/topics.js"></script>
+<script src="assets/js/kalshi.js"></script>
+<script src="assets/js/store.js"></script>
+<script src="assets/js/portfolio.js"></script>
+</body>
+</html>
