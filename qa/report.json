@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-22T07:42:22Z",
+  "generated_at": "2026-11-22T07:44:47Z",
   "counts": {
     "error": 0,
     "warn": 3,
-    "info": 8
+    "info": 9
   },
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
@@ -15,10 +15,10 @@
     "data/account.json: connected=False",
     "docs/data/snapshot.json: 0 events, partial=True",
     "monitor docs/data/snapshot.json: 0 rows, price bounds",
-    "68 HTML pages, 1220 internal references",
-    "tracked files: 253, bytecode/cache artefacts: 0",
+    "73 HTML pages, 1275 internal references",
+    "tracked files: 268, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 7240 paths"
+    "secret scan: 7348 paths"
   ],
   "findings": [
     {
@@ -215,11 +215,22 @@
       "action": ""
     },
     {
+      "id": "GENCHECK-1",
+      "severity": "info",
+      "code": "GENCHECK",
+      "title": "The Node generator's --check can never pass as written",
+      "detail": "`scripts/build-site.mjs --check` re-renders every page and compares the result with the committed file, but the render embeds a fresh `data-generated` timestamp and relative text such as '21m ago'. Every page therefore reports stale within a minute of generation. The data itself matched when this audit compared it.",
+      "count": 0,
+      "examples": [],
+      "source": "scripts/build-site.mjs",
+      "action": "Compare the page with the timestamp and relative-time fields normalised, or drop the strict comparison from the gate. CI does not currently run this check."
+    },
+    {
       "id": "FRESH-1",
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
-      "detail": "0.35 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.39 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -230,7 +241,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.71 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.75 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",

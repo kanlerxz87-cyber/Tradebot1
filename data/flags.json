@@ -29,18 +29,18 @@
   },
   {
    "id": "F-02",
-   "severity": "medium",
-   "title": "One row of Kalshi's own fee table cannot be reproduced from Kalshi's own fee formula",
-   "detail": "The fee schedule states fees = round up(M x 0.07 x C x P x (1-P)) and that the result is rounded so that fee plus position cost lands on a centicent. That formula, rounded up to $0.0001, gives $0.0007 at a $0.01 price, while the schedule's summary table prints $0.01. Rounding to the whole cent instead reproduces 20 of the 21 rows exactly in both the 1-contract and 100-contract columns. The $0.01 row is also the one whose extracted text layer is internally inconsistent (its 100-contract fee reads $1.00, which is the price column). This build charges the whole-cent rounding, which matches 20 of 21 rows, and does not special-case the remaining row.",
-   "impact": "Simulated fees for contracts priced at exactly $0.01 may differ from the exchange by up to $0.01 per contract.",
-   "howToCheck": "Read the Trading Fees section and the General Trading Fees Table in the PDF, then compare with tests/fees.test.mjs.",
+   "severity": "info",
+   "title": "Resolved 2026-11-22: the $0.01 fee row is reproducible when all four columns are read",
+   "detail": "The fee schedule's summary table has four columns - price of 1 contract, fee for 1 contract, price for 100 contracts, fee for 100 contracts. This project had read the third column as a fee, which made the $0.01 row look unreproducible: it printed $1.00 where a fee was expected, and $1.00 is the price of 100 contracts at one cent. The fee on that row is $0.07, and 0.07 x 100 x 0.01 x 0.99 = 0.0693 rounds up to $0.07 like every other row. With the columns read correctly, all 21 rows reproduce in both fee columns, so the formula and the table agree and nothing needs special-casing. The table has been corrected and the test now asserts 21 of 21 rows.",
+   "impact": "The simulated fee formula was already right; only the test fixture and this note were wrong. One separate rounding difference remains and is disclosed under AUD-04 on docs/audit/: the printed table is whole-cent rounded, while the exchange rounds a fill's trade fee to $0.000001 and aligns the balance to $0.0001, so this model can overstate a direct member's fee by up to one cent per fill.",
+   "howToCheck": "Open the PDF's General Trading Fees Table and count the columns (four: two prices, two fees), then run node --test tests/fees.test.mjs, which asserts every row.",
    "sources": [
     {
-     "label": "Kalshi fee schedule PDF",
+     "label": "Kalshi fee schedule PDF (General Trading Fees Table)",
      "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
     },
     {
-     "label": "Fee rounding",
+     "label": "Fee rounding (trade fee to $0.000001, balance to $0.0001)",
      "url": "https://docs.kalshi.com/getting_started/fee_rounding"
     }
    ]
