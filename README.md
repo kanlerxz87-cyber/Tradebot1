@@ -27,8 +27,9 @@ The autonomous half of the repository: a Python package and a 15-minute GitHub A
   (+ `Social`), because no Culture category exists; crypto → `Crypto`; golf → `Sports` tag `Golf`).
   Each topic gets its own page; events stay grouped inside a topic.
 * **Alerts** — `|Δ mid| ≥ $0.10` (tolerance 1e-9, last-trade fallback), stored with price, size,
-  volume, open interest and candidate news links, and rendered as two scrolling chats: every move, and
-  the subset that passes a published six-weight ROI screen (score ≥ 0.45).
+  volume, open interest and two labelled context links (a news search built from the market's own
+  title, and the web search equivalent — searches, never an attribution of cause), and rendered as two
+  scrolling chats: every move, and the subset that passes a published six-weight ROI screen (score ≥ 0.45).
 * **Lifecycle** — every followed event is polled until Kalshi marks it settled, then recorded as YES or
   NO with the market's own `result`, plus the payout the book actually received.
 * **Trading** — four strategies (momentum, fade, late favourite, cheap upside) with fixed-fraction
@@ -44,7 +45,7 @@ Local use:
 
 ```sh
 python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
-.venv/bin/python -m pytest -q                     # 48 tests
+.venv/bin/python -m pytest -q                     # 145 tests
 .venv/bin/python -m kalshi_trader.cli collect     # one live cycle → docs/desk/data/*.json
 .venv/bin/python -m kalshi_trader.cli serve       # site + API + WebSocket on :8000
 .venv/bin/python tools/build_site.py --check      # generated tables current
@@ -81,10 +82,10 @@ pages read only committed files, so the site works with no backend and no key.
 
 ```sh
 npm install                     # jsdom, used only by the render test
-npm test                        # 32 assertions, including Kalshi's own fee table
+npm test                        # 39 assertions, including Kalshi's own fee table
 node scripts/check-data.mjs     # the committed JSON against its contract
 node scripts/build-site.mjs && node scripts/build-site.mjs --check
-node scripts/check-links.mjs    # 19 pages, 642 references
+node scripts/check-links.mjs    # 19 pages, 642 references, 0 problems
 node scripts/check-render.mjs   # jsdom render of every page, source links intact
 node tools/collector.mjs --dry-run    # fetch without writing (needs egress)
 ```

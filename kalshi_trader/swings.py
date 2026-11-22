@@ -15,6 +15,7 @@ from __future__ import annotations
 import hashlib
 from datetime import datetime, timezone
 from typing import Any, Iterable
+from urllib.parse import quote_plus
 
 TOLERANCE = 1e-9
 
@@ -22,6 +23,49 @@ TOLERANCE = 1e-9
 def _alert_id(ticker: str, ts: int, direction: str) -> str:
     raw = f"{ticker}|{ts}|{direction}".encode()
     return hashlib.sha1(raw).hexdigest()[:12]
+
+
+# What may explain a move ------------------------------------------------
+#
+# The brief asks for "website links that may have caused a sharp jump". There is no
+# reliable way to attribute a Kalshi price move to one article, so these are search
+# links built from the market's own official title, and they say so. Nothing here
+# claims that an article exists or that it caused the move.
+CONTEXT_PREFIX = "https://news.google.com/search?q="
+CONTEXT_NOTE = (
+    "Search links built from the market's own title, opened at the reader's "
+    "discretion. They are not evidence that any article exists or caused this move; "
+    "no cause is attributed anywhere in this project."
+)
+
+
+def context_links(market: dict[str, Any]) -> list[dict[str, Any]]:
+    """Return labelled, non-attributing links for the market behind an alert."""
+    links: list[dict[str, Any]] = []
+    api_url = market.get("api_url")
+    page_url = market.get("series_page_url")
+    if api_url:
+        links.append({"kind": "record", "label": "This market on the Kalshi API", "url": api_url})
+    if page_url:
+        links.append({"kind": "record", "label": "Kalshi market page", "url": page_url})
+    title = (market.get("title") or "").strip()
+    if title:
+        query = quote_plus(title)
+        links.append(
+            {
+                "kind": "search",
+                "label": "Search news for this title",
+                "url": f"{CONTEXT_PREFIX}{query}",
+            }
+        )
+        links.append(
+            {
+                "kind": "search",
+                "label": "Search the web for this title",
+                "url": f"https://duckduckgo.com/?q={query}",
+            }
+        )
+    return links
 
 
 def iso(ts: int | float) -> str:
@@ -71,6 +115,8 @@ def build_alert(
         "close_time": market.get("close_time"),
         "api_url": market.get("api_url"),
         "series_page_url": market.get("series_page_url"),
+        "context_links": context_links(market),
+        "context_note": CONTEXT_NOTE,
         "threshold": threshold,
     }
 

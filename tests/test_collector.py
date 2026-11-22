@@ -56,6 +56,7 @@ def _settings(tmp_path):
         state_dir=tmp_path,
         paper_ledger=tmp_path / "ledger.json",
         cycle_samples=1,
+        sample_gap_s=0.0,
         max_markets_per_topic=10,
     )
 
@@ -174,3 +175,59 @@ def test_settled_sweep_sends_integer_min_close_ts():
     assert isinstance(value, int), f"min_close_ts must be an int, got {type(value).__name__}"
     assert value > 1_700_000_000
     assert errors == []
+
+
+class TwoSampleClient(FakeClient):
+    """FakeClient whose gas market changes between two fetches in one cycle."""
+
+    def __init__(self, *args, second=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._second = second
+        self._gas_calls = 0
+
+    def paginate(self, path, key, params=None, page_size=200, max_pages=25):
+        params = params or {}
+        if (
+            path == "/markets"
+            and params.get("series_ticker") == "KXAAAGASM"
+            and params.get("status", "open") != "settled"
+        ):
+            self._gas_calls += 1
+            if self._gas_calls >= 2 and self._second:
+                self.request_count += 1
+                return [self._second]
+        return super().paginate(path, key, params, page_size=page_size, max_pages=max_pages)
+
+
+def test_second_sample_replaces_a_whole_row_not_just_its_price(tmp_path):
+    """A mid-cycle refresh must not leave one row quoting a fresh price beside a stale mid.
+
+    Regression: the collector used to assign only ``price`` from the refresh, so the
+    published row kept the first sample's ``mid``/``yes_bid``/``yes_ask`` and a
+    ``notional_24h_est`` computed from the old price. A 14-cent move inside a cycle was
+    then invisible to the swing detector, which reads ``mid``.
+    """
+    settings = _settings(tmp_path)
+    earlier = dict(GAS_MARKET_345)
+    earlier.update({"yes_bid_dollars": "0.4200", "yes_ask_dollars": "0.4600", "last_price_dollars": "0.4400"})
+    later = dict(GAS_MARKET_345)
+    later.update({"yes_bid_dollars": "0.2700", "yes_ask_dollars": "0.3100", "last_price_dollars": "0.2900"})
+
+    client = TwoSampleClient(
+        series=[GAS_SERIES, GOLF_SERIES, CRYPTO_SERIES, ELECTION_SERIES, CULTURE_SERIES],
+        events=[
+            {"event_ticker": "KXAAAGASM-26NOV30", "series_ticker": "KXAAAGASM", "category": "Economics", "title": "Gas price"},
+        ],
+        markets_by_series={"KXAAAGASM": [earlier]},
+        second=later,
+    )
+    latest = run_cycle(settings, client=client, now=1_760_000_000, samples=2)
+    row = latest["topics"]["gas"]["markets"][0]
+
+    # Every price field now comes from the same (second) response.
+    assert row["mid"] == 0.29
+    assert row["yes_bid"] == 0.27
+    assert row["yes_ask"] == 0.31
+    assert row["price"] == 0.29
+    # ...and the derived notional follows it instead of the first sample's price.
+    assert abs(row["notional_24h_est"] - round(row["volume_24h"] * row["price"], 2)) < 0.02

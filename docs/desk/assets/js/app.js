@@ -469,6 +469,21 @@
   function alertMarkup(alert, opts) {
     const dir = alert.direction === "up" ? "up" : "down";
     const model = alert.model || {};
+    // Source and context links recorded with the alert. "record" links go to the
+    // official Kalshi record; "search" links are queries built from the market's own
+    // title and are labelled as such, because nothing here attributes a cause.
+    const recorded = (alert.context_links || []).filter((l) => l && l.url);
+    const contextLinks = recorded.length
+      ? recorded
+          .map(
+            (l) =>
+              `<a href="${esc(l.url)}" target="_blank" rel="noopener noreferrer"${
+                l.kind === "search" ? ' title="A search built from the market title. It is not evidence that any article caused this move."' : ""
+              }>${esc(l.label)}</a>${l.kind === "search" ? '<span class="small dim"> search</span>' : ""}`,
+          )
+          .join("")
+      : `<a href="${esc(alert.api_url || "#")}" target="_blank" rel="noopener">market API</a>
+         <a href="${esc(alert.series_page_url || "#")}" target="_blank" rel="noopener">Kalshi page</a>`;
     const why = [
       model.score !== undefined ? `model score ${Number(model.score).toFixed(2)} · est. ROI ${Number(model.roi_pct_est).toFixed(1)}%` : null,
       model.reasons ? model.reasons.join(" · ") : null,
@@ -487,8 +502,7 @@
           <div class="title">${esc(clampText(alert.title, 110))}</div>
           <div class="links">
             <span class="mono small">${esc(alert.ticker)}</span>
-            <a href="${esc(alert.api_url || "#")}" target="_blank" rel="noopener">market API</a>
-            <a href="${esc(alert.series_page_url || "#")}" target="_blank" rel="noopener">Kalshi page</a>
+            ${contextLinks}
             <button class="toggle">why?</button>
           </div>
           <div class="why">${why || "No model verdict recorded for this alert."}</div>

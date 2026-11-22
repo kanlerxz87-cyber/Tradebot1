@@ -146,7 +146,7 @@ function renderLayout(body, page, ctx) {
     .replaceAll('{{BUILD_ID}}', esc(ctx.buildId))
     .replaceAll('{{GENERATED_AT}}', esc(ctx.generatedAt))
     .replaceAll('{{NEWEST_OBS}}', esc(newest ?? DASH))
-    .replaceAll('{{NEWEST_OBS_REL}}', esc(newest ? relative(newest) : DASH));
+    .replaceAll('{{NEWEST_OBS_REL}}', esc(newest ?? DASH));
 
   const topicLinks = TOPICS.map((t) => `<a href="${prefix}${t.href}">${esc(t.label)}</a>`).join(' · ');
 
@@ -187,10 +187,32 @@ ${rendered}
     <div>
       <div><strong class="muted">Review</strong></div>
       <a href="${prefix}flagged.html">Flagged for review</a> · <a href="${prefix}sources.html">Sources</a> · <a href="${prefix}methodology.html">Method</a>
-      <div class="src" style="margin-top:8px">Newest observation: ${esc(newest ? `${stamp(newest)} (${relative(newest)})` : DASH)}</div>
+      <div class="src" style="margin-top:8px">Newest observation: ${newest ? `<time datetime="${esc(newest)}" data-obs-iso="${esc(newest)}">${esc(stamp(newest))}</time> <span data-obs-rel class="dim"></span>` : DASH}</div>
     </div>
   </div>
 </footer>
+<script>
+// The relative age ("24m ago") is computed in the visitor's browser. Baking it into
+// the HTML made it wrong the moment the page was served, and made the --check gate
+// fail for every page older than 90 seconds. The absolute UTC stamp stays in the
+// markup as the record; the script only annotates it.
+(() => {
+  const nodes = document.querySelectorAll('[data-obs-iso]');
+  if (!nodes.length) return;
+  const render = () => {
+    const now = Date.now();
+    for (const node of nodes) {
+      const ms = now - new Date(node.getAttribute('data-obs-iso')).getTime();
+      const s = Math.max(0, Math.round(ms / 1000));
+      const rel = s < 90 ? s + "s ago" : s < 5400 ? Math.round(s / 60) + "m ago" : s < 172800 ? Math.round(s / 3600) + "h ago" : Math.round(s / 86400) + "d ago";
+      const out = node.parentElement?.querySelector('[data-obs-rel]');
+      if (out) out.textContent = "(" + rel + ")";
+    }
+  };
+  render();
+  setInterval(render, 30000);
+})();
+</script>
 </body>
 </html>`;
 }
@@ -209,14 +231,6 @@ function newestObservation(ctx) {
   const tracked = Object.values(ctx.liveState?.tracked ?? {}).map((t) => t?.observedAt).filter(Boolean).sort().pop();
   const snap = ctx.snapshot?.meta?.capturedAt;
   return [fromFeed, tracked, snap].filter(Boolean).sort().pop() ?? null;
-}
-
-function relative(iso) {
-  const s = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000));
-  if (s < 90) return `${s}s ago`;
-  if (s < 5400) return `${Math.round(s / 60)}m ago`;
-  if (s < 172800) return `${Math.round(s / 3600)}h ago`;
-  return `${Math.round(s / 86400)}d ago`;
 }
 
 /**

@@ -187,6 +187,26 @@
     <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Nothing to resolve; recorded for auditability.</div>
     <div class="links small" style="margin-top:6px"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fcae9e3388b1bd7fd433fac1500630b4140" target="_blank" rel="noopener">github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fc</a></div>
   </td>
+</tr><tr id="F15">
+  <td class="ticker">F15</td>
+  <td><span class="chip warn">warn</span></td>
+  <td>
+    <b>Published rows contradicted themselves (fixed 2026-11-22, data heals on the next cycle)</b>
+    <div class="meta" style="margin-top:4px">The collector takes a second sample inside one cycle for finer chart resolution and used to write back only the &#x27;price&#x27; field. Every other price field in the row (mid, yes_bid, yes_ask) and the derived notional_24h_est stayed on the first sample, so a published row could quote a price that its own book contradicted and a notional that did not equal volume_24h x price. Example observed in the 07:21Z snapshot: KXSOL15M-26NOV220230-30 price 0.695 beside mid 0.53. The swing detector reads mid, so a move measured by the second sample could not raise an alert.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Fixed in kalshi_trader/collector.py (the whole row is replaced by the newer response) with a regression test in tests/test_collector.py. `cli verify` now checks every row for out-of-range prices, bid&gt;ask, price/mid disagreement and notional arithmetic, and checks every alert against the $0.10 threshold. The rows still in the committed snapshot predate the fix and are replaced by the next scheduled cycle.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Confirm `cli verify` reports zero consistency warnings after one scheduled cycle.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_market_d</a> · <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a></div>
+  </td>
+</tr><tr id="F16">
+  <td class="ticker">F16</td>
+  <td><span class="chip ">info</span></td>
+  <td>
+    <b>The &#x27;what caused this move&#x27; links are searches, not attributions</b>
+    <div class="meta" style="margin-top:4px">The brief asks for website links that may have caused a sharp jump. No official Kalshi field reports a cause, and this project has no news feed, so each alert now carries two links built from the market&#x27;s own title: a Google News search and a DuckDuckGo search. They open at the reader&#x27;s discretion; nothing claims that an article exists or that it moved the price. Alerts recorded before this change have no such links and render without them.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> Labelled &#x27;search&#x27; beside every link and disclaimed in the alert payload (context_note). No cause is ever asserted, and no article title, publisher or date is generated.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Only attributable if a licensed news feed is added and each match is shown with its own publisher, headline and timestamp for manual review.</div>
+    <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/api-reference/market/get-market" target="_blank" rel="noopener">docs.kalshi.com/api-reference/market/get-market</a></div>
+  </td>
 </tr></tbody></table></div>
 <!-- DATA:END --></div>
 

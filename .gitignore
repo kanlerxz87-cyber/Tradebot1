@@ -21,3 +21,9 @@ _site/
 coverage/
 
 # Build output kept in git on purpose: docs/ is the published GitHub Pages site.
+
+# Local tooling (never published)
+.venv/
+node_modules/
+__pycache__/
+*.pyc

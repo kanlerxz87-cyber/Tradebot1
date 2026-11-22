@@ -307,14 +307,20 @@ def run_cycle(
             time.sleep(max(0.0, settings.sample_gap_s))
             try:
                 refresh = fetch_markets(client, series_by_topic, catalog, settings, errors=errors)
-                ticker_prices = {
-                    m["ticker"]: m["price"] for markets in refresh.values() for m in markets
-                }
-                extra_samples.append(ticker_prices)
-                for ticker, price in ticker_prices.items():
-                    current = market_by_ticker.get(ticker)
-                    if current is not None:
-                        current["price"] = price
+                fresh = {m["ticker"]: m for markets in refresh.values() for m in markets}
+                extra_samples.append({ticker: market["price"] for ticker, market in fresh.items()})
+                # Replace the whole row, not just its price. Updating "price" alone left
+                # each row quoting a fresh price beside a stale mid, bid/ask and
+                # notional, so the published table could contradict itself and the
+                # swing detector (which reads "mid") could miss the very move the
+                # second sample had just measured.
+                for topic_key, markets in market_map.items():
+                    for index, market in enumerate(markets):
+                        newer = fresh.get(market["ticker"])
+                        if newer is not None:
+                            markets[index] = newer
+                all_markets[:] = [m for markets in market_map.values() for m in markets]
+                market_by_ticker = {m["ticker"]: m for m in all_markets}
             except Exception as exc:
                 errors.append(f"sample: {type(exc).__name__}: {exc}")
 

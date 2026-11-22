@@ -98,6 +98,75 @@ def cmd_verify(args: argparse.Namespace) -> int:
             print(f"MISSING RESOLUTION SOURCE: {item.get('ticker')}")
             problems += 1
 
+    # --- row-level arithmetic -------------------------------------------------
+    # A row must not contradict itself. Values outside the contract range, or a bid
+    # above its ask, are impossible and fail. Price/mid/notional disagreements are
+    # reported as warnings: they were caused by a collector bug that updated only
+    # "price" from the second sample in a cycle (fixed in collector.py), and they
+    # disappear with the next cycle's snapshot.
+    warnings = 0
+    for topic in ("gas", "elections", "culture", "crypto", "golf"):
+        for market in ((latest.get("topics") or {}).get(topic) or {}).get("markets", []):
+            ticker = market.get("ticker")
+            for field in ("mid", "price", "last", "yes_bid", "yes_ask"):
+                value = market.get(field)
+                if value is None:
+                    continue
+                try:
+                    value = float(value)
+                except (TypeError, ValueError):
+                    print(f"NOT A NUMBER: {ticker} {field}={market.get(field)!r}")
+                    problems += 1
+                    continue
+                if value < 0.0 or value > 1.0:
+                    print(f"OUT OF RANGE: {ticker} {field}={value} (contract prices are $0.00-$1.00)")
+                    problems += 1
+            bid, ask = market.get("yes_bid"), market.get("yes_ask")
+            if bid is not None and ask is not None and float(bid) > float(ask):
+                print(f"BID ABOVE ASK: {ticker} {bid} > {ask}")
+                problems += 1
+            mid, price = market.get("mid"), market.get("price")
+            if mid is not None and price is not None and abs(float(mid) - float(price)) > 0.005:
+                print(f"WARN  price and mid disagree: {ticker} price={price} mid={mid}")
+                warnings += 1
+            volume, notional = market.get("volume_24h"), market.get("notional_24h_est")
+            price = market.get("price")
+            if None not in (volume, notional, price):
+                expected = float(volume) * float(price)
+                if abs(expected - float(notional)) > max(1.0, 0.01 * max(abs(expected), 1.0)):
+                    print(
+                        f"WARN  notional_24h_est is not volume_24h x price: {ticker} "
+                        f"{notional} vs {round(expected, 2)}"
+                    )
+                    warnings += 1
+
+    # --- alerts ---------------------------------------------------------------
+    alerts = store.read_json(data_dir / "alerts.json", {}) or {}
+    threshold = float(alerts.get("threshold") or 0.10)
+    for alert in alerts.get("items", []):
+        ticker = alert.get("ticker")
+        try:
+            delta = float(alert["to_price"]) - float(alert["from_price"])
+        except (KeyError, TypeError, ValueError):
+            print(f"ALERT WITHOUT TWO PRICES: {ticker}")
+            problems += 1
+            continue
+        if abs(delta) + 1e-9 < threshold:
+            print(f"ALERT BELOW THRESHOLD: {ticker} delta={round(delta, 4)} threshold={threshold}")
+            problems += 1
+        if alert.get("direction") not in ("up", "down"):
+            print(f"ALERT WITH NO DIRECTION: {ticker}")
+            problems += 1
+        elif (delta > 0) != (alert["direction"] == "up"):
+            print(f"ALERT DIRECTION CONTRADICTS ITS PRICES: {ticker} delta={round(delta, 4)}")
+            problems += 1
+        if not alert.get("api_url"):
+            print(f"ALERT WITHOUT A SOURCE LINK: {ticker}")
+            problems += 1
+
+    if warnings:
+        print(f"\n{warnings} consistency warning(s) — see the lines above; none of them is a missing source")
+    print(f"{len(alerts.get('items', []))} alert(s) checked against the {threshold:.2f} threshold")
     print(f"\n{'OK' if problems == 0 else f'{problems} problem(s)'}")
     return 0 if problems == 0 else 1
 
