@@ -195,7 +195,11 @@ def build() -> dict:
         # A finding whose stated status and observed state disagree is an error in
         # one of the two, and this page must not publish either until they agree.
         if item["status"] == "fixed" and not check["ok"]:
-            raise AuditError(f"{item['id']}: marked fixed but its check failed ({check['observed']})")
+            detail = " / ".join(check.get("tail") or [])
+            raise AuditError(
+                f"{item['id']}: marked fixed but its check failed ({check['observed']})"
+                + (f" - {detail}" if detail else "")
+            )
         if item["status"] == "open" and not check["ok"]:
             raise AuditError(
                 f"{item['id']}: marked open but its check now passes - the finding is fixed; "
