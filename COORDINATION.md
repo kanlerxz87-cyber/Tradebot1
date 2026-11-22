@@ -1157,3 +1157,47 @@ the board shows an explicitly labelled empty state rather than numbers. Both are
   2. **Official 6-Decimal-Place Fee Rounding + Subpenny Accumulator (`docs.kalshi.com/getting_started/fee_rounding.md`):** `kalshi_engine/simulator.py` and `demo-desk/assets/live-core.mjs` implement and test `ceil_6dp(0.07 * C * P * (1 - P))` with per-order `$0.0001` direct / `$0.01` non-direct fee-rounding accumulators.
   3. **Interactive Custom Strategy Builder + `scalar` Settlement + Upstream Demo Irregularity Audit (`R1`–`R12`, `U1`–`U7`):** Interactive custom rule builder analyzed by trade type alongside 5 built-in strategies (`demo-desk/portfolio/`), `result: "scalar"` (`settlement_value_dollars: "0.5000"`) support verified on Demo (`KXXISUCCESSOR-45JAN01`), and a complete line-by-line audit (`audit/REPO_LINE_BY_LINE_AUDIT.md`, `demo-desk/audit/`, `demo-desk/flagged/`).
 - **Verification checks executed & passed before PR:** `kalshi_engine/test_engine.py`, `demo-desk/check_live_site.py` (`11` pages, `409` links, `117` source-linked rows, `6` blank unverified cells), `demo-desk/test_live_core.mjs` (`5/5`), `tests/*.test.mjs` (`37/37`), `tests/check_site.py`, `tools/check_links.py`, `tools/check_gateway.py`, `live/tests` (`29/29`), `qa/audit.py --check`, `audit/verify.py --check`, `audit/check_site.py`, `scripts/check-links.mjs` — **all passed**.
+## A3 complete — merged, deployed, verified (2026-11-22)
+
+| Item | Result |
+| - | - |
+| PR | [#21](https://github.com/kanlerxz87-cyber/Tradebot1/pull/21) merged 2026-11-22T07:41:14Z at `28e76e6` |
+| Follow-up PR | [#36](https://github.com/kanlerxz87-cyber/Tradebot1/pull/36) merged 2026-11-22T07:46:24Z at `e1156d30` (the "no borrowed source" rule; see below) |
+| CI on each merge | `test`, `audit`, `node-dashboard` all **pass** (e.g. [run 44999671986](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44999671986)) |
+| Pages | `pages build and deployment` **success** after both merges ([44999745204](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44999745204)); Pages API reports `status: built` |
+| Live check | `/docs/audit/` (overview + findings + flagged) fetched from the published URL and read back: 13 findings, 23 facts, sources resolving, `fee-audit.html` sibling link working |
+
+### Merge conflicts, and how they were resolved without discarding work
+
+`main` moved seven times while this branch was open (#13, #15, #16, #17, #25, #26, #35, #37).
+Three rebases were needed. Every conflict was in a shared file, and every one was resolved by
+keeping **both** sides:
+
+1. `COORDINATION.md` — both session sections kept; only the conflict markers were removed. Nothing
+   of either side was deleted.
+2. `index.html` — the integration session's new landing page was kept whole, and this session added
+   one button (`Verified audit (official sources)`) rather than restoring its older list.
+3. `pages.yml` — the live desk's verification step (session `35fb0d1f`) and this session's audit step
+   are both present, in that order.
+4. Generated board pages — resolved to `main`'s copies, then regenerated from the merged data.
+
+### Duplicate work found and reconciled
+
+- **AUD-03** (`status=settled` with `min_close_ts`) had already been fixed on `main` by PR #16, with
+  the same integer assertion. This branch dropped its own edit, kept `main`'s implementation, and
+  the finding now records the provenance instead of claiming the fix.
+- **AUD-11** (the desk's `VERIFIED = False` fee label) was resolved by session `1662b94b` verifying
+  the same PDF. The finding is withdrawn with the source that settles it.
+- `docs/audit/` is now shared with that session's `fee-audit.html`; it is linked from the audit
+  overview rather than merged or overwritten.
+
+### Two defects in this session's own work, found and fixed before merge
+
+- A local `git add -A` swept **1,587 `node_modules` files** into a commit, because `main`'s
+  `.gitignore` rewrite had dropped its `node_modules/` entry. Removed from history by an autosquash
+  rebase, the ignore entry restored, and the loss noted in `.gitignore` itself.
+- The staleness gate added here (`scripts/build-site.mjs --check`) still failed **in CI only**: the
+  executive summary prints `GITHUB_SHA` as a build badge, so the gate compared a commit id against
+  the string `local`. Fixed by normalising the badge, reproduced with `GITHUB_SHA=abc1234`, and the
+  finding (AUD-08) now records both halves. CI annotations were used to read the failure, because
+  the Actions log archive host is not reachable from this sandbox.
