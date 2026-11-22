@@ -125,7 +125,7 @@ function renderBook(){
   const max=Math.max(1,...[...bids,...asks].map(level=>level.quantity));
   const cell=(level,ask=false)=>level?`<td class="num"><span class="depth-bar ${ask?'ask':''}" style="width:${Math.min(100,level.quantity/max*100).toFixed(2)}%"></span><span class="depth-label ${ask?'ask-text':'bid-text'}">${dollars(level.price)} <span class="muted">/ ${count(level.quantity)}</span></span></td>`:'<td class="num">—</td>';
   $('book-rows').innerHTML=Array.from({length:Math.min(7,Math.max(bids.length,asks.length))},(_,i)=>`<tr>${cell(bids[i])}${cell(asks[i],true)}<td>${sourceLink(book.source,'↗')}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">No resting levels reported. ${sourceLink(book.source)}</td></tr>`;
-  text('book-time',`Observed ${timeOnly(book.observedAt)} UTC${Date.now()-book.observedAt>15000?' · stale':''}`);
+  text('book-time',`${book.published?'Published snapshot':'Observed'} ${utc(book.observedAt,true)}${book.published?' · NOT current liquidity':Date.now()-book.observedAt>15000?' · stale':''}`);
 }
 function plot(){
   const svg=$('chart');if(!svg)return;svg.replaceChildren();
@@ -151,24 +151,30 @@ function plot(){
 }
 function renderDetail(){const market=state.markets.get(state.selected),event=state.events.get(market?.event_ticker);if(!market||!event||!$('detail-title')){plot();return;}text('detail-title',event.title||market.title||market.ticker);text('detail-sub',market.ticker);text('detail-topic',LABELS[topicFor(event)]||'CONTRACT');text('detail-price',dollars(sample(market)));text('detail-meta',`YES · ${market._meta?.kind==='snapshot'?'snapshot':'observed'} ${utc(market._meta?.observedAt)}`);$('detail-source').href=safeUrl(market.source_url)||marketUrl(market.ticker);$('event-source').href=safeUrl(event.source_url)||eventUrl(event.event_ticker);text('rule-text',market.rules_primary||'No primary rule text supplied in this observation. Check the official market and event sources.');const links=$('settlement-sources');if(links){links.replaceChildren();for(const source of (event.settlement_sources||[]).slice(0,5)){const url=safeUrl(source.url);if(!url)continue;const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=(source.name||'Listed settlement source')+' ↗';links.append(a);}if(!links.children.length)links.textContent='No verified settlement source supplied in this response.';}plot();}
 async function loadHistory(ticker,version){
-  state.chartPoints=[];state.chartSource='Source-timestamped observations';plot();
+  const fallback=state.markets.get(ticker)?.history_snapshots?.[state.range];
+  state.chartPoints=(fallback?.candlesticks||[]).map(c=>({t:c.end_period_ts*1000,v:price(c.price?.close_dollars),kind:'published official candle close'})).filter(p=>p.v!==null&&Number.isFinite(p.t));
+  state.chartSource=fallback?`Published ${state.range==='hours'?'hourly':'minute'} candle closes · ${utc(fallback.observed_at)}`:'Source-timestamped observations';plot();
   try{
     if(state.adapter&&state.backendTickers.has(ticker)){const data=await fetchJson(`/api/markets/${encodeURIComponent(ticker)}/history?window=${state.range}`);if(version!==state.detailVersion)return;state.chartPoints=(data.points||[]).map(p=>({t:p.timestamp_ms,v:price(p.price_dollars),kind:p.kind})).filter(p=>p.v!==null);state.chartSource='Persisted demo observations';plot();return;}
     if(state.range==='seconds')return;
     const event=state.events.get(state.markets.get(ticker)?.event_ticker);if(!event?.series_ticker)return;
     const end=Math.floor(Date.now()/1000),period=state.range==='hours'?60:1;const data=await publicRead(`/series/${encodeURIComponent(event.series_ticker)}/markets/${encodeURIComponent(ticker)}/candlesticks`,{start_ts:end-(period===60?86400:3600),end_ts:end,period_interval:period});
     if(version!==state.detailVersion)return;state.chartPoints=(data.candlesticks||[]).map(c=>({t:c.end_period_ts*1000,v:price(c.price?.close_dollars),kind:'official candle close'})).filter(p=>p.v!==null);state.chartSource=`Kalshi ${period===60?'hourly':'minute'} candle closes`;plot();
-  }catch{if(version===state.detailVersion){state.chartSource='Observed points only; exchange history unavailable';plot();}}
+  }catch{if(version===state.detailVersion){if(!fallback)state.chartSource='Observed points only; exchange history unavailable';plot();}}
 }
-async function loadBook(ticker,version){try{
+async function loadBook(ticker,version){
+  const fallback=state.markets.get(ticker)?.orderbook_snapshot;
+  const fallbackBook=fallback?normalizeBook(fallback,toMs(fallback.observed_at),fallback.source_url):null;
+  if(fallbackBook){fallbackBook.published=true;if(version===state.detailVersion){state.book=fallbackBook;renderBook();}}
+  try{
   let book;
   if(state.adapter&&state.backendTickers.has(ticker)){const data=await fetchJson(`/api/markets/${encodeURIComponent(ticker)}/orderbook`);const levels=rows=>(rows||[]).map(p=>({price:price(p.price_dollars),quantity:qty(p.contracts)})).filter(p=>p.price!==null&&p.quantity!==null);book=data.valid&&!data.stale?{yesBids:levels(data.yes_bids),noBids:levels(data.no_bids),yesAsks:levels(data.yes_asks),noAsks:levels(data.no_asks),observedAt:data.observed_ms,source:data.source_url}:null;}
   else book=normalizeBook(await publicRead(`/markets/${encodeURIComponent(ticker)}/orderbook`,{depth:7}),Date.now(),bookUrl(ticker));
   if(version===state.detailVersion){state.book=book;renderBook();}
-}catch{if(version===state.detailVersion){state.book=null;renderBook();}}}
+}catch{if(version===state.detailVersion){state.book=fallbackBook;renderBook();}}}
 function selectMarket(ticker){state.selected=ticker;state.book=null;state.chartPoints=[];state.detailVersion++;const version=state.detailVersion;renderTable();renderDetail();renderBook();loadHistory(ticker,version);loadBook(ticker,version);}
 function render(){renderStats();renderTable();renderFeeds();renderPaper();renderLifecycle();renderDetail();}
-function maybeSelect(){if(!$('chart'))return;if(!state.selected||!filteredMarkets().some(m=>m.ticker===state.selected)){const first=eventGroups(filteredMarkets(),state.events,state.sort)[0]?.markets[0];if(first)selectMarket(first.ticker);else{state.selected=null;state.chartPoints=[];state.book=null;renderBook();plot();}}}
+function maybeSelect(){if(!$('chart'))return;if(!state.selected||!filteredMarkets().some(m=>m.ticker===state.selected)){const candidates=filteredMarkets();const first=candidates.filter(m=>Object.keys(m.history_snapshots||{}).length).sort((a,b)=>(qty(b.volume_24h_fp)||0)-(qty(a.volume_24h_fp)||0))[0]||eventGroups(candidates,state.events,state.sort)[0]?.markets[0];if(first)selectMarket(first.ticker);else{state.selected=null;state.chartPoints=[];state.book=null;renderBook();plot();}}}
 async function loadSnapshot(){
   try{const data=await fetchJson(new URL('../data/snapshot.json',import.meta.url));const generated=toMs(data.generated_at);for(const event of data.events||[])if(topicFor(event))for(const market of event.markets||[])recordMarket(market,event,'snapshot',toMs(market.observed_at)||toMs(event.observed_at)||generated);
     if(generated){state.source='Published official API snapshot';state.updated=generated;state.partial=true;text('data-mode',`Published snapshot · ${utc(generated)} · not a live feed`);status('Snapshot · not live','pending');}

@@ -140,6 +140,41 @@ def collect():
             event["markets_partial"] = len(event["markets"]) < event["total_scanned_markets"]
             if event["markets"]:
                 kept.append(event)
+    # A small, explicit historical fallback keeps the chart useful without fabricating
+    # samples. These depth/candle snapshots retain their own original source timestamps.
+    for topic in TOPICS:
+        candidates = [(market, event) for event in kept if event["topic"] == topic
+                      for market in event["markets"] if market.get("status") == "active"]
+        candidates.sort(key=lambda pair: (Decimal("0.02") < activity(pair[0].get("last_price_dollars")) < Decimal("0.98"),
+                                          activity(pair[0].get("volume_24h_fp"))), reverse=True)
+        for market, event in candidates[:2]:
+            ticker = urllib.parse.quote(market["ticker"], safe="")
+            series_ticker = urllib.parse.quote(event["series_ticker"], safe="")
+            market["history_snapshots"] = {}
+            for name, period, seconds in (("minutes", 1, 3600), ("hours", 60, 86400)):
+                end = int(time.time())
+                path = f"/series/{series_ticker}/markets/{ticker}/candlesticks"
+                params = {"start_ts": end - seconds, "end_ts": end, "period_interval": period}
+                try:
+                    candles = fetch(path, params)
+                    if not isinstance(candles.get("candlesticks"), list):
+                        raise ValueError("candlesticks field missing")
+                    market["history_snapshots"][name] = {
+                        "candlesticks": [{"end_period_ts": row.get("end_period_ts"),
+                                          "price": {"close_dollars": row.get("price", {}).get("close_dollars")}}
+                                         for row in candles["candlesticks"]],
+                        "observed_at": utc(), "source_url": BASE + path + "?" + urllib.parse.urlencode(params),
+                    }
+                except (OSError, ValueError, TypeError) as error:
+                    failures.append({"ticker": market["ticker"], "error": type(error).__name__, "source_url": BASE + path})
+            try:
+                path = f"/markets/{ticker}/orderbook"
+                book = fetch(path, {"depth": 7})
+                if isinstance(book.get("orderbook_fp"), dict):
+                    market["orderbook_snapshot"] = {"orderbook_fp": book["orderbook_fp"],
+                        "observed_at": utc(), "source_url": BASE + path + "?depth=7"}
+            except (OSError, ValueError) as error:
+                failures.append({"ticker": market["ticker"], "error": type(error).__name__, "source_url": BASE + path})
     return {
         "generated_at": utc(), "partial": True, "mode": "published_official_demo_snapshot_not_live",
         "scanned_event_pages": pages, "scanned_series": len(sampled_series), "errors": failures,
