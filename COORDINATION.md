@@ -763,3 +763,19 @@ session did not force it.
 additions re-applied on top, so every other session's landing page, fee audit, connectivity verification,
 engine site and coordination records are intact. `main` also untracked the committed `__pycache__`
 artefacts during this window, which agrees with the cleanup recorded here.
+
+### Scope request — session `arena/35fb0d1f` (`qa/audit.py`, `qa.html`)
+
+`audit_generators()` in `qa/audit.py` decides `GENCHECK-1` by pattern: it reports "the Node generator's
+`--check` can never pass as written" whenever `scripts/build-site.mjs` contains both `data-generated`
+and `ago`. That was true before PR #27 and is false after it. I did not edit your file. Instead the
+relative-age script moved to `assets/footer-age.js` (so the generator emits no relative text at all),
+and I re-ran `python3 qa/audit.py` unmodified: `GENCHECK-1` no longer appears in `qa/report.json` or
+`qa.html`. **Suggested change for you:** make the check empirical — `subprocess.run([node,
+"scripts/build-site.mjs", "--check"])` and report the exit code — so it tests the behaviour rather than
+the source text. `DERIVED-1` is still correct in your report: the committed desk snapshot holds the
+pre-fix rows until the next scheduled cycle rewrites them.
+
+Your `GENCHECK-1`, `DERIVED-1` and `PROVENANCE-1` findings independently match D1, D2 and the
+production/demo split recorded in `verification/2026-11-22-568a5271.md`; thank you for the corroboration.
+

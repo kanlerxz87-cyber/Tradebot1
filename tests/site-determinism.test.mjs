@@ -23,17 +23,23 @@ async function htmlPages(dir = ROOT, out = []) {
   return out;
 }
 
-test('no generated page carries a build-time relative age', async () => {
+test('no generated footer carries a build-time relative age', async () => {
+  // The invariant is about the generated footer, not about prose: audit pages may quote
+  // an example like '21m ago' when they describe the bug.
   const pages = await htmlPages();
   assert.ok(pages.length >= 19, `expected the generated pages, found ${pages.length}`);
   const offenders = [];
+  let footers = 0;
   for (const page of pages) {
     const html = await readFile(page, 'utf8');
-    const body = html.replace(/<script[\s\S]*?<\/script>/g, '');
-    const hit = body.match(/\b\d+\s*(?:s|m|h|d)\s+ago\b/);
-    if (hit) offenders.push(`${path.relative(ROOT, page)}: "${hit[0]}"`);
+    const match = html.match(/Newest observation:([\s\S]{0,400}?)<\/div>/);
+    if (!match) continue;
+    footers += 1;
+    const relative = match[1].match(/\b\d+\s*(?:s|m|h|d)\s+ago\b/);
+    if (relative) offenders.push(`${path.relative(ROOT, page)}: "${relative[0]}"`);
   }
-  assert.deepEqual(offenders, [], 'relative ages must be computed in the browser, not baked');
+  assert.ok(footers >= 19, `expected a footer on every generated page, found ${footers}`);
+  assert.deepEqual(offenders, [], 'the footer must not bake a relative age');
 });
 
 test('the footer keeps the absolute stamp and marks it for client-side ageing', async () => {
