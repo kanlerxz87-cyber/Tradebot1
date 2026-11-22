@@ -557,7 +557,16 @@ passing, and recorded it here. Nothing of theirs was removed or rewritten.
   `.venv/`, `__pycache__/`, `*.py[cod]` and `node_modules/`. Rules restored and verified with
   `git check-ignore`; without that, untracking alone would have let the next `git add -A` re-add them.
 
+### Publish-race fix (2026-11-22, session arena-e3e5f70f)
+
+The 07:33Z cycle collected and built fine but failed at *Commit the new snapshot and ledger*: with five
+sessions pushing to `main`, a bare `git pull --rebase && git push` loses the race with `stale info` often
+enough to matter. The step now retries five times with backoff and reports a warning rather than a red
+build when the race is finally lost — the next cycle re-collects, so nothing is lost but one interval.
+
 ---
+
+# Session `arena-fb837d29` — full repo review, verified corrections, session-index fix (integration session)
 
 # Session `arena/daf65d06-tradebot1` — final integration (this session)
 

@@ -62,19 +62,29 @@ jobs:
           python tools/check_links.py
 
       - name: Commit the new snapshot and ledger
+        # Several sessions push to main all day, so a bare push regularly loses the race with
+        # "stale info". Retry with a rebase, and warn rather than fail if the race is finally lost
+        # (the next cycle re-collects, so at most one interval is missed).
         run: |
+          set -u
           git config user.name "kalshi-trader-bot"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add docs/desk app_data 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "no changes this cycle"
-          else
-            git commit -m "data: cycle $(date -u +%Y-%m-%dT%H:%MZ)"
-            for attempt in 1 2 3; do
-              git pull --rebase --autostash origin main && git push && break
-              echo "push attempt $attempt failed; retrying"; sleep 10
-            done
+            exit 0
           fi
+          git commit -m "data: cycle $(date -u +%Y-%m-%dT%H:%MZ)"
+          for attempt in 1 2 3 4 5; do
+            if git pull --rebase --autostash origin main && git push origin HEAD:main; then
+              echo "published on attempt $attempt"
+              exit 0
+            fi
+            git rebase --abort 2>/dev/null || true
+            echo "push attempt $attempt failed; retrying after backoff"
+            sleep $((attempt * 5))
+          done
+          echo "::warning::could not publish this cycle after 5 attempts; the next cycle retries"
 
       # Pages publishes main:/ in legacy mode, so the push above is the deployment.
       # Verify the public site picked the new snapshot up rather than assuming it did.
