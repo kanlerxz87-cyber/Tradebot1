@@ -16,6 +16,32 @@
   <p class="page-sub">Published as explicitly requested: every item here is either <strong>unverified</strong>, <strong>untested in this environment</strong>, or an <strong>irregularity</strong> found while reviewing the repo. Nothing on this page blocks the site; everything on it deserves your eyes. IDs are stable — reference them when requesting changes.</p>
 
   <div class="card">
+    <h2>Register</h2>
+    <p class="small muted" style="margin:0 0 8px">Sixteen items that could not be fully confirmed from an official source, or that a trader must know before trusting a number. None blocks the merge; each states what would unblock it.</p>
+    <div class="table-wrap"><table aria-label="Flag index">
+      <thead><tr><th>Ref</th><th>Item</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td><a href="#F-01">F-01</a></td><td>No live Kalshi data captured during the build</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-02">F-02</a></td><td>CORS measured: public reads allowed; signed requests blocked</td><td><span class="badge ok">measured</span></td></tr>
+        <tr><td><a href="#F-03">F-03</a></td><td>WebSocket streaming needs a proxy</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-04">F-04</a></td><td>Demo order placement never executed</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-05">F-05</a></td><td>Fee schedule PDF not read in-session</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-06">F-06</a></td><td>Per-contract web URLs unverified</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-07">F-07</a></td><td>Repository irregularities at <code>c8413fc</code></td><td><span class="badge info">historical</span></td></tr>
+        <tr><td><a href="#F-08">F-08</a></td><td>“$0.10 in either direction” operationalized two ways</td><td><span class="badge info">confirm intent</span></td></tr>
+        <tr><td><a href="#F-09">F-09</a></td><td>Model score has no empirical calibration</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-10">F-10</a></td><td>Driver links are candidates, not causes</td><td><span class="badge info">disclosure</span></td></tr>
+        <tr><td><a href="#F-11">F-11</a></td><td>Est. notional is a derived metric</td><td><span class="badge info">disclosure</span></td></tr>
+        <tr><td><a href="#F-12">F-12</a></td><td>Maker/taker fee nuance in P&amp;L</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-13">F-13</a></td><td>Demo account field mapping is defensive</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-14">F-14</a></td><td>Public repository / public Pages site</td><td><span class="badge info">disclosure</span></td></tr>
+        <tr><td><a href="#F-15">F-15</a></td><td>Classic branch protection unreadable with current token</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-16">F-16</a></td><td>Never commit demo credentials (public repo)</td><td><span class="badge info">disclosure</span></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card">
     <h2 id="F-01">F-01 · No live demo data could be captured or verified in the build session</h2>
     <p class="muted"><strong>What:</strong> the sandbox running this build has no network route to <code>external-api.demo.kalshi.co</code> (curl → timeout). No Kalshi demo API keys were provided. All prices, volumes, order books, model scores and alert histories shown at runtime are fetched in <em>your</em> browser, never during the build, and contain zero invented values. The offline fallback is a random-walk generator badged <span class="badge sim">SIMULATED</span>.</p>
     <p class="muted"><strong>Unblocks when:</strong> someone opens the site in a browser with internet access (GitHub Pages serves it publicly), or a CI/hosted runner with egress to the demo API snapshots data server-side.</p>
