@@ -17,12 +17,16 @@
 </section>
 
 <section class="notice">
-  <p><strong>What is in the feeds right now.</strong> The committed record contains one
-  <em>worked example</em>, labelled as such, built from two fields of a single captured response
-  (<code>previous_price_dollars</code> and the current mid) rather than from two observations over
-  time. It exists so the feed layout can be inspected before the collector has produced genuine
-  two-observation swings, and it is excluded from the model-filtered feed. Everything the collector
-  appends carries its own observation time and needs no label.</p>
+  <p><strong>What is in the feeds right now.</strong> Nothing yet, and that is the honest
+  state. An alert needs the <em>same</em> market observed at two different times, at least
+  $0.10 apart. The committed record has no observation cycles in it, so both feeds are empty
+  rather than showing a stand-in row. The scheduled collector appends real swings here, each
+  with its own observation time, and the banner above switches from "committed alert record"
+  to a live count as soon as it does.</p>
+  <p class="small">Why no example row: a made-up row would be the one thing this project
+  refuses to publish. See <a href="flagged.html#F-11">F-11</a> for how poll-to-poll detection
+  can miss or split a move, and <a href="flagged.html#F-01">F-01</a> for why the authoring
+  sandbox could not produce a second observation itself.</p>
 </section>
 
 <section class="grid cols-2">

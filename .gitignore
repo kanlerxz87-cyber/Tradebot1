@@ -1,9 +1,9 @@
-# Python
+# Python artifacts (added by arena/1662b94b: a virtualenv and .pyc files were committed to main)
 __pycache__/
 *.py[cod]
 .venv/
-venv/
 *.egg-info/
+venv/
 .pytest_cache/
 .ruff_cache/
 
@@ -14,14 +14,9 @@ venv/
 !docs/**/*.key
 secrets/
 state/
-data/state/
-data/secrets/
 *.db
 *.db-journal
 app_data/*.tmp
-
-# Node
-node_modules/
 
 # OS / editor
 .DS_Store
@@ -35,3 +30,5 @@ _site/
 coverage/
 
 # Build output kept in git on purpose: docs/ is the published GitHub Pages site.
+
+# Python virtualenv
