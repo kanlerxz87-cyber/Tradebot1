@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-22T07:24:13.476Z",
+  "generated_at": "2026-11-22T07:31:39.691Z",
   "runner": {
     "node": "v22.23.5",
     "os": "linux x64",
-    "github_run_id": "44998062891",
+    "github_run_id": "44998623875",
     "github_repository": "kanlerxz87-cyber/Tradebot1",
     "sandbox_note": "GitHub-hosted runner (has egress to kalshi.co)"
   },
@@ -18,7 +18,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 312,
+      "ms": 326,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -36,7 +36,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 217,
+      "ms": 220,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -44,8 +44,8 @@
         "vary": "Origin, Accept-Encoding, Accept-Language"
       },
       "rate_limit": {},
-      "body_sample": "{\"cursor\":\"CgwIjbGK2AYQqP2IkAESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNllOSFc2T1FMUkIyWE83UFgtQTdLNDZNUE9B\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-29T18:00:00Z\",\"created_time\":\"2026-11-22T07:23:57.302137Z\",\"custom_strike\":{\"Associated Events\":\"KXNCAAMBGAME-26NOV24SHSUWSU,KXNHLGAME-26NOV27CGYNJ\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXNCAAMBGAME-26NOV24SHSUWSU-SHSU,KX",
-      "body_bytes": 2256,
+      "body_sample": "{\"cursor\":\"CgsIurSK2AYQoPvxWxIyS1hNVkVDUk9TU0NBVEVHT1JZLVMyMDI2R0dJWUtQTTNCWlRSSUlJNy1CN1BJNVhIU1I\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-26T20:00:00Z\",\"created_time\":\"2026-11-22T07:31:06.192708Z\",\"custom_strike\":{\"Associated Events\":\"KXEUROLEAGUEGAME-26NOV241500FENFCB,KXNCAAWBGAME-26NOV22MERWEBB\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXEUROLEAGUEGAME-26NOV24",
+      "body_bytes": 2322,
       "error": null
     },
     {
@@ -54,7 +54,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 56,
+      "ms": 72,
       "cors": {
         "access-control-allow-origin": "http://localhost:8000",
         "access-control-allow-credentials": "true",
@@ -62,8 +62,8 @@
         "vary": "Origin, Accept-Encoding, Accept-Language"
       },
       "rate_limit": {},
-      "body_sample": "{\"cursor\":\"CgwIjbGK2AYQqP2IkAESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNllOSFc2T1FMUkIyWE83UFgtQTdLNDZNUE9B\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-29T18:00:00Z\",\"created_time\":\"2026-11-22T07:23:57.302137Z\",\"custom_strike\":{\"Associated Events\":\"KXNCAAMBGAME-26NOV24SHSUWSU,KXNHLGAME-26NOV27CGYNJ\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXNCAAMBGAME-26NOV24SHSUWSU-SHSU,KX",
-      "body_bytes": 2256,
+      "body_sample": "{\"cursor\":\"CgsIurSK2AYQoPvxWxIyS1hNVkVDUk9TU0NBVEVHT1JZLVMyMDI2R0dJWUtQTTNCWlRSSUlJNy1CN1BJNVhIU1I\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-26T20:00:00Z\",\"created_time\":\"2026-11-22T07:31:06.192708Z\",\"custom_strike\":{\"Associated Events\":\"KXEUROLEAGUEGAME-26NOV241500FENFCB,KXNCAAWBGAME-26NOV22MERWEBB\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXEUROLEAGUEGAME-26NOV24",
+      "body_bytes": 2322,
       "error": null
     },
     {
@@ -72,7 +72,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 204,
-      "ms": 54,
+      "ms": 70,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -91,7 +91,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 204,
-      "ms": 54,
+      "ms": 71,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -110,7 +110,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 55,
+      "ms": 71,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -131,7 +131,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 61,
+      "ms": 78,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -139,8 +139,8 @@
         "vary": "Origin, Accept-Encoding, Accept-Language"
       },
       "rate_limit": {},
-      "body_sample": "{\"event\":{\"category\":\"Exotics\",\"collateral_return_type\":\"\",\"event_ticker\":\"KXMVECROSSCATEGORY-S2026YNHW6OQLRB2XO7PX\",\"exchange_index\":1,\"last_updated_ts\":\"2026-11-22T07:23:57.312302Z\",\"mutually_exclusive\":false,\"series_ticker\":\"KXMVECROSSCATEGORY\",\"settlement_sources\":[{\"name\":\"the league governing the game\",\"url\":\"https://www.ncaa.com/sports/football/fbs\"},{\"name\":\"the league governing the game\",",
-      "body_bytes": 2664,
+      "body_sample": "{\"event\":{\"category\":\"Exotics\",\"collateral_return_type\":\"\",\"event_ticker\":\"KXMVECROSSCATEGORY-S2026GGIYKPM3BZTRIII7\",\"exchange_index\":1,\"last_updated_ts\":\"2026-11-22T07:31:06.212651Z\",\"mutually_exclusive\":false,\"series_ticker\":\"KXMVECROSSCATEGORY\",\"settlement_sources\":[{\"name\":\"the league governing the game\",\"url\":\"https://www.ncaa.com/sports/football/fbs\"},{\"name\":\"the league governing the game\",",
+      "body_bytes": 2737,
       "error": null
     },
     {
@@ -149,7 +149,7 @@
       "host": "external-api.demo.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 61,
+      "ms": 77,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -158,11 +158,11 @@
       },
       "rate_limit": {
         "x-ratelimit-limit": "600",
-        "x-ratelimit-remaining": "497",
-        "x-ratelimit-reset": "0.515",
+        "x-ratelimit-remaining": "507",
+        "x-ratelimit-reset": "0.465",
         "x-ratelimit-cost": "50"
       },
-      "body_sample": "{\"candlesticks\":[],\"ticker\":\"KXMVECROSSCATEGORY-S2026YNHW6OQLRB2XO7PX-A7K46MPOA\"}",
+      "body_sample": "{\"candlesticks\":[],\"ticker\":\"KXMVECROSSCATEGORY-S2026GGIYKPM3BZTRIII7-B7PI5XHSR\"}",
       "body_bytes": 81,
       "error": null
     },
@@ -172,7 +172,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 334,
+      "ms": 247,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -190,7 +190,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 258,
+      "ms": 271,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -198,8 +198,8 @@
         "vary": "Origin,Accept-Encoding,Accept-Language"
       },
       "rate_limit": {},
-      "body_sample": "{\"cursor\":\"CgwIjbGK2AYQqP2IkAESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNllOSFc2T1FMUkIyWE83UFgtQTdLNDZNUE9B\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-29T18:00:00Z\",\"created_time\":\"2026-11-22T07:23:57.302137Z\",\"custom_strike\":{\"Associated Events\":\"KXNCAAMBGAME-26NOV24SHSUWSU,KXNHLGAME-26NOV27CGYNJ\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXNCAAMBGAME-26NOV24SHSUWSU-SHSU,KX",
-      "body_bytes": 2256,
+      "body_sample": "{\"cursor\":\"CgsIurSK2AYQoPvxWxIyS1hNVkVDUk9TU0NBVEVHT1JZLVMyMDI2R0dJWUtQTTNCWlRSSUlJNy1CN1BJNVhIU1I\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-26T20:00:00Z\",\"created_time\":\"2026-11-22T07:31:06.192708Z\",\"custom_strike\":{\"Associated Events\":\"KXEUROLEAGUEGAME-26NOV241500FENFCB,KXNCAAWBGAME-26NOV22MERWEBB\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXEUROLEAGUEGAME-26NOV24",
+      "body_bytes": 2322,
       "error": null
     },
     {
@@ -208,7 +208,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 100,
+      "ms": 84,
       "cors": {
         "access-control-allow-origin": "http://localhost:8000",
         "access-control-allow-credentials": "true",
@@ -216,8 +216,8 @@
         "vary": "Origin,Accept-Encoding,Accept-Language"
       },
       "rate_limit": {},
-      "body_sample": "{\"cursor\":\"CgwIjbGK2AYQqP2IkAESMktYTVZFQ1JPU1NDQVRFR09SWS1TMjAyNllOSFc2T1FMUkIyWE83UFgtQTdLNDZNUE9B\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-29T18:00:00Z\",\"created_time\":\"2026-11-22T07:23:57.302137Z\",\"custom_strike\":{\"Associated Events\":\"KXNCAAMBGAME-26NOV24SHSUWSU,KXNHLGAME-26NOV27CGYNJ\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXNCAAMBGAME-26NOV24SHSUWSU-SHSU,KX",
-      "body_bytes": 2256,
+      "body_sample": "{\"cursor\":\"CgsIurSK2AYQoPvxWxIyS1hNVkVDUk9TU0NBVEVHT1JZLVMyMDI2R0dJWUtQTTNCWlRSSUlJNy1CN1BJNVhIU1I\",\"markets\":[{\"can_close_early\":true,\"close_time\":\"2026-11-26T20:00:00Z\",\"created_time\":\"2026-11-22T07:31:06.192708Z\",\"custom_strike\":{\"Associated Events\":\"KXEUROLEAGUEGAME-26NOV241500FENFCB,KXNCAAWBGAME-26NOV22MERWEBB\",\"Associated Market Sides\":\"yes,yes\",\"Associated Markets\":\"KXEUROLEAGUEGAME-26NOV24",
+      "body_bytes": 2322,
       "error": null
     },
     {
@@ -226,7 +226,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 204,
-      "ms": 58,
+      "ms": 83,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -245,7 +245,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 204,
-      "ms": 58,
+      "ms": 80,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -264,7 +264,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 93,
+      "ms": 87,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -273,8 +273,6 @@
       },
       "rate_limit": {
         "x-ratelimit-limit": "600",
-        "x-ratelimit-remaining": "532",
-        "x-ratelimit-reset": "0.34",
         "x-ratelimit-cost": "10"
       },
       "body_sample": "{\"orderbook_fp\":{\"no_dollars\":[],\"yes_dollars\":[]}}",
@@ -287,7 +285,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 96,
+      "ms": 81,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -295,8 +293,8 @@
         "vary": "Origin,Accept-Encoding,Accept-Language"
       },
       "rate_limit": {},
-      "body_sample": "{\"event\":{\"category\":\"Exotics\",\"collateral_return_type\":\"\",\"event_ticker\":\"KXMVECROSSCATEGORY-S2026YNHW6OQLRB2XO7PX\",\"exchange_index\":1,\"last_updated_ts\":\"2026-11-22T07:23:57.312302Z\",\"mutually_exclusive\":false,\"series_ticker\":\"KXMVECROSSCATEGORY\",\"settlement_sources\":[{\"name\":\"the league governing the game\",\"url\":\"https://www.ncaa.com/sports/football/fbs\"},{\"name\":\"the league governing the game\",",
-      "body_bytes": 2664,
+      "body_sample": "{\"event\":{\"category\":\"Exotics\",\"collateral_return_type\":\"\",\"event_ticker\":\"KXMVECROSSCATEGORY-S2026GGIYKPM3BZTRIII7\",\"exchange_index\":1,\"last_updated_ts\":\"2026-11-22T07:31:06.212651Z\",\"mutually_exclusive\":false,\"series_ticker\":\"KXMVECROSSCATEGORY\",\"settlement_sources\":[{\"name\":\"the league governing the game\",\"url\":\"https://www.ncaa.com/sports/football/fbs\"},{\"name\":\"the league governing the game\",",
+      "body_bytes": 2737,
       "error": null
     },
     {
@@ -305,7 +303,7 @@
       "host": "demo-api.kalshi.co",
       "ok": true,
       "status": 200,
-      "ms": 93,
+      "ms": 84,
       "cors": {
         "access-control-allow-origin": "https://kanlerxz87-cyber.github.io",
         "access-control-allow-credentials": "true",
@@ -314,11 +312,11 @@
       },
       "rate_limit": {
         "x-ratelimit-limit": "600",
-        "x-ratelimit-remaining": "520",
-        "x-ratelimit-reset": "0.4",
+        "x-ratelimit-remaining": "529",
+        "x-ratelimit-reset": "0.355",
         "x-ratelimit-cost": "50"
       },
-      "body_sample": "{\"candlesticks\":[],\"ticker\":\"KXMVECROSSCATEGORY-S2026YNHW6OQLRB2XO7PX-A7K46MPOA\"}",
+      "body_sample": "{\"candlesticks\":[],\"ticker\":\"KXMVECROSSCATEGORY-S2026GGIYKPM3BZTRIII7-B7PI5XHSR\"}",
       "body_bytes": 81,
       "error": null
     },
@@ -327,7 +325,7 @@
       "kind": "ws",
       "host": "external-api-ws.demo.kalshi.co",
       "status": 401,
-      "ms": 255,
+      "ms": 257,
       "headers": {},
       "body_sample": "{\"code\":\"token_authentication_failure\",\"message\":\"token authentication failure\"}",
       "error": null
@@ -337,7 +335,7 @@
       "kind": "ws",
       "host": "demo-api.kalshi.co",
       "status": 401,
-      "ms": 385,
+      "ms": 331,
       "headers": {
         "connection": "close"
       },
