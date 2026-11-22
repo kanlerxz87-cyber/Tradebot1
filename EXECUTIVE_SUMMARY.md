@@ -78,7 +78,7 @@ the [verification page](https://kanlerxz87-cyber.github.io/Tradebot1/verificatio
 ### 4. What the numbers mean (and do not)
 
 * Performance figures are **paper**, not exchange fills. Fees are modelled (unverified).
-* Alerts are cycle-resolution: the cron runs every 15 minutes; the live server and direct mode raise
+* Alerts are cycle-resolution: the cron runs every 30 minutes; the live server and direct mode raise
   that to seconds.
 * Dollar-volume rankings use `volume_24h × price`, a derived figure labelled `_est` everywhere.
 * The high-ROI chat is a noise filter, not a forecast. Its accuracy is whatever the ledger records.

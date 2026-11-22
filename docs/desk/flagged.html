@@ -113,7 +113,7 @@
   <td><span class="chip ">info</span></td>
   <td>
     <b>Alert timing is cycle-resolution, not tick-resolution</b>
-    <div class="meta" style="margin-top:4px">Kalshi documents that REST market reads are cached briefly and can lag by seconds. The scheduled collector runs every 15 minutes, so a swing is detected between consecutive cycles; the live server and direct mode raise the resolution to seconds.</div>
+    <div class="meta" style="margin-top:4px">Kalshi documents that REST market reads are cached briefly and can lag by seconds. The scheduled collector runs every 30 minutes, so a swing is detected between consecutive cycles; the live server and direct mode raise the resolution to seconds.</div>
     <div class="small" style="margin-top:6px"><b>Handling:</b> Every alert records its timestamp, the compared-from price and the basis (midpoint or last), so the detection window is auditable rather than implied.</div>
     <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Subscribe to the orderbook_delta WebSocket channel for tick-level detection once credentials exist.</div>
     <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_market_d</a> · <a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs.kalshi.com/getting_started/rate_limits</a></div>
@@ -145,7 +145,7 @@
     <b>GitHub Pages cannot schedule work</b>
     <div class="meta" style="margin-top:4px">The published site is static. Freshness depends on the GitHub Actions cron job that collects data and commits it under docs/data/.</div>
     <div class="small" style="margin-top:6px"><b>Handling:</b> The page shows the snapshot age and turns the freshness chip amber after 30 minutes; the workflow and its last run are linked from the verification page.</div>
-    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Run the included server for true live streaming, or accept the 15-minute cadence.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Run the included server for true live streaming, or accept the 30-minute cadence.</div>
     <div class="links small" style="margin-top:6px"><a href="https://docs.github.com/en/pages" target="_blank" rel="noopener">docs.github.com/en/pages</a></div>
   </td>
 </tr><tr id="F11">

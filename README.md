@@ -14,7 +14,7 @@ same brief; both are kept, because they make different trade-offs and each is us
 
 | Path | What it is | Data source |
 | - | - | - |
-| **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 15 min |
+| **`docs/desk/`** | **Research desk** — scheduled collector, ≥ $0.10 alert archive, two scrolling chats, price + liquidity charts, resolution tracker, four autonomous paper strategies, verified tables | public production REST, collected server-side every 30 min |
 | `docs/` | **Market monitor** — browser-side dashboard, no backend | public demo REST polled from the visitor's browser |
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
 | `board.html`, `dashboard.html` | Node-only trade board and its live page, with their own collector, source register and 17 flags | public demo REST, collected server-side every 30 min |
@@ -51,7 +51,7 @@ The autonomous half of the repository: a Python package and a 15-minute GitHub A
   trading-fee formula is confirmed against Kalshi's own
   [fee schedule](https://kalshi.com/docs/kalshi-fee-schedule.pdf) and all 21 published table rows are
   asserted in `tests/test_model_fees.py`; only the per-series multiplier is still approximated (F1).
-* **Automation** — `.github/workflows/collect.yml` (every 15 min) collects, rebuilds the static tables,
+* **Automation** — `.github/workflows/collect.yml` (every 30 min) collects, rebuilds the static tables,
   runs integrity + link gates, commits the snapshot and ledger, then verifies the published URL.
   `.github/workflows/ci.yml` runs the Python suite (159 tests) on every push and PR, and
   `.github/workflows/pages.yml` runs the Python suite, the Node suite, both link checkers and the
@@ -61,7 +61,7 @@ Local use:
 
 ```sh
 python -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
-.venv/bin/python -m pytest -q                     # 48 tests
+.venv/bin/python -m pytest -q                     # 159 tests
 .venv/bin/python -m kalshi_trader.cli collect     # one live cycle → docs/desk/data/*.json
 .venv/bin/python -m kalshi_trader.cli serve       # site + API + WebSocket on :8000
 .venv/bin/python tools/build_site.py --check      # generated tables current

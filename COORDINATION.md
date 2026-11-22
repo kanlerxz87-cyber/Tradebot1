@@ -63,7 +63,7 @@ was rewritten; the only edits to shared files are the gateway `index.html`, this
 | T4 | Static category pages + verified tables with per-row source links | done | `arena-e3e5f70f` | `docs/topics/**` |
 | T5 | Executive summary | done | `arena-e3e5f70f` | `EXECUTIVE_SUMMARY.md`, `docs/executive-summary.html` |
 | T6 | Flagged-for-Review page (unverified / irregular items) | done — 14 items, 0 blocking | `arena-e3e5f70f` | `docs/flagged.html`, `docs/data/flags.json` |
-| T7 | Autonomous data collection + paper-trading CI cron | done — running on main every 15 min | `arena-e3e5f70f` | `.github/workflows/collect.yml`, `kalshi_trader/collector.py` |
+| T7 | Autonomous data collection + paper-trading CI cron | done — running on main every 30 min | `arena-e3e5f70f` | `.github/workflows/collect.yml`, `kalshi_trader/collector.py` |
 | T8 | CI: unit tests + site link check + GitHub Pages deploy | in progress — awaiting first deploy | `arena-e3e5f70f` | `.github/workflows/ci.yml`, `.github/workflows/pages.yml` |
 | T9 | Final integration: re-verify combined data, confirm build has no broken links, PR → main, merge, confirm Pages deploy | done — see merge log | `arena-e3e5f70f` | `main`, `COORDINATION.md` |
 | T10 | Node trade board: demo REST client, topic router, fee model, swing detector, simulator, collector, signed demo-account read, site generator, 19 pages, 17 flags | done — 32 tests pass, PR #8 | `9bea7e55` | `board.html` + root pages, `assets/**`, `data/**`, `scripts/**`, `tools/**`, `tests/**`, `templates/**`, `verification/**` |
@@ -358,10 +358,40 @@ captured API responses, the price *paths* used to exercise the alert logic are s
   and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
 * **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
   `.gitignore` and this board; resolved the same way.
+* **2026-11-22 08:25** — merged `origin/main` a third time (audit, live capture, consolidated landing).
+  Conflicts again only in `.gitignore` and this board; resolved by taking `main`'s `.gitignore` verbatim
+  and de-duplicating it (`*.egg-info/` and `.ruff_cache/` had been duplicated by the repeated unions).
+## Release record — session `arena-7ae1c34f`
+
+* Branch `arena/7ae1c34f-tradebot1` → PR **[#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)**,
+  CI `build`/`test`/`node-dashboard` all **pass**, **merged without waiting for review** at
+  2026-11-22T07:24:34Z as `0457b85`.
+* `Verify and deploy both Pages dashboards` on `main`
+  ([run 44998103910](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998103910)) **succeeded**.
+  Live: https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/ — confirmed by fetching the deployed
+  page (6 markets, 3 alerts, 32 / 5 / 2 verification counts; the Flagged page renders all 7 non-clean
+  items with their official source links).
+* Reading the **live** HTML found three defects, fixed in PR
+  **[#14](https://github.com/kanlerxz87-cyber/Tradebot1/pull/14)**: literal `**` from captured Kalshi
+  titles rendered in two gas rows; one `captured response` link was a docs URL with a parenthetical
+  appended rather than a URL; "← All dashboards" pointed at `docs/` instead of the portal root.
+* **Repository-hygiene incident, logged:** merging the two sessions' `.gitignore` files several times
+  kept only `main`'s block and dropped `.venv/`, so `git add -A` staged the 143 MB virtualenv and a push
+  was rejected by the 100 MB file-size hook. Fixed by restoring the Python rules, untracking `.venv/`
+  and rewriting the local commit so the blob never reached the remote. `main` had the same problem from
+  another session (`.gitignore` now notes it), and the union is now deduplicated.
+* Flagged and unverified items did not block the merge, as instructed, and are published at
+  `docs/engine/flagged.html` with source links.
+
+---
+
 # Session `arena/1662b94b-tradebot1` — official-source audit (`docs/audit/`)
 
 **Branch:** `arena/1662b94b-tradebot1` (base `521e795`, main head at claim time).
 **Status:** done — results below. Claimed 2026-11-22 (UTC) before any file was changed.
+
+**Pull request and merge record:** [PR #13](https://github.com/kanlerxz87-cyber/Tradebot1/pull/13) — merged with a merge commit (`8efef26`) at 2026-11-22T07:29:17Z, after the PR checks passed (`build` pass, `node-dashboard` pass, `test` pass; deploy skipped on PRs by design). The `main` push runs for the merge succeeded: CI, and "Verify and deploy both Pages dashboards". The live page was fetched after deploy: [docs/audit/fee-audit.html](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) serves the 21/21 table and the 13-series table.
+The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and #12; it was resolved by keeping both sides (no entries removed).
 
 ## Claimed tasks
 
@@ -409,7 +439,7 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 
 **Integration requests (for the integration session, shared files not edited here):** add a link to `docs/audit/fee-audit.html` in `index.html` / `README.md` navigation; the `Flagged for Review` page (`docs/desk/flagged.html`) should carry items 1–5 above.
 
-**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. The commit that first tracked them is the merge that brought in PRs #11/#12 — not identified further here.
+**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. Follow-up: `main` still tracked 51 `__pycache__/*.pyc` files from other sessions' code (merged after the first removal). Those are removed from the index in the follow-up PR that also records this note. Source code is unchanged.
 
 **Sandbox note:** bash in this sandbox cannot reach `*.kalshi.co` or `*.kalshi.com` (TLS failure), so official pages and public GET endpoints were read through the fetch tool. Corroborates flag F5 on the existing Flagged page.
 
@@ -443,6 +473,16 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 Fee formula (F1), demo-account balance (F2), browser CORS (F5), news causality (F5), the ROI model as a
 predictor (F12). All are stated on `docs/desk/flagged.html` with an official source link and the test that
 would clear them.
+
+### Cadence changed to 30 minutes (2026-11-22, session arena-e3e5f70f)
+
+Legacy Pages allows roughly ten builds per hour **per repository**. With several sessions pushing and
+two scheduled workflows, builds for `3625d9e` and `0bed67f` failed with `Page build failed.` while a
+later build succeeded — the signature of build-rate contention, not a content error. The desk's collector
+cron therefore moved from `*/15` to `*/30`, and every page that quoted "15 minutes" now says 30. Each
+cycle still takes two samples 30 s apart, so intra-cycle resolution is unchanged; the local server and
+direct mode still stream at seconds.
+
 ## Session `arena-89a39032` — result
 
 | Task | Status | Owner | Files touched |
