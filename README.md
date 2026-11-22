@@ -82,7 +82,7 @@ pages read only committed files, so the site works with no backend and no key.
 
 ```sh
 npm install                     # jsdom, used only by the render test
-npm test                        # 39 assertions, including Kalshi's own fee table
+npm test                        # 43 assertions, including Kalshi's own fee table
 node scripts/check-data.mjs     # the committed JSON against its contract
 node scripts/build-site.mjs && node scripts/build-site.mjs --check
 node scripts/check-links.mjs    # 19 pages, 642 references, 0 problems

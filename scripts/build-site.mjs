@@ -146,7 +146,8 @@ function renderLayout(body, page, ctx) {
     .replaceAll('{{BUILD_ID}}', esc(ctx.buildId))
     .replaceAll('{{GENERATED_AT}}', esc(ctx.generatedAt))
     .replaceAll('{{NEWEST_OBS}}', esc(newest ?? DASH))
-    .replaceAll('{{NEWEST_OBS_REL}}', esc(newest ?? DASH));
+    .replaceAll('{{NEWEST_OBS_REL}}', esc(newest ?? DASH))
+    .replaceAll('{{FEED_STATE}}', esc(feedState(ctx)))
 
   const topicLinks = TOPICS.map((t) => `<a href="${prefix}${t.href}">${esc(t.label)}</a>`).join(' · ');
 
@@ -224,6 +225,25 @@ function navLinks(page) {
     const active = p.file === page.file ? ' aria-current="page"' : '';
     return `<a href="${prefix}${p.file}"${active}>${esc(p.nav)}</a>`;
   }).join('');
+}
+
+/**
+ * What the committed record contains, in one sentence, written from the data itself.
+ * The page cannot claim "no cycles yet" after a cycle has run, or "nothing yet" when
+ * the record already holds swings.
+ */
+function feedState(ctx) {
+  const alerts = ctx.liveFeed?.alerts ?? [];
+  const runs = ctx.liveFeed?.runs ?? [];
+  const tracked = Object.keys(ctx.liveState?.tracked ?? {}).length;
+  const newest = runs.map((r) => r.at).filter(Boolean).sort().pop() ?? null;
+  if (alerts.length) {
+    return `${alerts.length} swing${alerts.length === 1 ? '' : 's'} of at least $0.10 recorded, the newest at ${stamp(alerts[0].observedAt)} (${tracked} markets tracked). Every row carries the two observation times it compares.`;
+  }
+  if (runs.length) {
+    return `The collector has run ${runs.length} time${runs.length === 1 ? '' : 's'} (latest ${stamp(newest)}) and is tracking ${tracked} markets, but no market has yet been observed at two different times $0.10 or more apart. That is a quiet result, not a missing one: both feeds stay empty rather than showing a stand-in row.`;
+  }
+  return 'The committed record has no observation cycles in it yet, so both feeds are empty rather than showing a stand-in row. The scheduled collector appends real swings here, each with its own observation time.';
 }
 
 function newestObservation(ctx) {

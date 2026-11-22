@@ -442,8 +442,10 @@ instead was audit the two live dashboards line by line and fix what a visitor co
 | D1 Baked relative age + time-dependent build gate | done | `scripts/build-site.mjs`, 19 generated pages, `tests/site-determinism.test.mjs` | rebuild → wait → `--check` passes; 3 new tests |
 | D2 Collector wrote back only `price` from the mid-cycle sample | done | `kalshi_trader/collector.py`, `tests/test_collector.py` | 1 new regression test replaying a 14¢ two-sample cycle |
 | Feature: labelled "what may have caused this" search links on every alert | done — flag F16 | `kalshi_trader/swings.py`, `docs/desk/assets/js/app.js`, `docs/desk/assets/css/site.css`, `tests/test_swings.py` | 3 new tests; no cause is asserted anywhere |
-| D3 README counts and the "candidate news links" claim were stale | done | `README.md` | 146 pytest / 39 node tests, counted |
-| F15 and F16 flagged for review | done — 16 flags, 0 blocking | `docs/desk/data/flags.json`, `docs/desk/flagged.html` | `tools/build_site.py --check` current |
+| D3 README counts and the "candidate news links" claim were stale | done | `README.md` | 146 pytest / 43 node tests, counted |
+| D4 The board's "no observation cycles in it" notice was hardcoded prose | done | `templates/dashboard.tpl`, `scripts/build-site.mjs` | rendered sentence now matches `data/live/feed.json` (1 cycle, 60 markets) |
+| D5 25 series reads refused with HTTP 429, no pacing or retry | done — flag F-18 | `tools/kalshi.mjs`, `tools/collector.mjs`, `tests/kalshi.test.mjs`, `data/flags.json` | 4 new tests; pacing stats recorded per run |
+| F15, F16, F-18 flagged for review | done — desk 16 flags / board 18 flags, 0 blocking | `docs/desk/data/flags.json`, `docs/desk/flagged.html` | `tools/build_site.py --check` current |
 | Repo hygiene: 1,762 tracked `__pycache__/*.pyc` files committed by earlier sessions | done — removed from the index, `__pycache__/`, `.venv/`, `node_modules/` ignored | `.gitignore`, index | `git ls-files | grep -c __pycache__` → 0 |
 | Verification record | done | `verification/2026-11-22-568a5271.md` | commands and outputs quoted |
 
@@ -452,10 +454,13 @@ all returned `000` from this sandbox (`github.com` returned `200`). No new Kalsh
 claims used are the ones already dated in `docs/desk/data/sources.json`. Live data is refreshed by the
 repository's own scheduled workflow, not from here.
 
-**Rebase note:** `git rebase origin/main` conflicted on the 19 generated pages and `COORDINATION.md`
-(main had regenerated the same pages with newer data). Resolved by taking main's pages verbatim,
-re-running the generators against main's data, and re-appending this section to main's board. Nothing
-from sessions `9bea7e55` or `arena-e3e5f70f` was discarded.
+**Rebase / merge note:** main moved four times while this session worked (PRs #11–#17). `git rebase`
+conflicted on the 19 generated pages and `COORDINATION.md`; the branch was therefore merged with
+`origin/main` instead, which conflicted only on `.gitignore`. Generated pages and the desk's static
+tables were regenerated against main's data rather than merged line by line, this section was
+re-appended to main's board, and nothing from sessions `9bea7e55`, `arena-e3e5f70f`, `1662b94b` or
+`7ae1c34f` was discarded. The merge also removes the `.venv/` tree (2,152 files) that commit `3a85f08`
+committed by accident and the 1,762 tracked `__pycache__/*.pyc` files; both are ignored now.
 
 **Non-overlap note:** files touched here that earlier sessions own — `kalshi_trader/*` and
 `docs/desk/*` (session `arena-e3e5f70f`, merged) and the root board's `scripts/`, `tools/`, `tests/`

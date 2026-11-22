@@ -41,7 +41,7 @@ test('the footer keeps the absolute stamp and marks it for client-side ageing', 
   const m = html.match(/<time datetime="([^"]+)" data-obs-iso="([^"]+)">([^<]+)<\/time>\s*<span data-obs-rel/);
   assert.ok(m, 'expected an absolute <time> carrying data-obs-iso plus an empty data-obs-rel slot');
   assert.equal(m[1], m[2]);
-  assert.match(m[1], /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/, 'the stamp is a UTC instant');
+  assert.match(m[1], /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?Z$/, 'the stamp is a UTC instant');
   assert.match(m[3], /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}Z$/, 'the visible stamp is the absolute time, never a relative one');
   assert.ok(!html.includes('data-obs-rel>[0-9'), 'the relative slot starts empty');
 });

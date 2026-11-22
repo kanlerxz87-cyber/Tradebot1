@@ -427,6 +427,9 @@ async function main() {
       markets: markets.length, observations: observations.length,
       newAlerts: newAlerts.length, newPositions: opened, settledPositions: settled,
       errors: Object.values(discovery).flatMap((d) => d.errors).length + Object.values(coverage).flatMap((c) => c.errors).length,
+      // Pacing and 429 handling, so a partly-rate-limited cycle is visible in the record
+      // instead of surfacing only as an unexplained shortfall of markets per topic.
+      requests: typeof client.stats === 'function' ? client.stats() : null,
     }].slice(-200),
     observations: observations.map(stripForFeed),
   };

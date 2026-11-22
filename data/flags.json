@@ -1,210 +1,324 @@
 {
-  "meta": {
-    "note": "Every unverified value, limitation and irregularity found in this build. None of these block publication; all are published on the Flagged for Review page so they can be checked and challenged.",
-    "severityLevels": ["high", "medium", "low", "info"]
-  },
-  "flags": [
-    {
-      "id": "F-01",
-      "severity": "high",
-      "title": "The build sandbox could not reach Kalshi directly, so live collection is delegated to GitHub Actions",
-      "detail": "From the environment that authored this repository, curl and Node fetch to demo-api.kalshi.co and external-api.demo.kalshi.co failed with a TLS reset, while the publicly reachable npm and GitHub APIs answered normally. Every live Kalshi response quoted in this repo was therefore read through a page-fetch proxy, not fetched by the code being shipped. The collector in tools/collector.mjs has not been executed against the live API by the author; the scheduled workflow is what will exercise it.",
-      "impact": "If the collector has a defect, the first scheduled run will fail. The workflow probes /exchange/status with curl first and fails loudly rather than publishing an empty feed, and the collector refuses to overwrite existing data with an empty cycle.",
-      "howToCheck": "Open the Collect live demo data workflow run in the Actions tab and read its log.",
-      "sources": [
-        { "label": "Demo environment docs", "url": "https://docs.kalshi.com/getting_started/demo_env" },
-        { "label": "Actions runs", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/actions" }
-      ]
-    },
-    {
-      "id": "F-02",
-      "severity": "medium",
-      "title": "One row of Kalshi's own fee table cannot be reproduced from Kalshi's own fee formula",
-      "detail": "The fee schedule states fees = round up(M x 0.07 x C x P x (1-P)) and that the result is rounded so that fee plus position cost lands on a centicent. That formula, rounded up to $0.0001, gives $0.0007 at a $0.01 price, while the schedule's summary table prints $0.01. Rounding to the whole cent instead reproduces 20 of the 21 rows exactly in both the 1-contract and 100-contract columns. The $0.01 row is also the one whose extracted text layer is internally inconsistent (its 100-contract fee reads $1.00, which is the price column). This build charges the whole-cent rounding, which matches 20 of 21 rows, and does not special-case the remaining row.",
-      "impact": "Simulated fees for contracts priced at exactly $0.01 may differ from the exchange by up to $0.01 per contract.",
-      "howToCheck": "Read the Trading Fees section and the General Trading Fees Table in the PDF, then compare with tests/fees.test.mjs.",
-      "sources": [
-        { "label": "Kalshi fee schedule PDF", "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf" },
-        { "label": "Fee rounding", "url": "https://docs.kalshi.com/getting_started/fee_rounding" }
-      ]
-    },
-    {
-      "id": "F-03",
-      "severity": "high",
-      "title": "\"Gas prices\" is not a Kalshi category, and the demo's Gas tag covers diesel only",
-      "detail": "GET /series?category=Gas and GET /series?category=Golf both return series: null. The only Gas-tagged series in the demo catalogue at capture are DIESEL and DIESELM, both settling on EIA diesel data. GET /series?tags=Gasoline returns null. Kalshi's own fee schedule names a US gas price series, KXAAAGASM, but that series was not returned by the demo catalogue during this session, and its own markets query for DIESEL returned zero open markets. The user's \"gas prices\" topic is therefore represented by diesel contracts, and there are currently no open gas-topic markets in the demo to chart.",
-      "impact": "The gas-prices page will look empty until the demo has open fuel markets. That emptiness is real, not a bug.",
-      "howToCheck": "GET /series?tags=Gas, GET /series?tags=Gasoline, GET /markets?series_ticker=DIESEL&status=open on the demo host.",
-      "sources": [
-        { "label": "Demo series, Gas tag", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas" },
-        { "label": "Demo series, Gasoline tag", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gasoline" },
-        { "label": "Demo markets, DIESEL", "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=DIESEL&status=open" },
-        { "label": "Fee schedule naming KXAAAGASM", "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf" }
-      ]
-    },
-    {
-      "id": "F-04",
-      "severity": "medium",
-      "title": "\"Golf\" is not a Kalshi category either; golf series are Sports + Golf tag",
-      "detail": "GET /series?category=Golf returns series: null. Golf series exist under category Sports with tag Golf (KXLIVCOMPETE, KXGOLFMAJOR, KXHOLEINONE, KXPGAR1T5, KXPGARYDER, KXPGASOLHEIM). Topic routing therefore uses the tag for golf and the category for crypto, elections and culture, which is an asymmetry a reader should know about.",
-      "impact": "Golf discovery depends on Kalshi keeping the Golf tag on those series.",
-      "howToCheck": "Compare GET /series?category=Golf with GET /series?tags=Golf.",
-      "sources": [
-        { "label": "Demo series, Golf category", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Golf" },
-        { "label": "Demo series, Golf tag", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Golf" }
-      ]
-    },
-    {
-      "id": "F-05",
-      "severity": "medium",
-      "title": "The unfiltered open-market list is dominated by multivariate combo markets, which are excluded",
-      "detail": "GET /markets?status=open returns KXMVE* multivariate combo markets first, in creation order. GET /events excludes multivariate events, and the docs document /events/multivariate separately. This dashboard covers binary event markets in five topics and deliberately does not classify combos, so those rows are not shown and not counted.",
-      "impact": "The dashboard is not a census of every open Kalshi market, and never claims to be.",
-      "howToCheck": "GET /markets?status=open&limit=3 and compare with GET /events?status=open.",
-      "sources": [
-        { "label": "Demo open markets", "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=3" },
-        { "label": "Get Events (excludes multivariate)", "url": "https://docs.kalshi.com/api-reference/events/get-events" },
-        { "label": "Get Markets", "url": "https://docs.kalshi.com/api-reference/market/get-markets" }
-      ]
-    },
-    {
-      "id": "F-06",
-      "severity": "high",
-      "title": "A browser on the published site cannot read a Kalshi portfolio or place an order",
-      "detail": "Signed Kalshi requests need the KALSHI-ACCESS-KEY, KALSHI-ACCESS-SIGNATURE and KALSHI-ACCESS-TIMESTAMP headers, and the signature requires the private key. GitHub Pages serves static files, so any key placed in the page is public. This build therefore keeps all signing in GitHub Actions with repository secrets. This is a design constraint, not a defect to fix.",
-      "impact": "The demo-account page shows whatever the last authenticated snapshot job captured, stamped with its time. It is not a live account view.",
-      "howToCheck": "Read the signing section of the API keys page; confirm the Pages site is static.",
-      "sources": [
-        { "label": "API keys and signing", "url": "https://docs.kalshi.com/getting_started/api_keys" },
-        { "label": "Create Order (V2)", "url": "https://docs.kalshi.com/api-reference/orders/create-order-v2" }
-      ]
-    },
-    {
-      "id": "F-07",
-      "severity": "medium",
-      "title": "Whether a visitor's browser can call the public demo API is untested from this build",
-      "detail": "The site attempts a direct browser read of the public demo endpoints and falls back to the committed snapshot when that fails. The authoring sandbox had no egress to Kalshi, so the browser path could not be exercised here. Cross-origin behaviour is Kalshi's to set and may change; it is not documented by Kalshi in the pages read for this project.",
-      "impact": "Some visitors may only ever see the committed snapshot. Every row shows its observation time so the difference is visible.",
-      "howToCheck": "Open the browser console on the live dashboard and look for the data-source banner, which names either the live API or the snapshot.",
-      "sources": [
-        { "label": "Public market-data quick start (no key required)", "url": "https://docs.kalshi.com/getting_started/quick_start_market_data" }
-      ]
-    },
-    {
-      "id": "F-08",
-      "severity": "high",
-      "title": "No resolved market was captured, so the resolution table starts empty by design",
-      "detail": "The demo catalogue that answered this session's probes contained open markets dated 2027 and 2099 plus same-day sports combos. Reads for settled markets in the five topics within the request caps returned none. The resolution tracker is implemented and will fill from the scheduled collector, but publishing an invented example row would break the rule that every row is observed. The table therefore ships empty with an explanation.",
-      "impact": "The \"how events resolved\" view will be empty until the collector has watched a market through to finalized.",
-      "howToCheck": "GET /markets?status=settled&series_ticker=<topic series> and compare with what the page shows.",
-      "sources": [
-        { "label": "Market lifecycle (finalized, result)", "url": "https://docs.kalshi.com/getting_started/market_lifecycle" },
-        { "label": "Get Markets (status=settled)", "url": "https://docs.kalshi.com/api-reference/market/get-markets" }
-      ]
-    },
-    {
-      "id": "F-09",
-      "severity": "medium",
-      "title": "Demo data only; Kalshi warns demo prices may not reflect real markets",
-      "detail": "Every market, price, order book and resolution on this site comes from the Kalshi demo environment, which uses mock funds. Kalshi's own documentation says the price and behaviour of demo markets may not be reflective of real markets. Nothing here is a trading recommendation, and no simulated result transfers to production.",
-      "impact": "All performance figures are simulations on demo data.",
-      "howToCheck": "Read the warning box on the demo environment page.",
-      "sources": [
-        { "label": "Test In The Demo Environment", "url": "https://docs.kalshi.com/getting_started/demo_env" }
-      ]
-    },
-    {
-      "id": "F-10",
-      "severity": "medium",
-      "title": "The filtered chat is ranked by a project heuristic, not by return on investment",
-      "detail": "The user asked for a second feed filtered to events \"our model likes as high ROI\". This build implements a 0-100 score from move size, crossable order-book depth, spread, 24h volume and freshness. It has no backtest behind it, no calibration, and no claim to predict profit. It is labelled \"model-filtered\" and its components are shown per row so a reader can disagree with it. Calling it ROI would be a hallucination.",
-      "impact": "Treat the filtered feed as a triage list, not a signal.",
-      "howToCheck": "Read tools/alerts.mjs researchScore and the per-row score breakdown on the Alerts page.",
-      "sources": [
-        { "label": "Project rule R2 (this repo)", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/sources.json" }
-      ]
-    },
-    {
-      "id": "F-11",
-      "severity": "low",
-      "title": "Swing alerts compare two polls, so they can miss or overstate a move",
-      "detail": "Kalshi serves cached REST responses and the docs say prices can lag the exchange by several seconds. Alerts are differences between consecutive observations by this collector, not a tick-by-tick record. A move that spikes and reverts between two polls is invisible; a move spread over three polls may be split below the $0.10 threshold. The WebSocket ticker channel would be finer-grained and is not used because public WS channels still require an authenticated handshake, which cannot live in a static site.",
-      "impact": "Absence of an alert is not evidence that no move happened.",
-      "howToCheck": "Compare the Get Markets caching note with the alerts rule in tools/alerts.mjs.",
-      "sources": [
-        { "label": "Get Markets (responses are cached)", "url": "https://docs.kalshi.com/api-reference/market/get-markets" },
-        { "label": "WebSocket handshake requires authentication", "url": "https://docs.kalshi.com/getting_started/quick_start_websockets" },
-        { "label": "Rate limits", "url": "https://docs.kalshi.com/getting_started/rate_limits" }
-      ]
-    },
-    {
-      "id": "F-12",
-      "severity": "medium",
-      "title": "No cause is claimed for any price move",
-      "detail": "The user asked for links to events and websites that may have caused a sharp jump. The Kalshi API returns no cause for a price change, and no news API is wired into this build. What the site does instead: for each alert it links the market and order book, and lists the settlement sources Kalshi itself names for that series, which is where a resolution will be reported. No article is ever presented as the cause of a move.",
-      "impact": "The cause column is a research starting point, not an attribution.",
-      "howToCheck": "Every alert row's settlement-source links come from the series' settlement_sources field in the API response.",
-      "sources": [
-        { "label": "Get Series (settlement_sources field)", "url": "https://docs.kalshi.com/api-reference/market/get-series" },
-        { "label": "Example live response with settlement_sources", "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=open&limit=2&with_nested_markets=true" }
-      ]
-    },
-    {
-      "id": "F-13",
-      "severity": "low",
-      "title": "The demo-account snapshot is disconnected until repository secrets exist",
-      "detail": "The authenticated demo snapshot runs in GitHub Actions and needs KALSHI_API_KEY_ID and KALSHI_PRIVATE_KEY as repository secrets. Without them the job writes connected:false with the reason and the steps to fix it, rather than showing a zero balance. A zero would look like an empty account instead of an unconfigured one.",
-      "impact": "The demo-account page will say \"not connected\" until the secrets are added.",
-      "howToCheck": "Read data/account.json in the repo and the Demo account snapshot workflow log.",
-      "sources": [
-        { "label": "API keys", "url": "https://docs.kalshi.com/getting_started/api_keys" },
-        { "label": "Creating a demo account (Kalshi help)", "url": "https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account" }
-      ]
-    },
-    {
-      "id": "F-14",
-      "severity": "medium",
-      "title": "Some series responses are served from Kalshi's staging S3 host, and some settlement sources are not real sources",
-      "detail": "Several demo series return contract_url values on kalshi-public-docs-staging.s3.us-east-1.amazonaws.com while others use assets.kalshi.com. The Culture series also include settlement sources whose URL is a Google search query or an X profile, and some names are templated and incomplete (for example \"account holder of \" with a trailing space). These are reproduced from the API exactly as returned and are labelled as exchange-provided, not endorsed.",
-      "impact": "Treat a settlement-source link as \"Kalshi named this\", not \"this is authoritative\".",
-      "howToCheck": "GET /series?category=Culture and read contract_url and settlement_sources.",
-      "sources": [
-        { "label": "Demo series, Culture", "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture" }
-      ]
-    },
-    {
-      "id": "F-15",
-      "severity": "low",
-      "title": "Simulated fills assume the entire quantity is available at the quoted level",
-      "detail": "A simulated entry buys one contract at the best derived ask, and pays the published taker fee. It does not model queue position, price impact, latency, or partial fills. The order book's ask side is itself derived from the opposite side's bids, because Kalshi returns bids only.",
-      "impact": "Simulated P&L is optimistic in thin books.",
-      "howToCheck": "Read the derived-asks note on any market page and the Orderbook Responses doc.",
-      "sources": [
-        { "label": "Orderbook Responses", "url": "https://docs.kalshi.com/getting_started/orderbook_responses" },
-        { "label": "Fee schedule", "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf" }
-      ]
-    },
-    {
-      "id": "F-16",
-      "severity": "info",
-      "title": "Two sessions are publishing to this repository at once",
-      "detail": "COORDINATION.md records that session c9075e75 claimed docs/**, .github/**, tests/** and README.md for a docs-rooted build, while this session (9bea7e55) publishes the root site. Both scopes are recorded and non-overlapping on disk. Arena pins each session to one branch and does not allow creating integration branches, so the final merge happens through a pull request into main.",
-      "impact": "A later integration pass may need to choose one canonical root.",
-      "howToCheck": "Read COORDINATION.md on main and on both branches.",
-      "sources": [
-        { "label": "Coordination board", "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/COORDINATION.md" }
-      ]
-    },
-    {
-      "id": "F-17",
-      "severity": "low",
-      "title": "Scheduled collection is not continuous, and GitHub delays scheduled workflows",
-      "detail": "The collector runs on a ten-minute cron. GitHub does not guarantee scheduled runs at exact times, and recommends against using schedules for precise timing. Between runs the published data is as old as the last commit, and every row carries its observation time rather than being presented as current.",
-      "impact": "The dashboard is near-live, not tick-by-tick.",
-      "howToCheck": "Compare the newest observation timestamp on the site with the Actions run history.",
-      "sources": [
-        { "label": "GitHub Actions schedule event documentation", "url": "https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule" }
-      ]
-    }
+ "meta": {
+  "note": "Every unverified value, limitation and irregularity found in this build. None of these block publication; all are published on the Flagged for Review page so they can be checked and challenged.",
+  "severityLevels": [
+   "high",
+   "medium",
+   "low",
+   "info"
   ]
+ },
+ "flags": [
+  {
+   "id": "F-01",
+   "severity": "high",
+   "title": "The build sandbox could not reach Kalshi directly, so live collection is delegated to GitHub Actions",
+   "detail": "From the environment that authored this repository, curl and Node fetch to demo-api.kalshi.co and external-api.demo.kalshi.co failed with a TLS reset, while the publicly reachable npm and GitHub APIs answered normally. Every live Kalshi response quoted in this repo was therefore read through a page-fetch proxy, not fetched by the code being shipped. The collector in tools/collector.mjs has not been executed against the live API by the author; the scheduled workflow is what will exercise it.",
+   "impact": "If the collector has a defect, the first scheduled run will fail. The workflow probes /exchange/status with curl first and fails loudly rather than publishing an empty feed, and the collector refuses to overwrite existing data with an empty cycle.",
+   "howToCheck": "Open the Collect live demo data workflow run in the Actions tab and read its log.",
+   "sources": [
+    {
+     "label": "Demo environment docs",
+     "url": "https://docs.kalshi.com/getting_started/demo_env"
+    },
+    {
+     "label": "Actions runs",
+     "url": "https://github.com/kanlerxz87-cyber/Tradebot1/actions"
+    }
+   ]
+  },
+  {
+   "id": "F-02",
+   "severity": "medium",
+   "title": "One row of Kalshi's own fee table cannot be reproduced from Kalshi's own fee formula",
+   "detail": "The fee schedule states fees = round up(M x 0.07 x C x P x (1-P)) and that the result is rounded so that fee plus position cost lands on a centicent. That formula, rounded up to $0.0001, gives $0.0007 at a $0.01 price, while the schedule's summary table prints $0.01. Rounding to the whole cent instead reproduces 20 of the 21 rows exactly in both the 1-contract and 100-contract columns. The $0.01 row is also the one whose extracted text layer is internally inconsistent (its 100-contract fee reads $1.00, which is the price column). This build charges the whole-cent rounding, which matches 20 of 21 rows, and does not special-case the remaining row.",
+   "impact": "Simulated fees for contracts priced at exactly $0.01 may differ from the exchange by up to $0.01 per contract.",
+   "howToCheck": "Read the Trading Fees section and the General Trading Fees Table in the PDF, then compare with tests/fees.test.mjs.",
+   "sources": [
+    {
+     "label": "Kalshi fee schedule PDF",
+     "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+    },
+    {
+     "label": "Fee rounding",
+     "url": "https://docs.kalshi.com/getting_started/fee_rounding"
+    }
+   ]
+  },
+  {
+   "id": "F-03",
+   "severity": "high",
+   "title": "\"Gas prices\" is not a Kalshi category, and the demo's Gas tag covers diesel only",
+   "detail": "GET /series?category=Gas and GET /series?category=Golf both return series: null. The only Gas-tagged series in the demo catalogue at capture are DIESEL and DIESELM, both settling on EIA diesel data. GET /series?tags=Gasoline returns null. Kalshi's own fee schedule names a US gas price series, KXAAAGASM, but that series was not returned by the demo catalogue during this session, and its own markets query for DIESEL returned zero open markets. The user's \"gas prices\" topic is therefore represented by diesel contracts, and there are currently no open gas-topic markets in the demo to chart.",
+   "impact": "The gas-prices page will look empty until the demo has open fuel markets. That emptiness is real, not a bug.",
+   "howToCheck": "GET /series?tags=Gas, GET /series?tags=Gasoline, GET /markets?series_ticker=DIESEL&status=open on the demo host.",
+   "sources": [
+    {
+     "label": "Demo series, Gas tag",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas"
+    },
+    {
+     "label": "Demo series, Gasoline tag",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gasoline"
+    },
+    {
+     "label": "Demo markets, DIESEL",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=DIESEL&status=open"
+    },
+    {
+     "label": "Fee schedule naming KXAAAGASM",
+     "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+    }
+   ]
+  },
+  {
+   "id": "F-04",
+   "severity": "medium",
+   "title": "\"Golf\" is not a Kalshi category either; golf series are Sports + Golf tag",
+   "detail": "GET /series?category=Golf returns series: null. Golf series exist under category Sports with tag Golf (KXLIVCOMPETE, KXGOLFMAJOR, KXHOLEINONE, KXPGAR1T5, KXPGARYDER, KXPGASOLHEIM). Topic routing therefore uses the tag for golf and the category for crypto, elections and culture, which is an asymmetry a reader should know about.",
+   "impact": "Golf discovery depends on Kalshi keeping the Golf tag on those series.",
+   "howToCheck": "Compare GET /series?category=Golf with GET /series?tags=Golf.",
+   "sources": [
+    {
+     "label": "Demo series, Golf category",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Golf"
+    },
+    {
+     "label": "Demo series, Golf tag",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Golf"
+    }
+   ]
+  },
+  {
+   "id": "F-05",
+   "severity": "medium",
+   "title": "The unfiltered open-market list is dominated by multivariate combo markets, which are excluded",
+   "detail": "GET /markets?status=open returns KXMVE* multivariate combo markets first, in creation order. GET /events excludes multivariate events, and the docs document /events/multivariate separately. This dashboard covers binary event markets in five topics and deliberately does not classify combos, so those rows are not shown and not counted.",
+   "impact": "The dashboard is not a census of every open Kalshi market, and never claims to be.",
+   "howToCheck": "GET /markets?status=open&limit=3 and compare with GET /events?status=open.",
+   "sources": [
+    {
+     "label": "Demo open markets",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=3"
+    },
+    {
+     "label": "Get Events (excludes multivariate)",
+     "url": "https://docs.kalshi.com/api-reference/events/get-events"
+    },
+    {
+     "label": "Get Markets",
+     "url": "https://docs.kalshi.com/api-reference/market/get-markets"
+    }
+   ]
+  },
+  {
+   "id": "F-06",
+   "severity": "high",
+   "title": "A browser on the published site cannot read a Kalshi portfolio or place an order",
+   "detail": "Signed Kalshi requests need the KALSHI-ACCESS-KEY, KALSHI-ACCESS-SIGNATURE and KALSHI-ACCESS-TIMESTAMP headers, and the signature requires the private key. GitHub Pages serves static files, so any key placed in the page is public. This build therefore keeps all signing in GitHub Actions with repository secrets. This is a design constraint, not a defect to fix.",
+   "impact": "The demo-account page shows whatever the last authenticated snapshot job captured, stamped with its time. It is not a live account view.",
+   "howToCheck": "Read the signing section of the API keys page; confirm the Pages site is static.",
+   "sources": [
+    {
+     "label": "API keys and signing",
+     "url": "https://docs.kalshi.com/getting_started/api_keys"
+    },
+    {
+     "label": "Create Order (V2)",
+     "url": "https://docs.kalshi.com/api-reference/orders/create-order-v2"
+    }
+   ]
+  },
+  {
+   "id": "F-07",
+   "severity": "medium",
+   "title": "Whether a visitor's browser can call the public demo API is untested from this build",
+   "detail": "The site attempts a direct browser read of the public demo endpoints and falls back to the committed snapshot when that fails. The authoring sandbox had no egress to Kalshi, so the browser path could not be exercised here. Cross-origin behaviour is Kalshi's to set and may change; it is not documented by Kalshi in the pages read for this project.",
+   "impact": "Some visitors may only ever see the committed snapshot. Every row shows its observation time so the difference is visible.",
+   "howToCheck": "Open the browser console on the live dashboard and look for the data-source banner, which names either the live API or the snapshot.",
+   "sources": [
+    {
+     "label": "Public market-data quick start (no key required)",
+     "url": "https://docs.kalshi.com/getting_started/quick_start_market_data"
+    }
+   ]
+  },
+  {
+   "id": "F-08",
+   "severity": "high",
+   "title": "No resolved market was captured, so the resolution table starts empty by design",
+   "detail": "The demo catalogue that answered this session's probes contained open markets dated 2027 and 2099 plus same-day sports combos. Reads for settled markets in the five topics within the request caps returned none. The resolution tracker is implemented and will fill from the scheduled collector, but publishing an invented example row would break the rule that every row is observed. The table therefore ships empty with an explanation.",
+   "impact": "The \"how events resolved\" view will be empty until the collector has watched a market through to finalized.",
+   "howToCheck": "GET /markets?status=settled&series_ticker=<topic series> and compare with what the page shows.",
+   "sources": [
+    {
+     "label": "Market lifecycle (finalized, result)",
+     "url": "https://docs.kalshi.com/getting_started/market_lifecycle"
+    },
+    {
+     "label": "Get Markets (status=settled)",
+     "url": "https://docs.kalshi.com/api-reference/market/get-markets"
+    }
+   ]
+  },
+  {
+   "id": "F-09",
+   "severity": "medium",
+   "title": "Demo data only; Kalshi warns demo prices may not reflect real markets",
+   "detail": "Every market, price, order book and resolution on this site comes from the Kalshi demo environment, which uses mock funds. Kalshi's own documentation says the price and behaviour of demo markets may not be reflective of real markets. Nothing here is a trading recommendation, and no simulated result transfers to production.",
+   "impact": "All performance figures are simulations on demo data.",
+   "howToCheck": "Read the warning box on the demo environment page.",
+   "sources": [
+    {
+     "label": "Test In The Demo Environment",
+     "url": "https://docs.kalshi.com/getting_started/demo_env"
+    }
+   ]
+  },
+  {
+   "id": "F-10",
+   "severity": "medium",
+   "title": "The filtered chat is ranked by a project heuristic, not by return on investment",
+   "detail": "The user asked for a second feed filtered to events \"our model likes as high ROI\". This build implements a 0-100 score from move size, crossable order-book depth, spread, 24h volume and freshness. It has no backtest behind it, no calibration, and no claim to predict profit. It is labelled \"model-filtered\" and its components are shown per row so a reader can disagree with it. Calling it ROI would be a hallucination.",
+   "impact": "Treat the filtered feed as a triage list, not a signal.",
+   "howToCheck": "Read tools/alerts.mjs researchScore and the per-row score breakdown on the Alerts page.",
+   "sources": [
+    {
+     "label": "Project rule R2 (this repo)",
+     "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/sources.json"
+    }
+   ]
+  },
+  {
+   "id": "F-11",
+   "severity": "low",
+   "title": "Swing alerts compare two polls, so they can miss or overstate a move",
+   "detail": "Kalshi serves cached REST responses and the docs say prices can lag the exchange by several seconds. Alerts are differences between consecutive observations by this collector, not a tick-by-tick record. A move that spikes and reverts between two polls is invisible; a move spread over three polls may be split below the $0.10 threshold. The WebSocket ticker channel would be finer-grained and is not used because public WS channels still require an authenticated handshake, which cannot live in a static site.",
+   "impact": "Absence of an alert is not evidence that no move happened.",
+   "howToCheck": "Compare the Get Markets caching note with the alerts rule in tools/alerts.mjs.",
+   "sources": [
+    {
+     "label": "Get Markets (responses are cached)",
+     "url": "https://docs.kalshi.com/api-reference/market/get-markets"
+    },
+    {
+     "label": "WebSocket handshake requires authentication",
+     "url": "https://docs.kalshi.com/getting_started/quick_start_websockets"
+    },
+    {
+     "label": "Rate limits",
+     "url": "https://docs.kalshi.com/getting_started/rate_limits"
+    }
+   ]
+  },
+  {
+   "id": "F-12",
+   "severity": "medium",
+   "title": "No cause is claimed for any price move",
+   "detail": "The user asked for links to events and websites that may have caused a sharp jump. The Kalshi API returns no cause for a price change, and no news API is wired into this build. What the site does instead: for each alert it links the market and order book, and lists the settlement sources Kalshi itself names for that series, which is where a resolution will be reported. No article is ever presented as the cause of a move.",
+   "impact": "The cause column is a research starting point, not an attribution.",
+   "howToCheck": "Every alert row's settlement-source links come from the series' settlement_sources field in the API response.",
+   "sources": [
+    {
+     "label": "Get Series (settlement_sources field)",
+     "url": "https://docs.kalshi.com/api-reference/market/get-series"
+    },
+    {
+     "label": "Example live response with settlement_sources",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=open&limit=2&with_nested_markets=true"
+    }
+   ]
+  },
+  {
+   "id": "F-13",
+   "severity": "low",
+   "title": "The demo-account snapshot is disconnected until repository secrets exist",
+   "detail": "The authenticated demo snapshot runs in GitHub Actions and needs KALSHI_API_KEY_ID and KALSHI_PRIVATE_KEY as repository secrets. Without them the job writes connected:false with the reason and the steps to fix it, rather than showing a zero balance. A zero would look like an empty account instead of an unconfigured one.",
+   "impact": "The demo-account page will say \"not connected\" until the secrets are added.",
+   "howToCheck": "Read data/account.json in the repo and the Demo account snapshot workflow log.",
+   "sources": [
+    {
+     "label": "API keys",
+     "url": "https://docs.kalshi.com/getting_started/api_keys"
+    },
+    {
+     "label": "Creating a demo account (Kalshi help)",
+     "url": "https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account"
+    }
+   ]
+  },
+  {
+   "id": "F-14",
+   "severity": "medium",
+   "title": "Some series responses are served from Kalshi's staging S3 host, and some settlement sources are not real sources",
+   "detail": "Several demo series return contract_url values on kalshi-public-docs-staging.s3.us-east-1.amazonaws.com while others use assets.kalshi.com. The Culture series also include settlement sources whose URL is a Google search query or an X profile, and some names are templated and incomplete (for example \"account holder of \" with a trailing space). These are reproduced from the API exactly as returned and are labelled as exchange-provided, not endorsed.",
+   "impact": "Treat a settlement-source link as \"Kalshi named this\", not \"this is authoritative\".",
+   "howToCheck": "GET /series?category=Culture and read contract_url and settlement_sources.",
+   "sources": [
+    {
+     "label": "Demo series, Culture",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture"
+    }
+   ]
+  },
+  {
+   "id": "F-15",
+   "severity": "low",
+   "title": "Simulated fills assume the entire quantity is available at the quoted level",
+   "detail": "A simulated entry buys one contract at the best derived ask, and pays the published taker fee. It does not model queue position, price impact, latency, or partial fills. The order book's ask side is itself derived from the opposite side's bids, because Kalshi returns bids only.",
+   "impact": "Simulated P&L is optimistic in thin books.",
+   "howToCheck": "Read the derived-asks note on any market page and the Orderbook Responses doc.",
+   "sources": [
+    {
+     "label": "Orderbook Responses",
+     "url": "https://docs.kalshi.com/getting_started/orderbook_responses"
+    },
+    {
+     "label": "Fee schedule",
+     "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+    }
+   ]
+  },
+  {
+   "id": "F-16",
+   "severity": "info",
+   "title": "Two sessions are publishing to this repository at once",
+   "detail": "COORDINATION.md records that session c9075e75 claimed docs/**, .github/**, tests/** and README.md for a docs-rooted build, while this session (9bea7e55) publishes the root site. Both scopes are recorded and non-overlapping on disk. Arena pins each session to one branch and does not allow creating integration branches, so the final merge happens through a pull request into main.",
+   "impact": "A later integration pass may need to choose one canonical root.",
+   "howToCheck": "Read COORDINATION.md on main and on both branches.",
+   "sources": [
+    {
+     "label": "Coordination board",
+     "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/COORDINATION.md"
+    }
+   ]
+  },
+  {
+   "id": "F-17",
+   "severity": "low",
+   "title": "Scheduled collection is not continuous, and GitHub delays scheduled workflows",
+   "detail": "The collector runs on a ten-minute cron. GitHub does not guarantee scheduled runs at exact times, and recommends against using schedules for precise timing. Between runs the published data is as old as the last commit, and every row carries its observation time rather than being presented as current.",
+   "impact": "The dashboard is near-live, not tick-by-tick.",
+   "howToCheck": "Compare the newest observation timestamp on the site with the Actions run history.",
+   "sources": [
+    {
+     "label": "GitHub Actions schedule event documentation",
+     "url": "https://docs.github.com/en/actions/reference/events-that-trigger-workflows#schedule"
+    }
+   ]
+  },
+  {
+   "id": "F-18",
+   "severity": "medium",
+   "title": "One collector cycle hit HTTP 429 on 25 of its series reads, so that cycle's topic coverage was partial",
+   "detail": "The demo REST API answered too_many_requests for 12 crypto series, 12 golf series and 1 culture series in the 07:29Z cycle, so those series contributed no markets to that snapshot. The cycle records the failures per series in live/state.json (coverage.*.errors) and they are counted on the run record, but a reader looking only at the topic totals would see fewer golf markets than exist and could mistake it for an absence of markets.",
+   "sources": [
+    {
+     "url": "https://docs.kalshi.com/getting_started/rate_limits",
+     "label": "Kalshi rate limits (token buckets, 429 behaviour)"
+    }
+   ],
+   "howToCheck": "Confirm two consecutive cycles report zero 429s and that golf/culture series counts stop dropping out of coverage."
+  }
+ ]
 }
