@@ -184,6 +184,17 @@ function renderRank(mode) {
       Gas and golf have no open markets in parts of the demo catalogue; see <a href="flagged.html#F-03">F-03</a>.</td></tr>`;
     return;
   }
+  // Some demo markets quote a one-sided book, so "resting dollars" is genuinely
+  // zero. Say that in one line above the table instead of leaving the ranking
+  // reader to guess why every figure is a dash.
+  const ranked = rows.filter((r) => r.resting != null && r.resting > 0).length;
+  const rankNote = document.getElementById('rank-note');
+  if (rankNote) {
+    rankNote.innerHTML = ranked
+      ? `Ranked by resting bid dollars. ${rows.length - ranked} of the ${rows.length} rows below have an empty book and are shown with a dash rather than a zero.`
+      : `None of the ${rows.length} markets below has a bid resting on its book in this capture, so the ranking falls back to 24-hour volume and every dollar figure reads as a dash. That is the exchange's data, not a missing value.`;
+  }
+
   tbody.innerHTML = rows.map((m, i) => {
     const book = state.orderbooks.get(m.ticker);
     const alert = largestAlertFor(m.ticker);

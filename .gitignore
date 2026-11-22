@@ -1,9 +1,12 @@
-# Python
+# Python artifacts and virtualenvs.
+# Two 2026-11-22 merges dropped these rules and committed a virtualenv plus .pyc binaries to main;
+# sessions arena/89a39032 and arena/1662b94b both untracked them. Keep the union of the rules.
 __pycache__/
 *.py[cod]
-.venv/
-venv/
 *.egg-info/
+.venv/
+*.egg-info/
+venv/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
@@ -32,3 +35,11 @@ app_data/*.tmp
 public/
 _site/
 coverage/
+
+# Build output kept in git on purpose: docs/ is the published GitHub Pages site.
+
+# Python virtualenv
+
+# Python bytecode and caches are never source
+**/__pycache__/
+*.pyc

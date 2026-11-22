@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-22T07:31:03Z",
+  "generated_at": "2026-11-22T07:34:35Z",
   "counts": {
     "error": 0,
     "warn": 3,
@@ -8,16 +8,17 @@
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
     "docs/desk latest.json: 300 rows, price bounds",
-    "docs/desk/data/alerts.json: 0 alerts",
-    "docs/desk/data/history.json: 61 tracked series, sample length 2",
+    "docs/desk/data/alerts.json: 1 alerts",
+    "docs/desk/data/history.json: 62 tracked series, sample length 2",
     "data/snapshot.json: 8 markets",
     "board data/snapshot.json: 8 rows, price bounds",
     "data/account.json: connected=False",
     "docs/data/snapshot.json: 0 events, partial=True",
     "monitor docs/data/snapshot.json: 0 rows, price bounds",
-    "49 HTML pages, 896 internal references",
+    "67 HTML pages, 1179 internal references",
+    "tracked files: 244, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 6476 paths"
+    "secret scan: 6656 paths"
   ],
   "findings": [
     {
@@ -31,13 +32,7 @@
         {
           "ticker": "KXAAAGASW-26NOV23-3.6300",
           "problems": [
-            "yes_depth_contracts 10908.06 != ladder sum 10372.06"
-          ]
-        },
-        {
-          "ticker": "KXAAAGASW-26NOV23-3.6250",
-          "problems": [
-            "yes_depth_contracts 30964.14 != ladder sum 30947.14"
+            "yes_depth_contracts 10908.16 != ladder sum 10372.16"
           ]
         },
         {
@@ -49,19 +44,25 @@
         {
           "ticker": "KXGAMEAWARDS-2026-GTA",
           "problems": [
-            "yes_depth_contracts 40647.51 != ladder sum 40607.51"
+            "yes_depth_contracts 40645.37 != ladder sum 40605.37"
+          ]
+        },
+        {
+          "ticker": "KXBTC15M-26NOV220230-30",
+          "problems": [
+            "yes_depth_contracts 40978.45 != ladder sum 33048.59"
           ]
         },
         {
           "ticker": "KXBTC50VS100-BTC-26DEC31",
           "problems": [
-            "yes_depth_contracts 11185.03 != ladder sum 11084.03"
+            "yes_depth_contracts 9590.62 != ladder sum 9489.62"
           ]
         },
         {
           "ticker": "KXBTCD-26NOV2217-T56999.99",
           "problems": [
-            "yes_depth_contracts 22055.39 != ladder sum 21949.19"
+            "yes_depth_contracts 21983.19 != ladder sum 21823.09"
           ]
         }
       ],
@@ -73,56 +74,56 @@
       "severity": "warn",
       "code": "DERIVED",
       "title": "Estimated 24h notional was computed from a different price than the row prints",
-      "detail": "24h volume x the row's own price differs from the printed estimate on 13 row(s); the largest gap is 10.7%. The implied price is the previous mid, so the notional was fixed before the row's quote was refreshed.",
-      "count": 13,
+      "detail": "24h volume x the row's own price differs from the printed estimate on 15 row(s); the largest gap is 32.2%. The implied price is the previous mid, so the notional was fixed before the row's quote was refreshed.",
+      "count": 15,
       "examples": [
         {
           "ticker": "KXAAAGASW-26NOV23-3.6350",
-          "volume_24h": 89608.49,
-          "printed_price": 0.355,
-          "implied_price_used": 0.345,
-          "stated": 30914.93,
-          "recomputed": 31811.01
+          "volume_24h": 89765.86,
+          "printed_price": 0.3,
+          "implied_price_used": 0.29,
+          "stated": 26032.1,
+          "recomputed": 26929.76
         },
         {
-          "ticker": "KXRT-HUN-67",
-          "volume_24h": 20703.45,
-          "printed_price": 0.425,
-          "implied_price_used": 0.42,
-          "stated": 8695.45,
-          "recomputed": 8798.97
+          "ticker": "KXOSCARNOMPIC-27-PRO",
+          "volume_24h": 4933.57,
+          "printed_price": 0.705,
+          "implied_price_used": 0.7,
+          "stated": 3453.5,
+          "recomputed": 3478.17
+        },
+        {
+          "ticker": "KXRT-IPL-89",
+          "volume_24h": 3750.18,
+          "printed_price": 0.405,
+          "implied_price_used": 0.4,
+          "stated": 1500.07,
+          "recomputed": 1518.82
+        },
+        {
+          "ticker": "KXBTC15M-26NOV220230-30",
+          "volume_24h": 784790.55,
+          "printed_price": 0.295,
+          "implied_price_used": 0.435,
+          "stated": 341383.89,
+          "recomputed": 231513.21
         },
         {
           "ticker": "KXBTC50VS100-BTC-26DEC31",
-          "volume_24h": 459977.39,
-          "printed_price": 0.395,
+          "volume_24h": 461274.64,
+          "printed_price": 0.39,
           "implied_price_used": 0.4,
-          "stated": 183990.96,
-          "recomputed": 181691.07
+          "stated": 184509.86,
+          "recomputed": 179897.11
         },
         {
-          "ticker": "KXBTCD-26NOV2217-T58749.99",
-          "volume_24h": 54686.26,
-          "printed_price": 0.585,
-          "implied_price_used": 0.595,
-          "stated": 32538.32,
-          "recomputed": 31991.46
-        },
-        {
-          "ticker": "KXBTCD-26NOV2217-T58499.99",
-          "volume_24h": 47125.59,
-          "printed_price": 0.665,
-          "implied_price_used": 0.675,
-          "stated": 31809.77,
-          "recomputed": 31338.52
-        },
-        {
-          "ticker": "KXBTCD-26NOV2203-T58799.99",
-          "volume_24h": 27915.45,
-          "printed_price": 0.855,
-          "implied_price_used": 0.875,
-          "stated": 24426.02,
-          "recomputed": 23867.71
+          "ticker": "KXETH15M-26NOV220230-30",
+          "volume_24h": 40138.47,
+          "printed_price": 0.735,
+          "implied_price_used": 0.705,
+          "stated": 28297.62,
+          "recomputed": 29501.78
         }
       ],
       "source": "docs/desk/data/latest.json",
@@ -164,19 +165,6 @@
       "action": ""
     },
     {
-      "id": "EXAMPLE-1",
-      "severity": "info",
-      "code": "EXAMPLE",
-      "title": "Board feed contains a labelled worked example",
-      "detail": "One alert is built from two fields of a single API response rather than two observations in time. It is labelled in the payload and on the page; it is not market data.",
-      "count": 1,
-      "examples": [
-        "KXELONMARS-99"
-      ],
-      "source": "data/live/feed.json",
-      "action": ""
-    },
-    {
       "id": "EMPTY-1",
       "severity": "info",
       "code": "EMPTY",
@@ -214,6 +202,19 @@
       "action": ""
     },
     {
+      "id": "EXTERNAL-3",
+      "severity": "info",
+      "code": "EXTERNAL",
+      "title": "External link outside the official-source list",
+      "detail": "docs/engine/verification.html links to api.github.com. Not a Kalshi source; kept for context.",
+      "count": 1,
+      "examples": [
+        "https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages"
+      ],
+      "source": "docs/engine/verification.html",
+      "action": ""
+    },
+    {
       "id": "GENCHECK-1",
       "severity": "info",
       "code": "GENCHECK",
@@ -228,8 +229,8 @@
       "id": "FRESH-1",
       "severity": "info",
       "code": "FRESH",
-      "title": "docs/desk/data/latest.json captured 2026-11-22T07:14:46Z",
-      "detail": "0.27 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
+      "detail": "0.22 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -240,7 +241,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.52 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.58 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",

@@ -213,6 +213,27 @@ Only this entry was appended to the shared `COORDINATION.md`. No other file in `
 `docs/desk/`, `kalshi_trader/`, `python/`, `scripts/`, `tests/`, `tools/`, or the workflow files
 was changed by this session.
 
+---
+
+# Session `arena/89a39032-tradebot1` — integration, audit and landing consolidation
+
+**Branch:** `arena/89a39032-tradebot1` (base `521e795`, which is `main` after PR #9).
+**Claimed:** 2026-11-22.
+
+## Claim (pushed before any implementation)
+
+| Task | Status | Owner | Files / scope |
+| - | - | - | - |
+| I1 Repo review + line-by-line audit of the four merged sites, with per-row official source links | in progress | `arena-89a39032` | `docs/integration/**` (new) |
+| I2 Single clean landing page: category navigation, live snapshot status, one recommended dashboard | in progress | `arena-89a39032` | `index.html` only |
+| I3 Re-verify combined data, run every check, PR → `main`, merge, confirm Pages deploy | in progress | `arena-89a39032` | `COORDINATION.md`, `tools/check_links.py`, `README.md` |
+
+**Non-overlap:** this session will not edit `site/**`, `docs/index.html`, `docs/{gas,elections,culture,crypto,golf,review}/**`,
+`docs/desk/**`, `kalshi_trader/**`, `python/**`, `scripts/**` or any existing workflow. Findings about those
+files are logged here and published on the new audit page instead of being edited in place.
+
+**Known conflict risk:** PRs #8 and #10 are open from other sessions and both add site content; if they
+merge first this session rebases and keeps every one of their files, then re-checks links.
 ## Session `9bea7e55` — completion and integration record
 
 **Status: merged and published.** Task board entry T10/T11.
@@ -288,15 +309,255 @@ gained **no** edits from this session. Consequences, all deliberate:
 
 ---
 
+# Session `arena-7ae1c34f` — live engine, verification register and `docs/engine/`
+
+An independent implementation of the brief, merged **additively**. Scope: `app/**`, `engine/**`,
+`data/**`, its own `tests/test_*.py`, and the published site under **`docs/engine/`**. No file of
+`docs/desk/`, the `docs/` monitor, `site/`, `python/`, `assets/`, or the Node board (`board.html`,
+`assets/*.js`) was rewritten. Shared files touched: this board, the root gateway `index.html` (one
+added card), `requirements.txt`, `.gitignore`, `tests/check_site.py` (a documented skip, exactly as
+`docs/desk` is skipped) and `.github/workflows/pages.yml` (one added verification step).
+
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Live engine: Kalshi REST/WS client, orderbook maths, published fee model, ≥ $0.10 swing detector with two feeds, resolution tracking, six-strategy simulated book, FastAPI dashboard | done | `7ae1c34f` | `app/**`, `engine/**`, `tests/test_*.py` | 141 Python tests pass. Fee code reproduces **42/42** published fee-table values. |
+| Verification register | done | `7ae1c34f` | `engine/verification.py`, `docs/engine/data/verification.json` | **39 facts: 32 verified** (each with an official URL), **5 flagged**, **2 unverified**. |
+| Static site from the engine's own data | done | `7ae1c34f` | `engine/build_site.py`, `engine/check_site.py`, `docs/engine/**` | Gate fails on a broken link, an unsourced table row or an unrendered template. `docs/engine` is byte-identical to a fresh regeneration. |
+
+## Findings a reviewer should compare against the other implementations
+
+* **No Gas and no Culture category exists** in `GET /search/tags_by_categories`; Golf is a *Sports* tag
+  and Oil & Gas a *Commodities* tag, so those two topics are derived and each row records its rule.
+* **Gas markets are filed as `Economics`**, not Commodities.
+* **`?category=` does not filter** `/events` — a `Crypto` request returned World and Elections events.
+* **Documented status values are contradicted**: live responses use `active` and `finalized` where the
+  docs say `open` and `settled`.
+* **A one-sided book reads as a 100-cent collapse** (`no_bid 0.0000` beside `yes_ask 1.0000`). Any
+  implementation that watches the ask alone will emit constant false ≥ $0.10 alerts. This engine
+  requires a two-sided uncrossed book for a mid, else the last trade, else the best bid, and labels
+  quote-only moves.
+* **Demo quotes are placeholders and disagree with production**: demo `KXAAAGASM-26NOV30-3.00` showed
+  99c while Kalshi's public page showed "Above 3.50" at 47c with strikes 3.45/3.50/3.55.
+* **`KXMVE…` combos** span unrelated legs (NFL props + European soccer) and are excluded.
+
+## Not verified / flagged (published at `docs/engine/flagged.html`)
+
+No demo API key exists here, so signing is unit-tested but has never authenticated; the WS handshake is
+implemented but never observed live; browser CORS is undocumented. Per-series fee multipliers and the fee
+rounding rebate accumulator are not modelled. The `docs/engine/` snapshot is labelled `captured-replay`
+on every page because the build environment has no route to Kalshi: market/strike/quote values are real
+captured API responses, the price *paths* used to exercise the alert logic are scripted.
+
+## Log
+
+* **2026-11-22 07:52** — `pages.yml` now verifies `docs/engine` and rebuilds it, proving reproducibility.
+* **2026-11-22 07:45** — merged `origin/main` (desk + monitor + tests). Conflicts in `COORDINATION.md`,
+  `requirements.txt`, `.gitignore` and three test module names that collide with the desk's. Resolved by
+  keeping the desk's modules intact and this session's tests under their own names; `requirements.txt`
+  and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
+* **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
+  `.gitignore` and this board; resolved the same way.
+* **2026-11-22 08:25** — merged `origin/main` a third time (audit, live capture, consolidated landing).
+  Conflicts again only in `.gitignore` and this board; resolved by taking `main`'s `.gitignore` verbatim
+  and de-duplicating it (`*.egg-info/` and `.ruff_cache/` had been duplicated by the repeated unions).
+## Release record — session `arena-7ae1c34f`
+
+* Branch `arena/7ae1c34f-tradebot1` → PR **[#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)**,
+  CI `build`/`test`/`node-dashboard` all **pass**, **merged without waiting for review** at
+  2026-11-22T07:24:34Z as `0457b85`.
+* `Verify and deploy both Pages dashboards` on `main`
+  ([run 44998103910](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998103910)) **succeeded**.
+  Live: https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/ — confirmed by fetching the deployed
+  page (6 markets, 3 alerts, 32 / 5 / 2 verification counts; the Flagged page renders all 7 non-clean
+  items with their official source links).
+* Reading the **live** HTML found three defects, fixed in PR
+  **[#14](https://github.com/kanlerxz87-cyber/Tradebot1/pull/14)**: literal `**` from captured Kalshi
+  titles rendered in two gas rows; one `captured response` link was a docs URL with a parenthetical
+  appended rather than a URL; "← All dashboards" pointed at `docs/` instead of the portal root.
+* **Repository-hygiene incident, logged:** merging the two sessions' `.gitignore` files several times
+  kept only `main`'s block and dropped `.venv/`, so `git add -A` staged the 143 MB virtualenv and a push
+  was rejected by the 100 MB file-size hook. Fixed by restoring the Python rules, untracking `.venv/`
+  and rewriting the local commit so the blob never reached the remote. `main` had the same problem from
+  another session (`.gitignore` now notes it), and the union is now deduplicated.
+* Flagged and unverified items did not block the merge, as instructed, and are published at
+  `docs/engine/flagged.html` with source links.
+
+---
+
+# Session `arena/1662b94b-tradebot1` — official-source audit (`docs/audit/`)
+
+**Branch:** `arena/1662b94b-tradebot1` (base `521e795`, main head at claim time).
+**Status:** done — results below. Claimed 2026-11-22 (UTC) before any file was changed.
+
+**Pull request and merge record:** [PR #13](https://github.com/kanlerxz87-cyber/Tradebot1/pull/13) — merged with a merge commit (`8efef26`) at 2026-11-22T07:29:17Z, after the PR checks passed (`build` pass, `node-dashboard` pass, `test` pass; deploy skipped on PRs by design). The `main` push runs for the merge succeeded: CI, and "Verify and deploy both Pages dashboards". The live page was fetched after deploy: [docs/audit/fee-audit.html](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) serves the 21/21 table and the 13-series table.
+The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and #12; it was resolved by keeping both sides (no entries removed).
+
+## Claimed tasks
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| A1 | Re-verify the paper fee model against Kalshi's official fee schedule, line by line (every row of the schedule's general table recomputed with the repo's own `kalshi_trader/fees.taker_fee`) | done | `arena/1662b94b-tradebot1` | `docs/audit/**` (new) |
+| A2 | Cross-check the series-level fields the site relies on (category, tags, fee_type, fee_multiplier) for a sample of series in all five topics against the official Series endpoint | done | `arena/1662b94b-tradebot1` | `docs/audit/**` (new) |
+| A3 | Log irregularities and scope requests for the owning sessions (no edits to their files) | done | `arena/1662b94b-tradebot1` | this section of `COORDINATION.md` |
+
+**Not touched:** `kalshi_trader/**`, `docs/desk/**`, `docs/` monitor, `site/`, `python/`, `tools/`, `tests/`, `.github/**`, `index.html`, `README.md`, `EXECUTIVE_SUMMARY.md`, `docs/flagged` data. Shared nav/index changes are left to the integration session.
+
+**Egress note (this sandbox):** bash cannot reach `*.kalshi.co` / `*.kalshi.com` (TLS failure on `curl`, see F5). Official Kalshi pages and public GET endpoints were read through the fetch tool instead, and each row links the page it came from.
+
+## Results (2026-11-22 UTC)
+
+**Output:** [`docs/audit/fee-audit.html`](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) (live after the next Pages deploy). Generator and recomputation: `docs/audit/build.py` (`--check` exits 1 on any failed row).
+
+**Sources read (official only):**
+
+- Kalshi fee schedule PDF, "Last updated and effective: July 7, 2026": https://kalshi.com/docs/kalshi-fee-schedule.pdf
+- Kalshi fee-schedule page, "No upcoming fee changes scheduled", non-standard series list (160 series): https://kalshi.com/fee-schedule
+- Fee rounding: https://docs.kalshi.com/getting_started/fee_rounding
+- Get Series API reference (`fee_type`, `fee_multiplier` fields): https://docs.kalshi.com/api-reference/market/get-series
+- Glossary (`category`, `categories`, `tags`; worked example): https://docs.kalshi.com/getting_started/terms
+- Live official Series endpoint, production host, 13 sampled series (gas, golf, crypto, elections, culture): `https://external-api.kalshi.com/trade-api/v2/series/{ticker}`
+
+**Verification performed:**
+
+- 21 of 21 rows of the general fee table recomputed with `kalshi_trader.fees.taker_fee`: all match (1-contract and 100-contract columns).
+- Series fields compared with the repo's topic assignment in `docs/desk/data/series.json`: all 13 topic assignments match the expected topic.
+- Ledger (`app_data/paper_ledger.json`) checked for records on series with `fee_multiplier: 0`: 0 records, $0.00.
+- `pytest -q` (53 passed), `python tools/check_links.py` (272 links, OK), `python tests/check_site.py` (OK) — run after the page was added.
+- Every table row on the page carries a source link (41 rows, 0 without a link).
+
+**Irregularities and scope requests** (owned by `arena-e3e5f70f`; recorded here, not edited):
+
+1. **Review — per-series fee multiplier ignored.** `KXBTCY` and `KXETHY` return `fee_multiplier: 0` and the schedule lists them as no fees; the repo charges the general formula to every series. Latent (0 ledger records). Request: read `fee_multiplier` per series in `kalshi_trader/fees.py` / `paper.py`.
+2. **Review — flag F1 is out of date.** The fee schedule PDF and fee-schedule page are retrievable now and the general formula matches 21/21. Request: update `docs/desk/data/flags.json` F1 and `fees.VERIFIED`, citing the links above, after item 1 is handled.
+3. **Review — source S10 conflicts with the live record.** S10 (`docs/desk/data/sources.json`, `docs/desk/verification.html`) says KXAAAGASM has categories `[Economics, Commodities]`. The glossary gives that only as an example; the live endpoint returns `["Economics"]`. Request: correct S10 or cite the live record.
+4. **Note — maker fills not modeled.** The gas, PGA Tour and US Open series are `quadratic_with_maker_fees`. `maker_fee()` exists but nothing calls it. Request: state that maker fills are excluded from paper results.
+5. **Note — rounding detail unverified.** Repo rounds to the cent; Kalshi documents a $0.000001 trade fee plus balance rounding and rebates. Request: note the difference.
+6. **Confirmed (no action):** Golf = category `Sports` + tag `Golf` (KXPGATOUR, KXMASTERS, KXUSOPEN). Entertainment series exist for the Culture mapping (KXFIRSTSUPERBOWLSONG, KXRT).
+
+**Not verified (left blank, not inferred):** 147 of the 160 non-standard series on the fee-schedule page; maker-table values (the PDF gives the formula only); demo account balances, positions and fills (no demo credentials in the repo); browser access to Kalshi from the Pages site.
+
+**Integration requests (for the integration session, shared files not edited here):** add a link to `docs/audit/fee-audit.html` in `index.html` / `README.md` navigation; the `Flagged for Review` page (`docs/desk/flagged.html`) should carry items 1–5 above.
+
+**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. The commit that first tracked them is the merge that brought in PRs #11/#12 — not identified further here.
+
+**Sandbox note:** bash in this sandbox cannot reach `*.kalshi.co` or `*.kalshi.com` (TLS failure), so official pages and public GET endpoints were read through the fetch tool. Corroborates flag F5 on the existing Flagged page.
+
+## Results — session `arena-e3e5f70f` (2026-11-22, after the first live cycles)
+
+| Item | Result |
+| - | - |
+| Pull request | [#5](https://github.com/kanlerxz87-cyber/Tradebot1/pull/5) merged 2026-11-22T07:14:27Z (merge commit `8dd6cb0`), plus [#9](https://github.com/kanlerxz87-cyber/Tradebot1/pull/9) (collector fix) |
+| CI on the PR | `CI` and `Verify and deploy both Pages dashboards` both green before merge |
+| Pages deployment | Pages build `73ef9dd` completed 2026-11-22T07:23:57Z; site served from `/docs/` legacy source |
+| Live desk | <https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/> — 300 markets across the five topics, 6,000 open events scanned |
+| First real alert | `KXRT-HUN-67` mid 0.425 → 0.29 (−$0.135), model score 0.5252, est. ROI 12.68%, eligible → present in **both** chats |
+| Resolution tracker | 120 settled markets recorded in the second cycle (`resolved.json`) |
+| Paper book | 12 open positions, equity $996.76 on a $1,000 book, 0 closed |
+| Collection errors | 0 after fixing the `min_close_ts` type (was 10 × HTTP 400 in cycle 1) |
+| Snapshot size | 4.5 MB → 0.9 MB per cycle (catalogue trimmed to the 150 most active series per topic; eleven dead fields dropped) |
+| Tests | 53 passing (48 + settled-sweep regression + 4 from the monitor suite) |
+
+### Bugs found by running it for real (not by the tests)
+
+1. `min_close_ts` was serialised as `1793517419.0`; Kalshi requires an integer → every settled-series
+   request returned HTTP 400 and the resolution tracker stayed empty. Fixed, regression test added.
+2. The first published snapshot was 4.5 MB because the Sports/Entertainment catalogue sweep matched
+   ~6,000 series and every market carried eleven duplicated fields. Now 0.9 MB per cycle with exact
+   per-topic totals preserved.
+3. `.gitignore` lost its Python entries in an earlier merged branch; restored as a union so `.venv/`
+   and `__pycache__/` can never be committed.
+
+### Unverified, still blocking nothing
+
+Fee formula (F1), demo-account balance (F2), browser CORS (F5), news causality (F5), the ROI model as a
+predictor (F12). All are stated on `docs/desk/flagged.html` with an official source link and the test that
+would clear them.
+## Session `arena-89a39032` — result
+
+| Task | Status | Owner | Files touched |
+| - | - | - | - |
+| I1 Repo review + line-by-line audit | done | `arena-89a39032` | `audit.html` (new) |
+| I2 Single clean landing page | done | `arena-89a39032` | `index.html` |
+| I3 Re-verify, PR, merge, deploy | in progress → recorded below | `arena-89a39032` | `COORDINATION.md`, `README.md`, `tools/check_links.py` |
+| I4 Defect fixes found during review (takeover, see note) | done | `arena-89a39032` | `kalshi_trader/collector.py`, `tools/build_site.py`, `tests/test_integration_fixes.py` (new), `docs/desk/data/*`, `docs/desk/topics/*` |
+
+### Sources and verification performed
+
+* Egress test, 2026-11-22: `curl -m 10` to `external-api.demo.kalshi.co`, `demo-api.kalshi.co`,
+  `docs.kalshi.com` and `kanlerxz87-cyber.github.io` all returned status `000` (no connection);
+  `api.github.com` returned `200`. **No Kalshi fact could be re-fetched from this sandbox.** Every such
+  fact on `audit.html` is attributed to the recording session with the official link, and marked
+  "not re-checked here". This corroborates flag F5 from `arena-e3e5f70f` and the note from `ef466564`.
+* Checks re-run locally: `pytest -q` **57 passed** (4 new regression tests), `npm test` **36 passed**,
+  `npm run check:links` **19 pages / 642 refs / 0 problems**, `npm run check:data` **all 9 files valid**,
+  `tools/check_links.py` **300 links / 13 pages**, `tools/build_site.py --check` **current**,
+  `tests/check_site.py` **21 pages**, `cli verify` **OK**.
+* Landing page rendered headlessly (jsdom + local HTTP server) and confirmed to read the published
+  snapshot: cycle `2026-11-22T07:21:40Z`, 300 markets, 1 alert, 308 settled, paper equity `$996.76`,
+  5×60 contracts per topic, newest alert row with its own Kalshi API link.
+* GitHub Actions history: "Collect market data" run
+  [44997328671](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997328671) success;
+  deploy run [44997857586](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44997857586)
+  success; main carried an autonomous data commit `data: cycle 2026-11-22T07:23Z`.
+
+### Irregularities found (all published on `audit.html` §2 and §5, none blocking)
+
+Five defects, each reproduced from committed evidence before being changed and each covered by a test
+that fails on the previous code:
+
+1. `history.json` read as the whole envelope instead of its `series` map → history reset every cycle.
+   Evidence: two consecutive published cycles both held exactly 2 points per market; the requested
+   seconds/minutes/hours chart could never accumulate.
+2. Settled rows written with `topic: null` → all five topic pages said "No settled markets recorded yet"
+   while 308 settled markets were in the data.
+3. Settled sweep took the alphabetically first 10 series across all topics → 300 gas + 8 elections rows,
+   golf/culture/crypto never swept.
+4. Published resolution table capped at 120 rows globally → gas crowded the other topics out of
+   `latest.json`.
+5. Every resolution row linked the same generic settlement page instead of its own market URL.
+
+Also recorded, not edited in place (owned by other sessions): committed `docs/data/snapshot.json` is
+empty and only regenerated in CI; the desk reads production data while execution is paper (flag F6);
+demo account not connected (F2); browser CORS untested (F5); no causal news attribution is asserted.
+
+### Scope note / takeover
+
+`kalshi_trader/collector.py` and `tools/build_site.py` were `arena-e3e5f70f`'s files. That session's
+board marks T1–T9 done and its PR #9 is merged; defects 1–5 above are user-visible failures of features
+the brief explicitly asks for, and the fixes are minimal and test-covered. This session therefore fixed
+them in place rather than leaving the primary dashboard broken, kept every one of that session's tests
+passing, and recorded it here. Nothing of theirs was removed or rewritten.
+
+### Merge and hygiene log — `arena-89a39032`
+
+- 2026-11-22: merged `origin/main` twice while working (PRs #8, #10, #11, #12 landed during the session).
+  Conflicts were `index.html` (this session's consolidated landing vs the multi-card gateway) and
+  `COORDINATION.md` (append-only). Resolution: the consolidated landing was kept and the engine site that
+  PR #10 added was added to its "other implementations" table, so no session's site disappeared from the
+  navigation; both board records were kept, this one last. No other session's file was discarded.
+- 2026-11-22: **repo hygiene irregularity found and fixed.** `main` was tracking 3884 files under `.venv/`
+  and 1762 `__pycache__/*.pyc` binaries (~100 MB of generated content) although `.gitignore` lists `.venv/`
+  and `__pycache__/`. Untracked with `git rm --cached`; files remain on disk, no source/data/test file was
+  affected. Flagged on `audit.html`. Root cause is a commit made with `git add -f` or `-A` after a local
+  install; the ignore rules were already correct.
+- 2026-11-22: merged tree re-checked after each merge — `pytest` 146 passed, `npm test` 36 passed,
+  `check:links` 19 pages / 644 refs, `check:data` valid, `tools/check_links.py` 301 links / 13 pages,
+  `build_site --check` current, `tests/check_site.py` 37 pages.
+- 2026-11-22: root cause of the artifact commit identified — a merge had replaced `.gitignore` and dropped
+  `.venv/`, `__pycache__/`, `*.py[cod]` and `node_modules/`. Rules restored and verified with
+  `git check-ignore`; without that, untracking alone would have let the next `git add -A` re-add them.
+
+---
+
 # Session `arena-35fb0d1f` — live desk server, cross-implementation audit, integration
 
-**Claimed (UTC):** 2026-11-22 · **Branch:** `arena/35fb0d1f-tradebot1` (base `c8c1d28`) · **Status:** done — merged to `main`
+**Claimed (UTC):** 2026-11-22 · **Branch:** `arena/35fb0d1f-tradebot1` (base `c8c1d28`) · **Status:** done — merged into `main` via this branch
 
 Scope claimed below **before** implementation, committed and pushed as its own commit, per the board rules.
 
 | # | Task | Status | Owner | Files / scope |
 | - | - | - | - | - |
-| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 49 pages / 896 internal references / 6 476 paths scanned: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
+| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 67 pages / 1 179 internal references scanned on the merged tree: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
 | T13 | Live desk: a dependency-free local server (REST + Server-Sent Events + optional Kalshi REST polling) and a single-page interactive dashboard built for it — topic tabs, two ≥ $0.10 alert chats, price chart with seconds/minutes/hours windows, orderbook depth, resolution tracking, simulated portfolio and per-strategy analytics | done — 29 unit tests pass; served and exercised locally; `live.html` generated | `arena-35fb0d1f` | `live/**`, `live.html` |
 | T14 | Integration: executive-summary addendum, landing-page card, CI step for T12/T13, PR → `main`, merge, confirm Pages deploy | done — see merge log | `arena-35fb0d1f` | `index.html`, `EXECUTIVE_SUMMARY.md`, `.github/workflows/pages.yml`, `COORDINATION.md` |
 
@@ -332,7 +593,7 @@ session did not force it.
 * `python3 qa/audit.py --check` — 0 errors. Covers price bounds, crossed books, ladder monotonicity and
   depth reconciliation, duplicate tickers across topics, alert threshold/sign/ordering/subset, resolution
   values against the documented set, unknown statuses, official-host source links, derived totals, every
-  local link in 49 published pages, and a credential scan of 6 476 paths.
+  local link in 67 published pages, committed-build-artefact detection, and a credential scan of the tree.
 * Existing suites unchanged and still green: 82 pytest tests, 36 Node tests, `tools/build_site.py --check`,
   `tools/check_links.py` (275 links), `tests/check_site.py` (21 pages), `python/test_simulator.py`,
   `scripts/check-data.mjs`, `scripts/check-links.mjs` (19 pages / 642 references), `scripts/check-render.mjs`.
@@ -362,3 +623,16 @@ session did not force it.
   build and test checks pass, so its owner can rebase it.
 * Shared files changed here are additive only: two cards and two bullets in `index.html`, one appended part in
   `EXECUTIVE_SUMMARY.md`, one step in `.github/workflows/pages.yml`. No other session's file was rewritten.
+
+
+### Merge of `main` into this branch (2026-11-22)
+
+`main` advanced from `c8c1d28` to `ffd8994` while this branch was open (PRs #13/#14/#16/#18). The merge
+kept every other session's landing page, audit page, engine site and workflow as-is and re-applied this
+session's two additive links (`qa.html`, `live.html`) into the new landing page's tables, plus the live-desk
+verification step in `pages.yml`. No conflicting content was discarded; the three conflicted files were
+rebuilt from `main` and this session's additions re-applied on top.
+
+A working tree from `main` also contained committed `tests/__pycache__/*.pyc` build artifacts (from the
+`.venv` incident another session logged). They are not source and are removed from the index in this
+branch, with the finding recorded by the audit rather than silently dropped.

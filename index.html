@@ -3,99 +3,271 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kalshi Trader — five topics, one desk</title>
-<meta name="description" content="Kalshi demo-environment research: gas prices, elections, culture, crypto and golf. ≥ $0.10 swing alerts, price and liquidity charts, resolution tracking, simulated trading. Every claim sourced.">
-<link rel="canonical" href="index.html">
-<link rel="stylesheet" href="docs/desk/assets/css/site.css">
+<title>Kalshi Trader — one desk for five topics</title>
+<meta name="description" content="Kalshi research desk: gas prices, elections, culture, crypto and golf. Alerts on moves of $0.10 or more, price and liquidity charts, YES/NO resolution tracking and a simulated trading book. Every table row links to an official Kalshi source.">
+<link rel="canonical" href="./">
 <style>
-  .home { max-width: 980px; margin: 0 auto; padding: 48px 20px 64px; }
-  .home h1 { font-size: 30px; letter-spacing: -.02em; margin: 10px 0 6px; }
-  .home .lede { color: var(--text-dim); max-width: 70ch; }
-  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin: 26px 0 8px; }
-  .card-link { display: block; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: inherit; text-decoration: none; }
-  .card-link:hover, .card-link:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
-  .card-link h2 { font-size: 16px; margin: 0 0 6px; }
-  .card-link p { margin: 0; color: var(--text-dim); font-size: 13px; line-height: 1.55; }
-  .card-link .tag { display: inline-block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid currentColor; border-radius: 999px; padding: 2px 7px; margin-bottom: 10px; }
-  .home ul { padding-left: 18px; color: var(--text-dim); font-size: 13px; line-height: 1.7; }
-  .home footer { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12px; color: var(--text-dim); }
+  :root {
+    --bg: #08131c; --panel: #0e1d29; --panel2: #122636; --line: #1e3a4d;
+    --text: #e6f1f7; --dim: #93aebc; --accent: #35dbab; --warn: #f0b429; --bad: #ef5b6b;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  a { color: var(--accent); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 26px 18px 60px; }
+  header.top { display: flex; flex-wrap: wrap; gap: 10px; align-items: baseline; justify-content: space-between;
+    border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+  .brand { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--dim); }
+  .brand b { color: var(--text); letter-spacing: .04em; }
+  .status { font: 12px/1 var(--mono); color: var(--dim); }
+  .status .dot { color: var(--warn); }
+  .status.ok .dot { color: var(--accent); }
+  h1 { font-size: 27px; line-height: 1.2; margin: 26px 0 8px; letter-spacing: -.02em; }
+  .lede { color: var(--dim); max-width: 74ch; margin: 0 0 18px; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; margin: 18px 0 8px; }
+  .btn { display: inline-block; padding: 10px 16px; border-radius: 9px; text-decoration: none; font-weight: 600; font-size: 14px;
+    border: 1px solid var(--accent); color: #04140f; background: var(--accent); }
+  .btn.ghost { background: transparent; color: var(--text); border-color: var(--line); }
+  .btn.ghost:hover { border-color: var(--accent); }
+  h2 { font-size: 15px; letter-spacing: .02em; margin: 34px 0 4px; }
+  h2 .sub { font-weight: 400; color: var(--dim); font-size: 13px; display: block; margin-top: 3px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); margin-top: 12px; }
+  .metric, .card { background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 13px 14px; }
+  .metric label { display: block; font-size: 10px; letter-spacing: .11em; text-transform: uppercase; color: var(--dim); }
+  .metric strong { display: block; font: 600 21px/1.25 var(--mono); margin: 5px 0 2px; }
+  .metric small { color: var(--dim); font-size: 11px; }
+  .topics { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); margin-top: 12px; }
+  .topic { display: block; background: var(--panel); border: 1px solid var(--line); border-radius: 11px; padding: 13px 14px;
+    text-decoration: none; color: inherit; }
+  .topic:hover, .topic:focus-visible { border-color: var(--accent); }
+  .topic h3 { margin: 0 0 4px; font-size: 15px; }
+  .topic .n { font: 600 18px/1.2 var(--mono); color: var(--accent); }
+  .topic p { margin: 6px 0 0; font-size: 12px; color: var(--dim); }
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; background: var(--panel);
+    border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  th, td { text-align: left; padding: 9px 11px; border-bottom: 1px solid var(--line); font-size: 13px; vertical-align: top; }
+  th { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--dim); background: var(--panel2); }
+  tr:last-child td { border-bottom: 0; }
+  td.num, th.num { text-align: right; font-family: var(--mono); }
+  .tag { display: inline-block; font-size: 10px; letter-spacing: .07em; text-transform: uppercase;
+    border: 1px solid currentColor; border-radius: 999px; padding: 1px 7px; color: var(--dim); }
+  .tag.live { color: var(--accent); } .tag.review { color: var(--warn); } .tag.archive { color: var(--dim); }
+  .note { background: var(--panel); border: 1px solid var(--line); border-left: 3px solid var(--warn);
+    border-radius: 8px; padding: 12px 14px; font-size: 13px; color: var(--dim); margin-top: 16px; }
+  footer { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12px; color: var(--dim); }
+  footer a { color: var(--dim); text-decoration: underline; }
+  code { font-family: var(--mono); font-size: 12px; color: var(--text); }
 </style>
 </head>
 <body>
-<main class="home">
-  <p class="tag" style="margin:0">Kalshi · demo environment · research, not advice</p>
-  <h1>Five topics. One desk. Every number traced to an official source.</h1>
-  <p class="lede">Gas prices, elections, culture, crypto and golf — scanned continuously for moves of
-    <strong>$0.10 or more</strong>, charted with price and resting liquidity, tracked to a YES/NO
-    resolution, and traded by four rule-based strategies in a simulated book.</p>
+<main class="wrap">
+  <header class="top">
+    <div class="brand"><b>KALSHI TRADER</b> · research desk</div>
+    <div class="status" id="status" role="status"><span class="dot">●</span> reading the latest published cycle…</div>
+  </header>
 
-  <div class="cards">
-    <a class="card-link" href="docs/desk/">
-      <span class="tag">Autonomous</span>
-      <h2>Research desk →</h2>
-      <p>The collector-driven desk: 15-minute scheduled cycles, two alert chats (all moves and the
-         model's high-ROI subset), price chart with 30s–all windows, orderbook depth, resolution
-         tracker, four strategies with per-type analysis, and a source link on every table row.</p>
-    </a>
-    <a class="card-link" href="docs/">
-      <span class="tag">Interactive</span>
-      <h2>Market monitor →</h2>
-      <p>The browser-side monitor: polls public Kalshi endpoints from your own session, groups open
-         markets by event, sorts by estimated 24h traded dollars, and shows live orderbook depth
-         for any contract you pick.</p>
-    </a>
-    <a class="card-link" href="board.html">
-      <span class="tag">Board</span>
-      <h2>Trade board →</h2>
-      <p>A third implementation, in Node with no runtime dependencies: events ranked by resting
-         dollars inside each of the five topics, two scrolling alert chats for moves of $0.10 or
-         more, a price chart with 60s–24h windows and an order-book ladder, five simulated
-         strategies, and a source link on every table row.</p>
-    </a>
-    <a class="card-link" href="live.html">
-      <span class="tag">Live server</span>
-      <h2>Live desk →</h2>
-      <p>A dependency-free Python server and its interactive dashboard: five topics, two
-         scrolling chats for ≥ $0.10 moves, 30s–4h price chart, resting contracts at every
-         price, four automatic strategies with per-type analytics, and resolution tracking.
-         Runs locally against the demo API; the page documents every route and mode.</p>
-    </a>
-    <a class="card-link" href="qa.html">
-      <span class="tag">Audit</span>
-      <h2>Cross-implementation audit →</h2>
-      <p>Every committed dataset re-checked: impossible prices, crossed books, ladders that do
-         not add up, alerts that miss $0.10, undocumented status values, rows without an
-         official source, broken internal links and committed secrets. Findings, sources and
-         fixes, regenerated by <code>qa/audit.py</code>.</p>
-    </a>
-    <a class="card-link" href="site/">
-      <span class="tag">Archive</span>
-      <h2>Prototype →</h2>
-      <p>The first standalone prototype, kept for review: simulated fallback data, a local strategy
-         simulator and a credentialed Python client. Clearly separated from verified market data.</p>
-    </a>
+  <h1>Five topics. One desk. Every row traced to an official Kalshi source.</h1>
+  <p class="lede">Gas prices, elections, culture, crypto and golf — scanned automatically for moves of
+    <strong>$0.10 or more</strong> in either direction, charted with price and resting liquidity, tracked until the
+    exchange settles them YES or NO, and traded by rule-based strategies in a simulated book.
+    Demo and paper only: this repository contains no production order path.</p>
+
+  <div class="cta">
+    <a class="btn" href="docs/desk/">Open the live desk →</a>
+    <a class="btn ghost" href="docs/desk/flagged.html">Flagged for review</a>
+    <a class="btn ghost" href="audit.html">Integration audit</a>
+    <a class="btn ghost" href="docs/desk/executive-summary.html">Executive summary</a>
   </div>
 
-  <h2 style="font-size:15px;margin:26px 0 6px">Read before you trade on anything here</h2>
-  <ul>
-    <li><a href="docs/desk/executive-summary.html">Executive summary</a> — what was built, which API facts were verified, what the numbers do and do not mean.</li>
-    <li><a href="docs/desk/verification.html">Verification log</a> — every claim with its official Kalshi source and check date.</li>
-    <li><a href="docs/desk/flagged.html">Flagged for review</a> — 14 items that could not be confirmed, including the fee model and the missing demo account. Nothing is inferred to fill a gap.</li>
-    <li><a href="flagged.html">Flagged for review (trade board)</a> — 17 further items from the independent Node build, each with its source and how to re-check it.</li>
-    <li><a href="qa.html">Cross-implementation audit</a> — three warnings, eight notes, zero errors, each
-        with the dataset, the source and the fix.</li>
-    <li><a href="live.html">Live desk</a> — the local server, its routes and modes, and the verification log
-        for every API fact it depends on.</li>
-    <li><a href="docs/desk/requirements.html">Requirements matrix</a> — each requirement, its status and where it is implemented.</li>
-    <li><a href="docs/review/">Monitor's own review page</a> and <a href="docs/VERIFICATION.md">verification notes</a>.</li>
-  </ul>
+  <h2>Right now<span class="sub">Read live from the published snapshot (<code>docs/desk/data/*.json</code>). Figures the snapshot does not contain are shown as “—”, never estimated.</span></h2>
+  <div class="grid">
+    <div class="metric"><label>Last cycle (UTC)</label><strong id="m-cycle">—</strong><small id="m-cycle-sub">published snapshot</small></div>
+    <div class="metric"><label>Contracts tracked</label><strong id="m-markets">—</strong><small>open, five topics</small></div>
+    <div class="metric"><label>Swings ≥ $0.10</label><strong id="m-alerts">—</strong><small>last cycle vs previous</small></div>
+    <div class="metric"><label>Settled tracked</label><strong id="m-resolved">—</strong><small>YES/NO recorded</small></div>
+    <div class="metric"><label>Paper equity</label><strong id="m-equity">—</strong><small id="m-equity-sub">simulated book, not a demo balance</small></div>
+  </div>
+
+  <h2>By topic<span class="sub">Counts and estimated 24h traded dollars for the contracts in the latest cycle. Each topic page holds the full table with a source link per row.</span></h2>
+  <div class="topics" id="topics">
+    <a class="topic" href="docs/desk/topics/gas-prices.html"><h3>Gas prices</h3><div class="n" data-count="gas">—</div><p data-note="gas">US average retail gasoline markets.</p></a>
+    <a class="topic" href="docs/desk/topics/elections.html"><h3>Elections</h3><div class="n" data-count="elections">—</div><p data-note="elections">US and international elections.</p></a>
+    <a class="topic" href="docs/desk/topics/culture.html"><h3>Culture</h3><div class="n" data-count="culture">—</div><p data-note="culture">Entertainment and social series.</p></a>
+    <a class="topic" href="docs/desk/topics/crypto.html"><h3>Crypto</h3><div class="n" data-count="crypto">—</div><p data-note="crypto">Bitcoin, Ethereum and other crypto series.</p></a>
+    <a class="topic" href="docs/desk/topics/golf.html"><h3>Golf</h3><div class="n" data-count="golf">—</div><p data-note="golf">PGA, LPGA and major-championship markets.</p></a>
+  </div>
+
+  <h2>Latest swing in the alert feed<span class="sub">The desk carries two scrolling chats: every observed ≥ $0.10 move, and the model's higher-ROI subset. This is the newest row of the all-moves feed.</span></h2>
+  <table>
+    <thead><tr><th>Contract</th><th>Topic</th><th class="num">From → to</th><th class="num">Move</th><th>Observed (UTC)</th><th>Source</th></tr></thead>
+    <tbody id="alert-rows"><tr><td colspan="6">Loading the published feed…</td></tr></tbody>
+  </table>
+
+  <h2>Read the evidence<span class="sub">Every claim in this repository is either sourced, or listed as unverified. Nothing is filled in by inference.</span></h2>
+  <table>
+    <thead><tr><th>Page</th><th>Covers</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><a href="docs/desk/executive-summary.html">Executive summary</a></td><td>What was built, which API facts were verified, what the numbers do and do not mean.</td><td><span class="tag live">live</span></td></tr>
+      <tr><td><a href="docs/desk/verification.html">Verification log</a></td><td>Each API and market-lifecycle claim with its official Kalshi source and check date.</td><td><span class="tag live">live</span></td></tr>
+      <tr><td><a href="docs/desk/flagged.html">Flagged for review</a></td><td>14 items that could not be confirmed — fee model, demo account, CORS, causal news attribution and more — each with its source.</td><td><span class="tag review">needs review</span></td></tr>
+      <tr><td><a href="qa.html">Data audit (re-runnable)</a></td><td>Every committed dataset re-checked for impossible prices, crossed books, ladders that do not add up, alerts below $0.10, undocumented status values, rows with no official source, broken links and committed secrets. Generated by <code>qa/audit.py</code>: 0 errors, 3 warnings, 9 notes.</td><td><span class="tag review">needs review</span></td></tr>
+      <tr><td><a href="live.html">Live desk</a></td><td>A dependency-free server and its interactive dashboard: five topics, two alert chats, 30s–4h charts, resting liquidity, four automatic strategies, resolution tracking. Routes, modes, disclosures and the verification log.</td><td><span class="tag live">runs locally</span></td></tr>
+      <tr><td><a href="audit.html">Integration audit</a></td><td>Line-by-line review of every implementation in this repository, the defects found and fixed, and what this sandbox could not re-check.</td><td><span class="tag review">needs review</span></td></tr>
+      <tr><td><a href="docs/desk/requirements.html">Requirements matrix</a></td><td>Each part of the brief, its status, and the file that implements it.</td><td><span class="tag live">live</span></td></tr>
+      <tr><td><a href="docs/desk/portfolio.html">Portfolio</a></td><td>Simulated book: cash, open positions, realised and unrealised P&amp;L, per-strategy and per-topic breakdown. Demo-account connection is not configured.</td><td><span class="tag live">paper</span></td></tr>
+      <tr><td><a href="docs/desk/strategies.html">Strategies</a></td><td>Four rule-based strategies, how trades are categorised, and the results of each type so far.</td><td><span class="tag live">live</span></td></tr>
+      <tr><td><a href="docs/desk/api-reference.html">API reference</a></td><td>The endpoints this project uses, the environment they point at, and the official documentation for each.</td><td><span class="tag live">live</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Other implementations kept for review<span class="sub">Several independent sessions built dashboards from the same brief. The desk above is the primary one; these are preserved unchanged so their approaches can be compared, and they are labelled rather than merged into the desk's numbers.</span></h2>
+  <table>
+    <thead><tr><th>Site</th><th>What it is</th><th>Data source</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><a href="docs/">Market monitor</a></td><td>Browser-side monitor that polls public endpoints from your own session; topic subpages under <code>docs/</code>.</td><td>Demo REST, read by the visiting browser (CORS untested)</td><td><span class="tag archive">review</span></td></tr>
+      <tr><td><a href="board.html">Trade board</a></td><td>Dependency-free Node implementation with its own source register and flags.</td><td>Demo REST via a scheduled collector</td><td><span class="tag archive">review</span></td></tr>
+      <tr><td><a href="dashboard.html">Live board (root)</a></td><td>Second Node dashboard sharing the trade board's collector.</td><td>Demo REST via a scheduled collector</td><td><span class="tag archive">review</span></td></tr>
+      <tr><td><a href="docs/engine/">Engine verification view</a></td><td>The Python engine's own site: a 39-item verification register linking every fact to the official Kalshi page or API response behind it.</td><td>Same collector as the desk</td><td><span class="tag archive">review</span></td></tr>
+      <tr><td><a href="live.html">Live desk (local server)</a></td><td>Standard-library Python server plus dashboard; SSE push, live or clearly labelled simulated mode, 29 unit tests. Not published as a running service — Pages serves static files only.</td><td>Demo REST when reachable, labelled simulation otherwise</td><td><span class="tag live">new</span></td></tr>
+      <tr><td><a href="site/">Prototype</a></td><td>The first standalone prototype. Uses clearly labelled simulated fallback data.</td><td>Simulated fallback</td><td><span class="tag archive">archive</span></td></tr>
+    </tbody>
+  </table>
+
+  <div class="note" id="limits">
+    <strong>Known limits, stated rather than hidden.</strong> The public site is refreshed by scheduled CI
+    cycles (15 and 30 minutes), not by a WebSocket; a browser session can therefore see a swing that the
+    published feed has not recorded yet, and 10¢ moves between two cycles can be missed. Prices come from
+    Kalshi's public market data; execution is simulated in this repository. No demo-account credentials are
+    configured, so no demo balance or fill is shown — the paper book is not a demo account. Every item that
+    could not be verified is on the <a href="docs/desk/flagged.html">Flagged for review</a> page.
+  </div>
 
   <footer>
-    Demo and paper trading only — no production order path exists in this repository.
-    Kalshi market data belongs to Kalshi; see the
-    <a href="https://docs.kalshi.com/getting_started/api_environments">official API documentation</a>.
-    Source: <a href="https://github.com/kanlerxz87-cyber/Tradebot1">github.com/kanlerxz87-cyber/Tradebot1</a>.
+    Independent research project, not affiliated with Kalshi and not investment advice. Kalshi market data
+    belongs to Kalshi — see the
+    <a href="https://docs.kalshi.com/getting_started/api_environments">official API environments</a>,
+    <a href="https://docs.kalshi.com/getting_started/market_lifecycle">market lifecycle</a> and
+    <a href="https://docs.kalshi.com/getting_started/market_settlement">settlement</a> documentation.
+    Repository: <a href="https://github.com/kanlerxz87-cyber/Tradebot1">kanlerxz87-cyber/Tradebot1</a>.
   </footer>
 </main>
+
+<script>
+/* Everything below renders only values that exist in the published JSON.
+   A missing field prints an em dash; a failed fetch prints "unavailable". */
+const DATA = 'docs/desk/data/';
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const money = v => (typeof v === 'number' && isFinite(v))
+  ? '$' + v.toLocaleString('en-US', {maximumFractionDigits: 0}) : '—';
+const money2 = v => (typeof v === 'number' && isFinite(v))
+  ? '$' + v.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) : '—';
+const cents = v => (typeof v === 'number' && isFinite(v)) ? v.toFixed(4).replace(/0+$/, '').replace(/\.$/, '') : '—';
+const num = v => (typeof v === 'number' && isFinite(v)) ? v.toLocaleString('en-US') : '—';
+
+async function getJson(path) {
+  const res = await fetch(DATA + path + '?v=' + Date.now(), {cache: 'no-store'});
+  if (!res.ok) throw new Error('HTTP ' + res.status);
+  return res.json();
+}
+
+function setStatus(text, ok) {
+  const el = document.getElementById('status');
+  el.className = 'status' + (ok ? ' ok' : '');
+  el.innerHTML = '<span class="dot">●</span> ' + esc(text);
+}
+
+(async () => {
+  let latest = null, alerts = null, resolved = null, paper = null, flags = null;
+  const results = await Promise.allSettled([
+    getJson('latest.json'), getJson('alerts.json'), getJson('resolved.json'),
+    getJson('paper.json'), getJson('flags.json')
+  ]);
+  if (results[0].status === 'fulfilled') latest = results[0].value;
+  if (results[1].status === 'fulfilled') alerts = results[1].value;
+  if (results[2].status === 'fulfilled') resolved = results[2].value;
+  if (results[3].status === 'fulfilled') paper = results[3].value;
+  if (results[4].status === 'fulfilled') flags = results[4].value;
+
+  if (!latest && !alerts) {
+    setStatus('published data unavailable — open the desk for the live view', false);
+    document.getElementById('alert-rows').innerHTML =
+      '<tr><td colspan="6">The published snapshot could not be loaded from this page. ' +
+      '<a href="docs/desk/">Open the desk</a> instead.</td></tr>';
+    return;
+  }
+
+  if (latest) {
+    setStatus('last published cycle ' + (latest.generated_at || 'unknown') +
+      ' · source ' + (latest.data_env === 'demo' ? 'demo REST' : 'public REST') +
+      ' · ' + (latest.errors || []).length + ' collection error(s)', true);
+    document.getElementById('m-cycle').textContent =
+      (latest.generated_at || '').slice(11, 16) + ' UTC';
+    document.getElementById('m-cycle-sub').textContent =
+      (latest.generated_at || '').slice(0, 10) + ' · ' + Math.round(latest.cycle_seconds || 0) + 's cycle';
+    document.getElementById('m-markets').textContent = num(latest.market_count);
+    const topics = latest.topics || {};
+    for (const id of Object.keys(topics)) {
+      const cell = document.querySelector('[data-count="' + id + '"]');
+      const note = document.querySelector('[data-note="' + id + '"]');
+      const t = topics[id] || {};
+      if (cell) cell.textContent = num(t.markets_count) + ' contracts';
+      if (note) {
+        const top = t.top_market;
+        note.textContent = 'Est. 24h ' + money(t.notional_24h_est) +
+          (top && top.ticker ? ' · top: ' + top.ticker : '');
+      }
+    }
+  }
+
+  if (alerts) {
+    const items = (alerts.items || []).slice().sort((a, b) => (b.ts || 0) - (a.ts || 0));
+    document.getElementById('m-alerts').textContent = num(items.length);
+    const body = document.getElementById('alert-rows');
+    if (!items.length) {
+      body.innerHTML = '<tr><td colspan="6">No swing of $0.10 or more was recorded in the published ' +
+        'cycles yet. The feed fills as cycles accumulate; nothing is seeded to look busy.</td></tr>';
+    } else {
+      body.innerHTML = items.slice(0, 5).map(a => {
+        const move = (a.abs_delta >= 0.1 ? '≥ $0.10' : '$' + cents(a.abs_delta)) +
+          (a.direction === 'down' ? ' ↓' : ' ↑');
+        return '<tr><td><b>' + esc(a.ticker) + '</b><br><small>' + esc(a.title || '') + '</small></td>' +
+          '<td>' + esc(a.topic || '—') + '</td>' +
+          '<td class="num">$' + cents(a.from_price) + ' → $' + cents(a.to_price) + '</td>' +
+          '<td class="num">' + esc(move) + '</td>' +
+          '<td>' + esc((a.iso || '').replace('T', ' ').replace('Z', '')) + '</td>' +
+          '<td>' + (a.api_url ? '<a href="' + esc(a.api_url) + '" target="_blank" rel="noopener noreferrer">Kalshi API ↗</a>'
+                              : '<a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">lifecycle ↗</a>') +
+          '</td></tr>';
+      }).join('');
+    }
+  } else {
+    document.getElementById('m-alerts').textContent = '—';
+  }
+
+  if (resolved) {
+    const items = resolved.items || [];
+    document.getElementById('m-resolved').textContent = num(items.length);
+  }
+
+  if (paper && paper.headline) {
+    const h = paper.headline;
+    document.getElementById('m-equity').textContent = money2(h.equity);
+    document.getElementById('m-equity-sub').textContent =
+      'simulated book · ' + num(h.open_positions) + ' open · ' +
+      (typeof h.roi_pct === 'number' ? h.roi_pct.toFixed(2) + '% since start' : 'ROI —');
+  }
+
+  if (flags) {
+    const n = (flags.flags || []).length;
+    const limit = document.getElementById('limits');
+    if (n && limit) {
+      limit.insertAdjacentHTML('beforeend',
+        ' <a href="docs/desk/flagged.html">' + n + ' open items are listed for review →</a>');
+    }
+  }
+})();
+</script>
 </body>
 </html>

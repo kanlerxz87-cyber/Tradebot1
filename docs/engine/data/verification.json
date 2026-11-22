@@ -1,0 +1,382 @@
+{
+  "generated_utc": "2026-11-22T07:25:51Z",
+  "checked_at_utc": "2026-11-22T07:00:00Z",
+  "total": 39,
+  "counts": {
+    "verified": 32,
+    "unverified": 2,
+    "flagged": 5
+  },
+  "facts": [
+    {
+      "id": "rest-demo-url",
+      "claim": "The recommended demo REST base URL is https://external-api.demo.kalshi.co/trade-api/v2",
+      "value": "https://external-api.demo.kalshi.co/trade-api/v2",
+      "source": "https://docs.kalshi.com/getting_started/api_environments",
+      "source_type": "official-docs",
+      "check": "Sandbox GET /exchange/status against this host returned 200 with exchange_active=true and four exchange_index_statuses entries.",
+      "status": "verified",
+      "notes": "demo-api.kalshi.co is documented as 'also supported'."
+    },
+    {
+      "id": "rest-prod-url",
+      "claim": "The recommended production REST base URL is https://external-api.kalshi.com/trade-api/v2",
+      "value": "https://external-api.kalshi.com/trade-api/v2",
+      "source": "https://docs.kalshi.com/getting_started/api_environments",
+      "source_type": "official-docs",
+      "check": "Live GET /search/tags_by_categories and GET /series on this host returned 200 during this session (via the page fetch tool; the sandbox's own egress is TLS-blocked).",
+      "status": "verified"
+    },
+    {
+      "id": "ws-demo-url",
+      "claim": "The recommended demo WebSocket URL is wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2",
+      "value": "wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2",
+      "source": "https://docs.kalshi.com/getting_started/api_environments",
+      "source_type": "official-docs",
+      "check": "Documented value copied verbatim. Not exercised: the sandbox cannot open an outbound TLS connection, and no demo API key exists for this repo.",
+      "status": "verified",
+      "notes": "Connection code is written and unit-tested for its signed payload, but a live handshake has NOT been observed. Flagged for review."
+    },
+    {
+      "id": "ws-prod-url",
+      "claim": "The production WebSocket URL is wss://external-api-ws.kalshi.com/trade-api/ws/v2",
+      "value": "wss://external-api-ws.kalshi.com/trade-api/ws/v2",
+      "source": "https://docs.kalshi.com/getting_started/api_environments",
+      "source_type": "official-docs",
+      "check": "Documented value copied verbatim.",
+      "status": "verified"
+    },
+    {
+      "id": "ws-sign-path",
+      "claim": "The WebSocket handshake signs timestamp + 'GET' + '/trade-api/ws/v2' (no /v2 REST prefix)",
+      "value": "/trade-api/ws/v2",
+      "source": "https://docs.kalshi.com/getting_started/quick_start_websockets",
+      "source_type": "official-docs",
+      "check": "Implemented in app/ws.py; tests/test_auth.py asserts the signed path.",
+      "status": "verified"
+    },
+    {
+      "id": "auth-headers",
+      "claim": "Authenticated requests send KALSHI-ACCESS-KEY, KALSHI-ACCESS-SIGNATURE and KALSHI-ACCESS-TIMESTAMP (milliseconds)",
+      "value": "three headers",
+      "source": "https://docs.kalshi.com/getting_started/api_keys",
+      "source_type": "official-docs",
+      "check": "app/auth.py implements exactly these three; no other header is sent for signing.",
+      "status": "verified"
+    },
+    {
+      "id": "auth-presign",
+      "claim": "The signed message is timestamp + HTTP method + request path, with the query string removed",
+      "value": "/trade-api/v2/...",
+      "source": "https://docs.kalshi.com/getting_started/api_keys",
+      "source_type": "official-docs",
+      "check": "signing_path() strips the query string; tests cover REST and WebSocket paths.",
+      "status": "verified"
+    },
+    {
+      "id": "auth-algorithms",
+      "claim": "Ed25519 signs the message directly; RSA uses RSA-PSS with SHA-256, MGF1-SHA256 and a salt length equal to the digest length",
+      "value": "Ed25519 | RSA-PSS",
+      "source": "https://docs.kalshi.com/getting_started/api_keys",
+      "source_type": "official-docs",
+      "check": "Both paths implemented; tests verify each signature against the public key.",
+      "status": "verified"
+    },
+    {
+      "id": "auth-clock",
+      "claim": "KALSHI-ACCESS-TIMESTAMP must be within 30 seconds of Kalshi's clock",
+      "value": "30 seconds",
+      "source": "https://docs.kalshi.com/getting_started/api_keys",
+      "source_type": "official-docs",
+      "check": "Timestamp generated per attempt, immediately before sending.",
+      "status": "verified"
+    },
+    {
+      "id": "auth-live-handshake",
+      "claim": "A signed request against the demo account succeeds",
+      "value": null,
+      "source": "https://docs.kalshi.com/getting_started/api_keys",
+      "source_type": "official-docs",
+      "check": "NOT PERFORMED: no demo API key exists in this repository, and none can be created from here. The signing code is unit-tested but has never authenticated against Kalshi.",
+      "status": "unverified",
+      "notes": "Cannot be closed without the account owner supplying a demo key. Needs review."
+    },
+    {
+      "id": "orderbook-bids-only",
+      "claim": "The orderbook returns bids only. A YES bid at X equals a NO ask at (1 - X); a NO bid at Y equals a YES ask at (1 - Y)",
+      "value": "bids only; asks implied",
+      "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "source_type": "official-docs",
+      "check": "app/money.py implements implied_yes_ask/implied_no_ask; the documented example (YES bid 0.42, NO bid 0.56 -> YES ask 0.44, spread 0.02) is a unit test.",
+      "status": "verified"
+    },
+    {
+      "id": "orderbook-sorted",
+      "claim": "Orderbook arrays are sorted ascending by price, so the best bid is the LAST element",
+      "value": "best bid = last element",
+      "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "source_type": "official-docs",
+      "check": "Orderbook.from_payload sorts defensively and takes [-1]; unit-tested.",
+      "status": "verified"
+    },
+    {
+      "id": "orderbook-empty",
+      "claim": "An unknown ticker returns 200 with empty arrays, not 404",
+      "value": "empty arrays, HTTP 200",
+      "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
+      "source_type": "official-docs",
+      "check": "Code treats an empty book as unknown, never as price 0; unit-tested.",
+      "status": "verified"
+    },
+    {
+      "id": "orderbook-batch",
+      "claim": "GET /markets/orderbooks accepts up to 100 tickers per call",
+      "value": "100 tickers",
+      "source": "https://docs.kalshi.com/api-reference/market/get-multiple-market-orderbooks",
+      "source_type": "official-docs",
+      "check": "Client chunks requests in blocks of 100 and falls back to per-market calls if the batch endpoint errors.",
+      "status": "verified"
+    },
+    {
+      "id": "fixed-point",
+      "claim": "Prices and quantities are fixed-point strings such as yes_bid_dollars='0.5600' and volume_fp='10.00'",
+      "value": "string decimals",
+      "source": "https://docs.kalshi.com/getting_started/fixed_point_migration",
+      "source_type": "official-docs",
+      "check": "All parsing goes through app.money.to_decimal; unknown values stay None instead of 0.",
+      "status": "verified"
+    },
+    {
+      "id": "fee-taker",
+      "claim": "General taker fee = round up(M x 0.07 x C x P x (1-P)), default M = 1",
+      "value": "0.07",
+      "source": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "source_type": "official-filing",
+      "check": "app/money.fee_dollars reproduces all 21 per-contract and all 21 per-100-contract values in the published General Trading Fees Table exactly (42/42 in tests/test_fees.py).",
+      "status": "verified",
+      "notes": "Fee schedule 'Last updated and effective: July 7, 2026'."
+    },
+    {
+      "id": "fee-maker",
+      "claim": "Maker fee = round up(M x 0.0175 x C x P x (1-P)), default M = 0",
+      "value": "0.0175, default multiplier 0",
+      "source": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "source_type": "official-filing",
+      "check": "Implemented with a 0.0175 multiplier and exposed as `maker=True`. The published default M of 0 means ordinary resting orders are free; the simulator only charges maker fees when a strategy explicitly asks for a maker entry.",
+      "status": "verified"
+    },
+    {
+      "id": "fee-no-settlement",
+      "claim": "There is no settlement fee and no membership fee",
+      "value": "none",
+      "source": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "source_type": "official-filing",
+      "check": "Settlement path in app/simulator.py charges zero fee; tests assert fee == 0 on settlement.",
+      "status": "verified"
+    },
+    {
+      "id": "fee-rounding",
+      "claim": "Fees are six-decimal dollar amounts; the trade fee is rounded up to the nearest $0.000001, then a rounding fee/rebate aligns the balance",
+      "value": "$0.000001",
+      "source": "https://docs.kalshi.com/getting_started/fee_rounding",
+      "source_type": "official-docs",
+      "check": "Both rounding modes implemented ('cent' for the published table, 'micro' for fill-level). The full rounding-fee and rebate accumulator is NOT modelled; the simulator charges the trade fee only.",
+      "status": "flagged",
+      "notes": "Simulated P&L can differ from the exchange by fractions of a cent per fill because the rebate accumulator is not implemented."
+    },
+    {
+      "id": "fee-nonstandard",
+      "claim": "Some series carry their own fee multiplier; the schedule lists KXAAAGASM (US gas price) at maker 1 / taker 1",
+      "value": "per-series multipliers",
+      "source": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "source_type": "official-filing",
+      "check": "The simulator applies the general 0.07 / 0.0175 multipliers and does not read per-series multipliers from the schedule.",
+      "status": "flagged",
+      "notes": "Series with multiplier 0 (fee-free, e.g. KXBTCY) would be overcharged in simulation, and series with multiplier > 1 undercharged. Needs review."
+    },
+    {
+      "id": "market-status-values",
+      "claim": "Market status values are unopened, open, closed and settled",
+      "value": "unopened|open|closed|settled (documented)",
+      "source": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "source_type": "official-docs",
+      "check": "Live GET /markets?status=settled on 2026-11-22 returned markets with status 'finalized' -- a value absent from the documented enum. Open markets return 'active'.",
+      "status": "flagged",
+      "notes": "Code treats active as open and finalized/closed/settled/determined as terminal. The documented enum and the live API disagree; needs review."
+    },
+    {
+      "id": "events-category-filter",
+      "claim": "GET /events?category=... returns events in that category",
+      "value": "server-side filter",
+      "source": "https://docs.kalshi.com/api-reference/events/get-events",
+      "source_type": "official-docs",
+      "check": "Live demo request with category=Crypto returned a World event (KXELONMARS-99) and an Elections event; a production request with category=Entertainment returned a 'Science and Technology' event.",
+      "status": "flagged",
+      "notes": "The engine therefore fetches open events and filters by published fields client-side. Do not rely on the server-side category filter."
+    },
+    {
+      "id": "tags-on-series",
+      "claim": "Series carry the published `tags`; events do not",
+      "value": "tags live on GET /series/{ticker}",
+      "source": "https://docs.kalshi.com/api-reference/market/get-series",
+      "source_type": "official-docs",
+      "check": "Live GET /series?limit=3 and GET /series/KXPGATOUR include a tags array; live GET /events payloads contain no tags key. Golf is only detectable via the series tag.",
+      "status": "verified",
+      "notes": "The engine caches series tags in SQLite and looks them up per refresh (budgeted)."
+    },
+    {
+      "id": "taxonomy",
+      "claim": "Categories are Business, Climate and Weather, Commodities, Companies, Crypto, Economics, Elections, Entertainment, Financials, Mentions, Politics, Science and Technology, Social, Sports; Sports includes the tag 'Golf'",
+      "value": "14 categories",
+      "source": "https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories",
+      "source_type": "official-live-api",
+      "check": "Response captured 2026-11-22: 14 category keys, 'Golf' present under Sports, 'Oil & Gas' present under Commodities.",
+      "status": "verified",
+      "notes": "There is no 'Gas' and no 'Culture' category. Those two dashboard topics are derived - see app/topics.py and the site's methodology page."
+    },
+    {
+      "id": "gas-category",
+      "claim": "Kalshi's AAA gas markets are filed under the Economics category, not Commodities",
+      "value": "category = 'Economics'",
+      "source": "https://external-api.kalshi.com/trade-api/v2/events?limit=1&status=open&with_nested_markets=true&series_ticker=KXAAAGASM",
+      "source_type": "official-live-api",
+      "check": "Live event KXAAAGASM-26NOV30 returned category 'Economics' with rules referencing AAA ('according to AAA'), while Kalshi's own fee schedule lists series KXAAAGASM as 'US gas price'.",
+      "status": "verified",
+      "notes": "Matching gas by category alone would miss every gas market, so the engine also matches the documented series ticker and gas keywords."
+    },
+    {
+      "id": "web-golf-example",
+      "claim": "Kalshi's golf markets use series KXPGATOUR and event tickers such as KXPGATOUR-PGC26",
+      "value": "KXPGATOUR",
+      "source": "https://kalshi.com/markets/kxpgatour/pga-tour/kxpgatour-pgc26",
+      "source_type": "official-live-api",
+      "check": "Kalshi's own public market page states 'Series KXPGATOUR, Event KXPGATOUR-PGC26, Market KXPGATOUR-PGC26-ARAI'. Independently confirmed by live GET /events?series_ticker=KXPGATOUR.",
+      "status": "verified"
+    },
+    {
+      "id": "candlesticks",
+      "claim": "Candlesticks use period_interval 1, 60 or 1440 minutes and at most 5,000 periods per request",
+      "value": "1|60|1440 min, 5000 periods",
+      "source": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks",
+      "source_type": "official-docs",
+      "check": "Client validates both limits and raises before sending an invalid request.",
+      "status": "verified"
+    },
+    {
+      "id": "trades-ts-seconds",
+      "claim": "GET /markets/trades min_ts and max_ts are Unix seconds; milliseconds are rejected with 400",
+      "value": "seconds",
+      "source": "https://docs.kalshi.com/api-reference/market/get-trades",
+      "source_type": "official-docs",
+      "check": "Client passes integers as documented.",
+      "status": "verified"
+    },
+    {
+      "id": "order-v2-fields",
+      "claim": "POST /portfolio/events/orders requires ticker, side (bid/ask), count, price, time_in_force and self_trade_prevention_type; prices and counts are fixed-point strings; 201 means accepted, not resting",
+      "value": "V2 shape",
+      "source": "https://docs.kalshi.com/api-reference/orders/create-order-v2",
+      "source_type": "official-docs",
+      "check": "Payload builder sends exactly those fields with fixed-point strings and reads remaining_count.",
+      "status": "verified",
+      "notes": "Never exercised against a live account (no key). Legacy /portfolio/orders writes are documented as removed and returning 410."
+    },
+    {
+      "id": "rate-limits",
+      "claim": "Rate limits are token buckets; most requests cost 10 tokens; 429 responses carry no Retry-After and should be retried with exponential backoff",
+      "value": "token bucket",
+      "source": "https://docs.kalshi.com/getting_started/rate_limits",
+      "source_type": "official-docs",
+      "check": "Client retries 429 and 5xx with exponential backoff and records X-RateLimit-* headers.",
+      "status": "verified"
+    },
+    {
+      "id": "lifecycle-resolution",
+      "claim": "market_lifecycle_v2 messages carry result, determination_ts and settlement_value when a market is determined",
+      "value": "result | determination_ts | settlement_value",
+      "source": "https://docs.kalshi.com/websockets/market-and-event-lifecycle",
+      "source_type": "official-docs",
+      "check": "Handler reads those three fields. REST fallback reads result and settlement_value_dollars from GET /markets/{ticker}.",
+      "status": "verified"
+    },
+    {
+      "id": "ticker-channel",
+      "claim": "ticker messages carry price_dollars, yes_bid_dollars, yes_ask_dollars and ts_ms, conflated to one flush per second",
+      "value": "1s flush",
+      "source": "https://docs.kalshi.com/websockets/market-ticker",
+      "source_type": "official-docs",
+      "check": "Handler parses exactly those fields; ts is taken from ts_ms.",
+      "status": "verified"
+    },
+    {
+      "id": "demo-not-real",
+      "claim": "Demo prices and behaviour may not reflect real markets",
+      "value": "quoted",
+      "source": "https://docs.kalshi.com/getting_started/demo_env",
+      "source_type": "official-docs",
+      "check": "Verified live: demo events include placeholder strikes (custom_strike {'demo strike': 'demo strike'}) and 2099 expiries, and nearly every golf quote is 0.0000/1.0000.",
+      "status": "verified",
+      "notes": "This is why the static site is labelled as demo data throughout."
+    },
+    {
+      "id": "sandbox-egress",
+      "claim": "The build sandbox cannot open outbound TLS connections to Kalshi",
+      "value": "TLS reset",
+      "source": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status",
+      "source_type": "official-live-api",
+      "check": "curl to external-api.demo.kalshi.co resolved to 54.71.122.8/44.226.28.91 then failed with 'OpenSSL SSL_connect: SSL_ERROR_SYSCALL'. The same URL fetched through the page-fetch tool returned 200, so the API is up and the block is the sandbox's egress.",
+      "status": "verified",
+      "notes": "Consequence: the running app falls back to captured-payload replay inside this sandbox. On a machine with normal egress the same code path is live."
+    },
+    {
+      "id": "cors-unknown",
+      "claim": "Kalshi's API sends Access-Control-Allow-Origin, so a static browser page could poll it directly with no server",
+      "value": null,
+      "source": "https://docs.kalshi.com/getting_started/quick_start_market_data",
+      "source_type": "official-docs",
+      "check": "NOT ESTABLISHED. No official page states a CORS policy, and response headers could not be inspected from this sandbox.",
+      "status": "unverified",
+      "notes": "The static site therefore does not call Kalshi from the browser. It reads captured snapshots only. Needs review if a browser-only live feed is wanted."
+    },
+    {
+      "id": "pages-https",
+      "claim": "GitHub Pages serves the repository from https://kanlerxz87-cyber.github.io/Tradebot1/",
+      "value": "published over HTTPS",
+      "source": "https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages",
+      "source_type": "official-live-api",
+      "check": "GitHub API reported status 'built', source branch main, path '/', public true.",
+      "status": "verified"
+    },
+    {
+      "id": "culture-catalog-empty",
+      "claim": "Several Entertainment series are catalogued but had no open market on 2026-11-22",
+      "value": "6 series, 0 open markets",
+      "source": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "source_type": "official-live-api",
+      "check": "Series KXNFLVIEW, KXTOPALBUMDONTBEDUMB, KXNETFLIXSHOWRANKD, KXPERFORMSTYLESMSG, KXAWARDSCMAVDOTY and KXGRAMMYNOMCOUNTKL were each queried at /markets?series_ticker=... with status=open and status=unopened; all returned an empty list.",
+      "status": "verified",
+      "notes": "This is why the Culture topic can legitimately be empty. The site shows the captured series catalogue instead of inventing a market price."
+    },
+    {
+      "id": "mve-combo-markets",
+      "claim": "Multivariate (KXMVE...) markets bundle several unrelated legs into one ticker",
+      "value": "excluded from topic boards",
+      "source": "https://external-api.kalshi.com/trade-api/v2/markets?limit=60&status=open",
+      "source_type": "official-live-api",
+      "check": "24 of the first 60 open markets returned were KXMVECROSSCATEGORY combos whose mve_selected_legs span e.g. NFL rushing props and European soccer matches.",
+      "status": "verified",
+      "notes": "A combo cannot belong to a single topic, so combo tickers are excluded. They also dominate the open-market list, which is why the live board filters them out."
+    },
+    {
+      "id": "golf-already-resolved",
+      "claim": "The demo golf event used in the replay resolves shortly after capture",
+      "value": "KXPGATOUR-THRC26",
+      "source": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true&series_ticker=KXPGATOUR",
+      "source_type": "official-live-api",
+      "check": "Captured at 07:05Z with expected_expiration_time 2026-11-22T00:00:00Z and result ''; the market is still listed as active while its expiration time is in the past.",
+      "status": "flagged",
+      "notes": "The demo environment keeps expired markets open, so a 'live' board can contain markets whose stated expiry has passed. The UI shows the closing time rather than assuming it is tradeable. Needs review."
+    }
+  ],
+  "policy": "A fact is 'verified' only when an official Kalshi page or an official Kalshi API response states or demonstrates it. 'unverified' means it could not be checked. 'flagged' means it was checked and something disagrees, or a known limitation exists. Nothing is inferred."
+}

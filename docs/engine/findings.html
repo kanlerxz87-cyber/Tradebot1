@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Executive summary · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html">Overview</a><a href="findings.html" class="active">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Executive summary</h1>
+<p class="lede">What this project does, what was verified against Kalshi's own material, and the
+findings that a trader or reviewer needs before trusting anything on this site.</p>
+
+<h2>1. Scope</h2>
+<p>The dashboard tracks live Kalshi events in five topics only — gas prices, elections, culture,
+crypto and golf — and raises an alert whenever a contract's price moves by $0.10 or more in either
+direction. It keeps tracking each event until Kalshi determines the outcome, records whether it
+resolved YES or NO, and runs six simulated strategies with their own portfolios so the strategies can
+be compared by category.</p>
+
+<h2>2. What was verified</h2>
+<p>32 of 39 recorded facts are backed by an official
+Kalshi page or an official Kalshi API response. The full list, each with a link, is on the
+<a href="verification.html">Verification page</a>.</p>
+<ul class="tight">
+<li><strong>Endpoints.</strong> Demo REST is <code>https://external-api.demo.kalshi.co/trade-api/v2</code>
+and production is <code>https://external-api.kalshi.com/trade-api/v2</code>; the WebSocket hosts are
+<code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code> and
+<code>wss://external-api-ws.kalshi.com/trade-api/ws/v2</code>. <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">[source]</a> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">[source]</a></li>
+<li><strong>Orderbook shape.</strong> The book returns bids only; a YES bid at X equals a NO ask at
+1−X; arrays are ascending, so the best bid is the last element. <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">[source]</a></li>
+<li><strong>Fees.</strong> Taker fee is <code>roundup(0.07 × C × P × (1−P))</code> and maker fee is
+<code>roundup(0.0175 × C × P × (1−P))</code>; there is no settlement fee. This project's fee code
+reproduces all 42 values in Kalshi's published fee table exactly. <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">[source]</a></li>
+<li><strong>Taxonomy.</strong> Kalshi publishes 14 categories; <em>Golf</em> is a tag under
+<em>Sports</em>, and <em>Oil &amp; Gas</em> is a tag under <em>Commodities</em>. <a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">[source]</a></li>
+<li><strong>Resolution.</strong> A determined market carries <code>result</code> (yes/no) and
+<code>settlement_value_dollars</code>; the lifecycle WebSocket carries the same fields. <a href="https://docs.kalshi.com/websockets/market-and-event-lifecycle" target="_blank" rel="noopener">[source]</a></li>
+</ul>
+
+<h2>3. Findings that change how to read this dashboard</h2>
+
+<div class="note bad">
+<h3 style="margin-top:0">Finding 1 — There is no "Gas" or "Culture" category on Kalshi</h3>
+<p>Kalshi's published taxonomy has no <em>Gas</em> category and no <em>Culture</em> category. The
+five topics on this dashboard are therefore <em>views</em> built from Kalshi's own fields, not
+categories Kalshi defines. Gas is matched from the documented <code>KXAAAGASM</code> series (Kalshi's
+own fee schedule calls it "US gas price"), the <em>Oil &amp; Gas</em> tag, and gas keywords. Culture is
+Kalshi's <em>Entertainment</em> and <em>Mentions</em> categories. <a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">[source]</a> <a href="https://external-api.kalshi.com/trade-api/v2/events?limit=1&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXAAAGASM" target="_blank" rel="noopener">[source]</a>
+Every row states which rule placed it in its topic.</p>
+</div>
+
+<div class="note bad">
+<h3 style="margin-top:0">Finding 2 — Kalshi's gas markets are filed under <em>Economics</em></h3>
+<p>The live <code>KXAAAGASM-26NOV30</code> event returns <code>category: "Economics"</code>, not
+Commodities. A dashboard that matched gas by category alone would miss every gas market.
+ <a href="https://external-api.kalshi.com/trade-api/v2/events?limit=1&amp;status=open&amp;with_nested_markets=true&amp;series_ticker=KXAAAGASM" target="_blank" rel="noopener">[source]</a></p>
+</div>
+
+<div class="note warn">
+<h3 style="margin-top:0">Finding 3 — The <code>category</code> query parameter does not filter</h3>
+<p>A request for <code>/events?category=Crypto</code> returned a <em>World</em> event and an
+<em>Elections</em> event; a request for <code>category=Entertainment</code> returned a <em>Science and
+Technology</em> event. The engine therefore fetches open events and filters on the published fields
+itself. <a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener">[source]</a></p>
+</div>
+
+<div class="note warn">
+<h3 style="margin-top:0">Finding 4 — A one-sided book looks like a 100-cent collapse</h3>
+<p>Demo markets routinely publish <code>no_bid_dollars = 0.0000</code> beside
+<code>yes_ask_dollars = 1.0000</code>. Naively watching the ask would fire a $0.10 alert on every
+empty book, in both directions. This dashboard computes the mid of a two-sided book, falls back to the
+last trade on a one-sided or crossed book, and labels the alert <em>quote-only</em> when there was no
+trade behind the move. <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">[source]</a> <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">[source]</a></p>
+</div>
+
+<div class="note warn">
+<h3 style="margin-top:0">Finding 5 — Demo prices are placeholders, and they disagree with production</h3>
+<p>At capture, the demo gas market <code>KXAAAGASM-26NOV30-3.00</code> quoted <strong>99c</strong> for
+"above $3.00", while Kalshi's public production page for the same series quoted
+<strong>"Above 3.50" at 47c</strong> with strikes at 3.45 / 3.50 / 3.55. The demo board also carries
+2099 expiries and <code>custom_strike</code> of <code>{"demo strike": "demo strike"}</code>. Kalshi documents that
+demo prices may not reflect real markets, and this is what that looks like in practice. <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">[source]</a></p>
+</div>
+
+<div class="note warn">
+<h3 style="margin-top:0">Finding 6 — Documented values that the live API contradicts</h3>
+<p><code>GET /markets</code> documents status values <code>unopened | open | closed | settled</code>,
+but live responses use <code>active</code> for open markets and <code>finalized</code> for settled
+ones. <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">[source]</a> Multivariate <code>KXMVE…</code> combo markets also dominate the
+open-market list; 24 of the first 60 open markets were combos that bundle unrelated sports legs into
+one ticker, so they are excluded from single-topic boards. <a href="https://external-api.kalshi.com/trade-api/v2/markets?limit=60&amp;status=open" target="_blank" rel="noopener">[source]</a></p>
+</div>
+
+<h2>4. What could not be verified</h2>
+<ul class="tight">
+<li><strong>A signed request against a real Kalshi account.</strong> No demo API key exists in this
+repository, so the signing code is unit-tested but has never authenticated. <span class="tag warn">unverified</span></li>
+<li><strong>The WebSocket handshake.</strong> Documented and implemented, never observed live.
+<span class="tag warn">unverified</span></li>
+<li><strong>Whether Kalshi sends CORS headers.</strong> No official statement found; the static site
+therefore does not call Kalshi from the browser. <span class="tag warn">unverified</span></li>
+</ul>
+
+<h2>5. Irregularities affecting the numbers</h2>
+<ul class="tight">
+<li><strong>Per-series fee multipliers are not applied.</strong> The simulator uses the general
+0.07 / 0.0175 rates; series the schedule marks 0 (e.g. <code>KXBTCY</code>) would be overcharged in
+simulation. <span class="tag bad">flagged</span></li>
+<li><strong>The fee rebate accumulator is not modelled.</strong> Simulated P&amp;L can differ from
+the exchange by fractions of a cent per fill. <span class="tag bad">flagged</span></li>
+<li><strong>The demo golf event had already passed its stated expiry</strong> while still listing as
+active. Closing times are shown rather than assumed. <span class="tag bad">flagged</span></li>
+</ul>
+<p>All of these are published with source links on <a href="flagged.html">Flagged for review</a>.</p>
+
+<h2>6. How to use it</h2>
+<ol class="tight">
+<li>Pick a topic. Each topic page lists every captured entry in one table, with the price, both sides
+of the book, volume, open interest and a source link.</li>
+<li>Watch the two alert feeds: <em>all events</em> (every ≥$0.10 move) and <em>high ROI</em> (the same
+moves, filtered by a trade-quality score).</li>
+<li>Compare strategies on the portfolio view: each strategy is a distinct trade category with its own
+starting balance, so returns are comparable.</li>
+<li>Check <a href="flagged.html">Flagged for review</a> before relying on any specific figure.</li>
+</ol>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

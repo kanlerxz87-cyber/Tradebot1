@@ -1,27 +1,1680 @@
 {
   "version": 1,
-  "updatedAt": null,
-  "runId": null,
+  "updatedAt": "2026-11-22T07:29:11.440Z",
+  "runId": "2026-11-22T07-29-11-440Z",
   "root": "https://external-api.demo.kalshi.co/trade-api/v2",
   "exchange": {
     "exchangeActive": true,
     "tradingActive": true,
     "intraExchangeTransfersActive": true,
     "indexStatuses": [
-      { "description": "Default", "exchange_active": true, "exchange_index": 0, "intra_exchange_transfers_active": true, "trading_active": true },
-      { "description": "Demo shard 1", "exchange_active": true, "exchange_index": 1, "intra_exchange_transfers_active": true, "trading_active": true },
-      { "description": "Demo shard 2", "exchange_active": true, "exchange_index": 2, "intra_exchange_transfers_active": true, "trading_active": true },
-      { "description": "", "exchange_active": true, "exchange_index": 3, "intra_exchange_transfers_active": true, "trading_active": true }
+      {
+        "description": "Default",
+        "exchange_active": true,
+        "exchange_index": 0,
+        "intra_exchange_transfers_active": true,
+        "trading_active": true
+      },
+      {
+        "description": "Demo shard 1",
+        "exchange_active": true,
+        "exchange_index": 1,
+        "intra_exchange_transfers_active": true,
+        "trading_active": true
+      },
+      {
+        "description": "Demo shard 2",
+        "exchange_active": true,
+        "exchange_index": 2,
+        "intra_exchange_transfers_active": true,
+        "trading_active": true
+      },
+      {
+        "description": "",
+        "exchange_active": true,
+        "exchange_index": 3,
+        "intra_exchange_transfers_active": true,
+        "trading_active": true
+      }
     ],
-    "source": "https://docs.kalshi.com/api-reference/exchange/get-exchange-status",
-    "observedAt": "2026-11-22T06:58:00Z"
+    "source": "https://docs.kalshi.com/api-reference/exchange/get-exchange-status"
   },
-  "discovery": {},
-  "coverage": {},
-  "tracked": {},
+  "discovery": {
+    "gas": {
+      "topic": "gas",
+      "rules": [
+        {
+          "kind": "series-tags",
+          "value": "Gas",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas",
+          "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas",
+          "returned": 2
+        },
+        {
+          "kind": "series-category",
+          "value": "Economics",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Economics&tags=Gas",
+          "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Economics",
+          "returned": 962
+        }
+      ],
+      "seriesFound": 2,
+      "seriesRead": 0,
+      "errors": []
+    },
+    "elections": {
+      "topic": "elections",
+      "rules": [
+        {
+          "kind": "series-category",
+          "value": "Elections",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections",
+          "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections",
+          "returned": 2710
+        }
+      ],
+      "seriesFound": 2710,
+      "seriesRead": 0,
+      "errors": []
+    },
+    "culture": {
+      "topic": "culture",
+      "rules": [
+        {
+          "kind": "series-category",
+          "value": "Culture",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture",
+          "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture",
+          "returned": 2
+        }
+      ],
+      "seriesFound": 2,
+      "seriesRead": 0,
+      "errors": [
+        {
+          "series": "KXXBANNEDGROK",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXXBANNEDGROK&status=open&limit=100: too_many_requests"
+        }
+      ]
+    },
+    "crypto": {
+      "topic": "crypto",
+      "rules": [
+        {
+          "kind": "series-category",
+          "value": "Crypto",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Crypto",
+          "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Crypto",
+          "returned": 321
+        }
+      ],
+      "seriesFound": 321,
+      "seriesRead": 0,
+      "errors": [
+        {
+          "series": "KXNEARD",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXNEARD&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXNEARH",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXNEARH&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXAIRDROPPUMPFUN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXAIRDROPPUMPFUN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXFDVMET",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXFDVMET&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXCRYPTOPERFORMY",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXCRYPTOPERFORMY&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPRCBTC",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPRCBTC&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXBNBD",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXBNBD&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXBTCHITBY",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXBTCHITBY&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXSATOSHIBTCYEAR",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXSATOSHIBTCYEAR&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXBTCHIT95K",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXBTCHIT95K&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXFDVZECZMR",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXFDVZECZMR&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXRANKLISTASTER20",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXRANKLISTASTER20&status=open&limit=100: too_many_requests"
+        }
+      ]
+    },
+    "golf": {
+      "topic": "golf",
+      "rules": [
+        {
+          "kind": "series-tags",
+          "value": "Golf",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Golf",
+          "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Golf",
+          "returned": 134
+        }
+      ],
+      "seriesFound": 134,
+      "seriesRead": 0,
+      "errors": [
+        {
+          "series": "KXPGAT40",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAT40&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGARETURN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGARETURN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXDPWTH2H",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXDPWTH2H&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGAR3TOP10",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAR3TOP10&status=open&limit=100&cursor=CgwI1u7t1wYQ6PaNkAMSGEtYUEdBUjNUT1AxMC1USFJDMjYtRkJJRA: too_many_requests"
+        },
+        {
+          "series": "KXPGATOURCHAMP",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGATOURCHAMP&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGARYDERMATCH",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGARYDERMATCH&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGAMAJORWIN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAMAJORWIN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXNEXTWIN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXNEXTWIN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXTHEOPEN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXTHEOPEN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXUSOPEN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXUSOPEN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGAREGION",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAREGION&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXDPWTTOP5",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXDPWTTOP5&status=open&limit=100: too_many_requests"
+        }
+      ]
+    }
+  },
+  "coverage": {
+    "gas": {
+      "topic": "gas",
+      "seriesDiscovered": 2,
+      "seriesRead": 2,
+      "seriesWithOpenMarkets": 0,
+      "marketsOpen": 0,
+      "marketsObserved": 0,
+      "seriesCapped": false,
+      "marketCapReached": false,
+      "errors": []
+    },
+    "elections": {
+      "topic": "elections",
+      "seriesDiscovered": 2710,
+      "seriesRead": 5,
+      "seriesWithOpenMarkets": 4,
+      "marketsOpen": 478,
+      "marketsObserved": 60,
+      "seriesCapped": true,
+      "marketCapReached": true,
+      "errors": []
+    },
+    "culture": {
+      "topic": "culture",
+      "seriesDiscovered": 2,
+      "seriesRead": 1,
+      "seriesWithOpenMarkets": 0,
+      "marketsOpen": 0,
+      "marketsObserved": 0,
+      "seriesCapped": false,
+      "marketCapReached": false,
+      "errors": [
+        {
+          "series": "KXXBANNEDGROK",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXXBANNEDGROK&status=open&limit=100: too_many_requests"
+        }
+      ]
+    },
+    "crypto": {
+      "topic": "crypto",
+      "seriesDiscovered": 321,
+      "seriesRead": 0,
+      "seriesWithOpenMarkets": 0,
+      "marketsOpen": 0,
+      "marketsObserved": 0,
+      "seriesCapped": true,
+      "marketCapReached": false,
+      "errors": [
+        {
+          "series": "KXNEARD",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXNEARD&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXNEARH",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXNEARH&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXAIRDROPPUMPFUN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXAIRDROPPUMPFUN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXFDVMET",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXFDVMET&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXCRYPTOPERFORMY",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXCRYPTOPERFORMY&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPRCBTC",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPRCBTC&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXBNBD",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXBNBD&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXBTCHITBY",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXBTCHITBY&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXSATOSHIBTCYEAR",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXSATOSHIBTCYEAR&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXBTCHIT95K",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXBTCHIT95K&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXFDVZECZMR",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXFDVZECZMR&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXRANKLISTASTER20",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXRANKLISTASTER20&status=open&limit=100: too_many_requests"
+        }
+      ]
+    },
+    "golf": {
+      "topic": "golf",
+      "seriesDiscovered": 134,
+      "seriesRead": 0,
+      "seriesWithOpenMarkets": 0,
+      "marketsOpen": 0,
+      "marketsObserved": 0,
+      "seriesCapped": true,
+      "marketCapReached": false,
+      "errors": [
+        {
+          "series": "KXPGAT40",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAT40&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGARETURN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGARETURN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXDPWTH2H",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXDPWTH2H&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGAR3TOP10",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAR3TOP10&status=open&limit=100&cursor=CgwI1u7t1wYQ6PaNkAMSGEtYUEdBUjNUT1AxMC1USFJDMjYtRkJJRA: too_many_requests"
+        },
+        {
+          "series": "KXPGATOURCHAMP",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGATOURCHAMP&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGARYDERMATCH",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGARYDERMATCH&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGAMAJORWIN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAMAJORWIN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXNEXTWIN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXNEXTWIN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXTHEOPEN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXTHEOPEN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXUSOPEN",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXUSOPEN&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXPGAREGION",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXPGAREGION&status=open&limit=100: too_many_requests"
+        },
+        {
+          "series": "KXDPWTTOP5",
+          "message": "HTTP 429 for https://external-api.demo.kalshi.co/trade-api/v2/markets?series_ticker=KXDPWTTOP5&status=open&limit=100: too_many_requests"
+        }
+      ]
+    }
+  },
+  "tracked": {
+    "KXCLMPSOEMAJ-27MAY23-AL17": {
+      "marketTicker": "KXCLMPSOEMAJ-27MAY23-AL17",
+      "eventTicker": "KXCLMPSOEMAJ-27MAY23",
+      "topic": "elections",
+      "title": "Will the Spanish Socialist Workers' Party win at least 17 seats in the 2027 Castilla-La Mancha regional election?",
+      "seriesTicker": "KXCLMPSOEMAJ",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-05-22T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCLMPSOEMAJ-27MAY23-AL17"
+    },
+    "KX2028RRUN-28-BGIL": {
+      "marketTicker": "KX2028RRUN-28-BGIL",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BGIL"
+    },
+    "KX2028RRUN-28-RSCO": {
+      "marketTicker": "KX2028RRUN-28-RSCO",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RSCO"
+    },
+    "KX2028RRUN-28-DMCC": {
+      "marketTicker": "KX2028RRUN-28-DMCC",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DMCC"
+    },
+    "KX2028RRUN-28-DBAC": {
+      "marketTicker": "KX2028RRUN-28-DBAC",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DBAC"
+    },
+    "KX2028RRUN-28-MPEN": {
+      "marketTicker": "KX2028RRUN-28-MPEN",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MPEN"
+    },
+    "KX2028RRUN-28-PRYA": {
+      "marketTicker": "KX2028RRUN-28-PRYA",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-PRYA"
+    },
+    "KX2028RRUN-28-TCOT": {
+      "marketTicker": "KX2028RRUN-28-TCOT",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TCOT"
+    },
+    "KX2028RRUN-28-ITRU": {
+      "marketTicker": "KX2028RRUN-28-ITRU",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-ITRU"
+    },
+    "KX2028RRUN-28-JKENT": {
+      "marketTicker": "KX2028RRUN-28-JKENT",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKENT"
+    },
+    "KX2028RRUN-28-JKEN": {
+      "marketTicker": "KX2028RRUN-28-JKEN",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKEN"
+    },
+    "KX2028RRUN-28-DBUR": {
+      "marketTicker": "KX2028RRUN-28-DBUR",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DBUR"
+    },
+    "KX2028RRUN-28-CCHR": {
+      "marketTicker": "KX2028RRUN-28-CCHR",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-CCHR"
+    },
+    "KX2028RRUN-28-LHOG": {
+      "marketTicker": "KX2028RRUN-28-LHOG",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-LHOG"
+    },
+    "KX2028RRUN-28-TSCO": {
+      "marketTicker": "KX2028RRUN-28-TSCO",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TSCO"
+    },
+    "KX2028RRUN-28-GBOV": {
+      "marketTicker": "KX2028RRUN-28-GBOV",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GBOV"
+    },
+    "KX2028RRUN-28-JMCE": {
+      "marketTicker": "KX2028RRUN-28-JMCE",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.365,
+      "yesBid": 0,
+      "yesAsk": 0.73,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0.73,
+          "mid": 0.365
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JMCE"
+    },
+    "KX2028RRUN-28-SPRA": {
+      "marketTicker": "KX2028RRUN-28-SPRA",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.255,
+      "yesBid": 0.01,
+      "yesAsk": 0.5,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.01,
+          "ask": 0.5,
+          "mid": 0.255
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-SPRA"
+    },
+    "KX2028RRUN-28-JBEZ": {
+      "marketTicker": "KX2028RRUN-28-JBEZ",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JBEZ"
+    },
+    "KX2028RRUN-28-TMAS": {
+      "marketTicker": "KX2028RRUN-28-TMAS",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TMAS"
+    },
+    "KX2028RRUN-28-PHEG": {
+      "marketTicker": "KX2028RRUN-28-PHEG",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-PHEG"
+    },
+    "KX2028RRUN-28-JKUS": {
+      "marketTicker": "KX2028RRUN-28-JKUS",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKUS"
+    },
+    "KX2028RRUN-28-EKIR": {
+      "marketTicker": "KX2028RRUN-28-EKIR",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-EKIR"
+    },
+    "KX2028RRUN-28-MTAY": {
+      "marketTicker": "KX2028RRUN-28-MTAY",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MTAY"
+    },
+    "KX2028RRUN-28-TUC": {
+      "marketTicker": "KX2028RRUN-28-TUC",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TUC"
+    },
+    "KX2028RRUN-28-STE": {
+      "marketTicker": "KX2028RRUN-28-STE",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-STE"
+    },
+    "KX2028RRUN-28-RPAU": {
+      "marketTicker": "KX2028RRUN-28-RPAU",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RPAU"
+    },
+    "KX2028RRUN-28-TCRU": {
+      "marketTicker": "KX2028RRUN-28-TCRU",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TCRU"
+    },
+    "KX2028RRUN-28-SHS": {
+      "marketTicker": "KX2028RRUN-28-SHS",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.51,
+      "yesBid": 0.05,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.05,
+          "ask": 0.97,
+          "mid": 0.51
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-SHS"
+    },
+    "KX2028RRUN-28-RFK": {
+      "marketTicker": "KX2028RRUN-28-RFK",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RFK"
+    },
+    "KX2028RRUN-28-NHAL": {
+      "marketTicker": "KX2028RRUN-28-NHAL",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-NHAL"
+    },
+    "KX2028RRUN-28-MRUB": {
+      "marketTicker": "KX2028RRUN-28-MRUB",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MRUB"
+    },
+    "KX2028RRUN-28-MGAE": {
+      "marketTicker": "KX2028RRUN-28-MGAE",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MGAE"
+    },
+    "KX2028RRUN-28-KBRI": {
+      "marketTicker": "KX2028RRUN-28-KBRI",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-KBRI"
+    },
+    "KX2028RRUN-28-JTHU": {
+      "marketTicker": "KX2028RRUN-28-JTHU",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JTHU"
+    },
+    "KX2028RRUN-28-JHAW": {
+      "marketTicker": "KX2028RRUN-28-JHAW",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JHAW"
+    },
+    "KX2028RRUN-28-GYOU": {
+      "marketTicker": "KX2028RRUN-28-GYOU",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GYOU"
+    },
+    "KX2028RRUN-28-GABB": {
+      "marketTicker": "KX2028RRUN-28-GABB",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GABB"
+    },
+    "KX2028RRUN-28-ESTE": {
+      "marketTicker": "KX2028RRUN-28-ESTE",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-ESTE"
+    },
+    "KX2028RRUN-28-EMUS": {
+      "marketTicker": "KX2028RRUN-28-EMUS",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-EMUS"
+    },
+    "KX2028RRUN-28-BKEM": {
+      "marketTicker": "KX2028RRUN-28-BKEM",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BKEM"
+    },
+    "KX2028RRUN-28-BDON": {
+      "marketTicker": "KX2028RRUN-28-BDON",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BDON"
+    },
+    "KX2028RRUN-28-VRAM": {
+      "marketTicker": "KX2028RRUN-28-VRAM",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-VRAM"
+    },
+    "KX2028RRUN-28-TGAB": {
+      "marketTicker": "KX2028RRUN-28-TGAB",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TGAB"
+    },
+    "KX2028RRUN-28-RDES": {
+      "marketTicker": "KX2028RRUN-28-RDES",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RDES"
+    },
+    "KX2028RRUN-28-JVAN": {
+      "marketTicker": "KX2028RRUN-28-JVAN",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JVAN"
+    },
+    "KX2028RRUN-28-DJTJR": {
+      "marketTicker": "KX2028RRUN-28-DJTJR",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DJTJR"
+    },
+    "KX2028RRUN-28-DJT": {
+      "marketTicker": "KX2028RRUN-28-DJT",
+      "eventTicker": "KX2028RRUN-28",
+      "topic": "elections",
+      "title": "Who will run for the Republican presidential nomination in 2028?",
+      "seriesTicker": "KX2028RRUN",
+      "yesMid": 0.495,
+      "yesBid": 0.02,
+      "yesAsk": 0.97,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0.02,
+          "ask": 0.97,
+          "mid": 0.495
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2028-01-01T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DJT"
+    },
+    "KXWISTATELEG-28SEN-R": {
+      "marketTicker": "KXWISTATELEG-28SEN-R",
+      "eventTicker": "KXWISTATELEG-28SEN",
+      "topic": "elections",
+      "title": "Will the Republican Party hold the most seats in the Wisconsin State Senate after the 2028 election?",
+      "seriesTicker": "KXWISTATELEG",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-01-17T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28SEN-R"
+    },
+    "KXWISTATELEG-28SEN-D": {
+      "marketTicker": "KXWISTATELEG-28SEN-D",
+      "eventTicker": "KXWISTATELEG-28SEN",
+      "topic": "elections",
+      "title": "Will the Democratic Party hold the most seats in the Wisconsin State Senate after the 2028 election?",
+      "seriesTicker": "KXWISTATELEG",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-01-17T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28SEN-D"
+    },
+    "KXWISTATELEG-28ASM-R": {
+      "marketTicker": "KXWISTATELEG-28ASM-R",
+      "eventTicker": "KXWISTATELEG-28ASM",
+      "topic": "elections",
+      "title": "Will the Republican Party hold the most seats in the Wisconsin State Assembly after the 2028 election?",
+      "seriesTicker": "KXWISTATELEG",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-01-17T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28ASM-R"
+    },
+    "KXWISTATELEG-28ASM-D": {
+      "marketTicker": "KXWISTATELEG-28ASM-D",
+      "eventTicker": "KXWISTATELEG-28ASM",
+      "topic": "elections",
+      "title": "Will the Democratic Party hold the most seats in the Wisconsin State Assembly after the 2028 election?",
+      "seriesTicker": "KXWISTATELEG",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-01-17T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28ASM-D"
+    },
+    "KXSTATELEGNY-28NOV07NYH002-R": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH002-R",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH002",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 New York Assembly District 2 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH002-R"
+    },
+    "KXSTATELEGNY-28NOV07NYH002-D": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH002-D",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH002",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 New York Assembly District 2 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH002-D"
+    },
+    "KXSTATELEGNY-28NOV07NYH003-R": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH003-R",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH003",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 New York Assembly District 3 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH003-R"
+    },
+    "KXSTATELEGNY-28NOV07NYH003-D": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH003-D",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH003",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 New York Assembly District 3 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH003-D"
+    },
+    "KXSTATELEGNY-28NOV07NYH005-R": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH005-R",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH005",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 New York Assembly District 5 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH005-R"
+    },
+    "KXSTATELEGNY-28NOV07NYH005-D": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH005-D",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH005",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 New York Assembly District 5 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH005-D"
+    },
+    "KXSTATELEGNY-28NOV07NYH004-R": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH004-R",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH004",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 New York Assembly District 4 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH004-R"
+    },
+    "KXSTATELEGNY-28NOV07NYH004-D": {
+      "marketTicker": "KXSTATELEGNY-28NOV07NYH004-D",
+      "eventTicker": "KXSTATELEGNY-28NOV07NYH004",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 New York Assembly District 4 election?",
+      "seriesTicker": "KXSTATELEGNY",
+      "yesMid": 0,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-22T07:29:11.440Z",
+      "history": [
+        {
+          "t": "2026-11-22T07:29:11.440Z",
+          "bid": 0,
+          "ask": 0,
+          "mid": 0
+        }
+      ],
+      "lastSeenAt": "2026-11-22T07:29:11.440Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH004-D"
+    }
+  },
   "resolutions": {},
-  "limits": { "maxSeriesPerTopic": 12, "maxMarketsPerTopic": 60, "maxTrackedResolutions": 40, "retentionDays": 14, "maxHistoryPoints": 720, "maxFeedRows": 400 },
-  "marketCount": 0,
-  "observationCount": 0,
-  "note": "No collection cycle has run yet from this environment. The exchange block is the live /exchange/status response read on 2026-11-22T06:58Z. The scheduled collector replaces this file on each run."
+  "limits": {
+    "maxSeriesPerTopic": 12,
+    "maxMarketsPerTopic": 60,
+    "maxTrackedResolutions": 40,
+    "retentionDays": 14,
+    "maxHistoryPoints": 720,
+    "maxFeedRows": 400
+  },
+  "marketCount": 60,
+  "observationCount": 60
 }

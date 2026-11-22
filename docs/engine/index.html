@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html" class="active">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<p class="muted"><a href="../../">← All dashboards</a> · this build: the Python engine's own
+verification-first view</p>
+<h1>Kalshi live-event dashboard &amp; alerting system</h1>
+<p class="lede">Tracks the highest-dollar live events in five topics — gas prices, elections,
+culture, crypto and golf — and alerts on any contract move of <strong>at least $0.10 in either
+direction</strong>. Two alert feeds, a strategy simulator, and a verification register where each
+fact carries the official source it came from.</p>
+
+<div class="note warn">
+<strong>Data provenance for this build: <code>captured-replay</code>.</strong>
+The live engine could not reach Kalshi from the build environment, so this snapshot was built from real captured API payloads plus a scripted price path used to exercise the alert logic. Every market, strike and quote that is copied is labelled as captured; derivations are flagged.
+The live version of this dashboard runs as a small Python service (see the repository README) and
+uses the same code paths.
+</div>
+
+<h2>Topics</h2>
+<div class="grid c5"><a class="tile" href="topics/gas.html">
+<div class="icon">⛽</div>
+<div><strong>Gas prices</strong></div>
+<div class="stat">US retail gasoline and energy-linked contracts.</div>
+<div class="n">2</div><div class="stat">entries captured</div></a><a class="tile" href="topics/elections.html">
+<div class="icon">🗳</div>
+<div><strong>Elections</strong></div>
+<div class="stat">Elections, nominations and control of chambers.</div>
+<div class="n">1</div><div class="stat">entries captured</div></a><a class="tile" href="topics/culture.html">
+<div class="icon">🎬</div>
+<div><strong>Culture</strong></div>
+<div class="stat">Entertainment, awards, music, film and television.</div>
+<div class="n">0</div><div class="stat">entries captured</div></a><a class="tile" href="topics/crypto.html">
+<div class="icon">₿</div>
+<div><strong>Crypto</strong></div>
+<div class="stat">Bitcoin, Ethereum, Solana and other digital-asset contracts.</div>
+<div class="n">1</div><div class="stat">entries captured</div></a><a class="tile" href="topics/golf.html">
+<div class="icon">⛳</div>
+<div><strong>Golf</strong></div>
+<div class="stat">PGA Tour, DP World Tour, LPGA, LIV and Korn Ferry markets.</div>
+<div class="n">2</div><div class="stat">entries captured</div></a></div>
+
+<h2>At a glance</h2>
+<div class="grid c3">
+<div class="card"><div class="stat">Markets captured</div><div class="n">6</div></div>
+<div class="card"><div class="stat">Swing alerts (≥ $0.10)</div><div class="n">3</div></div>
+<div class="card"><div class="stat">High-ROI filtered alerts</div><div class="n">3</div></div>
+</div>
+
+<h2>Verification status</h2>
+<div class="grid c3">
+<div class="card"><div class="stat">Facts verified against an official source</div>
+<div class="n up">32</div></div>
+<div class="card"><div class="stat">Flagged irregularities</div>
+<div class="n down">5</div></div>
+<div class="card"><div class="stat">Could not be verified</div>
+<div class="n">2</div></div>
+</div>
+<p class="muted">Every one of the 39 entries is listed on
+<a href="verification.html">Verification</a> with its official source link, and the 7
+that are not clean are published on <a href="flagged.html">Flagged for review</a>.</p>
+
+<h2>Start here</h2>
+<ul class="tight">
+<li><a href="findings.html">Executive summary</a> — what was verified, what was flagged, and the
+three findings that change how this dashboard should be read.</li>
+<li><a href="alerts.html">Alert feeds</a> — the $0.10 rule, and why a one-sided book can look like a
+collapse when it is not.</li>
+<li><a href="methodology.html">Methodology</a> — how a market is assigned to a topic, how the
+high-ROI score works, and how fees are computed.</li>
+</ul>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

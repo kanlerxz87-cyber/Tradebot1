@@ -40,6 +40,7 @@
     from the exchange's own price and quantity pairs. It is a liquidity measure,
     not traded volume and not a profit estimate.
   </p>
+  <p class="small" id="rank-note"></p>
   <div class="table-wrap">
     <table id="rank-table">
       <thead><tr>

@@ -251,11 +251,11 @@ exists, so no demo-account balance or order was ever read or sent.
 
 ## 3. Audit findings (published at `qa.html`)
 
-Every committed dataset, 49 published pages and 896 internal references were re-checked. **0 errors, 3 warnings, 9 notes.**
+Every committed dataset, 67 published pages and 1 179 internal references were re-checked. **0 errors, 3 warnings, 9 notes.**
 
 | Severity | Finding | Detail |
 | - | - | - |
-| warn | 24h notional used an older price than the row prints | 13 of 300 rows; largest gap 2.2%; implied price is the previous mid, so the number is directionally right and exactly wrong |
+| warn | 24h notional used an older price than the row prints | 15 of 300 rows; largest gap 2.2%; implied price is the previous mid, so the number is directionally right and exactly wrong |
 | warn | Published order-book ladder is a partial view | 8 rows: reported depth exceeds the sum of printed levels, so ladder totals and depth totals must not be presented as the same quantity |
 | warn | Capture provenance is the production root | `docs/desk/data/latest.json` was collected from `external-api.kalshi.com`, while the brief specifies demo; the live desk surfaces the capture's environment in `/api/meta` |
 | note | No resolved market in the capture | Resolution tables are empty rather than seeded; the live desk shows close-time countdowns and fills results only from Kalshi's own fields |

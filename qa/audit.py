@@ -296,9 +296,19 @@ def audit_desk() -> None:
             "The published rule is |change| >= $0.10; these alerts do not meet it.",
             examples=[{"ticker": a.get("ticker"), "delta": a.get("delta")} for a in weak],
             count=len(weak), source="https://docs.kalshi.com/getting_started/orderbook_responses")
-    sign_bad = [a for a in alerts if isinstance(a, dict) and (a.get("delta") or 0) * (a.get("abs_delta") or 0) < 0]
+    sign_bad = []
+    for a in alerts:
+        if not isinstance(a, dict):
+            continue
+        delta, size, direction = a.get("delta"), a.get("abs_delta"), a.get("direction")
+        if size is not None and isinstance(delta, (int, float)) and abs(abs(delta) - size) > 1e-6:
+            sign_bad.append({"ticker": a.get("ticker"), "delta": delta, "abs_delta": size})
+        elif isinstance(delta, (int, float)) and ((direction == "up" and delta < 0) or (direction == "down" and delta > 0)):
+            sign_bad.append({"ticker": a.get("ticker"), "delta": delta, "direction": direction})
     if sign_bad:
-        add("warn", "SIGN", "Alert direction disagrees with its delta", examples=sign_bad, count=len(sign_bad))
+        add("warn", "SIGN", "Alert direction disagrees with its delta",
+            "The arrow, the sign of delta and abs_delta must agree; these rows do not.",
+            examples=sign_bad, count=len(sign_bad), source="docs/desk/data/latest.json")
     times = [a.get("observed_at") for a in alerts if isinstance(a, dict) and a.get("observed_at")]
     if times != sorted(times):
         add("info", "ORDER", "Alerts are not stored in time order",
@@ -534,6 +544,23 @@ def audit_links() -> None:
             examples=broken, count=len(broken), action="Fix before publishing; the site build must have zero broken links.")
 
 
+def audit_artifacts() -> None:
+    """Committed bytecode, virtualenvs and build output are not source."""
+    import subprocess
+    try:
+        tracked = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, timeout=30).stdout.splitlines()
+    except (OSError, subprocess.SubprocessError):
+        return
+    junk = [f for f in tracked if "/__pycache__/" in f or f.endswith((".pyc", ".pyo")) or f.startswith(".venv/")]
+    checked.append(f"tracked files: {len(tracked)}, bytecode/cache artefacts: {len(junk)}")
+    if junk:
+        add("warn", "ARTIFACT", "Bytecode or virtualenv files are committed",
+            f"{len(junk)} tracked path(s) are build artefacts, not source. They bloat the repository, change on "
+            "every test run and can leak absolute paths.",
+            examples=junk, count=len(junk), source="git ls-files",
+            action="git rm --cached them and keep __pycache__/ and .venv/ ignored.")
+
+
 def audit_generators() -> None:
     """Record generator behaviours that look like failures but are not data problems."""
     node_gen = ROOT / "scripts/build-site.mjs"
@@ -746,6 +773,7 @@ def main() -> int:
     audit_board()
     audit_monitor()
     audit_links()
+    audit_artifacts()
     audit_generators()
     audit_secrets()
     audit_docs_freshness()
