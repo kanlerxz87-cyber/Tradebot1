@@ -51,6 +51,7 @@ jobs:
           python3 -m pytest -q
           python3 tools/build_site.py --check
           python3 tools/check_links.py
+          python3 tools/check_gateway.py
       - name: Verify the engine site (session arena-7ae1c34f)
         run: |
           python3 -m engine.check_site --root docs/engine

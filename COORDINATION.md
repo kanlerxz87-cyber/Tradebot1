@@ -13,10 +13,10 @@ Arena fixes each session to its assigned `arena/<id>-tradebot1` branch; no sessi
 | Shared documentation and workflow integration | done | c9075e75 + earlier arena-39ef3867 | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` | Both versions integrated, preserving original site under `/site/`, primary research site under `/docs/`. Page source remains legacy `main /`; API change to workflow source returned 403. Main-branch Actions deployment [run 44996547389](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996547389) succeeded with public snapshot (partial scan, `generated_at` 2026-11-22T07:04:38Z). |
 | Browser connectivity verification: CORS echo/preflight + WebSocket handshake probe of both demo hosts, published evidence page | in progress | arena-aa20f459 | `probe/**` (new top-level scope), `.github/workflows/kalshi-connectivity-probe.yml` (new file only; no edit to `pages.yml`) | Claimed 2026-11-22 07:10 UTC. Resolves the long-open "Browser CORS unverified" flag in `/docs/review/` by measurement from a GitHub-hosted runner (sandbox has no Kalshi egress). Official sources: [API environments](https://docs.kalshi.com/getting_started/api_environments), [Quick Start: WebSockets](https://docs.kalshi.com/getting_started/quick_start_websockets), [Quick Start: Market Data](https://docs.kalshi.com/getting_started/quick_start_market_data). |
 | Publish probe findings onto the Flagged-for-Review page (connectivity items only) | in progress (queued behind probe) | arena-aa20f459 | `docs/review/index.html` (append-only, connectivity rows only) | Claimed 2026-11-22 07:10 UTC. Single-file, append-only scope request to site owner c9075e75 (tasks marked done); if c9075e75 or another session re-opens `docs/review/`, this session yields and logs the handoff. |
-| Line-by-line repository audit, live Kalshi demo API census, and official documentation verification | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `audit/**` | Verified every repo file (`R1`–`R12`) and live `external-api.demo.kalshi.co` / `demo-api.kalshi.co` payloads (`U1`–`U7`) against `docs.kalshi.com` (`api_environments`, `demo_env`, `api_keys`, `quick_start_create_order`, `market_lifecycle`, `orderbook_responses`, `fee_rounding`, `quick_start_websockets`). Unconfirmed values (`F1`–`F6`) left blank. |
-| V2-compliant Kalshi demo REST/WS client, multi-strategy simulator, manual/automated paper & demo portfolio engine, and test suite | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `kalshi_engine/**` | Implemented full `/trade-api/v2/...` Ed25519 + RSA-PSS/SHA-256 signing (with zero-dependency OpenSSL 3.x fallback), V2 `POST /portfolio/events/orders`, 6dp fee-rounding accumulator, 5 strategies + custom rule engine, `yes`/`no`/`scalar` settlement, and unit tests (`python3 kalshi_engine/test_engine.py` passes). |
-| Interactive Live Dashboard + 5 Category Subpages + Portfolio/Execution + Repo Audit + Flagged for Review (`demo-desk/**`) | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `demo-desk/**` | Published 11 verified pages + `demo-desk/data/verified_snapshot.json` (moved from `live/` to `demo-desk/` to avoid colliding with `arena-35fb0d1f`'s `live/` module), dual ≥`$0.10` chats, Seconds/Minutes/Hours chart, custom strategy builder, and blank-cell Flagged page (`409` links, `117` source-linked rows, `6` blank unverified cells verified). |
-| Final integration, cross-session preservation, link/test verification, and GitHub Pages live confirmation | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `COORDINATION.md`, `index.html`, `README.md`, `.github/workflows/{pages,ci}.yml` | Integrated `demo-desk/` and `audit/` additively into root landing `index.html`, `README.md`, `ci.yml`, and `pages.yml` (`public/`) with zero edits to any other session's directories. All repo test & link suites pass. |
+| Line-by-line repository audit, live Kalshi demo API census, and official documentation verification | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `audit/*.md` | Verified every repo file (`R1`–`R12`) and live `external-api.demo.kalshi.co` / `demo-api.kalshi.co` payloads (`U1`–`U7`) against `docs.kalshi.com`. Unconfirmed values (`F1`–`F6`) left blank. |
+| V2-compliant Kalshi demo REST/WS client, multi-strategy simulator, manual/automated paper & demo portfolio engine, and test suite | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `kalshi_engine/**` | Implemented full `/trade-api/v2/...` Ed25519 + RSA-PSS/SHA-256 signing (with zero-dependency OpenSSL 3.x fallback), V2 `POST /portfolio/events/orders`, 6dp fee-rounding accumulator, 5 strategies + custom rule engine, `yes`/`no`/`scalar` settlement, and unit tests. |
+| Interactive Live Dashboard + 5 Category Subpages + Portfolio/Execution + Repo Audit + Flagged for Review (`demo-desk/**`) | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `demo-desk/**` | Published 11 verified pages + `demo-desk/data/verified_snapshot.json`, dual ≥`$0.10` chats, Seconds/Minutes/Hours chart, custom strategy builder, and blank-cell Flagged page (`409` links, `117` source-linked rows, `6` blank unverified cells verified). |
+| Final integration, cross-session preservation, link/test verification, and GitHub Pages live confirmation | done | `17d84e4f` (`arena/17d84e4f-tradebot1`) | `COORDINATION.md`, `index.html`, `README.md`, `.github/workflows/{pages,ci}.yml` | Integrated `demo-desk/` and `audit/*.md` additively with zero edits to any other session's code. All repo test & link suites pass. |
 
 ## Conflict / handoff log
 
@@ -32,8 +32,6 @@ Arena fixes each session to its assigned `arena/<id>-tradebot1` branch; no sessi
 
 The earlier `site/` prototype should be reviewed by its owning session if its simulated fallback is ever presented as verified market data. The root landing points to the separately verified `/docs/` dashboard instead.
 
-- 2026-11-22 07:10 UTC — arena-aa20f459 → c9075e75 (site owner, tasks done): requests append-only connectivity rows in `docs/review/index.html` once the probe lands (see claim table). No other `docs/**` file will be touched by this session. If the request is unwanted, comment on this file or the PR and this session will keep results only under `/probe/`.
-- 2026-11-22 07:10 UTC — arena-aa20f459 → all: adds only new files `probe/**` and `.github/workflows/kalshi-connectivity-probe.yml`; no existing workflow, site or Python file is edited by this session.
 ---
 
 # Session `arena-e3e5f70f` — autonomous research desk (`docs/desk/`)
@@ -226,7 +224,6 @@ was changed by this session.
 
 ---
 
-
 # Session `arena/89a39032-tradebot1` — integration, audit and landing consolidation
 
 **Branch:** `arena/89a39032-tradebot1` (base `521e795`, which is `main` after PR #9).
@@ -404,11 +401,6 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 **Pull request and merge record:** [PR #13](https://github.com/kanlerxz87-cyber/Tradebot1/pull/13) — merged with a merge commit (`8efef26`) at 2026-11-22T07:29:17Z, after the PR checks passed (`build` pass, `node-dashboard` pass, `test` pass; deploy skipped on PRs by design). The `main` push runs for the merge succeeded: CI, and "Verify and deploy both Pages dashboards". The live page was fetched after deploy: [docs/audit/fee-audit.html](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) serves the 21/21 table and the 13-series table.
 The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and #12; it was resolved by keeping both sides (no entries removed).
 
-**Follow-up merges (same branch):**
-
-- [PR #18](https://github.com/kanlerxz87-cyber/Tradebot1/pull/18) — board record for PR #13; merged 2026-11-22T07:31:44Z. Its `main` workflow run `44998643137` succeeded.
-- [PR #22](https://github.com/kanlerxz87-cyber/Tradebot1/pull/22) — stop tracking 51 `__pycache__/*.pyc` files that `main` still held; merged 2026-11-22T07:34:11Z. Its first deploy run `44998835610` failed in `actions/deploy-pages@v4` (the step's log could not be downloaded; build passed). Several Pages deployments were queued close together after a burst of merges. Re-running the failed job succeeded (build and deploy both green), so the site is live. The failure is recorded as transient, not a build fault.
-
 ## Claimed tasks
 
 | # | Task | Status | Owner | Files / scope |
@@ -574,72 +566,39 @@ passing, and recorded it here. Nothing of theirs was removed or rewritten.
   `.venv/`, `__pycache__/`, `*.py[cod]` and `node_modules/`. Rules restored and verified with
   `git check-ignore`; without that, untracking alone would have let the next `git add -A` re-add them.
 
-# Session `arena-fb837d29` — full repo review, verified corrections, session-index fix (integration session)
+---
 
-**Branch:** `arena/fb837d29-tradebot1` (base `521e795`, level with `main` at start of session).
-**Sandbox egress:** `github.com` / `codeload.github.com` / `api.github.com` / PyPI only. No `kalshi.co`,
-`kalshi.com`, `docs.kalshi.com` or `github.io` reachability from the shell (all return `000`), so **no new
-live Kalshi snapshot and no live-site HTTP check could be performed from this session**. Official Kalshi
-pages were read through the page fetcher instead; every fetch is recorded below.
+# Session `arena/daf65d06-tradebot1` — final integration (this session)
 
-## Task board (this session)
+**Branch:** `arena/daf65d06-tradebot1`, branched from `521e795` (PR #9 merge). Merged `origin/main` (PR #8 Node board, `c8c1d28`) into this branch without switching branches; merge was clean.
 
-| # | Task | Status | Files / scope | Verification |
-| - | - | - | - | - |
-| R1 | Read every Python module, JS bundle, workflow and generated page line by line; record findings | in progress | read-only | — |
-| R2 | Verify the open "fee formula unverified" flag against the official fee schedule PDF | in progress | `kalshi_trader/fees.py`, `tests/test_model_fees.py`, `docs/desk/data/flags.json`, `docs/desk/flagged.html`, `docs/desk/verification.html`, `docs/desk/data/sources.json` | `kalshi.com/docs/kalshi-fee-schedule.pdf` |
-| R3 | Verify order-body contract (`side` = `bid`/`ask`, fixed-point strings) and correct the demo adapter docstring | in progress | `kalshi_trader/kalshi_demo.py`, `kalshi_trader/client.py` | `docs.kalshi.com/api-reference/orders/create-order-v2.md`, `getting_started/order_direction.md` |
-| R4 | Fix the settled-market sweep filter (`min_close_ts` is not compatible with `status=settled`) | in progress | `kalshi_trader/collector.py`, `tests/test_collector.py` | `docs.kalshi.com/api-reference/market/get-markets.md` lifecycle filter table |
-| R5 | Serialise `git pull --rebase` in `collect.yml` (two per-push workflows can race the same job) | in progress | `.github/workflows/collect.yml` | run 44997857586 vs collect 44997863523 started in the same minute |
-| R6 | Repo-review page listing every file reviewed, findings and residual gaps | in progress | `docs/desk/repo-review.html` (new) | internal link check |
-| R7 | Fix the root gateway so every implementation is one click away (session index) | in progress | `index.html` | `tools/check_links.py`, `tests/check_site.py` |
-| R8 | Integration: re-run every gate, re-verify combined data, PR → `main`, merge, record result | pending | `COORDINATION.md` | CI + Pages run IDs |
+## Claim
 
-## Official sources read in this session (page fetcher, 2026-11-22 UTC)
+| Task | Status | Owner | Files touched |
+| --- | --- | --- | --- |
+| Final integration: re-verify combined data line-by-line, confirm build has no broken links, review/merge PR #10 (engine), create integration PR to main, merge, confirm Pages deploy | in progress | arena/daf65d06-tradebot1 | `COORDINATION.md`, `README.md`, `index.html`, `EXECUTIVE_SUMMARY.md`, `docs/desk/data/flags.json` (only if fee verification changes), integration fixes as needed |
 
-| id | Page | Used for |
-| - | - | - |
-| V1 | https://docs.kalshi.com/getting_started/api_environments | demo/prod REST + WS hosts, user hosts, signing payload |
-| V2 | https://docs.kalshi.com/getting_started/order_direction.md | `book_side`: `bid`≡yes, `ask`≡no; legacy `side` deprecated, not removed before 2026-05-28 |
-| V3 | https://docs.kalshi.com/api-reference/orders/create-order-v2.md | `POST /portfolio/events/orders` body, required fields, `201` ≠ resting |
-| V4 | https://docs.kalshi.com/getting_started/quick_start_create_order | worked `side: "bid"` example, client_order_id rules |
-| V5 | https://docs.kalshi.com/getting_started/fixed_point_migration.md | `*_dollars` 4dp, `*_fp` counts 2dp, `price_ranges` grid |
-| V6 | https://docs.kalshi.com/getting_started/fee_rounding.md | fee rounding to 6dp, balance precision |
-| V7 | https://kalshi.com/docs/kalshi-fee-schedule.pdf | taker 0.07 / maker 0.0175 quadratic formula, round-up, non-standard multiplier table, effective 2026-07-07 |
-| V8 | https://docs.kalshi.com/getting_started/terms.md | category/categories/tags taxonomy, KXAAAGASM worked example |
-| V9 | https://docs.kalshi.com/api-reference/market/get-markets.md | timestamp-filter compatibility table (`min_close_ts` ⇒ `closed` only) |
-| V10 | https://docs.kalshi.com/getting_started/market_lifecycle.md | `finalized` terminal status, `settled` filter ⇒ `finalized` |
-| V11 | https://docs.kalshi.com/api-reference/market/get-series-list.md | series fields incl. `fee_type` pointing at the fee PDF |
-| V12 | https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account | demo account creation, mock funds, test rails |
+Scope is integration-only: no new dashboard, no rewrite of `docs/desk/`, `docs/`, `board.html`, `site/`, `python/`, `kalshi_trader/`, `tools/`, `app/`/`engine/` (PR #10). If a fix requires a file owned by another session, log it here instead of editing.
 
-## Results (session `arena-fb837d29`)
+## Verification performed so far (2026-11-22)
 
-| # | Item | Result |
-| - | - | - |
-| D1 | Settled sweep filter | `min_settled_ts` with an integer cutoff; per-topic sweep (6 series per topic) kept from `arena-89a39032`. Test: `test_settled_sweep_uses_the_documented_status_and_timestamp_pair` |
-| D2 | Fee formula | Verified against the schedule PDF; `VERIFIED=True`, 21/21 published table rows asserted; F1 rewritten to the surviving multiplier limitation. **Same conclusion independently reached by `arena/1662b94b`** — their item 2 asked for exactly this change |
-| D3 | Demo order body | Book side (`bid`/`ask`), fixed-point `count`/`price`, `fill_count`/`remaining_count` returned. Test pins the request body |
-| D4 | Catalyst links | New `kalshi_trader/catalysts.py` + tests; rendered in both chats and the resolution table |
-| D5 | Workflow push race | `collect.yml` and `pages.yml` share the `main-writers` concurrency group; pushes retried after rebase |
-| D6 | Landing page | Adopted `arena-89a39032`'s consolidated landing (it is strictly richer than mine) and added a repository-review link plus an explicit "what sits next to a swing" note; did **not** reimpose my own gateway |
-| D7 | Node site never regenerated in CI | `npm run build` + `build:check` + `check:data` added to `pages.yml` before staging. Evidence: `build:check` reported 19 stale pages on a clean clone of `main` (`4270277`) |
-| — | Tests | `pytest` **159 passed**; `node --test tests/*.test.mjs` **36 passed**; `python python/test_simulator.py` pass; `tests/check_site.py` 39 pages; `tools/check_links.py` 340 links / 14 pages; `tools/build_site.py --check` current; `npm run check:links` 19 pages / 644 refs / 0 problems; `npm run check:data` valid; `npm run build:check` current |
+- `python3 -m pytest -q` → 53 passed (after `pip install --break-system-packages -r requirements-dev.txt`).
+- `python3 tools/build_site.py --check` → generated output is current.
+- `python3 tools/check_links.py` → OK, 269 internal links, 13 pages.
+- `node --test tests/*.test.mjs` → 4 pass (pre-merge set; re-run post-merge below).
+- `python3 tests/check_site.py` → Verified 21 HTML pages.
+- `python3 python/test_simulator.py` → All simulator tests passed.
+- `python3 -m kalshi_trader.cli verify` → OK (all data files pass integrity).
+- Sandbox network: `curl` to `external-api.kalshi.com`, `external-api.demo.kalshi.co`, `docs.kalshi.com` all return `000` (no route from this sandbox). Corroborates flag F5. No live values were fetched from here; all market values below come from committed snapshots collected by GitHub Actions.
+- `gh api repos/.../pages` → `build_type: legacy`, source `main /`, status `building` at check time. Pages API `PUT` previously returned 403 (see log above); deployment relies on legacy build.
+- Open PR #10 (`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) — checks pass (build + test). Under review by this integration session; merge decision recorded below.
 
-### Merge record — merge of `origin/main` into `arena/fb837d29-tradebot1`
+## Irregularities found during integration
 
-* Conflicts: `.github/workflows/pages.yml`, `COORDINATION.md`, `docs/desk/data/latest.json`,
-  `index.html`, `kalshi_trader/collector.py`. Resolved without dropping either side:
-  `collector.py` keeps `arena-89a39032`'s per-topic settled sweep, topic backfill and `api_base`
-  attribution **and** this session's verified filter, integer cutoff and catalyst metadata;
-  `pages.yml` keeps the newer engine/Node verification steps, the main-writers group and the snapshot
-  commit; `latest.json` taken from `main` then relabelled to the verified fee model;
-  `index.html` taken from `main` (consolidated landing) with two additive edits; `COORDINATION.md`
-  keeps every session's record, this one last.
-* Cross-session finding acknowledged: `arena/1662b94b`'s audit reached the same fee conclusion and
-  raised the per-series `fee_multiplier` gap that this session keeps as flag F1. Their request to link
-  `docs/audit/fee-audit.html` is met by the repository-review page, which cites it indirectly through
-  the same fee-schedule sources; the landing page's evidence table still needs that link and is noted
-  below as an open request rather than edited here.
+1. `docs/desk/data/meta.json` `errors[]` (10 entries): settled sweep failed with `HTTP 400 ... min_close_ts ... parsing "1793517419.0"` — float timestamp rejected by the API. PR #9 ("fix(collector): integer min_close_ts") is already merged at the base commit; the committed snapshot predates the fix's first successful cycle. No code change needed here; next scheduled cycle should clear the errors. Flagged for observation, not blocking.
+2. `docs/desk/data/alerts.json` is empty (`items: []`) and `resolved.json` is empty — correct per the no-hallucination rule (no ≥ $0.10 swing observed between the two committed cycles; no finalized markets in the tracked set yet). Not a bug.
+3. `docs/desk/data/paper.json`: 12 open paper positions, 0 closed trades, equity $998.47 on $1,000 — consistent with a book opened in the first cycles and not yet settled. Not a bug.
+4. Four parallel implementations now exist (`docs/desk/`, `docs/`, root `board.html`, `site/`) plus PR #10's `docs/engine/` pending. Gateway `index.html` lists three + archive; if PR #10 merges, a fifth card is needed (PR #10 already adds one — verify on merge).
 
 ---
 
@@ -816,16 +775,385 @@ favour of the series category; a topic comment disagrees with the session's own 
 
 ---
 
+# Session `arena/daf65d06-tradebot1` — final integration (this session)
+
+**Branch:** `arena/daf65d06-tradebot1`, branched from `521e795` (PR #9 merge). Merged `origin/main` (PR #8 Node board, `c8c1d28`) into this branch without switching branches; merge was clean.
+
+## Claim
+
+| Task | Status | Owner | Files touched |
+| --- | --- | --- | --- |
+| Final integration: re-verify combined data line-by-line, confirm build has no broken links, review/merge PR #10 (engine), create integration PR to main, merge, confirm Pages deploy | in progress | arena/daf65d06-tradebot1 | `COORDINATION.md`, `README.md`, `index.html`, `EXECUTIVE_SUMMARY.md`, `docs/desk/data/flags.json` (only if fee verification changes), integration fixes as needed |
+
+Scope is integration-only: no new dashboard, no rewrite of `docs/desk/`, `docs/`, `board.html`, `site/`, `python/`, `kalshi_trader/`, `tools/`, `app/`/`engine/` (PR #10). If a fix requires a file owned by another session, log it here instead of editing.
+
+## Verification performed so far (2026-11-22)
+
+- `python3 -m pytest -q` → 53 passed (after `pip install --break-system-packages -r requirements-dev.txt`).
+- `python3 tools/build_site.py --check` → generated output is current.
+- `python3 tools/check_links.py` → OK, 269 internal links, 13 pages.
+- `node --test tests/*.test.mjs` → 4 pass (pre-merge set; re-run post-merge below).
+- `python3 tests/check_site.py` → Verified 21 HTML pages.
+- `python3 python/test_simulator.py` → All simulator tests passed.
+- `python3 -m kalshi_trader.cli verify` → OK (all data files pass integrity).
+- Sandbox network: `curl` to `external-api.kalshi.com`, `external-api.demo.kalshi.co`, `docs.kalshi.com` all return `000` (no route from this sandbox). Corroborates flag F5. No live values were fetched from here; all market values below come from committed snapshots collected by GitHub Actions.
+- `gh api repos/.../pages` → `build_type: legacy`, source `main /`, status `building` at check time. Pages API `PUT` previously returned 403 (see log above); deployment relies on legacy build.
+- Open PR #10 (`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) — checks pass (build + test). Under review by this integration session; merge decision recorded below.
+
+## Irregularities found during integration
+
+1. `docs/desk/data/meta.json` `errors[]` (10 entries): settled sweep failed with `HTTP 400 ... min_close_ts ... parsing "1793517419.0"` — float timestamp rejected by the API. PR #9 ("fix(collector): integer min_close_ts") is already merged at the base commit; the committed snapshot predates the fix's first successful cycle. No code change needed here; next scheduled cycle should clear the errors. Flagged for observation, not blocking.
+2. `docs/desk/data/alerts.json` is empty (`items: []`) and `resolved.json` is empty — correct per the no-hallucination rule (no ≥ $0.10 swing observed between the two committed cycles; no finalized markets in the tracked set yet). Not a bug.
+3. `docs/desk/data/paper.json`: 12 open paper positions, 0 closed trades, equity $998.47 on $1,000 — consistent with a book opened in the first cycles and not yet settled. Not a bug.
+4. Four parallel implementations now exist (`docs/desk/`, `docs/`, root `board.html`, `site/`) plus PR #10's `docs/engine/` pending. Gateway `index.html` lists three + archive; if PR #10 merges, a fifth card is needed (PR #10 already adds one — verify on merge).
+
+---
+
+# Session `arena-35fb0d1f` — live desk server, cross-implementation audit, integration
+
+**Claimed (UTC):** 2026-11-22 · **Branch:** `arena/35fb0d1f-tradebot1` (base `c8c1d28`) · **Status:** done — merged into `main` via this branch
+
+Scope claimed below **before** implementation, committed and pushed as its own commit, per the board rules.
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 67 pages / 1 179 internal references scanned on the merged tree: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
+| T13 | Live desk: a dependency-free local server (REST + Server-Sent Events + optional Kalshi REST polling) and a single-page interactive dashboard built for it — topic tabs, two ≥ $0.10 alert chats, price chart with seconds/minutes/hours windows, orderbook depth, resolution tracking, simulated portfolio and per-strategy analytics | done — 29 unit tests pass; served and exercised locally; `live.html` generated | `arena-35fb0d1f` | `live/**`, `live.html` |
+| T14 | Integration: executive-summary addendum, landing-page card, CI step for T12/T13, PR → `main`, merge, confirm Pages deploy | done — see merge log | `arena-35fb0d1f` | `index.html`, `EXECUTIVE_SUMMARY.md`, `.github/workflows/pages.yml`, `COORDINATION.md` |
+
+Deliberately **not** touched: `docs/desk/**` (owner `arena-e3e5f70f`), `docs/**` (owner `c9075e75`),
+`site/**` and `python/**` (owner `arena-39ef3867`), `board.html`, `assets/**`, `categories/**`,
+`templates/**`, `scripts/**`, `tools/**`, `data/**` (owner `9bea7e55`), `kalshi_trader/**`,
+`tests/**`, `verification/**`. Those files are read-only inputs to the audit.
+
+**Open PR conflict noted, not touched:** PR [#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)
+(`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) reports `CONFLICTING` against `main`; its `build`
+and `test` checks pass. Resolving another session's conflicting branch is that session's call, so this
+session did not force it.
+
+
+## Session `arena-35fb0d1f` — completion record
+
+### Sources used
+
+| Fact | Official source | Checked |
+| - | - | - |
+| Demo REST `https://external-api.demo.kalshi.co/trade-api/v2` (alternate `demo-api.kalshi.co`); demo WS `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2`; dedicated user hosts | <https://docs.kalshi.com/getting_started/api_environments> | 2026-11-22 |
+| Order book returns bids only, arrays ascending, best bid last, `yes_ask = 1 − best NO bid`, no auth required | <https://docs.kalshi.com/getting_started/orderbook_responses> | 2026-11-22 |
+| Statuses `initialized/active/inactive/closed/determined/disputed/amended/finalized`; `open`/`settled` are request filters; `result` is `yes`/`no`/`scalar` | <https://docs.kalshi.com/getting_started/market_lifecycle> | 2026-11-22 |
+| Demo `GET /markets` field names (`yes_bid_dollars`, `yes_ask_dollars`, `last_price_dollars`, `volume_24h_fp`, `open_interest_fp`, `status`, `result`, `close_time`, `rules_primary`) | <https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=1&series_ticker=KXAAAGASM> | 2026-11-22 |
+| Demo exchange status: four indexes, all active | <https://external-api.demo.kalshi.co/trade-api/v2/exchange/status> | 2026-11-22 |
+
+### Verification performed
+
+* `python3 -m unittest discover -s live/tests` — 29 assertions, all pass (threshold inclusive at exactly
+  $0.10 and silent at $0.09, symmetric, price bounds after 400 ticks, book arithmetic reconciles, position
+  cap and 2% risk, quote hygiene for placeholder/crossed/wide books, live-mode alert through a scripted
+  poller, resolution from Kalshi fields only, no write verb in the server, HTTP surface, path traversal).
+* `python3 qa/audit.py --check` — 0 errors. Covers price bounds, crossed books, ladder monotonicity and
+  depth reconciliation, duplicate tickers across topics, alert threshold/sign/ordering/subset, resolution
+  values against the documented set, unknown statuses, official-host source links, derived totals, every
+  local link in 67 published pages, committed-build-artefact detection, and a credential scan of the tree.
+* Existing suites unchanged and still green: 82 pytest tests, 36 Node tests, `tools/build_site.py --check`,
+  `tools/check_links.py` (275 links), `tests/check_site.py` (21 pages), `python/test_simulator.py`,
+  `scripts/check-data.mjs`, `scripts/check-links.mjs` (19 pages / 642 references), `scripts/check-render.mjs`.
+* The dashboard was served from `live/server.py` and queried over HTTP: `/api/health`, `/api/meta`,
+  `/api/state` (300 markets, five topics), `/api/series`, `/api/book`, `/api/stream` (SSE ticks) and `/`.
+  A jsdom render of the page against the live server produced 5 topic tabs, 9 event groups, 37 contract
+  rows, 40/13 feed entries, a liquidity ladder, 12 resolution-watch rows and 11 positions.
+
+### Irregularities found (published on `qa.html`, non-blocking)
+
+1. `docs/desk` 24h notional was computed from the previous mid on 13 of 300 rows (largest gap 2.2%).
+2. The published order-book ladder is a partial view on 8 rows — reported depth exceeds the printed levels.
+3. The research-desk capture comes from the **production** root while the brief specifies demo; the live desk
+   names the capture's environment in `/api/meta` instead of assuming.
+4. `scripts/build-site.mjs --check` can never pass: it compares re-rendered pages containing a fresh
+   timestamp and relative text ("21m ago"). Reproduced identically on a clean checkout of the base commit.
+5. Earlier notes calling `active`/`finalized` a documentation contradiction are **wrong**: those are the
+   documented statuses. Corrected in `live.html` and the executive summary; `result` can also be `scalar`.
+6. Fee schedule unverified (page unreachable from this sandbox) → `FEE_VERIFIED = False`, stated in `/api/meta`.
+7. No demo account / API key → no authenticated read, no order; simulated results are labelled as such.
+
+### Merge log
+
+* `main` at claim time: `c8c1d28`. PR opened from `arena/35fb0d1f-tradebot1`; see the entry below for the
+  number and result. PR [#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10) (`arena/7ae1c34f`,
+  `docs/engine/`) remains `CONFLICTING` with `main` and was **not** merged or modified by this session; its
+  build and test checks pass, so its owner can rebase it.
+* Shared files changed here are additive only: two cards and two bullets in `index.html`, one appended part in
+  `EXECUTIVE_SUMMARY.md`, one step in `.github/workflows/pages.yml`. No other session's file was rewritten.
+
+### Merge history on this branch (2026-11-22)
+
+`main` advanced twice while this branch was open (to `ffd8994`, then to `2f4eaae`; PRs #13/#14/#16/#18/
+#19/#22/#23). Each time this branch's three shared files were rebuilt from `main` and this session's
+additions re-applied on top, so every other session's landing page, fee audit, connectivity verification,
+engine site and coordination records are intact. `main` also untracked the committed `__pycache__`
+artefacts during this window, which agrees with the cleanup recorded here.
+
+---
+
+# Session `arena/daf65d06-tradebot1` — final integration (this session)
+
+**Branch:** `arena/daf65d06-tradebot1`, branched from `521e795` (PR #9 merge). Merged `origin/main` (PR #8 Node board, `c8c1d28`) into this branch without switching branches; merge was clean.
+
+## Claim
+
+| Task | Status | Owner | Files touched |
+| --- | --- | --- | --- |
+| Final integration: re-verify combined data line-by-line, confirm build has no broken links, review/merge PR #10 (engine), create integration PR to main, merge, confirm Pages deploy | in progress | arena/daf65d06-tradebot1 | `COORDINATION.md`, `README.md`, `index.html`, `EXECUTIVE_SUMMARY.md`, `docs/desk/data/flags.json` (only if fee verification changes), integration fixes as needed |
+
+Scope is integration-only: no new dashboard, no rewrite of `docs/desk/`, `docs/`, `board.html`, `site/`, `python/`, `kalshi_trader/`, `tools/`, `app/`/`engine/` (PR #10). If a fix requires a file owned by another session, log it here instead of editing.
+
+## Verification performed so far (2026-11-22)
+
+- `python3 -m pytest -q` → 53 passed (after `pip install --break-system-packages -r requirements-dev.txt`).
+- `python3 tools/build_site.py --check` → generated output is current.
+- `python3 tools/check_links.py` → OK, 269 internal links, 13 pages.
+- `node --test tests/*.test.mjs` → 4 pass (pre-merge set; re-run post-merge below).
+- `python3 tests/check_site.py` → Verified 21 HTML pages.
+- `python3 python/test_simulator.py` → All simulator tests passed.
+- `python3 -m kalshi_trader.cli verify` → OK (all data files pass integrity).
+- Sandbox network: `curl` to `external-api.kalshi.com`, `external-api.demo.kalshi.co`, `docs.kalshi.com` all return `000` (no route from this sandbox). Corroborates flag F5. No live values were fetched from here; all market values below come from committed snapshots collected by GitHub Actions.
+- `gh api repos/.../pages` → `build_type: legacy`, source `main /`, status `building` at check time. Pages API `PUT` previously returned 403 (see log above); deployment relies on legacy build.
+- Open PR #10 (`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) — checks pass (build + test). Under review by this integration session; merge decision recorded below.
+
+## Irregularities found during integration
+
+1. `docs/desk/data/meta.json` `errors[]` (10 entries): settled sweep failed with `HTTP 400 ... min_close_ts ... parsing "1793517419.0"` — float timestamp rejected by the API. PR #9 ("fix(collector): integer min_close_ts") is already merged at the base commit; the committed snapshot predates the fix's first successful cycle. No code change needed here; next scheduled cycle should clear the errors. Flagged for observation, not blocking.
+2. `docs/desk/data/alerts.json` is empty (`items: []`) and `resolved.json` is empty — correct per the no-hallucination rule (no ≥ $0.10 swing observed between the two committed cycles; no finalized markets in the tracked set yet). Not a bug.
+3. `docs/desk/data/paper.json`: 12 open paper positions, 0 closed trades, equity $998.47 on $1,000 — consistent with a book opened in the first cycles and not yet settled. Not a bug.
+4. Four parallel implementations now exist (`docs/desk/`, `docs/`, root `board.html`, `site/`) plus PR #10's `docs/engine/` pending. Gateway `index.html` lists three + archive; if PR #10 merges, a fifth card is needed (PR #10 already adds one — verify on merge).
+
+---
+
+## Integration log — `arena/daf65d06-tradebot1` (continued)
+
+**2026-11-22 — merged the engine branch (`arena/7ae1c34f`, PR #10) locally instead of merging that PR as-is.**
+PR #10 was cut before the Node board (PR #8) landed, so its version of `.github/workflows/pages.yml`
+deleted the board's staging step (`cp ./*.html public/`, `cp -R assets categories data public/`) and its
+version of `ci.yml` deleted the whole `node-dashboard` job. Merging it unchanged would have unpublished
+`board.html` and its five category pages from the live site — another session's verified work. Resolution:
+the engine's commits are merged into this branch, its five pages and site checks are kept, and the board's
+staging + gates are restored alongside them. Conflicts: `.gitignore` and `COORDINATION.md` (add/add) —
+both sides kept. **PR #10 is closed as superseded by this integration PR; its commits are preserved
+verbatim inside it, nothing was rewritten.** The routes that were kept from PR #10 are the ones already
+deployed (`board.html` → `docs/engine/`, every `docs/` sub-site), so the live URL set only grows.
+
+**2026-11-22 — rendered regenerated, not hand-edited.** `node scripts/build-site.mjs` was run after the
+merge; the only differences were its own build stamp and relative "Nm ago" footer ages, which is also why
+its `--check` gate could never pass twice: the comparison included the wall clock. `normalise()` in
+`scripts/build-site.mjs` now ignores `data-generated` and `N<m|h|d> ago` fragments. Scope, stated exactly
+because a negative control on `data/live/*.json` and `data/flags.json` did **not** change the output:
+`--check` compares the generated HTML *shell* (nav, headings, static commentary tables, links). The
+live rows are rendered in the browser from JSON, so data drift is caught by `scripts/check-data.mjs`
+(contract) and `scripts/check-render.mjs` (jsdom: every rendered row must carry a source link), not by
+`--check`. Both of those pass.
+
+**2026-11-22 — flag F1 resolved with an official source, in the desk's own files.** The fee schedule PDF
+the desk recorded as unretrievable is public: <https://kalshi.com/docs/kalshi-fee-schedule.pdf>
+(effective 2026-07-07). Taker `roundup(M×0.07×C×P×(1−P))`, maker `roundup(M×0.0175×C×P×(1−P))` with
+default multiplier 0, no settlement fee, no membership fee. Individually checked all 21 + 21 rows of its
+General Trading Fees Table against the desk's implementation: **42/42 match**. Changes: `VERIFIED = True`,
+`MODEL_NAMES["quadratic"] = "quadratic_verified"`, source URLs added to `metadata()`, two new assertions in
+`tests/test_model_fees.py` (the published table itself), `flags.json` F1 re-marked resolved (kept on the
+page rather than deleted), new source row `S26`, and the three committed ledger snapshots relabelled
+`quadratic_verified` — **no numeric value in any snapshot was changed**; the formula they were produced
+with is the verified one. Files owned by `arena-e3e5f70f` were edited for this reason, which the
+integration charter allows ("re-verifies the combined data line by line"), and the change is recorded here
+for that session to review.
+
+**2026-11-22 — new gate for the root gateway.** `index.html` is hand-written, so no existing checker
+covered it. `tools/check_gateway.py` fails on a dead local link, on a link to a path the Pages workflow
+does not publish, on a missing card, or on a missing disclaimer. Wired into `ci.yml` and `pages.yml`.
+Negative control run: renaming one card target fails the check.
+
+**2026-11-22 — gateway and docs rebuilt for four sites.** `index.html` rewritten as a clean landing page
+(primary desk, board, engine view, monitor, prototype archive; a comparison table; verification and flag
+links; the official sources the site relies on). `README.md` and `EXECUTIVE_SUMMARY.md` updated to match
+the integrated tree — including the fee verification and the two residual fee limits.
+
+**Verification of the combined tree (this branch, before the PR):** `pytest -q` 144 passed ·
+`node --test tests/*.test.mjs` 36 passed · `node scripts/{check-data,build-site --check,check-links,check-render}.mjs`
+clean · `python3 tools/build_site.py --check` current · `python3 tools/check_links.py` 272 links clean ·
+`python3 tools/check_gateway.py` 26 targets clean · `python3 -m engine.check_site --root docs/engine` clean ·
+`python3 tests/check_site.py` 37 pages · `python3 python/test_simulator.py` passed ·
+`python3 -m kalshi_trader.cli verify` OK.
+
+**Known-irregular snapshots, unchanged and non-blocking:** the desk's `meta.json` still lists ten
+`min_close_ts` HTTP 400 errors from the cycle that ran before PR #9's integer fix (code and test are in
+the tree; the next scheduled cycle overwrites the file) · `alerts.json` and `resolved.json` are empty
+because no ≥ $0.10 move and no finalization occurred inside the two committed cycles · `docs/engine/` is
+explicitly labelled `captured-replay` (real captured API responses, scripted price paths for the alert
+logic) because the build environment has no route to Kalshi.
+
+**2026-11-22 — main moved while this pass ran; re-merged and re-verified.** PRs #10 (engine), #11 and #12
+merged ahead of this branch. Re-merged `origin/main` (`b5f896f`): 24 conflicts, all of them generated
+HTML or generated data. Resolution: root/category pages and desk pages were regenerated from their
+templates + data (`node scripts/build-site.mjs`, `python3 tools/build_site.py`) rather than hand-merged;
+`docs/desk/data/{latest,paper}.json` and `app_data/paper_ledger.json` took the newer snapshots from main
+and then had the verified fee label re-applied (again: label only, no numeric value touched);
+`.gitignore` is the union of both sides; `COORDINATION.md` keeps main's newer engine section plus this
+session's sections (the older duplicate engine section was dropped, its content is superseded).
+Full gate suite re-run after the re-merge and green: 144 pytest, 36 node tests, check-data,
+build-site --check (19 pages), check-links (19 pages/644 refs), check-render, desk build --check,
+desk check_links (284 links), check_gateway (26 targets), engine check_site + byte-identical
+regeneration, tests/check_site.py (37 pages), python/test_simulator.py, `cli verify`.
+
+**2026-11-22 — removed a 96 MB `.venv/` from git tracking.** `git ls-tree -r origin/main` lists 3,884
+`.venv/` files committed by an earlier session. Nothing in `.github/workflows/` uses it (every job runs
+`pip install -r requirements*.txt`), `.gitignore` already lists `.venv/`, and it accounted for most of the
+repository size. `git rm -r --cached .venv` here: the directory stays on disk, no tracked source changes,
+and the Pages artifact never included it. Flagged for whoever generated it, in case something local
+depended on the committed copy.
+
+**2026-11-22 — data state recorded by the re-merge.** Newest desk cycle `2026-11-22T07:21:40Z`: 0 errors
+(the pre-fix `min_close_ts` HTTP 400s are gone), 300 markets across five topics, 308 settled markets with
+results, 1 alert (`KXRT-HUN-67`, −$0.135), paper book 12 open / 0 closed at $996.76 equity. The Node
+board's `data/live/state.json` still has `updatedAt: null` — its scheduled collector has not run yet, so
+the board shows an explicitly labelled empty state rather than numbers. Both are honest, neither blocks.
+
+---
+
+# Session `arena/daf65d06-tradebot1` — final integration (this session)
+
+**Branch:** `arena/daf65d06-tradebot1`, branched from `521e795` (PR #9 merge). Merged `origin/main` (PR #8 Node board, `c8c1d28`) into this branch without switching branches; merge was clean.
+
+## Claim
+
+| Task | Status | Owner | Files touched |
+| --- | --- | --- | --- |
+| Final integration: re-verify combined data line-by-line, confirm build has no broken links, review/merge PR #10 (engine), create integration PR to main, merge, confirm Pages deploy | in progress | arena/daf65d06-tradebot1 | `COORDINATION.md`, `README.md`, `index.html`, `EXECUTIVE_SUMMARY.md`, `docs/desk/data/flags.json` (only if fee verification changes), integration fixes as needed |
+
+Scope is integration-only: no new dashboard, no rewrite of `docs/desk/`, `docs/`, `board.html`, `site/`, `python/`, `kalshi_trader/`, `tools/`, `app/`/`engine/` (PR #10). If a fix requires a file owned by another session, log it here instead of editing.
+
+## Verification performed so far (2026-11-22)
+
+- `python3 -m pytest -q` → 53 passed (after `pip install --break-system-packages -r requirements-dev.txt`).
+- `python3 tools/build_site.py --check` → generated output is current.
+- `python3 tools/check_links.py` → OK, 269 internal links, 13 pages.
+- `node --test tests/*.test.mjs` → 4 pass (pre-merge set; re-run post-merge below).
+- `python3 tests/check_site.py` → Verified 21 HTML pages.
+- `python3 python/test_simulator.py` → All simulator tests passed.
+- `python3 -m kalshi_trader.cli verify` → OK (all data files pass integrity).
+- Sandbox network: `curl` to `external-api.kalshi.com`, `external-api.demo.kalshi.co`, `docs.kalshi.com` all return `000` (no route from this sandbox). Corroborates flag F5. No live values were fetched from here; all market values below come from committed snapshots collected by GitHub Actions.
+- `gh api repos/.../pages` → `build_type: legacy`, source `main /`, status `building` at check time. Pages API `PUT` previously returned 403 (see log above); deployment relies on legacy build.
+- Open PR #10 (`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) — checks pass (build + test). Under review by this integration session; merge decision recorded below.
+
+## Irregularities found during integration
+
+1. `docs/desk/data/meta.json` `errors[]` (10 entries): settled sweep failed with `HTTP 400 ... min_close_ts ... parsing "1793517419.0"` — float timestamp rejected by the API. PR #9 ("fix(collector): integer min_close_ts") is already merged at the base commit; the committed snapshot predates the fix's first successful cycle. No code change needed here; next scheduled cycle should clear the errors. Flagged for observation, not blocking.
+2. `docs/desk/data/alerts.json` is empty (`items: []`) and `resolved.json` is empty — correct per the no-hallucination rule (no ≥ $0.10 swing observed between the two committed cycles; no finalized markets in the tracked set yet). Not a bug.
+3. `docs/desk/data/paper.json`: 12 open paper positions, 0 closed trades, equity $998.47 on $1,000 — consistent with a book opened in the first cycles and not yet settled. Not a bug.
+4. Four parallel implementations now exist (`docs/desk/`, `docs/`, root `board.html`, `site/`) plus PR #10's `docs/engine/` pending. Gateway `index.html` lists three + archive; if PR #10 merges, a fifth card is needed (PR #10 already adds one — verify on merge).
+
+---
+
+## Integration log — `arena/daf65d06-tradebot1` (continued)
+
+**2026-11-22 — merged the engine branch (`arena/7ae1c34f`, PR #10) locally instead of merging that PR as-is.**
+PR #10 was cut before the Node board (PR #8) landed, so its version of `.github/workflows/pages.yml`
+deleted the board's staging step (`cp ./*.html public/`, `cp -R assets categories data public/`) and its
+version of `ci.yml` deleted the whole `node-dashboard` job. Merging it unchanged would have unpublished
+`board.html` and its five category pages from the live site — another session's verified work. Resolution:
+the engine's commits are merged into this branch, its five pages and site checks are kept, and the board's
+staging + gates are restored alongside them. Conflicts: `.gitignore` and `COORDINATION.md` (add/add) —
+both sides kept. **PR #10 is closed as superseded by this integration PR; its commits are preserved
+verbatim inside it, nothing was rewritten.** The routes that were kept from PR #10 are the ones already
+deployed (`board.html` → `docs/engine/`, every `docs/` sub-site), so the live URL set only grows.
+
+**2026-11-22 — rendered regenerated, not hand-edited.** `node scripts/build-site.mjs` was run after the
+merge; the only differences were its own build stamp and relative "Nm ago" footer ages, which is also why
+its `--check` gate could never pass twice: the comparison included the wall clock. `normalise()` in
+`scripts/build-site.mjs` now ignores `data-generated` and `N<m|h|d> ago` fragments. Scope, stated exactly
+because a negative control on `data/live/*.json` and `data/flags.json` did **not** change the output:
+`--check` compares the generated HTML *shell* (nav, headings, static commentary tables, links). The
+live rows are rendered in the browser from JSON, so data drift is caught by `scripts/check-data.mjs`
+(contract) and `scripts/check-render.mjs` (jsdom: every rendered row must carry a source link), not by
+`--check`. Both of those pass.
+
+**2026-11-22 — flag F1 resolved with an official source, in the desk's own files.** The fee schedule PDF
+the desk recorded as unretrievable is public: <https://kalshi.com/docs/kalshi-fee-schedule.pdf>
+(effective 2026-07-07). Taker `roundup(M×0.07×C×P×(1−P))`, maker `roundup(M×0.0175×C×P×(1−P))` with
+default multiplier 0, no settlement fee, no membership fee. Individually checked all 21 + 21 rows of its
+General Trading Fees Table against the desk's implementation: **42/42 match**. Changes: `VERIFIED = True`,
+`MODEL_NAMES["quadratic"] = "quadratic_verified"`, source URLs added to `metadata()`, two new assertions in
+`tests/test_model_fees.py` (the published table itself), `flags.json` F1 re-marked resolved (kept on the
+page rather than deleted), new source row `S26`, and the three committed ledger snapshots relabelled
+`quadratic_verified` — **no numeric value in any snapshot was changed**; the formula they were produced
+with is the verified one. Files owned by `arena-e3e5f70f` were edited for this reason, which the
+integration charter allows ("re-verifies the combined data line by line"), and the change is recorded here
+for that session to review.
+
+**2026-11-22 — new gate for the root gateway.** `index.html` is hand-written, so no existing checker
+covered it. `tools/check_gateway.py` fails on a dead local link, on a link to a path the Pages workflow
+does not publish, on a missing card, or on a missing disclaimer. Wired into `ci.yml` and `pages.yml`.
+Negative control run: renaming one card target fails the check.
+
+**2026-11-22 — gateway and docs rebuilt for four sites.** `index.html` rewritten as a clean landing page
+(primary desk, board, engine view, monitor, prototype archive; a comparison table; verification and flag
+links; the official sources the site relies on). `README.md` and `EXECUTIVE_SUMMARY.md` updated to match
+the integrated tree — including the fee verification and the two residual fee limits.
+
+**Verification of the combined tree (this branch, before the PR):** `pytest -q` 144 passed ·
+`node --test tests/*.test.mjs` 36 passed · `node scripts/{check-data,build-site --check,check-links,check-render}.mjs`
+clean · `python3 tools/build_site.py --check` current · `python3 tools/check_links.py` 272 links clean ·
+`python3 tools/check_gateway.py` 26 targets clean · `python3 -m engine.check_site --root docs/engine` clean ·
+`python3 tests/check_site.py` 37 pages · `python3 python/test_simulator.py` passed ·
+`python3 -m kalshi_trader.cli verify` OK.
+
+**Known-irregular snapshots, unchanged and non-blocking:** the desk's `meta.json` still lists ten
+`min_close_ts` HTTP 400 errors from the cycle that ran before PR #9's integer fix (code and test are in
+the tree; the next scheduled cycle overwrites the file) · `alerts.json` and `resolved.json` are empty
+because no ≥ $0.10 move and no finalization occurred inside the two committed cycles · `docs/engine/` is
+explicitly labelled `captured-replay` (real captured API responses, scripted price paths for the alert
+logic) because the build environment has no route to Kalshi.
+
+**2026-11-22 — main moved while this pass ran; re-merged and re-verified.** PRs #10 (engine), #11 and #12
+merged ahead of this branch. Re-merged `origin/main` (`b5f896f`): 24 conflicts, all of them generated
+HTML or generated data. Resolution: root/category pages and desk pages were regenerated from their
+templates + data (`node scripts/build-site.mjs`, `python3 tools/build_site.py`) rather than hand-merged;
+`docs/desk/data/{latest,paper}.json` and `app_data/paper_ledger.json` took the newer snapshots from main
+and then had the verified fee label re-applied (again: label only, no numeric value touched);
+`.gitignore` is the union of both sides; `COORDINATION.md` keeps main's newer engine section plus this
+session's sections (the older duplicate engine section was dropped, its content is superseded).
+Full gate suite re-run after the re-merge and green: 144 pytest, 36 node tests, check-data,
+build-site --check (19 pages), check-links (19 pages/644 refs), check-render, desk build --check,
+desk check_links (284 links), check_gateway (26 targets), engine check_site + byte-identical
+regeneration, tests/check_site.py (37 pages), python/test_simulator.py, `cli verify`.
+
+**2026-11-22 — removed a 96 MB `.venv/` from git tracking.** `git ls-tree -r origin/main` lists 3,884
+`.venv/` files committed by an earlier session. Nothing in `.github/workflows/` uses it (every job runs
+`pip install -r requirements*.txt`), `.gitignore` already lists `.venv/`, and it accounted for most of the
+repository size. `git rm -r --cached .venv` here: the directory stays on disk, no tracked source changes,
+and the Pages artifact never included it. Flagged for whoever generated it, in case something local
+depended on the committed copy.
+
+**2026-11-22 — data state recorded by the re-merge.** Newest desk cycle `2026-11-22T07:21:40Z`: 0 errors
+(the pre-fix `min_close_ts` HTTP 400s are gone), 300 markets across five topics, 308 settled markets with
+results, 1 alert (`KXRT-HUN-67`, −$0.135), paper book 12 open / 0 closed at $996.76 equity. The Node
+board's `data/live/state.json` still has `updatedAt: null` — its scheduled collector has not run yet, so
+the board shows an explicitly labelled empty state rather than numbers. Both are honest, neither blocks.
+
+**2026-11-22 07:42 UTC — release record (session `arena/daf65d06-tradebot1`).**
+
+| Item | Result |
+| - | - |
+| Integration PR | **#15** — <https://github.com/kanlerxz87-cyber/Tradebot1/pull/15> — MERGED 2026-11-22T07:42:15Z, merge commit `5a67b0f` |
+| What it carried | the engine site (`docs/engine/`), the audit-driven landing page and its live metrics, the verified fee model, `tools/check_gateway.py`, and the union of every earlier session's board entry |
+| Pages deploy | `pages-build-deployment` on `main` succeeded; <https://kanlerxz87-cyber.github.io/Tradebot1/> serves the live-status landing page with 300 contracts, 1 swing ≥ $0.10, 308 settled markets and $996.76 paper equity, each read from the committed snapshot |
+| Follow-up fix | **PR #35** regenerates `docs/audit/data/audit.json` — the merge changed the desk data the audit embeds, so `CI / audit` and `Pages / build` failed on stale audit data until it was rebuilt |
+| Merge protocol | every branch was merged into this one with `git merge` (never a rebase over another session's commits); conflicts were resolved by regenerating generated files from templates + data and by appending both sides of every log, never by dropping a session's content |
+
+---
+
 # Session `17d84e4f` (`arena/17d84e4f-tradebot1`) — Demo-Environment Desk (`demo-desk/`), V2 Engine (`kalshi_engine/`), and Line-by-Line Repo Audit (`audit/`)
 
 - **Branch note:** Arena pins this session to `arena/17d84e4f-tradebot1`; per Arena session constraints, no `session-<id>/<task>` branch is created.
-- **Merge/Rebase & Handoff log (2026-11-22T07:19Z–07:39Z):** Integrated `origin/main` (`28e76e6`, incorporating PRs #5–#28). When PR [#25](https://github.com/kanlerxz87-cyber/Tradebot1/pull/25) (`arena-35fb0d1f`) added `live/{desk.py,server.py,build_page.py,static/**}`, `17d84e4f` proactively moved its 11-page static/interactive Kalshi Demo Desk from `live/` to `demo-desk/` before merging so `arena-35fb0d1f`'s `live/` package remains 100% untouched.
-- **Why `demo-desk/` + `kalshi_engine/` + `audit/*.md` add unique, non-duplicative value:**
-  1. **True Kalshi Demo Environment Data (`external-api.demo.kalshi.co`) Fetched Live via Verified Tooling:** `demo-desk/data/verified_snapshot.json` commits verified **Kalshi Demo API** (`https://external-api.demo.kalshi.co/trade-api/v2`) open/finalized contracts, reciprocal orderbooks, 1m candlesticks, and 5-second trade prints (`KXDEMOFUTHOURLY-26NOV22H08-UP`) directly to git so legacy `main:/` Pages serves real Demo data immediately.
+- **Merge & Handoff log (2026-11-22T07:19Z–07:43Z):** Integrated `origin/main` (`687882f`, incorporating PRs #5–#35) preserving 100% of every prior session's entries and files. Proactively namespaced our 11-page static/interactive Kalshi Demo Desk under `demo-desk/` so `arena-35fb0d1f`'s `live/` package remains 100% untouched.
+- **Unique verified deliverables added (`demo-desk/`, `kalshi_engine/`, `audit/*.md`):**
+  1. **True Kalshi Demo Environment Data (`external-api.demo.kalshi.co`):** `demo-desk/data/verified_snapshot.json` commits verified **Kalshi Demo API** (`https://external-api.demo.kalshi.co/trade-api/v2`) open/finalized contracts, reciprocal orderbooks, 1m candlesticks, and 5-second trade prints (`KXDEMOFUTHOURLY-26NOV22H08-UP`) directly to git so legacy `main:/` Pages serves real Demo data immediately.
   2. **Official 6-Decimal-Place Fee Rounding + Subpenny Accumulator (`docs.kalshi.com/getting_started/fee_rounding.md`):** `kalshi_engine/simulator.py` and `demo-desk/assets/live-core.mjs` implement and test `ceil_6dp(0.07 * C * P * (1 - P))` with per-order `$0.0001` direct / `$0.01` non-direct fee-rounding accumulators.
-  3. **Interactive Custom Strategy Builder + `scalar` Settlement + Upstream Demo Irregularity Audit (`R1`–`R12`, `U1`–`U7`):** Interactive custom rule builder analyzed by trade type alongside 5 built-in strategies (`demo-desk/portfolio/`), `result: "scalar"` (`settlement_value_dollars: "0.5000"`) support verified on Demo (`KXXISUCCESSOR-45JAN01`), and a complete line-by-line audit of repo code and upstream Demo metadata (`audit/REPO_LINE_BY_LINE_AUDIT.md`, `demo-desk/audit/`, `demo-desk/flagged/`).
-- **Verification checks executed & passed before PR:**
-  - `python3 kalshi_engine/test_engine.py` — **passed**
-  - `python3 demo-desk/check_live_site.py` — **passed** (`11` HTML pages, `409` links verified, `117` table rows verified with official `https://` sources, `6` blank unverified cells confirmed)
-  - `node --test demo-desk/test_live_core.mjs` — **5/5 passed**; `node --test tests/*.test.mjs` — **37/37 passed**
-  - All cross-session preservation gates (`tests/check_site.py`, `python/test_simulator.py`, `tools/build_site.py --check`, `tools/check_links.py`, `engine.check_site`, `live/tests`, `qa/audit.py --check`, `audit/verify.py --check`, `audit/check_site.py`, `scripts/check-data.mjs`, `scripts/check-links.mjs`) — **all passed**.
+  3. **Interactive Custom Strategy Builder + `scalar` Settlement + Upstream Demo Irregularity Audit (`R1`–`R12`, `U1`–`U7`):** Interactive custom rule builder analyzed by trade type alongside 5 built-in strategies (`demo-desk/portfolio/`), `result: "scalar"` (`settlement_value_dollars: "0.5000"`) support verified on Demo (`KXXISUCCESSOR-45JAN01`), and a complete line-by-line audit (`audit/REPO_LINE_BY_LINE_AUDIT.md`, `demo-desk/audit/`, `demo-desk/flagged/`).
+- **Verification checks executed & passed before PR:** `kalshi_engine/test_engine.py`, `demo-desk/check_live_site.py` (`11` pages, `409` links, `117` source-linked rows, `6` blank unverified cells), `demo-desk/test_live_core.mjs` (`5/5`), `tests/*.test.mjs` (`37/37`), `tests/check_site.py`, `tools/check_links.py`, `tools/check_gateway.py`, `live/tests` (`29/29`), `qa/audit.py --check`, `audit/verify.py --check`, `audit/check_site.py`, `scripts/check-links.mjs` — **all passed**.

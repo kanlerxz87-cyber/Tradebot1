@@ -46,6 +46,12 @@ jobs:
       - name: No broken internal links
         run: python tools/check_links.py
 
+      - name: Root gateway links are alive and published
+        run: python tools/check_gateway.py
+
+      - name: Engine site links and source links
+        run: python -m engine.check_site --root docs/engine
+
       - name: No credentials in the tree
         run: |
           set -e
