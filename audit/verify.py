@@ -186,9 +186,19 @@ def build() -> dict:
         seen.add(item["id"])
         if item["status"] not in {"fixed", "open", "verified", "resolved"}:
             raise AuditError(f"{item['id']}: bad status {item['status']}")
-        if not item.get("sources"):
-            raise AuditError(f"{item['id']}: no source")
-        for fid in item["sources"]:
+        official = item.get("sources") or []
+        repo = item.get("repoSources") or []
+        if not official and not repo:
+            raise AuditError(f"{item['id']}: no source at all")
+        if not official and not item.get("noOfficialSource"):
+            raise AuditError(
+                f"{item['id']}: has no official source, so it must say so in noOfficialSource "
+                "instead of leaving the reader to assume there is one"
+            )
+        for source in repo:
+            if not source.get("url", "").startswith("https://"):
+                raise AuditError(f"{item['id']}: repo source is not https")
+        for fid in official:
             if fid not in fact_ids:
                 raise AuditError(f"{item['id']}: unknown fact {fid}")
         check = run_check(item)
@@ -205,9 +215,13 @@ def build() -> dict:
                 f"{item['id']}: marked open but its check now passes - the finding is fixed; "
                 "re-verify it and change its status"
             )
-        results.append({**item, "evidence": resolve_evidence(item), "check": check, "sources": [
-            next(f for f in facts if f["id"] == fid) for fid in item["sources"]
-        ]})
+        results.append({
+            **item,
+            "evidence": resolve_evidence(item),
+            "check": check,
+            "sources": [next(f for f in facts if f["id"] == fid) for fid in (item.get("sources") or [])],
+            "repoSources": item.get("repoSources") or [],
+        })
 
     counts = {status: sum(1 for i in results if i["status"] == status) for status in ("fixed", "open", "verified", "resolved")}
     return {
