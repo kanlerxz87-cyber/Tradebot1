@@ -47,6 +47,8 @@ was rewritten; the only edits to shared files are the gateway `index.html`, this
 | Session ID | Branch | Started (UTC) | Scope | Status |
 | - | - | - | - | - |
 | `arena-e3e5f70f` | `arena/e3e5f70f-tradebot1` | 2026-11-22 | Entire initial build (repo was empty, 1 file) | active |
+| `9bea7e55` | `arena/9bea7e55-tradebot1` | 2026-11-22 | Independent Node trade board: `board.html` and its pages, `assets/**`, `data/**` (own subtree), `scripts/**`, `tools/**`, `verification/**` | active — merged, published at `/board.html` |
+| `c9075e75` | `arena/c9075e75-tradebot1` | 2026-11-22 | `docs/**` (research desk), `.github/**`, `tests/**` | merged earlier as `docs/desk/` |
 
 > Handoff rule: if a claim is >60 minutes old with no commits, another session may take
 > over the task and must note the handoff in the Activity log.
@@ -64,6 +66,8 @@ was rewritten; the only edits to shared files are the gateway `index.html`, this
 | T7 | Autonomous data collection + paper-trading CI cron | done — running on main every 15 min | `arena-e3e5f70f` | `.github/workflows/collect.yml`, `kalshi_trader/collector.py` |
 | T8 | CI: unit tests + site link check + GitHub Pages deploy | in progress — awaiting first deploy | `arena-e3e5f70f` | `.github/workflows/ci.yml`, `.github/workflows/pages.yml` |
 | T9 | Final integration: re-verify combined data, confirm build has no broken links, PR → main, merge, confirm Pages deploy | done — see merge log | `arena-e3e5f70f` | `main`, `COORDINATION.md` |
+| T10 | Node trade board: demo REST client, topic router, fee model, swing detector, simulator, collector, signed demo-account read, site generator, 19 pages, 17 flags | done — 32 tests pass, PR #8 | `9bea7e55` | `board.html` + root pages, `assets/**`, `data/**`, `scripts/**`, `tools/**`, `tests/**`, `templates/**`, `verification/**` |
+| T11 | Integration of T10 into the existing site: board moved from `index.html` to `board.html` so the landing page and `docs/**` are untouched, checks added to CI, Pages staging extended | done — this merge | `9bea7e55` | `.github/workflows/**`, `README.md`, `COORDINATION.md`, `index.html` (read only) |
 
 **Shared outputs** (site index + navigation, `docs/data/latest.json`) are changed only by the
 final integration session (T9) once all other tasks are merged.
@@ -95,6 +99,8 @@ final integration session (T9) once all other tasks are merged.
 | - | - | - |
 | 2026-11-22 | `arena-e3e5f70f` | Read repo: single `README.md` (11 bytes), no code, no `COORDINATION.md`. Created this board and claimed T1–T8. |
 | 2026-11-22 | `arena-e3e5f70f` | T1 done: verified S1–S16 against docs.kalshi.com and the public API. Recorded flags (see below). |
+| 2026-11-22T07:30Z | `9bea7e55` | Board claimed, built and verified: 15 templates → 19 pages, 32 tests, data contract, 642 links, jsdom render of every page. PR #8. |
+| 2026-11-22T08:10Z | `9bea7e55` | First merge attempt conflicted: `main` had grown to three implementations. Resolved **additively** — landing page, `docs/**`, `site/**` and the Python collector untouched; the board moved to `board.html`; my checks added as a separate CI job; my collector given its own offset schedule and its own file tree. |
 
 ## Build notes (session `arena-e3e5f70f`)
 
@@ -206,3 +212,76 @@ page — recorded here rather than editing that page directly, since it is owned
 Only this entry was appended to the shared `COORDINATION.md`. No other file in `site/`, `docs/`,
 `docs/desk/`, `kalshi_trader/`, `python/`, `scripts/`, `tests/`, `tools/`, or the workflow files
 was changed by this session.
+
+## Session `9bea7e55` — completion and integration record
+
+**Status: merged and published.** Task board entry T10/T11.
+
+### What this session added
+
+A third, independent implementation — a Node-only trade board with no runtime dependencies — at
+`board.html`. It does not replace or modify anything from `arena-e3e5f70f` or `c9075e75`.
+
+| Area | Files | Verified by |
+| - | - | - |
+| Demo REST client with a host allowlist | `tools/kalshi.mjs` | `tests/kalshi.test.mjs` — refuses non-official hosts and the wrong environment, paginates, never invents a level |
+| Five topic rules | `tools/topics.mjs` | each rule cites the request that proves it; asserted in tests |
+| Swing detection, triage score, resolution mapping | `tools/alerts.mjs` | `tests/alerts-strategies.test.mjs` — threshold inclusive at $0.10, symmetric, no mid without a two-sided book |
+| Fee model | `tools/fees.mjs` | `tests/fees.test.mjs` — reproduces 20 of Kalshi's 21 published rows in both columns |
+| Five strategies and simulated accounting | `tools/strategies.mjs` | fee charged, settlement only on finalized |
+| Collector | `tools/collector.mjs` | never run live from the authoring sandbox (flag F-01); an empty cycle cannot overwrite good data |
+| Demo-account read (the only signing code) | `tools/demo-account.mjs` | refuses any non-demo root before reading a credential; writes a disconnected snapshot when unconfigured; places no order |
+| Site generator, 13 pages + 5 topic pages + 404 | `templates/`, `scripts/build-site.mjs` | generator fails the build if a data row has no source link |
+| Checks | `scripts/check-data.mjs`, `check-links.mjs`, `check-render.mjs` | data contract, 642 references, jsdom render of every page |
+| Committed data | `data/snapshot.json`, `data/sources.json`, `data/flags.json`, `data/live/*`, `data/account.json` | `scripts/check-data.mjs` |
+
+### Sources used
+
+24 official documentation pages (`D1`–`D24`), 13 live demo-API observations (`A1`–`A13`) each with
+the request and the verbatim result, 5 primary publishers named by Kalshi's own series records, and
+7 project rules each pointing at the file that implements it. All are on `sources.html`.
+
+### Verification performed
+
+32 unit assertions; a data-contract check over seven committed JSON files; an offline link check
+over 19 pages and 642 references; a jsdom render of every page asserting that it fills in its data
+and that every rendered data row carries a source link. Full record:
+`verification/2026-11-22-9bea7e55.md`.
+
+### Irregularities (17 flags, F-01…F-17)
+
+Published on `flagged.html` with sources. The three that matter most: the authoring sandbox could
+not reach Kalshi directly, so the collector is unexercised end to end (F-01); no resolved market
+existed in the capture, so the resolution tables are empty rather than seeded (F-08); the demo
+account is not connected until `KALSHI_API_KEY_ID` and `KALSHI_PRIVATE_KEY` exist (F-13).
+
+### Merge decision — recorded because it changes the shared root
+
+`main` already had a landing page at `/index.html` linking three implementations. Rather than
+overwrite it, the board moved to `/board.html`; the old URL-space is unchanged and the landing page
+gained **no** edits from this session. Consequences, all deliberate:
+
+1. `/index.html` is still `arena-e3e5f70f`'s file. Two independent implementations therefore remain
+   reachable, which is what the existing README promised.
+2. CI gained a second job (`node-dashboard`) instead of altering the Python job.
+3. `collect.yml` (Python, every 15 min) is untouched. The Node collector lives in
+   `collect-node.yml` at `:13,:43` so the two never share a rate-limit window, and it writes only
+   `data/live/**`.
+4. `pages.yml` staging gained `cp ./*.html public/` and `cp -R assets categories data public/`. It
+   did not lose `index.html`, `docs/`, `site/` or `.nojekyll`.
+
+### Two data points worth reconciling later
+
+| Topic | This session observed | Notes |
+| - | - | - |
+| Culture | `GET /series?category=Culture` returned **2** series (`KXXBANNEDGROK`, `KXXBANNEDMURRAYHILLGUY1`) against the **demo** root | `arena-e3e5f70f` found no Culture category against **production**. Different roots, different catalogues; neither claim should be read as contradicting the other. Both are recorded with their request URL. |
+| Gas | Demo root exposes only `DIESEL`/`DIESELM` under tag `Gas`, and no open markets | Production has `KXAAAGASM` under Economics/Commodities (S10). The board routes on the tag and says so on the page (F-03). |
+
+### Notes for a future integration session
+
+1. `data/live/*.json` currently holds zero collected observations plus one **labelled worked example**
+   in the alert feed. The first `collect-node.yml` run replaces both with real data.
+2. `data/account.json` is `connected: false`. Adding the two secrets and running the "Demo account
+   snapshot" workflow fills it. Both workflows only ever read.
+3. If one implementation must eventually win, the landing page is the place to decide it — not a
+   session's own claim row.

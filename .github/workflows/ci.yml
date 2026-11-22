@@ -54,3 +54,38 @@ jobs:
             exit 1
           fi
           echo "no key material found"
+
+  # ---------------------------------------------------------------------------
+  # Node dashboard (session 9bea7e55). Independent of the Python job above:
+  # it generates the root pages under board.html and friends from templates,
+  # and fails if a table row loses its source link.
+  # ---------------------------------------------------------------------------
+  node-dashboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install test-only dependency
+        run: npm install --no-audit --no-fund
+
+      - name: Unit tests
+        run: node --test tests/*.test.mjs
+
+      - name: Data contract
+        run: node scripts/check-data.mjs
+
+      - name: Build the site
+        run: node scripts/build-site.mjs
+
+      - name: Committed HTML matches templates and data
+        run: node scripts/build-site.mjs --check
+
+      - name: Internal links, assets and anchors
+        run: node scripts/check-links.mjs
+
+      - name: Every page renders its data with source links
+        run: node scripts/check-render.mjs
