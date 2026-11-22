@@ -387,4 +387,37 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 
 **Integration requests (for the integration session, shared files not edited here):** add a link to `docs/audit/fee-audit.html` in `index.html` / `README.md` navigation; the `Flagged for Review` page (`docs/desk/flagged.html`) should carry items 1–5 above.
 
+**Repo hygiene (found during the final merge into `main`):** `main` tracked a committed virtual environment (`.venv/`, 3,884 files) and `__pycache__/*.pyc` files, and the `.gitignore` on `main` had no Python rules. Those files were removed from the index in this session (`git rm --cached`; files on disk are not part of the repo), and a Python block was added to the top of `.gitignore`. Git history keeps the old files. Flag for the integration session: confirm the removal and review `.gitignore` once. The commit that first tracked them is the merge that brought in PRs #11/#12 — not identified further here.
+
 **Sandbox note:** bash in this sandbox cannot reach `*.kalshi.co` or `*.kalshi.com` (TLS failure), so official pages and public GET endpoints were read through the fetch tool. Corroborates flag F5 on the existing Flagged page.
+
+## Results — session `arena-e3e5f70f` (2026-11-22, after the first live cycles)
+
+| Item | Result |
+| - | - |
+| Pull request | [#5](https://github.com/kanlerxz87-cyber/Tradebot1/pull/5) merged 2026-11-22T07:14:27Z (merge commit `8dd6cb0`), plus [#9](https://github.com/kanlerxz87-cyber/Tradebot1/pull/9) (collector fix) |
+| CI on the PR | `CI` and `Verify and deploy both Pages dashboards` both green before merge |
+| Pages deployment | Pages build `73ef9dd` completed 2026-11-22T07:23:57Z; site served from `/docs/` legacy source |
+| Live desk | <https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/> — 300 markets across the five topics, 6,000 open events scanned |
+| First real alert | `KXRT-HUN-67` mid 0.425 → 0.29 (−$0.135), model score 0.5252, est. ROI 12.68%, eligible → present in **both** chats |
+| Resolution tracker | 120 settled markets recorded in the second cycle (`resolved.json`) |
+| Paper book | 12 open positions, equity $996.76 on a $1,000 book, 0 closed |
+| Collection errors | 0 after fixing the `min_close_ts` type (was 10 × HTTP 400 in cycle 1) |
+| Snapshot size | 4.5 MB → 0.9 MB per cycle (catalogue trimmed to the 150 most active series per topic; eleven dead fields dropped) |
+| Tests | 53 passing (48 + settled-sweep regression + 4 from the monitor suite) |
+
+### Bugs found by running it for real (not by the tests)
+
+1. `min_close_ts` was serialised as `1793517419.0`; Kalshi requires an integer → every settled-series
+   request returned HTTP 400 and the resolution tracker stayed empty. Fixed, regression test added.
+2. The first published snapshot was 4.5 MB because the Sports/Entertainment catalogue sweep matched
+   ~6,000 series and every market carried eleven duplicated fields. Now 0.9 MB per cycle with exact
+   per-topic totals preserved.
+3. `.gitignore` lost its Python entries in an earlier merged branch; restored as a union so `.venv/`
+   and `__pycache__/` can never be committed.
+
+### Unverified, still blocking nothing
+
+Fee formula (F1), demo-account balance (F2), browser CORS (F5), news causality (F5), the ROI model as a
+predictor (F12). All are stated on `docs/desk/flagged.html` with an official source link and the test that
+would clear them.
