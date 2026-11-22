@@ -508,18 +508,30 @@
     },
     {
       "id": "AUD-08",
-      "title": "The 'committed HTML matches the data' gate failed on every checkout, so it verified nothing",
+      "title": "The 'committed HTML matches the data' gate failed on every checkout and, differently, inside CI",
       "severity": "medium",
       "status": "fixed",
-      "finding": "scripts/build-site.mjs --check compared the committed pages with a fresh render, normalising only the data-generated attribute. Every page also prints a relative age ('21m ago') computed from the clock, so the comparison failed as soon as a minute passed, and all nineteen pages were reported stale on the committed tree. CI runs build and check back to back, which hid it; any human running the documented verify command saw nineteen failures that were not defects.",
-      "impact": "A published verification command that always fails gets ignored, and with it the source-link gate it was meant to protect.",
-      "fix": "The comparison now normalises relative ages as well as the generated stamp. A no-op rebuild is a no-op, and a genuine data change still fails the check.",
+      "finding": "scripts/build-site.mjs --check compared the committed pages with a fresh render, normalising only the data-generated attribute. Two more pieces of a page are a function of the machine rather than of the data: the relative age ('21m ago', which moves every minute) and the build badge, which prints GITHUB_SHA in Actions and 'local' outside it. The result was a gate that reported all nineteen pages stale on a developer's checkout and, in CI, reported exactly one page stale for a reason no reader could see. CI ran build and check back to back, which hid the first half; the Pages workflow and the audit's own re-check exposed the second.",
+      "impact": "A published verification command that always fails gets ignored, and with it the source-link gate it was meant to protect. The failure that only happened in CI was the worse of the two, because that is where the site is actually built.",
+      "fix": "The comparison normalises relative ages and the build badge as well as the generated stamp. A no-op rebuild is a no-op in both environments, and a genuine data change still fails the check.",
       "evidence": [
         {
           "file": "scripts/build-site.mjs",
-          "needle": "AGO",
-          "note": "the normalisation",
+          "needle": "'AGO'",
+          "note": "relative ages normalised",
           "line": 135
+        },
+        {
+          "file": "scripts/build-site.mjs",
+          "needle": "build ID",
+          "note": "the env-dependent build badge normalised",
+          "line": 139
+        },
+        {
+          "file": "scripts/build-site.mjs",
+          "needle": "buildId: process.env.GITHUB_SHA",
+          "note": "where the difference came from",
+          "line": 79
         }
       ],
       "sources": [
@@ -540,7 +552,7 @@
           "Site is up to date (19 pages)."
         ]
       },
-      "howToCheck": "node scripts/build-site.mjs --check exits 0 on the committed tree; edit one data value and it exits 1."
+      "howToCheck": "node scripts/build-site.mjs --check exits 0, and GITHUB_SHA=abc1234 node scripts/build-site.mjs --check also exits 0; edit one data value and either exits 1."
     },
     {
       "id": "AUD-09",

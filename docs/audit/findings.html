@@ -131,16 +131,16 @@
   <header>
     <span class="mono id">AUD-08</span>
     <span class="pill st-fixed">Fixed on this branch</span> <span class="pill sev-medium">medium</span>
-    <h3>The 'committed HTML matches the data' gate failed on every checkout, so it verified nothing</h3>
+    <h3>The 'committed HTML matches the data' gate failed on every checkout and, differently, inside CI</h3>
   </header>
-  <p>scripts/build-site.mjs --check compared the committed pages with a fresh render, normalising only the data-generated attribute. Every page also prints a relative age ('21m ago') computed from the clock, so the comparison failed as soon as a minute passed, and all nineteen pages were reported stale on the committed tree. CI runs build and check back to back, which hid it; any human running the documented verify command saw nineteen failures that were not defects.</p>
-  <p><strong>Impact.</strong> A published verification command that always fails gets ignored, and with it the source-link gate it was meant to protect.</p>
-  <p><strong>Correction.</strong> The comparison now normalises relative ages as well as the generated stamp. A no-op rebuild is a no-op, and a genuine data change still fails the check.</p>
+  <p>scripts/build-site.mjs --check compared the committed pages with a fresh render, normalising only the data-generated attribute. Two more pieces of a page are a function of the machine rather than of the data: the relative age ('21m ago', which moves every minute) and the build badge, which prints GITHUB_SHA in Actions and 'local' outside it. The result was a gate that reported all nineteen pages stale on a developer's checkout and, in CI, reported exactly one page stale for a reason no reader could see. CI ran build and check back to back, which hid the first half; the Pages workflow and the audit's own re-check exposed the second.</p>
+  <p><strong>Impact.</strong> A published verification command that always fails gets ignored, and with it the source-link gate it was meant to protect. The failure that only happened in CI was the worse of the two, because that is where the site is actually built.</p>
+  <p><strong>Correction.</strong> The comparison normalises relative ages and the build badge as well as the generated stamp. A no-op rebuild is a no-op in both environments, and a genuine data change still fails the check.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>scripts/build-site.mjs:135</code> — the normalisation<pre>AGO</pre></li></ul>
+  <ul class="evidence"><li><code>scripts/build-site.mjs:135</code> — relative ages normalised<pre>'AGO'</pre></li><li><code>scripts/build-site.mjs:139</code> — the env-dependent build badge normalised<pre>build ID</pre></li><li><code>scripts/build-site.mjs:79</code> — where the difference came from<pre>buildId: process.env.GITHUB_SHA</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>exit 0</code> against expected <code>exit 0</code></p>
   <p class="src"><strong>Official sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
-  <p class="src"><strong>Re-check it yourself:</strong> node scripts/build-site.mjs --check exits 0 on the committed tree; edit one data value and it exits 1.</p>
+  <p class="src"><strong>Re-check it yourself:</strong> node scripts/build-site.mjs --check exits 0, and GITHUB_SHA=abc1234 node scripts/build-site.mjs --check also exits 0; edit one data value and either exits 1.</p>
 </article>
 <article class="finding" id="AUD-09">
   <header>

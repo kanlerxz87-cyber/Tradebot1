@@ -132,7 +132,11 @@ async function main() {
 function normalise(html) {
   return html
     .replace(/data-generated="[^"]*"/g, 'data-generated=""')
-    .replace(/\b\d+[smhd] ago\b/g, 'AGO');
+    .replace(/\b\d+[smhd] ago\b/g, 'AGO')
+    // The executive summary prints the build id, which is GITHUB_SHA in Actions and
+    // "local" elsewhere. That made the gate fail only in CI, which is worse than
+    // failing everywhere: the one place it mattered was the one place it could not run.
+    .replace(/<span class="badge">build [^<]*<\/span>/g, '<span class="badge">build ID</span>');
 }
 
 function readJson(rel, fallback) {
