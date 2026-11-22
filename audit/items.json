@@ -180,16 +180,16 @@
     },
     {
       "id": "AUD-06",
-      "title": "The browser monitor still files elections on a deprecated field",
+      "title": "Monitor uses series metadata instead of deprecated event category",
       "severity": "medium",
-      "status": "open",
-      "finding": "docs/assets/core.mjs decides the 'elections' topic with event.category. Get Events marks category deprecated and points to the series-level category, and the EventData schema does not list category as required. If the field is absent this rule never matches and elections events are silently dropped from that monitor, with no error to notice.",
-      "impact": "One of the five briefed topics can go empty on docs/ without any visible failure. The desk and the board discover elections through series metadata and are unaffected.",
+      "status": "fixed",
+      "finding": "The earlier monitor relied on event.category. The integrated monitor now joins series metadata and uses that metadata for topic classification; missing or ambiguous metadata is excluded and flagged rather than guessed.",
+      "impact": "The former event-category-only failure is corrected. Complete taxonomy coverage remains unverified.",
       "evidence": [
         {
           "file": "docs/assets/core.mjs",
-          "needle": "String(event?.category || '')",
-          "note": "the deprecated read"
+          "needle": "const metadata = event?.series_metadata || {};",
+          "note": "series-level metadata used by topic classification"
         }
       ],
       "sources": [
@@ -198,9 +198,9 @@
       "check": {
         "kind": "text",
         "file": "docs/assets/core.mjs",
-        "needle": "String(event?.category || '')"
+        "needle": "const metadata = event?.series_metadata || {};"
       },
-      "howToCheck": "Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own."
+      "howToCheck": "Inspect the series join in docs/assets/app.mjs and classification in docs/assets/core.mjs; run Node topic tests. Full topic coverage remains flagged."
     },
     {
       "id": "AUD-07",
