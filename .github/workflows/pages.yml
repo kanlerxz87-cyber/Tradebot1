@@ -56,6 +56,22 @@ jobs:
           python3 -m engine.check_site --root docs/engine
           python3 -m engine.build_site --out /tmp/engine-site --data docs/engine/data
           python3 -m engine.check_site --root /tmp/engine-site
+      # Session arena-35fb0d1f: the live desk's 29 unit tests, its generated page, and the
+      # cross-implementation data audit. --check fails the build on a price outside
+      # $0.00-$1.00, a crossed book, an alert below $0.10, an undocumented status, a broken
+      # internal link or a committed credential.
+      - name: Verify the live desk and the cross-implementation data audit
+        run: |
+          python3 -m unittest discover -s live/tests
+          python3 live/build_page.py --check
+          python3 qa/audit.py --check
+      # Audit (session 73552f24): every finding re-checked, pages current, a source
+      # link on every row. Fails the build if a published verdict goes stale.
+      - name: Verify the audit site
+        run: |
+          python3 audit/verify.py --check
+          python3 audit/build_site.py --check
+          python3 audit/check_site.py
       - name: Verify Demo API desk and V2 engine (session 17d84e4f)
         run: |
           python3 kalshi_engine/test_engine.py

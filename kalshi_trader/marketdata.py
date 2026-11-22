@@ -84,6 +84,18 @@ def normalize_market(
     if no_ask is None and yes_bid is not None:
         no_ask = round(1.0 - yes_bid, 4)
 
+    # An empty side is quoted as an extreme, not omitted. A YES offer can only rest
+    # against a NO bid (yes_ask = 1 - best no_bid), so when there is no NO bid the
+    # reported 1.0000 is the empty-side sentinel. Left in place it would put the
+    # midpoint halfway to $1.00: every one of the eight markets in this repository's
+    # committed demo capture (data/snapshot.json) reports yes_ask 1.0000 with an
+    # empty NO book, so the phantom midpoint is the normal case here.
+    # Source: https://docs.kalshi.com/getting_started/orderbook_responses
+    if yes_ask is not None and yes_ask >= 1.0 and not no_bid:
+        yes_ask = None
+    if no_ask is not None and no_ask >= 1.0 and not yes_bid:
+        no_ask = None
+
     if yes_ask is not None and yes_bid is not None and yes_ask >= yes_bid:
         mid = round((yes_ask + yes_bid) / 2.0, 4)
     elif last is not None:
