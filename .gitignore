@@ -1,3 +1,42 @@
+# Dependencies and local tooling
+.venv/
+node_modules/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage/
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Secrets never belong in the static site or repository
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Private account state and runtime observations
+services/kalshi/data/
+*.sqlite
+*.sqlite3
+*.sqlite3-*
+*.db
+*.db-*
+*.log
+
+# Temporary browser/test artifacts
+.playwright-cli/
+test-results/
+.DS_Store
+
+# Additional parallel-session exclusions preserved from main
 # Python artifacts and virtualenvs.
 # Two 2026-11-22 merges dropped these rules and committed a virtualenv plus .pyc binaries to main;
 # sessions arena/89a39032 and arena/1662b94b both untracked them. Keep the union of the rules.

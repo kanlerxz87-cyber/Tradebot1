@@ -134,3 +134,72 @@ test('there are exactly five focus topics with stable ids', () => {
     for (const d of t.discovery) assert.ok(d.url.startsWith('https://external-api.demo.kalshi.co/trade-api/v2/series?'), t.id);
   }
 });
+
+// Rate-limit behaviour. The demo API answered 429 to 25 series reads in one
+// collector cycle on 2026-11-22, so the client must pace itself and retry with
+// backoff instead of dropping the series from the topic.
+
+test('a 429 is retried with backoff and the successful body is returned', async () => {
+  let calls = 0;
+  const slept = [];
+  const client = createClient({
+    fetchImpl: async () => {
+      calls += 1;
+      if (calls < 3) {
+        return { ok: false, status: 429, headers: new Map([['retry-after', '1']]), text: async () => '{"error":{"code":"too_many_requests"}}' };
+      }
+      return { ok: true, status: 200, headers: new Map(), text: async () => '{"exchange_active":true}' };
+    },
+    minIntervalMs: 0,
+    sleepImpl: async (ms) => { slept.push(ms); },
+  });
+  const body = await client.request('/exchange/status');
+  assert.equal(calls, 3);
+  assert.equal(body.exchange_active, true);
+  assert.deepEqual(slept, [1000, 1000], 'Retry-After seconds are honoured');
+  assert.equal(client.stats().retries, 2);
+});
+
+test('a 429 that never clears gives up after the retry budget', async () => {
+  let calls = 0;
+  const client = createClient({
+    fetchImpl: async () => {
+      calls += 1;
+      return { ok: false, status: 429, headers: new Map(), text: async () => '{"error":{"code":"too_many_requests"}}' };
+    },
+    minIntervalMs: 0,
+    maxRetries: 2,
+    baseBackoffMs: 10,
+    sleepImpl: async () => {},
+  });
+  await assert.rejects(() => client.request('/markets'), /HTTP 429/);
+  assert.equal(calls, 3, 'one attempt plus two retries');
+});
+
+test('a non-retryable status is not retried', async () => {
+  let calls = 0;
+  const client = createClient({
+    fetchImpl: async () => {
+      calls += 1;
+      return { ok: false, status: 404, headers: new Map(), text: async () => '{"error":{"code":"not_found"}}' };
+    },
+    minIntervalMs: 0,
+    sleepImpl: async () => {},
+  });
+  await assert.rejects(() => client.request('/markets/nope'), /HTTP 404/);
+  assert.equal(calls, 1);
+});
+
+test('requests are spaced by minIntervalMs', async () => {
+  const slept = [];
+  let clock = 0;
+  const client = createClient({
+    fetchImpl: async () => ({ ok: true, status: 200, headers: new Map(), text: async () => '{}' }),
+    minIntervalMs: 300,
+    nowImpl: () => clock,
+    sleepImpl: async (ms) => { slept.push(ms); clock += ms; },
+  });
+  await client.request('/a');
+  await client.request('/b');
+  assert.ok(slept.length >= 1 && slept[0] === 300, `expected a 300ms pause, got ${JSON.stringify(slept)}`);
+});

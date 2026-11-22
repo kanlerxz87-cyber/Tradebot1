@@ -1,4 +1,4 @@
-name: Verify and deploy both Pages dashboards
+name: Verify and deploy Kalshi research dashboard
 on:
   push:
     branches: [main]
@@ -7,17 +7,76 @@ on:
   schedule:
     - cron: '*/30 * * * *'
   workflow_dispatch:
+    inputs:
+      refresh_snapshot:
+        description: Persist an official public snapshot on the active integration branch only
+        type: boolean
+        default: false
 permissions:
   contents: read
-  pages: write
-  id-token: write
-# `pages` and `collect` both commit to main. They are deliberately placed in the same
-# concurrency group so the two push steps can never overlap (observed collision:
-# runs 44997857586 and 44997863523 started in the same minute).
 concurrency:
-  group: main-writers
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.ref) || 'main-writers' }}
   cancel-in-progress: false
 jobs:
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+          cache-dependency-path: services/kalshi/requirements.lock
+      - run: python -m pip install -r services/kalshi/requirements.lock
+      - name: Test demo safety, signatures, accounting, sources and HTTP boundaries
+        run: |
+          python -m pytest services/kalshi/tests -q
+          python -m ruff check services/kalshi/kalshi_demo services/kalshi/tests
+  browser-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: services/kalshi/browser-check/package-lock.json
+      - run: npm ci --prefix services/kalshi/browser-check --ignore-scripts
+      - name: Real Chromium — desktop, mobile, public-data separation and mocked adapters
+        run: npm test --prefix services/kalshi/browser-check
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-verification
+          path: |
+            services/kalshi/data/browser-results/report.json
+            services/kalshi/data/browser-results/*.png
+          if-no-files-found: ignore
+  snapshot-preview:
+    if: github.event_name == 'workflow_dispatch' && inputs.refresh_snapshot && github.ref == 'refs/heads/arena/6addd9fe-tradebot1'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: arena/6addd9fe-tradebot1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Collect official public demo observations
+        run: python scripts/build_snapshot.py
+      - name: Persist only the public snapshot on the assigned branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs/data/snapshot.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'Refresh source-linked public demo snapshot (not live)'
+            git pull --rebase origin arena/6addd9fe-tradebot1
+            git push origin arena/6addd9fe-tradebot1
+          fi
   build:
     runs-on: ubuntu-latest
     steps:
@@ -28,82 +87,46 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Verify both sessions' code and local links
+      - name: Verify browser logic, source links and preserved earlier work
+        run: |
+          python scripts/build_site.py
+          git diff --exit-code -- docs/
+          node --test tests/*.test.mjs
+          python tests/check_site.py
+          python python/test_simulator.py
+          node --check docs/assets/app.mjs
+          node --check site/assets/app.js
+      - name: Verify parallel dashboards, audits and gateways
         run: |
           npm install --no-audit --no-fund
-          # Regenerate the Node site from the committed data before checking it. The generated
-          # pages at the repository root had drifted from their templates and data (build:check
-          # reported 19 stale pages on a clean clone of main), because nothing in CI ran `build`
-          # — the workflow only staged whatever HTML happened to be committed. Building here
-          # makes the deployed artifact match the templates and the current data every deploy,
-          # and build:check below then proves the regeneration is deterministic.
           npm run build
-          node --test tests/*.test.mjs
           npm run build:check
           npm run check:data
-          python3 tests/check_site.py
-          python3 python/test_simulator.py
-          node --check site/assets/app.js
-      # Research desk (session e3e5f70f): unit tests, generated tables current, no broken links.
-      - name: Verify the research desk under docs/desk
-        run: |
-          python3 -m pip install --quiet -r requirements-dev.txt
-          python3 -m pytest -q
-          python3 tools/build_site.py --check
-          python3 tools/check_links.py
-          python3 tools/check_gateway.py
-      - name: Verify the engine site (session arena-7ae1c34f)
-        run: |
-          python3 -m engine.check_site --root docs/engine
-          python3 -m engine.build_site --out /tmp/engine-site --data docs/engine/data
-          python3 -m engine.check_site --root /tmp/engine-site
-      # Session arena-35fb0d1f: the live desk's 29 unit tests, its generated page, and the
-      # cross-implementation data audit. --check fails the build on a price outside
-      # $0.00-$1.00, a crossed book, an alert below $0.10, an undocumented status, a broken
-      # internal link or a committed credential.
-      - name: Verify the live desk and the cross-implementation data audit
-        run: |
-          python3 -m unittest discover -s live/tests
-          python3 live/build_page.py --check
-          python3 qa/audit.py --check
-      # Audit (session 73552f24): every finding re-checked, pages current, a source
-      # link on every row. Fails the build if a published verdict goes stale.
-      - name: Verify the audit site
-        run: |
-          python3 audit/verify.py --check
-          python3 audit/build_site.py --check
-          python3 audit/check_site.py
-      - name: Verify Demo API desk and V2 engine (session 17d84e4f)
-        run: |
-          python3 kalshi_engine/test_engine.py
-          python3 demo-desk/check_live_site.py
+          python -m pip install -r requirements-dev.txt
+          python -m pytest -q
+          python tools/build_site.py --check
+          python tools/check_links.py
+          python tools/check_gateway.py
+          python -m engine.check_site --root docs/engine
+          python -m engine.build_site --out /tmp/engine-site --data docs/engine/data
+          python -m engine.check_site --root /tmp/engine-site
+          python -m unittest discover -s live/tests
+          python live/build_page.py --check
+          python qa/audit.py --check
+          python audit/verify.py --check
+          python audit/build_site.py --check
+          python audit/check_site.py
+          python kalshi_engine/test_engine.py
+          python demo-desk/check_live_site.py
           node --test demo-desk/test_live_core.mjs
       - name: Fetch bounded public demo snapshot
-        if: github.event_name != 'pull_request'
-        run: python3 scripts/build_snapshot.py
-      - name: Commit the refreshed snapshot
-        # Both this job and collect.yml commit to main; they share the `main-writers`
-        # concurrency group above, and the push is retried after a rebase in case a
-        # collector commit lands between checkout and push.
-        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
-        continue-on-error: true
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
-          git config user.name "kalshi-trader-bot"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs/data/snapshot.json 2>/dev/null || true
-          if git diff --cached --quiet; then
-            echo "snapshot unchanged"
-          else
-            git commit -m "data: pages snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
-            for attempt in 1 2 3; do
-              git pull --rebase --autostash origin main && git push && break
-              echo "push attempt $attempt failed; retrying"; sleep 10
-            done
-          fi
-      - name: Stage the landing page, every dashboard and the board app
-        if: github.event_name != 'pull_request'
+          python scripts/build_snapshot.py
+          python tests/check_site.py
+      - name: Stage public sites only — never keys, SQLite, or backend files
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
-          set -euo pipefail
           mkdir -p public
           cp index.html .nojekyll public/
           cp -R docs site demo-desk audit terminal public/
@@ -112,19 +135,33 @@ jobs:
           # internals (tools, tests, workflows) are never published.
           cp ./*.html public/
           cp -R assets categories data public/
-      - uses: actions/configure-pages@v5
-        if: github.event_name != 'pull_request'
+      - uses: actions/upload-artifact@v4
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          name: public-source-snapshot
+          path: docs/data/snapshot.json
       - uses: actions/upload-pages-artifact@v3
-        if: github.event_name != 'pull_request'
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:
           path: public
   deploy:
-    if: github.event_name != 'pull_request'
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: [build, backend-tests, browser-tests]
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
+      - name: Prefer a single Actions publishing source to prevent legacy overwrite races
+        id: publishing-mode
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method PUT repos/${{ github.repository }}/pages -f build_type=workflow
+      - uses: actions/configure-pages@v5
       - id: deployment
         uses: actions/deploy-pages@v4

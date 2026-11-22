@@ -42,3 +42,4 @@ def test_detect_uses_previous_price_state():
 def test_detect_skips_markets_without_baseline():
     markets = [dict(BASE, ticker="T-9", mid=0.9)]
     assert detect(markets, {}, 1700000000) == []
+
