@@ -135,7 +135,7 @@
     <div class="table-wrap"><table>
       <thead><tr><th>Risk</th><th>Impact</th><th>Mitigation in place</th></tr></thead>
       <tbody>
-        <tr><td>Fee formula unverified (<a href="flagged.html#F1">F1</a>)</td><td>P&amp;L is optimistic or pessimistic by the fee amount</td><td>Labelled on every figure; fees can be switched off to compare</td></tr>
+        <tr><td>Fee formula <b>verified</b> 2026-11-22 against the published schedule (<a href="flagged.html#F1">F1</a>)</td><td>Per-series multipliers, maker fills and the rebate accumulator are not modelled, so fees are approximate on those series</td><td>Label on every figure now reads <code>quadratic_verified</code>; 42/42 published table values reproduce; fees can still be switched off to compare</td></tr>
         <tr><td>No demo credentials (<a href="flagged.html#F2">F2</a>)</td><td>No real demo-account P&amp;L yet</td><td>Adapter ready; simulated ledger continues independently</td></tr>
         <tr><td>Small sample</td><td>Early performance is noise</td><td>Instrumentation first; no strategy is described as profitable</td></tr>
         <tr><td>Cycle-resolution detection (<a href="flagged.html#F7">F7</a>)</td><td>Very fast round-trips can be missed</td><td>Window recorded per alert; WebSocket upgrade documented</td></tr>
@@ -149,7 +149,7 @@
     <div class="card">
       <ol class="clean" style="list-style:decimal">
         <li>Create the demo account and add <code>KALSHI_API_KEY_ID</code> plus <code>KALSHI_PRIVATE_KEY</code> as repository secrets — that single step turns paper results into exchange-confirmed results.</li>
-        <li>Retrieve the current fee schedule and flip <code>VERIFIED = True</code> in <code>fees.py</code>, which clears F1.</li>
+        <li><s>Retrieve the current fee schedule and flip <code>VERIFIED = True</code></s> — done 2026-11-22: <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf">the schedule</a> was retrieved and all 42 published table values reproduce (F1 resolved). Next fee step: read per-series <code>fee_multiplier</code> (F15).</li>
         <li>Promote the collector to <code>orderbook_delta</code> streaming once credentialed, so alerts fire on ticks instead of cycles.</li>
       </ol>
     </div>
