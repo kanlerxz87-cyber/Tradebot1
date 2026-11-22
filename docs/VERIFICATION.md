@@ -1,64 +1,67 @@
-# Verification Table — every claim traced to an official source
+# Verification register — current integrated implementation
 
-Rule applied throughout: **if a value cannot be confirmed from an official
-source, the cell is left blank and the item is flagged as unverified.**
-Nothing below is inferred. Checked 2026-11-22 against docs.kalshi.com.
+Reviewed 2026-11-22. This generated register supersedes the earlier prototype's status and turnover claims. Historic versions remain in Git.
 
-## A. Kalshi API facts (official docs)
+Official documentation was read through the page-fetch tool. These are specification checks, not claims of a successful authenticated live integration. Automated tests use synthetic fixtures and mocked network responses.
 
-| # | Claim | Value | Official source |
-|---|-------|-------|-----------------|
-| A1 | Demo REST base URL (recommended) | `https://external-api.demo.kalshi.co/trade-api/v2` | [Demo Environment](https://docs.kalshi.com/getting_started/demo_env) |
-| A2 | Demo REST base URL (also supported) | `https://demo-api.kalshi.co/trade-api/v2` | [Demo Environment](https://docs.kalshi.com/getting_started/demo_env) |
-| A3 | Demo WebSocket URL (recommended) | `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` | [Demo Environment](https://docs.kalshi.com/getting_started/demo_env) |
-| A4 | Demo WebSocket URL (also supported) | `wss://demo-api.kalshi.co/trade-api/ws/v2` | [Demo Environment](https://docs.kalshi.com/getting_started/demo_env) |
-| A5 | Demo web app | `https://demo.kalshi.co/` | [Demo Environment](https://docs.kalshi.com/getting_started/demo_env) |
-| A6 | Demo uses mock funds; credentials not shared with production | stated | [Demo Environment](https://docs.kalshi.com/getting_started/demo_env) |
-| A7 | Demo prices/behavior may not reflect real markets | stated | [Demo Environment](https://docs.kalshi.com/getting_started/demo_env) |
-| A8 | Production REST base URL | `https://external-api.kalshi.com/trade-api/v2` | [API Environments](https://docs.kalshi.com/getting_started/api_environments) |
-| A9 | Demo and production credentials are not interchangeable | stated | [API Environments](https://docs.kalshi.com/getting_started/api_environments) |
-| A10 | Public endpoints such as Get Markets need no authentication | stated | [Making Your First Request](https://docs.kalshi.com/getting_started/making_your_first_request) |
-| A11 | `GET /markets` response fields include `ticker`, `event_ticker`, `status`, `yes_bid_dollars`, `yes_ask_dollars`, `last_price_dollars`, `volume_fp`, `open_interest_fp`, `result` | as listed | [Get Markets](https://docs.kalshi.com/api-reference/market/get-markets) |
-| A12 | Market `status` possible values include `unopened`, `open`, `closed`, `settled` | as listed | [Get Markets](https://docs.kalshi.com/api-reference/market/get-markets) |
-| A13 | `GET /markets/{ticker}/orderbook` returns `orderbook_fp.yes_dollars` and `no_dollars` as `[price, size]` pairs; `depth` param 0–100 | as listed | [Get Market Orderbook](https://docs.kalshi.com/api-reference/market/get-market-orderbook) |
-| A14 | Auth headers: `KALSHI-ACCESS-KEY`, `KALSHI-ACCESS-TIMESTAMP`, `KALSHI-ACCESS-SIGNATURE` | as listed | [API Keys](https://docs.kalshi.com/getting_started/api_keys) |
-| A15 | Signature pre-sign text = timestamp + HTTP method + path (no query string) | stated | [API Keys](https://docs.kalshi.com/getting_started/api_keys) |
-| A16 | Timestamp must be within 30 seconds of Kalshi's clock (ms epoch) | stated | [API Keys](https://docs.kalshi.com/getting_started/api_keys) |
-| A17 | Key types: Ed25519 (recommended) or RSA-2048 with RSA-PSS/SHA-256 | stated | [API Keys](https://docs.kalshi.com/getting_started/api_keys) |
-| A18 | API keys are created in Account/Profile settings (demo: demo.kalshi.co) | stated | [API Keys](https://docs.kalshi.com/getting_started/api_keys) |
-| A19 | OpenAPI spec for Predictions REST | `https://docs.kalshi.com/openapi.yaml` | [Welcome](https://docs.kalshi.com/welcome) |
-| A20 | AsyncAPI spec for Predictions WebSocket | `https://docs.kalshi.com/asyncapi.yaml` | [Welcome](https://docs.kalshi.com/welcome) |
+The primary site is `docs/`; `site/` and `python/` are preserved legacy work, not the supported execution path. Every external-fact row has an official source. Missing values are blank and flagged rather than inferred.
 
-## B. Project requirements (from the task brief — not external facts)
+## Specification facts and explicit local policies
 
-| # | Requirement | How it is met | Where |
-|---|-------------|---------------|-------|
-| B1 | Topics: gas prices, elections, culture, crypto, golf only | Topic filter + keyword mapping | `site/assets/app.js` (`TOPICS`) |
-| B2 | Alert on swings ≥ $0.10 either direction | Poll-to-poll `last_price_dollars` diff ≥ 0.10 | `site/assets/app.js` (`ALERT_THRESHOLD`) |
-| B3 | Two scrolling chats: all events + high-ROI filtered | `#chat-all`, `#chat-roi` | `site/dashboard.html` |
-| B4 | Track until resolved; record yes/no | `status`/`result` polling + Resolutions table | `site/assets/app.js` |
-| B5 | Automated simulated trades, multiple strategies | 4 paper strategies | `site/assets/app.js`, `python/simulator.py` |
-| B6 | Portfolio performance + categorization | Equity curve + topic×strategy×side tables | `site/portfolio.html` |
-| B7 | Price graph: X=time (s/m/h windows), Y=price | Canvas chart with window buttons | `site/assets/app.js` |
-| B8 | Liquidity: contracts available at each price | Order-book table | `site/assets/app.js` |
-| B9 | Jump-adjacent source links | Curated official links per topic (not causal claims) | `site/assets/app.js` (`TOPIC_SOURCES`) |
-| B10 | GitHub Pages site, clean landing + subpages | Static site in `site/` + Pages workflow | `.github/workflows/pages.yml` |
+| Area | Fact / policy | Verification scope | Official source |
+| --- | --- | --- | --- |
+| demo-endpoints | Recommended REST root is external-api.demo.kalshi.co/trade-api/v2; demo-api.kalshi.co/trade-api/v2 is also supported. Recommended WebSocket root is external-api-ws.demo.kalshi.co/trade-api/ws/v2; demo-api.kalshi.co/trade-api/ws/v2 is also supported. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/demo_env) |
+| demo-separation | Demo uses mock funds, has separate credentials, and its prices/behavior may not reflect production. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/demo_env) |
+| auth-signature | Timestamp milliseconds + uppercase HTTP method + full path without query; RSA-PSS SHA-256 with digest-length salt, or Ed25519; base64 signature and three KALSHI-ACCESS headers. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests) |
+| ws-auth | Even public market-data WebSocket channels require an authenticated handshake signed with GET /trade-api/ws/v2. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/quick_start_websockets) |
+| events-pagination | GET /events has a maximum limit of 200 and cursor pagination. with_nested_markets includes child markets but excludes archived markets. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/events/get-events) |
+| series-categorization | Use series-level category, not deprecated event.category. Series include title, category, categories, tags and settlement_sources. Dashboard topic classification itself is a local rule, not an official fact. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/market/get-series-list) |
+| rest-cached | Market REST responses are cached and can lag exchange state. Undecodable cursors may return the first page, requiring duplicate/loop protection. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/market/get-markets) |
+| dollar-ranking | Ticker dollar_volume is whole-dollar cumulative traded notional; dollar_open_interest is whole-dollar open-interest notional. These are not cash paid, and are not 24-hour amounts. | documentation_checked | [Official specification](https://docs.kalshi.com/websockets/market-ticker) |
+| ticker-conflation | Ticker updates are coalesced on a roughly one-second schedule; intermediate prices are not all sent. The trade channel sends notifications after each execution. | documentation_checked | [Official specification](https://docs.kalshi.com/websockets/public-trades) |
+| threshold | Alert on an inclusive absolute YES last-price move of at least $0.10. This service uses a 60-second observed window and re-anchors after an alert; no interpolation or invented old history. | user_requirement_not_exchange_fact | [Official specification](https://docs.kalshi.com/websockets/market-ticker) |
+| rest-orderbook | REST orderbook_fp contains yes_dollars and no_dollars price/quantity pairs. Both are bid books; asks are complementary opposite bids. Quantities are contracts, not order counts. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/market/get-market-orderbook) |
+| ws-orderbook | WebSocket snapshots use yes_dollars_fp/no_dollars_fp; deltas use price_dollars/delta_fp/side. seq is checked per subscription. Sequence gaps require fresh snapshots, not a repeated subscribe alone. | documentation_checked | [Official specification](https://docs.kalshi.com/websockets/orderbook-updates) |
+| unified-price | Order V2 uses bid/ask with a single YES price scale. Buying NO at cost q maps to ask at YES price 1-q. WebSocket orderbooks opt into YES pricing using use_yes_price=true; this service explicitly converts NO levels into its internal NO-leg book representation. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/order_direction) |
+| lifecycle | REST active is open; closed awaits determination; determined/disputed/amended are not final. REST finalized is terminal settlement. Filter settled maps to finalized. An event has no reliable top-level status and can contain children in different states. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/market_lifecycle) |
+| binary-payout | Simple binary YES/NO winners receive $1 per contract. Scalar and settlement-bound contracts need distinct treatment and are not forced to binary in this service. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/market_settlement) |
+| current-order-api | POST /portfolio/events/orders is the V2 order-write endpoint. Legacy /portfolio/orders writes have been removed and return 410. 201 means accepted, not necessarily filled/resting. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/orders/create-order-v2) |
+| idempotency | Upstream client_order_id uniqueness is limited to open orders in a subaccount/shard. Check acceptance before retrying after uncertainty; reusing an ID after fill/cancel is not durable exactly-once protection. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/quick_start_create_order) |
+| cancel-routing | V2 cancellation requires market_ticker to auto-route to the correct shard; an order ID alone does not identify the shard. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/orders/cancel-order-v2) |
+| balance-units | Balance and portfolio_value integer fields are in cents; balance_dollars is a dollar string. Balance has a separate rate bucket. This service caches protected portfolio reads for 15 seconds. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/portfolio/get-balance) |
+| positions-default | Positions default to unsettled. settlement_status=all includes unarchived settled positions. position_fp is signed; realized_pnl_dollars and fees_paid_dollars are explicit API fields. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/portfolio/get-positions) |
+| fills | Fills are matched trades. Current responses include outcome_side/book_side, fixed-point counts, prices and fee_cost; legacy action/side are deprecated. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/portfolio/get-fills) |
+| settlement-records | Settlement records include explicit market_result, fixed-point counts/cost, revenue in cents, fees and settlement time. This live endpoint does not return archived settlements. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/portfolio/get-settlements) |
+| candlestick-history | Market candlesticks accept period_interval 1, 60 or 1440 minutes and Unix-second start/end timestamps. close_dollars may be null. Published candle/depth fallbacks retain their source timestamps, do not create alerts, and are never described as current liquidity. | documentation_checked | [Official specification](https://docs.kalshi.com/api-reference/market/get-market-candlesticks) |
+| static-hosting | GitHub Pages hosts static HTML/CSS/JavaScript. Private signing, durable account state and a continuous authenticated exchange stream require a separately hosted trusted backend. | documentation_checked | [Official specification](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages) |
+| historical-handoff | Historical markets, fills, orders and positions are separate. Read live positions before archive positions; reads are not atomic, overlap is possible, and archive positions differ from settlement records. | documentation_checked | [Official specification](https://docs.kalshi.com/getting_started/historical_data) |
 
-## C. Unverified — left blank on purpose (see also `site/flagged.html`)
+## Flagged for Review
 
-| # | Item | Status | Why |
-|---|------|--------|-----|
-| C1 | Live market values (prices, volumes) | **Unverified from sandbox** | Sandbox cannot reach `*.kalshi.co` (TLS EOF / HTTP 000, tested 2026-11-22). Dashboard fetches live in the visitor's browser; simulated fallback is labeled. |
-| C2 | Browser CORS for demo REST API | **Unverified** | Could not test cross-origin fetch from this sandbox. Dashboard handles failure by switching to simulated mode with a banner. |
-| C3 | Topic → series-ticker mapping | **Unverified heuristic** | Series tickers could not be enumerated from the sandbox. Mapping uses keywords in ticker/title; review in browser and correct in `TOPICS`. |
-| C4 | Demo account balance / real fills | **Blank — no credentials** | Requires the user's own demo API key + private key. Paper portfolio is the default; credentialed path documented in `python/README.md`. |
-| C5 | News cause of any specific price jump | **Not claimed** | No news API available. Site shows curated official links to *check*, labeled as such. |
-| C6 | Model "high ROI" predictions | **Heuristic, not verified** | Score formula is transparent and documented; it is not a guarantee of returns. Paper results only. |
+These are published limitations, not permission to label an unverified value as confirmed.
 
-## D. Sandbox connectivity test (2026-11-22)
-- `https://external-api.demo.kalshi.co/trade-api/v2/markets` → TLS EOF / HTTP 000 (blocked/unreachable from sandbox).
-- `https://demo-api.kalshi.co/trade-api/v2/markets` → HTTP 000.
-- `https://pypi.org`, `https://github.com` → reachable (sandbox allowlist).
-- Conclusion: live Kalshi data must be fetched client-side (visitor browser)
-  or from a network that allows `*.kalshi.co`. All live values on the site
-  are therefore fetched at runtime and labeled live vs simulated.
+| Item | Verified value | Limitation / next check | Official source |
+| --- | --- | --- | --- |
+| account-not-connected | | No Kalshi credentials are present. No authenticated demo order, fill, balance or WebSocket handshake has been verified. Account values are blank. | [Official source](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests) |
+| network-restriction | | The sandbox process cannot reach Kalshi hosts. A page-fetch tool successfully read public exchange/status, but that is not a persistent backend connection. Polling/streaming require a host with Kalshi network access. | [Official source](https://external-api.demo.kalshi.co/trade-api/v2/exchange/status) |
+| pages-static-only | | GitHub Pages is a static website host. Secure signing, private account access, persistence and background collection require this separately deployed trusted service. | [Official source](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages) |
+| model-unvalidated | | Neither momentum nor mean reversion has validated out-of-sample net ROI. Fair value and gross edge are model outputs, not official data. No high-ROI guarantee is made. | [Official source](https://docs.kalshi.com/getting_started/demo_env) |
+| fees-unknown | | Paper results are gross only. Fee types/multipliers and event overrides vary; no universal fee is assumed. Net ROI stays null. | [Official source](https://docs.kalshi.com/api-reference/market/get-series-list) |
+| news-causality | | No verified causal news links have been observed. Catalyst lists remain empty rather than assigning news stories to price jumps. | [Official source](https://docs.kalshi.com/api-reference/market/get-series-list) |
+| notional-coverage | | REST markets may not include dollar_volume. Ranking values remain null until reported WS notional arrives for all tracked child markets; partial discovery is visibly flagged. | [Official source](https://docs.kalshi.com/websockets/market-ticker) |
+| browser-cors | | The public Pages-to-demo-API CORS path has not been verified end to end. Local Chromium checks intentionally block or mock the exchange network. Direct REST failures retain source-timestamped observations; no synthetic prices replace them. | [Official source](https://docs.kalshi.com/getting_started/making_your_first_request) |
+| culture-coverage | | The bounded public snapshot contains no Culture contracts. On 2026-11-22 the two series returned by the official Culture category query were individually checked for open events and both returned empty. This is not proof of complete topic coverage; no substitute contracts are invented. | [Official source](https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture) |
+| topic-classifier | | Five-topic classification uses explicit local metadata rules, not a verified full exchange taxonomy. Unmatched and ambiguous series are excluded and counted. | [Official source](https://docs.kalshi.com/api-reference/market/get-series-list) |
+| primary-subaccount | | Portfolio collection is scoped to primary subaccount 0. It does not claim all subaccounts, atomic live/archive reconciliation, or cash-flow-adjusted ROI. | [Official source](https://docs.kalshi.com/getting_started/historical_data) |
+| legacy-prototype | | Preserved site/ prototype uses synthetic fallback values and an unvalidated score. It is not the primary verified dashboard. Never interpret those values as official observations. | [Official source](https://docs.kalshi.com/getting_started/demo_env) |
+| legacy-client | | Preserved python/kalshi_client.py signs a relative path and uses removed /portfolio/orders writes. It is not suitable for current execution. Use services/kalshi/ instead; its live account integration is still unverified. | [Official source](https://docs.kalshi.com/api-reference/orders/create-order-v2) |
+| pages-publishing | | Earlier deployments had legacy main-root and Actions publishing paths. The workflow attempts to select Actions as the single source; if repository permission denies it, tracked timestamped snapshot data remains the legacy fallback. Deployment evidence is recorded in COORDINATION.md. | [Official source](https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site) |
+
+## Evidence layers
+
+- Official public observations: `docs/data/snapshot.json`, including source URLs and original observation times. Bounded sample, not a complete ranking.
+- Implementation checks: Node unit tests, Python mocked-transport tests, static/source-link checks and real Chromium tests with network disabled or mocked.
+- Live backend health: the sandbox service starts and serves the same-origin UI; its outbound Kalshi network is unavailable and credentials are not configured.
+- Deployment/merge evidence: `COORDINATION.md`. Passing CI is not evidence of authenticated account activity.
+
+Regenerate with `python scripts/build_site.py`; do not edit this generated register directly.

@@ -1,0 +1,10 @@
+{
+  "name": "tradebot1-browser-verification",
+  "private": true,
+  "type": "module",
+  "scripts": {"test": "node check.mjs"},
+  "devDependencies": {
+    "@sparticuz/chromium": "153.0.0",
+    "playwright": "1.65.1"
+  }
+}

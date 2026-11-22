@@ -93,6 +93,14 @@ for event in snapshot.get('events', []):
             errors.append('Snapshot record missing official demo endpoint')
         if not record.get('observed_at'):
             errors.append('Snapshot record missing original observation timestamp')
+        for evidence in [*record.get('history_snapshots', {}).values(), record.get('orderbook_snapshot')]:
+            if evidence is None:
+                continue
+            evidence_url = urlsplit(evidence.get('source_url', ''))
+            if evidence_url.scheme != 'https' or evidence_url.hostname != 'external-api.demo.kalshi.co':
+                errors.append('Candle/depth snapshot missing official source')
+            if not evidence.get('observed_at'):
+                errors.append('Candle/depth snapshot missing original observation time')
 if snapshot.get('events') and not snapshot.get('generated_at'):
     errors.append('Nonempty snapshot requires an observation generation timestamp')
 for manifest in [ROOT / 'data/verification.json', Path('services/kalshi/verification.json')]:

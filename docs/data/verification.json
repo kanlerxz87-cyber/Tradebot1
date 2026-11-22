@@ -157,6 +157,20 @@
       "implementation": "kalshi_demo/runtime.py: portfolio"
     },
     {
+      "id": "candlestick-history",
+      "status": "documentation_checked",
+      "fact": "Market candlesticks accept period_interval 1, 60 or 1440 minutes and Unix-second start/end timestamps. close_dollars may be null. Published candle/depth fallbacks retain their source timestamps, do not create alerts, and are never described as current liquidity.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks",
+      "implementation": "scripts/build_snapshot.py; docs/assets/app.mjs"
+    },
+    {
+      "id": "static-hosting",
+      "status": "documentation_checked",
+      "fact": "GitHub Pages hosts static HTML/CSS/JavaScript. Private signing, durable account state and a continuous authenticated exchange stream require a separately hosted trusted backend.",
+      "source_url": "https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages",
+      "implementation": ".github/workflows/pages.yml; kalshi_demo/server.py"
+    },
+    {
       "id": "historical-handoff",
       "status": "documentation_checked",
       "fact": "Historical markets, fills, orders and positions are separate. Read live positions before archive positions; reads are not atomic, overlap is possible, and archive positions differ from settlement records.",
@@ -215,6 +229,20 @@
       "source_url": "https://docs.kalshi.com/websockets/market-ticker"
     },
     {
+      "id": "browser-cors",
+      "severity": "environment_limit",
+      "value": null,
+      "detail": "The public Pages-to-demo-API CORS path has not been verified end to end. Local Chromium checks intentionally block or mock the exchange network. Direct REST failures retain source-timestamped observations; no synthetic prices replace them.",
+      "source_url": "https://docs.kalshi.com/getting_started/making_your_first_request"
+    },
+    {
+      "id": "culture-coverage",
+      "severity": "coverage_limit",
+      "value": null,
+      "detail": "The bounded public snapshot contains no Culture contracts. On 2026-11-22 the two series returned by the official Culture category query were individually checked for open events and both returned empty. This is not proof of complete topic coverage; no substitute contracts are invented.",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture"
+    },
+    {
       "id": "topic-classifier",
       "severity": "coverage_limit",
       "value": null,
@@ -227,6 +255,21 @@
       "value": null,
       "detail": "Portfolio collection is scoped to primary subaccount 0. It does not claim all subaccounts, atomic live/archive reconciliation, or cash-flow-adjusted ROI.",
       "source_url": "https://docs.kalshi.com/getting_started/historical_data"
+    },
+    {
+      "id": "legacy-prototype",
+      "detail": "Preserved site/ prototype uses synthetic fallback values and an unvalidated score. It is not the primary verified dashboard. Never interpret those values as official observations.",
+      "source_url": "https://docs.kalshi.com/getting_started/demo_env"
+    },
+    {
+      "id": "legacy-client",
+      "detail": "Preserved python/kalshi_client.py signs a relative path and uses removed /portfolio/orders writes. It is not suitable for current execution. Use services/kalshi/ instead; its live account integration is still unverified.",
+      "source_url": "https://docs.kalshi.com/api-reference/orders/create-order-v2"
+    },
+    {
+      "id": "pages-publishing",
+      "detail": "Earlier deployments had legacy main-root and Actions publishing paths. The workflow attempts to select Actions as the single source; if repository permission denies it, tracked timestamped snapshot data remains the legacy fallback. Deployment evidence is recorded in COORDINATION.md.",
+      "source_url": "https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site"
     }
   ]
 }

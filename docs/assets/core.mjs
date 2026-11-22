@@ -26,6 +26,7 @@ export function topicFor(event) {
 }
 export function numeric(value) {
   if (value === '' || value === null || value === undefined || typeof value === 'boolean' || typeof value === 'object') return null;
+  if (typeof value === 'string' && !/^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?$/.test(value.trim())) return null;
   const n = Number(value);
   return Number.isFinite(n) ? n : null;
 }
@@ -35,6 +36,7 @@ export function dollars(value, compact = false) {
   const n = numeric(value);
   return n === null ? '—' : new Intl.NumberFormat('en-US', {style:'currency', currency:'USD', maximumFractionDigits:2, ...(compact ? {notation:'compact'} : {})}).format(n);
 }
+export function contractDollars(value) { const n=price(value);return n===null?'—':new Intl.NumberFormat('en-US',{style:'currency',currency:'USD',minimumFractionDigits:2,maximumFractionDigits:4}).format(n); }
 export function count(value) { const n = qty(value); return n === null ? '—' : new Intl.NumberFormat('en-US', {maximumFractionDigits:2, notation:n >= 100000 ? 'compact' : 'standard'}).format(n); }
 export function marketUrl(ticker) { return `${BASE}/markets/${encodeURIComponent(ticker)}`; }
 export function eventUrl(ticker) { return `${BASE}/events/${encodeURIComponent(ticker)}`; }
@@ -75,8 +77,18 @@ export function eventGroups(markets, events, metric = 'notional') {
 }
 export function normalizeBook(payload, observedAt, source) {
   if (!payload?.orderbook_fp || !Array.isArray(payload.orderbook_fp.yes_dollars) || !Array.isArray(payload.orderbook_fp.no_dollars)) return null;
-  const parse = levels => levels.map(([p,q]) => ({price:price(p), quantity:qty(q)})).filter(level => level.price !== null && level.quantity !== null && level.quantity > 0).sort((a,b) => b.price-a.price);
+  const parse = levels => {
+    const seen=new Set(),result=[];
+    for(const level of levels){
+      if(!Array.isArray(level)||level.length!==2)return null;
+      const p=price(level[0]),q=qty(level[1]);
+      if(p===null||q===null||seen.has(p))return null;
+      seen.add(p);if(q>0)result.push({price:p,quantity:q});
+    }
+    return result.sort((a,b)=>b.price-a.price);
+  };
   const yes = parse(payload.orderbook_fp.yes_dollars), no = parse(payload.orderbook_fp.no_dollars);
+  if(yes===null||no===null)return null;
   const asks = bids => bids.map(level => ({...level,price:Math.round((1-level.price)*1e6)/1e6,derived:true})).sort((a,b) => a.price-b.price);
   return {yesBids:yes,noBids:no,yesAsks:asks(no),noAsks:asks(yes),observedAt,source};
 }
@@ -113,6 +125,6 @@ export function paperPnl(trade,market) {
 }
 export function csvCell(value) {
   let text=String(value??'');
-  if(/^[=+\-@\t\r]/.test(text))text="'"+text; // prevent spreadsheet formula injection
+  if(/^[\t\r\n]|^\s*[=+\-@]/.test(text))text="'"+text; // prevent spreadsheet formula injection
   return '"'+text.replaceAll('"','""')+'"';
 }

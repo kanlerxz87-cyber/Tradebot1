@@ -52,7 +52,7 @@ Only local paper strategies are automated by default. **No automatic submission 
 - Alert selection is an **unvalidated research heuristic**, not a prediction of profit. It needs at least 20 earlier observations, fresh executable depth, ≤$0.04 spread, ≥10 contracts, and a hypothetical pre-fee edge ≥$0.03 and gross ROI ≥5%. The two hypothesis strategies (mean reversion and momentum) are separately accounted. Estimated fair values are model outputs, not sourced facts.
 - Paper orders consume displayed opposing depth in each hypothetical account, reject stale books, never fill at last price, and keep cash/cost basis/settlement ledgers. Strategies run independently, so they do not claim simultaneously available exchange liquidity across hypothetical accounts.
 - Net ROI/fees remain null until an actual fee source is available; no universal fee schedule is invented. News annotations are empty unless a source and timestamp are observed. A timestamp association must never be represented as causation.
-- Settlement requires an official finalized/settled result. A closed market is not resolved. Scalar/void/nonstandard settlement is flagged rather than forced into YES/NO; closed markets continue to be tracked.
+- Settlement requires REST `status=finalized` and a compatible standard $1 binary `result=yes/no`. The API filter named `settled` is not a REST status value. A closed market is not resolved. Scalar/void/nonstandard settlement is flagged rather than forced into YES/NO; closed markets continue to be tracked.
 
 ## Test
 

@@ -116,7 +116,33 @@ def research_pages(manifest):
 <div class="section-heading"><div><h2>What is delivered</h2><p>Software capability is distinct from verified deployment connectivity.</p></div></div><div class="delivery-grid"><article class="panel delivery-card">{icon('overview')}<h3>Public research dashboard</h3><p>Five topic subpages, grouped events, source timestamps, search, CSV export, time-window charts, depth and dual scrolling feeds.</p></article><article class="panel delivery-card">{icon('activity')}<h3>Demo-only service</h3><p>REST collection, authenticated WebSocket adapter, sequence recovery, SQLite history, SSE and protected V2 order routes. Not connected to an account here.</p></article><article class="panel delivery-card">{icon('portfolio')}<h3>Strategy laboratory</h3><p>Independent momentum and mean-reversion paper ledgers, exposure caps, final YES/NO settlement and gross-only analysis.</p></article></div>
 <div class="section-heading"><div><h2>Official specification checks</h2><p>Read on {manifest['checked_on']}. Values and schemas are not inferred. Internal policy decisions are labeled.</p></div></div><div class="panel table-wrap research-table"><table><thead><tr><th>Area</th><th>Checked fact / explicit policy</th><th>Verification scope</th><th>Official source</th></tr></thead><tbody>{fact_rows}</tbody></table></div>
 <div class="section-heading"><div><h2>Suggestions for the next research cycle</h2></div></div><div class="panel suggestions"><article><span>01</span><div><h3>Deploy the trusted stream service</h3><p>Use a continuously running host with demo-network access, a secret store and persistent storage. Never deploy private keys to Pages. {external('https://docs.kalshi.com/getting_started/quick_start_websockets','Streaming requirements')}</p></div></article><article><span>02</span><div><h3>Validate before calling a signal high ROI</h3><p>Use walk-forward cohorts, fee-aware fills, exposure limits and calibration by topic. Demo performance is not production evidence. {external('https://docs.kalshi.com/getting_started/demo_env','Demo limitations')}</p></div></article><article><span>03</span><div><h3>Add timestamped primary-source announcements</h3><p>Link official releases only with verified publication times. Annotate association separately from causation, with a source and confidence note. {external('https://docs.kalshi.com/api-reference/market/get-series-list','Settlement source metadata')}</p></div></article><article><span>04</span><div><h3>Reconcile the full account</h3><p>Join live and historical fills and positions, include subaccounts, distinguish deposits from P&amp;L, and compare actual fees with hypotheses. {external('https://docs.kalshi.com/getting_started/historical_data','Historical handoff')}</p></div></article></div><div class="notice"><span>{icon('shield')}</span><p>See the <a href="review/">Flagged for Review page</a> for unverified deployment and research items. No secret or manual account input was requested in this session.</p></div>'''
-    return review, summary
+    return review, summary, flags
+
+
+def verification_markdown(manifest):
+    def cell(value):
+        return str(value).replace("|", "\\|").replace("\n", " ")
+    lines = [
+        "# Verification register — current integrated implementation",
+        "",
+        f"Reviewed {manifest['checked_on']}. This generated register supersedes the earlier prototype's status and turnover claims. Historic versions remain in Git.",
+        "",
+        manifest["verification_scope"],
+        "",
+        "The primary site is `docs/`; `site/` and `python/` are preserved legacy work, not the supported execution path. Every external-fact row has an official source. Missing values are blank and flagged rather than inferred.",
+        "",
+        "## Specification facts and explicit local policies",
+        "",
+        "| Area | Fact / policy | Verification scope | Official source |",
+        "| --- | --- | --- | --- |",
+    ]
+    for row in manifest["facts"]:
+        lines.append(f"| {cell(row['id'])} | {cell(row['fact'])} | {cell(row['status'])} | [Official specification]({row['source_url']}) |")
+    lines += ["", "## Flagged for Review", "", "These are published limitations, not permission to label an unverified value as confirmed.", "", "| Item | Verified value | Limitation / next check | Official source |", "| --- | --- | --- | --- |"]
+    for row in manifest["flagged_for_review"]:
+        lines.append(f"| {cell(row['id'])} | | {cell(row['detail'])} | [Official source]({row['source_url']}) |")
+    lines += ["", "## Evidence layers", "", "- Official public observations: `docs/data/snapshot.json`, including source URLs and original observation times. Bounded sample, not a complete ranking.", "- Implementation checks: Node unit tests, Python mocked-transport tests, static/source-link checks and real Chromium tests with network disabled or mocked.", "- Live backend health: the sandbox service starts and serves the same-origin UI; its outbound Kalshi network is unavailable and credentials are not configured.", "- Deployment/merge evidence: `COORDINATION.md`. Passing CI is not evidence of authenticated account activity.", "", "Regenerate with `python scripts/build_site.py`; do not edit this generated register directly.", ""]
+    return "\n".join(lines)
 
 
 def main():
@@ -128,10 +154,12 @@ def main():
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(shell("portfolio", "Portfolio & strategies", portfolio(), 1, True))
     manifest = json.loads((ROOT / "services/kalshi/verification.json").read_text())
-    review, summary = research_pages(manifest)
+    review, summary, flags = research_pages(manifest)
+    public_manifest = {**manifest, "flagged_for_review": flags}
     (DOCS / "review/index.html").write_text(shell("review", "Flagged for Review", review, 1))
     (DOCS / "executive-summary.html").write_text(shell("summary", "Executive summary", summary))
-    (DOCS / "data/verification.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
+    (DOCS / "data/verification.json").write_text(json.dumps(public_manifest, ensure_ascii=False, indent=2) + "\n")
+    (DOCS / "VERIFICATION.md").write_text(verification_markdown(public_manifest))
     print("Generated 9 consistent, source-linked static pages.")
 
 
