@@ -182,6 +182,13 @@ class KalshiAPI:
         data = await self.get("/search/tags_by_categories")
         return (data or {}).get("tags_by_categories", {})
 
+    async def series_detail(self, ticker: str) -> dict:
+        """GET /series/{ticker} -- the series carries the published `tags` and
+        `category`. Events do not carry tags, so this is the authoritative
+        source for tag-based topic mapping."""
+        data = await self.get(f"/series/{ticker}") or {}
+        return data.get("series") or data
+
     async def series(self, *, category: str | None = None, limit: int = 200) -> list[dict]:
         """GET /series -- paginated list of series templates."""
         params: dict[str, Any] = {"limit": min(limit, 200)}

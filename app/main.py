@@ -33,9 +33,11 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query, Request
 from fastapi.responses import FileResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from .collector import Collector
 from .config import load_settings
+from .replay import build_replay
 from .kalshi_api import KalshiAPI, KalshiAPIError
 from .storage import Store
 from .topics import TOPIC_META, TOPIC_ORDER
@@ -69,6 +71,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Kalshi Live Dashboard", version="1.0.0", lifespan=lifespan)
+app.mount("/static", StaticFiles(directory=STATIC), name="static")
 
 
 def _collector(request: Request) -> Collector:
@@ -80,11 +83,30 @@ async def _ensure_started(request: Request) -> Collector:
     if not collector.status["running"]:
         await collector.start(own_api=False)
         # First refresh is awaited so the first page paint has content.
+        # A failed refresh is not retried on every HTTP request: an unreachable
+        # upstream would otherwise make each page load wait for a timeout.
         try:
             await collector.refresh_universe()
             collector._last_universe = __import__("time").time()
         except Exception as exc:
             collector.status["last_error"] = f"initial refresh: {exc}"
+        finally:
+            collector._next_refresh_at = __import__("time").time() + 120
+        # If the engine has no live markets (no route to Kalshi, an outage, or no
+        # credentials) fall back to the captured replay so the dashboard is
+        # usable -- clearly labelled, never presented as live data.
+        if not collector.tracked:
+            try:
+                result = build_replay(request.app.state.store,
+                                      request.app.state.settings,
+                                      refresh_lookback=request.app.state.settings.news_lookback_hours)
+                collector.status["provenance"] = "captured-replay"
+                collector.status["replay"] = result
+                collector._last_universe = __import__("time").time()
+            except Exception as exc:
+                collector.status["last_error"] = f"replay: {exc}"
+        else:
+            collector.status["provenance"] = "live"
     return collector
 
 
@@ -123,6 +145,10 @@ async def config(request: Request) -> dict:
 async def state(request: Request, topic: str = Query("all"), limit: int = Query(60, ge=1, le=500)) -> dict:
     collector = await _ensure_started(request)
     payload = collector.dashboard_state(topic=None if topic == "all" else topic, limit=limit)
+    if not collector.tracked:
+        # Replay fallback: serve the captured market board from the store so the
+        # UI has rows to render, still labelled as replay in `status.provenance`.
+        payload["markets"] = _replay_market_rows(request, topic, limit)
     payload["topic_meta"] = {k: TOPIC_META[k] for k in TOPIC_ORDER}
     return payload
 
@@ -130,8 +156,27 @@ async def state(request: Request, topic: str = Query("all"), limit: int = Query(
 @app.get("/api/markets")
 async def markets(request: Request, topic: str = Query("all"), limit: int = Query(80, ge=1, le=500)) -> dict:
     collector = await _ensure_started(request)
-    return {"markets": collector._market_rows(topic=None if topic == "all" else topic, limit=limit),
-            "topic": topic}
+    rows = (collector._market_rows(topic=None if topic == "all" else topic, limit=limit)
+            if collector.tracked
+            else _replay_market_rows(request, topic, limit))
+    return {"markets": rows, "topic": topic}
+
+
+def _replay_market_rows(request: Request, topic: str, limit: int) -> list[dict]:
+    store: Store = request.app.state.store
+    rows = store.list_markets(topic=None if topic == "all" else topic, limit=limit)
+    out = []
+    for row in rows:
+        out.append({
+            "ticker": row["ticker"], "event_ticker": row.get("event_ticker"),
+            "title": row.get("title"), "subtitle": row.get("subtitle"), "topic": row.get("topic"),
+            "close_time": row.get("close_time"), "page_url": row.get("page_url"),
+            "price": row.get("last_price"), "yes_bid": row.get("yes_bid"), "yes_ask": row.get("yes_ask"),
+            "spread": None, "depth_10c": None, "liquidity": None,
+            "volume_fp": row.get("volume_fp"), "dollar_volume": row.get("volume_fp"),
+            "open_interest_fp": row.get("open_interest_fp"),
+        })
+    return out
 
 
 @app.get("/api/market/{ticker}")

@@ -57,6 +57,14 @@ CREATE TABLE IF NOT EXISTS ticks (
 );
 CREATE INDEX IF NOT EXISTS idx_ticks_ts ON ticks(ts);
 
+CREATE TABLE IF NOT EXISTS series_cache (
+    ticker      TEXT PRIMARY KEY,
+    category    TEXT,
+    tags_json   TEXT,
+    title       TEXT,
+    fetched_ts  REAL
+);
+
 CREATE TABLE IF NOT EXISTS alerts (
     id          INTEGER PRIMARY KEY AUTOINCREMENT,
     ts          REAL NOT NULL,
@@ -325,6 +333,29 @@ class Store:
             cur = self._conn.execute("DELETE FROM ticks WHERE ts < ?", (older_than_ts,))
             self._conn.commit()
         return cur.rowcount
+
+    # ------------------------------------------------------------------ #
+    # Series metadata (tags live on the series, not on the event)
+    # ------------------------------------------------------------------ #
+    def get_series(self, ticker: str, *, max_age_seconds: float = 86400) -> dict | None:
+        with self._lock:
+            row = self._conn.execute("SELECT * FROM series_cache WHERE ticker=?", (ticker,)).fetchone()
+        if not row:
+            return None
+        if max_age_seconds and time.time() - float(row["fetched_ts"] or 0) > max_age_seconds:
+            return None
+        data = dict(row)
+        data["tags"] = json.loads(data.get("tags_json") or "[]")
+        return data
+
+    def put_series(self, ticker: str, *, category: str | None, tags: list[str], title: str | None) -> None:
+        with self._lock:
+            self._conn.execute(
+                "INSERT OR REPLACE INTO series_cache (ticker, category, tags_json, title, fetched_ts)"
+                " VALUES (?,?,?,?,?)",
+                (ticker, category, json.dumps(list(tags or [])), title, time.time()),
+            )
+            self._conn.commit()
 
     # ------------------------------------------------------------------ #
     # Alerts

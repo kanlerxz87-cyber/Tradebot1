@@ -22,6 +22,13 @@
   </div>
 </header>
 
+<div class="banner hidden" id="replay-banner">
+  <strong>Replay mode.</strong> No live feed is reachable from this process, so the board below is
+  built from <em>captured Kalshi payloads plus a scripted price path</em>. Values are real captures
+  where marked; the scripted moves exist to exercise the alert and simulation logic.
+  <span id="replay-detail"></span>
+</div>
+
 <section class="statusbar">
   <div><span class="label">Alert rule</span> <strong id="rule">≥ $0.10 move</strong></div>
   <div><span class="label">Tracked markets</span> <strong id="stat-tracked">--</strong></div>

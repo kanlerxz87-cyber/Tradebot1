@@ -43,6 +43,11 @@ MAX_NEWS_PER_CYCLE = 4
 PRICE_FLOOR = Decimal("0.02")
 PRICE_CEILING = Decimal("0.98")
 
+# Status values that mean "not tradeable any more". "finalized" is what the live
+# API actually returns for settled markets (verified 2026-11-22 on
+# GET /markets?status=settled); the docs list closed/settled/determined.
+TERMINAL_STATUSES = {"closed", "settled", "determined", "finalized", "unopened"}
+
 
 def _iso(ts: float | None = None) -> str:
     return datetime.fromtimestamp(ts or time.time(), tz=timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -92,7 +97,9 @@ class Collector:
         self._stop = asyncio.Event()
         self._pending_news: list[dict] = []
         self._resolution_cache: dict[str, dict] = {}
+        self.status["series_errors"] = []
         self._last_universe = 0.0
+        self._next_refresh_at = 0.0
         self._tasks: list[asyncio.Task] = []
 
     # ------------------------------------------------------------------ #
@@ -132,6 +139,44 @@ class Collector:
     # ------------------------------------------------------------------ #
     # Universe
     # ------------------------------------------------------------------ #
+    async def _series_tags(self, series_tickers: list[str], budget: int = 40) -> dict[str, list[str]]:
+        """Published tags per series: cache first, then GET /series/{ticker}.
+
+        Events do not carry `tags`; the series does
+        (https://docs.kalshi.com/api-reference/market/get-series). Without this
+        lookup, golf would only be detectable from the ticker name. `budget`
+        bounds the number of live lookups so one refresh cannot stall.
+        """
+        out: dict[str, list[str]] = {}
+        missing: list[str] = []
+        for ticker in series_tickers:
+            cached = self.store.get_series(ticker)
+            if cached is not None:
+                out[ticker] = cached["tags"]
+            else:
+                missing.append(ticker)
+        if self.api is None:
+            return out
+
+        semaphore = asyncio.Semaphore(6)
+
+        async def fetch(ticker: str) -> tuple[str, list[str]]:
+            async with semaphore:
+                try:
+                    detail = await self.api.series_detail(ticker)
+                except KalshiAPIError as exc:
+                    self.status.setdefault("series_errors", []).append(f"{ticker}: {exc}")
+                    return ticker, []
+            tags = detail.get("tags") or []
+            category = detail.get("category") or (detail.get("categories") or [None])[0]
+            self.store.put_series(ticker, category=category, tags=tags, title=detail.get("title"))
+            return ticker, tags
+
+        results = await asyncio.gather(*(fetch(t) for t in missing[:budget]))
+        for ticker, tags in results:
+            out[ticker] = tags
+        return out
+
     async def refresh_universe(self) -> dict:
         """Rebuild the tracked market list from open events."""
         if self.api is None:
@@ -158,17 +203,28 @@ class Collector:
             self.status["last_error"] = f"events: {exc}"
             return {"tracked": 0, "errors": [str(exc)]}
 
+        # Series tags are the authoritative source for the Sports/Golf tag.
+        series_tickers: list[str] = []
+        for event in events:
+            series = event.get("series_ticker") or (
+                (event.get("event_ticker") or "").split("-")[0] if event.get("event_ticker") else None
+            )
+            if series and series not in series_tickers:
+                series_tickers.append(series)
+        series_tags_map = await self._series_tags(series_tickers)
+
         for event in events:
             category = event.get("category")
             event_tags = event.get("tags") or []
             series = event.get("series_ticker") or (
                 (event.get("event_ticker") or "").split("-")[0] if event.get("event_ticker") else None
             )
+            series_tags = series_tags_map.get(series or "", []) if series else []
             for market in event.get("markets") or []:
                 title = market.get("title") or event.get("title") or market.get("ticker")
                 matched = match_topic(
                     category=category,
-                    tags=[*event_tags, *(market.get("tags") or [])],
+                    tags=[*event_tags, *(market.get("tags") or []), *series_tags],
                     title=title,
                     series_ticker=series,
                     event_ticker=event.get("event_ticker"),
@@ -177,9 +233,10 @@ class Collector:
                 if not matched.matched:
                     continue
                 topic = matched.topic
-                row = self._market_row(market, event, topic, matched.basis, series)
+                row = self._market_row(market, event, topic, matched.reason, series)
                 if row is None:
                     continue
+                row["meta"]["series_tags"] = series_tags
                 topics_found[topic] += 1
                 by_topic[topic].append(row)
 
@@ -210,7 +267,15 @@ class Collector:
         if not ticker:
             return None
         status = (market.get("status") or "").lower()
-        if status in {"closed", "settled", "determined"}:
+        # Observed live statuses include "active" (open) and "finalized"
+        # (settled). The docs advertise unopened/open/closed/settled, so treat
+        # any terminal-looking status as resolved and keep it out of the live board.
+        if status in TERMINAL_STATUSES:
+            return None
+        # Multivariate ("combo") markets bundle several unrelated categories into
+        # one ticker, so they cannot belong to a single topic. Excluded, and the
+        # exclusion is stated on the site.
+        if ticker.upper().startswith("KXMVE"):
             return None
         last = to_decimal(market.get("last_price_dollars"))
         yes_bid = to_decimal(market.get("yes_bid_dollars"))
@@ -512,7 +577,7 @@ class Collector:
                 continue
             result = (market.get("result") or "").lower()
             status = (market.get("status") or "").lower()
-            if result in {"yes", "no"} or status in {"determined", "settled"}:
+            if result in {"yes", "no"} or status in {"determined", "settled", "finalized"}:
                 row = {
                     "ticker": ticker,
                     "event_ticker": market.get("event_ticker"),
@@ -601,7 +666,7 @@ class Collector:
             "environment": self.settings.environment,
             "status": {**self.status, "ws_connected": self.ws.connected,
                        "ws_messages": self.ws.messages},
-            "topics": TOPIC_ORDER,
+            "topics": list(TOPIC_ORDER),
             "alerts": self.store.list_alerts(limit=40),
             "selective_alerts": self.store.list_alerts(limit=40, selective=True),
             "markets": markets,

@@ -396,6 +396,17 @@ function paintResolutions(rows) {
 /* ------------------------------------------------------------------ status */
 function paintStatus(payload) {
   const s = payload.status || {};
+  const banner = $('#replay-banner');
+  if (banner) {
+    const replay = s.provenance === 'captured-replay';
+    banner.classList.toggle('hidden', !replay);
+    if (replay) {
+      const info = s.replay || {};
+      $('#replay-detail').textContent = info.loaded
+        ? `Loaded ${info.loaded} captured markets, replayed ${info.alerts} scripted swing alerts.`
+        : '';
+    }
+  }
   const dot = $('#status-dot');
   dot.className = 'dot ' + (s.running ? (s.last_error ? 'err' : 'live') : '');
   $('#last-update').textContent = `updated ${new Date().toLocaleTimeString()}`;
