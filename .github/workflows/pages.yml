@@ -38,6 +38,11 @@ jobs:
           python3 -m pytest -q
           python3 tools/build_site.py --check
           python3 tools/check_links.py
+      - name: Verify the engine site (session arena-7ae1c34f)
+        run: |
+          python3 -m engine.check_site --root docs/engine
+          python3 -m engine.build_site --out /tmp/engine-site --data docs/engine/data
+          python3 -m engine.check_site --root /tmp/engine-site
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py

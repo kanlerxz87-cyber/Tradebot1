@@ -114,9 +114,12 @@ def test_no_markdown_emphasis_leaks_into_titles(built):
 def test_docs_directory_matches_a_fresh_build(built):
     """The committed docs/ output must be reproducible from the generators."""
     out, _ = built
-    committed = ROOT / "docs"
+    committed = ROOT / "docs" / "engine"
     if not (committed / "index.html").exists():
-        pytest.skip("docs/ not built yet")
+        pytest.skip("docs/engine not built yet")
     fresh = (out / "index.html").read_text()
     assert "Kalshi live-event dashboard" in fresh
     assert (committed / ".nojekyll").exists()
+    # The published copy must carry the same verification register as a fresh build.
+    for name in ("verification.json", "dashboard.json", "captures.json"):
+        assert (committed / "data" / name).exists(), name

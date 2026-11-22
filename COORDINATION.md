@@ -248,7 +248,11 @@ rounding rebate accumulator are not modelled. The `docs/engine/` snapshot is lab
 
 ## Log
 
-* **2026-11-22 07:3x** — merged `origin/main` into `arena/7ae1c34f-tradebot1`. Conflicts:
+* **2026-11-22 07:52** — wired `engine/check_site.py` and a reproducible rebuild of `docs/engine`
+  into `.github/workflows/pages.yml` as its own step, so the engine site cannot regress to a broken
+  link or an unsourced row without failing the build. Verified locally: `docs/engine` is byte-identical
+  to a fresh build from `docs/engine/data`.
+* **2026-11-22 07:45** — merged `origin/main` into `arena/7ae1c34f-tradebot1`. Conflicts:
   `COORDINATION.md`, `requirements.txt`, `.gitignore` (add/add) and three test files whose names
   collide with the desk's tests. Resolved by keeping the desk's modules and test files intact and
   keeping this session's engine tests under their own modules; `requirements.txt` and `.gitignore`
