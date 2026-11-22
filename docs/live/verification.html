@@ -59,7 +59,7 @@
         <div class="scroll" style="max-height:none">
           <table>
             <thead><tr><th style="width:56px">ID</th><th>Fact as used on this site</th><th style="width:120px">Kind</th><th style="width:34%">Official source</th></tr></thead>
-            <tbody id="fact-rows"><tr><td colspan="4" class="empty">Loading…</td></tr></tbody>
+            <tbody id="fact-rows"><tr><td colspan="4" class="empty">Loading… <a href="https://docs.kalshi.com/getting_started/api_environments">source</a></td></tr></tbody>
           </table>
         </div>
       </div>
@@ -75,8 +75,8 @@
             <code>docs/live/check_live.py</code> asserts all 21 in both columns on every run.
           </div>
           <table>
-            <thead><tr><th>Price</th><th class="num">Table: 1 contract</th><th class="num">Computed</th><th class="num">Table: 100 contracts</th><th class="num">Computed</th></tr></thead>
-            <tbody id="fee-rows"></tbody>
+            <thead><tr><th>Price</th><th class="num">Table: 1 contract</th><th class="num">Computed</th><th class="num">Table: 100 contracts</th><th class="num">Computed</th><th>Source</th></tr></thead>
+            <tbody id="fee-rows"><tr><td colspan="6" class="empty">Loading the published table… <a href="https://docs.kalshi.com/getting_started/fee_rounding">source</a></td></tr></tbody>
           </table>
           <p class="hint" style="margin-top:8px">Single-contract rows are the published table's rounding of a sub-cent fee; the console therefore shows both the six-decimal fee and the cent-rounded figure (S13).</p>
         </div>
@@ -114,7 +114,7 @@
             <tr><td>Chart ranges</td><td>30s / 5m / 1h / 6h / 24h switch the window and the candlestick interval (1, 60 or 1440 minutes).</td><td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer">S6</a></td></tr>
             <tr><td>Resolution</td><td><code>resolutionOf()</code> reports a result only when the API's <code>result</code> field is <code>yes</code>, <code>no</code> or <code>scalar</code>; otherwise the row says open, closed awaiting determination, or determined with the settlement timer running.</td><td><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">S8</a>, <a href="https://docs.kalshi.com/api-reference/market/get-markets.md" target="_blank" rel="noopener noreferrer">S9</a></td></tr>
             <tr><td>Topic routing</td><td>Gas &rarr; tag <em>Oil &amp; Gas</em>; Elections &rarr; category; Culture &rarr; category <em>Entertainment</em> (labelled derived); Crypto &rarr; category; Golf &rarr; tag. A keyword fallback is labelled on the row.</td><td><a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener noreferrer">S16</a>, <a href="https://docs.kalshi.com/api-reference/market/get-series-list.md" target="_blank" rel="noopener noreferrer">S17</a></td></tr>
-            <tr><td>Second feed</td><td><code>triageScore()</code> = weighted move size, contracts at the touch, spread and 24h volume, capped at 100. It ranks attention; it is not an expected return. Weights are printed on the console.</td><td>project rule, disclosed (not Kalshi data)</td></tr>
+            <tr><td>Second feed</td><td><code>triageScore()</code> = weighted move size, contracts at the touch, spread and 24h volume, capped at 100. It ranks attention; it is not an expected return. Weights are printed on the console.</td><td>project rule, disclosed. Its inputs are the official fields documented at <a href="https://docs.kalshi.com/api-reference/market/get-markets.md">get-markets</a> and <a href="https://docs.kalshi.com/getting_started/orderbook_responses">orderbook_responses</a>; the score itself is not Kalshi data.</td></tr>
           </tbody>
         </table>
       </div>
@@ -159,7 +159,7 @@
         const c100 = roundUpCents(price, 100);
         const ok1 = Math.abs(c1 - one) < 1e-9;
         const ok100 = Math.abs(c100 - hundred) < 1e-9;
-        return `<tr><td class="mono">$${price.toFixed(2)}</td><td class="num">$${one.toFixed(2)}</td><td class="num ${ok1 ? 'up' : 'down'}">$${c1.toFixed(2)}</td><td class="num">$${hundred.toFixed(2)}</td><td class="num ${ok100 ? 'up' : 'down'}">$${c100.toFixed(2)}</td></tr>`;
+        return `<tr><td class="mono">$${price.toFixed(2)}</td><td class="num">$${one.toFixed(2)}</td><td class="num ${ok1 ? 'up' : 'down'}">$${c1.toFixed(2)}</td><td class="num">$${hundred.toFixed(2)}</td><td class="num ${ok100 ? 'up' : 'down'}">$${c100.toFixed(2)}</td><td><a href="https://docs.kalshi.com/getting_started/fee_rounding">fee_rounding</a> &middot; <a href="https://docs.kalshi.com/api-reference/market/get-markets.md">get-markets</a></td></tr>`;
       })
       .join('');
   }

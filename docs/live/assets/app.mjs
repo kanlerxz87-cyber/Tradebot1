@@ -44,6 +44,7 @@ const state = {
   selfTest: [],
   candles: new Map(),
   portfolio: null,
+  query: '',
 };
 
 /* ------------------------------------------------------------------ helpers */
@@ -72,8 +73,14 @@ function dollarsOf(market) {
   return price * volume;
 }
 
+function matchesQuery(market) {
+  if (!state.query) return true;
+  const haystack = `${market.event?.title ?? ''} ${market.title ?? ''} ${market.ticker ?? ''} ${market.event_ticker ?? ''}`.toLowerCase();
+  return haystack.includes(state.query);
+}
+
 function rankedMarkets() {
-  const rows = marketsOf(topicsEvents()).filter((market) => (market.status ?? '') === 'active');
+  const rows = marketsOf(topicsEvents()).filter((market) => (market.status ?? '') === 'active' && matchesQuery(market));
   const key = state.rank === 'volume' ? (m) => num(m.volume_24h_fp) : dollarsOf;
   return rows.sort((a, b) => {
     const av = key(a);
@@ -727,6 +734,25 @@ async function boot() {
       renderMetrics();
     });
   });
+  const search = $('search');
+  if (search) {
+    search.addEventListener('input', () => {
+      state.query = search.value.trim().toLowerCase();
+      renderTable();
+      renderMetrics();
+    });
+  }
+  const sort = $('sort');
+  if (sort) {
+    sort.addEventListener('click', () => {
+      // One control cycles the two rankings the console offers, so the label always matches the order.
+      state.rank = state.rank === 'dollars' ? 'volume' : 'dollars';
+      sort.textContent = state.rank === 'dollars' ? 'Sort: traded $' : 'Sort: 24h contracts';
+      $('rank-note').textContent = state.rank === 'dollars' ? 'rank = last price × 24h contracts' : 'rank = 24h contracts';
+      renderTable();
+      renderMetrics();
+    });
+  }
   $('refresh').addEventListener('click', () => {
     clearTimeout(state.timer);
     pollBrowser();

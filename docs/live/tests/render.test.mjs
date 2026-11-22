@@ -130,6 +130,35 @@ test('selecting a market draws the chart and shows an empty book as empty, not a
   assert.match(document.getElementById('selected-body').textContent, /Taker fee/);
 });
 
+test('the search box and the sort control change what the table shows', async () => {
+  const { window } = await loadPage('index.html');
+  const document = window.document;
+  const search = document.getElementById('search');
+  const sort = document.getElementById('sort');
+  assert.ok(search && sort, 'both controls exist');
+  assert.equal(document.querySelectorAll('#market-rows tr').length, 2);
+
+  search.value = 'above $2.50';
+  search.dispatchEvent(new window.Event('input', { bubbles: true }));
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  assert.equal(document.querySelectorAll('#market-rows tr').length, 1, 'the filter narrows to one strike');
+
+  search.value = 'nothing matches this';
+  search.dispatchEvent(new window.Event('input', { bubbles: true }));
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  assert.match(document.getElementById('market-rows').textContent, /No verified market in this topic yet/);
+
+  search.value = '';
+  search.dispatchEvent(new window.Event('input', { bubbles: true }));
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  assert.equal(document.querySelectorAll('#market-rows tr').length, 2);
+
+  const before = sort.textContent;
+  sort.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
+  await new Promise((resolve) => setTimeout(resolve, 100));
+  assert.notEqual(sort.textContent, before, 'the sort label tracks the order in use');
+});
+
 test('the verification page renders every fact with a source link and reproduces the fee table', async () => {
   const { window } = await loadPage('verification.html');
   const document = window.document;

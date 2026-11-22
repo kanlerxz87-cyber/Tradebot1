@@ -27,6 +27,11 @@ REPO = HERE.parent.parent
 DOCS = HERE
 problems: list[str] = []
 
+# The shared checker (tests/check_site.py) accepts a narrower set: docs.kalshi.com,
+# external-api.demo.kalshi.co, demo-api.kalshi.co and docs.github.com. Every row a shared checker
+# walks therefore cites one of those; the broader documentation hosts are kept for facts that are
+# not rendered in a table body.
+SHARED_CHECKER_HOSTS = {"docs.kalshi.com", "external-api.demo.kalshi.co", "demo-api.kalshi.co", "docs.github.com"}
 OFFICIAL_HOSTS = {
     "docs.kalshi.com",
     "external-api.demo.kalshi.co",
@@ -175,8 +180,29 @@ def check_secrets() -> int:
     return scanned
 
 
+def check_shared_hosts() -> list[str]:
+    """Every rendered table row must cite a host the shared checker (tests/check_site.py) accepts.
+
+    That checker allows docs.kalshi.com, external-api.demo.kalshi.co, demo-api.kalshi.co and
+    docs.github.com. The console may cite more documentation hosts, but a row it renders must not
+    rely on one of those extra hosts alone, or the shared gate fails downstream.
+    """
+    problems = []
+    for page in ("index.html", "verification.html", "flagged.html"):
+        html = (DOCS / page).read_text()
+        for table in re.findall(r'<tbody[^>]*>(.*?)</tbody>', html, re.S):
+            for row in re.findall(r'<tr[^>]*>(.*?)</tr>', table, re.S):
+                hrefs = re.findall(r'href="(https://[^"]+)"', row)
+                if not hrefs:
+                    continue  # rows the scripts fill are checked by the render tests
+                if not any(host_of(h) in SHARED_CHECKER_HOSTS for h in hrefs):
+                    problems.append(f'{page}: row cites no shared-checker host: {row[:80]}')
+    return problems
+
+
 def main() -> int:
     rows = check_data()
+    problems.extend(check_shared_hosts())
     fact_count, ids = check_sources()
     flag_count = check_flags(ids)
     fee_rows = check_fees()

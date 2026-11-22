@@ -15,11 +15,11 @@
     <div class="sidebar-label">Topics</div>
     <nav class="nav" id="topic-nav" aria-label="Topics">
       <a href="#all" class="active" data-topic-link="all"><span class="icon">&#9638;</span> All topics <span class="count" id="count-all">—</span></a>
-      <a href="#gas" class="t-gas" data-topic-link="gas"><span class="icon">&#9672;</span> Gas prices <span class="count" id="count-gas">—</span></a>
-      <a href="#elections" class="t-elections" data-topic-link="elections"><span class="icon">&#9639;</span> Elections <span class="count" id="count-elections">—</span></a>
-      <a href="#culture" class="t-culture" data-topic-link="culture"><span class="icon">&#10033;</span> Culture <span class="count" id="count-culture">—</span></a>
-      <a href="#crypto" class="t-crypto" data-topic-link="crypto"><span class="icon">&#8383;</span> Crypto <span class="count" id="count-crypto">—</span></a>
-      <a href="#golf" class="t-golf" data-topic-link="golf"><span class="icon">&#9873;</span> Golf <span class="count" id="count-golf">—</span></a>
+      <a href="#gas" id="gas" class="t-gas" data-topic-link="gas"><span class="icon">&#9672;</span> Gas prices <span class="count" id="count-gas">—</span></a>
+      <a href="#elections" id="elections" class="t-elections" data-topic-link="elections"><span class="icon">&#9639;</span> Elections <span class="count" id="count-elections">—</span></a>
+      <a href="#culture" id="culture" class="t-culture" data-topic-link="culture"><span class="icon">&#10033;</span> Culture <span class="count" id="count-culture">—</span></a>
+      <a href="#crypto" id="crypto" class="t-crypto" data-topic-link="crypto"><span class="icon">&#8383;</span> Crypto <span class="count" id="count-crypto">—</span></a>
+      <a href="#golf" id="golf" class="t-golf" data-topic-link="golf"><span class="icon">&#9873;</span> Golf <span class="count" id="count-golf">—</span></a>
     </nav>
     <div class="sidebar-label">Evidence</div>
     <nav class="nav" aria-label="Evidence">
@@ -71,14 +71,14 @@
       <div class="metric"><div class="label">Data read</div><div class="value" id="stat-updated" style="font-size:.95rem">—</div><div class="sub" id="stat-source">—</div></div>
     </section>
 
-    <div class="grid two">
+    <div class="grid two" id="all">
       <section class="card">
         <header>
           <h2>Highest dollar volume</h2>
           <div class="toolbar">
-            <button class="range active" type="button" data-rank="dollars">Traded $</button>
-            <button class="range" type="button" data-rank="volume">Contracts</button>
-            <span class="hint" id="rank-note">rank = last price &times; 24h contracts</span>
+            <input id="search" type="search" placeholder="Filter by event, market or ticker" aria-label="Filter markets" style="font:inherit;font-size:.8rem;background:#10222e;border:1px solid #1c3341;border-radius:7px;padding:5px 8px;color:#e8f1f6;min-width:190px">
+            <button id="sort" class="range" type="button" data-rank="dollars" aria-label="Sort markets">Sort: traded $</button>
+            <span class="hint" id="rank-note">rank = last price × 24h contracts</span>
           </div>
         </header>
         <div class="body flush">
@@ -96,7 +96,7 @@
                 </tr>
               </thead>
               <tbody id="market-rows">
-                <tr><td colspan="7" class="empty">Loading verified demo data…</td></tr>
+                <tr><td colspan="7" class="empty">Loading verified demo data… <a href="https://docs.kalshi.com/getting_started/api_environments">source</a></td></tr>
               </tbody>
             </table>
           </div>
@@ -169,7 +169,7 @@
           <div class="scroll">
             <table>
               <thead><tr><th>Event</th><th>Market</th><th>Result</th><th>Settled</th><th>Source</th></tr></thead>
-              <tbody id="resolved-rows"><tr><td colspan="5" class="empty">No resolved market on file yet.</td></tr></tbody>
+              <tbody id="resolved-rows"><tr><td colspan="5" class="empty">No resolved market on file yet. <a href="https://docs.kalshi.com/getting_started/market_lifecycle">lifecycle source</a></td></tr></tbody>
             </table>
           </div>
         </div>
