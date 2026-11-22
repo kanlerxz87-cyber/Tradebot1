@@ -125,7 +125,7 @@ function render(r) {
       <td class="mono">${orDash(p.cors?.['access-control-allow-origin'])}</td>
       <td class="mono">${orDash(p.cors?.['access-control-allow-credentials'])}</td>
       <td class="mono">${orDash(p.cors?.['access-control-allow-headers'])}</td>
-      <td class="mono">${orDash(p.rate_limit?.['x-ratelimit-limit'] ? p.rate_limit['x-ratelimit-limit'] + ' / ' + p.rate_limit['x-ratelimit-remaining'] : null)}</td>
+      <td class="mono">${p.rate_limit?.['x-ratelimit-limit'] != null ? esc(p.rate_limit['x-ratelimit-limit']) + ' / ' + orDash(p.rate_limit?.['x-ratelimit-remaining']) : '—'}</td>
       <td>${p.ms ?? '—'} ms</td>
       <td class="mono">${orDash(p.error)}</td>
     </tr>`).join('') : '<tr><td colspan="9">No probes recorded.</td></tr>';
