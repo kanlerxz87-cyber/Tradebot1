@@ -646,7 +646,7 @@ Scope claimed below **before** implementation, committed and pushed as its own c
 
 | # | Task | Status | Owner | Files / scope |
 | - | - | - | - | - |
-| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 67 pages / 1 179 internal references scanned on the merged tree: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
+| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 68 pages / 1 218 internal references scanned on the merged tree: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
 | T13 | Live desk: a dependency-free local server (REST + Server-Sent Events + optional Kalshi REST polling) and a single-page interactive dashboard built for it — topic tabs, two ≥ $0.10 alert chats, price chart with seconds/minutes/hours windows, orderbook depth, resolution tracking, simulated portfolio and per-strategy analytics | done — 29 unit tests pass; served and exercised locally; `live.html` generated | `arena-35fb0d1f` | `live/**`, `live.html` |
 | T14 | Integration: executive-summary addendum, landing-page card, CI step for T12/T13, PR → `main`, merge, confirm Pages deploy | done — see merge log | `arena-35fb0d1f` | `index.html`, `EXECUTIVE_SUMMARY.md`, `.github/workflows/pages.yml`, `COORDINATION.md` |
 
@@ -682,7 +682,7 @@ session did not force it.
 * `python3 qa/audit.py --check` — 0 errors. Covers price bounds, crossed books, ladder monotonicity and
   depth reconciliation, duplicate tickers across topics, alert threshold/sign/ordering/subset, resolution
   values against the documented set, unknown statuses, official-host source links, derived totals, every
-  local link in 67 published pages, committed-build-artefact detection, and a credential scan of the tree.
+  local link in 68 published pages, committed-build-artefact detection, and a credential scan of the tree.
 * Existing suites unchanged and still green: 82 pytest tests, 36 Node tests, `tools/build_site.py --check`,
   `tools/check_links.py` (275 links), `tests/check_site.py` (21 pages), `python/test_simulator.py`,
   `scripts/check-data.mjs`, `scripts/check-links.mjs` (19 pages / 642 references), `scripts/check-render.mjs`.
@@ -693,7 +693,7 @@ session did not force it.
 
 ### Irregularities found (published on `qa.html`, non-blocking)
 
-1. `docs/desk` 24h notional was computed from the previous mid on 13 of 300 rows (largest gap 2.2%).
+1. `docs/desk` 24h notional was computed from the previous mid on 15 of 300 rows (largest gap 2.2%).
 2. The published order-book ladder is a partial view on 8 rows — reported depth exceeds the printed levels.
 3. The research-desk capture comes from the **production** root while the brief specifies demo; the live desk
    names the capture's environment in `/api/meta` instead of assuming.

@@ -329,6 +329,11 @@ def _levels(raw: Iterable[Any]) -> list[tuple[float, float]]:
     return out
 
 
+def clean_title(text: str | None) -> str:
+    """Kalshi titles carry markdown emphasis (``**gas prices**``); display them as plain text."""
+    return (text or "").replace("**", "")
+
+
 def load_from_desk(path: Path) -> tuple[dict[str, list[Market]], dict[str, Any]]:
     """Read the research desk's committed capture (300 markets across five topics)."""
     payload = json.loads(path.read_text())
@@ -349,8 +354,8 @@ def load_from_desk(path: Path) -> tuple[dict[str, list[Market]], dict[str, Any]]
                 event_ticker=row.get("event_ticker") or row.get("ticker") or "",
                 series_ticker=row.get("series_ticker") or "",
                 topic=topic,
-                title=row.get("title") or "",
-                event_title=row.get("event_title") or row.get("title") or "",
+                title=clean_title(row.get("title")) or "",
+                event_title=clean_title(row.get("event_title") or row.get("title")),
                 subtitle=row.get("subtitle") or "",
                 status=row.get("status") or "active",
                 result=(row.get("result") or None),
@@ -413,8 +418,8 @@ def load_from_board(path: Path) -> tuple[dict[str, list[Market]], dict[str, Any]
             event_ticker=row.get("eventTicker") or row.get("ticker") or "",
             series_ticker=row.get("seriesTicker") or "",
             topic=topic,
-            title=row.get("title") or "",
-            event_title=row.get("title") or "",
+            title=clean_title(row.get("title")),
+            event_title=clean_title(row.get("title")),
             subtitle=row.get("yesSubTitle") or "",
             status=row.get("status") or "active",
             result=(row.get("result") or None),
