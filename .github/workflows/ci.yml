@@ -34,7 +34,7 @@ jobs:
 
       - name: Verify published data integrity
         run: |
-          if [ -f docs/data/latest.json ]; then
+          if [ -f docs/desk/data/latest.json ]; then
             python -m kalshi_trader.cli verify
           else
             echo "no snapshot yet — skipping data integrity check"

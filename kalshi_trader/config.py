@@ -97,8 +97,8 @@ class Settings:
 
     # --- paths -------------------------------------------------------------
     repo_root: Path = REPO_ROOT
-    site_dir: Path = REPO_ROOT / "docs"
-    data_dir: Path = REPO_ROOT / "docs" / "data"
+    site_dir: Path = REPO_ROOT / "docs" / "desk"
+    data_dir: Path = REPO_ROOT / "docs" / "desk" / "data"
     state_dir: Path = REPO_ROOT / "app_data"
     paper_ledger: Path = REPO_ROOT / "app_data" / "paper_ledger.json"
 

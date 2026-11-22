@@ -1,6 +1,6 @@
 """Command line entry points.
 
-    python -m kalshi_trader.cli collect        # one full cycle, writes docs/data/*.json
+    python -m kalshi_trader.cli collect        # one full cycle, writes docs/desk/data/*.json
     python -m kalshi_trader.cli serve          # local live server (API + site + WebSocket)
     python -m kalshi_trader.cli verify         # offline integrity checks of the published data
     python -m kalshi_trader.cli demo-status    # whether demo credentials are configured

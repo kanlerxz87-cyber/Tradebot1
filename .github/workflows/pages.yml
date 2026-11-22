@@ -1,60 +1,65 @@
-name: Deploy site
-
-# GitHub Pages for this repository publishes `main` from the repository root in legacy mode,
-# so a push to main is the deployment. That also means a workflow-crafted artifact cannot be
-# deployed (the Pages API rejects build_type changes from this token), so this job only gates
-# the build: it fails loudly if the committed site is stale or has broken links.
-
+name: Verify and deploy both Pages dashboards
 on:
   push:
     branches: [main]
-    paths:
-      - "docs/**"
-      - "tools/**"
-      - "kalshi_trader/**"
-      - "index.html"
-      - ".github/workflows/pages.yml"
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '*/30 * * * *'
   workflow_dispatch:
-
 permissions:
   contents: read
-
+  pages: write
+  id-token: write
 concurrency:
-  group: pages-checks
-  cancel-in-progress: true
-
+  group: pages
+  cancel-in-progress: false
 jobs:
-  checks:
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-
-      - name: Rebuild generated tables from the committed snapshot
-        run: python tools/build_site.py
-
-      - name: Site must be current and fully linked
+          python-version: '3.11'
+      - name: Verify both sessions' code and local links
         run: |
-          python tools/build_site.py --check
-          python tools/check_links.py
-
-      - name: Gateway page points at a real target
+          node --test tests/*.test.mjs
+          python3 tests/check_site.py
+          python3 python/test_simulator.py
+          node --check site/assets/app.js
+      # Research desk (session e3e5f70f): unit tests, generated tables current, no broken links.
+      - name: Verify the research desk under docs/desk
         run: |
-          set -e
-          grep -q 'url=docs/' index.html
-          test -f docs/index.html
-          echo "root gateway → docs/index.html ok"
-
-      - name: Wait for the published site to serve the new build
-        continue-on-error: true
+          python3 -m pip install --quiet -r requirements-dev.txt
+          python3 -m pytest -q
+          python3 tools/build_site.py --check
+          python3 tools/check_links.py
+      - name: Fetch bounded public demo snapshot
+        if: github.event_name != 'pull_request'
+        run: python3 scripts/build_snapshot.py
+      - name: Stage legacy root, research dashboard, and original dashboard
+        if: github.event_name != 'pull_request'
         run: |
-          for i in $(seq 1 20); do
-            code=$(curl -s -o /dev/null -w '%{http_code}' https://kanlerxz87-cyber.github.io/Tradebot1/docs/index.html)
-            echo "attempt $i → HTTP $code"
-            [ "$code" = "200" ] && exit 0
-            sleep 15
-          done
-          echo "::warning::published site did not answer 200 within ~5 minutes"
+          mkdir -p public
+          cp index.html .nojekyll public/
+          cp -R docs site public/
+      - uses: actions/configure-pages@v5
+        if: github.event_name != 'pull_request'
+      - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'pull_request'
+        with:
+          path: public
+  deploy:
+    if: github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

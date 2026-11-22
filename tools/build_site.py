@@ -10,11 +10,11 @@ cannot be verified by reading the HTML. Everything factual is therefore written 
 
 Generated files
 ---------------
-docs/topics/*.html          full category pages
-docs/index.html             static market table between DATA markers
-docs/portfolio.html         static performance tables between DATA markers
-docs/verification.html      source table between DATA markers
-docs/flagged.html           flag rows between DATA markers
+docs/desk/topics/*.html          full category pages
+docs/desk/index.html             static market table between DATA markers
+docs/desk/portfolio.html         static performance tables between DATA markers
+docs/desk/verification.html      source table between DATA markers
+docs/desk/flagged.html           flag rows between DATA markers
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ from pathlib import Path
 from typing import Any, Iterable
 
 ROOT = Path(__file__).resolve().parent.parent
-DOCS = ROOT / "docs"
+DOCS = ROOT / "docs" / "desk"
 DATA = DOCS / "data"
 
 NAV = [
@@ -401,7 +401,7 @@ def build_index_static(latest: dict[str, Any]) -> str:
     if not markets:
         return (
             '<div class="card tight"><div class="empty">No snapshot has been collected yet. '
-            "The scheduled collector writes <code>docs/data/latest.json</code>; this block renders "
+            "The scheduled collector writes <code>docs/desk/data/latest.json</code>; this block renders "
             "server-side as soon as that file exists.</div></div>"
         )
     rows = []

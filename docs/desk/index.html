@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalshi Trader — live dashboard</title>
+<meta name="description" content="Live Kalshi market dashboard: gas prices, elections, culture, crypto and golf. $0.10 swing alerts, high-ROI model chat, price charts, orderbook liquidity, resolution tracking and an autonomous simulated trading book.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a class="active" href="index.html">Dashboard</a>
+      <a href="topics/gas-prices.html">Gas</a>
+      <a href="topics/elections.html">Elections</a>
+      <a href="topics/culture.html">Culture</a>
+      <a href="topics/crypto.html">Crypto</a>
+      <a href="topics/golf.html">Golf</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="strategies.html">Strategies</a>
+      <a href="api-reference.html">API</a>
+      <a href="verification.html">Verification</a>
+      <a href="flagged.html">Flagged</a>
+      <a href="executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Live market desk</h1>
+  <p class="page-sub">
+    Five topics only — gas prices, elections, culture, crypto and golf. Two alert chats: every
+    recorded ≥ $0.10 swing, and the subset the model ranks as high ROI. Price chart with
+    seconds-to-days windows, top-of-book liquidity, resolution tracking, and an autonomous
+    simulated book that trades the same signals.
+  </p>
+
+  <div id="dataState"></div>
+  <div id="liveNotice"></div>
+  <div class="status-line" id="liveState" style="margin-bottom:18px"></div>
+
+  <div class="grid kpi" id="kpis"></div>
+
+  <section class="section">
+    <h2><span class="num">01</span>Highest-dollar live events</h2>
+    <p class="hint">Ranked by estimated 24-hour traded notional (24h volume × price — a derived figure, labelled as such everywhere). Source links open the official Kalshi page for each series.</p>
+    <div class="card tight"><div id="leaderboard"></div></div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">02</span>Markets</h2>
+    <p class="hint">Click a row to load it into the chart. Sorted by any column header. “At best price” is the visible contract count resting at the top of the book.</p>
+    <div class="toolbar">
+      <div id="topicTabs" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+      <span style="flex:1"></span>
+      <input type="search" id="search" placeholder="Search market, ticker or series…" aria-label="Search markets">
+      <button class="btn" id="refresh">Refresh snapshot</button>
+    </div>
+    <div id="marketTable"></div>
+    <details class="card" style="margin-top:12px">
+      <summary class="small" style="cursor:pointer">Static snapshot table (no JavaScript required)</summary>
+      <div id="staticSnapshot"><!-- DATA:START -->
+<div class="card tight"><div class="empty">No snapshot has been collected yet. The scheduled collector writes <code>docs/desk/data/latest.json</code>; this block renders server-side as soon as that file exists.</div></div>
+<!-- DATA:END --></div>
+    </details>
+<!-- DATA:END --></div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">03</span>Price movement and liquidity</h2>
+    <p class="hint">X axis is time, Y axis is the contract price in dollars. Pick a window from 30 seconds to all history. The depth panel shows how many contracts rest at each price.</p>
+    <div class="grid side">
+      <div id="chartPanel"></div>
+      <div id="depthPanel"></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">04</span>Swing alerts — two live chats</h2>
+    <p class="hint">Every alert is a recorded move of at least $0.10 in either direction, compared with the previous collection cycle. The right-hand chat only shows alerts that pass the model filter.</p>
+    <div class="grid two">
+      <div class="chat">
+        <div class="chat-head">
+          <span class="chip">ALL EVENTS</span>
+          <span>≥ $0.10 moves, unfiltered</span>
+          <span class="spacer"></span>
+          <span class="small">newest at the bottom</span>
+        </div>
+        <div class="chat-log" id="chatAll"></div>
+      </div>
+      <div class="chat">
+        <div class="chat-head">
+          <span class="chip ok">MODEL · HIGH ROI</span>
+          <span>score ≥ 0.45 · est. ROI ≥ 6%</span>
+          <span class="spacer"></span>
+          <a class="small" href="strategies.html#model">how the score works</a>
+        </div>
+        <div class="chat-log" id="chatModel"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">05</span>Resolved events — YES or NO</h2>
+    <p class="hint">Markets we tracked until settlement, with the exchange-reported outcome and a link to verify it. Tracking continues after resolution so the record stays auditable.</p>
+    <div id="resolvedTable"></div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">06</span>Simulated portfolio</h2>
+    <p class="hint">Autonomous paper book fed by the same alerts. Full analytics, strategy comparison and trade-level detail live on the <a href="portfolio.html">portfolio page</a>.</p>
+    <div id="portfolioPanel"></div>
+  </section>
+
+  <section class="section">
+    <h2><span class="num">07</span>Data provenance</h2>
+    <div id="dataNotes"></div>
+  </section>
+
+  <footer class="site">
+    <span>Verified against <a href="https://docs.kalshi.com" target="_blank" rel="noopener">docs.kalshi.com</a>.</span>
+    <span>·</span><a href="executive-summary.html">Executive summary</a>
+    <span>·</span><a href="verification.html">Verification log</a>
+    <span>·</span><a href="flagged.html">Flagged for review</a>
+    <span>·</span><a href="requirements.html">Requirements</a>
+    <span>·</span><span>Not investment advice. Demo/paper only.</span>
+  </footer>
+</main>
+
+<script src="assets/js/charts.js"></script>
+<script src="assets/js/app.js"></script>
+</body>
+</html>

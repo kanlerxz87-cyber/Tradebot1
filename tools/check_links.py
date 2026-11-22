@@ -16,7 +16,8 @@ from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 ROOT = Path(__file__).resolve().parent.parent
-DOCS = ROOT / "docs"
+DOCS = ROOT / "docs" / "desk"
+GATEWAY = ROOT / "index.html"
 
 
 class LinkParser(HTMLParser):
@@ -78,7 +79,7 @@ def main(argv: list[str] | None = None) -> int:
             try:
                 target.relative_to(DOCS)
             except ValueError:
-                problems.append(f"{page.relative_to(ROOT)} → {raw} escapes docs/")
+                problems.append(f"{page.relative_to(ROOT)} → {raw} escapes docs/desk/")
                 continue
 
             if not target.exists():
@@ -91,6 +92,30 @@ def main(argv: list[str] | None = None) -> int:
                     problems.append(
                         f"{page.relative_to(ROOT)} → {raw} (missing anchor #{fragment} in {target.relative_to(ROOT)})"
                     )
+
+    # The repository-root gateway page links into both dashboards and the archive.
+    if GATEWAY.exists():
+        gw = collect(GATEWAY)
+        for attr, raw in gw.links:
+            if raw.startswith(("http://", "https://", "mailto:", "data:", "javascript:", "tel:", "//")):
+                continue
+            checked += 1
+            split = urlsplit(raw)
+            target = (ROOT / unquote(split.path)).resolve()
+            if target.is_dir():
+                target = target / "index.html"
+            try:
+                target.relative_to(ROOT)
+            except ValueError:
+                problems.append(f"index.html → {raw} escapes the repository")
+                continue
+            if not target.exists():
+                problems.append(f"index.html → {raw} (missing {target.relative_to(ROOT)})")
+        text = GATEWAY.read_text(encoding="utf-8")
+        if "<title>" not in text or text.count("<main") != 1:
+            problems.append("index.html: missing <title> or <main>")
+        if "docs.kalshi.com" not in text:
+            problems.append("index.html: no link to an official Kalshi source")
 
     # Structural checks that keep the verification promise honest.
     for page in pages:
