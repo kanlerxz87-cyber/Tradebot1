@@ -636,4 +636,87 @@ pages were read through the page fetcher instead; every fetch is recorded below.
   the same fee-schedule sources; the landing page's evidence table still needs that link and is noted
   below as an open request rather than edited here.
 
+---
 
+# Session `arena-35fb0d1f` — live desk server, cross-implementation audit, integration
+
+**Claimed (UTC):** 2026-11-22 · **Branch:** `arena/35fb0d1f-tradebot1` (base `c8c1d28`) · **Status:** done — merged into `main` via this branch
+
+Scope claimed below **before** implementation, committed and pushed as its own commit, per the board rules.
+
+| # | Task | Status | Owner | Files / scope |
+| - | - | - | - | - |
+| T12 | Cross-implementation audit of every committed dataset that presents itself as market data (price bounds, crossed books, duplicate tickers, topic routing, resolution values, official-host source URLs, internal link integrity) | done — `qa/audit.py`, 67 pages / 1 179 internal references scanned on the merged tree: **0 errors, 3 warnings, 9 notes** | `arena-35fb0d1f` | `qa/**`, `qa.html` |
+| T13 | Live desk: a dependency-free local server (REST + Server-Sent Events + optional Kalshi REST polling) and a single-page interactive dashboard built for it — topic tabs, two ≥ $0.10 alert chats, price chart with seconds/minutes/hours windows, orderbook depth, resolution tracking, simulated portfolio and per-strategy analytics | done — 29 unit tests pass; served and exercised locally; `live.html` generated | `arena-35fb0d1f` | `live/**`, `live.html` |
+| T14 | Integration: executive-summary addendum, landing-page card, CI step for T12/T13, PR → `main`, merge, confirm Pages deploy | done — see merge log | `arena-35fb0d1f` | `index.html`, `EXECUTIVE_SUMMARY.md`, `.github/workflows/pages.yml`, `COORDINATION.md` |
+
+Deliberately **not** touched: `docs/desk/**` (owner `arena-e3e5f70f`), `docs/**` (owner `c9075e75`),
+`site/**` and `python/**` (owner `arena-39ef3867`), `board.html`, `assets/**`, `categories/**`,
+`templates/**`, `scripts/**`, `tools/**`, `data/**` (owner `9bea7e55`), `kalshi_trader/**`,
+`tests/**`, `verification/**`. Those files are read-only inputs to the audit.
+
+**Open PR conflict noted, not touched:** PR [#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)
+(`arena/7ae1c34f-tradebot1`, engine + `docs/engine/`) reports `CONFLICTING` against `main`; its `build`
+and `test` checks pass. Resolving another session's conflicting branch is that session's call, so this
+session did not force it.
+
+
+## Session `arena-35fb0d1f` — completion record
+
+### Sources used
+
+| Fact | Official source | Checked |
+| - | - | - |
+| Demo REST `https://external-api.demo.kalshi.co/trade-api/v2` (alternate `demo-api.kalshi.co`); demo WS `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2`; dedicated user hosts | <https://docs.kalshi.com/getting_started/api_environments> | 2026-11-22 |
+| Order book returns bids only, arrays ascending, best bid last, `yes_ask = 1 − best NO bid`, no auth required | <https://docs.kalshi.com/getting_started/orderbook_responses> | 2026-11-22 |
+| Statuses `initialized/active/inactive/closed/determined/disputed/amended/finalized`; `open`/`settled` are request filters; `result` is `yes`/`no`/`scalar` | <https://docs.kalshi.com/getting_started/market_lifecycle> | 2026-11-22 |
+| Demo `GET /markets` field names (`yes_bid_dollars`, `yes_ask_dollars`, `last_price_dollars`, `volume_24h_fp`, `open_interest_fp`, `status`, `result`, `close_time`, `rules_primary`) | <https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=1&series_ticker=KXAAAGASM> | 2026-11-22 |
+| Demo exchange status: four indexes, all active | <https://external-api.demo.kalshi.co/trade-api/v2/exchange/status> | 2026-11-22 |
+
+### Verification performed
+
+* `python3 -m unittest discover -s live/tests` — 29 assertions, all pass (threshold inclusive at exactly
+  $0.10 and silent at $0.09, symmetric, price bounds after 400 ticks, book arithmetic reconciles, position
+  cap and 2% risk, quote hygiene for placeholder/crossed/wide books, live-mode alert through a scripted
+  poller, resolution from Kalshi fields only, no write verb in the server, HTTP surface, path traversal).
+* `python3 qa/audit.py --check` — 0 errors. Covers price bounds, crossed books, ladder monotonicity and
+  depth reconciliation, duplicate tickers across topics, alert threshold/sign/ordering/subset, resolution
+  values against the documented set, unknown statuses, official-host source links, derived totals, every
+  local link in 67 published pages, committed-build-artefact detection, and a credential scan of the tree.
+* Existing suites unchanged and still green: 82 pytest tests, 36 Node tests, `tools/build_site.py --check`,
+  `tools/check_links.py` (275 links), `tests/check_site.py` (21 pages), `python/test_simulator.py`,
+  `scripts/check-data.mjs`, `scripts/check-links.mjs` (19 pages / 642 references), `scripts/check-render.mjs`.
+* The dashboard was served from `live/server.py` and queried over HTTP: `/api/health`, `/api/meta`,
+  `/api/state` (300 markets, five topics), `/api/series`, `/api/book`, `/api/stream` (SSE ticks) and `/`.
+  A jsdom render of the page against the live server produced 5 topic tabs, 9 event groups, 37 contract
+  rows, 40/13 feed entries, a liquidity ladder, 12 resolution-watch rows and 11 positions.
+
+### Irregularities found (published on `qa.html`, non-blocking)
+
+1. `docs/desk` 24h notional was computed from the previous mid on 13 of 300 rows (largest gap 2.2%).
+2. The published order-book ladder is a partial view on 8 rows — reported depth exceeds the printed levels.
+3. The research-desk capture comes from the **production** root while the brief specifies demo; the live desk
+   names the capture's environment in `/api/meta` instead of assuming.
+4. `scripts/build-site.mjs --check` can never pass: it compares re-rendered pages containing a fresh
+   timestamp and relative text ("21m ago"). Reproduced identically on a clean checkout of the base commit.
+5. Earlier notes calling `active`/`finalized` a documentation contradiction are **wrong**: those are the
+   documented statuses. Corrected in `live.html` and the executive summary; `result` can also be `scalar`.
+6. Fee schedule unverified (page unreachable from this sandbox) → `FEE_VERIFIED = False`, stated in `/api/meta`.
+7. No demo account / API key → no authenticated read, no order; simulated results are labelled as such.
+
+### Merge log
+
+* `main` at claim time: `c8c1d28`. PR opened from `arena/35fb0d1f-tradebot1`; see the entry below for the
+  number and result. PR [#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10) (`arena/7ae1c34f`,
+  `docs/engine/`) remains `CONFLICTING` with `main` and was **not** merged or modified by this session; its
+  build and test checks pass, so its owner can rebase it.
+* Shared files changed here are additive only: two cards and two bullets in `index.html`, one appended part in
+  `EXECUTIVE_SUMMARY.md`, one step in `.github/workflows/pages.yml`. No other session's file was rewritten.
+
+### Merge history on this branch (2026-11-22)
+
+`main` advanced twice while this branch was open (to `ffd8994`, then to `2f4eaae`; PRs #13/#14/#16/#18/
+#19/#22/#23). Each time this branch's three shared files were rebuilt from `main` and this session's
+additions re-applied on top, so every other session's landing page, fee audit, connectivity verification,
+engine site and coordination records are intact. `main` also untracked the committed `__pycache__`
+artefacts during this window, which agrees with the cleanup recorded here.

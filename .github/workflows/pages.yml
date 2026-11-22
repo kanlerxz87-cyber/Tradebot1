@@ -56,6 +56,15 @@ jobs:
           python3 -m engine.check_site --root docs/engine
           python3 -m engine.build_site --out /tmp/engine-site --data docs/engine/data
           python3 -m engine.check_site --root /tmp/engine-site
+      # Session arena-35fb0d1f: the live desk's 29 unit tests, its generated page, and the
+      # cross-implementation data audit. --check fails the build on a price outside
+      # $0.00-$1.00, a crossed book, an alert below $0.10, an undocumented status, a broken
+      # internal link or a committed credential.
+      - name: Verify the live desk and the cross-implementation data audit
+        run: |
+          python3 -m unittest discover -s live/tests
+          python3 live/build_page.py --check
+          python3 qa/audit.py --check
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py

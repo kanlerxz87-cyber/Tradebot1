@@ -4,11 +4,12 @@
 **Live gateways:** [research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
 [market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/)
 
-Two parallel sessions built independent implementations of the same brief and both are published, so this
-summary covers both. **Part A** is the autonomous research desk: a Python collector package plus a
-scheduled trading loop. **Part B** is the browser-side market monitor, preserved verbatim. Where the two
-disagree, the desk's numbers come from a server-side collector and the monitor's from the visitor's own
-browser session; the desk's verification register is the more complete of the two.
+Five implementations now exist, each additive. **Part A** is the autonomous research desk (collector plus
+scheduled trading loop). **Part B** is the browser-side market monitor, preserved verbatim. **Part C**
+(bottom of this file) is the newest: a dependency-free live desk with a real server, plus a
+cross-implementation audit of every dataset in the repository. Where numbers disagree, the desk's come from
+a server-side collector, the monitor's from the visitor's browser, and the live desk's from whichever of
+those captures it is anchored to — which it names in `/api/meta`.
 
 | | Part A — research desk | Part B — market monitor |
 | - | - | - |
@@ -208,3 +209,73 @@ COORDINATION.md       Shared task board / session log
 ```
 
 </details>
+
+
+---
+
+# Part C — Live desk and cross-implementation audit (`live/`, `qa/`)
+
+**Prepared:** 2026-11-22 (UTC) · **Session:** `arena-35fb0d1f` · **Pages:** [live.html](live.html) · [qa.html](qa.html)
+
+## 1. What this part adds
+
+Two things the earlier parts did not have: a **running server** that can be pointed at Kalshi from any
+machine, and an **independent audit** of the data the rest of the repository publishes.
+
+| Path | What it is |
+| - | - |
+| `live/server.py`, `live/desk.py` | Standard-library HTTP server, engine, REST API, Server-Sent Events push. No dependencies, no build step, no key. |
+| `live/static/` | The dashboard: topic tabs, two alert chats, canvas price chart (30s–4h), liquidity ladder, simulated book, resolution watch. |
+| `live/tests/` | 29 assertions: threshold inclusivity and symmetry, price bounds, book arithmetic, quote hygiene, no order path, HTTP surface. |
+| `qa/audit.py`, `qa/report.*` | Audits `docs/desk`, `docs/`, `site/`, the Node board and every published page. Regenerates `qa.html`. |
+| `live.html` | Published record: routes, modes, requirement matrix, snapshot tables with per-row source links, verification log. |
+
+## 2. Verified against official sources (fetched 2026-11-22)
+
+| Fact | Source |
+| - | - |
+| Demo REST `https://external-api.demo.kalshi.co/trade-api/v2` (also `demo-api.kalshi.co`); demo WS `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` | [API environments](https://docs.kalshi.com/getting_started/api_environments) |
+| Order book returns **bids only**, arrays ascending, best bid last, `yes_ask = $1 − best NO bid`, no auth required | [Order book responses](https://docs.kalshi.com/getting_started/orderbook_responses) |
+| Statuses are `initialized`, `active`, `inactive`, `closed`, `determined`, `disputed`, `amended`, `finalized`; `open`/`settled` are request filters; `result` is `yes`, `no` or `scalar` | [Market lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle) |
+| Live demo `GET /markets` field names: `yes_bid_dollars`, `yes_ask_dollars`, `last_price_dollars`, `volume_24h_fp`, `open_interest_fp`, `status`, `result`, `close_time`, `rules_primary` | [demo markets response](https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&limit=1&series_ticker=KXAAAGASM) |
+| Demo `GET /exchange/status` reports four exchange indexes, all active | [demo exchange status](https://external-api.demo.kalshi.co/trade-api/v2/exchange/status) |
+
+**Two corrections to earlier notes in this repository.** (1) An earlier register read the docs as requiring
+`open`/`settled` and flagged `active`/`finalized` as contradictions; the lifecycle page lists `active` and
+`finalized` as the statuses, so the API was right. (2) `result` can be `scalar`, which a yes/no-only resolver
+must not coerce.
+
+**Not verified, and labelled as such in the product:** the fee schedule page did not load from this sandbox,
+so `FEE_VERIFIED` stays `False`; the Kalshi WebSocket was never connected (the desk uses SSE); no credential
+exists, so no demo-account balance or order was ever read or sent.
+
+## 3. Audit findings (published at `qa.html`)
+
+Every committed dataset, 67 published pages and 1 179 internal references were re-checked. **0 errors, 3 warnings, 9 notes.**
+
+| Severity | Finding | Detail |
+| - | - | - |
+| warn | 24h notional used an older price than the row prints | 15 of 300 rows; largest gap 2.2%; implied price is the previous mid, so the number is directionally right and exactly wrong |
+| warn | Published order-book ladder is a partial view | 8 rows: reported depth exceeds the sum of printed levels, so ladder totals and depth totals must not be presented as the same quantity |
+| warn | Capture provenance is the production root | `docs/desk/data/latest.json` was collected from `external-api.kalshi.com`, while the brief specifies demo; the live desk surfaces the capture's environment in `/api/meta` |
+| note | No resolved market in the capture | Resolution tables are empty rather than seeded; the live desk shows close-time countdowns and fills results only from Kalshi's own fields |
+| note | The Node generator's `--check` can never pass | It re-renders and compares, but the render embeds a fresh timestamp and relative text ("21m ago"), so every page reports stale within a minute. Verified against a clean checkout of `main`: identical output, so it is a check design issue, not stale data |
+| note | No demo account connected | `data/account.json` is `connected: false` with a documented reason; simulated results are not demo-account results |
+
+The page also checks prices against $0.00–$1.00, crossed books, duplicate tickers across topics, alert
+thresholds, resolution values against the documented set, official-host source links, and scans for
+committed credentials. It cannot confirm a price against Kalshi — that is stated on the page.
+
+## 4. How to use it
+
+```sh
+python3 live/server.py --port 8000            # auto: live if reachable, else labelled simulation
+python3 live/server.py --mode live            # poll the demo API
+python3 -m unittest discover -s live/tests
+python3 qa/audit.py --check                   # zero errors required
+python3 live/build_page.py --check            # live.html is current
+```
+
+The single honest caveat: on a machine without egress to Kalshi — including the sandbox that built this —
+the desk runs the **simulated** mode, which is labelled on every surface. Live mode is implemented, unit
+tested against scripted responses, and needs only network access, not a key.
