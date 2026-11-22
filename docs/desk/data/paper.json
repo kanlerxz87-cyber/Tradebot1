@@ -1,0 +1,39 @@
+{
+ "headline": {
+  "bankroll_start": 1000.0,
+  "cash": 763.85,
+  "equity": 996.76,
+  "realized_pnl": 0,
+  "unrealized_pnl": -3.24,
+  "total_pnl": -3.24,
+  "roi_pct": -0.32,
+  "open_positions": 12,
+  "fee_model": "quadratic_unverified",
+  "fee_verified": false
+ },
+ "summary": {
+  "trades": 0,
+  "wins": 0,
+  "losses": 0,
+  "flat": 0,
+  "win_rate_pct": 0.0,
+  "gross_win": 0,
+  "gross_loss": 0,
+  "profit_factor": null,
+  "expectancy": 0.0,
+  "avg_win": 0.0,
+  "avg_loss": 0.0,
+  "fees_paid": 0,
+  "avg_hold_hours": 0.0,
+  "max_drawdown": 1.71,
+  "max_drawdown_pct": 0.17,
+  "best_trade": null,
+  "worst_trade": null
+ },
+ "by_strategy": [],
+ "by_topic": [],
+ "by_side": [],
+ "by_price_band": [],
+ "by_hold_time": [],
+ "by_exit_reason": []
+}

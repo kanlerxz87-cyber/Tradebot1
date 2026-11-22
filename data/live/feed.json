@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "updatedAt": null,
+  "runId": null,
+  "threshold": 0.1,
+  "rule": "A swing alert is recorded when the observed mid-price of a tracked market differs from the previous observation of the same market by >= $0.10 in either direction.",
+  "ruleSource": "https://docs.kalshi.com/getting_started/orderbook_responses",
+  "scoreDisclosure": "The filtered feed is ranked by a 0-100 project heuristic (move size, crossable depth, spread, 24h volume, freshness). It is not a forecast, not return on investment, and not Kalshi data.",
+  "alerts": [
+    {
+      "id": "demo-example|2026-11-22T06:58:00Z",
+      "kind": "swing",
+      "isDemoExample": true,
+      "demoNote": "A worked example built from two fields of the SAME captured response, not from two observations over time: previous_price_dollars ($0.14) and the current mid ((0.14 + 1.00)/2 = $0.57). The arithmetic is real; the second point in time is not. It is shown once, labelled, so the feed layout can be checked. The collector replaces it with genuine two-observation swings.",
+      "marketTicker": "KXELONMARS-99",
+      "eventTicker": "KXELONMARS-99",
+      "title": "Will Elon Musk visit Mars before Aug 1, 2099?",
+      "topic": "crypto",
+      "direction": "up",
+      "from": 0.14,
+      "to": 0.57,
+      "delta": 0.43,
+      "absDelta": 0.43,
+      "observedAt": "2026-11-22T06:58:00Z",
+      "previousObservedAt": "2026-11-22T06:58:00Z",
+      "threshold": 0.1,
+      "crossDepthContracts": 2718.76,
+      "spread": null,
+      "volume24h": 6.15,
+      "score": null,
+      "scoreMissing": [
+        "spread"
+      ],
+      "eligibleForFilteredFeed": false,
+      "marketUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXELONMARS-99",
+      "orderbookUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXELONMARS-99/orderbook",
+      "settlementSources": [],
+      "note": "worked example, not a two-observation swing"
+    }
+  ],
+  "filteredIds": [],
+  "runs": [],
+  "observations": [],
+  "note": "One labelled worked example is present so the feed layout can be inspected. It is built from two fields of the same captured response (previous_price_dollars and the current mid), not from two observations over time, so it is flagged isDemoExample and excluded from the model-filtered feed. The scheduled collector appends genuine two-observation swings here."
+}

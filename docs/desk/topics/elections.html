@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elections — Kalshi Trader</title>
+<meta name="description" content="Kalshi market dashboard for gas prices, elections, culture, crypto and golf — verified against official Kalshi documentation.">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="../index.html">Dashboard</a><a href="../topics/gas-prices.html">Gas</a><a class="active" href="../topics/elections.html">Elections</a><a href="../topics/culture.html">Culture</a><a href="../topics/crypto.html">Crypto</a><a href="../topics/golf.html">Golf</a><a href="../portfolio.html">Portfolio</a><a href="../strategies.html">Strategies</a><a href="../api-reference.html">API</a><a href="../verification.html">Verification</a><a href="../flagged.html">Flagged</a><a href="../executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+  <h1 class="page-title">Elections</h1>
+  <p class="page-sub">Elections, nominations, leadership races, seat control and ballot measures — US and international.</p>
+
+  <div class="grid kpi">
+    <div class="card"><span class="label">Markets tracked</span><span class="value">60</span><span class="foot">top 60 kept by estimated notional</span></div>
+    <div class="card"><span class="label">Series scanned</span><span class="value">40</span><span class="foot">2,617 series in the catalogue for this topic</span></div>
+    <div class="card"><span class="label">Est. 24h notional</span><span class="value">$154,730</span><span class="foot">volume × price, derived</span></div>
+    <div class="card"><span class="label">Open interest</span><span class="value">156,501,053</span><span class="foot">contracts, exchange-reported</span></div>
+  </div>
+
+  <section class="section">
+    <h2>How this topic is defined</h2>
+    <p class="hint">Primary category <code>Elections</code> (subcategories are exposed as tags such as <code>US Elections</code>, <code>Senate</code>, <code>Governor</code>).</p>
+    <div class="card tight">
+      <div class="note-box">Elections contracts are mutually exclusive within a race, so only one strike of an event resolves YES. The dashboard shows per-market prices, which is what the book quotes.</div>
+      <p class="small" style="margin:10px 0 4px">Official sources for this definition:</p>
+      <ul class="clean"><li><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">Kalshi glossary — category and tag semantics</a></li><li><a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener">Get Tags for Series Categories — official tag map</a></li></ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Markets</h2>
+    <p class="hint">Snapshot 2026-11-22 07:21:40 UTC. Price is the YES midpoint of the best bid and ask.
+      “At best price” is the visible contract count resting at the top of the book; — means Kalshi did not report it.</p>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Market</th><th>Price</th><th>YES bid / ask</th><th>Spread</th><th class="num">24h vol</th>
+<th class="num">Open interest</th><th class="num">At best price</th><th class="num">Est. 24h $</th>
+<th>Closes</th><th>Source</th>
+</tr></thead>
+<tbody><tr>
+  <td><span class="title">Will the Democratic Party hold more than 52 seats in the 120th Congress?</span><div class="meta mono">KXDSENATESEATS-27-ABOVE52</div></td>
+  <td>100¢</td>
+  <td>100¢ / 100¢</td>
+  <td>0¢</td>
+  <td class="num">53,954</td>
+  <td class="num">2,252,518</td>
+  <td class="num">61,470</td>
+  <td class="num">$53,846</td>
+  <td class="meta">2027-02-01 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXDSENATESEATS-27-ABOVE52" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxdsenateseats" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Josh Shapiro be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-JS</div></td>
+  <td>5¢</td>
+  <td>5¢ / 5¢</td>
+  <td>0¢</td>
+  <td class="num">245,940</td>
+  <td class="num">4,705,082</td>
+  <td class="num">74,000</td>
+  <td class="num">$11,682</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-JS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Ron DeSantis be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-RDS</div></td>
+  <td>16¢</td>
+  <td>15¢ / 16¢</td>
+  <td>1¢</td>
+  <td class="num">52,791</td>
+  <td class="num">2,810,855</td>
+  <td class="num">439,666</td>
+  <td class="num">$8,183</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-RDS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the Republican party hold fewer than 45 Senate seats in the 120th Congress?</span><div class="meta mono">RSENATESEATS-27-B45</div></td>
+  <td>95¢</td>
+  <td>94¢ / 96¢</td>
+  <td>2¢</td>
+  <td class="num">8,453</td>
+  <td class="num">995,295</td>
+  <td class="num">430</td>
+  <td class="num">$8,031</td>
+  <td class="meta">2027-02-01 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/RSENATESEATS-27-B45" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/rsenateseats" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will J.D. Vance be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-JDV</div></td>
+  <td>30¢</td>
+  <td>30¢ / 31¢</td>
+  <td>1¢</td>
+  <td class="num">24,461</td>
+  <td class="num">3,525,781</td>
+  <td class="num">245,414</td>
+  <td class="num">$7,461</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-JDV" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Jon Ossoff be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-JOSS</div></td>
+  <td>24¢</td>
+  <td>23¢ / 24¢</td>
+  <td>1¢</td>
+  <td class="num">29,217</td>
+  <td class="num">6,118,192</td>
+  <td class="num">135,442</td>
+  <td class="num">$6,866</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-JOSS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Arizona be at least 10 percentage points?</span><div class="meta mono">KXMIDTERMMOV-AZGOVD-P10</div></td>
+  <td>88¢</td>
+  <td>76¢ / 100¢</td>
+  <td>24¢</td>
+  <td class="num">7,778</td>
+  <td class="num">10,927</td>
+  <td class="num">76</td>
+  <td class="num">$6,845</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-AZGOVD-P10" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Marco Rubio be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-MR</div></td>
+  <td>24¢</td>
+  <td>24¢ / 25¢</td>
+  <td>1¢</td>
+  <td class="num">27,678</td>
+  <td class="num">3,785,270</td>
+  <td class="num">95,876</td>
+  <td class="num">$6,781</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-MR" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gavin Newsom be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-GN</div></td>
+  <td>10¢</td>
+  <td>10¢ / 11¢</td>
+  <td>1¢</td>
+  <td class="num">49,615</td>
+  <td class="num">6,064,057</td>
+  <td class="num">51,918</td>
+  <td class="num">$5,210</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-GN" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-JOSS</div></td>
+  <td>18¢</td>
+  <td>17¢ / 18¢</td>
+  <td>1¢</td>
+  <td class="num">20,813</td>
+  <td class="num">3,657,205</td>
+  <td class="num">160,399</td>
+  <td class="num">$3,642</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-JOSS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Arizona be at least 9 percentage points?</span><div class="meta mono">KXMIDTERMMOV-AZGOVD-P9</div></td>
+  <td>88¢</td>
+  <td>76¢ / 100¢</td>
+  <td>24¢</td>
+  <td class="num">3,924</td>
+  <td class="num">9,795</td>
+  <td class="num">26</td>
+  <td class="num">$3,453</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-AZGOVD-P9" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Alexandria Ocasio-Cortez be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-AOC</div></td>
+  <td>14¢</td>
+  <td>14¢ / 15¢</td>
+  <td>1¢</td>
+  <td class="num">14,799</td>
+  <td class="num">5,768,517</td>
+  <td class="num">430,949</td>
+  <td class="num">$2,146</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-AOC" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Kamala Harris be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-KH</div></td>
+  <td>5¢</td>
+  <td>5¢ / 5¢</td>
+  <td>0¢</td>
+  <td class="num">42,223</td>
+  <td class="num">5,503,666</td>
+  <td class="num">154,616</td>
+  <td class="num">$2,090</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-KH" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Tucker Carlson be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-TCAR</div></td>
+  <td>3¢</td>
+  <td>3¢ / 3¢</td>
+  <td>0¢</td>
+  <td class="num">55,867</td>
+  <td class="num">3,382,784</td>
+  <td class="num">50,006</td>
+  <td class="num">$1,816</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-TCAR" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Raphael Warnock be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-RW</div></td>
+  <td>4¢</td>
+  <td>4¢ / 4¢</td>
+  <td>0¢</td>
+  <td class="num">43,938</td>
+  <td class="num">4,634,977</td>
+  <td class="num">36,386</td>
+  <td class="num">$1,692</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-RW" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-MRUB</div></td>
+  <td>9¢</td>
+  <td>9¢ / 9¢</td>
+  <td>0¢</td>
+  <td class="num">15,976</td>
+  <td class="num">3,042,949</td>
+  <td class="num">2,048</td>
+  <td class="num">$1,478</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-MRUB" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Kansas be at least 2.5 percentage points?</span><div class="meta mono">KXMIDTERMMOV-KSSEND-P2.5</div></td>
+  <td>99¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">1,487</td>
+  <td class="num">6,744</td>
+  <td class="num">751</td>
+  <td class="num">$1,476</td>
+  <td class="meta">2027-11-03 14:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-KSSEND-P2.5" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-RDES</div></td>
+  <td>6¢</td>
+  <td>6¢ / 6¢</td>
+  <td>0¢</td>
+  <td class="num">24,067</td>
+  <td class="num">3,129,720</td>
+  <td class="num">494</td>
+  <td class="num">$1,348</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-RDES" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will John McEntee be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-JMCE</div></td>
+  <td>3¢</td>
+  <td>2¢ / 3¢</td>
+  <td>0¢</td>
+  <td class="num">51,634</td>
+  <td class="num">1,964,060</td>
+  <td class="num">34,842</td>
+  <td class="num">$1,317</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-JMCE" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will J.B. Pritzker be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-JBP</div></td>
+  <td>3¢</td>
+  <td>2¢ / 3¢</td>
+  <td>0¢</td>
+  <td class="num">51,373</td>
+  <td class="num">5,179,375</td>
+  <td class="num">173,847</td>
+  <td class="num">$1,310</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-JBP" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Glenn Youngkin be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-GY</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">49,387</td>
+  <td class="num">1,864,033</td>
+  <td class="num">2,886</td>
+  <td class="num">$1,210</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-GY" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Pete Buttigieg be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-PB</div></td>
+  <td>5¢</td>
+  <td>5¢ / 5¢</td>
+  <td>0¢</td>
+  <td class="num">21,126</td>
+  <td class="num">5,250,884</td>
+  <td class="num">53,323</td>
+  <td class="num">$1,109</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-PB" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-GWHI</div></td>
+  <td>0¢</td>
+  <td>0¢ / 0¢</td>
+  <td>0¢</td>
+  <td class="num">303,990</td>
+  <td class="num">1,761,630</td>
+  <td class="num">29,675</td>
+  <td class="num">$1,064</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-GWHI" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Iowa be at least 4 percentage points?</span><div class="meta mono">KXMIDTERMMOV-IAGOVD-P4</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">900</td>
+  <td class="num">9,112</td>
+  <td class="num">147</td>
+  <td class="num">$897</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-IAGOVD-P4" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-JVAN</div></td>
+  <td>12¢</td>
+  <td>12¢ / 13¢</td>
+  <td>1¢</td>
+  <td class="num">7,130</td>
+  <td class="num">2,980,585</td>
+  <td class="num">180,201</td>
+  <td class="num">$891</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-JVAN" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Mississippi be at least 0.8 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MSSEND-P0.8</div></td>
+  <td>96¢</td>
+  <td>92¢ / 99¢</td>
+  <td>7¢</td>
+  <td class="num">787</td>
+  <td class="num">22,331</td>
+  <td class="num">10</td>
+  <td class="num">$753</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-MSSEND-P0.8" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Ohio be at least 7 percentage points?</span><div class="meta mono">KXMIDTERMMOV-OHGOVD-P7</div></td>
+  <td>99¢</td>
+  <td>97¢ / 100¢</td>
+  <td>2¢</td>
+  <td class="num">655</td>
+  <td class="num">12,202</td>
+  <td class="num">212</td>
+  <td class="num">$645</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-OHGOVD-P7" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Nikki Haley be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-NH</div></td>
+  <td>1¢</td>
+  <td>0¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">104,726</td>
+  <td class="num">2,101,799</td>
+  <td class="num">190,312</td>
+  <td class="num">$576</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-NH" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Wes Moore be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-WM</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">23,143</td>
+  <td class="num">4,372,323</td>
+  <td class="num">74,071</td>
+  <td class="num">$567</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-WM" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Stephen Miller be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-SMIL</div></td>
+  <td>1¢</td>
+  <td>1¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">40,474</td>
+  <td class="num">524,015</td>
+  <td class="num">23,036</td>
+  <td class="num">$567</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-SMIL" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gretchen Whitmer be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-GW</div></td>
+  <td>1¢</td>
+  <td>1¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">86,185</td>
+  <td class="num">3,973,756</td>
+  <td class="num">45,322</td>
+  <td class="num">$560</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-GW" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-GNEWS</div></td>
+  <td>7¢</td>
+  <td>7¢ / 7¢</td>
+  <td>0¢</td>
+  <td class="num">6,970</td>
+  <td class="num">2,957,204</td>
+  <td class="num">54,970</td>
+  <td class="num">$512</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-GNEWS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Rahm Emanuel be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-REMA</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">21,500</td>
+  <td class="num">5,272,822</td>
+  <td class="num">64,903</td>
+  <td class="num">$484</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-REMA" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Ro Khanna be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-RKHA</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">31,109</td>
+  <td class="num">4,684,218</td>
+  <td class="num">40,342</td>
+  <td class="num">$482</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-RKHA" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the Democratic party hold more than 56 Senate seats in the 121st Congress?</span><div class="meta mono">KXDSENATESEATS-29-A56</div></td>
+  <td>70¢</td>
+  <td>69¢ / 70¢</td>
+  <td>1¢</td>
+  <td class="num">676</td>
+  <td class="num">56,757</td>
+  <td class="num">7</td>
+  <td class="num">$470</td>
+  <td class="meta">2029-02-01 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXDSENATESEATS-29-A56" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxdsenateseats" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Cory Booker be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-CBOO</div></td>
+  <td>1¢</td>
+  <td>1¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">70,362</td>
+  <td class="num">3,495,828</td>
+  <td class="num">26,869</td>
+  <td class="num">$457</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-CBOO" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Maine be at least 5.9 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MESEND-P5.9</div></td>
+  <td>15¢</td>
+  <td>3¢ / 26¢</td>
+  <td>23¢</td>
+  <td class="num">2,809</td>
+  <td class="num">10,760</td>
+  <td class="num">14</td>
+  <td class="num">$409</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-MESEND-P5.9" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Abdul El-Sayed be the nominee for the Presidency for the Democratic party?</span><div class="meta mono">KXPRESNOMD-28-AELS</div></td>
+  <td>1¢</td>
+  <td>1¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">38,639</td>
+  <td class="num">5,568,715</td>
+  <td class="num">95,614</td>
+  <td class="num">$406</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-AELS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Michelle Obama be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-MO</div></td>
+  <td>1¢</td>
+  <td>0¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">73,265</td>
+  <td class="num">5,763,534</td>
+  <td class="num">69,860</td>
+  <td class="num">$403</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-MO" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Nevada be at least 2 percentage points?</span><div class="meta mono">KXMIDTERMMOV-NVGOVD-P2</div></td>
+  <td>99¢</td>
+  <td>98¢ / 100¢</td>
+  <td>2¢</td>
+  <td class="num">393</td>
+  <td class="num">2,300</td>
+  <td class="num">137</td>
+  <td class="num">$389</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-NVGOVD-P2" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-ITRU</div></td>
+  <td>0¢</td>
+  <td>0¢ / 0¢</td>
+  <td>0¢</td>
+  <td class="num">107,906</td>
+  <td class="num">750,772</td>
+  <td class="num">246,909</td>
+  <td class="num">$378</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-ITRU" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-TMAS</div></td>
+  <td>1¢</td>
+  <td>1¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">31,829</td>
+  <td class="num">2,258,035</td>
+  <td class="num">250,325</td>
+  <td class="num">$366</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-TMAS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Ohio be at least 5.1 percentage points?</span><div class="meta mono">KXMIDTERMMOV-OHSEND-P5.1</div></td>
+  <td>90¢</td>
+  <td>86¢ / 93¢</td>
+  <td>7¢</td>
+  <td class="num">392</td>
+  <td class="num">1,734</td>
+  <td class="num">55</td>
+  <td class="num">$352</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-OHSEND-P5.1" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Mark Kelly be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-MK</div></td>
+  <td>3¢</td>
+  <td>3¢ / 3¢</td>
+  <td>0¢</td>
+  <td class="num">11,690</td>
+  <td class="num">5,080,472</td>
+  <td class="num">42,883</td>
+  <td class="num">$333</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-MK" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-JTAL</div></td>
+  <td>1¢</td>
+  <td>1¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">27,085</td>
+  <td class="num">2,846,903</td>
+  <td class="num">9,476</td>
+  <td class="num">$311</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-JTAL" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Iowa be at least 5 percentage points?</span><div class="meta mono">KXMIDTERMMOV-IAGOVD-P5</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">300</td>
+  <td class="num">12,390</td>
+  <td class="num">646</td>
+  <td class="num">$299</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-IAGOVD-P5" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-PBUT</div></td>
+  <td>3¢</td>
+  <td>3¢ / 3¢</td>
+  <td>0¢</td>
+  <td class="num">9,777</td>
+  <td class="num">2,330,397</td>
+  <td class="num">204,670</td>
+  <td class="num">$288</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-PBUT" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Josh Hawley be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-JH</div></td>
+  <td>1¢</td>
+  <td>1¢ / 1¢</td>
+  <td>0¢</td>
+  <td class="num">40,523</td>
+  <td class="num">1,773,116</td>
+  <td class="num">164,727</td>
+  <td class="num">$284</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-JH" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Hakeem Jeffries be the nominee for the Presidency for the Democratic party?</span><div class="meta mono">KXPRESNOMD-28-HJEF</div></td>
+  <td>0¢</td>
+  <td>0¢ / 0¢</td>
+  <td>0¢</td>
+  <td class="num">179,069</td>
+  <td class="num">2,706,393</td>
+  <td class="num">268,938</td>
+  <td class="num">$269</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-HJEF" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will James Talarico be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-JTAL</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">15,552</td>
+  <td class="num">5,902,006</td>
+  <td class="num">49,320</td>
+  <td class="num">$257</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-JTAL" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Mississippi be at least 0.6 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MSSEND-P0.6</div></td>
+  <td>99¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">255</td>
+  <td class="num">20,002</td>
+  <td class="num">192</td>
+  <td class="num">$254</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-MSSEND-P0.6" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Maine be at least 3.5 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MESEND-P3.5</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">243</td>
+  <td class="num">12,207</td>
+  <td class="num">1,151</td>
+  <td class="num">$241</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-MESEND-P3.5" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Andy Beshear be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28-AB</div></td>
+  <td>4¢</td>
+  <td>4¢ / 4¢</td>
+  <td>0¢</td>
+  <td class="num">6,420</td>
+  <td class="num">5,027,830</td>
+  <td class="num">24,713</td>
+  <td class="num">$241</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-AB" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-JPRI</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">10,558</td>
+  <td class="num">2,504,366</td>
+  <td class="num">94,061</td>
+  <td class="num">$206</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-JPRI" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-ESLO</div></td>
+  <td>0¢</td>
+  <td>0¢ / 0¢</td>
+  <td>0¢</td>
+  <td class="num">58,581</td>
+  <td class="num">229,681</td>
+  <td class="num">20,139</td>
+  <td class="num">$205</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-ESLO" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Thomas Massie be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28-TMAS</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">10,656</td>
+  <td class="num">2,725,671</td>
+  <td class="num">73,489</td>
+  <td class="num">$197</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-TMAS" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Maine be at least 5.8 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MESEND-P5.8</div></td>
+  <td>27¢</td>
+  <td>7¢ / 48¢</td>
+  <td>41¢</td>
+  <td class="num">709</td>
+  <td class="num">18,219</td>
+  <td class="num">22</td>
+  <td class="num">$194</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-MESEND-P5.8" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-WMOO</div></td>
+  <td>2¢</td>
+  <td>2¢ / 2¢</td>
+  <td>0¢</td>
+  <td class="num">10,705</td>
+  <td class="num">2,017,063</td>
+  <td class="num">173,822</td>
+  <td class="num">$187</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-WMOO" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28-AOCA</div></td>
+  <td>9¢</td>
+  <td>9¢ / 9¢</td>
+  <td>0¢</td>
+  <td class="num">2,018</td>
+  <td class="num">3,045,178</td>
+  <td class="num">208,117</td>
+  <td class="num">$183</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXPRESPERSON-28-AOCA" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Maine be at least 5.7 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MESEND-P5.7</div></td>
+  <td>76¢</td>
+  <td>69¢ / 82¢</td>
+  <td>13¢</td>
+  <td class="num">219</td>
+  <td class="num">6,035</td>
+  <td class="num">31</td>
+  <td class="num">$165</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXMIDTERMMOV-MESEND-P5.7" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Highest-dollar events in this topic</h2>
+    <p class="hint">Ranked by estimated 24h traded notional across the events' open markets.</p>
+    <div class="table-wrap" style="max-height:380px"><table>
+<thead><tr><th>Event</th><th class="num">Markets</th><th class="num">Est. 24h $</th><th class="num">Open interest</th><th>Closes</th><th>Source</th></tr></thead>
+<tbody><tr>
+  <td><span class="title">Will the Democratic Party hold more than 52 seats in the 120th Congress?</span><div class="meta mono">KXDSENATESEATS-27</div></td>
+  <td class="num">1</td>
+  <td class="num">$53,846</td>
+  <td class="num">2,252,518</td>
+  <td class="meta">2027-02-01 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxdsenateseats" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Josh Shapiro be the Democratic Presidential nominee in 2028?</span><div class="meta mono">KXPRESNOMD-28</div></td>
+  <td class="num">19</td>
+  <td class="num">$36,563</td>
+  <td class="num">95,072,649</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxpresnomd" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Ron DeSantis be the nominee for the Presidency for the Republican party?</span><div class="meta mono">KXPRESNOMR-28</div></td>
+  <td class="num">10</td>
+  <td class="num">$28,390</td>
+  <td class="num">24,457,386</td>
+  <td class="meta">2028-11-07 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxpresnomr" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Who will win the next presidential election?</span><div class="meta mono">KXPRESPERSON-28</div></td>
+  <td class="num">14</td>
+  <td class="num">$11,060</td>
+  <td class="num">33,511,689</td>
+  <td class="meta">2029-11-07 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxpresperson" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Arizona be at least 10 percentage points?</span><div class="meta mono">KXMIDTERMMOV-AZGOVD</div></td>
+  <td class="num">2</td>
+  <td class="num">$10,298</td>
+  <td class="num">20,722</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the Republican party hold fewer than 45 Senate seats in the 120th Congress?</span><div class="meta mono">RSENATESEATS-27</div></td>
+  <td class="num">1</td>
+  <td class="num">$8,031</td>
+  <td class="num">995,295</td>
+  <td class="meta">2027-02-01 15:00</td>
+  <td><a href="https://kalshi.com/markets/rsenateseats" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Kansas be at least 2.5 percentage points?</span><div class="meta mono">KXMIDTERMMOV-KSSEND</div></td>
+  <td class="num">1</td>
+  <td class="num">$1,476</td>
+  <td class="num">6,744</td>
+  <td class="meta">2027-11-03 14:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Iowa be at least 4 percentage points?</span><div class="meta mono">KXMIDTERMMOV-IAGOVD</div></td>
+  <td class="num">2</td>
+  <td class="num">$1,196</td>
+  <td class="num">21,502</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Maine be at least 5.9 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MESEND</div></td>
+  <td class="num">4</td>
+  <td class="num">$1,009</td>
+  <td class="num">47,222</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Mississippi be at least 0.8 percentage points?</span><div class="meta mono">KXMIDTERMMOV-MSSEND</div></td>
+  <td class="num">2</td>
+  <td class="num">$1,006</td>
+  <td class="num">42,334</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Ohio be at least 7 percentage points?</span><div class="meta mono">KXMIDTERMMOV-OHGOVD</div></td>
+  <td class="num">1</td>
+  <td class="num">$645</td>
+  <td class="num">12,202</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the Democratic party hold more than 56 Senate seats in the 121st Congress?</span><div class="meta mono">KXDSENATESEATS-29</div></td>
+  <td class="num">1</td>
+  <td class="num">$470</td>
+  <td class="num">56,757</td>
+  <td class="meta">2029-02-01 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxdsenateseats" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the governor election in Nevada be at least 2 percentage points?</span><div class="meta mono">KXMIDTERMMOV-NVGOVD</div></td>
+  <td class="num">1</td>
+  <td class="num">$389</td>
+  <td class="num">2,300</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will the margin of victory for Democrats in the U.S. Senate election in Ohio be at least 5.1 percentage points?</span><div class="meta mono">KXMIDTERMMOV-OHSEND</div></td>
+  <td class="num">1</td>
+  <td class="num">$352</td>
+  <td class="num">1,734</td>
+  <td class="meta">2027-11-03 15:00</td>
+  <td><a href="https://kalshi.com/markets/kxmidtermmov" target="_blank" rel="noopener">Kalshi</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Resolved — YES or NO</h2>
+    <p class="hint">Markets tracked until they settled. The outcome is the exchange's own
+      <code>result</code> field; the link re-reads the market from the API so the value can be checked.</p>
+    <div class="table-wrap"><table><tbody><tr><td colspan="5"><div class="empty">No settled markets recorded yet — resolution tracking starts with the first collection cycle.</div></td></tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Series in this topic</h2>
+    <p class="hint">The official series objects this topic is built from, with their published categories and tags.</p>
+    <div class="table-wrap" style="max-height:420px"><table>
+<thead><tr><th>Series</th><th>Title</th><th>Official categories</th><th>Tags</th><th class="num">Lifetime contracts</th><th>Terms</th><th>Source</th></tr></thead>
+<tbody><tr>
+  <td class="ticker">PRES</td>
+  <td>Presidential elections</td>
+  <td class="meta">Elections</td>
+  <td class="meta">US Elections</td>
+  <td class="num">535,948,943</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/PRES.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/PRES" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXPRESNOMD</td>
+  <td>Democratic Primary winner</td>
+  <td class="meta">Elections</td>
+  <td class="meta">2028, Nomination race, US Elections</td>
+  <td class="num">308,042,838</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/PRESNOM.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPRESNOMD" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">CONTROLH</td>
+  <td>House winner</td>
+  <td class="meta">Elections</td>
+  <td class="meta">House control, House, US Elections</td>
+  <td class="num">210,386,782</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/CONTROL.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/CONTROLH" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">SENATETX</td>
+  <td>Texas Senate race</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Senate</td>
+  <td class="num">191,559,860</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/SENATETX" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXBALANCEPOWERCOMBO</td>
+  <td>Congress balance of power combo</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Senate, House, Mixed Combos, US Elections, Election Combos</td>
+  <td class="num">166,458,888</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/POLITICALECONOMICEVENTS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXBALANCEPOWERCOMBO" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXMAYORLA</td>
+  <td>Los Angeles Mayor winner?</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Mayors &amp; local, US Elections, Other US Elections</td>
+  <td class="num">146,345,803</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/USELECTION.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXMAYORLA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">POPVOTEMOV</td>
+  <td>Popular vote margin of victory</td>
+  <td class="meta">Elections</td>
+  <td class="meta">2028, Presidential winner</td>
+  <td class="num">135,488,902</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/POPVOTEMOV.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/POPVOTEMOV" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXMAYORNYCPARTY</td>
+  <td>Mayor of NYC party winner</td>
+  <td class="meta">Elections</td>
+  <td class="meta">—</td>
+  <td class="num">121,642,553</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/MAYORNYCPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXMAYORNYCPARTY" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">CONTROLS</td>
+  <td>Senate winner</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Senate races, Senate, US Elections</td>
+  <td class="num">117,436,571</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/CONTROL.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/CONTROLS" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXPRESPERSON</td>
+  <td>Pres person</td>
+  <td class="meta">Elections</td>
+  <td class="meta">2028, US Elections, Presidential winner</td>
+  <td class="num">108,877,904</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/PRESPERSON.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPRESPERSON" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">GOVPARTYTX</td>
+  <td>Texas Governor</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Governor</td>
+  <td class="num">105,870,459</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/GOVPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/GOVPARTYTX" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXPRESNOMR</td>
+  <td>Republican Primary winner</td>
+  <td class="meta">Elections</td>
+  <td class="meta">2028, Nomination race, US Elections</td>
+  <td class="num">103,930,228</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/PRESNOM.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXPRESNOMR" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">ECMOV</td>
+  <td>Electoral college margin of victory</td>
+  <td class="meta">Elections</td>
+  <td class="meta">2028, Presidential winner</td>
+  <td class="num">86,384,777</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/ECMOV.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/ECMOV" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">POPVOTEMOVSMALL</td>
+  <td>Popular vote margin of victory small</td>
+  <td class="meta">Elections</td>
+  <td class="meta">—</td>
+  <td class="num">84,757,997</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/POPVOTEMOV.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/POPVOTEMOVSMALL" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">SENATEMI</td>
+  <td>Michigan Senate race</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Senate</td>
+  <td class="num">82,337,217</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/SENATEMI" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">POPVOTE</td>
+  <td>Popular vote winner</td>
+  <td class="meta">Elections</td>
+  <td class="meta">US Elections</td>
+  <td class="num">81,933,515</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/POPVOTE.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/POPVOTE" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXGOVCA</td>
+  <td>California Governor&#x27;s race</td>
+  <td class="meta">Elections</td>
+  <td class="meta">US Elections, Governor</td>
+  <td class="num">78,855,368</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/GOV.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXGOVCA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXGOVFLNOMR</td>
+  <td>Florida Governor Republican nominee</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Primaries</td>
+  <td class="num">71,017,463</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/GOVPARTYNOM.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXGOVFLNOMR" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">SENATEAK</td>
+  <td>Alaska Senate race</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Senate races, Senate</td>
+  <td class="num">59,679,793</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/SENATEAK" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXHOUSERACE</td>
+  <td>House Race Winner?</td>
+  <td class="meta">Elections</td>
+  <td class="meta">House, US Elections, House races</td>
+  <td class="num">54,567,277</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/HOUSEPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXHOUSERACE" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXKHAMENEIOUT</td>
+  <td>Ali Khamenei out?</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Iran</td>
+  <td class="num">54,513,052</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/WLEADEROUT.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXKHAMENEIOUT" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXMIDTERMMOV</td>
+  <td>Midterm margin of victory</td>
+  <td class="meta">Elections</td>
+  <td class="meta">US Elections</td>
+  <td class="num">47,661,686</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/ELECTIONMOV.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXMIDTERMMOV" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">SENATEMS</td>
+  <td>Mississippi Senate race</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Senate</td>
+  <td class="num">45,021,973</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/SENATEMS" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">GOVPARTYFL</td>
+  <td>Florida Governor</td>
+  <td class="meta">Elections</td>
+  <td class="meta">Governor</td>
+  <td class="num">43,983,928</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/GOVPARTY.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/GOVPARTYFL" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">POPVOTEMOVSMALLER</td>
+  <td>Popular vote margin of victory small</td>
+  <td class="meta">Elections</td>
+  <td class="meta">—</td>
+  <td class="num">37,209,372</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/POPVOTEMOV.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/POPVOTEMOVSMALLER" target="_blank" rel="noopener">API</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <footer class="site">
+    <span>Data collected 2026-11-22 07:21:40 UTC.</span>
+    <span>·</span><a href="../verification.html">Sources &amp; verification</a>
+    <span>·</span><a href="../flagged.html">Flagged for review</a>
+    <span>·</span><a href="../requirements.html">Requirements</a>
+    <span>·</span><a href="../api-reference.html">API reference</a>
+    <span>·</span><span>Not investment advice. Demo/paper only.</span>
+  </footer>
+</main>
+</body>
+</html>
