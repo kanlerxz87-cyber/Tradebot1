@@ -2567,3 +2567,66 @@ The earlier `site/` prototype should be reviewed by its owning session if its si
 - Shared-test dependency handoff: `services/kalshi/tests` includes async tests requiring `pytest-asyncio`; main's root CI invokes `pytest -q` across the entire merged tree using `requirements-dev.txt`. Adding that test-only dependency prevents the newly integrated tests from being silently skipped or failing on clean runners. Current combined local verification: 167 root pytest tests, 50 Node tests, 29 live tests, 12 Chromium scenarios, nine primary pages plus each parallel site's link/source/generator checks pass. AUD-06 is reclassified fixed with executable series-metadata evidence; unresolved taxonomy completeness remains flagged.
 - Merge `71227a0` retained `origin/main` (`9d465bd`) as a second parent and resolved seven shared-file conflicts additively. The required pre-push `git pull --rebase` again attempted to replay 78 commits from the already-merged parallel histories and produced add/add conflicts. Aborted immediately without discarding the verified merge. Confirmed both current session remote head and `origin/main` are ancestors of HEAD; pushing the existing additive merge rather than flattening/replaying other sessions' work.
 - While PR #40 checks queued, `main` advanced again from `9d465bd` to `6ac720e` (PRs #39/#29/#41). GitHub again reports conflicts. Integrating this new main tip additively on the assigned branch; preserve newer parallel audit/board work and rerun checks. No merge of PR #40 until the resulting tree and CI are clean.
+
+- A local `git add -A` swept **1,587 `node_modules` files** into a commit, because `main`'s
+  `.gitignore` rewrite had dropped its `node_modules/` entry. Removed from history by an autosquash
+  rebase, the ignore entry restored, and the loss noted in `.gitignore` itself.
+- The staleness gate added here (`scripts/build-site.mjs --check`) still failed **in CI only**: the
+  executive summary prints `GITHUB_SHA` as a build badge, so the gate compared a commit id against
+  the string `local`. Fixed by normalising the badge, reproduced with `GITHUB_SHA=abc1234`, and the
+  finding (AUD-08) now records both halves. CI annotations were used to read the failure, because
+  the Actions log archive host is not reachable from this sandbox.
+
+---
+
+# Session `arena/568a5271-tradebot1` — audit-and-fix pass (no new site)
+
+**Branch:** `arena/568a5271-tradebot1`, based on `c8c1d28`, merged with `main` repeatedly as other
+sessions landed PRs #11–#26. **Claimed scope:** `kalshi_trader/{collector,cli}.py`,
+`tools/{collector,kalshi}.mjs`, `scripts/build-site.mjs`, `templates/dashboard.tpl`,
+`assets/footer-age.js`, `docs/desk/data/flags.json`, `tests/`, `verification/2026-11-22-568a5271.md`,
+this section, and the generated pages that follow from those sources. **No landing page, navigation or
+new site.**
+
+| Task | Status | Files | Verification |
+| - | - | - | - |
+| Row-by-row audit of the published snapshot (300 markets, every alert) | done — 27 self-contradictions | `docs/desk/data/latest.json` (read only) | `cli verify` now performs these checks every run |
+| D1 Baked relative age in every footer, and a build gate that was really a clock | done | `scripts/build-site.mjs`, `assets/footer-age.js`, `tests/site-determinism.test.mjs` | footer has no relative text; `--check` deterministic |
+| D2 Collector wrote back only `price` from the mid-cycle sample | done | `kalshi_trader/collector.py`, `tests/test_collector.py` | regression test replays a 14¢ two-sample cycle |
+| D4 Board notice hardcoded "no observation cycles" | done | `templates/dashboard.tpl`, `scripts/build-site.mjs` | sentence generated from `data/live/feed.json` |
+| D5 25 series refused with HTTP 429, no pacing or retry | done — flag F-18 | `tools/kalshi.mjs`, `tools/collector.mjs`, `tests/kalshi.test.mjs` | 4 tests; pacing stats recorded per run |
+| D6 Build id from `$GITHUB_SHA`, so `--check` could never pass in CI | done | `scripts/build-site.mjs`, `templates/executive-summary.tpl`, `.github/workflows/ci.yml` | green CI [44998989010](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998989010) |
+| F15, F16 (desk) and F-18 (board) flagged for review | done — 16 / 18 flags, 0 blocking | `docs/desk/data/flags.json`, `data/flags.json` | both generators' checks current |
+| Verification record | done | `verification/2026-11-22-568a5271.md` | every command and its output |
+
+**Duplicate work, withdrawn, twice.** This session added labelled news-search links to alerts; session
+`fb837d29` (PR #23) landed the better version (`kalshi_trader/catalysts.py`) while it was in flight, so
+this session's was removed and desk flag F16 now documents theirs. Separately, session `daf65d06`
+(PR #15, AUD-08) made the build gate clock-independent by **normalising** `\d+[smhd] ago` and the build
+id out of the comparison, while this session removed the **cause** (no relative text is generated, the
+id is a hash of the data). Both are kept: theirs masks a symptom, this branch's test fails if the
+symptom ever returns, so the gate is strict in one place and lenient in another rather than silently
+lenient everywhere.
+
+**Known false positive in `qa/audit.py` (session `35fb0d1f`), not edited here.** `GENCHECK-1` fires
+when `scripts/build-site.mjs` contains both `data-generated` and `ago`. It now fires on that session's
+own `normalise()` line (`.replace(/\b\d+[smhd] ago\b/g, 'AGO')`) and on comments describing the old
+bug, not on any generated page. Suggested change, logged for the owner: run
+`node scripts/build-site.mjs --check` and report its exit code instead of matching source text.
+`qa/report.json` was regenerated with their tool, unmodified, after this branch's fixes.
+
+**Merge notes:** main moved more than a dozen times in this session. Generated pages and static tables
+were regenerated from the merged data every time rather than merged line by line, and this section is
+re-appended after each merge. The merge also removes the `.venv/` tree (2,152 files, from `3a85f08`)
+and 1,762 tracked `__pycache__/*.pyc` files. No session's work was discarded.
+
+**Egress:** `docs.kalshi.com`, `external-api.kalshi.com`, `api.kalshi.com`, `demo-api.kalshi.co` all
+return `000` here (`github.com` returns `200`), so **no new Kalshi fact is asserted**; facts used are
+those already dated in `docs/desk/data/sources.json`. The runner log host is also unreachable, which is
+why CI failures are now re-emitted as annotations readable through `api.github.com`.
+
+**Known limitation, not fixed here:** both collectors' commit steps run `git pull --rebase origin main`,
+so a manual dispatch against a feature branch fails at the commit step even when collection succeeded
+(runs 44998698330, 44998706948). On `main` the two branches are the same, so scheduled loops are
+unaffected; changing it was outside this pass's scope.
+

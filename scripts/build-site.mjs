@@ -19,6 +19,7 @@
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { existsSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 
 const ROOT = path.resolve(new URL('..', import.meta.url).pathname);
 const TEMPLATES = path.join(ROOT, 'templates');
@@ -62,6 +63,27 @@ const PAGES = [
 
 const CATEGORY_FILES = TOPICS.map((t) => ({ file: t.href, title: t.label, nav: t.label, topic: t.id }));
 
+/**
+ * A short, environment-independent identifier for the data this build renders.
+ * Changes when the data changes, and never when the machine or the commit changes.
+ *
+ * This replaced — and is why the audit register (audit/items.json, AUD-08) can still point at —
+ * the old line `buildId: process.env.GITHUB_SHA?.slice(0, 7) ?? 'local'`, which made the
+ * "committed HTML matches the data" gate fail in CI and pass locally. The string is quoted
+ * here as evidence of the origin; it is not executed.
+ */
+function dataBuildId({ snapshot, liveState, liveFeed, sources }) {
+  const parts = [
+    snapshot?.meta?.capturedAt ?? null,
+    liveState?.updatedAt ?? null,
+    liveFeed?.updatedAt ?? null,
+    liveFeed?.alerts?.[0]?.id ?? null,
+    sources?.meta?.checkedAt ?? sources?.meta?.generatedAt ?? null,
+    (snapshot?.markets ?? []).length,
+  ];
+  return createHash('sha1').update(JSON.stringify(parts)).digest('hex').slice(0, 7);
+}
+
 async function main() {
   const [snapshot, sources, flagged, liveState, liveFeed, portfolio, account] = await Promise.all([
     readJson('data/snapshot.json', {}),
@@ -76,7 +98,11 @@ async function main() {
   const ctx = {
     generatedAt: new Date().toISOString(),
     snapshot, sources, flagged, liveState, liveFeed, portfolio, account,
-    buildId: process.env.GITHUB_SHA?.slice(0, 7) ?? 'local',
+    // The build id is derived from the DATA, never from the environment. It used to be
+    // $GITHUB_SHA, which meant a page generated in one CI run could never match the same
+    // data rendered in another (different SHA) — so `--check` was guaranteed to fail in CI
+    // and pass locally. A hash of the data timestamps is identical everywhere the data is.
+    buildId: dataBuildId({ snapshot, liveState, liveFeed, sources }),
   };
 
   const written = [];
@@ -160,7 +186,8 @@ function renderLayout(body, page, ctx) {
     .replaceAll('{{BUILD_ID}}', esc(ctx.buildId))
     .replaceAll('{{GENERATED_AT}}', esc(ctx.generatedAt))
     .replaceAll('{{NEWEST_OBS}}', esc(newest ?? DASH))
-    .replaceAll('{{NEWEST_OBS_REL}}', esc(newest ? relative(newest) : DASH));
+    .replaceAll('{{NEWEST_OBS_REL}}', esc(newest ?? DASH))
+    .replaceAll('{{FEED_STATE}}', esc(feedState(ctx)))
 
   const topicLinks = TOPICS.map((t) => `<a href="${prefix}${t.href}">${esc(t.label)}</a>`).join(' · ');
 
@@ -201,10 +228,11 @@ ${rendered}
     <div>
       <div><strong class="muted">Review</strong></div>
       <a href="${prefix}flagged.html">Flagged for review</a> · <a href="${prefix}sources.html">Sources</a> · <a href="${prefix}methodology.html">Method</a>
-      <div class="src" style="margin-top:8px">Newest observation: ${esc(newest ? `${stamp(newest)} (${relative(newest)})` : DASH)}</div>
+      <div class="src" style="margin-top:8px">Newest observation: ${newest ? `<time datetime="${esc(newest)}" data-obs-iso="${esc(newest)}">${esc(stamp(newest))}</time> <span data-obs-rel class="dim"></span>` : DASH}</div>
     </div>
   </div>
 </footer>
+<script defer src="${prefix}assets/footer-age.js"></script>
 </body>
 </html>`;
 }
@@ -218,19 +246,30 @@ function navLinks(page) {
   }).join('');
 }
 
+/**
+ * What the committed record contains, in one sentence, written from the data itself.
+ * The page cannot claim "no cycles yet" after a cycle has run, or "nothing yet" when
+ * the record already holds swings.
+ */
+function feedState(ctx) {
+  const alerts = ctx.liveFeed?.alerts ?? [];
+  const runs = ctx.liveFeed?.runs ?? [];
+  const tracked = Object.keys(ctx.liveState?.tracked ?? {}).length;
+  const newest = runs.map((r) => r.at).filter(Boolean).sort().pop() ?? null;
+  if (alerts.length) {
+    return `${alerts.length} swing${alerts.length === 1 ? '' : 's'} of at least $0.10 recorded, the newest at ${stamp(alerts[0].observedAt)} (${tracked} markets tracked). Every row carries the two observation times it compares.`;
+  }
+  if (runs.length) {
+    return `The collector has run ${runs.length} time${runs.length === 1 ? '' : 's'} (latest ${stamp(newest)}) and is tracking ${tracked} markets, but no market has yet been observed at two different times $0.10 or more apart. That is a quiet result, not a missing one: both feeds stay empty rather than showing a stand-in row.`;
+  }
+  return 'The committed record has no observation cycles in it yet, so both feeds are empty rather than showing a stand-in row. The scheduled collector appends real swings here, each with its own observation time.';
+}
+
 function newestObservation(ctx) {
   const fromFeed = (ctx.liveFeed?.alerts ?? [])[0]?.observedAt;
   const tracked = Object.values(ctx.liveState?.tracked ?? {}).map((t) => t?.observedAt).filter(Boolean).sort().pop();
   const snap = ctx.snapshot?.meta?.capturedAt;
   return [fromFeed, tracked, snap].filter(Boolean).sort().pop() ?? null;
-}
-
-function relative(iso) {
-  const s = Math.max(0, Math.round((Date.now() - new Date(iso).getTime()) / 1000));
-  if (s < 90) return `${s}s ago`;
-  if (s < 5400) return `${Math.round(s / 60)}m ago`;
-  if (s < 172800) return `${Math.round(s / 3600)}h ago`;
-  return `${Math.round(s / 86400)}d ago`;
 }
 
 /**
