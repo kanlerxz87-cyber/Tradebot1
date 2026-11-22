@@ -1,9 +1,12 @@
 # Tradebot1 — Kalshi demo-environment research
 
 [Start here](https://kanlerxz87-cyber.github.io/Tradebot1/) (landing: live status, topics, evidence) ·
+[Independent audit](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/) ·
 [Research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
 [Repository review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/repo-review.html) ·
 [Integration audit](https://kanlerxz87-cyber.github.io/Tradebot1/audit.html) ·
+[Fee audit](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) ·
+[Engine view](https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/) ·
 [Executive summary](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/executive-summary.html) ·
 [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) ·
 [Market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/) ·
@@ -19,6 +22,8 @@ same brief; both are kept, because they make different trade-offs and each is us
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
 | `board.html`, `dashboard.html` | Node-only trade board and its live page, with their own collector, source register and 17 flags | public demo REST, collected server-side every 30 min |
 | `audit.html` | **Integration audit** — checks re-run, five defects found and fixed (with regression tests), requirement coverage, open irregularities | reads the committed snapshot |
+| `docs/engine/` | **Engine view** — the Python engine's own site: 39-entry verification register, five topic tables, both alert feeds, six-strategy fee-exact simulator | captured API responses (replay) + a live engine |
+| `docs/audit/fee-audit.html` | **Fee audit** — all 21 rows of Kalshi's published general fee table recomputed with `kalshi_trader/fees.py`, plus the per-series multiplier limits | the schedule PDF + the committed ledger |
 
 > The landing page is the single entry point: it shows the latest published cycle, per-topic counts and
 > the newest swing, all read from `docs/desk/data/*.json`. It prints “—” rather than estimating a value the
@@ -27,9 +32,15 @@ same brief; both are kept, because they make different trade-offs and each is us
 Neither frontend touches a real demo account, and no production order path exists anywhere in the
 repository.
 
+**Fee model status:** verified. `kalshi_trader/fees.py` reproduces all 42 values of Kalshi's published
+General Trading Fees Table (<https://kalshi.com/docs/kalshi-fee-schedule.pdf>, effective 2026-07-07), so
+ledgers are labelled `quadratic_verified`. Per-series multipliers, maker fills and the rebate accumulator
+are still not modelled — flags F15 and the audit page record that.
+
 ## Research desk (`docs/desk/`)
 
-The autonomous half of the repository: a Python package and a 30-minute GitHub Actions loop.
+The autonomous half of the repository: a Python package and a 30-minute GitHub Actions loop
+(`.github/workflows/collect.yml`).
 
 * **Topics** — gas prices, elections, culture, crypto, golf, using Kalshi's own category/tag fields
   (gas → `KXAAAGASM` + Economics/Commodities; elections → `Elections`; culture → `Entertainment`
@@ -79,6 +90,35 @@ their official sources, the tests that pin them, and what stays open),
 [`docs/desk/flagged.html`](docs/desk/flagged.html),
 [`docs/desk/requirements.html`](docs/desk/requirements.html),
 [`docs/desk/strategies.html`](docs/desk/strategies.html).
+
+## Independent audit (`docs/audit/`, session `73552f24`)
+
+A line-by-line audit of every factual claim the four implementations make, checked against
+`docs.kalshi.com` and the fee-schedule PDF on 2026-11-22. 23 official statements are stored with the
+verbatim excerpt they rest on; 13 findings each name a file and a line.
+
+```sh
+python3 audit/verify.py        # re-runs every finding's check, rewrites the data file
+python3 audit/build_site.py    # regenerates docs/audit/
+python3 audit/check_site.py    # a source link on every row, no broken links, pages current
+```
+
+`verify.py` executes the JavaScript with node and the Python with the repository's own modules. A
+finding marked *fixed* must pass its check and a finding marked *open* must still reproduce, so the
+published verdicts cannot drift from the code. Five defects were corrected with regression tests:
+
+| Finding | What was wrong | Fix |
+| - | - | - |
+| AUD-01 | The board's midpoint was built from an empty side: a 14c bid against the 1.0000 sentinel read as 57c, so the ≥ $0.10 feed could fire on quote mechanics | `tools/alerts.mjs` rejects a pair when either side is empty |
+| AUD-02 | The same phantom midpoint in the desk's normaliser, feeding its alerts, ROI screen and paper book | `kalshi_trader/marketdata.py` treats 1.0000 with no NO bid as no offer |
+| AUD-03 | The settled sweep sent `status=settled` with `min_close_ts`, which Get Markets documents as incompatible; the committed run records ten HTTP 400s and zero resolutions | `kalshi_trader/collector.py` uses `min_settled_ts` |
+| AUD-05 | "One fee-table row is unreproducible" was a four-column table read as three; the $0.01 row's fee for 100 is $0.07 and all 21 rows reproduce | `tools/fees.mjs`, `tests/fees.test.mjs`, flag F-02 rewritten |
+| AUD-08 | `build-site.mjs --check` compared wall-clock text, so it reported all 19 pages stale on every checkout | the gate ignores relative ages again |
+
+Seven items remain open and are published on `docs/audit/flagged.html` with their deciding source,
+including the cents-versus-centicent fee rounding (AUD-04) and the deprecated `event.category` read in
+the browser monitor (AUD-06). Nothing about a credentialed demo account, an executed order, a live
+WebSocket session or browser CORS is claimed anywhere: none of those could be observed here.
 
 ## Trade board (`board.html`, session `9bea7e55`)
 
@@ -146,16 +186,26 @@ demo account, and the board keeps its own separate data under `data/`. Verificat
 ## Verification and local preview
 
 ```sh
-node --test tests/*.test.mjs
+python3 -m pytest -q                      # desk + engine unit tests (144)
+node --test tests/*.test.mjs              # board unit tests (36)
+node scripts/check-data.mjs               # board data contract
+node scripts/build-site.mjs --check       # board pages match templates + data
+node scripts/check-links.mjs              # board internal links (19 pages)
+node scripts/check-render.mjs             # every rendered row keeps its source link
+python3 tools/build_site.py --check       # desk pages are current
+python3 tools/check_links.py              # desk links + anchors
+python3 tools/check_gateway.py            # landing-page links resolve and are published
+python3 -m engine.check_site --root docs/engine
+python3 docs/audit/build.py --check       # fee table recomputation, row by row
 python3 tests/check_site.py
 python3 python/test_simulator.py
-node --check docs/assets/app.mjs
-node --check site/assets/app.js
+python3 -m kalshi_trader.cli verify       # published data integrity
 python3 -m http.server 8000 --bind 0.0.0.0
 ```
 
-Open `http://localhost:8000/` for the gateway, `/docs/desk/` for the research desk or `/docs/` for the
-monitor. No npm dependencies.
+Open `http://localhost:8000/` for the landing page, `/docs/desk/` for the research desk, `/board.html`
+for the trade board, `/docs/engine/` for the engine view or `/docs/` for the monitor. `npm install` is
+only needed for the board's jsdom render check.
 
 ## Official sources checked 2026-11-22
 

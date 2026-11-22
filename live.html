@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live desk — Tradebot1</title>
+<meta name="description" content="The live Kalshi desk: a dependency-free server and interactive dashboard for five topics, $0.10 swing alerts, price and liquidity charts, a simulated book and resolution tracking. Routes, modes, and the verification log.">
+<link rel="stylesheet" href="docs/desk/assets/css/site.css">
+<style>
+  .live-wrap { max-width: 1180px; margin: 0 auto; padding: 34px 20px 70px; }
+  .live-wrap h1 { font-size: 28px; letter-spacing: -.02em; margin: 8px 0 8px; }
+  .live-wrap h2 { font-size: 17px; margin: 30px 0 8px; }
+  .live-wrap h3 { font-size: 13.5px; margin: 18px 0 6px; }
+  .lede { color: var(--text-dim); max-width: 84ch; line-height: 1.65; }
+  .wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  th, td { text-align: left; padding: 7px 9px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  th { font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--text-dim); }
+  td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  code { font-family: var(--mono); font-size: 11px; color: var(--accent); }
+  .dim { color: var(--text-dim); }
+  .empty { color: var(--text-dim); }
+  .pill { font-size: 10px; text-transform: uppercase; letter-spacing: .06em; padding: 2px 7px; border-radius: 999px; border: 1px solid currentColor; }
+  .pill.shipped { color: var(--up); } .pill.flagged { color: var(--warn); }
+  .note { border-left: 2px solid var(--warn); padding: 8px 12px; background: rgba(255,196,107,.07); font-size: 12px; color: var(--text-dim); margin: 12px 0; }
+  pre { background: rgba(255,255,255,.04); padding: 12px; border-radius: 8px; overflow-x: auto; font-size: 12px; }
+  .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .card { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: var(--panel); }
+  .card h3 { margin-top: 0; }
+  .card p { font-size: 12.5px; color: var(--text-dim); line-height: 1.6; }
+</style>
+</head>
+<body>
+<main class="live-wrap">
+  <p class="dim"><a href="index.html">← All dashboards</a> · <a href="qa.html">Audit</a> · Kalshi research, not advice</p>
+  <h1>Live desk: one process, five topics, two alert chats</h1>
+  <p class="lede">A dependency-free Python server (<code>live/</code>) plus a single-page dashboard. It tracks
+  gas prices, elections, culture, crypto and golf; alerts on every move of
+  <b>10¢ ($0.10) or more</b>
+  in either direction; charts price against time with selectable windows; shows resting contracts at each
+  price; runs four automatic strategies in a simulated book; and keeps each market until Kalshi finalises it.
+  This page is the published record of what it does and what has been verified — the process itself runs on
+  a machine with network access to Kalshi, which GitHub Pages does not provide.</p>
+
+  <div class="note"><b>Two data modes, always labelled.</b> <code>--mode live</code> polls the official demo
+  REST API and shows only quotes that came from a response. <code>--mode simulated</code> (the default when
+  there is no egress) replays a seeded random walk anchored to the committed capture so the mechanics can be
+  inspected offline. Every surface names which one is running, and the simulation's alerts are never
+  presented as Kalshi events.</div>
+
+  <h2>Run it</h2>
+<pre>python3 live/server.py --port 8000                 # auto: try live, fall back to labelled simulation
+python3 live/server.py --mode live --interval 1    # poll the demo REST root
+python3 -m unittest discover -s live/tests         # 29 tests, no network needed
+python3 live/build_page.py --check                 # this page is current</pre>
+
+  <h2>Surface</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>Route</th><th>Returns</th></tr></thead>
+    <tbody><tr><td><code>GET /api/meta</code></td><td>mode, disclosure, threshold, strategies, fees, endpoints, sources</td></tr><tr><td><code>GET /api/state</code></td><td>topics → events → markets, alerts, portfolio, resolution watch</td></tr><tr><td><code>GET /api/series?ticker=&amp;seconds=</code></td><td>price history for the chart window (30s–4h)</td></tr><tr><td><code>GET /api/book?ticker=</code></td><td>YES bid/ask ladder with resting contracts at each price</td></tr><tr><td><code>GET /api/stream</code></td><td>Server-Sent Events: one tick message per second</td></tr><tr><td><code>GET /api/health</code></td><td>liveness</td></tr></tbody>
+  </table></div>
+  <p class="dim" style="font-size:12px">REST root <code>https://external-api.demo.kalshi.co/trade-api/v2</code> · WebSocket endpoint
+  <code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code> (documented, not connected by this process). SSE is used for push because the
+  standard library cannot speak WebSocket and adding a dependency would break the "runs anywhere" property.</p>
+
+  <h2>Requirements → implementation</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>Requirement</th><th>How this build meets it</th><th>Status</th></tr></thead>
+    <tbody><tr><td>Highest-dollar live events, five topics only</td><td>Topic tabs for gas, elections, culture, crypto and golf; events grouped inside each topic and ranked by estimated 24h notional</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>Alert on swings ≥ $0.10 either direction</td><td>Server-side detector, inclusive and symmetric, on the mid of a two-sided book with a last-trade fallback</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>Two scrolling chats (all moves, model-filtered)</td><td>Two feeds; the filtered one uses a published six-part screen, not a forecast</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>Price chart: time on x, contract price on y, choose seconds/minutes/hours</td><td>Canvas chart with 30s, 1m, 5m, 15m, 1h and 4h windows</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>Liquidity: contracts available at a given price</td><td>Order-book ladder with a bar per level, plus contracts within 5¢ of the best bid</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>Track events until resolved; show YES/NO</td><td>Resolution watch by close time; resolved table filled only from Kalshi&#x27;s own status/result</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>Automate simulated trades and analyse by trade type</td><td>Four rules, per-strategy / topic / price-band / exit-reason analytics, reconciled book</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>Track portfolio performance on the Kalshi demo account</td><td>Not connected: no API key exists. The simulated book is clearly labelled and is not the demo account</td><td><span class='pill flagged'>flagged</span></td></tr><tr><td>Live charts with links to what may have caused a jump</td><td>Every alert links to the contract, its Kalshi page and a news search, and states that no cause is asserted</td><td><span class='pill shipped'>shipped</span></td></tr><tr><td>No manual input</td><td>The desk ticks, alerts, trades and settles on its own; the only interaction is choosing what to chart</td><td><span class='pill shipped'>shipped</span></td></tr></tbody>
+  </table></div>
+
+  <h2>The snapshot the dashboard starts from</h2>
+  <p class="dim" style="font-size:12px">Captured 2026-11-22T07:21:40Z from
+  <code>https://external-api.kalshi.com/trade-api/v2</code> — the research desk's
+  capture, recorded in <code>docs/desk/data/latest.json</code>.
+  Rows are the top six per topic by estimated 24h notional — a derived figure (price × 24h contracts), not
+  exchange-reported turnover. Every row links to the API URL and the public market page it came from.</p>
+  
+      <h3>Gas prices <span class="dim">· 60 markets in the capture</span></h3>
+      <div class="wrap"><table>
+        <thead><tr><th>Contract</th><th class="num">YES bid</th><th class="num">YES ask</th><th class="num">Mid</th>
+        <th class="num">24h contracts</th><th class="num">Est. 24h $</th><th class="num">At best</th><th>Source</th></tr></thead>
+        <tbody><tr><td>Will average gas prices be above $3.6300?<br><code>KXAAAGASW-26NOV23-3.6300</code></td><td class='num'>98.0¢</td><td class='num'>99.0¢</td><td class='num'>98.5¢</td><td class='num'>214,724</td><td class='num'>$211,503</td><td class='num'>18,742</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6300' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxaaagasw' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will average gas prices be above $3.6250?<br><code>KXAAAGASW-26NOV23-3.6250</code></td><td class='num'>98.0¢</td><td class='num'>100.0¢</td><td class='num'>99.0¢</td><td class='num'>41,298</td><td class='num'>$40,885</td><td class='num'>29,244</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6250' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxaaagasw' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will average gas prices be above $3.6350?<br><code>KXAAAGASW-26NOV23-3.6350</code></td><td class='num'>27.0¢</td><td class='num'>31.0¢</td><td class='num'>29.0¢</td><td class='num'>89,766</td><td class='num'>$26,032</td><td class='num'>74</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6350' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxaaagasw' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will average gas prices be above $3.6200?<br><code>KXAAAGASW-26NOV23-3.6200</code></td><td class='num'>99.0¢</td><td class='num'>100.0¢</td><td class='num'>99.5¢</td><td class='num'>7,409</td><td class='num'>$7,372</td><td class='num'>3,739</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6200' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxaaagasw' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will average gas prices be above $3.45?<br><code>KXAAAGASM-26NOV30-3.45</code></td><td class='num'>96.0¢</td><td class='num'>97.0¢</td><td class='num'>96.5¢</td><td class='num'>7,020</td><td class='num'>$6,774</td><td class='num'>7,005</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.45' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxaaagasm' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will average gas prices be above $3.50?<br><code>KXAAAGASM-26NOV30-3.50</code></td><td class='num'>45.0¢</td><td class='num'>47.0¢</td><td class='num'>46.0¢</td><td class='num'>6,114</td><td class='num'>$2,813</td><td class='num'>5,434</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.50' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxaaagasm' rel='noopener noreferrer'>page ↗</a></td></tr></tbody>
+      </table></div>
+      <h3>Elections <span class="dim">· 60 markets in the capture</span></h3>
+      <div class="wrap"><table>
+        <thead><tr><th>Contract</th><th class="num">YES bid</th><th class="num">YES ask</th><th class="num">Mid</th>
+        <th class="num">24h contracts</th><th class="num">Est. 24h $</th><th class="num">At best</th><th>Source</th></tr></thead>
+        <tbody><tr><td>Will the Democratic Party hold more than 52 seats in the 120th Congress?<br><code>KXDSENATESEATS-27-ABOVE52</code></td><td class='num'>99.7¢</td><td class='num'>99.9¢</td><td class='num'>99.8¢</td><td class='num'>53,954</td><td class='num'>$53,846</td><td class='num'>61,470</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXDSENATESEATS-27-ABOVE52' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxdsenateseats' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Josh Shapiro be the Democratic Presidential nominee in 2028?<br><code>KXPRESNOMD-28-JS</code></td><td class='num'>4.7¢</td><td class='num'>4.8¢</td><td class='num'>4.8¢</td><td class='num'>245,940</td><td class='num'>$11,682</td><td class='num'>74,000</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-JS' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpresnomd' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Ron DeSantis be the nominee for the Presidency for the Republican party?<br><code>KXPRESNOMR-28-RDS</code></td><td class='num'>15.0¢</td><td class='num'>16.0¢</td><td class='num'>15.5¢</td><td class='num'>52,791</td><td class='num'>$8,183</td><td class='num'>439,666</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-RDS' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpresnomr' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will the Republican party hold fewer than 45 Senate seats in the 120th Congress?<br><code>RSENATESEATS-27-B45</code></td><td class='num'>94.0¢</td><td class='num'>96.0¢</td><td class='num'>95.0¢</td><td class='num'>8,453</td><td class='num'>$8,031</td><td class='num'>430</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/RSENATESEATS-27-B45' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/rsenateseats' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will J.D. Vance be the nominee for the Presidency for the Republican party?<br><code>KXPRESNOMR-28-JDV</code></td><td class='num'>30.0¢</td><td class='num'>31.0¢</td><td class='num'>30.5¢</td><td class='num'>24,461</td><td class='num'>$7,461</td><td class='num'>245,414</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMR-28-JDV' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpresnomr' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Jon Ossoff be the Democratic Presidential nominee in 2028?<br><code>KXPRESNOMD-28-JOSS</code></td><td class='num'>23.0¢</td><td class='num'>24.0¢</td><td class='num'>23.5¢</td><td class='num'>29,217</td><td class='num'>$6,866</td><td class='num'>135,442</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPRESNOMD-28-JOSS' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpresnomd' rel='noopener noreferrer'>page ↗</a></td></tr></tbody>
+      </table></div>
+      <h3>Culture <span class="dim">· 60 markets in the capture</span></h3>
+      <div class="wrap"><table>
+        <thead><tr><th>Contract</th><th class="num">YES bid</th><th class="num">YES ask</th><th class="num">Mid</th>
+        <th class="num">24h contracts</th><th class="num">Est. 24h $</th><th class="num">At best</th><th>Source</th></tr></thead>
+        <tbody><tr><td>2026 Game of the Year?<br><code>KXGAMEAWARDS-2026-GTA</code></td><td class='num'>91.0¢</td><td class='num'>92.0¢</td><td class='num'>91.5¢</td><td class='num'>55,518</td><td class='num'>$50,799</td><td class='num'>27,332</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXGAMEAWARDS-2026-GTA' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxgameawards' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>The Hunger Games: Sunrise on the Reaping Rotten Tomatoes score?<br><code>KXRT-HUN-65</code></td><td class='num'>97.0¢</td><td class='num'>98.0¢</td><td class='num'>97.5¢</td><td class='num'>15,149</td><td class='num'>$14,770</td><td class='num'>11,871</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HUN-65' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxrt' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Hexed Rotten Tomatoes score?<br><code>KXRT-HEX-65</code></td><td class='num'>47.0¢</td><td class='num'>50.0¢</td><td class='num'>48.5¢</td><td class='num'>19,650</td><td class='num'>$9,530</td><td class='num'>1</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-65' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxrt' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>The Hunger Games: Sunrise on the Reaping Rotten Tomatoes score?<br><code>KXRT-HUN-62</code></td><td class='num'>99.0¢</td><td class='num'>100.0¢</td><td class='num'>99.5¢</td><td class='num'>9,043</td><td class='num'>$8,998</td><td class='num'>16,139</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HUN-62' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxrt' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Ezra Frech win Dancing with the Stars Season 35?<br><code>KXDANCINGWITHTHESTARS-26DEC31-EFRE</code></td><td class='num'>49.0¢</td><td class='num'>50.0¢</td><td class='num'>49.5¢</td><td class='num'>16,616</td><td class='num'>$8,225</td><td class='num'>11,714</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXDANCINGWITHTHESTARS-26DEC31-EFRE' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxdancingwiththestars' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Hexed Rotten Tomatoes score?<br><code>KXRT-HEX-45</code></td><td class='num'>92.0¢</td><td class='num'>93.0¢</td><td class='num'>92.5¢</td><td class='num'>8,661</td><td class='num'>$8,012</td><td class='num'>6,360</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-45' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxrt' rel='noopener noreferrer'>page ↗</a></td></tr></tbody>
+      </table></div>
+      <h3>Crypto <span class="dim">· 60 markets in the capture</span></h3>
+      <div class="wrap"><table>
+        <thead><tr><th>Contract</th><th class="num">YES bid</th><th class="num">YES ask</th><th class="num">Mid</th>
+        <th class="num">24h contracts</th><th class="num">Est. 24h $</th><th class="num">At best</th><th>Source</th></tr></thead>
+        <tbody><tr><td>BTC price up in next 15 mins?<br><code>KXBTC15M-26NOV220230-30</code></td><td class='num'>43.0¢</td><td class='num'>44.0¢</td><td class='num'>43.5¢</td><td class='num'>784,791</td><td class='num'>$341,384</td><td class='num'>5,006</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXBTC15M-26NOV220230-30' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxbtc15m' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will BTC hit $50,000 before $100,000 by Dec 31, 2026?<br><code>KXBTC50VS100-BTC-26DEC31</code></td><td class='num'>39.0¢</td><td class='num'>41.0¢</td><td class='num'>40.0¢</td><td class='num'>461,275</td><td class='num'>$184,510</td><td class='num'>591</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXBTC50VS100-BTC-26DEC31' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxbtc50vs100' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Bitcoin price on Nov 22, 2026?<br><code>KXBTCD-26NOV2217-T56999.99</code></td><td class='num'>93.0¢</td><td class='num'>94.0¢</td><td class='num'>93.5¢</td><td class='num'>62,591</td><td class='num'>$58,522</td><td class='num'>18,118</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T56999.99' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxbtcd' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Bitcoin price on Nov 22, 2026?<br><code>KXBTCD-26NOV2217-T57999.99</code></td><td class='num'>80.0¢</td><td class='num'>81.0¢</td><td class='num'>80.5¢</td><td class='num'>66,510</td><td class='num'>$53,540</td><td class='num'>15,044</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T57999.99' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxbtcd' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Bitcoin price on Nov 22, 2026?<br><code>KXBTCD-26NOV2217-T57499.99</code></td><td class='num'>89.0¢</td><td class='num'>90.0¢</td><td class='num'>89.5¢</td><td class='num'>50,944</td><td class='num'>$45,594</td><td class='num'>9,065</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2217-T57499.99' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxbtcd' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Bitcoin price on Nov 22, 2026?<br><code>KXBTCD-26NOV2203-T58799.99</code></td><td class='num'>89.0¢</td><td class='num'>90.0¢</td><td class='num'>89.5¢</td><td class='num'>38,059</td><td class='num'>$34,063</td><td class='num'>3,282</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2203-T58799.99' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxbtcd' rel='noopener noreferrer'>page ↗</a></td></tr></tbody>
+      </table></div>
+      <h3>Golf <span class="dim">· 60 markets in the capture</span></h3>
+      <div class="wrap"><table>
+        <thead><tr><th>Contract</th><th class="num">YES bid</th><th class="num">YES ask</th><th class="num">Mid</th>
+        <th class="num">24h contracts</th><th class="num">Est. 24h $</th><th class="num">At best</th><th>Source</th></tr></thead>
+        <tbody><tr><td>The RSM Classic: Michael Thorbjornsen wins<br><code>KXPGATOUR-THRC26-MTHO</code></td><td class='num'>16.0¢</td><td class='num'>18.0¢</td><td class='num'>17.0¢</td><td class='num'>160,853</td><td class='num'>$27,345</td><td class='num'>138,228</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPGATOUR-THRC26-MTHO' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpgatour' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Rasmus Hojgaard shoot under 68.5 in Round 3?<br><code>KXPGAROUNDSCORE-THRC26R3-RHOJ68</code></td><td class='num'>66.0¢</td><td class='num'>70.0¢</td><td class='num'>68.0¢</td><td class='num'>10,837</td><td class='num'>$7,369</td><td class='num'>10</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPGAROUNDSCORE-THRC26R3-RHOJ68' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpgaroundscore' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Davis Riley shoot under 68.5 in Round 3?<br><code>KXPGAROUNDSCORE-THRC26R3-DRIL68</code></td><td class='num'>54.0¢</td><td class='num'>58.0¢</td><td class='num'>56.0¢</td><td class='num'>11,698</td><td class='num'>$6,551</td><td class='num'>29</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPGAROUNDSCORE-THRC26R3-DRIL68' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpgaroundscore' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Marco Penge shoot under 68.5 in Round 3?<br><code>KXPGAROUNDSCORE-THRC26R3-MPEN68</code></td><td class='num'>66.0¢</td><td class='num'>70.0¢</td><td class='num'>68.0¢</td><td class='num'>8,056</td><td class='num'>$5,478</td><td class='num'>815</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPGAROUNDSCORE-THRC26R3-MPEN68' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpgaroundscore' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>Will Jesper Svensson shoot under 68.5 in Round 3?<br><code>KXPGAROUNDSCORE-THRC26R3-JSVE68</code></td><td class='num'>61.0¢</td><td class='num'>65.0¢</td><td class='num'>63.0¢</td><td class='num'>7,409</td><td class='num'>$4,668</td><td class='num'>10</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPGAROUNDSCORE-THRC26R3-JSVE68' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpgaroundscore' rel='noopener noreferrer'>page ↗</a></td></tr><tr><td>The RSM Classic: Rasmus Neergaard-Petersen wins<br><code>KXPGATOUR-THRC26-RNEE</code></td><td class='num'>9.0¢</td><td class='num'>9.3¢</td><td class='num'>9.2¢</td><td class='num'>49,760</td><td class='num'>$4,553</td><td class='num'>11,636</td><td><a href='https://external-api.kalshi.com/trade-api/v2/markets/KXPGATOUR-THRC26-RNEE' rel='noopener noreferrer'>API ↗</a> <a href='https://kalshi.com/markets/kxpgatour' rel='noopener noreferrer'>page ↗</a></td></tr></tbody>
+      </table></div>
+
+  <h2>Verification log — checked against official sources</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>Fact</th><th>What was observed</th><th>Official source</th><th class="num">Checked</th></tr></thead>
+    <tbody><tr><td>Demo REST base URL and alternate</td><td>https://external-api.demo.kalshi.co/trade-api/v2</td><td><a href='https://docs.kalshi.com/getting_started/api_environments' rel='noopener noreferrer'>docs.kalshi.com/getting_started/api_environments ↗</a></td><td class='num'>2026-11-22</td></tr><tr><td>Demo WebSocket URL and alternate</td><td>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</td><td><a href='https://docs.kalshi.com/getting_started/api_environments' rel='noopener noreferrer'>docs.kalshi.com/getting_started/api_environments ↗</a></td><td class='num'>2026-11-22</td></tr><tr><td>Dedicated user hosts for fill/order updates (not used here)</td><td>wss://user-ws.demo.kalshi.co/trade-api/ws/v2</td><td><a href='https://docs.kalshi.com/getting_started/api_environments' rel='noopener noreferrer'>docs.kalshi.com/getting_started/api_environments ↗</a></td><td class='num'>2026-11-22</td></tr><tr><td>Order book returns bids only; yes_ask = $1 − best NO bid; arrays ascending, best bid last; no auth</td><td>orderbook_fp → yes_dollars / no_dollars, [price, count] as strings</td><td><a href='https://docs.kalshi.com/getting_started/orderbook_responses' rel='noopener noreferrer'>docs.kalshi.com/getting_started/orderbook_responses ↗</a></td><td class='num'>2026-11-22</td></tr><tr><td>Market statuses are initialized / active / inactive / closed / determined / disputed / amended / finalized</td><td>open and settled are *filter* values that map to active and finalized</td><td><a href='https://docs.kalshi.com/getting_started/market_lifecycle' rel='noopener noreferrer'>docs.kalshi.com/getting_started/market_lifecycle ↗</a></td><td class='num'>2026-11-22</td></tr><tr><td>result is yes, no or scalar; settled markets appear as finalized with settlement_ts set</td><td>used to render resolution; no other value is invented</td><td><a href='https://docs.kalshi.com/getting_started/market_lifecycle' rel='noopener noreferrer'>docs.kalshi.com/getting_started/market_lifecycle ↗</a></td><td class='num'>2026-11-22</td></tr><tr><td>GET /markets on the demo root returns yes_bid_dollars, yes_ask_dollars, last_price_dollars, volume_24h_fp, open_interest_fp, status, result, close_time, rules_primary</td><td>field names read from a live demo response for KXAAAGASM-26NOV30-5.00 (bid $0.00 / ask $1.00, i.e. a placeholder book)</td><td><a href='https://external-api.demo.kalshi.co/trade-api/v2/markets?status=open&amp;limit=1&amp;series_ticker=KXAAAGASM' rel='noopener noreferrer'>external-api.demo.kalshi.co/trade-api/v2/markets?sta ↗</a></td><td class='num'>2026-11-22</td></tr><tr><td>Demo exchange status reports four exchange indexes, all active</td><td>GET /exchange/status returned exchange_active true</td><td><a href='https://external-api.demo.kalshi.co/trade-api/v2/exchange/status' rel='noopener noreferrer'>external-api.demo.kalshi.co/trade-api/v2/exchange/st ↗</a></td><td class='num'>2026-11-22</td></tr></tbody>
+  </table></div>
+
+  <h2>Unverified — do not read these as confirmed</h2>
+  <div class="wrap"><table>
+    <thead><tr><th>Item</th><th>Source</th><th>Why it is not confirmed</th></tr></thead>
+    <tbody><tr><td>Fee schedule (taker 0.07 / maker 0.0175 in the model)</td><td><a href='https://docs.kalshi.com/getting_started/fees' rel='noopener noreferrer'>source ↗</a></td><td class='dim'>The page did not load from the authoring sandbox on 2026-11-22. /api/meta reports the model as UNVERIFIED and no page claims the fee is confirmed.</td></tr><tr><td>WebSocket handshake and channels</td><td><a href='https://docs.kalshi.com/getting_started/quick_start_websockets' rel='noopener noreferrer'>source ↗</a></td><td class='dim'>The desk ships an SSE push channel that runs on the standard library; the Kalshi WS endpoint is documented in /api/meta but was never connected to from here.</td></tr><tr><td>Credentialed demo account, balances and orders</td><td><a href='https://docs.kalshi.com/getting_started/api_keys' rel='noopener noreferrer'>source ↗</a></td><td class='dim'>No API key exists in this repository. No order path is implemented: the server has no POST handler and the desk never calls /portfolio/*.</td></tr><tr><td>Whether the captured demo quotes match production</td><td><a href='https://docs.kalshi.com/getting_started/demo_env' rel='noopener noreferrer'>source ↗</a></td><td class='dim'>The demo environment is documented as capable of differing from production. The anchor capture in this branch (docs/desk/data/latest.json) came from the production root, and the page says so.</td></tr></tbody>
+  </table></div>
+  <p class="dim" style="font-size:12px">Fee constants in the engine are taker 0.07 and maker
+  0.0175. They are the published general schedule, but the schedule page could not be re-read
+  from the authoring sandbox, so <code>/api/meta</code> reports <code>verified: false</code> and no page
+  claims otherwise. Full finding list, including cross-implementation issues: <a href="qa.html">the audit</a>.</p>
+
+  <h2>Corrections to earlier notes in this repository</h2>
+  <div class="two">
+    <div class="card">
+      <h3>Status vocabulary</h3>
+      <p>An earlier register read the documentation as saying markets are <code>open</code> or
+      <code>settled</code> and flagged the API's <code>active</code>/<code>finalized</code> as a
+      contradiction. The lifecycle page lists <code>active</code> and <code>finalized</code> as the statuses,
+      and <code>open</code>/<code>settled</code> as <i>filter</i> values that map onto them. The API is
+      consistent with its documentation; the earlier reading was not.</p>
+    </div>
+    <div class="card">
+      <h3>result can be scalar</h3>
+      <p>The lifecycle page states <code>result</code> is <code>yes</code>, <code>no</code> or
+      <code>scalar</code>. A resolver that accepts only yes/no will mis-handle a scalar market, so this desk
+      carries the value through unchanged and never coerces it.</p>
+    </div>
+  </div>
+
+  <h2>What it will not do</h2>
+  <ul class="lede">
+    <li>Place an order. There is no POST handler, no order path and no credential read anywhere in <code>live/</code>.</li>
+    <li>Invent a cause for a price move. Each alert shows the rule text, the contract link and a news
+    <i>search</i>, labelled as a search.</li>
+    <li>Present a simulated price as a Kalshi quote. The mode badge and the banner say which is running, and
+    the JSON carries <code>simulated: true</code> on every simulated alert.</li>
+    <li>Treat a resolved market as open or vice versa: only Kalshi's own status and result fill that table.</li>
+  </ul>
+
+  <p class="dim" style="font-size:12px;margin-top:22px">Sources:
+    <a href="https://docs.kalshi.com/getting_started/api_environments" rel="noopener noreferrer">environments</a> ·
+    <a href="https://docs.kalshi.com/getting_started/orderbook_responses" rel="noopener noreferrer">order book</a> ·
+    <a href="https://docs.kalshi.com/getting_started/market_lifecycle" rel="noopener noreferrer">lifecycle</a> ·
+    <a href="https://docs.kalshi.com/getting_started/fees" rel="noopener noreferrer">fees</a> ·
+    <a href="https://docs.kalshi.com/getting_started/quick_start_websockets" rel="noopener noreferrer">WebSockets</a> ·
+    <a href="https://github.com/kanlerxz87-cyber/Tradebot1/tree/main/live" rel="noopener noreferrer">source</a>.
+    Generated 2026-11-22T07:40:05Z by <code>live/build_page.py</code>.
+  </p>
+</main>
+</body>
+</html>

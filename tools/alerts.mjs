@@ -27,11 +27,16 @@ export function yesMid(yesBid, yesAsk) {
   const bid = toPrice(yesBid);
   const ask = toPrice(yesAsk);
   if (bid == null || ask == null) return null;
-  if (bid <= 0 || ask >= 1) {
-    // A 1c-wide or wider gap at the boundary is a real quote, but a bid of 0 or
-    // an ask of 1 on its own is an empty side, not a traded price.
-    if (bid === 0 && ask === 1) return null;
-  }
+  // An empty side is not a price, and either side alone is enough to disqualify the
+  // pair: Kalshi quotes a side with no resting orders as a bid of 0.0000 or an ask
+  // of 1.0000. A midpoint built from that sentinel is a phantom - a 14c bid against
+  // an "ask" of $1.00 reads as 57c. All eight markets in this repository's own
+  // committed demo capture (data/snapshot.json) have yesAsk 1.0 with an empty NO
+  // book, so this is the common case, not an edge case.
+  // Source: https://docs.kalshi.com/getting_started/orderbook_responses
+  //   ("A YES BID at price X is equivalent to a NO ASK at (1 - X)"; a market with no
+  //   resting orders returns empty arrays).
+  if (bid <= 0 || ask >= 1) return null;
   return round4((bid + ask) / 2);
 }
 

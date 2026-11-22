@@ -23,6 +23,11 @@ for html in ROOT.rglob('*.html'):
     # monitor-specific id assertions below do not apply to it.
     if 'engine' in html.parts:
         continue
+    # docs/audit is session 73552f24's audit site. It has its own, stricter gate
+    # (audit/check_site.py: a source link on every row, no broken links, pages current)
+    # and does not use the monitor's dashboard ids.
+    if 'audit' in html.parts:
+        continue
     parser=Links();parser.feed(html.read_text())
     for link in parser.links:
         parsed=urlsplit(link)
