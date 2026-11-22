@@ -29,7 +29,7 @@ node --check site/assets/app.js
 python3 -m http.server 8000 --bind 0.0.0.0
 ```
 
-Open `http://localhost:8000/docs/` for the primary dashboard or `http://localhost:8000/site/` for the alternative. No npm dependencies. `scripts/build_snapshot.py` fetches public demo observations only; GitHub Actions runs it on push/schedule when deployment is allowed.
+Open `http://localhost:8000/docs/` for the primary dashboard or `http://localhost:8000/site/` for the alternative. No npm dependencies. `scripts/build_snapshot.py` fetches public demo observations only; GitHub Actions runs it on push and on its 30-minute schedule. Main-branch deployments succeeded.
 
 ## Official sources checked 2026-11-22
 
@@ -43,4 +43,4 @@ Open `http://localhost:8000/docs/` for the primary dashboard or `http://localhos
 
 ## Limits
 
-No authenticated demo portfolio or executed orders, secure WebSocket stream, calibrated ROI model, complete ranking, or verified news-price causal links. A separate private backend is required to sign WebSocket handshakes and demo-account orders. The repository Pages setting is legacy `main /`; a Pages-source API update returned HTTP 403 for this integration, although the earlier `site/` deployment workflow succeeded. Root `index.html` redirects to `docs/` as fallback. The post-merge workflow and published snapshot must be checked before considering scheduled refresh confirmed. See the [Flagged for Review page](docs/review/index.html).
+No authenticated demo portfolio or executed orders, secure WebSocket stream, calibrated ROI model, complete ranking, or verified news-price causal links. A separate private backend is required to sign WebSocket handshakes and demo-account orders. The repository Pages setting is legacy `main /`; a Pages-source API update returned HTTP 403 for this integration, although the earlier `site/` deployment workflow succeeded. Root `index.html` redirects to `docs/` as fallback. Main-branch Pages workflow runs [44996474051](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996474051) and [44996547389](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996547389) succeeded; the second published a timestamped, explicitly partial public API snapshot. Browser CORS remains unverified. See the [Flagged for Review page](docs/review/index.html).
