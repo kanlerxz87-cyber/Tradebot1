@@ -229,6 +229,8 @@ def build_index(data: dict, verification: dict) -> str:
     prov = data.get("provenance")
 
     body = f"""
+<p class="muted"><a href="../">← All dashboards</a> · this build: the Python engine's own
+verification-first view</p>
 <h1>Kalshi live-event dashboard &amp; alerting system</h1>
 <p class="lede">Tracks the highest-dollar live events in five topics — gas prices, elections,
 culture, crypto and golf — and alerts on any contract move of <strong>at least $0.10 in either
