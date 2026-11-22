@@ -120,9 +120,16 @@ async function main() {
   console.log(`Wrote ${written.length} pages.`);
 }
 
-/** Ignore the generated-at line when comparing, so a no-op rebuild is a no-op. */
+/**
+ * Ignore the clock-derived fragments when comparing, so a no-op rebuild is a
+ * no-op even when it happens a minute later: the generation timestamp and the
+ * relative "12m ago" ages both change with the wall clock.
+ */
 function normalise(html) {
-  return html.replace(/data-generated="[^"]*"/g, 'data-generated=""');
+  return html
+    .replace(/data-generated="[^"]*"/g, 'data-generated=""')
+    .replace(/\b\d+[smhd] ago\b/g, 'REL_AGO')
+    .replace(/\?v=\d+/g, '?v=');
 }
 
 function readJson(rel, fallback) {
