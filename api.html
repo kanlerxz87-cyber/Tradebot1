@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>API reference · Kalshi demo dashboard</title>
+<meta name="description" content="A Kalshi demo-environment dashboard: live swing alerts at the $0.10 threshold, price charts and order-book liquidity for gas prices, elections, culture, crypto and golf, with simulated strategies and resolution tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body data-generated="2026-11-22T07:35:04.176Z">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="brand" href="board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <nav class="main" aria-label="Main"><a href="board.html">Board</a><a href="dashboard.html">Alerts</a><a href="markets.html">Markets</a><a href="portfolio.html">Portfolio</a><a href="strategies.html">Strategies</a><a href="demo-account.html">Demo account</a><a href="executive-summary.html">Summary</a><a href="sources.html">Sources</a><a href="methodology.html">Method</a><a href="suggestions.html">Ideas</a><a href="flagged.html">Flagged</a><a href="api.html" aria-current="page">API</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap page">
+<section>
+  <h1>API reference for this dashboard</h1>
+  <p class="muted" style="max-width:85ch">
+    The Kalshi endpoints this site uses, the exact demo hosts verified for this build, and the
+    rules that govern each call. Everything here was read from Kalshi's documentation and confirmed
+    with a live request on 2026-11-22.
+  </p>
+</section>
+
+<section>
+  <h2>Base URLs</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Surface</th><th>Recommended</th><th>Also supported</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>REST, demo</td><td class="mono">https://external-api.demo.kalshi.co/trade-api/v2</td><td class="mono">https://demo-api.kalshi.co/trade-api/v2</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer nofollow">environments</a></td></tr>
+      <tr><td>WebSocket, demo</td><td class="mono">wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</td><td class="mono">wss://demo-api.kalshi.co/trade-api/ws/v2</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer nofollow">environments</a></td></tr>
+      <tr><td>REST, production</td><td class="mono">https://external-api.kalshi.com/trade-api/v2</td><td class="mono">https://api.elections.kalshi.com/trade-api/v2</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer nofollow">environments</a></td></tr>
+      <tr><td>WebSocket, production</td><td class="mono">wss://external-api-ws.kalshi.com/trade-api/ws/v2</td><td class="mono">wss://api.elections.kalshi.com/trade-api/ws/v2</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer nofollow">environments</a></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="max-width:85ch;margin-top:10px">
+    This project uses the demo hosts only, and the code refuses any other host before it reads a
+    credential. Demo credentials are not valid in production and vice versa.
+  </p>
+</section>
+
+<section>
+  <h2>Public reads (no API key)</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Endpoint</th><th>Key parameters</th><th>Returns</th><th>Used for</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">GET /exchange/status</td><td>—</td><td>exchange_active, trading_active, per-shard statuses</td><td>Pre-flight check before collecting</td><td class="src"><a href="https://docs.kalshi.com/api-reference/exchange/get-exchange-status" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /series</td><td>category, tags, include_product_metadata</td><td>Series with category, categories, tags, fee_type, fee_multiplier, settlement_sources</td><td>Topic discovery</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /series/{ticker}</td><td>—</td><td>One series object</td><td>Single-series detail</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /events</td><td>status, series_ticker, with_nested_markets</td><td>Events; excludes multivariate</td><td>Event grouping</td><td class="src"><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /markets</td><td>status, series_ticker, event_ticker, cursor, limit</td><td>Markets with fixed-point price and size strings</td><td>Open markets per series</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /markets/{ticker}</td><td>—</td><td>One market, including status and result</td><td>Resolution tracking</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-market" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /markets/{ticker}/orderbook</td><td>—</td><td>orderbook_fp with yes_dollars and no_dollars bid arrays</td><td>Depth, spread, ladder</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-market-orderbook" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /series/{s}/markets/{t}/candlesticks</td><td>start_ts, end_ts (seconds), period_interval 1|60|1440</td><td>OHLC per period</td><td>Suggested next step for the chart</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Signed reads (demo account snapshot)</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Endpoint</th><th>Returns</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">GET /portfolio/balance</td><td>balance and portfolio value</td><td class="src"><a href="https://docs.kalshi.com/api-reference/portfolio/get-balance" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /portfolio/positions</td><td>positions; count_filter and settlement_status filters</td><td class="src"><a href="https://docs.kalshi.com/api-reference/portfolio/get-positions" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /portfolio/fills</td><td>fills</td><td class="src"><a href="https://docs.kalshi.com/api-reference/portfolio/get-fills" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+      <tr><td class="mono">GET /portfolio/settlements</td><td>settlement records</td><td class="src"><a href="https://docs.kalshi.com/api-reference/portfolio/get-settlements" target="_blank" rel="noopener noreferrer nofollow">docs</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Request signing, as implemented</h2>
+  <div class="card mono" style="font-size:.86rem; line-height:1.7">
+    message   = timestamp_ms + "GET" + path_without_query<br>
+    signature = base64( ed25519_sign(private_key, message) )   // or RSA-PSS-SHA256<br>
+    headers   = KALSHI-ACCESS-KEY, KALSHI-ACCESS-SIGNATURE, KALSHI-ACCESS-TIMESTAMP<br>
+    tolerance = timestamp within 30 seconds of Kalshi's clock
+  </div>
+  <p class="small src" style="margin-top:8px"><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer nofollow">Kalshi: API keys and signing</a></p>
+</section>
+
+<section>
+  <h2>Rate limits and etiquette</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Rule</th><th>What this build does</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Token buckets, 10 tokens per default request</td><td>Caps each cycle at 12 series and 60 markets per topic</td><td class="src"><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener noreferrer nofollow">rate limits</a></td></tr>
+      <tr><td>429 with exponential backoff</td><td>The client surfaces the status and code; the workflow is capped and re-run on schedule</td><td class="src"><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener noreferrer nofollow">rate limits</a></td></tr>
+      <tr><td>Cursor pagination, stop when empty</td><td>The client follows cursors and also caps at 12 pages so a bad cursor cannot loop</td><td class="src"><a href="https://docs.kalshi.com/getting_started/pagination" target="_blank" rel="noopener noreferrer nofollow">pagination</a></td></tr>
+      <tr><td>Cached responses</td><td>Every row shows its observation time rather than implying the price is current</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer nofollow">get markets</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>WebSocket channels, for reference</h2>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Channel</th><th>Scope</th><th>Would be used for</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td class="mono">ticker</td><td>public</td><td>Tick-level price moves instead of poll diffs</td><td class="src"><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer nofollow">WS docs</a></td></tr>
+      <tr><td class="mono">trade</td><td>public</td><td>Print-level tape for the alert chat</td><td class="src"><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer nofollow">WS docs</a></td></tr>
+      <tr><td class="mono">market_lifecycle_v2</td><td>public</td><td>Instant yes/no resolution notifications</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">lifecycle</a></td></tr>
+      <tr><td class="mono">fill</td><td>private</td><td>Demo-account fills in real time</td><td class="src"><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer nofollow">WS docs</a></td></tr>
+    </tbody>
+  </table></div>
+  <p class="small" style="max-width:85ch;margin-top:10px">
+    All of these require an authenticated handshake, which is why none of them is used from the
+    browser in this build. See <a href="flagged.html#F-06">F-06</a>.
+  </p>
+</section>
+
+</main>
+<footer class="site">
+  <div class="wrap cols">
+    <div style="max-width:52ch">
+      <strong>Tradebot1</strong> — a dashboard over the <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">Kalshi demo environment</a>.
+      Demo markets use mock funds and Kalshi warns their prices may not reflect real markets.
+      This is not investment advice and nothing here is a forecast.
+      <div class="src" style="margin-top:8px">Data captured through https://external-api.demo.kalshi.co/trade-api/v2.</div>
+    </div>
+    <div>
+      <div><strong class="muted">Topics</strong></div>
+      <a href="categories/gas.html">Gas prices</a> · <a href="categories/elections.html">Elections</a> · <a href="categories/culture.html">Culture</a> · <a href="categories/crypto.html">Crypto</a> · <a href="categories/golf.html">Golf</a>
+    </div>
+    <div>
+      <div><strong class="muted">Review</strong></div>
+      <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
+      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:29Z (6m ago)</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

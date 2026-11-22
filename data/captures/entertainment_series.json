@@ -1,0 +1,98 @@
+{
+  "captured_at_utc": "2026-11-22T07:20:00Z",
+  "captured_by": "session 7ae1c34f",
+  "method": "direct HTTPS GET of the public series endpoint; fields copied verbatim",
+  "url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+  "payload": {
+    "series": [
+      {
+        "ticker": "KXNFLVIEW",
+        "title": "NFL ratings",
+        "category": "Entertainment",
+        "tags": null,
+        "settlement_sources": [
+          {
+            "name": "MarketCast",
+            "url": "https://marketcast.com/"
+          }
+        ]
+      },
+      {
+        "ticker": "KXTOPALBUMDONTBEDUMB",
+        "title": "WILL DONT BE DUMB DEBUT AT #1",
+        "category": "Entertainment",
+        "tags": [
+          "Music",
+          "Music charts"
+        ],
+        "settlement_sources": [
+          {
+            "name": "Billboard",
+            "url": "https://www.billboard.com/charts/billboard-200/"
+          }
+        ]
+      },
+      {
+        "ticker": "KXNETFLIXSHOWRANKD",
+        "title": "Top Netflix movie daily",
+        "category": "Entertainment",
+        "tags": [
+          "Netflix"
+        ],
+        "settlement_sources": [
+          {
+            "name": "FlixPatrol",
+            "url": "https://flixpatrol.com/top10/netflix/united-states"
+          },
+          {
+            "name": "Netflix",
+            "url": "https://about.netflix.com/en"
+          }
+        ]
+      },
+      {
+        "ticker": "KXPERFORMSTYLESMSG",
+        "title": "who will perform at Harry Styles msg concerts",
+        "category": "Entertainment",
+        "tags": [
+          "Live Music"
+        ],
+        "settlement_sources": [
+          {
+            "name": "Variety",
+            "url": "https://variety.com/"
+          }
+        ]
+      },
+      {
+        "ticker": "KXAWARDSCMAVDOTY",
+        "title": "Vocal Duo of the Year",
+        "category": "Entertainment",
+        "tags": [
+          "CMA Awards"
+        ],
+        "settlement_sources": [
+          {
+            "name": "CMA Awards",
+            "url": "https://cmaawards.com/"
+          }
+        ]
+      },
+      {
+        "ticker": "KXGRAMMYNOMCOUNTKL",
+        "title": "NUMBER OF GRAMMY NOMINATIONS FOR KENDRICK LAMAR",
+        "category": "Entertainment",
+        "tags": [
+          "Music"
+        ],
+        "settlement_sources": [
+          {
+            "name": "Grammy Awards",
+            "url": "https://www.grammy.com/"
+          }
+        ]
+      }
+    ]
+  },
+  "note_for_review": "Each of these Entertainment series was queried at /markets?series_ticker=<ticker>&status=open and returned an empty list, so the Culture topic has no live rows at capture time. The catalog is shown instead of inventing a market. Re-check when an awards season market opens."
+}

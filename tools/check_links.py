@@ -18,6 +18,8 @@ from urllib.parse import unquote, urlsplit
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs" / "desk"
 GATEWAY = ROOT / "index.html"
+# Repository-root pages this session owns. They are published at the site root, outside docs/desk.
+ROOT_PAGES = [GATEWAY, ROOT / "audit.html"]
 
 
 class LinkParser(HTMLParser):
@@ -93,29 +95,39 @@ def main(argv: list[str] | None = None) -> int:
                         f"{page.relative_to(ROOT)} → {raw} (missing anchor #{fragment} in {target.relative_to(ROOT)})"
                     )
 
-    # The repository-root gateway page links into both dashboards and the archive.
-    if GATEWAY.exists():
-        gw = collect(GATEWAY)
-        for attr, raw in gw.links:
+    # The repository-root pages link into both dashboards, the archive and each other.
+    for root_page in ROOT_PAGES:
+        if not root_page.exists():
+            continue
+        name = root_page.relative_to(ROOT).as_posix()
+        page_parser = collect(root_page)
+        for attr, raw in page_parser.links:
             if raw.startswith(("http://", "https://", "mailto:", "data:", "javascript:", "tel:", "//")):
                 continue
             checked += 1
             split = urlsplit(raw)
-            target = (ROOT / unquote(split.path)).resolve()
+            target = (root_page.parent / unquote(split.path)).resolve()
             if target.is_dir():
                 target = target / "index.html"
+            if not split.path:
+                continue
             try:
                 target.relative_to(ROOT)
             except ValueError:
-                problems.append(f"index.html → {raw} escapes the repository")
+                problems.append(f"{name} → {raw} escapes the repository")
                 continue
             if not target.exists():
-                problems.append(f"index.html → {raw} (missing {target.relative_to(ROOT)})")
-        text = GATEWAY.read_text(encoding="utf-8")
+                problems.append(f"{name} → {raw} (missing {target.relative_to(ROOT)})")
+            fragment = unquote(split.fragment)
+            if fragment and target.suffix == ".html":
+                ids = parsed[target].ids if target in parsed else collect(target).ids
+                if fragment not in ids:
+                    problems.append(f"{name} → {raw} (missing anchor #{fragment} in {target.relative_to(ROOT)})")
+        text = root_page.read_text(encoding="utf-8")
         if "<title>" not in text or text.count("<main") != 1:
-            problems.append("index.html: missing <title> or <main>")
+            problems.append(f"{name}: missing <title> or <main>")
         if "docs.kalshi.com" not in text:
-            problems.append("index.html: no link to an official Kalshi source")
+            problems.append(f"{name}: no link to an official Kalshi source")
 
     # Structural checks that keep the verification promise honest.
     for page in pages:

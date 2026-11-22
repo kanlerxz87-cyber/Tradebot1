@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Demo account · Kalshi demo dashboard</title>
+<meta name="description" content="A Kalshi demo-environment dashboard: live swing alerts at the $0.10 threshold, price charts and order-book liquidity for gas prices, elections, culture, crypto and golf, with simulated strategies and resolution tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body data-generated="2026-11-22T07:35:04.176Z">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="brand" href="board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <nav class="main" aria-label="Main"><a href="board.html">Board</a><a href="dashboard.html">Alerts</a><a href="markets.html">Markets</a><a href="portfolio.html">Portfolio</a><a href="strategies.html">Strategies</a><a href="demo-account.html" aria-current="page">Demo account</a><a href="executive-summary.html">Summary</a><a href="sources.html">Sources</a><a href="methodology.html">Method</a><a href="suggestions.html">Ideas</a><a href="flagged.html">Flagged</a><a href="api.html">API</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap page">
+<section>
+  <div class="pill-row" style="margin-bottom:8px">
+    <span class="badge" id="conn-badge">checking…</span>
+    <span class="badge">authenticated snapshot</span>
+    <span class="badge">GitHub Actions only</span>
+  </div>
+  <h1>Kalshi demo account</h1>
+  <p class="muted" style="max-width:85ch">
+    The real balance, positions, fills and settlements of the demo account, read with signed
+    requests from a GitHub Actions job and committed to the repository. A static site cannot sign a
+    Kalshi request, so this page can only show what that job last captured, with the time it ran.
+  </p>
+  <div class="banner" id="data-banner" data-state="snapshot" role="status" aria-live="polite">
+    <span class="led" aria-hidden="true"></span><strong>Loading…</strong>
+  </div>
+</section>
+
+<section id="not-connected" hidden>
+  <div class="notice warn">
+    <h2 style="margin-top:0">Not connected</h2>
+    <p id="nc-reason">No authenticated read has been made.</p>
+    <p><strong>What that means:</strong> nothing on this page is a balance. The simulator on the
+    <a href="portfolio.html">portfolio page</a> is separate and is also not Kalshi cash.</p>
+    <h3>To connect it</h3>
+    <ol id="nc-steps" style="margin:0; padding-left:20px"></ol>
+    <p class="small" style="margin-top:10px" id="nc-docs"></p>
+  </div>
+</section>
+
+<section id="connected" hidden class="stack">
+  <div class="grid cols-4">
+    <div class="card tight"><div class="stat"><span class="k">Balance</span><span class="v" id="acct-balance">—</span><span class="s" id="acct-balance-sub"></span></div></div>
+    <div class="card tight"><div class="stat"><span class="k">Portfolio value</span><span class="v" id="acct-pv">—</span><span class="s">from GET /portfolio/balance</span></div></div>
+    <div class="card tight"><div class="stat"><span class="k">Positions</span><span class="v" id="acct-pos">—</span><span class="s">non-zero holdings</span></div></div>
+    <div class="card tight"><div class="stat"><span class="k">Fills captured</span><span class="v" id="acct-fills">—</span><span class="s">most recent page</span></div></div>
+  </div>
+
+  <div>
+    <h2>Positions</h2>
+    <div class="table-wrap"><table class="compact" id="acct-pos-table">
+      <thead><tr><th>Ticker</th><th class="num">Contracts</th><th class="num">Exposure</th><th class="num">Realized P&amp;L</th><th class="num">Fees</th><th>Source</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </div>
+
+  <div>
+    <h2>Fills</h2>
+    <div class="table-wrap"><table class="compact" id="acct-fill-table">
+      <thead><tr><th>Time</th><th>Ticker</th><th>Side</th><th class="num">Price</th><th class="num">Contracts</th><th>Source</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </div>
+
+  <div>
+    <h2>Settlements</h2>
+    <div class="table-wrap"><table class="compact" id="acct-settle-table">
+      <thead><tr><th>Time</th><th>Ticker</th><th>Result</th><th class="num">Revenue</th><th>Source</th></tr></thead>
+      <tbody></tbody>
+    </table></div>
+  </div>
+</section>
+
+<section>
+  <h2>Why this is not done in the browser</h2>
+  <div class="table-wrap"><table class="compact">
+    <thead><tr><th>Requirement</th><th>Why a Pages site cannot meet it</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>A private key to sign each request</td><td>GitHub Pages serves the JavaScript to everyone; any key in it is public.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer nofollow">API keys</a></td></tr>
+      <tr><td>Signature over timestamp + method + path</td><td>The signature must be produced with the private key, server-side.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer nofollow">signing</a></td></tr>
+      <tr><td>Timestamp within 30 seconds</td><td>Needs a synchronised clock at signing time, which a cached page does not have.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer nofollow">signing</a></td></tr>
+      <tr><td>Demo credentials only</td><td>Credentials are not shared between demo and production; the job refuses any non-demo root before it reads a key.</td><td class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer nofollow">environments</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>About executing trades</h2>
+  <p class="small" style="max-width:85ch">
+    Live order placement needs the same signing, plus the V2 order endpoint. The signing job exists
+    in this repository (<code>tools/demo-account.mjs</code>), and order placement is deliberately
+    <strong>not</strong> wired up: nothing in this repository sends an order, ever. The simulated
+    strategies are a local test harness. If order execution is added later, it belongs in the same
+    Actions job with a hard demo-only guard, and the docs name
+    <code>POST /portfolio/events/orders</code> as the endpoint.
+  </p>
+  <div class="table-wrap"><table class="compact">
+    <thead><tr><th>Order field</th><th>Value</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td><code>side</code></td><td>bid or ask, on a single book</td><td class="src"><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2" target="_blank" rel="noopener noreferrer nofollow">Create Order V2</a></td></tr>
+      <tr><td><code>price</code></td><td>fixed-point dollar string</td><td class="src"><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2" target="_blank" rel="noopener noreferrer nofollow">Create Order V2</a></td></tr>
+      <tr><td><code>count</code></td><td>fixed-point contract string, 0.01 minimum</td><td class="src"><a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer nofollow">fixed point</a></td></tr>
+      <tr><td><code>time_in_force</code></td><td>fill_or_kill, good_till_canceled, immediate_or_cancel</td><td class="src"><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2" target="_blank" rel="noopener noreferrer nofollow">Create Order V2</a></td></tr>
+      <tr><td>Legacy endpoint</td><td><code>/portfolio/orders</code> writes now return 410 Gone</td><td class="src"><a href="https://docs.kalshi.com/api-reference/orders/create-order-v2" target="_blank" rel="noopener noreferrer nofollow">Create Order V2</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<script type="module" src="assets/demo-account.js"></script>
+
+</main>
+<footer class="site">
+  <div class="wrap cols">
+    <div style="max-width:52ch">
+      <strong>Tradebot1</strong> — a dashboard over the <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">Kalshi demo environment</a>.
+      Demo markets use mock funds and Kalshi warns their prices may not reflect real markets.
+      This is not investment advice and nothing here is a forecast.
+      <div class="src" style="margin-top:8px">Data captured through https://external-api.demo.kalshi.co/trade-api/v2.</div>
+    </div>
+    <div>
+      <div><strong class="muted">Topics</strong></div>
+      <a href="categories/gas.html">Gas prices</a> · <a href="categories/elections.html">Elections</a> · <a href="categories/culture.html">Culture</a> · <a href="categories/crypto.html">Crypto</a> · <a href="categories/golf.html">Golf</a>
+    </div>
+    <div>
+      <div><strong class="muted">Review</strong></div>
+      <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
+      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:29Z (6m ago)</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

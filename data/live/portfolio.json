@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "startingCash": 1000,
+  "cashNote": "A simulated starting balance chosen for this project. It is NOT the cash in the Kalshi demo account; real demo-account figures are only shown when the authenticated snapshot job succeeds.",
+  "positions": [],
+  "summary": {
+    "startingCash": 1000,
+    "positions": 0,
+    "openPositions": 0,
+    "settledPositions": 0,
+    "wins": 0,
+    "losses": 0,
+    "winRate": null,
+    "realizedPnl": 0,
+    "unrealizedPnl": 0,
+    "totalPnl": 0,
+    "feesPaid": 0,
+    "stakedInOpenPositions": 0,
+    "equity": 1000
+  },
+  "updatedAt": "2026-11-22T07:29:11.440Z",
+  "runId": "2026-11-22T07-29-11-440Z",
+  "note": "No simulated position has been opened yet: opening one requires an observation cycle from tools/collector.mjs, and the authoring sandbox cannot reach the Kalshi demo API. The record is empty rather than seeded with invented trades."
+}
