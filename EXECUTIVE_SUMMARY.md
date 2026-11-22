@@ -4,11 +4,10 @@
 **Live gateways:** [research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
 [market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/)
 
-Two parallel sessions built independent implementations of the same brief and both are published, so this
-summary covers both. **Part A** is the autonomous research desk: a Python collector package plus a
-scheduled trading loop. **Part B** is the browser-side market monitor, preserved verbatim. Where the two
-disagree, the desk's numbers come from a server-side collector and the monitor's from the visitor's own
-browser session; the desk's verification register is the more complete of the two.
+Four independent implementations of the same brief now sit in one repository, built by parallel
+sessions and integrated on 2026-11-22. This summary covers the two that are documented as parts
+(**A** the autonomous research desk, **B** the browser-side market monitor preserved verbatim) and
+records the other two in the integration section at the end.
 
 | | Part A — research desk | Part B — market monitor |
 | - | - | - |
@@ -16,7 +15,13 @@ browser session; the desk's verification register is the more complete of the tw
 | Data path | scheduled server-side collector (production public REST) | browser polls public demo REST |
 | Alerts | persisted ≥ $0.10 archive + live ticks | session-only ≥ $0.10 observations |
 | Trading | 4 strategies, ledger committed to the repo | 1 screen, browser-local |
-| Verification | 25 dated source rows, 14 flags | endpoint-level citations, review page |
+| Verification | 26 dated source rows, 14 flags | endpoint-level citations, review page |
+
+| Also published | Location | What it is |
+| - | - | - |
+| Trade board | `board.html` (+ five `categories/` pages) | Node implementation: events ranked by resting dollars, two auto-scrolling ≥ $0.10 feeds, 60s–24h chart, order-book ladder, five strategies, 17 flags |
+| Engine view | `docs/engine/` | Python engine's own site: 39-entry verification register, five topic tables, both alert feeds, six-strategy fee-exact simulator, its own flags page |
+| Prototype | `site/` | First standalone prototype, kept for review; simulated fallback data, clearly separated from verified values |
 
 ---
 
@@ -77,7 +82,9 @@ the [verification page](https://kanlerxz87-cyber.github.io/Tradebot1/verificatio
 
 ### 4. What the numbers mean (and do not)
 
-* Performance figures are **paper**, not exchange fills. Fees are modelled (unverified).
+* Performance figures are **paper**, not exchange fills. Fees are modelled with the published Kalshi
+  schedule (verified 2026-11-22, 42/42 table values), but exchange rebates and per-series multipliers
+  are not modelled.
 * Alerts are cycle-resolution: the cron runs every 15 minutes; the live server and direct mode raise
   that to seconds.
 * Dollar-volume rankings use `volume_24h × price`, a derived figure labelled `_est` everywhere.
@@ -92,16 +99,17 @@ the [verification page](https://kanlerxz87-cyber.github.io/Tradebot1/verificatio
 | Resolution tracking to YES/NO | shipped |
 | Paper trading + analytics (4 strategies) | shipped and running on a schedule |
 | Kalshi demo account integration | implemented, dormant — needs credentials (F2) |
-| Official fee schedule | unverified (F1) |
+| Official fee schedule | **verified 2026-11-22** against <https://kalshi.com/docs/kalshi-fee-schedule.pdf> — 42/42 published table values reproduced (F1 resolved) |
 | Breakages | 0 open; 14 flagged items, 0 blocking |
 
 ### 6. Next three moves
 
 1. Create the demo account, add `KALSHI_API_KEY_ID` + `KALSHI_PRIVATE_KEY` as repository secrets: paper
-   results become exchange-confirmed demo results.
-2. Retrieve the current fee schedule and flip `VERIFIED = True` in `kalshi_trader/fees.py` (clears F1).
-3. Move collection to `orderbook_delta` WebSocket streaming once credentialed, so alerts fire on ticks
+   results become exchange-confirmed demo results (flag F2).
+2. Move collection to `orderbook_delta` WebSocket streaming once credentialed, so alerts fire on ticks
    rather than cycles.
+3. Read per-series fee multipliers from the schedule instead of applying the general rate to every series
+   (fee-free series such as `KXBTCY` are currently overcharged in simulation).
 
 ---
 
@@ -208,3 +216,76 @@ COORDINATION.md       Shared task board / session log
 ```
 
 </details>
+
+---
+
+## Integration pass — session `arena/daf65d06-tradebot1`, 2026-11-22
+
+**What this pass did.** Merged the three parallel deliverables that were still apart (the research desk
+was already on `main`; the Node trade board arrived in PR #8, the Python engine in PR #10) into one
+branch, ran every gate in the repository against the combined tree, corrected one factual claim that
+turned out to be resolvable, and published the result.
+
+**Conflicts and how they were resolved without losing work.** `.gitignore` and `COORDINATION.md` had
+add/add conflicts (both sides appended); both sides' lines were kept. The engine branch had also
+*removed* the Node board's CI job and its `board.html` / `assets/` / `categories/` / `data/` staging from
+the Pages workflow — an artefact of it branching before the board merged. That removal was **not**
+applied: the board stays published and keeps its five CI gates, and the engine's checks were added
+alongside them.
+
+**Verification run on the combined tree** (all green):
+
+| Gate | Result |
+| - | - |
+| `python3 -m pytest -q` | 144 passed (desk + engine) |
+| `node --test tests/*.test.mjs` | 36 passed (board) |
+| `node scripts/build-site.mjs --check` | board pages match templates + data — fixed to be clock-independent, see below |
+| `node scripts/check-links.mjs` / `check-render.mjs` / `check-data.mjs` | 19 pages, 642 references, 123 external, 0 problems; every row keeps its source link |
+| `python3 tools/build_site.py --check` | desk output current |
+| `python3 tools/check_links.py` | 272 internal links across 13 pages, no broken targets or anchors |
+| `python3 tools/check_gateway.py` (new) | 26 gateway targets resolve and are published |
+| `python3 -m engine.check_site --root docs/engine` | no broken links, no unsourced table row, no unrendered template |
+| `python3 tests/check_site.py` | 37 HTML pages and local link targets verified |
+| `python3 python/test_simulator.py` | all simulator tests passed |
+| `python3 -m kalshi_trader.cli verify` | published data integrity OK |
+
+**Two corrections made during integration.**
+
+1. **The fee model is no longer "unverified".** Session `arena-e3e5f70f` flagged the trading fee as
+   unverified (F1) because the fee-schedule PDF could not be retrieved from its sandbox. It is
+   retrievable: <https://kalshi.com/docs/kalshi-fee-schedule.pdf> ("Last updated and effective:
+   July 7, 2026") states the taker fee as `roundup(M × 0.07 × C × P × (1 − P))`, the maker fee as
+   `roundup(M × 0.0175 × C × P × (1 − P))` with a default multiplier of 0, and explicitly states there
+   is no settlement fee and no membership fee. All 21 per-contract and 21 per-100-contract rows of its
+   General Trading Fees Table were reproduced value by value (42/42) and are now asserted in
+   `tests/test_model_fees.py`; `kalshi_trader/fees.py` carries `VERIFIED = True`, ledger entries are
+   labelled `quadratic_verified`, and F1 is marked resolved. Two residual limits are recorded rather
+   than hidden: the rebate accumulator is not modelled, and per-series multipliers are not read from the
+   schedule (fee-free series such as `KXBTCY` would be overcharged in simulation).
+
+2. **The board's `--check` gate could never pass twice.** `scripts/build-site.mjs --check` compared
+   regenerated pages against the committed ones *including* a build timestamp and relative "21m ago"
+   ages, so it failed on any rebuild more than a minute after the commit. Those clock-derived fragments
+   are now normalised out of the comparison, which keeps the gate meaningful (data, rows and links are
+   still compared) and stops it from failing CI for a reason unrelated to correctness.
+
+**Sources re-checked directly in this pass** (in addition to the 26 desk rows and 39 engine register
+entries): [API environments](https://docs.kalshi.com/getting_started/api_environments) (REST/WS demo and
+production hosts, signed-path rule), [fee schedule](https://kalshi.com/docs/kalshi-fee-schedule.pdf),
+[fee rounding](https://docs.kalshi.com/getting_started/fee_rounding) (six-decimal fees, rebate
+accumulator), [fixed-point fields](https://docs.kalshi.com/getting_started/fixed_point_migration)
+(`*_dollars` prices, `*_fp` counts), [demo environment](https://docs.kalshi.com/getting_started/demo_env)
+(mock funds, separate credentials, and Kalshi's own warning that demo prices may not reflect real
+markets), and the public series page <https://kalshi.com/markets/kxaaagasm> (strikes 3.45 / 3.50 / 3.55
+with "Above 3.50" at 47¢, which is the disagreement with the demo book that the engine flag records).
+
+**Still open and non-blocking** — published on the Flagged for Review pages with source links:
+the demo account is not connected (no credentials exist in this repository, so no demo fills or demo
+balance can be shown), the topic mappings Kalshi does not publish (no Gas or Culture category; golf is a
+Sports tag), alert resolution is per collection cycle rather than per tick, dollar-volume rankings are
+derived estimates, and browser CORS behaviour towards Kalshi is undocumented.
+
+**Deploy.** `docs/engine/` and the board's root pages are staged by the existing Pages workflow, so no
+Pages setting had to change (`build_type` changes are rejected with HTTP 403 for this token; the site is
+served by the legacy `main /` build). The pull request, merge commit and the post-deploy URL check are
+recorded in `COORDINATION.md`.

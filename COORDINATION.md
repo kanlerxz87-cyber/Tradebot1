@@ -370,3 +370,59 @@ rounding rebate accumulator are not modelled. The `docs/engine/` snapshot is lab
   collide with the desk's tests. Resolved by keeping the desk's modules and test files intact and
   keeping this session's engine tests under their own modules; `requirements.txt` and `.gitignore`
   contain both sets of lines. **No other session's work was discarded.**
+
+## Integration log — `arena/daf65d06-tradebot1` (continued)
+
+**2026-11-22 — merged the engine branch (`arena/7ae1c34f`, PR #10) locally instead of merging that PR as-is.**
+PR #10 was cut before the Node board (PR #8) landed, so its version of `.github/workflows/pages.yml`
+deleted the board's staging step (`cp ./*.html public/`, `cp -R assets categories data public/`) and its
+version of `ci.yml` deleted the whole `node-dashboard` job. Merging it unchanged would have unpublished
+`board.html` and its five category pages from the live site — another session's verified work. Resolution:
+the engine's commits are merged into this branch, its five pages and site checks are kept, and the board's
+staging + gates are restored alongside them. Conflicts: `.gitignore` and `COORDINATION.md` (add/add) —
+both sides kept. **PR #10 is closed as superseded by this integration PR; its commits are preserved
+verbatim inside it, nothing was rewritten.** The routes that were kept from PR #10 are the ones already
+deployed (`board.html` → `docs/engine/`, every `docs/` sub-site), so the live URL set only grows.
+
+**2026-11-22 — rendered regenerated, not hand-edited.** `node scripts/build-site.mjs` was run after the
+merge; the only differences were its own build stamp and relative "Nm ago" footer ages, which is also why
+its `--check` gate could never pass twice. `normalise()` in `scripts/build-site.mjs` now ignores
+`data-generated` and `N<m|h|d> ago` fragments, so the gate compares content again. Verified with a
+negative control (a changed data field still fails the gate).
+
+**2026-11-22 — flag F1 resolved with an official source, in the desk's own files.** The fee schedule PDF
+the desk recorded as unretrievable is public: <https://kalshi.com/docs/kalshi-fee-schedule.pdf>
+(effective 2026-07-07). Taker `roundup(M×0.07×C×P×(1−P))`, maker `roundup(M×0.0175×C×P×(1−P))` with
+default multiplier 0, no settlement fee, no membership fee. Individually checked all 21 + 21 rows of its
+General Trading Fees Table against the desk's implementation: **42/42 match**. Changes: `VERIFIED = True`,
+`MODEL_NAMES["quadratic"] = "quadratic_verified"`, source URLs added to `metadata()`, two new assertions in
+`tests/test_model_fees.py` (the published table itself), `flags.json` F1 re-marked resolved (kept on the
+page rather than deleted), new source row `S26`, and the three committed ledger snapshots relabelled
+`quadratic_verified` — **no numeric value in any snapshot was changed**; the formula they were produced
+with is the verified one. Files owned by `arena-e3e5f70f` were edited for this reason, which the
+integration charter allows ("re-verifies the combined data line by line"), and the change is recorded here
+for that session to review.
+
+**2026-11-22 — new gate for the root gateway.** `index.html` is hand-written, so no existing checker
+covered it. `tools/check_gateway.py` fails on a dead local link, on a link to a path the Pages workflow
+does not publish, on a missing card, or on a missing disclaimer. Wired into `ci.yml` and `pages.yml`.
+Negative control run: renaming one card target fails the check.
+
+**2026-11-22 — gateway and docs rebuilt for four sites.** `index.html` rewritten as a clean landing page
+(primary desk, board, engine view, monitor, prototype archive; a comparison table; verification and flag
+links; the official sources the site relies on). `README.md` and `EXECUTIVE_SUMMARY.md` updated to match
+the integrated tree — including the fee verification and the two residual fee limits.
+
+**Verification of the combined tree (this branch, before the PR):** `pytest -q` 144 passed ·
+`node --test tests/*.test.mjs` 36 passed · `node scripts/{check-data,build-site --check,check-links,check-render}.mjs`
+clean · `python3 tools/build_site.py --check` current · `python3 tools/check_links.py` 272 links clean ·
+`python3 tools/check_gateway.py` 26 targets clean · `python3 -m engine.check_site --root docs/engine` clean ·
+`python3 tests/check_site.py` 37 pages · `python3 python/test_simulator.py` passed ·
+`python3 -m kalshi_trader.cli verify` OK.
+
+**Known-irregular snapshots, unchanged and non-blocking:** the desk's `meta.json` still lists ten
+`min_close_ts` HTTP 400 errors from the cycle that ran before PR #9's integer fix (code and test are in
+the tree; the next scheduled cycle overwrites the file) · `alerts.json` and `resolved.json` are empty
+because no ≥ $0.10 move and no finalization occurred inside the two committed cycles · `docs/engine/` is
+explicitly labelled `captured-replay` (real captured API responses, scripted price paths for the alert
+logic) because the build environment has no route to Kalshi.

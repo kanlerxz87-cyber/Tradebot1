@@ -4,53 +4,81 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Kalshi Trader — five topics, one desk</title>
-<meta name="description" content="Kalshi demo-environment research: gas prices, elections, culture, crypto and golf. ≥ $0.10 swing alerts, price and liquidity charts, resolution tracking, simulated trading. Every claim sourced.">
+<meta name="description" content="Kalshi research dashboards for gas prices, elections, culture, crypto and golf: ≥ $0.10 swing alerts, price and liquidity charts, resolution tracking and simulated trading. Every claim carries an official source link.">
 <link rel="canonical" href="index.html">
 <link rel="stylesheet" href="docs/desk/assets/css/site.css">
 <style>
-  .home { max-width: 980px; margin: 0 auto; padding: 48px 20px 64px; }
+  .home { max-width: 1060px; margin: 0 auto; padding: 44px 20px 64px; }
   .home h1 { font-size: 30px; letter-spacing: -.02em; margin: 10px 0 6px; }
-  .home .lede { color: var(--text-dim); max-width: 70ch; }
-  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); margin: 26px 0 8px; }
+  .home .lede { color: var(--text-dim); max-width: 74ch; margin: 0; }
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 0 0; }
+  .pills a, .pills span { font-size: 11px; letter-spacing: .06em; text-transform: uppercase; border: 1px solid var(--line); border-radius: 999px; padding: 4px 10px; color: var(--text-dim); text-decoration: none; }
+  .pills a:hover, .pills a:focus-visible { border-color: var(--accent); color: var(--accent); }
+  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin: 26px 0 8px; }
   .card-link { display: block; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: inherit; text-decoration: none; }
   .card-link:hover, .card-link:focus-visible { border-color: var(--accent); transform: translateY(-1px); }
+  .card-link.primary { border-color: var(--accent); }
   .card-link h2 { font-size: 16px; margin: 0 0 6px; }
   .card-link p { margin: 0; color: var(--text-dim); font-size: 13px; line-height: 1.55; }
   .card-link .tag { display: inline-block; font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); border: 1px solid currentColor; border-radius: 999px; padding: 2px 7px; margin-bottom: 10px; }
+  .home h2.sec { font-size: 15px; margin: 30px 0 10px; }
+  .home table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  .home th, .home td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .home th { color: var(--text-dim); font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; }
+  .home td a { color: var(--accent); }
   .home ul { padding-left: 18px; color: var(--text-dim); font-size: 13px; line-height: 1.7; }
   .home footer { margin-top: 34px; border-top: 1px solid var(--line); padding-top: 14px; font-size: 12px; color: var(--text-dim); }
+  .wrap-table { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; }
 </style>
 </head>
 <body>
 <main class="home">
   <p class="tag" style="margin:0">Kalshi · demo environment · research, not advice</p>
   <h1>Five topics. One desk. Every number traced to an official source.</h1>
-  <p class="lede">Gas prices, elections, culture, crypto and golf — scanned continuously for moves of
+  <p class="lede">Gas prices, elections, culture, crypto and golf — scanned for moves of
     <strong>$0.10 or more</strong>, charted with price and resting liquidity, tracked to a YES/NO
-    resolution, and traded by four rule-based strategies in a simulated book.</p>
+    resolution, and traded by rule-based strategies in a simulated book. Values that could not be
+    confirmed against an official Kalshi source are left blank and published on a
+    <a href="docs/desk/flagged.html">Flagged for review</a> page.</p>
+
+  <div class="pills" aria-label="Topics">
+    <span>Topics</span>
+    <a href="docs/desk/topics/gas-prices.html">Gas prices</a>
+    <a href="docs/desk/topics/elections.html">Elections</a>
+    <a href="docs/desk/topics/culture.html">Culture</a>
+    <a href="docs/desk/topics/crypto.html">Crypto</a>
+    <a href="docs/desk/topics/golf.html">Golf</a>
+  </div>
 
   <div class="cards">
-    <a class="card-link" href="docs/desk/">
-      <span class="tag">Autonomous</span>
+    <a class="card-link primary" href="docs/desk/">
+      <span class="tag">Start here · desk</span>
       <h2>Research desk →</h2>
-      <p>The collector-driven desk: 15-minute scheduled cycles, two alert chats (all moves and the
-         model's high-ROI subset), price chart with 30s–all windows, orderbook depth, resolution
-         tracker, four strategies with per-type analysis, and a source link on every table row.</p>
-    </a>
-    <a class="card-link" href="docs/">
-      <span class="tag">Interactive</span>
-      <h2>Market monitor →</h2>
-      <p>The browser-side monitor: polls public Kalshi endpoints from your own session, groups open
-         markets by event, sorts by estimated 24h traded dollars, and shows live orderbook depth
-         for any contract you pick.</p>
+      <p>The collector-driven desk: scheduled 15-minute cycles against Kalshi's public REST API,
+         two alert chats (all moves and the model's high-ROI subset), price charts with 30s–all
+         windows, orderbook depth, resolution tracking, four paper strategies with per-type
+         analysis, and a source link on every table row.</p>
     </a>
     <a class="card-link" href="board.html">
       <span class="tag">Board</span>
       <h2>Trade board →</h2>
-      <p>A third implementation, in Node with no runtime dependencies: events ranked by resting
-         dollars inside each of the five topics, two scrolling alert chats for moves of $0.10 or
-         more, a price chart with 60s–24h windows and an order-book ladder, five simulated
-         strategies, and a source link on every table row.</p>
+      <p>Independent Node implementation: events ranked by resting bid dollars inside each topic,
+         two auto-scrolling alert feeds for moves of $0.10 or more, a price chart with 60s–24h
+         windows and an order-book ladder, five simulated strategies, and 17 flagged items.</p>
+    </a>
+    <a class="card-link" href="docs/engine/">
+      <span class="tag">Verified</span>
+      <h2>Engine verification view →</h2>
+      <p>The Python engine's own site: a 39-item verification register where every fact links to
+         the official Kalshi page or API response behind it, five topic tables, both ≥ $0.10 alert
+         feeds, and its own flagged-for-review page.</p>
+    </a>
+    <a class="card-link" href="docs/">
+      <span class="tag">Interactive</span>
+      <h2>Market monitor →</h2>
+      <p>Browser-side monitor: polls public Kalshi endpoints from your own session, groups open
+         markets by event, sorts by estimated 24h traded dollars, and shows live orderbook depth
+         for any contract you pick.</p>
     </a>
     <a class="card-link" href="site/">
       <span class="tag">Archive</span>
@@ -58,23 +86,70 @@
       <p>The first standalone prototype, kept for review: simulated fallback data, a local strategy
          simulator and a credentialed Python client. Clearly separated from verified market data.</p>
     </a>
-    <a class="card-link" href="docs/engine/">
-      <span class="tag">Verified</span>
-      <h2>Engine verification view →</h2>
-      <p>The Python engine's own site: a 39-item verification register where every fact links to the
-         official Kalshi page or API response behind it, five topic tables, both ≥ $0.10 alert feeds,
-         and a Flagged-for-review page listing everything that did not come out clean.</p>
-    </a>
   </div>
 
-  <h2 style="font-size:15px;margin:26px 0 6px">Read before you trade on anything here</h2>
+  <h2 class="sec">What each site gives you</h2>
+  <div class="wrap-table">
+    <table>
+      <thead>
+        <tr><th>Site</th><th>Data feed</th><th>≥ $0.10 alerts</th><th>Price chart</th><th>Paper trading</th><th>Best for</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="docs/desk/">Research desk</a></td>
+          <td>Scheduled collector, production public REST, every 15 min</td>
+          <td>Two chats: all moves, and the model's high-ROI subset</td>
+          <td>Yes — 30s to all-history windows, plus orderbook depth</td>
+          <td>Yes — four strategies, per-topic and per-price-band analysis</td>
+          <td>The full brief: tracking, alerting, resolution, simulated performance</td>
+        </tr>
+        <tr>
+          <td><a href="board.html">Trade board</a></td>
+          <td>Scheduled Node collector, demo REST</td>
+          <td>Two auto-scrolling feeds</td>
+          <td>Yes — 60s to 24h windows, order-book ladder</td>
+          <td>Yes — five strategies</td>
+          <td>A second, independently built view of the same five topics</td>
+        </tr>
+        <tr>
+          <td><a href="docs/engine/">Engine view</a></td>
+          <td>Captured API responses (replay) plus a live engine</td>
+          <td>Both feeds, engine-generated</td>
+          <td>No — tables and feeds, no chart</td>
+          <td>Yes — six-strategy engine, fee-exact to the published schedule</td>
+          <td>Auditing API facts: 39 register entries, one source link each</td>
+        </tr>
+        <tr>
+          <td><a href="docs/">Market monitor</a></td>
+          <td>Your own browser, live</td>
+          <td>No</td>
+          <td>Yes — live orderbook depth</td>
+          <td>No</td>
+          <td>Spot-checking a single contract right now</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="sec">Verification and review</h2>
   <ul>
-    <li><a href="docs/desk/executive-summary.html">Executive summary</a> — what was built, which API facts were verified, what the numbers do and do not mean.</li>
-    <li><a href="docs/desk/verification.html">Verification log</a> — every claim with its official Kalshi source and check date.</li>
-    <li><a href="docs/desk/flagged.html">Flagged for review</a> — 14 items that could not be confirmed, including the fee model and the missing demo account. Nothing is inferred to fill a gap.</li>
-    <li><a href="flagged.html">Flagged for review (trade board)</a> — 17 further items from the independent Node build, each with its source and how to re-check it.</li>
-    <li><a href="docs/desk/requirements.html">Requirements matrix</a> — each requirement, its status and where it is implemented.</li>
-    <li><a href="docs/review/">Monitor's own review page</a> and <a href="docs/VERIFICATION.md">verification notes</a>.</li>
+    <li><a href="docs/desk/executive-summary.html">Executive summary</a> — what was built, which API facts were verified, what the numbers do and do not mean. Also at the repo root as <code>EXECUTIVE_SUMMARY.md</code>.</li>
+    <li><a href="docs/desk/verification.html">Verification log (desk)</a> — 26 claims, each with its official Kalshi source and the date it was checked.</li>
+    <li><a href="docs/engine/verification.html">Verification register (engine)</a> — 39 register entries with the same rule: no source link, no row.</li>
+    <li><a href="docs/desk/flagged.html">Flagged for review (desk)</a> — 14 items, including the unconnected demo account and the topic mappings Kalshi does not publish.</li>
+    <li><a href="flagged.html">Flagged for review (board)</a> — 17 further items from the independent Node build.</li>
+    <li><a href="docs/engine/flagged.html">Flagged for review (engine)</a> — everything that did not come out clean in the Python engine build.</li>
+    <li><a href="docs/desk/requirements.html">Requirements matrix</a> — each requirement in the brief, its status, and where it is implemented.</li>
+    <li><a href="docs/VERIFICATION.md">Monitor verification notes</a> and the monitor's own <a href="docs/review/">review page</a>.</li>
+  </ul>
+
+  <h2 class="sec">Official sources used across the site</h2>
+  <ul>
+    <li><a href="https://docs.kalshi.com/getting_started/api_environments">API environments</a> — demo and production REST/WebSocket base URLs, request signing.</li>
+    <li><a href="https://docs.kalshi.com/getting_started/orderbook_responses">Orderbook responses</a> — bids only; asks are implied as $1.00 − the opposite side's bid.</li>
+    <li><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf">Fee schedule</a> — 0.07 taker / 0.0175 maker, no settlement or membership fee (effective 2026-07-07).</li>
+    <li><a href="https://docs.kalshi.com/getting_started/market_lifecycle">Market lifecycle</a> and <a href="https://docs.kalshi.com/getting_started/market_settlement">settlement</a> — how a market is finalized yes or no.</li>
+    <li><a href="https://docs.kalshi.com/getting_started/demo_env">Demo environment</a> — mock funds, separate credentials, and Kalshi's warning that demo prices may not reflect real markets.</li>
   </ul>
 
   <footer>
