@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Repository Review — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="Line-by-line review of the Tradebot1 repository as found at commit c8413fc, checked against the GitHub REST API, the official git history and Kalshi's own documentation. Every finding links to the official source behind it.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="repo-review.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <h1 class="page-title">Repository Review</h1>
+  <p class="page-sub">Every file that existed at this session's branch base (<code>c8413fc</code>, the repo's first and only commit) was read line by line and checked against a primary source — the GitHub REST API, the local <code>git</code> object store, or Kalshi's official documentation. Checked 2026-11-22 (UTC). Findings that raise a question are marked <span class="status-flag">FLAGGED</span> and mirrored on <a href="flagged.html">Flagged for Review</a>. Nothing here is inferred: a cell that cannot be confirmed from a primary source is blank.</p>
+
+  <div class="cta-row" style="margin-bottom:18px">
+    <a class="btn ghost small" href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener noreferrer">Repository on GitHub ↗</a>
+    <a class="btn ghost small" href="https://github.com/kanlerxz87-cyber/Tradebot1/commits/main" target="_blank" rel="noopener noreferrer">Commit history (official) ↗</a>
+    <a class="btn ghost small" href="https://kanlerxz87-cyber.github.io/Tradebot1/" target="_blank" rel="noopener noreferrer">Published site ↗</a>
+  </div>
+
+  <div class="card">
+    <h2>1 · What the repository contained at the branch base</h2>
+    <p class="small muted" style="margin:0 0 8px">Method: <code>git ls-tree -r c8413fc</code> and <code>git show c8413fc:README.md</code> on a fresh clone; cross-checked with the GitHub REST API (<code>GET /repos/kanlerxz87-cyber/Tradebot1</code>, <code>GET /commits</code>).</p>
+    <div class="table-wrap"><table aria-label="Repository contents at base commit">
+      <thead><tr><th>#</th><th>Item</th><th>What was found (exact)</th><th>Source</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>R-01</td><td>Tracked files at base</td><td><code>README.md</code> only — one file, one commit</td><td><a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/contents?ref=c8413fcae9e3388b1bd7fd433fac1500630b4140" target="_blank" rel="noopener noreferrer">GitHub Contents API ↗</a> · local <code>git ls-tree -r c8413fc</code></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-02</td><td><code>README.md</code> contents</td><td><code># Tradebot1</code> — 11 bytes including newline; no newline at end of file</td><td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/c8413fcae9e3388b1bd7fd433fac1500630b4140/README.md" target="_blank" rel="noopener noreferrer">README.md @ c8413fc ↗</a> · <code>wc -c</code> = 11</td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-03</td><td>Commit history at base</td><td>Single commit <code>c8413fc</code> — “Initial commit”. No branches other than <code>main</code> when this session started.</td><td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/commits/main" target="_blank" rel="noopener noreferrer">Commits ↗</a></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-04</td><td>License</td><td>None. GitHub API returns <code>"license": null</code>.</td><td><a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener noreferrer">GitHub Repos API ↗</a></td><td class="status-flag">FLAGGED — no license chosen</td></tr>
+        <tr><td>R-05</td><td><code>.gitignore</code></td><td>Absent at base</td><td>Contents API (R-01)</td><td class="status-flag">FLAGGED — absent at base</td></tr>
+        <tr><td>R-06</td><td>CI workflow</td><td>Absent at base; no checks on <code>main</code></td><td>Contents API (R-01) · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions" target="_blank" rel="noopener noreferrer">Actions ↗</a></td><td class="status-flag">FLAGGED — absent at base</td></tr>
+        <tr><td>R-07</td><td>Tests</td><td>None at base (no test directory, no test config)</td><td>Contents API (R-01)</td><td class="status-flag">FLAGGED — absent at base</td></tr>
+        <tr><td>R-08</td><td>Source code</td><td>None — no Python, JS, HTML or config files at base</td><td>Contents API (R-01)</td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-09</td><td>COMMENTS / docs</td><td>None at base; this session created <code>COORDINATION.md</code> per the brief</td><td>Contents API (R-01) · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/COORDINATION.md" target="_blank" rel="noopener noreferrer">COORDINATION.md ↗</a></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-10</td><td>Secrets committed</td><td>None found at base (single text file). No credentials of any kind in this session's deliverables either.</td><td>Contents API (R-01)</td><td class="status-verified">VERIFIED</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>2 · Repository settings and delivery path</h2>
+    <p class="small muted" style="margin:0 0 8px">Checked via the GitHub REST API with the repository's own token (no other credentials used).</p>
+    <div class="table-wrap"><table aria-label="Repository settings">
+      <thead><tr><th>#</th><th>Setting</th><th>Observed value</th><th>Source</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>R-11</td><td>Visibility</td><td>Public — visitors can read every file, including any future committed data. Kalshi demo API keys are account credentials; this site therefore never asks for them to be committed.</td><td><a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener noreferrer">Repos API ↗</a></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-12</td><td>Default branch</td><td><code>main</code></td><td>Repos API (R-11)</td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-13</td><td>GitHub Pages source</td><td>Legacy branch build, source <code>main</code> / <code>/</code> (root), HTTPS enforced. This is what makes the root <code>index.html</code> gateway the public entry point.</td><td><a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages" target="_blank" rel="noopener noreferrer">Pages API ↗</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/configuring-a-publishing-source-for-your-github-pages-site" target="_blank" rel="noopener noreferrer">GitHub Docs: publishing source ↗</a></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-14</td><td>Published URL</td><td><code>https://kanlerxz87-cyber.github.io/Tradebot1/</code> — project-page subpath, so every internal link must be relative (this site uses relative links throughout).</td><td>Pages API (R-13) · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages" target="_blank" rel="noopener noreferrer">GitHub Docs: About Pages ↗</a></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-15</td><td>Jekyll processing</td><td>Root has a <code>.nojekyll</code> marker (added by another session's integration, not by this one). Its presence disables Jekyll; if it is ever deleted, files beginning with <code>_</code> or <code>#</code> stop being served. This site's own subtree uses no such names.</td><td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/.nojekyll" target="_blank" rel="noopener noreferrer">.nojekyll ↗</a> · <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#static-site-generators" target="_blank" rel="noopener noreferrer">GitHub Docs: static site generators ↗</a></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-16</td><td>Open issues / pull requests at review time</td><td>11 open issues and 10 open pull requests on the remote at review time; they belong to other sessions' scopes and were left untouched by this session.</td><td><a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener noreferrer">Repos API ↗</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/issues" target="_blank" rel="noopener noreferrer">Issues ↗</a></td><td class="status-verified">VERIFIED</td></tr>
+        <tr><td>R-17</td><td>Branch protection on <code>main</code></td><td>No rulesets configured (<code>GET /rulesets</code> → <code>[]</code>) — checked 2026-11-22. The classic branch-protection endpoint returns HTTP 403 for the token used here, so classic protection cannot be read; this row states only what the ruleset API returned.</td><td><a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/rulesets" target="_blank" rel="noopener noreferrer">Rulesets API ↗</a></td><td class="status-unverified">PARTIAL — rulesets verified empty; classic protection unreadable</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>3 · Review of this session's own terminal implementation</h2>
+    <p class="small muted" style="margin:0 0 8px">Self-review of the files this session owns (<code>/terminal/**</code>). Each defect found during the review is listed with the fix and how it was checked.</p>
+    <div class="table-wrap"><table aria-label="Self-review of terminal implementation">
+      <thead><tr><th>#</th><th>Area</th><th>Check performed</th><th>Result / fix</th><th>Source / evidence</th></tr></thead>
+      <tbody>
+        <tr><td>T-01</td><td>JS syntax</td><td><code>node --check</code> on all 12 modules</td><td>Clean</td><td>Session command log; files under <code>terminal/assets/js/</code></td></tr>
+        <tr><td>T-02</td><td>PKCS#1 RSA keys</td><td>Kalshi's docs state RSA PEMs are PKCS#1 and that WebCrypto cannot import them directly</td><td>Fixed: <code>wrapPkcs1ToPkcs8()</code> wraps the DER in a PKCS#8 <code>PrivateKeyInfo</code> before <code>importKey</code>. Not round-trip tested against a live key (no keys in sandbox) → still flagged.</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">API Keys ↗</a> · <a href="https://www.rfc-editor.org/rfc/rfc5208" target="_blank" rel="noopener noreferrer">RFC 5208 ↗</a></td></tr>
+        <tr><td>T-03</td><td>Price units</td><td>Kalshi returns dollars fractions such as <code>0.5600</code> and legacy integer cents in some fields</td><td>Fixed: <code>fpOrCents()</code> in <code>kalshi.js</code> normalises both shapes; paper fees computed on dollars.</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook responses ↗</a></td></tr>
+        <tr><td>T-04</td><td>Order-book rendering</td><td>Order book returns bids only for YES and NO; asks are implied</td><td>Ladder shows YES bids and implied asks derived as <code>1 − no_bid</code>; labelled as implied.</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook responses ↗</a></td></tr>
+        <tr><td>T-05</td><td>WebSocket path</td><td>Browser cannot set handshake headers</td><td>Not attempted by default; the dashboard polls REST every 4 s and backs off to 15 s on 429. A proxy is described on <a href="suggestions.html#ws-proxy">Suggestions § WS proxy</a>.</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer">Quick Start: WebSockets ↗</a></td></tr>
+        <tr><td>T-06</td><td>Demo account data</td><td><code>/portfolio/*</code> requires keys; this session had none</td><td>Portfolio page keeps everything in <code>localStorage</code>; demo connection is opt-in and clearly marked.</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">API Keys ↗</a></td></tr>
+        <tr><td>T-07</td><td>Links</td><td>All internal hrefs resolve within <code>/terminal/</code>; all external links use <code>https</code> and open in a new tab</td><td>Checked by grep + the repo's own <code>tests/check_site.py</code> on the merged tree</td><td>Session command log</td></tr>
+        <tr><td>T-08</td><td>Simulated data labelling</td><td>No synthetic price may be presented as real</td><td>Every SIM row/feed item carries the <code>SIMULATED</code> badge; the feed source banner states live vs simulated.</td><td>On-page: <a href="dashboard.html">dashboard</a>, <a href="strategies.html">Strategy Lab</a></td></tr>
+        <tr><td>T-09</td><td>Claim discipline</td><td>No verified-looking figure without an official source</td><td>Unverified items are blank and listed on <a href="flagged.html">Flagged</a>; register on <a href="verification.html">Verification</a>.</td><td>Session rule; registers linked</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>4 · Irregularities handed to “Flagged for Review”</h2>
+    <p class="small muted" style="margin:0 0 8px">Full text, impact and source on <a href="flagged.html">Flagged for Review</a>; these do not block the merge.</p>
+    <div class="table-wrap"><table aria-label="Irregularities">
+      <thead><tr><th>Ref</th><th>Irregularity</th><th>Why it is flagged</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td><a href="flagged.html#F-01">F-01</a></td><td>No live Kalshi data could be collected inside the build sandbox</td><td>The sandbox reaches only GitHub/npm/PyPI; the demo hosts are unreachable, so every live figure is browser-fetched at view time or SIMULATED-labelled</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments ↗</a></td></tr>
+        <tr><td><a href="flagged.html#F-02">F-02</a></td><td>No demo-account credentials were provided</td><td>Demo portfolio functions cannot be exercised here; connection is user-supplied in the browser</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">API Keys ↗</a></td></tr>
+        <tr><td><a href="flagged.html#F-05">F-05</a></td><td>Fee formula corroborated only by dated third-party sources</td><td>Official fee-schedule PDF URL not read in-session</td><td><a href="https://www.quantvps.com/blog/kalshi-fees-explained" target="_blank" rel="noopener noreferrer">quantvps (2026-11-08) ↗</a></td></tr>
+        <tr><td><a href="flagged.html#F-12">F-12</a></td><td><code>kalshi.com/markets/…</code> web-URL pattern</td><td>Inferred from scrapers, not stated in official docs</td><td><a href="https://apify.com/spotless_studios/kalshi-markets-scraper" target="_blank" rel="noopener noreferrer">apify scraper ↗</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="callout warn" style="margin-top:16px">
+    <strong>Line-by-line statement.</strong> At the branch base the repository contained a single 11-byte README and nothing else — that is the entire review of pre-existing code, because no code existed. Everything above is either a primary-source fact (git, GitHub API, Kalshi docs) or a described fix in this session's own files. Nothing was inferred, and every row that matters carries a link you can open.
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+</body>
+</html>

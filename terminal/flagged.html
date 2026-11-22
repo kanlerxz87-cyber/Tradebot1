@@ -16,47 +16,48 @@
   <p class="page-sub">Published as explicitly requested: every item here is either <strong>unverified</strong>, <strong>untested in this environment</strong>, or an <strong>irregularity</strong> found while reviewing the repo. Nothing on this page blocks the site; everything on it deserves your eyes. IDs are stable — reference them when requesting changes.</p>
 
   <div class="card">
-    <h2>F-01 · No live demo data could be captured or verified in the build session</h2>
+    <h2 id="F-01">F-01 · No live demo data could be captured or verified in the build session</h2>
     <p class="muted"><strong>What:</strong> the sandbox running this build has no network route to <code>external-api.demo.kalshi.co</code> (curl → timeout). No Kalshi demo API keys were provided. All prices, volumes, order books, model scores and alert histories shown at runtime are fetched in <em>your</em> browser, never during the build, and contain zero invented values. The offline fallback is a random-walk generator badged <span class="badge sim">SIMULATED</span>.</p>
     <p class="muted"><strong>Unblocks when:</strong> someone opens the site in a browser with internet access (GitHub Pages serves it publicly), or a CI/hosted runner with egress to the demo API snapshots data server-side.</p>
     <p class="small"><a href="verification.html">See V-28</a> · <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">Demo endpoints ↗</a></p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-02 · CORS behavior of the demo REST API from a GitHub Pages origin is unknown</h2>
-    <p class="muted"><strong>What:</strong> Kalshi's public docs specify no <code>Access-Control-Allow-Origin</code> policy for browser clients. If the demo host does not return permissive CORS headers, every live page degrades to its error state, and the user must click “Load simulated feed”. The code handles this gracefully by design, but it has not been exercised against the real origin.</p>
-    <p class="muted"><strong>Unblocks when:</strong> a browser session with devtools open loads the dashboard and reads the console; or a ~20-line Cloudflare Worker proxy (see <a href="suggestions.html#ws-proxy">Suggestions P0-1</a>) is deployed with <code>Access-Control-Allow-Origin: *</code>.</p>
+    <h2 id="F-02">F-02 · CORS is now measured: public reads allowed, signed requests blocked</h2>
+    <p class="muted"><strong>Status:</strong> resolved by measurement (2026-11-22), no longer an open unknown. A GitHub-hosted runner in this repository (<code>probe/results.json</code>) requested the demo API with <code>Origin: https://kanlerxz87-cyber.github.io</code>: the response echoed that origin in <code>Access-Control-Allow-Origin</code>, exposed <code>X-Ratelimit-*</code>, and returned HTTP 200 on <code>/exchange/status</code>, <code>/markets</code>, <code>/markets/{ticker}/orderbook</code> and candlesticks, on both demo hosts. <strong>What stays blocked:</strong> signed requests (preflight omits the three <code>KALSHI-ACCESS-*</code> request headers) and the WebSocket upgrade (HTTP 401 unsigned) — so the live dashboard can read public data directly in the browser, but portfolio/trading and push streaming still need a proxy that holds the signature.</p>
+    <p class="small"><a href="verification.html">V-31, V-32</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/probe/results.json" target="_blank" rel="noopener noreferrer">Measured evidence ↗</a> · <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments ↗</a></p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-03 · WebSocket streaming requires a proxy — not implemented</h2>
+    <h2 id="F-03">F-03 · WebSocket streaming requires a proxy — not implemented</h2>
+    <p class="muted"><strong>Measured 2026-11-22:</strong> an unsigned upgrade to both demo WS hosts returns HTTP 401 <code>token_authentication_failure</code> (see <code>probe/results.json</code>), confirming the signed handshake requirement below.</p>
     <p class="muted"><strong>What:</strong> the demo WS handshake is signed (<code>KALSHI-ACCESS-*</code> headers over <code>GET /trade-api/ws/v2</code>); browsers cannot attach headers to <code>new WebSocket(...)</code>. The dashboard therefore polls REST. A <code>wsProxyUrl</code> setting exists and the proxy contract is documented, but no proxy ships with this repo and none was tested.</p>
     <p class="muted"><strong>Unblocks when:</strong> a small proxy (Node/Cloudflare/Deno) adds the three headers and forwards the stream; then set <code>wsProxyUrl</code> in Portfolio → Settings.</p>
     <p class="small"><a href="verification.html">V-05, V-06, V-07, V-08</a> · <a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer">WS docs ↗</a></p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-04 · Demo order placement never executed — request shape is best-effort</h2>
+    <h2 id="F-04">F-04 · Demo order placement never executed — request shape is best-effort</h2>
     <p class="muted"><strong>What:</strong> <code>POST /portfolio/events/orders</code> (V2) is implemented in <code>assets/js/kalshi.js</code> with fields corroborated from third-party sources (<code>ticker</code>, <code>side: bid|ask</code>, fixed-point <code>price</code> string, <code>count</code>, <code>time_in_force</code>, <code>self_trade_prevention_type</code>, <code>client_order_id</code>). Exact enum values and any additional required fields have <strong>not</strong> been validated against the demo API. Worst case: HTTP 400 with a descriptive body, displayed in a toast — no funds can move (mock funds), but no promise of a successful order is made.</p>
     <p class="muted"><strong>Unblocks when:</strong> demo keys are supplied and one order is placed from a controlled browser session, or Kalshi's official OpenAPI spec is checked into the repo and the payload is generated from it.</p>
     <p class="small"><a href="verification.html">V-18</a> · <a href="https://github.com/pmxt-dev/pmxt/issues/417" target="_blank" rel="noopener noreferrer">pmxt #417 ↗</a></p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-05 · Official Kalshi fee-schedule PDF URL not confirmed</h2>
+    <h2 id="F-05">F-05 · Official Kalshi fee-schedule PDF URL not confirmed</h2>
     <p class="muted"><strong>What:</strong> the fee formula used for paper/simulated PnL (<code>roundup(0.07 × C × P × (1−P))</code>, taker, most markets) comes from dated third-party reports (2026-07 fee schedule effective date). The official PDF was not located/fetched in this session. Non-standard series (Fed funds, CPI, jobs, GDP, NFL/NBA per secondary reports) may differ.</p>
     <p class="muted"><strong>Unblocks when:</strong> the official fee page on kalshi.com is linked and quoted in <code>verification.html</code>.</p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-06 · Per-contract Kalshi web URLs are unverified</h2>
+    <h2 id="F-06">F-06 · Per-contract Kalshi web URLs are unverified</h2>
     <p class="muted"><strong>What:</strong> “Kalshi ↗” links use <code>https://kalshi.com/markets/{series_ticker|ticker, lowercased}</code>, inferred from two independent third-party scrapers with consistent output. Official docs don't document the URL scheme. Links may 404 for some series.</p>
     <p class="muted"><strong>Unblocks when:</strong> the URL scheme is confirmed on kalshi.com itself, or each link is replaced by an <code>event_ticker</code>-keyed redirect verified manually.</p>
     <p class="small"><a href="verification.html">V-26</a></p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-07 · Repository irregularities (as found at <code>c8413fc</code>)</h2>
+    <h2 id="F-07">F-07 · Repository irregularities (as found at <code>c8413fc</code>)</h2>
     <ul class="muted" style="margin:0; padding-left:18px">
       <li>Single commit; README.md contains only <code># Tradebot1</code> (11 bytes) — no project description, setup, or license.</li>
       <li>No <code>LICENSE</code> file — all rights reserved by default; reuse/contribution terms unclear.</li>
@@ -69,41 +70,53 @@
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-08 · “$0.10 in either direction” is operationalized two ways — confirm the intent</h2>
+    <h2 id="F-08">F-08 · “$0.10 in either direction” is operationalized two ways — confirm the intent</h2>
     <p class="muted"><strong>What:</strong> alerts fire on |Δ| ≥ $0.10 vs (a) the session reference price at first sight, or (b) the price ~2 minutes ago (rolling). A ≥ $0.10 move can therefore alert twice (once per reference) or miss a slow drift through both windows. There is also a 90-second per-contract cooldown to prevent feed spam. If you want strictly one definition — e.g., vs 24h-ago price from candlesticks — that changes <code>assets/js/model.js</code> only.</p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-09 · Model score has no empirical calibration</h2>
+    <h2 id="F-09">F-09 · Model score has no empirical calibration</h2>
     <p class="muted"><strong>What:</strong> the ≥ 65 “model-approved” threshold is asserted from first principles (liquidity, spread, move, entry band, open interest), not fitted to settled-event outcomes. No settled demo history was available to fit it. Treat the feed as a prioritization screen; review its hit rate weekly and refit.</p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-10 · “Possible drivers” links cannot prove causation</h2>
+    <h2 id="F-10">F-10 · “Possible drivers” links cannot prove causation</h2>
     <p class="muted"><strong>What:</strong> on a ≥ $0.10 alert the chart panel shows a Google News search for the event title plus official reference links for the vertical (e.g., EIA for gas, FEC for elections, CoinGecko for crypto, pgatour.com/masters.com for golf). These are <em>where to look</em>, not a certified cause. No NLP/news-correlation pipeline exists yet (see <a href="suggestions.html#news-nlp">Suggestions P2-3</a>).</p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-11 · Est. notional is a derived, non-official metric</h2>
+    <h2 id="F-11">F-11 · Est. notional is a derived, non-official metric</h2>
     <p class="muted"><strong>What:</strong> “Highest dollar amount” is operationalized as <code>volume × last price</code>. Kalshi does not publish “event dollar volume” as a field; this proxy overweights high-price contracts vs low ones and ignores fees/slippage. Alternatives (24h notional, open-interest × price) are one-line changes in <code>kalshi.js#estNotionalOf</code>.</p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-12 · Fee maker/taker nuance in strategy P&amp;L</h2>
+    <h2 id="F-12">F-12 · Fee maker/taker nuance in strategy P&amp;L</h2>
     <p class="muted"><strong>What:</strong> the Strategy Lab deducts a taker fee on entry <em>and</em> exit, and none at resolution. Real Kalshi fee behavior for resting orders (maker) can be materially lower, and several series carry non-standard fees. Simulated P&amp;L therefore skews pessimistic for limit-order strategies. Documented in <code>strategies.js</code> and on the Strategy Lab page.</p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-13 · Demo account panel field mapping is defensive, not guaranteed</h2>
+    <h2 id="F-13">F-13 · Demo account panel field mapping is defensive, not guaranteed</h2>
     <p class="muted"><strong>What:</strong> balance/positions/fills/orders renderers try fixed-point dollar fields first (<code>*_fp</code>, <code>*_dollars</code>) then legacy integer cents, and mirror the raw JSON below the tables for debugging. If your account tier returns different shapes, tables may show zeros or “—” — the raw pane is ground truth.</p>
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2>F-14 · GitHub Pages will serve this repository publicly</h2>
+    <h2 id="F-14">F-14 · GitHub Pages will serve this repository publicly</h2>
     <p class="muted"><strong>What:</strong> the repo is public and Pages is on. That means the dashboard is a public single-page app. <strong>Never</strong> paste production keys into it; demo keys stay in your own browser's localStorage. The site ships no secrets (verified: repo contains only these files; no keys, no .env).</p>
   </div>
 
   <p class="small muted" style="margin-top:18px">Log any new irregularity in <code>COORDINATION.md</code> with an <code>F-</code> id and mirror it here. Status of this register: 2026-11-22, session arena-30938ff3.</p>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-15">F-15 · Classic branch-protection state could not be read</h2>
+    <p class="muted"><strong>What:</strong> the ruleset API returns an empty list (no rulesets), but <code>GET /branches/main/protection</code> responds HTTP 403 for the token used by this session. Whether classic branch protection exists on <code>main</code> is therefore <em>not verified</em> and not claimed anywhere on the site.</p>
+    <p class="small"><a href="repo-review.html">Repo review R-17</a> · <a href="https://docs.github.com/en/rest/branches/branch-protection" target="_blank" rel="noopener noreferrer">GitHub REST: branch protection ↗</a></p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-16">F-16 · This is a public repository — never commit demo credentials</h2>
+    <p class="muted"><strong>What:</strong> the repository is public, so any committed key would be readable by anyone. The Portfolio page asks for the demo key pair at runtime and keeps it in this browser's <code>localStorage</code> only; nothing is transmitted anywhere except to the Kalshi demo hosts over HTTPS. Anyone using a shared computer should clear the key from Settings when done. A leaked demo key still cannot move real money (demo funds), but it can read that demo account's history.</p>
+    <p class="small"><a href="portfolio.html">Portfolio → Settings</a> · <a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">Kalshi API keys ↗</a></p>
+  </div>
 </main>
 
 <div id="site-footer" class="site-footer"></div>

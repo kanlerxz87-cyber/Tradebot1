@@ -20,6 +20,7 @@ same brief; both are kept, because they make different trade-offs and each is us
 | `site/` | First standalone prototype (simulated fallback, local simulator, credentialed python client) | sample/simulated |
 | `board.html`, `dashboard.html` | Node-only trade board and its live page, with their own collector, source register and 17 flags | public demo REST, collected server-side every 30 min |
 | `audit.html` | **Integration audit** — checks re-run, five defects found and fixed (with regression tests), requirement coverage, open irregularities | reads the committed snapshot |
+| **`terminal/`** | **Browser terminal** — dependency-free, zero-build vanilla HTML/CSS/JS that calls the **public demo REST API straight from the visitor's browser** (no backend, no committed snapshots): landing, live dashboard (gas, elections, culture, crypto, golf), two ≥ $0.10 alert chats (all events + model-approved), 30 s–6 h price chart, order-book liquidity ladder, YES/NO resolution tracker, five-strategy Monte-Carlo lab, local paper ledger + optional demo-account connect, executive summary, verification (V-01…V-36), flagged register (F-01…F-16), repo review, suggestions | public demo REST, read by the visiting browser (CORS measured allowed) |
 
 > The landing page is the single entry point: it shows the latest published cycle, per-topic counts and
 > the newest swing, all read from `docs/desk/data/*.json`. It prints “—” rather than estimating a value the

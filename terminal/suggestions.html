@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suggestions — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="Prioritised, source-linked plan to make the Kalshi demo dashboard more live and interactive: a WebSocket proxy, a news-correlation pipeline, simpler charts, alerts fan-out and per-topic playbooks.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="suggestions.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <h1 class="page-title">Suggestions — make it more live and interactive</h1>
+  <p class="page-sub">Written from what is actually live today versus what the API makes possible. Prioritised P0 (unblocks live streaming), P1 (high value, small effort), P2 (analytics depth). Every suggestion states the official source it depends on. Suggestions are proposals, not claims about what is verified — verified facts live on <a href="verification.html">Verification</a>.</p>
+
+  <div class="kpi-row">
+    <div class="kpi"><div class="k">P0 items</div><div class="v">2</div></div>
+    <div class="kpi"><div class="k">P1 items</div><div class="v">5</div></div>
+    <div class="kpi"><div class="k">P2 items</div><div class="v">4</div></div>
+    <div class="kpi"><div class="k">Already shipped</div><div class="v">6</div></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Already implemented on this site</h2>
+    <div class="table-wrap"><table aria-label="Already implemented">
+      <thead><tr><th>Feature</th><th>Where</th><th>What it does</th></tr></thead>
+      <tbody>
+        <tr><td>Live polling with 429 back-off</td><td><a href="dashboard.html">Live Dashboard</a></td><td>Refreshes public markets every 4 s; backs off to 15 s on rate-limit responses.</td></tr>
+        <tr><td>≥ $0.10 swing detection</td><td>Dashboard · alerts</td><td>Compares each contract's mid over a rolling 2-minute window; fires at |Δ| ≥ $0.10 with a 90 s per-contract cooldown.</td></tr>
+        <tr><td>Two scrolling chats</td><td>Dashboard · right column</td><td>One unfiltered feed, one filtered to model-approved high-ROI events (score ≥ 65).</td></tr>
+        <tr><td>Selectable chart windows</td><td>Dashboard · chart panel</td><td>X = time (5 m / 15 m / 1 h / 6 h), Y = contract price $0.00–$1.00; hover crosshair.</td></tr>
+        <tr><td>Order-book depth ladder</td><td>Dashboard · ladder</td><td>Contract counts per price level; implied asks derived as 1 − NO bid, labelled as implied.</td></tr>
+        <tr><td>Resolution tracker &amp; simulated book</td><td><a href="events.html">Events</a> · <a href="strategies.html">Strategy Lab</a> · <a href="portfolio.html">Portfolio</a></td><td>Open → settled YES/NO with payout; five simulated strategy archetypes; paper ledger.</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>P0 — unblocks genuinely live behaviour</h2>
+    <div class="table-wrap"><table aria-label="P0 suggestions">
+      <thead><tr><th>Ref</th><th>Suggestion</th><th>Why it matters</th><th>Effort</th><th>Official source</th></tr></thead>
+      <tbody>
+        <tr id="ws-proxy"><td>P0-1</td><td><strong>Add a small WebSocket proxy</strong> (Cloudflare Worker or ~40-line Node service) that signs the handshake, then forwards frames to the browser.</td><td>Kalshi's WS upgrade requires the signed <code>KALSHI-ACCESS-*</code> headers; browsers cannot set custom headers on <code>new WebSocket()</code>. With a proxy the dashboard can switch from 4 s polls to push updates — order-book deltas and ticker messages arrive in milliseconds, and alerts stop depending on a polling window.</td><td>~1 hour, one deploy target</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener noreferrer">Quick Start: WebSockets ↗</a> · <a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener noreferrer">API Keys ↗</a></td></tr>
+        <tr><td>P0-2</td><td><strong>Snapshot service for history.</strong> A GitHub Action (or cron Worker) writes a public JSON snapshot every 1–5 min into the repo; the site reads history from it.</td><td>REST candles only exist at 1 m / 1 h / 1 d granularity; sub-minute windows shown live today are built from in-browser polling and vanish on reload. A snapshot endpoint gives a durable, shareable history without any credentials (public read endpoints need no auth).</td><td>~2 hours, existing Actions runner</td><td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer">Candlesticks API ↗</a> · <a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener noreferrer">Quick Start: Market Data ↗</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>P1 — high value, small effort</h2>
+    <div class="table-wrap"><table aria-label="P1 suggestions">
+      <thead><tr><th>Ref</th><th>Suggestion</th><th>Why it matters</th><th>Effort</th><th>Official source</th></tr></thead>
+      <tbody>
+        <tr><td>P1-1</td><td><strong>Alert fan-out</strong> to email/Slack/Discord webhooks, triggered by a scheduled collector.</td><td>A trader is not always watching a browser tab. Fan-out requires a server-side trigger, which the demo REST API supports from a runner with no special permission for reads.</td><td>~2 hours</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments ↗</a></td></tr>
+        <tr><td>P1-2</td><td><strong>Contract-side breakouts:</strong> detect moves on YES and NO independently and show both in the same chat with the side label.</td><td>A NO-side jump of $0.10 is a YES price drop; traders watch the side they hold. One extra comparison per contract.</td><td>~30 min</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook responses ↗</a></td></tr>
+        <tr><td>P1-3</td><td><strong>Liquidity sparkline</strong> beside each event row (top-of-book size + spread).</td><td>Price without depth is misleading: a $0.10 move on 5 contracts is noise, the same move on 5,000 is not. Depth is already in the order book response; it just needs a small chart.</td><td>~1 hour</td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook responses ↗</a></td></tr>
+        <tr><td>P1-4</td><td><strong>Per-topic playbooks</strong> (see table below) surfaced as one-line "what usually moves this" hints next to each topic card.</td><td>Converts the dashboard from a price wall into a decision surface. Playbooks are labelled as editorial notes, never as verified facts.</td><td>~1 hour content</td><td>Internal notes; gas series taxonomy: <a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener noreferrer">Market terms ↗</a></td></tr>
+        <tr><td>P1-5</td><td><strong>Saved views</strong> (URL hash encodes topic, window, chat filter) so a trader can bookmark a layout.</td><td>Live dashboards earn their keep when the exact layout survives a reload; today only the topic is deep-linkable.</td><td>~45 min</td><td>Internal (this site)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>P2 — analytics depth</h2>
+    <div class="table-wrap"><table aria-label="P2 suggestions">
+      <thead><tr><th>Ref</th><th>Suggestion</th><th>Why it matters</th><th>Effort</th><th>Official source</th></tr></thead>
+      <tbody>
+        <tr id="news-nlp"><td>P2-1</td><td><strong>News-correlation pipeline.</strong> When a ≥ $0.10 swing fires, search a news API over the previous 15 minutes for the event's named subject (EIA release, FEC filing, tournament leaderboard, coin price feed), store the top matches beside the alert with timestamps.</td><td>Today the alert shows "possible drivers to check" search links, not a correlation. A stored join (alert time ↔ article time ↔ topic keywords) turns that into evidence a human can audit — still shown as candidate, never as cause.</td><td>~1 day + a news API key</td><td><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">Market lifecycle ↗</a> (settlement sources)</td></tr>
+        <tr><td>P2-2</td><td><strong>Calibration scoreboard:</strong> bucket the simulated book's trades by model score and plot realised hit rate per bucket.</td><td>The score is a heuristic; the only honest measure of it is out-of-sample. Buckets make overfit visible.</td><td>~3 hours</td><td>Internal — <a href="summary.html#model">model rubric ↗</a></td></tr>
+        <tr><td>P2-3</td><td><strong>Settlement-aware auto-close:</strong> poll settled markets and move paper positions to cash at $1/$0 automatically.</td><td>Resolution is already tracked; wiring the payout into the book closes the loop without manual clicks.</td><td>~2 hours</td><td><a href="https://docs.kalshi.com/getting_started/market_settlement" target="_blank" rel="noopener noreferrer">Market settlement ↗</a></td></tr>
+        <tr><td>P2-4</td><td><strong>Cross-topic correlation card:</strong> show a matrix of how today's topics moved together (crypto vs elections etc.).</td><td>Useful only after several days of snapshot history exist (depends on P0-2).</td><td>~4 hours</td><td>Depends on P0-2</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>Per-topic playbooks (editorial notes — not verified facts)</h2>
+    <p class="small muted" style="margin:0 0 8px">Each raw topic maps to a Kalshi taxonomy field verified on <a href="verification.html">Verification</a> (V-31…V-35). The "what usually moves it" column is a trader's checklist of public releases to look at when an alert fires — a candidate list, not evidence of cause.</p>
+    <div class="table-wrap"><table aria-label="Topic playbooks">
+      <thead><tr><th>Topic</th><th>Taxonomy (official)</th><th>What usually moves it (candidate drivers)</th><th>Source for taxonomy</th></tr></thead>
+      <tbody>
+        <tr><td>Gas prices</td><td>Series <code>KXAAAGASM</code>; category <code>Economics</code> / <code>Commodities</code></td><td>Weekly EIA gasoline report (Wednesdays), crude prints, refinery outages, holiday demand.</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener noreferrer">Market terms ↗</a></td></tr>
+        <tr><td>Elections</td><td>Category <code>Elections</code></td><td>Poll releases, FEC filings, debates, court rulings on ballot access.</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener noreferrer">Market terms ↗</a></td></tr>
+        <tr><td>Culture</td><td>Category <code>Entertainment</code> (+ <code>Social</code>); no official "Culture" category exists</td><td>Release dates, awards ceremonies, box-office weekend numbers, viral moments.</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener noreferrer">Market terms ↗</a></td></tr>
+        <tr><td>Crypto</td><td>Category <code>Crypto</code></td><td>Spot price breakouts, ETF flow prints, exchange outages, protocol events.</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener noreferrer">Market terms ↗</a></td></tr>
+        <tr><td>Golf</td><td>Tag <code>Golf</code> inside category <code>Sports</code></td><td>Leaderboard changes, weather delays, withdrawals, tee-time announcements.</td><td><a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener noreferrer">Tags by category (official API) ↗</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="callout" style="margin-top:16px">
+    <strong>Design rule followed throughout.</strong> Anything live is fetched from Kalshi at view time (public, no-auth endpoints — measured CORS-allowed from this site's origin by the repo's connectivity probe). Anything simulated is badged. Anything unconfirmed is blank and listed on <a href="flagged.html">Flagged for Review</a>. The full measured probe output is committed at <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/probe/results.json" target="_blank" rel="noopener noreferrer">probe/results.json ↗</a>.
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+</body>
+</html>
