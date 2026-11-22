@@ -25,9 +25,12 @@ GATEWAY = ROOT / "index.html"
 # Paths published by the Pages workflows. A relative link outside these is dead on the
 # live site even when the file exists in the repository.
 PUBLISHED_PREFIXES = ("docs/", "site/", "assets/", "categories/", "data/", "board.html", "dashboard.html")
+# Every root-level .html file is staged by the Pages workflow (`cp ./*.html public/`), so the
+# published set is derived from the repository instead of being listed by hand.
 PUBLISHED_ROOT_PAGES = {
+    path.name for path in Path(__file__).resolve().parent.parent.glob("*.html")
+} | {
     "index.html",
-    "audit.html",
     "board.html",
     "dashboard.html",
     "markets.html",
