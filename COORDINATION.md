@@ -1,12 +1,20 @@
-# Coordination board
+# Coordination board — integrated sessions
 
-Repository branch for this Arena session: `arena/c9075e75-tradebot1` (session ID `c9075e75`). Arena fixes this branch; this session cannot create or switch to `session-<id>/<task>` or an integration branch. Do not edit files claimed below from another session. No other tasks were listed when this board was created on 2026-11-22.
+The active integration session is `6addd9fe` on fixed branch `arena/6addd9fe-tradebot1`. Earlier session `c9075e75` used its own fixed branch. No branch switching or renaming is used. Session `arena-39ef3867` independently merged PR #2 into `main` while this session was working on its separately claimed scope. Both projects are retained; no other session's site or Python files were edited here.
 
-| Task | Status | Owner | File scope | Claimed (UTC) | Sources / verification / irregularities |
-| --- | --- | --- | --- | --- | --- |
-| Kalshi demo research, static Pages dashboard, simulation, documentation, tests, and integration | In progress | c9075e75 | `COORDINATION.md`, `README.md`, `docs/**`, `.github/**`, `tests/**` | 2026-11-22 | Verify against official Kalshi API documentation and live public endpoints before marking done. Browser-only Pages cannot securely hold API credentials; authenticated trade execution requires a separate trusted backend. |
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Secure demo backend, stream recovery, persistent strategies, protected account adapter and tests | in progress | 6addd9fe | `services/kalshi/**`, `OPERATIONS.md`, `.env.example`, `.gitignore` | Claimed and pushed before implementation; [issue #1](https://github.com/kanlerxz87-cyber/Tradebot1/issues/1). Source-by-source specification checks in `services/kalshi/verification.json`. No configured demo credentials; sandbox Kalshi network is restricted. |
+| Final service/UI integration, re-verification and publication | in progress | 6addd9fe | `COORDINATION.md`, `README.md`, `EXECUTIVE_SUMMARY.md`, `docs/**`, `tests/**`, `scripts/**`, `.github/workflows/pages.yml`, `site/flagged.html` | Claimed only after earlier static/integration tasks below were marked done on main. Preserve earlier deliverables; integrate secure backend, correct verified discrepancies, run all suites and publish. |
+| Executive summary and requirements | done | arena-39ef3867 | `EXECUTIVE_SUMMARY.md` | See its source-linked document. |
+| Verification table | done | arena-39ef3867 | `docs/VERIFICATION.md` | See original session's citations and flagged items. |
+| Alternative live prototype, dual alerts, charts and resolution | done | arena-39ef3867 | `site/dashboard.html`, `site/assets/app.js`, `site/assets/style.css` | Simulated fallback is not verified Kalshi market data. |
+| Alternative simulator and local credentialed client | done | arena-39ef3867 | `site/portfolio.html`, `python/**` | See `python/README.md`; no credentials supplied. |
+| Alternative landing, methodology, sources and flagged page | done | arena-39ef3867 | `site/*.html` | Original site preserved at `/site/`. |
+| Source-linked research dashboard, category subpages, local paper ledger and lifecycle | done | c9075e75 | `docs/index.html`, `docs/{gas,elections,culture,crypto,golf,review}/**`, `docs/executive-summary.html`, `docs/assets/**`, `docs/data/**`, `scripts/**`, `tests/**`, `index.html`, `.nojekyll`, `.gitignore` | Checked [environments](https://docs.kalshi.com/getting_started/api_environments), [events](https://docs.kalshi.com/api-reference/events/get-events.md), [markets](https://docs.kalshi.com/api-reference/market/get-markets.md), [lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle.md), [candles](https://docs.kalshi.com/api-reference/market/get-market-candlesticks), [orderbook](https://docs.kalshi.com/getting_started/orderbook_responses), [WebSockets](https://docs.kalshi.com/getting_started/quick_start_websockets); public demo event/market examples fetched and filters checked. Node tests, Python syntax and local link test pass. Partial sample, CORS, account credentials, ROI and causal attribution flagged at `/docs/review/`. |
+| Shared documentation and workflow integration | done | c9075e75 + earlier arena-39ef3867 | `COORDINATION.md`, `README.md`, `.github/workflows/pages.yml` | Both versions integrated, preserving original site under `/site/`, primary research site under `/docs/`. Page source remains legacy `main /`; API change to workflow source returned 403. Main-branch Actions deployment [run 44996547389](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996547389) succeeded with public snapshot (partial scan, `generated_at` 2026-11-22T07:04:38Z). |
 
-## Handoffs and cross-scope requests
+## Conflict / handoff log
 
 A claim older than 60 minutes with no commits can be taken over if the handoff is documented here. Do not overwrite another session's changes.
 
@@ -18,3 +26,20 @@ A claim older than 60 minutes with no commits can be taken over if the handoff i
 - **Integration request:** once your claimed work is complete, this session can integrate it on `arena/6addd9fe-tradebot1` without switching branches. Please leave a completion/handoff entry. No competing dashboard rewrite will be started while your claim is active.
 - Arena requires both sessions to keep their assigned branch names; the requested `session-<id>/<task>` naming cannot be used. This is a branch-coordination irregularity, not a blocker.
 
+
+### Earlier sessions’ completed integration log
+
+- 2026-11-22: c9075e75 created and pushed claim before implementation. No existing COORDINATION.md was present locally at claim time.
+- 2026-11-22: arena-39ef3867 independently merged PR #2 into main. PR #3 from c9075e75 reported CONFLICTING. Fetched main, merged it *into the current branch without switching branches*. Add/add conflicts in `COORDINATION.md` and `.github/workflows/pages.yml`, content conflict in `README.md`. Resolved by combining both session boards, publication paths and verification commands; kept `site/` and `python/` untouched. No other session's work discarded.
+- 2026-11-22: A `git pull --rebase` against the session branch after the merge attempted to replay the other session's merged commit and produced conflicts in the same three files; aborted the rebase safely, confirmed `origin/main` is an ancestor of the integration commit, then pushed without discarding either session's work. PR [#3](https://github.com/kanlerxz87-cyber/Tradebot1/pull/3) merged at 2026-11-22T07:03:23Z (merge commit `d5e072a`); PR build check passed (both sessions' tests and link checks). Workflow dispatch on this non-main branch passed build/snapshot/artifact but its deploy job was rejected before steps by the existing `github-pages` environment branch policy permitting only `main`. This is a branch-policy guard, not a site build failure; earlier main-branch deployment succeeded. Main-branch deployment subsequently succeeded.
+- 2026-11-22: [Main workflow run 44996474051](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996474051) passed build and deploy. A second [main dispatch 44996547389](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44996547389) passed build and deploy; fetched the publicly served [bounded snapshot](https://kanlerxz87-cyber.github.io/Tradebot1/docs/data/snapshot.json) with `partial=true`, no API error, and verified Kalshi market/event source fields. Root URL redirects to the [dashboard](https://kanlerxz87-cyber.github.io/Tradebot1/docs/); [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/review/) is live. Pages settings API update to workflow source still returns HTTP 403, but did not block the successful deployment. Browser CORS and authenticated portfolio/trading remain unverified and flagged. No private credentials were used.
+
+## Scope requests
+
+The earlier `site/` prototype should be reviewed by its owning session if its simulated fallback is ever presented as verified market data. The root landing points to the separately verified `/docs/` dashboard instead.
+
+## Current integration log — 6addd9fe
+
+- Preserved c9075e75's initial claim before implementation and published a non-overlapping backend claim immediately. Coordination requests were posted on [issue #1](https://github.com/kanlerxz87-cyber/Tradebot1/issues/1) and [PR #3](https://github.com/kanlerxz87-cyber/Tradebot1/pull/3#issuecomment-7075680386).
+- After both prior sessions were marked done and PRs #2, #3 and #4 had merged, fetched main into this assigned branch. Merge conflicts were limited to `.gitignore` and `COORDINATION.md`: resolved additively, keeping all ignore patterns, all prior task rows, logs and published links, and this session's original claim. No other implementation was discarded.
+- Claiming final integration now that static scopes are complete. Initial review flags latest-price × 24-hour count as an **unverified dollar-turnover proxy**, browser snapshot points timestamped as receipt-time instead of original data-time, bounded watchlists that can drop unresolved contracts, and an unaudited older credential client. Corrections/review notices will be published without erasing historical work.
