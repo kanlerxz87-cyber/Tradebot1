@@ -357,10 +357,40 @@ captured API responses, the price *paths* used to exercise the alert logic are s
   and `.gitignore` carry both sets of lines. **No other session's work was discarded.**
 * **2026-11-22 08:05** — merged `origin/main` again (Node board, 370 KB snapshot). Conflicts limited to
   `.gitignore` and this board; resolved the same way.
+* **2026-11-22 08:25** — merged `origin/main` a third time (audit, live capture, consolidated landing).
+  Conflicts again only in `.gitignore` and this board; resolved by taking `main`'s `.gitignore` verbatim
+  and de-duplicating it (`*.egg-info/` and `.ruff_cache/` had been duplicated by the repeated unions).
+## Release record — session `arena-7ae1c34f`
+
+* Branch `arena/7ae1c34f-tradebot1` → PR **[#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)**,
+  CI `build`/`test`/`node-dashboard` all **pass**, **merged without waiting for review** at
+  2026-11-22T07:24:34Z as `0457b85`.
+* `Verify and deploy both Pages dashboards` on `main`
+  ([run 44998103910](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/44998103910)) **succeeded**.
+  Live: https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/ — confirmed by fetching the deployed
+  page (6 markets, 3 alerts, 32 / 5 / 2 verification counts; the Flagged page renders all 7 non-clean
+  items with their official source links).
+* Reading the **live** HTML found three defects, fixed in PR
+  **[#14](https://github.com/kanlerxz87-cyber/Tradebot1/pull/14)**: literal `**` from captured Kalshi
+  titles rendered in two gas rows; one `captured response` link was a docs URL with a parenthetical
+  appended rather than a URL; "← All dashboards" pointed at `docs/` instead of the portal root.
+* **Repository-hygiene incident, logged:** merging the two sessions' `.gitignore` files several times
+  kept only `main`'s block and dropped `.venv/`, so `git add -A` staged the 143 MB virtualenv and a push
+  was rejected by the 100 MB file-size hook. Fixed by restoring the Python rules, untracking `.venv/`
+  and rewriting the local commit so the blob never reached the remote. `main` had the same problem from
+  another session (`.gitignore` now notes it), and the union is now deduplicated.
+* Flagged and unverified items did not block the merge, as instructed, and are published at
+  `docs/engine/flagged.html` with source links.
+
+---
+
 # Session `arena/1662b94b-tradebot1` — official-source audit (`docs/audit/`)
 
 **Branch:** `arena/1662b94b-tradebot1` (base `521e795`, main head at claim time).
 **Status:** done — results below. Claimed 2026-11-22 (UTC) before any file was changed.
+
+**Pull request and merge record:** [PR #13](https://github.com/kanlerxz87-cyber/Tradebot1/pull/13) — merged with a merge commit (`8efef26`) at 2026-11-22T07:29:17Z, after the PR checks passed (`build` pass, `node-dashboard` pass, `test` pass; deploy skipped on PRs by design). The `main` push runs for the merge succeeded: CI, and "Verify and deploy both Pages dashboards". The live page was fetched after deploy: [docs/audit/fee-audit.html](https://kanlerxz87-cyber.github.io/Tradebot1/docs/audit/fee-audit.html) serves the 21/21 table and the 13-series table.
+The first merge attempt failed on a `COORDINATION.md` conflict with PRs #11 and #12; it was resolved by keeping both sides (no entries removed).
 
 ## Claimed tasks
 
