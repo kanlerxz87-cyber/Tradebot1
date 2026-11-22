@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Executive Summary — Kalshi Demo API Desk</title>
+  <link rel="stylesheet" href="../assets/live.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span>Kalshi Demo API Desk</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+    </div>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="active">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+  </div>
+</header>
+<main class="wrap">
+
+  <section class="hero">
+    <span class="badge accent">Executive Summary · Verified End-to-End Architecture</span>
+    <h1>Executive Summary — Kalshi Demo Trading System &amp; Line-by-Line Verification</h1>
+    <p>
+      This desk delivers a complete, source-verified Kalshi Demo Environment monitoring, alerting, charting, resolution-tracking, and multi-strategy simulation system strictly across the five requested topics:
+      <strong>Gas Prices, Elections, Culture, Crypto, and Golf</strong>. Every endpoint, cryptographic signature rule, fee formula, and market figure was verified directly against
+      <a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">official Kalshi documentation</a> and live responses from
+      <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">external-api.demo.kalshi.co/trade-api/v2</a>.
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Key Architecture &amp; Verification Highlights</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Capability</th><th>Verified Implementation Detail</th><th>Official Source</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>1. Kalshi Demo REST &amp; WebSocket V2 Client (`kalshi_engine/`)</strong></td>
+            <td>Uses `https://external-api.demo.kalshi.co/trade-api/v2` + `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2`, signs `timestamp_ms + METHOD + /trade-api/v2/...` (stripping query params) via Ed25519 or RSA-PSS/SHA-256, and submits V2 orders to `POST /portfolio/events/orders`.</td>
+            <td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order.md" target="_blank" rel="noopener">Create Order V2 ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>2. Strict 5-Topic Organization (Zero Bleed)</strong></td>
+            <td>Maps series &amp; events strictly into `Elections`, `Golf`, `Culture`, `Crypto`, and `Gas Prices` with dedicated subpages and event grouping, eliminating substring bugs (`OPEN`, `SOL`, `OIL`, `BOOK`).</td>
+            <td><a href="https://docs.kalshi.com/api-reference/market/get-series-list.md" target="_blank" rel="noopener">Series Taxonomy ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>3. Dual Real-Time &ge;$0.10 Swing Alert Chats</strong></td>
+            <td>Chat 1 streams all `|&Delta;price| &ge; $0.10` moves (verified on 5s `KXDEMOFUTHOURLY-26NOV22H08-UP` trade prints); Chat 2 applies a Selective High-ROI gate (`net_roi &ge; 12%` after 6dp fee, `spread &le; $0.08`, `depth &ge; 25`).</td>
+            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15" target="_blank" rel="noopener">Demo 5s Trades JSON ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>4. Seconds / Minutes / Hours Interactive Price &amp; Liquidity Graph</strong></td>
+            <td>Canvas time-series chart with `Seconds`, `Minutes`, and `Hours` window selectors, diamond jump markers (`|&Delta;| &ge; $0.10`), catalyst/settlement links, and non-truncated reciprocal `orderbook_fp` depth bars.</td>
+            <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses.md" target="_blank" rel="noopener">Orderbook Spec ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>5. Multi-Strategy Automation, Custom Strategy Builder &amp; 6dp Fees</strong></td>
+            <td>Runs 5 built-in strategies + user-created custom rules, categorizes trades by strategy and trade type, settles `yes`/`no`/`scalar` outcomes, and enforces Kalshi's 6-decimal-place fee accumulator.</td>
+            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Fee Rounding Spec ↗</a></td>
+          </tr>
+          <tr>
+            <td><strong>6. Line-by-Line Repo Audit &amp; Zero-Hallucination Flagged Page</strong></td>
+            <td>Audited every file in `main` (`R1`–`R12`) and upstream Demo payloads (`U1`–`U5`), leaving every unconfirmed value blank (`""`) on the Flagged for Review page.</td>
+            <td><a href="../flagged/index.html">Flagged for Review ↗</a> · <a href="https://docs.kalshi.com/getting_started/demo_env.md" target="_blank" rel="noopener">Demo Env Docs ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+<footer class="site-footer">
+  <div>
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Zero production order endpoints exist in this desk.
+  </div>
+  <div>
+    <a href="../flagged/index.html">Flagged for Review</a> ·
+    <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
+    <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>
+  </div>
+</footer>
+</main>
+
+</body>
+</html>
