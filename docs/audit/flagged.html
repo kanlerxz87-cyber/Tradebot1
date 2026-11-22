@@ -17,7 +17,7 @@
 
 <section class="hero tight">
   <p class="tag">Flagged for review</p>
-  <h1>6 items that are proved but not corrected here, or cannot be proved at all</h1>
+  <h1>5 items that are proved but not corrected here, or cannot be proved at all</h1>
   <p class="lede">Nothing on this page blocks publication, and nothing on it is silently smoothed over: each
   item says what is wrong, who it affects, which official page decides it, and what would fix it. Items that
   need a credential, a browser or an API call this session could not make are listed with that reason rather
@@ -32,15 +32,6 @@
   <p class="src"><strong>Deciding source:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
   
   <p class="src"><strong>How to check:</strong> Compare the table's 100-contract column with Fee Rounding's worked examples. A direct member's net fee on 100 contracts at $0.05 is $0.3325 before balance alignment, not $0.34.</p>
-</article>
-<article class="finding" id="AUD-06">
-  <header><span class="mono id">AUD-06</span> <span class="pill sev-medium">medium</span>
-    <h3>The browser monitor still files elections on a deprecated field</h3></header>
-  <p>docs/assets/core.mjs decides the 'elections' topic with event.category. Get Events marks category deprecated and points to the series-level category, and the EventData schema does not list category as required. If the field is absent this rule never matches and elections events are silently dropped from that monitor, with no error to notice.</p>
-  <p><strong>Impact.</strong> One of the five briefed topics can go empty on docs/ without any visible failure. The desk and the board discover elections through series metadata and are unaffected.</p>
-  <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">VF-21</a></p>
-  
-  <p class="src"><strong>How to check:</strong> Compare the topic rule in docs/assets/core.mjs with the EventData schema in Get Events. The fix is to join the series ticker to GET /series, which is a change to a file this session does not own.</p>
 </article>
 <article class="finding" id="AUD-07">
   <header><span class="mono id">AUD-07</span> <span class="pill sev-low">low</span>
@@ -85,7 +76,7 @@ individual dashboards' own review pages, where they were first raised.</p>
 </main>
 <footer class="wrap">
   <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
-  5 finding(s) fixed and re-checked, 6 published as open,
+  6 finding(s) fixed and re-checked, 5 published as open,
   2 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
   <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
      <a href="../desk/flagged.html">Desk flags</a> ·

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-22T07:46:28Z",
+  "generated_at": "2026-11-22T07:52:19Z",
   "counts": {
     "error": 0,
-    "warn": 3,
-    "info": 9
+    "warn": 4,
+    "info": 8
   },
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
@@ -13,12 +13,12 @@
     "data/snapshot.json: 8 markets",
     "board data/snapshot.json: 8 rows, price bounds",
     "data/account.json: connected=False",
-    "docs/data/snapshot.json: 0 events, partial=True",
-    "monitor docs/data/snapshot.json: 0 rows, price bounds",
-    "73 HTML pages, 1280 internal references",
-    "tracked files: 298, bytecode/cache artefacts: 0",
+    "docs/data/snapshot.json: 28 events, partial=True",
+    "monitor docs/data/snapshot.json: 207 rows, price bounds",
+    "74 HTML pages, 1360 internal references",
+    "tracked files: 328, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 1086 paths"
+    "secret scan: 7565 paths"
   ],
   "findings": [
     {
@@ -74,7 +74,7 @@
       "severity": "warn",
       "code": "DERIVED",
       "title": "Estimated 24h notional was computed from a different price than the row prints",
-      "detail": "24h volume x the row's own price differs from the printed estimate on 15 row(s); the largest gap is 32.2%. The implied price is the previous mid, so the notional was fixed before the row's quote was refreshed.",
+      "detail": "24h volume x the row's own price differs from the printed estimate on 15 row(s); the largest gap is 32.2%, on a 15-minute crypto market where the quote moved far between the two reads. The implied price is an earlier mid, so the notional was fixed before the row's quote was refreshed. On slow markets the error is a cent or two; on fast ones it is material.",
       "count": 15,
       "examples": [
         {
@@ -165,17 +165,6 @@
       "action": ""
     },
     {
-      "id": "EMPTY-1",
-      "severity": "info",
-      "code": "EMPTY",
-      "title": "Monitor snapshot holds no markets",
-      "detail": "The page then renders an empty watchlist.",
-      "count": 0,
-      "examples": [],
-      "source": "docs/data/snapshot.json",
-      "action": ""
-    },
-    {
       "id": "EXTERNAL-1",
       "severity": "info",
       "code": "EXTERNAL",
@@ -226,11 +215,27 @@
       "action": "Compare the page with the timestamp and relative-time fields normalised, or drop the strict comparison from the gate. CI does not currently run this check."
     },
     {
+      "id": "FLAKY-1",
+      "severity": "warn",
+      "code": "FLAKY",
+      "title": "An audit gate pins line numbers in a concurrently edited file",
+      "detail": "1 evidence reference(s) cite COORDINATION.md by line number, and `audit/build_site.py --check` fails whenever that number shifts. Every session that appends to the board therefore breaks another session's build until the page is regenerated.",
+      "count": 1,
+      "examples": [
+        {
+          "page": "docs/audit/findings.html",
+          "line_ref": "COORDINATION.md:747"
+        }
+      ],
+      "source": "docs/audit/findings.html",
+      "action": "Cite the section heading or a stable quote instead of a line number, or exclude the reference from the staleness comparison."
+    },
+    {
       "id": "FRESH-1",
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-22T07:21:40Z",
-      "detail": "0.41 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.51 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -241,7 +246,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "0.77 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "0.87 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",
