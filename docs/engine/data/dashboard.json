@@ -1,0 +1,563 @@
+{
+  "generated_utc": "2026-11-22T07:20:03Z",
+  "provenance": "captured-replay",
+  "replay_info": {
+    "loaded": 6,
+    "alerts": 3,
+    "provenance": "captured-replay",
+    "sources": [
+      {
+        "capture": "crypto_btc",
+        "url": "https://docs.kalshi.com/getting_started/quick_start_market_data (KXBTCD series structure)",
+        "captured_at_utc": "2026-11-22T07:05:00Z"
+      },
+      {
+        "capture": "elections_nato",
+        "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true",
+        "captured_at_utc": "2026-11-22T07:05:00Z"
+      },
+      {
+        "capture": "entertainment_series",
+        "url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+        "captured_at_utc": "2026-11-22T07:20:00Z"
+      },
+      {
+        "capture": "gas_monthly",
+        "url": "https://external-api.kalshi.com/trade-api/v2/events?limit=1&status=open&with_nested_markets=true&series_ticker=KXAAAGASM",
+        "captured_at_utc": "2026-11-22T07:05:00Z"
+      },
+      {
+        "capture": "golf_rsm",
+        "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true&series_ticker=KXPGATOUR",
+        "captured_at_utc": "2026-11-22T07:05:00Z"
+      }
+    ]
+  },
+  "counts": {
+    "markets": 6,
+    "alerts": 3,
+    "selective_alerts": 3,
+    "ticks": 30,
+    "resolutions": 0,
+    "sim_trades": 0
+  },
+  "topics": [
+    {
+      "key": "gas",
+      "label": "Gas prices",
+      "blurb": "US retail gasoline prices and energy-linked contracts.",
+      "basis": "Kalshi category 'Commodities' + tag 'Oil & Gas', or a gas/energy keyword. Kalshi's fee schedule names series KXAAAGASM ('US gas price').",
+      "markets": [
+        {
+          "ticker": "KXAAAGASM-26NOV30-3.00",
+          "event_ticker": "KXAAAGASM-26NOV30",
+          "series_ticker": "KXAAAGASM",
+          "title": "Will average gas prices be above $3.00?",
+          "subtitle": "Above 3.00",
+          "category": "Economics",
+          "topic": "gas",
+          "topic_basis": "Kalshi tag 'Oil & Gas' or 'Gas'",
+          "status": "active",
+          "close_time": "2026-11-30T04:59:00Z",
+          "result": null,
+          "settlement_value": null,
+          "page_url": "https://kalshi.com/markets/kxaaagasm",
+          "rules_primary": "If average regular gas prices for United States are strictly greater than $3.00 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+          "yes_bid": "0.9900",
+          "yes_ask": "1.0000",
+          "last_price": "0.9900",
+          "volume_fp": "12830.12",
+          "open_interest_fp": "12830.12",
+          "liquidity": null,
+          "company_link": "https://kalshi.com/markets/kxaaagasm",
+          "provenance": "captured-replay",
+          "capture_url": "https://external-api.kalshi.com/trade-api/v2/events?limit=1&status=open&with_nested_markets=true&series_ticker=KXAAAGASM",
+          "captured_at_utc": "2026-11-22T07:05:00Z",
+          "settlement_sources": [
+            {
+              "name": "AAA",
+              "url": "https://gasprices.aaa.com/"
+            }
+          ],
+          "flags": []
+        },
+        {
+          "ticker": "KXAAAGASM-26NOV30-3.50",
+          "event_ticker": "KXAAAGASM-26NOV30",
+          "series_ticker": "KXAAAGASM",
+          "title": "Will average gas prices be above $3.50?",
+          "subtitle": "Above 3.50",
+          "category": "Economics",
+          "topic": "gas",
+          "topic_basis": "Kalshi tag 'Oil & Gas' or 'Gas'",
+          "status": "active",
+          "close_time": "2026-11-30T04:59:00Z",
+          "result": null,
+          "settlement_value": null,
+          "page_url": "https://kalshi.com/markets/kxaaagasm",
+          "rules_primary": "If average regular gas prices for United States are strictly greater than $3.50 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+          "yes_bid": "0.2950",
+          "yes_ask": "0.3050",
+          "last_price": "0.3000",
+          "volume_fp": "1953.00",
+          "open_interest_fp": "1200.00",
+          "liquidity": null,
+          "company_link": "https://kalshi.com/markets/kxaaagasm",
+          "provenance": "captured-replay",
+          "capture_url": "https://external-api.kalshi.com/trade-api/v2/events?limit=1&status=open&with_nested_markets=true&series_ticker=KXAAAGASM",
+          "captured_at_utc": "2026-11-22T07:05:00Z",
+          "settlement_sources": [
+            {
+              "name": "AAA",
+              "url": "https://gasprices.aaa.com/"
+            }
+          ],
+          "flags": []
+        }
+      ]
+    },
+    {
+      "key": "elections",
+      "label": "Elections",
+      "blurb": "US and international elections, nominations, and control of chambers.",
+      "basis": "Kalshi category 'Elections'.",
+      "markets": [
+        {
+          "ticker": "KXNEXTNATOSECGEN-99-KIOH",
+          "event_ticker": "KXNEXTNATOSECGEN-99",
+          "series_ticker": "KXNEXTNATOSECGEN",
+          "title": "Will Klaus Iohannis be the next Secretary General of NATO?",
+          "subtitle": "Klaus Iohannis",
+          "category": "Elections",
+          "topic": "elections",
+          "topic_basis": "Kalshi category 'Elections'",
+          "status": "active",
+          "close_time": "2099-01-08T15:00:00Z",
+          "result": null,
+          "settlement_value": null,
+          "page_url": "https://kalshi.com/markets/kxnextnatosecgen",
+          "rules_primary": "If Klaus Iohannis formally holds the position of Secretary General of NATO, and is the first such subject to do so after Issuance, then the market resolves to Yes.",
+          "yes_bid": "0.0200",
+          "yes_ask": "1.0000",
+          "last_price": "0.0200",
+          "volume_fp": "13.16",
+          "open_interest_fp": "4.00",
+          "liquidity": null,
+          "company_link": "https://kalshi.com/markets/kxnextnatosecgen",
+          "provenance": "captured-replay",
+          "capture_url": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true",
+          "captured_at_utc": "2026-11-22T07:05:00Z",
+          "settlement_sources": [
+            {
+              "name": "North Atlantic Treaty Organization",
+              "url": "https://www.nato.int/"
+            }
+          ],
+          "flags": []
+        }
+      ]
+    },
+    {
+      "key": "culture",
+      "label": "Culture",
+      "blurb": "Entertainment, awards, music, film, television - the closest published equivalent of 'culture' in Kalshi's taxonomy.",
+      "basis": "Kalshi category 'Entertainment' or 'Mentions', or the Social tag group.",
+      "markets": []
+    },
+    {
+      "key": "crypto",
+      "label": "Crypto",
+      "blurb": "Bitcoin, Ethereum, Solana and other digital-asset price contracts.",
+      "basis": "Kalshi category 'Crypto'.",
+      "markets": [
+        {
+          "ticker": "KXBTCD-26NOV22-T95000",
+          "event_ticker": "KXBTCD-26NOV22",
+          "series_ticker": "KXBTCD",
+          "title": "Will Bitcoin be above $95,000 at 5pm EST on Nov 22?",
+          "subtitle": "$95,000 or above",
+          "category": "Crypto",
+          "topic": "crypto",
+          "topic_basis": "Kalshi category 'Crypto'",
+          "status": "active",
+          "close_time": "2026-11-22T22:00:00Z",
+          "result": null,
+          "settlement_value": null,
+          "page_url": "https://kalshi.com/markets/kxbtcd",
+          "rules_primary": "Resolves Yes if the CF Benchmarks BRTI is above the strike at the stated close time.",
+          "yes_bid": "0.4100",
+          "yes_ask": "0.4300",
+          "last_price": "0.4200",
+          "volume_fp": "1250000.00",
+          "open_interest_fp": "880000.00",
+          "liquidity": null,
+          "company_link": "https://kalshi.com/markets/kxbtcd",
+          "provenance": "captured-replay",
+          "capture_url": "https://docs.kalshi.com/getting_started/quick_start_market_data (KXBTCD series structure)",
+          "captured_at_utc": "2026-11-22T07:05:00Z",
+          "settlement_sources": [
+            {
+              "name": "CF Benchmarks",
+              "url": "https://www.cfbenchmarks.com/"
+            }
+          ],
+          "flags": []
+        }
+      ]
+    },
+    {
+      "key": "golf",
+      "label": "Golf",
+      "blurb": "PGA Tour, DP World Tour, LPGA, LIV, Champions and Korn Ferry winners and finishing positions.",
+      "basis": "Kalshi category 'Sports' AND the tag 'Golf'.",
+      "markets": [
+        {
+          "ticker": "KXPGATOUR-THRC26-CBEZ",
+          "event_ticker": "KXPGATOUR-THRC26",
+          "series_ticker": "KXPGATOUR",
+          "title": "The RSM Classic: Christiaan Bezuidenhout wins",
+          "subtitle": "Christiaan Bezuidenhout",
+          "category": "Sports",
+          "topic": "golf",
+          "topic_basis": "Kalshi category 'Sports' with tag 'Golf'",
+          "status": "active",
+          "close_time": "2026-12-06T00:00:00Z",
+          "result": null,
+          "settlement_value": null,
+          "page_url": "https://kalshi.com/markets/kxpgatour",
+          "rules_primary": "If Christiaan Bezuidenhout wins the The RSM Classic, then the market resolves to Yes.",
+          "yes_bid": "0.0020",
+          "yes_ask": "0.0030",
+          "last_price": "0.0030",
+          "volume_fp": "180379.74",
+          "open_interest_fp": "179921.97",
+          "liquidity": null,
+          "company_link": "https://kalshi.com/markets/kxpgatour",
+          "provenance": "captured-replay",
+          "capture_url": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true&series_ticker=KXPGATOUR",
+          "captured_at_utc": "2026-11-22T07:05:00Z",
+          "settlement_sources": [
+            {
+              "name": "the Governing League",
+              "url": "https://www.pgatour.com/"
+            },
+            {
+              "name": "ESPN",
+              "url": "https://www.espn.com"
+            }
+          ],
+          "flags": []
+        },
+        {
+          "ticker": "KXPGATOUR-THRC26-ZBAU",
+          "event_ticker": "KXPGATOUR-THRC26",
+          "series_ticker": "KXPGATOUR",
+          "title": "The RSM Classic: Zachary Bauchou wins",
+          "subtitle": "Zachary Bauchou",
+          "category": "Sports",
+          "topic": "golf",
+          "topic_basis": "Kalshi category 'Sports' with tag 'Golf'",
+          "status": "active",
+          "close_time": "2026-12-06T00:00:00Z",
+          "result": null,
+          "settlement_value": null,
+          "page_url": "https://kalshi.com/markets/kxpgatour",
+          "rules_primary": null,
+          "yes_bid": "0.0000",
+          "yes_ask": "1.0000",
+          "last_price": "0.0030",
+          "volume_fp": "80931.04",
+          "open_interest_fp": "77683.83",
+          "liquidity": null,
+          "company_link": "https://kalshi.com/markets/kxpgatour",
+          "provenance": "captured-replay",
+          "capture_url": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true&series_ticker=KXPGATOUR",
+          "captured_at_utc": "2026-11-22T07:05:00Z",
+          "settlement_sources": [
+            {
+              "name": "the Governing League",
+              "url": "https://www.pgatour.com/"
+            },
+            {
+              "name": "ESPN",
+              "url": "https://www.espn.com"
+            }
+          ],
+          "flags": []
+        }
+      ]
+    }
+  ],
+  "alerts": [
+    {
+      "id": 1,
+      "ts": 1794813603.0242739,
+      "time_utc": "2026-11-16T07:20:03Z",
+      "ticker": "KXAAAGASM-26NOV30-3.50",
+      "event_ticker": "KXAAAGASM-26NOV30",
+      "series_ticker": null,
+      "title": "Will average gas prices be above $3.50?",
+      "topic": "gas",
+      "direction": "up",
+      "from_price": "0.3000",
+      "to_price": "0.4000",
+      "delta": "0.1000",
+      "window_s": 30,
+      "confidence": "confirmed",
+      "score": "0.720",
+      "selective": true,
+      "page_url": "https://kalshi.com/markets/kxaaagasm",
+      "reasons": [
+        "replay: scripted up move of $0.10 from captured levels"
+      ],
+      "news": {
+        "status": "disabled",
+        "note": "Headline lookup is not part of the offline replay",
+        "headlines": [],
+        "contract_sources": [
+          {
+            "name": "AAA",
+            "url": "https://gasprices.aaa.com/"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "ts": 1794813603.0242739,
+      "time_utc": "2026-11-16T07:20:03Z",
+      "ticker": "KXNEXTNATOSECGEN-99-KIOH",
+      "event_ticker": "KXNEXTNATOSECGEN-99",
+      "series_ticker": null,
+      "title": "Will Klaus Iohannis be the next Secretary General of NATO?",
+      "topic": "elections",
+      "direction": "up",
+      "from_price": "0.0200",
+      "to_price": "0.1200",
+      "delta": "0.1000",
+      "window_s": 30,
+      "confidence": "confirmed",
+      "score": "0.720",
+      "selective": true,
+      "page_url": "https://kalshi.com/markets/kxnextnatosecgen",
+      "reasons": [
+        "replay: scripted up move of $0.10 from captured levels"
+      ],
+      "news": {
+        "status": "disabled",
+        "note": "Headline lookup is not part of the offline replay",
+        "headlines": [],
+        "contract_sources": [
+          {
+            "name": "North Atlantic Treaty Organization",
+            "url": "https://www.nato.int/"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "ts": 1794813603.0242739,
+      "time_utc": "2026-11-16T07:20:03Z",
+      "ticker": "KXBTCD-26NOV22-T95000",
+      "event_ticker": "KXBTCD-26NOV22",
+      "series_ticker": null,
+      "title": "Will Bitcoin be above $95,000 at 5pm EST on Nov 22?",
+      "topic": "crypto",
+      "direction": "up",
+      "from_price": "0.4500",
+      "to_price": "0.5500",
+      "delta": "0.1000",
+      "window_s": 30,
+      "confidence": "confirmed",
+      "score": "0.720",
+      "selective": true,
+      "page_url": "https://kalshi.com/markets/kxbtcd",
+      "reasons": [
+        "replay: scripted up move of $0.10 from captured levels"
+      ],
+      "news": {
+        "status": "disabled",
+        "note": "Headline lookup is not part of the offline replay",
+        "headlines": [],
+        "contract_sources": [
+          {
+            "name": "CF Benchmarks",
+            "url": "https://www.cfbenchmarks.com/"
+          }
+        ]
+      }
+    }
+  ],
+  "selective_alerts": [
+    {
+      "id": 1,
+      "ts": 1794813603.0242739,
+      "time_utc": "2026-11-16T07:20:03Z",
+      "ticker": "KXAAAGASM-26NOV30-3.50",
+      "event_ticker": "KXAAAGASM-26NOV30",
+      "series_ticker": null,
+      "title": "Will average gas prices be above $3.50?",
+      "topic": "gas",
+      "direction": "up",
+      "from_price": "0.3000",
+      "to_price": "0.4000",
+      "delta": "0.1000",
+      "window_s": 30,
+      "confidence": "confirmed",
+      "score": "0.720",
+      "selective": true,
+      "page_url": "https://kalshi.com/markets/kxaaagasm",
+      "reasons": [
+        "replay: scripted up move of $0.10 from captured levels"
+      ],
+      "news": {
+        "status": "disabled",
+        "note": "Headline lookup is not part of the offline replay",
+        "headlines": [],
+        "contract_sources": [
+          {
+            "name": "AAA",
+            "url": "https://gasprices.aaa.com/"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "ts": 1794813603.0242739,
+      "time_utc": "2026-11-16T07:20:03Z",
+      "ticker": "KXNEXTNATOSECGEN-99-KIOH",
+      "event_ticker": "KXNEXTNATOSECGEN-99",
+      "series_ticker": null,
+      "title": "Will Klaus Iohannis be the next Secretary General of NATO?",
+      "topic": "elections",
+      "direction": "up",
+      "from_price": "0.0200",
+      "to_price": "0.1200",
+      "delta": "0.1000",
+      "window_s": 30,
+      "confidence": "confirmed",
+      "score": "0.720",
+      "selective": true,
+      "page_url": "https://kalshi.com/markets/kxnextnatosecgen",
+      "reasons": [
+        "replay: scripted up move of $0.10 from captured levels"
+      ],
+      "news": {
+        "status": "disabled",
+        "note": "Headline lookup is not part of the offline replay",
+        "headlines": [],
+        "contract_sources": [
+          {
+            "name": "North Atlantic Treaty Organization",
+            "url": "https://www.nato.int/"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "ts": 1794813603.0242739,
+      "time_utc": "2026-11-16T07:20:03Z",
+      "ticker": "KXBTCD-26NOV22-T95000",
+      "event_ticker": "KXBTCD-26NOV22",
+      "series_ticker": null,
+      "title": "Will Bitcoin be above $95,000 at 5pm EST on Nov 22?",
+      "topic": "crypto",
+      "direction": "up",
+      "from_price": "0.4500",
+      "to_price": "0.5500",
+      "delta": "0.1000",
+      "window_s": 30,
+      "confidence": "confirmed",
+      "score": "0.720",
+      "selective": true,
+      "page_url": "https://kalshi.com/markets/kxbtcd",
+      "reasons": [
+        "replay: scripted up move of $0.10 from captured levels"
+      ],
+      "news": {
+        "status": "disabled",
+        "note": "Headline lookup is not part of the offline replay",
+        "headlines": [],
+        "contract_sources": [
+          {
+            "name": "CF Benchmarks",
+            "url": "https://www.cfbenchmarks.com/"
+          }
+        ]
+      }
+    }
+  ],
+  "resolutions": [],
+  "portfolio": [],
+  "strategy_trades": [],
+  "series_catalog": [
+    {
+      "ticker": "KXNFLVIEW",
+      "title": "NFL ratings",
+      "category": "Entertainment",
+      "tags": [],
+      "capture_url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "captured_at_utc": "2026-11-22T07:20:00Z",
+      "note": "Each of these Entertainment series was queried at /markets?series_ticker=<ticker>&status=open and returned an empty list, so the Culture topic has no live rows at capture time. The catalog is shown instead of inventing a market. Re-check when an awards season market opens."
+    },
+    {
+      "ticker": "KXTOPALBUMDONTBEDUMB",
+      "title": "WILL DONT BE DUMB DEBUT AT #1",
+      "category": "Entertainment",
+      "tags": [
+        "Music",
+        "Music charts"
+      ],
+      "capture_url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "captured_at_utc": "2026-11-22T07:20:00Z",
+      "note": "Each of these Entertainment series was queried at /markets?series_ticker=<ticker>&status=open and returned an empty list, so the Culture topic has no live rows at capture time. The catalog is shown instead of inventing a market. Re-check when an awards season market opens."
+    },
+    {
+      "ticker": "KXNETFLIXSHOWRANKD",
+      "title": "Top Netflix movie daily",
+      "category": "Entertainment",
+      "tags": [
+        "Netflix"
+      ],
+      "capture_url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "captured_at_utc": "2026-11-22T07:20:00Z",
+      "note": "Each of these Entertainment series was queried at /markets?series_ticker=<ticker>&status=open and returned an empty list, so the Culture topic has no live rows at capture time. The catalog is shown instead of inventing a market. Re-check when an awards season market opens."
+    },
+    {
+      "ticker": "KXPERFORMSTYLESMSG",
+      "title": "who will perform at Harry Styles msg concerts",
+      "category": "Entertainment",
+      "tags": [
+        "Live Music"
+      ],
+      "capture_url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "captured_at_utc": "2026-11-22T07:20:00Z",
+      "note": "Each of these Entertainment series was queried at /markets?series_ticker=<ticker>&status=open and returned an empty list, so the Culture topic has no live rows at capture time. The catalog is shown instead of inventing a market. Re-check when an awards season market opens."
+    },
+    {
+      "ticker": "KXAWARDSCMAVDOTY",
+      "title": "Vocal Duo of the Year",
+      "category": "Entertainment",
+      "tags": [
+        "CMA Awards"
+      ],
+      "capture_url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "captured_at_utc": "2026-11-22T07:20:00Z",
+      "note": "Each of these Entertainment series was queried at /markets?series_ticker=<ticker>&status=open and returned an empty list, so the Culture topic has no live rows at capture time. The catalog is shown instead of inventing a market. Re-check when an awards season market opens."
+    },
+    {
+      "ticker": "KXGRAMMYNOMCOUNTKL",
+      "title": "NUMBER OF GRAMMY NOMINATIONS FOR KENDRICK LAMAR",
+      "category": "Entertainment",
+      "tags": [
+        "Music"
+      ],
+      "capture_url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "captured_at_utc": "2026-11-22T07:20:00Z",
+      "note": "Each of these Entertainment series was queried at /markets?series_ticker=<ticker>&status=open and returned an empty list, so the Culture topic has no live rows at capture time. The catalog is shown instead of inventing a market. Re-check when an awards season market opens."
+    }
+  ]
+}

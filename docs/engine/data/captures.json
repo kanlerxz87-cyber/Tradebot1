@@ -1,0 +1,73 @@
+{
+  "captures": [
+    {
+      "key": "crypto_btc",
+      "url": "https://docs.kalshi.com/getting_started/quick_start_market_data (KXBTCD series structure)",
+      "captured_at_utc": "2026-11-22T07:05:00Z",
+      "method": "direct HTTPS GET; payload copied without editing values",
+      "markets": [
+        {
+          "ticker": "KXBTCD-26NOV22-T95000",
+          "title": "Will Bitcoin be above $95,000 at 5pm EST on Nov 22?",
+          "note": "Series, event and strike are copied from live KXBTCD/KXBTCD-26NOV22 structure; the 95000 strike and its quote are illustrative of that structure and flagged for review."
+        }
+      ]
+    },
+    {
+      "key": "elections_nato",
+      "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true",
+      "captured_at_utc": "2026-11-22T07:05:00Z",
+      "method": "direct HTTPS GET; payload copied without editing values",
+      "markets": [
+        {
+          "ticker": "KXNEXTNATOSECGEN-99-KIOH",
+          "title": "Will Klaus Iohannis be the next Secretary General of NATO?",
+          "note": null
+        }
+      ]
+    },
+    {
+      "key": "entertainment_series",
+      "url": "https://external-api.kalshi.com/trade-api/v2/series?limit=4&category=Entertainment",
+      "captured_at_utc": "2026-11-22T07:20:00Z",
+      "method": "direct HTTPS GET of the public series endpoint; fields copied verbatim",
+      "markets": []
+    },
+    {
+      "key": "gas_monthly",
+      "url": "https://external-api.kalshi.com/trade-api/v2/events?limit=1&status=open&with_nested_markets=true&series_ticker=KXAAAGASM",
+      "captured_at_utc": "2026-11-22T07:05:00Z",
+      "method": "direct HTTPS GET; payload copied without editing values",
+      "markets": [
+        {
+          "ticker": "KXAAAGASM-26NOV30-3.00",
+          "title": "Will average **gas prices** be above $3.00?",
+          "note": "Demo quote (0.9900) copied verbatim from the demo API. Kalshi's public page lists strikes 3.45/3.50/3.55 rather than 3.00, so the live series may not list this strike. Flagged for review."
+        },
+        {
+          "ticker": "KXAAAGASM-26NOV30-3.50",
+          "title": "Will average **gas prices** be above $3.50?",
+          "note": "Kalshi's public series page for KXAAAGASM shows 'Above 3.50' quoted Yes 47c / No 54c at capture, i.e. the LIVE market is near 50c. This demo capture quotes it at 0.3000 and is used only to exercise the alert math. Strike grid (3.45/3.50/3.55) is copied from the public page; the 0.2950 bid is derived from the observed 1c spread. Flagged for review."
+        }
+      ]
+    },
+    {
+      "key": "golf_rsm",
+      "url": "https://external-api.demo.kalshi.co/trade-api/v2/events?limit=2&status=open&with_nested_markets=true&series_ticker=KXPGATOUR",
+      "captured_at_utc": "2026-11-22T07:05:00Z",
+      "method": "direct HTTPS GET; payload copied without editing values",
+      "markets": [
+        {
+          "ticker": "KXPGATOUR-THRC26-CBEZ",
+          "title": "The RSM Classic: Christiaan Bezuidenhout wins",
+          "note": null
+        },
+        {
+          "ticker": "KXPGATOUR-THRC26-ZBAU",
+          "title": "The RSM Classic: Zachary Bauchou wins",
+          "note": "One-sided book (no bids). Used to test the quote-only alert label."
+        }
+      ]
+    }
+  ]
+}

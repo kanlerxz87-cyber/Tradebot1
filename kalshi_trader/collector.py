@@ -321,7 +321,13 @@ def run_cycle(
 
     # 5. history + alerts ------------------------------------------------
     history_path = settings.data_dir / "history.json"
-    history: dict[str, list[list[float]]] = store.read_json(history_path, {}) or {}
+    # history.json stores {"generated_at": ..., "series": {ticker: [points]}}. Reading the
+    # envelope instead of its "series" map made every cycle start from an empty history, so
+    # charts never accumulated more than one cycle's samples. Read the map.
+    history_state = store.read_json(history_path, {}) or {}
+    history: dict[str, list[list[float]]] = (
+        history_state.get("series", {}) if isinstance(history_state, dict) else {}
+    ) or {}
     meta_path = settings.data_dir / "meta.json"
     meta: dict[str, Any] = store.read_json(meta_path, {}) or {}
     last_prices: dict[str, list[float]] = meta.get("last_prices", {})
@@ -400,6 +406,7 @@ def run_cycle(
         resolved_items,
         errors,
         now,
+        api_base=getattr(client, "base_url", "") or settings.rest_base,
         series_meta=catalog.get("series") or {},
     )
 
@@ -457,7 +464,7 @@ def run_cycle(
         "watchlist": watchlist,
         "paper": paper_snapshot,
         "performance": performance,
-        "resolved": resolved_items[:120],
+        "resolved": cap_resolved_per_topic(resolved_items),
         "demo": demo_state,
         "fees": fee_mod.metadata(),
         "model": {
@@ -579,6 +586,12 @@ def _publish_market(market: dict[str, Any]) -> dict[str, Any]:
     return {k: v for k, v in market.items() if k not in PUBLISH_DROP}
 
 
+# A settled sweep costs one request per series. Taking the alphabetically first ten series
+# across *all* topics spent the whole budget on gas/elections and never reached golf, culture
+# or crypto, so those topics showed an empty resolution table. Sweep a fixed number per topic.
+PER_TOPIC_SETTLED_SERIES = 6
+
+
 def _collect_resolutions(
     client: RestClient,
     current_markets: dict[str, dict[str, Any]],
@@ -586,27 +599,50 @@ def _collect_resolutions(
     existing: list[dict[str, Any]],
     errors: list[str],
     now: int,
+    api_base: str = "",
     series_meta: dict[str, dict[str, Any]] | None = None,
 ) -> list[dict[str, Any]]:
-    items = {item.get("ticker"): item for item in existing if item.get("ticker")}
+    series_to_topic: dict[str, str] = {
+        series_ticker: topic
+        for topic, tickers in series_by_topic.items()
+        for series_ticker in tickers
+    }
+
+    # Re-read stored rows: backfill the topic (rows written before the fix had topic=None,
+    # which silently hid every settlement from the per-topic tables) and a per-market URL.
+    items: dict[str, dict[str, Any]] = {}
+    for item in existing:
+        ticker = item.get("ticker")
+        if not ticker:
+            continue
+        row = dict(item)
+        if not row.get("topic") and row.get("series_ticker"):
+            row["topic"] = series_to_topic.get(row["series_ticker"])
+        if not row.get("api_url") and api_base:
+            row["api_url"] = f"{api_base.rstrip('/')}/markets/{ticker}"
+        items[ticker] = row
 
     # markets that settled while we were watching them
     for market in current_markets.values():
         if market.get("result") in {"yes", "no"}:
-            items[market["ticker"]] = _resolution_row(market, series_meta)
+            row = _resolution_row(market, api_base=api_base, series_meta=series_meta)
+            row["topic"] = row.get("topic") or series_to_topic.get(market.get("series_ticker") or "")
+            items[market["ticker"]] = row
 
-    # Settled markets for every series we follow (bounded sweep).
+    # Settled markets for the series we follow (bounded sweep, per topic).
     #
-    # Filter choice, verified against the compatibility table on
+    # Filter pair verified against the compatibility table on
     # https://docs.kalshi.com/api-reference/market/get-markets:
-    #   min_close_ts  is only compatible with status=closed
-    #   min_settled_ts is only compatible with status=settled
-    # The earlier build sent min_close_ts together with status=settled, which the API rejects
-    # with HTTP 400 (visible as an error string in every published snapshot). min_settled_ts is
-    # the filter the docs pair with status=settled. Note that status=settled matches markets in
-    # the terminal `finalized` state (https://docs.kalshi.com/getting_started/market_lifecycle),
-    # so a determined-but-not-yet-settled market is picked up on a later cycle instead.
-    series = sorted({s for lst in series_by_topic.values() for s in lst})[:24]
+    #   min_close_ts   -> only valid with status=closed
+    #   min_settled_ts -> only valid with status=settled
+    # Earlier builds sent min_close_ts with status=settled and every request returned HTTP 400.
+    # The cutoff is a Unix timestamp in seconds (an integer); sending a float or an ISO string is
+    # also rejected. status=settled matches the terminal `finalized` state
+    # (https://docs.kalshi.com/getting_started/market_lifecycle), so a market that is determined
+    # but not yet settled is picked up on a later cycle.
+    series = []
+    for topic in sorted(series_by_topic):
+        series.extend(sorted({s for s in series_by_topic[topic]})[:PER_TOPIC_SETTLED_SERIES])
     cutoff = int((datetime.now(tz=timezone.utc) - timedelta(days=21)).timestamp())
     for series_ticker in series:
         try:
@@ -624,21 +660,46 @@ def _collect_resolutions(
             if market.get("result") not in {"yes", "no"}:
                 continue
             normalized = normalize_market(market, api_base="")
-            normalized["series_ticker"] = market.get("series_ticker") or _series_of(series_ticker)
-            items[market.get("ticker")] = _resolution_row(normalized, series_meta)
+            normalized["series_ticker"] = market.get("series_ticker") or series_ticker
+            row = _resolution_row(normalized, api_base=api_base, series_meta=series_meta)
+            row["topic"] = series_to_topic.get(series_ticker) or row.get("topic")
+            items[market.get("ticker")] = row
     rows = sorted(items.values(), key=lambda r: r.get("settled_ts") or r.get("close_time") or "", reverse=True)
     # keep the payload bounded; the newest 400 settlements are plenty for the tracker
     return rows[:400]
 
 
-def _series_of(series_ticker: str) -> str:
-    return series_ticker
+def cap_resolved_per_topic(
+    rows: list[dict[str, Any]], *, per_topic: int = 60, unattributed: int = 20
+) -> list[dict[str, Any]]:
+    """Bound the published resolution table *per topic*, not globally.
+
+    ``rows`` is newest-first. A single global cap let gas (300 settlements in one sweep)
+    push every other topic out of the payload, so elections, culture, crypto and golf pages
+    rendered "No settled markets recorded yet" while rows existed. Keep a slice per topic.
+    """
+    counts: dict[str | None, int] = {}
+    out: list[dict[str, Any]] = []
+    for row in rows:
+        topic = row.get("topic")
+        limit = per_topic if topic else unattributed
+        if counts.get(topic, 0) >= limit:
+            continue
+        counts[topic] = counts.get(topic, 0) + 1
+        out.append(row)
+    return out
 
 
 def _resolution_row(
-    market: dict[str, Any], series_meta: dict[str, dict[str, Any]] | None = None
+    market: dict[str, Any],
+    api_base: str = "",
+    series_meta: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     result = (market.get("result") or "").lower()
+    ticker = market.get("ticker")
+    api_url = market.get("api_url") or (
+        f"{api_base.rstrip('/')}/markets/{ticker}" if api_base and ticker else None
+    )
     meta = (series_meta or {}).get(str(market.get("series_ticker") or ""))
     return {
         "ticker": market.get("ticker"),
@@ -651,7 +712,7 @@ def _resolution_row(
         "settled_ts": market.get("settlement_ts") or market.get("close_time"),
         "found_at": _iso(),
         "settlement_value": market.get("settlement_value_dollars"),
-        "api_url": market.get("api_url"),
+        "api_url": api_url,
         "series_page_url": market.get("series_page_url"),
         "catalysts": catalysts.for_market(
             market, meta, iso=market.get("close_time") or market.get("settled_ts")

@@ -93,12 +93,14 @@
           </tr>
           <tr>
             <td class="ticker">D4</td>
-            <td>The brief asks for the website links that may have caused a sharp jump. The alerts carried no such
-                links, and the repository README claimed "candidate news links" that no code produced.</td>
+            <td>The brief asks for the website links that may have caused a sharp jump. The Node trade board
+                (<code>app/news.py</code>) had a candidate-headline implementation with a two-block rule already;
+                the Python desk's alerts carried no such links at all, and the desk README claimed "candidate news
+                links" that no desk code produced.</td>
             <td><code>kalshi_trader/catalysts.py</code> (new), <code>swings.py</code>, <code>collector.py</code>, <code>docs/desk/assets/js/app.js</code></td>
             <td>Links are taken only from API fields: <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">market object</a>,
                 <a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">series <code>settlement_sources</code> and <code>contract_terms_url</code></a></td>
-            <td>Every alert and every resolved row now carries two clearly separated blocks: <b>Contract sources</b> (Kalshi's own, marked verified) and <b>Possible catalysts</b> (date-restricted news searches, explicitly marked unverified). No cause is ever asserted.</td>
+            <td>Every alert and every resolved row now carries two clearly separated blocks: <b>Contract sources</b> (Kalshi's own, marked verified) and <b>Possible catalysts</b> (date-restricted news searches, explicitly marked unverified). No cause is ever asserted. The block names and the label follow the convention already used by <code>app/news.py</code>, so both dashboards describe a swing the same way instead of diverging.</td>
           </tr>
           <tr>
             <td class="ticker">D5</td>
@@ -144,6 +146,7 @@
           <tr><td class="ticker">kalshi_trader/kalshi_demo.py</td><td>Optional demo-account adapter</td><td><span class="chip ok">fixed</span> — D3; still dormant without credentials (F2)</td></tr>
           <tr><td class="ticker">kalshi_trader/server.py</td><td>Local server: API, same-origin WebSocket push, open CORS</td><td><span class="chip ok">correct</span></td></tr>
           <tr><td class="ticker">kalshi_trader/store.py</td><td>Atomic JSON writes, bounded collections, history thinning</td><td><span class="chip ok">correct</span></td></tr>
+          <tr><td class="ticker">app/news.py</td><td>Candidate headlines for the Node board: Kalshi's settlement sources plus Google News RSS headlines, each labelled a possible catalyst with an explicit ok/empty/error/disabled status</td><td><span class="chip ok">correct</span> — never fabricates a headline; read to align the desk's wording</td></tr>
           <tr><td class="ticker">tools/build_site.py</td><td>Static generator for category pages and injected tables</td><td><span class="chip ok">correct</span></td></tr>
           <tr><td class="ticker">tools/check_links.py</td><td>Internal link and anchor checker</td><td><span class="chip ok">correct</span> — 270 links across 14 pages</td></tr>
           <tr><td class="ticker">docs/desk/assets/js/app.js</td><td>Dashboard rendering, charts, both chats, live upgrade</td><td><span class="chip ok">fixed</span> — D4</td></tr>
@@ -175,6 +178,7 @@
           <tr><td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee schedule (PDF)</a></td><td>taker and maker formulas, published table, non-standard multipliers</td></tr>
           <tr><td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Fee rounding</a></td><td>rounding components, balance precision</td></tr>
           <tr><td><a href="https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account" target="_blank" rel="noopener">Demo account help article</a></td><td>demo sign-up, mock funding rails, credential separation</td></tr>
+          <tr><td><a href="https://docs.kalshi.com/api-reference/market/get-market-orderbook" target="_blank" rel="noopener">Get Market Orderbook</a></td><td>single-market book shape, <code>depth</code> parameter, empty-book behaviour</td></tr>
         </tbody>
       </table>
     </div>

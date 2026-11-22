@@ -30,7 +30,17 @@ jobs:
           python-version: '3.11'
       - name: Verify both sessions' code and local links
         run: |
+          npm install --no-audit --no-fund
+          # Regenerate the Node site from the committed data before checking it. The generated
+          # pages at the repository root had drifted from their templates and data (build:check
+          # reported 19 stale pages on a clean clone of main), because nothing in CI ran `build`
+          # — the workflow only staged whatever HTML happened to be committed. Building here
+          # makes the deployed artifact match the templates and the current data every deploy,
+          # and build:check below then proves the regeneration is deterministic.
+          npm run build
           node --test tests/*.test.mjs
+          npm run build:check
+          npm run check:data
           python3 tests/check_site.py
           python3 python/test_simulator.py
           node --check site/assets/app.js
@@ -41,11 +51,18 @@ jobs:
           python3 -m pytest -q
           python3 tools/build_site.py --check
           python3 tools/check_links.py
+      - name: Verify the engine site (session arena-7ae1c34f)
+        run: |
+          python3 -m engine.check_site --root docs/engine
+          python3 -m engine.build_site --out /tmp/engine-site --data docs/engine/data
+          python3 -m engine.check_site --root /tmp/engine-site
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py
-
       - name: Commit the refreshed snapshot
+        # Both this job and collect.yml commit to main; they share the `main-writers`
+        # concurrency group above, and the push is retried after a rebase in case a
+        # collector commit lands between checkout and push.
         if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         continue-on-error: true
         run: |
@@ -61,12 +78,18 @@ jobs:
               echo "push attempt $attempt failed; retrying"; sleep 10
             done
           fi
-      - name: Stage legacy root, research dashboard, and original dashboard
+      - name: Stage the landing page, every dashboard and the board app
         if: github.event_name != 'pull_request'
         run: |
+          set -euo pipefail
           mkdir -p public
           cp index.html .nojekyll public/
           cp -R docs site public/
+          # The Node board app (session 9bea7e55): generated pages, their assets,
+          # the five category pages and the JSON those pages read. Repository
+          # internals (tools, tests, workflows) are never published.
+          cp ./*.html public/
+          cp -R assets categories data public/
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'
       - uses: actions/upload-pages-artifact@v3
