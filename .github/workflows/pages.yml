@@ -22,12 +22,22 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Verify both sessions' code and local links
         run: |
           node --test tests/*.test.mjs
           python3 tests/check_site.py
           python3 python/test_simulator.py
           node --check site/assets/app.js
+      # Research desk (session e3e5f70f): unit tests, generated tables current, no broken links.
+      - name: Verify the research desk under docs/desk
+        run: |
+          python3 -m pip install --quiet -r requirements-dev.txt
+          python3 -m pytest -q
+          python3 tools/build_site.py --check
+          python3 tools/check_links.py
       - name: Fetch bounded public demo snapshot
         if: github.event_name != 'pull_request'
         run: python3 scripts/build_snapshot.py

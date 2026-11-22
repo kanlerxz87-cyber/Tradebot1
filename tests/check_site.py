@@ -13,6 +13,10 @@ class Links(HTMLParser):
             if attrs.get(key):self.links.append(attrs[key])
 errors=[]
 for html in ROOT.rglob('*.html'):
+    # docs/desk is the research desk owned by session e3e5f70f; it has its own gate
+    # (tools/check_links.py) and its own dashboard ids, so it is validated there.
+    if 'desk' in html.parts:
+        continue
     parser=Links();parser.feed(html.read_text())
     for link in parser.links:
         parsed=urlsplit(link)
