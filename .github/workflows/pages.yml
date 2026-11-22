@@ -106,7 +106,7 @@ jobs:
           set -euo pipefail
           mkdir -p public
           cp index.html .nojekyll public/
-          cp -R docs site demo-desk audit public/
+          cp -R docs site demo-desk audit terminal public/
           # The Node board app (session 9bea7e55): generated pages, their assets,
           # the five category pages and the JSON those pages read. Repository
           # internals (tools, tests, workflows) are never published.
