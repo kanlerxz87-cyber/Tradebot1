@@ -77,6 +77,7 @@
   <div class="cta">
     <a class="btn" href="docs/desk/">Open the live desk →</a>
     <a class="btn ghost" href="docs/desk/flagged.html">Flagged for review</a>
+    <a class="btn ghost" href="docs/desk/repo-review.html">Repository review</a>
     <a class="btn ghost" href="audit.html">Integration audit</a>
     <a class="btn ghost" href="docs/desk/executive-summary.html">Executive summary</a>
   </div>
@@ -111,8 +112,9 @@
     <tbody>
       <tr><td><a href="docs/desk/executive-summary.html">Executive summary</a></td><td>What was built, which API facts were verified, what the numbers do and do not mean.</td><td><span class="tag live">live</span></td></tr>
       <tr><td><a href="docs/desk/verification.html">Verification log</a></td><td>Each API and market-lifecycle claim with its official Kalshi source and check date.</td><td><span class="tag live">live</span></td></tr>
-      <tr><td><a href="docs/audit/fee-audit.html">Fee audit</a></td><td>Every row of Kalshi's published general fee table recomputed with this repository's own fee code — 21 of 21 match — plus the per-series multiplier limits.</td><td><span class="tag live">live</span></td></tr>
-      <tr><td><a href="docs/desk/flagged.html">Flagged for review</a></td><td>16 items that could not be confirmed — demo account, topic mappings, CORS, per-series fee multipliers and more — each with its source.</td><td><span class="tag review">needs review</span></td></tr>
+      <tr><td><a href="docs/desk/flagged.html">Flagged for review</a></td><td>14 items that could not be confirmed — the per-series fee multiplier, the demo account, CORS, alert timing and more — each with its source.</td><td><span class="tag review">needs review</span></td></tr>
+      <tr><td><a href="docs/audit/fee-audit.html">Fee audit (session <code>1662b94b</code>)</a></td><td>Independent check of the fee model and series taxonomy against Kalshi's published schedule, including the per-series multiplier gap.</td><td><span class="tag live">live</span></td></tr>
+      <tr><td><a href="docs/desk/repo-review.html">Repository review</a></td><td>Every source file read line by line: six defects with the official document each was checked against, the test that pins each fix, and what stays open.</td><td><span class="tag review">needs review</span></td></tr>
       <tr><td><a href="audit.html">Integration audit</a></td><td>Line-by-line review of every implementation in this repository, the defects found and fixed, and what this sandbox could not re-check.</td><td><span class="tag review">needs review</span></td></tr>
       <tr><td><a href="docs/desk/requirements.html">Requirements matrix</a></td><td>Each part of the brief, its status, and the file that implements it.</td><td><span class="tag live">live</span></td></tr>
       <tr><td><a href="docs/desk/portfolio.html">Portfolio</a></td><td>Simulated book: cash, open positions, realised and unrealised P&amp;L, per-strategy and per-topic breakdown. Demo-account connection is not configured.</td><td><span class="tag live">paper</span></td></tr>
@@ -138,10 +140,17 @@
     cycles (15 and 30 minutes), not by a WebSocket; a browser session can therefore see a swing that the
     published feed has not recorded yet, and 10¢ moves between two cycles can be missed. Prices come from
     Kalshi's public market data; execution is simulated in this repository. No demo-account credentials are
-    configured, so no demo balance or fill is shown — the paper book is not a demo account. Fees follow
-    Kalshi's published schedule (0.07 taker / 0.0175 maker, no settlement fee; all 42 published table values
-    reproduce), but per-series multipliers, maker fills and the rebate accumulator are not modelled. Every item that
+    configured, so no demo balance or fill is shown — the paper book is not a demo account. Every item that
     could not be verified is on the <a href="docs/desk/flagged.html">Flagged for review</a> page.
+  </div>
+
+  <div class="note">
+    <strong>What sits next to a swing.</strong> Each alert in the desk carries two separate blocks:
+    <em>Contract sources</em> — Kalshi's series page, the market object, the filed terms and the exchange's
+    own named settlement source, all published by Kalshi — and <em>Possible catalysts</em>, which are
+    date-restricted news searches rather than asserted causes. The repository has no verifiable news feed,
+    so it shows the time window and lets you judge instead of guessing at a headline. Details:
+    <a href="docs/desk/repo-review.html">repository review, defect D4</a>.
   </div>
 
   <footer>

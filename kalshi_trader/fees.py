@@ -1,27 +1,30 @@
 """Trading-fee model for the simulated book.
 
-**Verification status: VERIFIED against Kalshi's published fee schedule.**
+**Verification status: VERIFIED** against Kalshi's own published fee schedule,
+``https://kalshi.com/docs/kalshi-fee-schedule.pdf`` (linked from the ``fee_type`` field of
+``GET /series``: https://docs.kalshi.com/api-reference/market/get-series-list), read on
+2026-11-22. The PDF is dated "Last updated and effective: July 7, 2026" and states:
 
-Source: ``https://kalshi.com/docs/kalshi-fee-schedule.pdf`` ("Last updated and effective:
-July 7, 2026"), retrieved 2026-11-22 UTC. The schedule states, verbatim:
+    fees = roundup(M x 0.07 x C x P x (1 - P))          # taker / general trading fee
+    fees = roundup(M x 0.0175 x C x P x (1 - P))        # maker fee
 
-    fees = roundup(M x 0.07 x C x P x (1 - P))     (taker / general trading fee)
-    fees = roundup(M x 0.0175 x C x P x (1 - P))   (maker fee; default M = 0)
+with ``P`` the price of a contract in dollars, ``C`` the number of contracts, ``M`` the
+per-series multiplier (default 1 taker, 0 maker) and "round up = rounds up such that the
+fee + positionCost is rounded to a centicent". The same PDF gives a worked table — one
+contract at $0.50 costs $0.02, one hundred contracts at $0.50 cost $1.75 — which the tests
+reproduce exactly.
 
-with C = contracts, P = price in dollars and M = the per-series multiplier (default 1 for
-takers, 0 for makers). The same document states there is **no settlement fee** and **no
-membership fee**, and its "General Trading Fees Table" lists 21 prices at 1 contract and
-21 prices at 100 contracts. ``tests/test_model_fees.py`` reproduces all 42 of those values,
-so the rounding rule used here (round up to the cent) is the published one rather than a
-third-party report.
+Two limits are kept deliberately:
 
-Per-series multipliers: the schedule lists KXAAAGASM (US gas price) at maker 1 / taker 1,
-i.e. the general formula; series with multiplier 0 are fee-free and are *not* special-cased
-here — flag F1 on the Flagged for Review page records that limitation.
-
-Rate changes are published at ``https://kalshi.com/fee-schedule`` (cited by the PDF), so
-``TAKER_RATE`` / ``MAKER_RATE`` must be re-read from the schedule before relying on any
-P&L figure produced by a future cycle.
+* The PDF's worked table rounds each fee **up to the cent** (100 contracts at $0.35 is
+  $1.5925 exactly and the table prints $1.60). This module applies that same rule, so all
+  21 rows of the published table are reproduced exactly and asserted in
+  ``tests/test_model_fees.py``. It is labelled ``fee_model="quadratic"``.
+* The per-series multiplier ``M`` in the formula is applied as 1 unless a series is known to
+  be fee-free. The PDF's non-standard table lists several series with ``M = 0`` (for example
+  ``KXBTCY``, ``KXCPI``, ``KXFED`` and the NBA/NFL game series), and those are not
+  enumerated exhaustively here, so a fee-free series may still be charged the default fee.
+  That is flagged on the Flagged for Review page (F1).
 """
 
 from __future__ import annotations
@@ -29,18 +32,15 @@ from __future__ import annotations
 import math
 
 VERIFIED = True
-FEE_SCHEDULE_URL = "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
-FEE_CHANGES_URL = "https://kalshi.com/fee-schedule"
-FEE_SCHEDULE_EFFECTIVE = "2026-07-07"
 TAKER_RATE = 0.07
-MAKER_RATE = 0.0175
-MODEL_NAMES = {"quadratic": "quadratic_verified", "none": "none"}
+MAKER_RATE = 0.0175  # 25% of the taker rate, per the PDF's "Maker Fees" section
+MODEL_NAMES = {"quadratic": "quadratic", "none": "none"}
 
+FEE_SOURCE = "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
 FEE_SOURCE_NOTE = (
-    "Fee model 0.07 x contracts x price x (1 - price), rounded up to the cent, taken from "
-    "Kalshi's published fee schedule (effective 2026-07-07). Checks reproduce all 42 values "
-    "of that schedule's General Trading Fees Table. Maker rate 0.0175 with a published "
-    "default multiplier of 0; no settlement fee and no membership fee."
+    "Fee = roundup(0.07 x contracts x price x (1 - price)) for taker fills and "
+    "roundup(0.0175 x ...) for maker fills, per Kalshi's fee schedule (effective 2026-07-07). "
+    "The paper book rounds up to the cent, which never understates the fee."
 )
 
 
@@ -60,7 +60,7 @@ def maker_fee(contracts: float, price: float, model: str = "quadratic") -> float
 
 
 def model_label(model: str) -> str:
-    return MODEL_NAMES.get(model, "quadratic_verified")
+    return MODEL_NAMES.get(model, "quadratic")
 
 
 def metadata() -> dict[str, object]:
@@ -70,7 +70,6 @@ def metadata() -> dict[str, object]:
         "maker_rate": MAKER_RATE,
         "formula": "ceil_to_cent(rate x contracts x price x (1 - price))",
         "note": FEE_SOURCE_NOTE,
-        "source": FEE_SCHEDULE_URL,
-        "changes_source": FEE_CHANGES_URL,
-        "effective": FEE_SCHEDULE_EFFECTIVE,
+        "source": FEE_SOURCE,
+        "effective": "2026-07-07",
     }

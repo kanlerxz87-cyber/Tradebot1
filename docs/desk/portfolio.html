@@ -22,6 +22,7 @@
       <a href="strategies.html">Strategies</a>
       <a href="api-reference.html">API</a>
       <a href="verification.html">Verification</a>
+      <a href="repo-review.html">Repo review</a>
       <a href="flagged.html">Flagged</a>
       <a href="executive-summary.html">Summary</a>
     </nav>
@@ -51,10 +52,8 @@
 </div>
 
 <div class="banner ok" style="margin-top:14px">
-  <b>Fee model:</b>&nbsp;<span class="grow">quadratic_verified —
-  roundup(0.07 × contracts × price × (1 − price)), maker 0.0175 with the schedule's default multiplier of 0. Verified 2026-11-22: every value of the published table (21 prices × 1 and × 100 contracts) reproduces exactly. 
-  <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Kalshi fee schedule</a> ·
-  <a href="https://kalshi.com/fee-schedule" target="_blank" rel="noopener">scheduled changes</a>.</span>
+  <b>Fee model:</b>&nbsp;<span class="grow">quadratic —
+  verified against an official Kalshi schedule.</span>
 </div>
 
 <div class="grid two" style="margin-top:16px">
@@ -121,7 +120,7 @@
           <li><b>Profit factor</b> — gross wins ÷ gross losses. Above 1.0 the book is net profitable.</li>
           <li><b>Expectancy</b> — average P&L per trade, in dollars.</li>
           <li><b>Max drawdown</b> — the worst peak-to-trough fall of the equity curve, in dollars and percent.</li>
-          <li><b>Fees paid</b> — modelled with Kalshi's published schedule (verified 2026-11-22, 42/42 table values); per-series multipliers are not applied (see <a href="flagged.html#F1">F1</a> and <a href="flagged.html#F15">F15</a>).</li>
+          <li><b>Fees paid</b> — modelled fee cost, from Kalshi's published schedule; only the per-series multiplier is approximated (see <a href="flagged.html#F1">F1</a>).</li>
         </ul>
       </div>
     </div>

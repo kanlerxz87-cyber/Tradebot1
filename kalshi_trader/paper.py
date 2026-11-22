@@ -8,7 +8,8 @@ Accounting rules — deliberately conservative and simple:
 * Buying NO at price ``p`` is modelled as paying ``1 − yes_bid`` (the implied NO ask), which
   is exactly how Kalshi's bid-only book works
   (https://docs.kalshi.com/getting_started/orderbook_responses).
-* Fees follow :mod:`kalshi_trader.fees` (verified against Kalshi's published fee schedule) and are charged on entry *and*
+* Fees follow :mod:`kalshi_trader.fees` (verified against Kalshi's fee schedule) and are
+  charged on entry *and*
   exit; settlement itself is fee-free.
 * Settlement pays ``$1.00`` per winning contract and ``$0.00`` per losing contract
   (https://docs.kalshi.com/getting_started/market_settlement).
@@ -106,6 +107,9 @@ class PaperLedger:
         path = path or self.settings.paper_ledger
         path.parent.mkdir(parents=True, exist_ok=True)
         self.state["updated_at"] = _now_iso()
+        # Keep the ledger label in sync with the current fee model so a verified model is not
+        # reported as unverified in an old ledger.
+        self.state["fee_model"] = fee_mod.model_label(self.settings.fee_model)
         tmp = path.with_suffix(".tmp")
         tmp.write_text(json.dumps(self.state, indent=1, sort_keys=False), encoding="utf-8")
         tmp.replace(path)
@@ -119,6 +123,14 @@ class PaperLedger:
     @property
     def positions(self) -> dict[str, dict[str, Any]]:
         return self.state["positions"]
+
+    def _outlays(self) -> float:
+        """Premium plus entry fees still tied up in open positions."""
+        return sum(float(pos["cost"]) + float(pos.get("entry_fee") or 0.0) for pos in self.positions.values())
+
+    def _equity_at_cost(self) -> float:
+        """Equity with open positions valued at cost (no mark): realised + unrealised = total."""
+        return round(self.cash + self._outlays(), 2)
 
     def _equity(self, marks: dict[str, float] | None = None) -> float:
         value = self.cash
@@ -329,9 +341,10 @@ class PaperLedger:
         equity = self._equity()
         start = float(self.state["bankroll_start"])
         realized = round(sum(t["pnl"] for t in self.state.get("trades", [])), 2)
-        unrealized = round(equity - self.cash - sum(
-            (p["cost"] + p["entry_fee"]) for p in self.positions.values()
-        ), 2) if self.positions else 0.0
+        # Unrealised is marked to market: equity (cash + marked positions) less cash less what the
+        # positions cost, where the cost includes the entry fee that was already paid out of cash.
+        # That makes realised + unrealised reconcile to equity - bankroll, which the tests assert.
+        unrealized = round(equity - self.cash - self._outlays(), 2) if self.positions else 0.0
         return {
             "updated_ts": now,
             "updated_iso": _now_iso(),
@@ -347,7 +360,7 @@ class PaperLedger:
             ),
             "trades": list(reversed(self.state.get("trades", [])))[:200],
             "equity_curve": self.state.get("equity", [])[-600:],
-            "fee_model": self.state.get("fee_model"),
+            "fee_model": fee_mod.model_label(self.state.get("fee_model") or "quadratic"),
             "fee_verified": fee_mod.VERIFIED,
             "rejected": list(reversed(self.state.get("rejected", [])))[:40],
         }

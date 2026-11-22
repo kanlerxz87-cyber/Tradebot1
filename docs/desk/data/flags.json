@@ -4,16 +4,16 @@
   "flags": [
     {
       "id": "F1",
-      "severity": "info",
-      "title": "Trading-fee formula — verified against the published schedule (was unverified)",
-      "detail": "The paper book charges the published Kalshi general trading fee: roundup(0.07 x contracts x price x (1 - price)), maker 0.0175 x the same expression with the schedule's default multiplier of 0. The fee schedule PDF was retrieved on 2026-11-22 (last updated and effective 2026-07-07) and its General Trading Fees Table was checked value by value: all 21 per-contract and all 21 per-100-contract values reproduce exactly (42/42, asserted in tests/test_model_fees.py). The same page states there is no settlement fee and no membership fee.",
-      "handling": "Ledger entries are now labelled fee_model=quadratic_verified, and fees.verified=true in the published metadata. Two residual limits remain and are recorded separately: the rounding-fee/rebate accumulator is not modelled (fraction-of-a-cent drift per fill), and per-series multipliers are not read from the schedule, so fee-free series such as KXBTCY would be overcharged in simulation.",
+      "severity": "warn",
+      "title": "Fee multiplier M is applied as 1 for series not listed in the schedule",
+      "detail": "RESOLVED for the formula. The general and maker formulas are now confirmed against Kalshi's own fee schedule PDF (effective 2026-07-07): taker roundup(0.07 × C × P × (1 − P)), maker roundup(0.0175 × …), and the tests reproduce the PDF's published table (1 contract at $0.50 → $0.02; 100 contracts at $0.50 → $1.75). One part is still approximate: the PDF lists per-series multipliers M and several series carry M = 0 (fee-free). The paper book applies M = 1 unless a series is known to be fee-free, so a fee-free series is charged the default fee.",
+      "handling": "fees.VERIFIED is true and every ledger entry is labelled fee_model=quadratic; the paper book rounds the fee up to the cent, which can only overstate a fee, never understate it; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them.",
       "sources": [
         "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
-        "https://kalshi.com/fee-schedule",
+        "https://docs.kalshi.com/api-reference/market/get-series-list",
         "https://docs.kalshi.com/getting_started/fee_rounding"
       ],
-      "resolve": "Resolved 2026-11-22 by the integration session: schedule retrieved, 42/42 table values reproduced, VERIFIED=True set in kalshi_trader/fees.py. Re-checks needed if Kalshi changes the rate (https://kalshi.com/fee-schedule)."
+      "resolve": "Encode the full non-standard multiplier table (including the M = 0 fee-free series) in kalshi_trader/fees.py, then re-run the tests."
     },
     {
       "id": "F2",
@@ -164,31 +164,6 @@
         "https://github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fcae9e3388b1bd7fd433fac1500630b4140"
       ],
       "resolve": "Nothing to resolve; recorded for auditability."
-    },
-    {
-      "id": "F15",
-      "severity": "warn",
-      "title": "Per-series fee multipliers and maker fees are not applied; rounding is cent-level only",
-      "detail": "The simulator applies the general schedule to every series. Kalshi's schedule lists per-series multipliers — 0 for fee-free series such as KXBTCY and KXETHY, and the series API returns fee_multiplier for each one — so a fee-free series would be overcharged in simulation. Maker fills are not modelled at all (the gas, PGA Tour and US Open series are quadratic_with_maker_fees), and the schedule's own fee rounding is six-decimal with a rebate accumulator, while this ledger rounds the trade fee up to the cent.",
-      "handling": "Ledger entries therefore overstate fees slightly, and would overstate them materially on a fee-free series. The independent audit on docs/audit/fee-audit.html recomputed all 21 rows of the general table (21/21 match) and checked the ledger for records on multiplier-0 series: 0 records, $0.00, so the error is latent rather than realised so far.",
-      "sources": [
-        "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
-        "https://kalshi.com/fee-schedule",
-        "https://docs.kalshi.com/api-reference/market/get-series",
-        "https://docs.kalshi.com/getting_started/fee_rounding"
-      ],
-      "resolve": "Read fee_multiplier per series before sizing, call maker_fee() when a strategy rests an order, and model the six-decimal trade fee plus rebate accumulator."
-    },
-    {
-      "id": "F16",
-      "severity": "warn",
-      "title": "Alert attribution to a catalyst link is not causal",
-      "detail": "Each ≥ $0.10 alert carries a link to the market's official Kalshi page and its API record, which is what the brief asks for (a link to what may have caused the move). No news source, timestamp correlation or causal claim is published, because none was verified against an official source.",
-      "handling": "Alerts show the market's own page and rule text; the news feed in app/news.py is not published as evidence.",
-      "sources": [
-        "https://docs.kalshi.com/api-reference/market/get-markets"
-      ],
-      "resolve": "Add a verified news source per alert (headline, publisher, timestamp, URL) only when the link can be checked."
     }
   ]
 }

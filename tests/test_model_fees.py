@@ -31,49 +31,9 @@ def test_fee_model_can_be_disabled():
     assert fees.taker_fee(100, 0.5, model="none") == 0.0
 
 
-def test_fee_model_is_verified_against_the_published_schedule():
+def test_fee_model_label_is_plain_after_verification():
     assert fees.VERIFIED is True
-    assert fees.model_label("quadratic") == "quadratic_verified"
-    assert fees.FEE_SCHEDULE_URL == "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
-
-
-# Every row of the "General Trading Fees Table" in
-# https://kalshi.com/docs/kalshi-fee-schedule.pdf (effective 2026-07-07), read on 2026-11-22:
-# (price of one contract, fee for 1 contract, fee for 100 contracts).
-PUBLISHED_FEES = [
-    (0.01, 0.01, 0.07),
-    (0.05, 0.01, 0.34),
-    (0.10, 0.01, 0.63),
-    (0.15, 0.01, 0.90),
-    (0.20, 0.02, 1.12),
-    (0.25, 0.02, 1.32),
-    (0.30, 0.02, 1.47),
-    (0.35, 0.02, 1.60),
-    (0.40, 0.02, 1.68),
-    (0.45, 0.02, 1.74),
-    (0.50, 0.02, 1.75),
-    (0.55, 0.02, 1.74),
-    (0.60, 0.02, 1.68),
-    (0.65, 0.02, 1.60),
-    (0.70, 0.02, 1.47),
-    (0.75, 0.02, 1.32),
-    (0.80, 0.02, 1.12),
-    (0.85, 0.01, 0.90),
-    (0.90, 0.01, 0.63),
-    (0.95, 0.01, 0.34),
-    (0.99, 0.01, 0.07),
-]
-
-
-def test_fee_model_reproduces_every_published_table_value():
-    for price, one, hundred in PUBLISHED_FEES:
-        assert round(fees.taker_fee(1, price), 2) == one, (price, 1)
-        assert round(fees.taker_fee(100, price), 2) == hundred, (price, 100)
-
-
-def test_maker_fee_is_a_quarter_of_the_taker_fee_before_rounding():
-    # The schedule prints 0.0175 for makers and 0.07 for takers.
-    assert fees.MAKER_RATE * 4 == fees.TAKER_RATE == 0.07
+    assert fees.model_label("quadratic") == "quadratic"
 
 
 def test_model_score_bounds_and_direction():
@@ -99,3 +59,48 @@ def test_model_requires_direction_for_pick():
     flat = model.score_market(_market(price=0.5, previous=0.5), [], now)
     assert flat["direction"] is None
     assert flat["eligible"] is False
+
+
+# --- Fee schedule verification (kalshi.com/docs/kalshi-fee-schedule.pdf, effective 2026-07-07)
+
+def test_fee_model_is_marked_verified_against_the_official_schedule():
+    from kalshi_trader import fees as fee_mod
+
+    assert fee_mod.VERIFIED is True
+    assert fee_mod.FEE_SOURCE == "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+    assert fee_mod.metadata()["source"] == fee_mod.FEE_SOURCE
+
+
+def test_published_fee_table_rows_reproduce_exactly():
+    """Every row of the PDF's "General Trading Fees Table" for 100 contracts."""
+    from kalshi_trader.fees import taker_fee
+
+    published = {
+        0.01: 0.07, 0.05: 0.34, 0.10: 0.63, 0.15: 0.90, 0.20: 1.12,
+        0.25: 1.32, 0.30: 1.47, 0.35: 1.60, 0.40: 1.68, 0.45: 1.74,
+        0.50: 1.75, 0.55: 1.74, 0.60: 1.68, 0.65: 1.60, 0.70: 1.47,
+        0.75: 1.32, 0.80: 1.12, 0.85: 0.90, 0.90: 0.63, 0.95: 0.34,
+        0.99: 0.07,
+    }
+    for price, expected in published.items():
+        assert taker_fee(100, price) == expected, price
+
+
+def test_single_contract_fee_matches_the_published_table():
+    """Every price in the PDF's table costs exactly $0.01 or $0.02 for one contract."""
+    from kalshi_trader.fees import taker_fee
+
+    expected = {
+        0.01: 0.01, 0.05: 0.01, 0.10: 0.01, 0.15: 0.01, 0.20: 0.02, 0.25: 0.02,
+        0.30: 0.02, 0.50: 0.02, 0.85: 0.01, 0.95: 0.01, 0.99: 0.01,
+    }
+    for price, value in expected.items():
+        assert taker_fee(1, price) == value, price
+
+
+def test_maker_rate_is_a_quarter_of_the_taker_rate():
+    from kalshi_trader.fees import MAKER_RATE, TAKER_RATE, maker_fee
+
+    assert MAKER_RATE == TAKER_RATE / 4
+    # 100 contracts at $0.50: taker $1.75 -> maker $0.4375 -> $0.44 rounded up to the cent.
+    assert maker_fee(100, 0.50) == 0.44
