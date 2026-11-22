@@ -35,3 +35,50 @@ services/kalshi/data/
 .playwright-cli/
 test-results/
 .DS_Store
+
+# Additional parallel-session exclusions preserved from main
+# Python artifacts and virtualenvs.
+# Two 2026-11-22 merges dropped these rules and committed a virtualenv plus .pyc binaries to main;
+# sessions arena/89a39032 and arena/1662b94b both untracked them. Keep the union of the rules.
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+*.egg-info/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Node
+node_modules/
+
+# Local state / secrets
+.env
+*.pem
+*.key
+!docs/**/*.key
+secrets/
+state/
+*.db
+*.db-journal
+app_data/*.tmp
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+*.log
+
+# Build scratch
+public/
+_site/
+coverage/
+
+# Build output kept in git on purpose: docs/ is the published GitHub Pages site.
+
+# Python virtualenv
+
+# Python bytecode and caches are never source
+**/__pycache__/
+*.pyc

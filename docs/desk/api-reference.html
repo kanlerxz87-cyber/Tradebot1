@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kalshi API reference — verified endpoints and fields</title>
+<meta name="description" content="Line-by-line verified Kalshi Trade API reference: demo and production environments, authentication, public market data, orderbook structure, WebSocket channels, rate limits and official category taxonomy. Every row links to the official source.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="topics/gas-prices.html">Gas</a>
+      <a href="topics/elections.html">Elections</a>
+      <a href="topics/culture.html">Culture</a>
+      <a href="topics/crypto.html">Crypto</a>
+      <a href="topics/golf.html">Golf</a>
+      <a href="portfolio.html">Portfolio</a>
+      <a href="strategies.html">Strategies</a>
+      <a class="active" href="api-reference.html">API</a>
+      <a href="verification.html">Verification</a>
+      <a href="repo-review.html">Repo review</a>
+      <a href="flagged.html">Flagged</a>
+      <a href="executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Kalshi API reference</h1>
+  <p class="page-sub">
+    Every row below was read from an official Kalshi source on 2026-11-22 (UTC) and links to it.
+    Nothing on this page is inferred from a third-party blog. Where a detail could not be confirmed it is
+    labelled <span class="chip warn">unverified</span> and no value is filled in.
+  </p>
+
+  <div class="banner">
+    <span class="grow">
+      <b>Read-only.</b> This site never places a production order. Order placement is implemented only
+      against the demo environment and only when demo credentials exist.
+    </span>
+  </div>
+
+  <section class="section">
+    <h2>1 · Environments</h2>
+    <p class="hint">Credentials are not shared between environments. The <code>external-api</code> hosts are the recommended ones; the shared hosts stay supported.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Environment</th><th>Surface</th><th>Recommended</th><th>Also supported</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Production</td><td>REST</td><td class="mono">https://external-api.kalshi.com/trade-api/v2</td><td class="mono">https://api.elections.kalshi.com/trade-api/v2</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Demo</td><td>REST</td><td class="mono">https://external-api.demo.kalshi.co/trade-api/v2</td><td class="mono">https://demo-api.kalshi.co/trade-api/v2</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Production</td><td>WebSocket</td><td class="mono">wss://external-api-ws.kalshi.com/trade-api/ws/v2</td><td class="mono">wss://api.elections.kalshi.com/trade-api/ws/v2</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Demo</td><td>WebSocket</td><td class="mono">wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</td><td class="mono">wss://demo-api.kalshi.co/trade-api/ws/v2</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Production</td><td>User fills / orders WS</td><td class="mono">wss://user-ws.kalshi.com/trade-api/ws/v2</td><td>—</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Demo</td><td>User fills / orders WS</td><td class="mono">wss://user-ws.demo.kalshi.co/trade-api/ws/v2</td><td>—</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Demo portal</td><td>Web app</td><td class="mono">https://demo.kalshi.co</td><td>—</td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>2 · Authentication</h2>
+    <p class="hint">Only needed for account data and orders. Public market data works with no key.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Item</th><th>Value</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Key id header</td><td class="mono">KALSHI-ACCESS-KEY</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Signature header</td><td class="mono">KALSHI-ACCESS-SIGNATURE</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Timestamp header</td><td class="mono">KALSHI-ACCESS-TIMESTAMP</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Signed text</td><td><code>timestamp + HTTP method + request path</code> (path from the API root, <b>no</b> query string, no host)</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Timestamp unit</td><td>Unix milliseconds</td><td><a href="https://docs.kalshi.com/api-reference/portfolio/get-positions" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>RSA signature</td><td>RSA-PSS, SHA-256, salt length = digest length</td><td><a href="https://docs.kalshi.com/api-reference/portfolio/get-positions" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Ed25519 signature</td><td>Sign the message directly</td><td><a href="https://docs.kalshi.com/api-reference/portfolio/get-positions" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Encoding</td><td>Base64 signature</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>3 · Public endpoints used by this dashboard</h2>
+    <p class="hint">All keyless. Rate limits for unauthenticated traffic are separate from authenticated tiers, so the collector paces itself.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Endpoint</th><th>Purpose here</th><th>Key parameters</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">GET /exchange/status</td><td>Health check before a cycle</td><td>—</td><td><a href="https://external-api.kalshi.com/trade-api/v2/exchange/status" target="_blank" rel="noopener">live</a></td></tr>
+        <tr><td class="mono">GET /series</td><td>Build the topic catalogue</td><td><code>category</code>, <code>tags</code>, <code>include_volume</code></td><td><a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /series/{series_ticker}</td><td>Series detail and contract links</td><td><code>series_ticker</code></td><td><a href="https://docs.kalshi.com/api-reference/market/get-series" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /events</td><td>Find active series for the five topics</td><td><code>status</code>, <code>series_ticker</code>, <code>with_nested_markets</code>, <code>limit</code>, <code>cursor</code></td><td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /markets</td><td>Prices, sizes, volume, open interest, resolution</td><td><code>series_ticker</code>, <code>event_ticker</code>, <code>status</code>, <code>limit</code>, <code>cursor</code></td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /markets/{ticker}</td><td>Per-row verification link</td><td><code>ticker</code></td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /markets/{ticker}/orderbook</td><td>Depth: contracts resting at each price</td><td><code>depth</code></td><td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /series/{s}/markets/{t}/candlesticks</td><td>History for longer chart windows</td><td><code>start_ts</code>, <code>end_ts</code> (seconds), <code>period_interval</code> ∈ {1, 60, 1440}</td><td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /search/tags_by_categories</td><td>Official category → tag map</td><td>—</td><td><a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>4 · Account and order endpoints (demo only)</h2>
+    <p class="hint">Implemented in <code>kalshi_trader/kalshi_demo.py</code>. They stay dormant until demo credentials are configured.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Endpoint</th><th>Use</th><th>Response fields relied on</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">GET /portfolio/balance</td><td>Demo cash and portfolio value</td><td><code>balance</code> (cents), <code>balance_dollars</code>, <code>portfolio_value</code> (cents), <code>updated_ts</code></td><td><a href="https://docs.kalshi.com/api-reference/portfolio/get-balance" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">GET /portfolio/positions</td><td>Demo positions</td><td><code>market_positions[].position_fp</code> (+YES / −NO), <code>market_exposure_dollars</code>, <code>realized_pnl_dollars</code>, <code>fees_paid_dollars</code></td><td><a href="https://docs.kalshi.com/api-reference/portfolio/get-positions" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">POST /portfolio/events/orders</td><td>Submit a demo order</td><td>Body: <code>ticker</code>, <code>side</code>, <code>count</code>, <code>price</code>, <code>time_in_force</code>, <code>self_trade_prevention_type</code>, <code>client_order_id</code>; 201 = accepted</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">DELETE /portfolio/events/orders/{order_id}</td><td>Cancel a resting demo order</td><td>Order id from the create response</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>5 · Market object fields</h2>
+    <p class="hint">Fields the dashboard reads. All *_fp values are fixed-point strings; all *_dollars values are dollar strings.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Field</th><th>Meaning</th><th>Used for</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">ticker</td><td>Unique market id</td><td>Everywhere</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">event_ticker</td><td>Parent event</td><td>Event grouping</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">title / yes_sub_title</td><td>Display name / strike label</td><td>Tables and chats</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">yes_bid_dollars / yes_ask_dollars</td><td>Best YES bid / ask</td><td>Price, spread, alerts</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">no_bid_dollars / no_ask_dollars</td><td>Best NO bid / ask</td><td>Implied asks, NO entries</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">last_price_dollars / previous_price_dollars</td><td>Last trade / prior reference</td><td>Fallback price, momentum</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">yes_bid_size_fp / yes_ask_size_fp</td><td>Contracts at the best bid / ask</td><td>“At best price”, fill caps</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">volume_fp / volume_24h_fp</td><td>Lifetime / 24h contracts traded</td><td>Liquidity, derived $ figures</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">open_interest_fp</td><td>Open contracts</td><td>Liquidity, sizing</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">status</td><td><code>active</code>, <code>closed</code>, <code>settled</code> …</td><td>Lifecycle and resolution</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">result</td><td><code>yes</code> / <code>no</code> after settlement</td><td>Resolution tracking</td><td><a href="https://docs.kalshi.com/getting_started/market_settlement" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">close_time</td><td>Market close (UTC)</td><td>Time-to-close scoring</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">rules_primary</td><td>Settlement rule text</td><td>Audit of how it resolves</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">price_level_structure / price_ranges</td><td>Allowed tick grid</td><td>Order price snapping</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>6 · Orderbook structure</h2>
+    <p class="hint">The single most misread part of the API: there are no asks.</p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Shape</h3>
+        <pre class="mono" style="overflow:auto;margin:0;color:var(--text-dim)">{
+  "orderbook_fp": {
+    "yes_dollars": [["0.0100","200.00"], ["0.4200","13.00"]],
+    "no_dollars":  [["0.0100","100.00"], ["0.5600","17.00"]]
+  }
+}</pre>
+        <p class="small">Arrays are ascending; the best bid is the <b>last</b> element. Each entry is
+          <code>[price_dollars, count_fp]</code>.</p>
+      </div>
+      <div class="card">
+        <h3>Derived ask</h3>
+        <p class="small">A YES bid at $0.42 equals a NO ask at $0.58. Therefore:</p>
+        <p class="mono" style="font-size:12px">best YES ask = 1.00 − best NO bid<br>best NO ask = 1.00 − best YES bid<br>spread = best YES ask − best YES bid</p>
+        <p class="small">Source: <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">Orderbook Responses</a>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>7 · WebSocket channels</h2>
+    <p class="hint">Subscribe with <code>{"id":1,"cmd":"subscribe","params":{"channels":["ticker"],"market_tickers":["…"]}}</code>. Subscriptions do not survive a reconnect.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Channel</th><th>Payload of interest</th><th>Used here</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td class="mono">ticker</td><td><code>price_dollars</code>, <code>yes_bid_dollars</code>, <code>yes_ask_dollars</code>, <code>yes_bid_size_fp</code>, <code>yes_ask_size_fp</code>, <code>volume_fp</code>, <code>open_interest_fp</code>, <code>ts_ms</code></td><td>Second-level price updates for the live chart</td><td><a href="https://docs.kalshi.com/websockets/market-ticker" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">orderbook_delta</td><td>Snapshot then incremental price-level changes</td><td>Tick-level depth (needs a key)</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">trade</td><td>Public trade prints</td><td>Second-level last-trade feed</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">market_lifecycle_v2</td><td>Market activation and deactivation</td><td>Detecting new / closed events</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td class="mono">fill / user_orders</td><td>Your fills and order state</td><td>Demo reconciliation (needs a key)</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+    <div class="banner warn" style="margin-top:12px">
+      <b>Flag:</b>&nbsp;<span class="grow">Kalshi documents that WebSocket connections authenticate with API-key headers.
+      Whether the public channels accept an unauthenticated socket is not stated in the pages read, so this build keeps
+      REST polling as the always-available path and treats WebSocket streaming as credential-gated.</span>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>8 · Rate limits</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Rule</th><th>Detail</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Model</td><td>Token bucket per tier; most requests cost 10 tokens</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Buckets</td><td>Separate Read and Write budgets; balance, intra-account transfers and perps have their own</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Balance endpoint</td><td>1 req/s on Basic and Advanced, 5 req/s above; own bucket, no burst</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Unauthenticated</td><td>Separate limits; back off on 429</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>429 body</td><td><code>{"error":{"code":"too_many_requests"}}</code>, no Retry-After required</td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs</a></td></tr>
+        <tr><td>Headers</td><td><code>X-RateLimit-Limit</code>, <code>-Remaining</code>, <code>-Reset</code>, <code>-Cost</code></td><td><a href="https://docs.kalshi.com/getting_started/rate_limits" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <h2>9 · Official taxonomy used for the five topics</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Category</th><th>Tags (official)</th><th>Mapped to</th><th>Source</th></tr></thead>
+      <tbody>
+        <tr><td>Elections</td><td>US Elections, International elections, Senate, House, Governor, Primaries, Referendums, …</td><td>Elections</td><td><a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">live map</a></td></tr>
+        <tr><td>Crypto</td><td>BTC, ETH, SOL, DOGE, XRP, BNB, HYPE, Zcash, 15 min, Hourly, Pre-Market, …</td><td>Crypto</td><td><a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">live map</a></td></tr>
+        <tr><td>Entertainment</td><td>Oscars, Music, Movies, Television, Video games, Awards, Food, …</td><td>Culture</td><td><a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">live map</a></td></tr>
+        <tr><td>Sports</td><td>Golf, Soccer, Basketball, Football, Hockey, Tennis, …</td><td>Golf (Golf tag only)</td><td><a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">live map</a></td></tr>
+        <tr><td>Economics / Commodities</td><td>Oil and energy, Oil &amp; Gas, Inflation, Fed, Jobs &amp; Economy, …</td><td>Gas prices (KXAAAGASM and gas-price series)</td><td><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">docs</a></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="margin-top:8px">There is no official <code>Culture</code> category — see <a href="flagged.html#F3">flag F3</a>.</p>
+  </section>
+
+  <footer class="site">
+    <span>All rows verified 2026-11-22 UTC.</span>
+    <span>·</span><a href="verification.html">Full source list</a>
+    <span>·</span><a href="flagged.html">Flagged for review</a>
+    <span>·</span><a href="https://docs.kalshi.com" target="_blank" rel="noopener">docs.kalshi.com</a>
+    <span>·</span><span>Not investment advice.</span>
+  </footer>
+</main>
+</body>
+</html>

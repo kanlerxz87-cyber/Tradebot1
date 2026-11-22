@@ -15,7 +15,7 @@ on:
 permissions:
   contents: read
 concurrency:
-  group: pages-${{ github.event_name == 'pull_request' && github.ref || 'publish' }}
+  group: ${{ github.event_name == 'pull_request' && format('pages-pr-{0}', github.ref) || 'main-writers' }}
   cancel-in-progress: false
 jobs:
   backend-tests:
@@ -96,6 +96,29 @@ jobs:
           python python/test_simulator.py
           node --check docs/assets/app.mjs
           node --check site/assets/app.js
+      - name: Verify parallel dashboards, audits and gateways
+        run: |
+          npm install --no-audit --no-fund
+          npm run build
+          npm run build:check
+          npm run check:data
+          python -m pip install -r requirements-dev.txt
+          python -m pytest -q
+          python tools/build_site.py --check
+          python tools/check_links.py
+          python tools/check_gateway.py
+          python -m engine.check_site --root docs/engine
+          python -m engine.build_site --out /tmp/engine-site --data docs/engine/data
+          python -m engine.check_site --root /tmp/engine-site
+          python -m unittest discover -s live/tests
+          python live/build_page.py --check
+          python qa/audit.py --check
+          python audit/verify.py --check
+          python audit/build_site.py --check
+          python audit/check_site.py
+          python kalshi_engine/test_engine.py
+          python demo-desk/check_live_site.py
+          node --test demo-desk/test_live_core.mjs
       - name: Fetch bounded public demo snapshot
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: |
@@ -106,7 +129,9 @@ jobs:
         run: |
           mkdir -p public
           cp index.html .nojekyll public/
-          cp -R docs site public/
+          cp -R docs site demo-desk audit public/
+          cp ./*.html public/
+          cp -R assets categories data public/
       - uses: actions/upload-artifact@v4
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         with:

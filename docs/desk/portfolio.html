@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio performance and trade analysis — Kalshi Trader</title>
+<meta name="description" content="Autonomous paper-trading book: equity curve, win rate, profit factor, expectancy, drawdown, and P&L broken down by strategy, topic, price band and exit reason. Demo-account status is shown explicitly.">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="index.html">Dashboard</a>
+      <a href="topics/gas-prices.html">Gas</a>
+      <a href="topics/elections.html">Elections</a>
+      <a href="topics/culture.html">Culture</a>
+      <a href="topics/crypto.html">Crypto</a>
+      <a href="topics/golf.html">Golf</a>
+      <a class="active" href="portfolio.html">Portfolio</a>
+      <a href="strategies.html">Strategies</a>
+      <a href="api-reference.html">API</a>
+      <a href="verification.html">Verification</a>
+      <a href="repo-review.html">Repo review</a>
+      <a href="flagged.html">Flagged</a>
+      <a href="executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <h1 class="page-title">Portfolio performance</h1>
+  <p class="page-sub">
+    An autonomous simulated book trades every signal this dashboard produces. It starts with a
+    $1,000 notional bankroll, risks a fixed fraction per position, and settles positions at the
+    exchange-reported outcome. The page below is generated from the ledger, not typed by hand.
+  </p>
+
+  <div id="demoAccount"></div>
+
+  <section class="section">
+    <h2>1 · Headline and ledger metrics</h2>
+    <p class="hint">Equity = cash + contracts × current mark. Realised P&L only counts closed trades.</p>
+    <div id="portfolioStatic"><!-- DATA:START -->
+
+<div class="grid kpi">
+  <div class="card"><span class="label">Equity</span><span class="value">$996.76</span><span class="foot">start $1,000.00</span></div>
+  <div class="card"><span class="label">Total P&L</span><span class="value down">−3.24</span><span class="foot">−0.32% on bankroll</span></div>
+  <div class="card"><span class="label">Realised</span><span class="value">0.00</span><span class="foot">unrealised −3.24</span></div>
+  <div class="card"><span class="label">Cash / open</span><span class="value">$763.85</span><span class="foot">12 positions</span></div>
+</div>
+
+<div class="banner ok" style="margin-top:14px">
+  <b>Fee model:</b>&nbsp;<span class="grow">quadratic —
+  verified against an official Kalshi schedule.</span>
+</div>
+
+<div class="grid two" style="margin-top:16px">
+  <div class="card"><h3>Ledger metrics</h3>
+    <div class="table-wrap" style="max-height:none"><table><tbody><tr><td>Closed trades</td><td class="num">0</td></tr><tr><td>Wins / losses / flat</td><td class="num">0 / 0 / 0</td></tr><tr><td>Win rate</td><td class="num">0.0%</td></tr><tr><td>Gross win / gross loss</td><td class="num">$0.00 / $0.00</td></tr><tr><td>Profit factor</td><td class="num">n/a</td></tr><tr><td>Expectancy per trade</td><td class="num">$0.00</td></tr><tr><td>Average win / average loss</td><td class="num">$0.00 / $0.00</td></tr><tr><td>Fees paid</td><td class="num">$0.00</td></tr><tr><td>Average hold</td><td class="num">0.0 h</td></tr><tr><td>Max drawdown</td><td class="num">$1.71 (0.17%)</td></tr></tbody></table></div>
+  </div>
+  <div class="card"><h3>Open positions</h3>
+    <div class="empty">No open positions.</div>
+  </div>
+</div>
+
+<div class="grid two" style="margin-top:16px">
+  <div class="card"><h3>By strategy</h3><div class="empty">No closed trades yet.</div></div>
+  <div class="card"><h3>By topic</h3><div class="empty">No closed trades yet.</div></div>
+</div>
+<div class="grid two" style="margin-top:16px">
+  <div class="card"><h3>By entry price band</h3><div class="empty">No closed trades yet.</div></div>
+  <div class="card"><h3>By exit reason</h3><div class="empty">No closed trades yet.</div></div>
+</div>
+
+<div class="section">
+  <h2>Trade ledger</h2>
+  <p class="hint">Most recent 0 closed trades. Every entry is reproducible from the
+    recorded entry/exit prices, contract count and fee model.</p>
+  <div class="table-wrap" style="max-height:520px"><table>
+  <thead><tr><th>Closed</th><th>Market</th><th>Topic</th><th>Strategy</th><th class="center">Side</th>
+  <th class="num">Contracts</th><th class="num">Entry → exit</th><th class="num">Fees</th><th class="num">P&L</th>
+  <th class="num">ROI</th><th>Exit reason</th></tr></thead>
+  <tbody><tr><td colspan="11"><div class="empty">No closed trades yet.</div></td></tr></tbody></table></div>
+</div>
+
+<!-- DATA:END --></div>
+  </section>
+
+  <section class="section">
+    <h2>2 · Equity curve</h2>
+    <p class="hint">One point per collection cycle. Flat segments mean no open risk was marked in that window.</p>
+    <div class="card"><div id="equityChart"></div>
+      <div class="chart-note">Rendered from <code>docs/data/paper.json</code> → <code>equity_curve</code>.</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>3 · Analysis by trade type</h2>
+    <p class="hint">
+      A trade is categorised four ways so the same ledger can answer different questions: which
+      <b>strategy</b> produced it, which <b>topic</b> it came from, what <b>price band</b> it entered at,
+      and how it <b>exited</b>. Those four cuts are what turn raw P&L into a decision about what to keep.
+    </p>
+    <div class="grid two">
+      <div class="card">
+        <h3>Reading the categories</h3>
+        <ul class="clean">
+          <li><b>Strategy</b> isolates the rule set. Momentum and fade both fire on alerts but take opposite sides, so together they test whether the market continues or mean-reverts after a $0.10 swing.</li>
+          <li><b>Topic</b> shows whether an edge is concentrated in one subject (e.g. golf props behaving differently from crypto ladders).</li>
+          <li><b>Price band</b> is the classic prediction-market effect: cheap longshots and expensive favourites have very different risk profiles.</li>
+          <li><b>Exit reason</b> separates profit-targets from stop-outs and settlements — a strategy that only ever exits on stops is not working, even if it is flat.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Metrics used, and what they mean</h3>
+        <ul class="clean">
+          <li><b>Win rate</b> — share of closed trades with positive P&L. Meaningless alone at asymmetric payoffs.</li>
+          <li><b>Profit factor</b> — gross wins ÷ gross losses. Above 1.0 the book is net profitable.</li>
+          <li><b>Expectancy</b> — average P&L per trade, in dollars.</li>
+          <li><b>Max drawdown</b> — the worst peak-to-trough fall of the equity curve, in dollars and percent.</li>
+          <li><b>Fees paid</b> — modelled fee cost, from Kalshi's published schedule; only the per-series multiplier is approximated (see <a href="flagged.html#F1">F1</a>).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>4 · Kalshi demo account</h2>
+    <p class="hint">
+      The brief asks for portfolio performance from the Kalshi demo account. That requires demo API
+      credentials, which only the account holder can create. This block reports the adapter's real status
+      and never substitutes a guess.
+    </p>
+    <div class="card" id="demoDetail"><div class="empty">Reading demo status…</div></div>
+  </section>
+
+  <section class="section">
+    <h2>5 · How the book is kept honest</h2>
+    <div class="grid two">
+      <div class="card">
+        <h3>Rules</h3>
+        <ul class="clean">
+          <li>Long-only, cash-secured: maximum loss is premium + fees.</li>
+          <li>Fixed-fraction sizing: 2% of current equity per position, capped by visible top-of-book size.</li>
+          <li>Whole contracts only; fractional support exists at Kalshi but rounding down is conservative.</li>
+          <li>Entries pay the ask, exits receive the bid, so the spread is always paid.</li>
+          <li>Settlement pays $1 per winning contract and $0 per loser.</li>
+          <li>At most 12 open positions, one per market per strategy.</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Limits of this evidence</h3>
+        <ul class="clean">
+          <li>Paper fills assume the visible size was available; queue position is not modelled.</li>
+          <li>Fees are a flagged model, not the published schedule (F1).</li>
+          <li>The sample is small and recent until the cron job has run for weeks; treat early numbers as instrumentation, not proof.</li>
+          <li>Signals are evaluated once per cycle, so intra-cycle paths are missed (F7).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site">
+    <span>Generated from the paper ledger by <code>tools/build_site.py</code>.</span>
+    <span>·</span><a href="strategies.html">Strategies and model</a>
+    <span>·</span><a href="verification.html">Verification</a>
+    <span>·</span><a href="flagged.html">Flagged for review</a>
+    <span>·</span><a href="https://docs.kalshi.com/getting_started/market_settlement" target="_blank" rel="noopener">Kalshi settlement rules</a>
+    <span>·</span><span>Not investment advice.</span>
+  </footer>
+</main>
+
+<script src="assets/js/charts.js"></script>
+<script>
+(async function () {
+  const $ = (s) => document.querySelector(s);
+  let latest = null;
+  try {
+    const res = await fetch("data/latest.json?v=" + Date.now(), { cache: "no-store" });
+    latest = await res.json();
+  } catch (err) {
+    $("#demoAccount").innerHTML = '<div class="banner bad"><b>Snapshot unavailable.</b><span class="grow">data/latest.json could not be loaded.</span></div>';
+    return;
+  }
+
+  // ---- demo account block
+  const demo = latest.demo || {};
+  const status = demo.status || {};
+  const connected = !!demo.connected;
+  $("#demoAccount").innerHTML = `<div class="banner ${connected ? "ok" : "warn"}">
+    <b>Demo account: ${connected ? "connected" : "not connected"}.</b>
+    <span class="grow">${connected
+      ? "Balance and positions are read from the demo API each cycle."
+      : (status.reason || "Demo credentials are not configured.") + " The simulated book below runs regardless; demo figures are left blank rather than estimated."}</span>
+    ${status.setup_url ? `<a href="${status.setup_url}" target="_blank" rel="noopener">setup guide</a>` : ""}
+  </div>`;
+
+  const detail = [];
+  if (demo.summary && demo.summary.connected) {
+    detail.push(`<div class="kv">
+      <dt>Cash (demo)</dt><dd>$${Number(demo.summary.cash_dollars || 0).toFixed(2)}</dd>
+      <dt>Portfolio value</dt><dd>$${Number(demo.summary.portfolio_value_dollars || 0).toFixed(2)}</dd>
+      <dt>Open demo positions</dt><dd>${(demo.summary.positions || []).length}</dd>
+    </div>`);
+  } else {
+    detail.push(`<div class="kv">
+      <dt>Demo API base</dt><dd class="mono">${status.api_base || "https://external-api.demo.kalshi.co/trade-api/v2"}</dd>
+      <dt>Required environment</dt><dd class="mono">${(status.required_env || ["KALSHI_API_KEY_ID", "KALSHI_PRIVATE_KEY"]).join(" · ")}</dd>
+      <dt>Why this is blank</dt><dd>A demo account and key are created by the account holder at demo.kalshi.co; the site does not invent numbers when the credential is absent.</dd>
+      <dt>Tracked instead</dt><dd>The simulated ledger on this page, which needs no credentials.</dd>
+    </div>`);
+  }
+  $("#demoDetail").innerHTML = detail.join("") + (demo.note ? `<p class="small">${demo.note}</p>` : "");
+
+  // ---- equity curve
+  const paperRes = await fetch("data/paper.json?v=" + Date.now(), { cache: "no-store" });
+  const paper = paperRes.ok ? await paperRes.json() : {};
+  const curve = (paper.equity_curve || []).map((p) => [p[0], p[1]]);
+  Charts.line($("#equityChart"), {
+    points: curve,
+    height: 280,
+    color: "#38d6c8",
+    emptyText: "No equity points yet — the curve starts with the first collection cycle.",
+  });
+})();
+</script>
+</body>
+</html>

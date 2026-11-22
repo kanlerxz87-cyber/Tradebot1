@@ -232,7 +232,7 @@
       "id": "browser-cors",
       "severity": "environment_limit",
       "value": null,
-      "detail": "The public Pages-to-demo-API CORS path has not been verified end to end. Local Chromium checks intentionally block or mock the exchange network. Direct REST failures retain source-timestamped observations; no synthetic prices replace them.",
+      "detail": "GitHub-hosted probe run 44997761812 measured CORS origin echo for public demo REST endpoints on 2026-11-22, and found authenticated signing headers omitted from preflight. This is not a full end-to-end browser verification and may change. Local Chromium checks block or mock the exchange network; failures retain timestamped observations.",
       "source_url": "https://docs.kalshi.com/getting_started/making_your_first_request"
     },
     {

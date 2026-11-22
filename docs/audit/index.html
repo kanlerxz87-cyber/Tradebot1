@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Overview · Kalshi audit</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body>
+<header class="site"><div class="wrap bar">
+  <a class="brand" href="index.html">Kalshi audit <span>· line by line</span></a>
+  <nav><a class="on" href="index.html">Overview</a><a class="" href="findings.html">Findings</a><a class="" href="flagged.html">Flagged for review</a><a class="" href="sources.html">Official sources</a><a class="" href="methodology.html">Method</a></nav>
+  <a class="back" href="../">All dashboards</a>
+</div></header>
+<main class="wrap">
+
+<section class="hero">
+  <p class="tag">Audit · 2026-11-22 · session arena/73552f24-tradebot1</p>
+  <h1>Every factual claim in this repository, checked against Kalshi's own pages.</h1>
+  <p class="lede">Four independent implementations of the same brief are published here. This page treats them
+  as code to be audited, not as documentation to be trusted: each claim below is matched to an official
+  statement, each finding to a line of code, and each fix to a test that re-runs on every build.</p>
+  <div class="stats">
+    <div><b>23</b><span>official statements read and quoted</span></div>
+    <div><b>13</b><span>findings, each with a file and a line</span></div>
+    <div><b>6</b><span>corrected, each with a regression test</span></div>
+    <div><b>5</b><span>published unresolved</span></div>
+  </div>
+</section>
+
+<h2>What the audit found</h2>
+<ul class="outcomes">
+<li><strong>AUD-01</strong> — The swing detector built a midpoint from an empty side, so a 14c bid read as 57c. <span class="pill st-fixed">Fixed, re-checked on every build</span></li><li><strong>AUD-02</strong> — The research desk's normaliser had the same phantom midpoint, one layer deeper. <span class="pill st-fixed">Fixed, re-checked on every build</span></li><li><strong>AUD-03</strong> — The settled sweep sent a filter combination the API rejects, so the tracker recorded nothing. <span class="pill st-fixed">Fixed, re-checked on every build</span></li><li><strong>AUD-05</strong> — The 'unreproducible fee row' was a column misread, not a gap in Kalshi's table. <span class="pill st-fixed">Fixed, re-checked on every build</span></li><li><strong>AUD-06</strong> — Monitor uses series metadata instead of deprecated event category. <span class="pill st-fixed">Fixed, re-checked on every build</span></li><li><strong>AUD-08</strong> — The 'committed HTML matches the data' gate failed on every checkout and, differently, inside CI. <span class="pill st-fixed">Fixed, re-checked on every build</span></li><li><strong>AUD-04</strong> — Simulated fees are rounded to the whole cent; the exchange rounds a fill to $0.000001 and aligns the balance to $0.0001. <span class="pill st-open">Open — flagged</span></li><li><strong>AUD-07</strong> — A topic comment disagrees with the same session's own captured probe. <span class="pill st-open">Open — flagged</span></li><li><strong>AUD-10</strong> — Two sessions disagree about Culture, and both are right about different roots. <span class="pill st-open">Open — flagged</span></li><li><strong>AUD-12</strong> — or-fallbacks hide a genuine zero quote behind the legacy field. <span class="pill st-open">Open — flagged</span></li><li><strong>AUD-13</strong> — The documented 'recommended' production host is not the one most code uses. <span class="pill st-open">Open — flagged</span></li>
+</ul>
+
+<h2>All findings</h2>
+<table class="grid">
+<thead><tr><th>ID</th><th>Finding</th><th>Status</th><th>Sources</th></tr></thead>
+<tbody><tr><td class='mono'>AUD-01</td><td>The swing detector built a midpoint from an empty side, so a 14c bid read as 57c</td><td><span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class='src'><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-05</a> · <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-07</a></td></tr><tr><td class='mono'>AUD-02</td><td>The research desk's normaliser had the same phantom midpoint, one layer deeper</td><td><span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class='src'><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-05</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></td></tr><tr><td class='mono'>AUD-03</td><td>The settled sweep sent a filter combination the API rejects, so the tracker recorded nothing</td><td><span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class='src'><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></td></tr><tr><td class='mono'>AUD-04</td><td>Simulated fees are rounded to the whole cent; the exchange rounds a fill to $0.000001 and aligns the balance to $0.0001</td><td><span class="pill st-open">Open — flagged</span></td><td class='src'><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></td></tr><tr><td class='mono'>AUD-05</td><td>The 'unreproducible fee row' was a column misread, not a gap in Kalshi's table</td><td><span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class='src'><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a></td></tr><tr><td class='mono'>AUD-06</td><td>Monitor uses series metadata instead of deprecated event category</td><td><span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class='src'><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">VF-21</a></td></tr><tr><td class='mono'>AUD-07</td><td>A topic comment disagrees with the same session's own captured probe</td><td><span class="pill st-open">Open — flagged</span></td><td class='src'><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/topics.mjs" target="_blank" rel="noopener noreferrer">tools/topics.mjs — the comment</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/snapshot.json" target="_blank" rel="noopener noreferrer">data/snapshot.json — discoveryProbes, the capture it disagrees with</a></td></tr><tr><td class='mono'>AUD-08</td><td>The 'committed HTML matches the data' gate failed on every checkout and, differently, inside CI</td><td><span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class='src'><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/scripts/build-site.mjs" target="_blank" rel="noopener noreferrer">scripts/build-site.mjs — the gate</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/pull/21" target="_blank" rel="noopener noreferrer">the audited branch's own CI failures</a></td></tr><tr><td class='mono'>AUD-09</td><td>Flag withdrawn: the status values are not a documentation contradiction</td><td><span class="pill st-resolved">Flag withdrawn</span></td><td class='src'><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-10</a> · <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a></td></tr><tr><td class='mono'>AUD-10</td><td>Two sessions disagree about Culture, and both are right about different roots</td><td><span class="pill st-open">Open — flagged</span></td><td class='src'><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></td></tr><tr><td class='mono'>AUD-11</td><td>Flag withdrawn: the desk's fee model is verified now, and was verified here too</td><td><span class="pill st-resolved">Flag withdrawn</span></td><td class='src'><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-18</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></td></tr><tr><td class='mono'>AUD-12</td><td>or-fallbacks hide a genuine zero quote behind the legacy field</td><td><span class="pill st-open">Open — flagged</span></td><td class='src'><a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">VF-09</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></td></tr><tr><td class='mono'>AUD-13</td><td>The documented 'recommended' production host is not the one most code uses</td><td><span class="pill st-open">Open — flagged</span></td><td class='src'><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-03</a></td></tr></tbody>
+</table>
+<p class="note">Line numbers, file paths and check output for each row are on
+<a href="findings.html">Findings</a>. Anything unresolved is on
+<a href="flagged.html">Flagged for review</a>, with the source that decides it.</p>
+
+<p class="note">A sibling page in this folder, <a href="fee-audit.html">Fee audit</a>, checks the same fee model and
+the series taxonomy from a different session; it is linked rather than merged so both readings stay visible.</p>
+
+<h2>How the audit was done</h2>
+<div class="cols">
+  <div class="card">
+    <h3>Read, then quote</h3>
+    <p>Each official page was fetched on 2026-11-22 and a short excerpt stored with its URL in
+    <code>audit/facts.json</code>. The published page shows the excerpt next to the claim, so a reader can
+    disagree with the reading rather than with a summary.</p>
+  </div>
+  <div class="card">
+    <h3>Check the code, not the comment</h3>
+    <p><code>audit/verify.py</code> runs the JavaScript with node and the Python with the repository's own
+    modules. A finding marked fixed must pass its check; a finding marked open must still reproduce. If
+    either changes, the build fails and the page cannot publish a stale verdict.</p>
+  </div>
+  <div class="card">
+    <h3>Only what can be shown</h3>
+    <p>No credential was available, so nothing here claims an authenticated read, an executed order, a live
+    WebSocket session or a browser CORS result. Those remain on the <a href="flagged.html">flagged page</a>
+    where earlier sessions left them.</p>
+  </div>
+</div>
+
+<h2>Where each fix landed</h2>
+<table class="grid">
+<thead><tr><th>File</th><th>Change</th><th>Finding</th><th>Test</th><th>Deciding source</th></tr></thead>
+<tbody>
+<tr><td class="mono">tools/alerts.mjs</td><td>A midpoint is refused when either side of the book is empty</td><td>AUD-01 <span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class="mono">tests/alerts-strategies.test.mjs</td><td class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses">order book semantics</a></td></tr>
+<tr><td class="mono">kalshi_trader/marketdata.py</td><td>An ask of 1.0000 with no NO bid is treated as no offer</td><td>AUD-02 <span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class="mono">tests/test_audit.py</td><td class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses">order book semantics</a></td></tr>
+<tr><td class="mono">kalshi_trader/collector.py</td><td>Settled sweep uses <code>min_settled_ts</code> (landed on main by PR #16 first; verified here, test kept)</td><td>AUD-03 <span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class="mono">tests/test_collector.py</td><td class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets">Get Markets filters</a></td></tr>
+<tr><td class="mono">tools/fees.mjs</td><td>Fee table read across all four columns; 21 of 21 rows reproduce</td><td>AUD-05 <span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class="mono">tests/fees.test.mjs</td><td class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf">fee schedule</a></td></tr>
+<tr><td class="mono">scripts/build-site.mjs</td><td>The staleness gate ignores wall-clock text again</td><td>AUD-08 <span class="pill st-fixed">Fixed, re-checked on every build</span></td><td class="mono">audit/verify.py</td><td class="src"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/scripts/build-site.mjs">the gate itself</a></td></tr>
+</tbody>
+</table>
+
+</main>
+<footer class="wrap">
+  <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
+  6 finding(s) fixed and re-checked, 5 published as open,
+  2 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
+  <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
+     <a href="../desk/flagged.html">Desk flags</a> ·
+     <a href="../../flagged.html">Board flags</a> ·
+     <a href="https://docs.kalshi.com/getting_started/api_environments">Official API documentation</a></p>
+</footer>
+</body>
+</html>

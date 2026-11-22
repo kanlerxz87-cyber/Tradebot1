@@ -1,0 +1,1432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gas prices — Kalshi Trader</title>
+<meta name="description" content="Kalshi market dashboard for gas prices, elections, culture, crypto and golf — verified against official Kalshi documentation.">
+<link rel="stylesheet" href="../assets/css/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <nav class="main">
+      <a href="../index.html">Dashboard</a><a class="active" href="../topics/gas-prices.html">Gas</a><a href="../topics/elections.html">Elections</a><a href="../topics/culture.html">Culture</a><a href="../topics/crypto.html">Crypto</a><a href="../topics/golf.html">Golf</a><a href="../portfolio.html">Portfolio</a><a href="../strategies.html">Strategies</a><a href="../api-reference.html">API</a><a href="../verification.html">Verification</a><a href="../repo-review.html">Repo review</a><a href="../flagged.html">Flagged</a><a href="../executive-summary.html">Summary</a>
+    </nav>
+  </div>
+</header>
+<main class="wrap">
+
+  <h1 class="page-title">Gas prices</h1>
+  <p class="page-sub">US average retail gasoline markets. Kalshi&#x27;s monthly US gas-price series is struck in dollars-and-cents increments and settles on the AAA national average.</p>
+
+  <div class="grid kpi">
+    <div class="card"><span class="label">Markets tracked</span><span class="value">60</span><span class="foot">top 60 kept by estimated notional</span></div>
+    <div class="card"><span class="label">Series scanned</span><span class="value">40</span><span class="foot">139 series in the catalogue for this topic</span></div>
+    <div class="card"><span class="label">Est. 24h notional</span><span class="value">$305,123</span><span class="foot">volume × price, derived</span></div>
+    <div class="card"><span class="label">Open interest</span><span class="value">2,136,325</span><span class="foot">contracts, exchange-reported</span></div>
+  </div>
+
+  <section class="section">
+    <h2>How this topic is defined</h2>
+    <p class="hint">Primary category <code>Economics</code>; discovery categories <code>Economics</code>, <code>Commodities</code>; tags <code>Oil and energy</code>, <code>Oil &amp; Gas</code>; known series <code>KXAAAGASM</code>.</p>
+    <div class="card tight">
+      <div class="note-box">Every market carries its own settlement rule text from the API (<code>rules_primary</code>), which names the AAA source and the exact strike date. That rule text is the authoritative resolution criterion, not this page.</div>
+      <p class="small" style="margin:10px 0 4px">Official sources for this definition:</p>
+      <ul class="clean"><li><a href="https://docs.kalshi.com/getting_started/terms" target="_blank" rel="noopener">Kalshi glossary — KXAAAGASM worked example</a></li><li><a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">Get Series List — category filter</a></li></ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Markets</h2>
+    <p class="hint">Snapshot 2026-11-22 07:21:40 UTC. Price is the YES midpoint of the best bid and ask.
+      “At best price” is the visible contract count resting at the top of the book; — means Kalshi did not report it.</p>
+    <div class="table-wrap"><table>
+<thead><tr>
+<th>Market</th><th>Price</th><th>YES bid / ask</th><th>Spread</th><th class="num">24h vol</th>
+<th class="num">Open interest</th><th class="num">At best price</th><th class="num">Est. 24h $</th>
+<th>Closes</th><th>Source</th>
+</tr></thead>
+<tbody><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6300?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6300</div></td>
+  <td>98¢</td>
+  <td>98¢ / 99¢</td>
+  <td>1¢</td>
+  <td class="num">214,724</td>
+  <td class="num">96,582</td>
+  <td class="num">18,742</td>
+  <td class="num">$211,503</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6300" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6250?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6250</div></td>
+  <td>99¢</td>
+  <td>98¢ / 100¢</td>
+  <td>2¢</td>
+  <td class="num">41,298</td>
+  <td class="num">78,117</td>
+  <td class="num">29,244</td>
+  <td class="num">$40,885</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6250" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6350?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6350</div></td>
+  <td>30¢</td>
+  <td>27¢ / 31¢</td>
+  <td>4¢</td>
+  <td class="num">89,766</td>
+  <td class="num">59,503</td>
+  <td class="num">74</td>
+  <td class="num">$26,032</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6350" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6200?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6200</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">7,409</td>
+  <td class="num">98,001</td>
+  <td class="num">3,739</td>
+  <td class="num">$7,372</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6200" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.45?</span><div class="meta mono">KXAAAGASM-26NOV30-3.45</div></td>
+  <td>96¢</td>
+  <td>96¢ / 97¢</td>
+  <td>1¢</td>
+  <td class="num">7,020</td>
+  <td class="num">35,412</td>
+  <td class="num">7,005</td>
+  <td class="num">$6,774</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.45" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.50?</span><div class="meta mono">KXAAAGASM-26NOV30-3.50</div></td>
+  <td>46¢</td>
+  <td>45¢ / 47¢</td>
+  <td>2¢</td>
+  <td class="num">6,114</td>
+  <td class="num">24,521</td>
+  <td class="num">5,434</td>
+  <td class="num">$2,813</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.50" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.40?</span><div class="meta mono">KXAAAGASM-26NOV30-3.40</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">2,583</td>
+  <td class="num">145,823</td>
+  <td class="num">13,417</td>
+  <td class="num">$2,570</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.40" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 352?</span><div class="meta mono">KXUSGASCPI-26DEC10-T352</div></td>
+  <td>55¢</td>
+  <td>51¢ / 58¢</td>
+  <td>7¢</td>
+  <td class="num">4,554</td>
+  <td class="num">4,671</td>
+  <td class="num">133</td>
+  <td class="num">$2,482</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXUSGASCPI-26DEC10-T352" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6000?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6000</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">1,919</td>
+  <td class="num">68,040</td>
+  <td class="num">17,605</td>
+  <td class="num">$1,909</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6000" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6400?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6400</div></td>
+  <td>1¢</td>
+  <td>0¢ / 2¢</td>
+  <td>2¢</td>
+  <td class="num">64,695</td>
+  <td class="num">112,999</td>
+  <td class="num">24,903</td>
+  <td class="num">$647</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6400" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7800?</span><div class="meta mono">KXAAAGASWNJ-26NOV23-3.7800</div></td>
+  <td>92¢</td>
+  <td>86¢ / 99¢</td>
+  <td>13¢</td>
+  <td class="num">535</td>
+  <td class="num">903</td>
+  <td class="num">27</td>
+  <td class="num">$495</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASWNJ-26NOV23-3.7800" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagaswnj" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.5400?</span><div class="meta mono">KXAAAGASW-26NOV23-3.5400</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">313</td>
+  <td class="num">4,160</td>
+  <td class="num">17,636</td>
+  <td class="num">$311</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.5400" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.55?</span><div class="meta mono">KXAAAGASM-26NOV30-3.55</div></td>
+  <td>12¢</td>
+  <td>10¢ / 13¢</td>
+  <td>3¢</td>
+  <td class="num">2,324</td>
+  <td class="num">27,551</td>
+  <td class="num">5,386</td>
+  <td class="num">$267</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.55" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 350?</span><div class="meta mono">KXUSGASCPI-26DEC10-T350</div></td>
+  <td>78¢</td>
+  <td>76¢ / 81¢</td>
+  <td>5¢</td>
+  <td class="num">163</td>
+  <td class="num">1,240</td>
+  <td class="num">200</td>
+  <td class="num">$128</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXUSGASCPI-26DEC10-T350" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $5.00 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31-5.00</div></td>
+  <td>2¢</td>
+  <td>2¢ / 3¢</td>
+  <td>1¢</td>
+  <td class="num">5,122</td>
+  <td class="num">98,094</td>
+  <td class="num">79</td>
+  <td class="num">$128</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAX-26DEC31-5.00" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average gas prices go below $3.60 by Nov 30, 2026?</span><div class="meta mono">KXAAAGASMINM-26NOV30-3.60</div></td>
+  <td>98¢</td>
+  <td>98¢ / 99¢</td>
+  <td>1¢</td>
+  <td class="num">130</td>
+  <td class="num">9,194</td>
+  <td class="num">2,126</td>
+  <td class="num">$128</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMINM-26NOV30-3.60" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasminm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.5600?</span><div class="meta mono">KXAAAGASW-26NOV23-3.5600</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">127</td>
+  <td class="num">6,491</td>
+  <td class="num">13,557</td>
+  <td class="num">$126</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.5600" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average gas prices go below $3.50 by Nov 30, 2026?</span><div class="meta mono">KXAAAGASMINM-26NOV30-3.50</div></td>
+  <td>55¢</td>
+  <td>54¢ / 56¢</td>
+  <td>2¢</td>
+  <td class="num">191</td>
+  <td class="num">10,706</td>
+  <td class="num">138</td>
+  <td class="num">$105</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMINM-26NOV30-3.50" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasminm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6100?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6100</div></td>
+  <td>100¢</td>
+  <td>99¢ / 100¢</td>
+  <td>1¢</td>
+  <td class="num">61</td>
+  <td class="num">33,997</td>
+  <td class="num">5,978</td>
+  <td class="num">$60</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6100" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average gas prices go below $3.55 by Nov 30, 2026?</span><div class="meta mono">KXAAAGASMINM-26NOV30-3.55</div></td>
+  <td>84¢</td>
+  <td>83¢ / 86¢</td>
+  <td>3¢</td>
+  <td class="num">65</td>
+  <td class="num">8,135</td>
+  <td class="num">22</td>
+  <td class="num">$55</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMINM-26NOV30-3.55" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasminm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6500?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6500</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">9,925</td>
+  <td class="num">53,042</td>
+  <td class="num">5,058</td>
+  <td class="num">$50</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6500" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6600?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6600</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">8,066</td>
+  <td class="num">55,363</td>
+  <td class="num">1,759</td>
+  <td class="num">$40</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6600" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average gas prices go below $3.45 by Nov 30, 2026?</span><div class="meta mono">KXAAAGASMINM-26NOV30-3.45</div></td>
+  <td>15¢</td>
+  <td>14¢ / 16¢</td>
+  <td>2¢</td>
+  <td class="num">263</td>
+  <td class="num">246</td>
+  <td class="num">21</td>
+  <td class="num">$39</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMINM-26NOV30-3.45" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasminm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 354?</span><div class="meta mono">KXUSGASCPI-26DEC10-T354</div></td>
+  <td>26¢</td>
+  <td>21¢ / 30¢</td>
+  <td>9¢</td>
+  <td class="num">95</td>
+  <td class="num">246</td>
+  <td class="num">213</td>
+  <td class="num">$24</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXUSGASCPI-26DEC10-T354" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $4.60 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31-4.60</div></td>
+  <td>5¢</td>
+  <td>4¢ / 6¢</td>
+  <td>2¢</td>
+  <td class="num">474</td>
+  <td class="num">217,758</td>
+  <td class="num">347</td>
+  <td class="num">$24</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAX-26DEC31-4.60" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.70?</span><div class="meta mono">KXAAAGASM-26NOV30-3.70</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">4,250</td>
+  <td class="num">62,401</td>
+  <td class="num">4,704</td>
+  <td class="num">$21</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.70" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.60?</span><div class="meta mono">KXAAAGASM-26NOV30-3.60</div></td>
+  <td>4¢</td>
+  <td>4¢ / 5¢</td>
+  <td>1¢</td>
+  <td class="num">388</td>
+  <td class="num">62,880</td>
+  <td class="num">19,681</td>
+  <td class="num">$17</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.60" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average gas prices go below $3.40 by Nov 30, 2026?</span><div class="meta mono">KXAAAGASMINM-26NOV30-3.40</div></td>
+  <td>6¢</td>
+  <td>2¢ / 11¢</td>
+  <td>9¢</td>
+  <td class="num">265</td>
+  <td class="num">239</td>
+  <td class="num">4,093</td>
+  <td class="num">$17</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMINM-26NOV30-3.40" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasminm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $5.20 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31-5.20</div></td>
+  <td>2¢</td>
+  <td>2¢ / 3¢</td>
+  <td>1¢</td>
+  <td class="num">528</td>
+  <td class="num">74,176</td>
+  <td class="num">5,300</td>
+  <td class="num">$13</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAX-26DEC31-5.20" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 364?</span><div class="meta mono">KXUSGASCPI-26DEC10-T364</div></td>
+  <td>1¢</td>
+  <td>0¢ / 2¢</td>
+  <td>2¢</td>
+  <td class="num">1,290</td>
+  <td class="num">1,290</td>
+  <td class="num">100</td>
+  <td class="num">$13</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXUSGASCPI-26DEC10-T364" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8000?</span><div class="meta mono">KXAAAGASWNJ-26NOV23-3.8000</div></td>
+  <td>77¢</td>
+  <td>54¢ / 100¢</td>
+  <td>46¢</td>
+  <td class="num">14</td>
+  <td class="num">298</td>
+  <td class="num">86</td>
+  <td class="num">$11</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASWNJ-26NOV23-3.8000" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagaswnj" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7000?</span><div class="meta mono">KXAAAGASEOYNJ-26DEC31-3.7000</div></td>
+  <td>28¢</td>
+  <td>19¢ / 36¢</td>
+  <td>17¢</td>
+  <td class="num">39</td>
+  <td class="num">484</td>
+  <td class="num">4</td>
+  <td class="num">$11</td>
+  <td class="meta">2026-12-31 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASEOYNJ-26DEC31-3.7000" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagaseoynj" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $5.40 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31-5.40</div></td>
+  <td>2¢</td>
+  <td>1¢ / 4¢</td>
+  <td>3¢</td>
+  <td class="num">330</td>
+  <td class="num">57,961</td>
+  <td class="num">5,896</td>
+  <td class="num">$8</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAX-26DEC31-5.40" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.65?</span><div class="meta mono">KXAAAGASM-26NOV30-3.65</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">1,546</td>
+  <td class="num">46,656</td>
+  <td class="num">3,098</td>
+  <td class="num">$8</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.65" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6800?</span><div class="meta mono">KXAAAGASW-26NOV23-3.6800</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">1,132</td>
+  <td class="num">58,618</td>
+  <td class="num">2,422</td>
+  <td class="num">$6</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.6800" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7000?</span><div class="meta mono">KXAAAGASW-26NOV23-3.7000</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">937</td>
+  <td class="num">38,044</td>
+  <td class="num">12,796</td>
+  <td class="num">$5</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.7000" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $4.80 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31-4.80</div></td>
+  <td>4¢</td>
+  <td>3¢ / 5¢</td>
+  <td>2¢</td>
+  <td class="num">112</td>
+  <td class="num">134,413</td>
+  <td class="num">4,335</td>
+  <td class="num">$4</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAX-26DEC31-4.80" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $4.00?</span><div class="meta mono">KXAAAGASM-26NOV30-4.00</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">842</td>
+  <td class="num">67,228</td>
+  <td class="num">16,991</td>
+  <td class="num">$4</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-4.00" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $4.10?</span><div class="meta mono">KXAAAGASM-26NOV30-4.10</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">500</td>
+  <td class="num">41,730</td>
+  <td class="num">5,531</td>
+  <td class="num">$2</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-4.10" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 362?</span><div class="meta mono">KXUSGASCPI-26DEC10-T362</div></td>
+  <td>2¢</td>
+  <td>0¢ / 5¢</td>
+  <td>5¢</td>
+  <td class="num">100</td>
+  <td class="num">265</td>
+  <td class="num">103</td>
+  <td class="num">$2</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXUSGASCPI-26DEC10-T362" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above or below $6.60 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAXCA-26DEC31-6.60</div></td>
+  <td>4¢</td>
+  <td>2¢ / 6¢</td>
+  <td>4¢</td>
+  <td class="num">41</td>
+  <td class="num">8,604</td>
+  <td class="num">10</td>
+  <td class="num">$2</td>
+  <td class="meta">2026-12-31 14:55</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAXCA-26DEC31-6.60" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmaxca" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $4.30?</span><div class="meta mono">KXAAAGASM-26NOV30-4.30</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">280</td>
+  <td class="num">14,830</td>
+  <td class="num">5,263</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-4.30" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.80?</span><div class="meta mono">KXAAAGASM-26NOV30-3.80</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">260</td>
+  <td class="num">61,365</td>
+  <td class="num">3,527</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-3.80" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 356?</span><div class="meta mono">KXUSGASCPI-26DEC10-T356</div></td>
+  <td>11¢</td>
+  <td>6¢ / 16¢</td>
+  <td>10¢</td>
+  <td class="num">10</td>
+  <td class="num">78</td>
+  <td class="num">190</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXUSGASCPI-26DEC10-T356" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $5.80 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31-5.80</div></td>
+  <td>2¢</td>
+  <td>1¢ / 2¢</td>
+  <td>1¢</td>
+  <td class="num">64</td>
+  <td class="num">38,480</td>
+  <td class="num">2,197</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAX-26DEC31-5.80" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7600?</span><div class="meta mono">KXAAAGASWNJ-26NOV23-3.7600</div></td>
+  <td>94¢</td>
+  <td>88¢ / 100¢</td>
+  <td>12¢</td>
+  <td class="num">1</td>
+  <td class="num">351</td>
+  <td class="num">7</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASWNJ-26NOV23-3.7600" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagaswnj" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8200?</span><div class="meta mono">KXAAAGASWNJ-26NOV23-3.8200</div></td>
+  <td>8¢</td>
+  <td>1¢ / 15¢</td>
+  <td>14¢</td>
+  <td class="num">10</td>
+  <td class="num">86</td>
+  <td class="num">99</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASWNJ-26NOV23-3.8200" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagaswnj" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 368?</span><div class="meta mono">KXUSGASCPI-26DEC10-T368</div></td>
+  <td>5¢</td>
+  <td>0¢ / 10¢</td>
+  <td>10¢</td>
+  <td class="num">14</td>
+  <td class="num">14</td>
+  <td class="num">100</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXUSGASCPI-26DEC10-T368" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $6.80 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31-6.80</div></td>
+  <td>2¢</td>
+  <td>1¢ / 2¢</td>
+  <td>1¢</td>
+  <td class="num">43</td>
+  <td class="num">31,617</td>
+  <td class="num">210</td>
+  <td class="num">$1</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMAX-26DEC31-6.80" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.3000?</span><div class="meta mono">KXAAAGASMTX-26NOV30-3.3000</div></td>
+  <td>6¢</td>
+  <td>1¢ / 11¢</td>
+  <td>10¢</td>
+  <td class="num">8</td>
+  <td class="num">239</td>
+  <td class="num">145</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMTX-26NOV30-3.3000" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmtx" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.1000?</span><div class="meta mono">KXAAAGASMTX-26NOV30-3.1000</div></td>
+  <td>8¢</td>
+  <td>2¢ / 14¢</td>
+  <td>12¢</td>
+  <td class="num">3</td>
+  <td class="num">223</td>
+  <td class="num">53</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMTX-26NOV30-3.1000" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasmtx" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8000?</span><div class="meta mono">KXAAAGASW-26NOV23-3.8000</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">9</td>
+  <td class="num">6,072</td>
+  <td class="num">17,263</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.8000" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $4.60?</span><div class="meta mono">KXAAAGASM-26NOV30-4.60</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">5</td>
+  <td class="num">12,220</td>
+  <td class="num">10,625</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASM-26NOV30-4.60" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7400?</span><div class="meta mono">KXAAAGASW-26NOV23-3.7400</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">6</td>
+  <td class="num">10,316</td>
+  <td class="num">2,004</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.7400" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8600?</span><div class="meta mono">KXAAAGASW-26NOV23-3.8600</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">2</td>
+  <td class="num">3,076</td>
+  <td class="num">4,051</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.8600" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8400?</span><div class="meta mono">KXAAAGASW-26NOV23-3.8400</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">1</td>
+  <td class="num">3,092</td>
+  <td class="num">4,084</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.8400" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8200?</span><div class="meta mono">KXAAAGASW-26NOV23-3.8200</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">1</td>
+  <td class="num">3,015</td>
+  <td class="num">4,096</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.8200" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7800?</span><div class="meta mono">KXAAAGASW-26NOV23-3.7800</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">1</td>
+  <td class="num">9,224</td>
+  <td class="num">4,079</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.7800" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7600?</span><div class="meta mono">KXAAAGASW-26NOV23-3.7600</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">1</td>
+  <td class="num">14,535</td>
+  <td class="num">4,085</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.7600" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7200?</span><div class="meta mono">KXAAAGASW-26NOV23-3.7200</div></td>
+  <td>0¢</td>
+  <td>0¢ / 1¢</td>
+  <td>1¢</td>
+  <td class="num">1</td>
+  <td class="num">21,410</td>
+  <td class="num">2,801</td>
+  <td class="num">$0</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV23-3.7200" target="_blank" rel="noopener">API</a> ·
+      <a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Highest-dollar events in this topic</h2>
+    <p class="hint">Ranked by estimated 24h traded notional across the events' open markets.</p>
+    <div class="table-wrap" style="max-height:380px"><table>
+<thead><tr><th>Event</th><th class="num">Markets</th><th class="num">Est. 24h $</th><th class="num">Open interest</th><th>Closes</th><th>Source</th></tr></thead>
+<tbody><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6300?</span><div class="meta mono">KXAAAGASW-26NOV23</div></td>
+  <td class="num">21</td>
+  <td class="num">$288,946</td>
+  <td class="num">833,698</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxaaagasw" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.45?</span><div class="meta mono">KXAAAGASM-26NOV30</div></td>
+  <td class="num">12</td>
+  <td class="num">$12,480</td>
+  <td class="num">602,616</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will Gasoline (All Types) in U.S. City Average for November 2026 be above 352?</span><div class="meta mono">KXUSGASCPI-26DEC10</div></td>
+  <td class="num">7</td>
+  <td class="num">$2,652</td>
+  <td class="num">7,804</td>
+  <td class="meta">2026-12-10 13:29</td>
+  <td><a href="https://kalshi.com/markets/kxusgascpi" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7800?</span><div class="meta mono">KXAAAGASWNJ-26NOV23</div></td>
+  <td class="num">4</td>
+  <td class="num">$508</td>
+  <td class="num">1,638</td>
+  <td class="meta">2026-11-23 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxaaagaswnj" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average gas prices go below $3.60 by Nov 30, 2026?</span><div class="meta mono">KXAAAGASMINM-26NOV30</div></td>
+  <td class="num">5</td>
+  <td class="num">$345</td>
+  <td class="num">28,520</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxaaagasminm" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $5.00 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAX-26DEC31</div></td>
+  <td class="num">7</td>
+  <td class="num">$179</td>
+  <td class="num">652,499</td>
+  <td class="meta">2026-12-31 06:25</td>
+  <td><a href="https://kalshi.com/markets/kxaaagasmax" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7000?</span><div class="meta mono">KXAAAGASEOYNJ-26DEC31</div></td>
+  <td class="num">1</td>
+  <td class="num">$11</td>
+  <td class="num">484</td>
+  <td class="meta">2026-12-31 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxaaagaseoynj" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above or below $6.60 by Dec 31, 2026?</span><div class="meta mono">KXAAAGASMAXCA-26DEC31</div></td>
+  <td class="num">1</td>
+  <td class="num">$2</td>
+  <td class="num">8,604</td>
+  <td class="meta">2026-12-31 14:55</td>
+  <td><a href="https://kalshi.com/markets/kxaaagasmaxca" target="_blank" rel="noopener">Kalshi</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.3000?</span><div class="meta mono">KXAAAGASMTX-26NOV30</div></td>
+  <td class="num">2</td>
+  <td class="num">$1</td>
+  <td class="num">461</td>
+  <td class="meta">2026-11-30 04:59</td>
+  <td><a href="https://kalshi.com/markets/kxaaagasmtx" target="_blank" rel="noopener">Kalshi</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Resolved — YES or NO</h2>
+    <p class="hint">Markets tracked until they settled. The outcome is the exchange's own
+      <code>result</code> field; the link re-reads the market from the API so the value can be checked.</p>
+    <div class="table-wrap" style="max-height:340px"><table>
+<thead><tr><th>Market</th><th>Outcome</th><th>Closed</th><th>result field</th><th>Source</th></tr></thead>
+<tbody><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7300?</span><div class="meta mono">KXAAAGASD-26NOV21-3.7300</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.7300" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7250?</span><div class="meta mono">KXAAAGASD-26NOV21-3.7250</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.7250" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7200?</span><div class="meta mono">KXAAAGASD-26NOV21-3.7200</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.7200" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7150?</span><div class="meta mono">KXAAAGASD-26NOV21-3.7150</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.7150" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7100?</span><div class="meta mono">KXAAAGASD-26NOV21-3.7100</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.7100" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7050?</span><div class="meta mono">KXAAAGASD-26NOV21-3.7050</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.7050" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7000?</span><div class="meta mono">KXAAAGASD-26NOV21-3.7000</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.7000" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6950?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6950</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6950" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6900?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6900</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6900" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6850?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6850</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6850" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6800?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6800</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6800" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6750?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6750</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6750" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6700?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6700</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6700" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6650?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6650</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6650" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6600?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6600</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6600" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6550?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6550</div></td>
+  <td><span class="chip ok">YES</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">yes</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6550" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6500?</span><div class="meta mono">KXAAAGASD-26NOV21-3.6500</div></td>
+  <td><span class="chip ok">YES</span></td>
+  <td class="meta">2026-11-21 04:59</td>
+  <td class="meta">yes</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV21-3.6500" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7600?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7600</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7600" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7550?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7550</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7550" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7500?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7500</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7500" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7450?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7450</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7450" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7400?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7400</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7400" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7350?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7350</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7350" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7300?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7300</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7300" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7250?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7250</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7250" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7200?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7200</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7200" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7150?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7150</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7150" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7100?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7100</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7100" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7050?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7050</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7050" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7000?</span><div class="meta mono">KXAAAGASD-26NOV20-3.7000</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.7000" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6950?</span><div class="meta mono">KXAAAGASD-26NOV20-3.6950</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.6950" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6900?</span><div class="meta mono">KXAAAGASD-26NOV20-3.6900</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.6900" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6850?</span><div class="meta mono">KXAAAGASD-26NOV20-3.6850</div></td>
+  <td><span class="chip ok">YES</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">yes</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.6850" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.6800?</span><div class="meta mono">KXAAAGASD-26NOV20-3.6800</div></td>
+  <td><span class="chip ok">YES</span></td>
+  <td class="meta">2026-11-20 04:59</td>
+  <td class="meta">yes</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV20-3.6800" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7900?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7900</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7900" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7850?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7850</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7850" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7800?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7800</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7800" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7750?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7750</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7750" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7700?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7700</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7700" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7650?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7650</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7650" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7600?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7600</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7600" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7550?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7550</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7550" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7500?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7500</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7500" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7450?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7450</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7450" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7400?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7400</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7400" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7350?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7350</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7350" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7300?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7300</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7300" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7250?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7250</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7250" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7200?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7200</div></td>
+  <td><span class="chip ok">YES</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">yes</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7200" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7150?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7150</div></td>
+  <td><span class="chip ok">YES</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">yes</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7150" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7100?</span><div class="meta mono">KXAAAGASD-26NOV19-3.7100</div></td>
+  <td><span class="chip ok">YES</span></td>
+  <td class="meta">2026-11-19 04:59</td>
+  <td class="meta">yes</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV19-3.7100" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8200?</span><div class="meta mono">KXAAAGASD-26NOV18-3.8200</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.8200" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8150?</span><div class="meta mono">KXAAAGASD-26NOV18-3.8150</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.8150" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8100?</span><div class="meta mono">KXAAAGASD-26NOV18-3.8100</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.8100" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8050?</span><div class="meta mono">KXAAAGASD-26NOV18-3.8050</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.8050" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.8000?</span><div class="meta mono">KXAAAGASD-26NOV18-3.8000</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.8000" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7950?</span><div class="meta mono">KXAAAGASD-26NOV18-3.7950</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.7950" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7900?</span><div class="meta mono">KXAAAGASD-26NOV18-3.7900</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.7900" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7850?</span><div class="meta mono">KXAAAGASD-26NOV18-3.7850</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.7850" target="_blank" rel="noopener">verify</a></td>
+</tr><tr>
+  <td><span class="title">Will average **gas prices** be above $3.7800?</span><div class="meta mono">KXAAAGASD-26NOV18-3.7800</div></td>
+  <td><span class="chip bad">NO</span></td>
+  <td class="meta">2026-11-18 04:59</td>
+  <td class="meta">no</td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV18-3.7800" target="_blank" rel="noopener">verify</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <section class="section">
+    <h2>Series in this topic</h2>
+    <p class="hint">The official series objects this topic is built from, with their published categories and tags.</p>
+    <div class="table-wrap" style="max-height:420px"><table>
+<thead><tr><th>Series</th><th>Title</th><th>Official categories</th><th>Tags</th><th class="num">Lifetime contracts</th><th>Terms</th><th>Source</th></tr></thead>
+<tbody><tr>
+  <td class="ticker">KXAAAGASM</td>
+  <td>US gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil &amp; Gas, Oil and energy</td>
+  <td class="num">64,900,541</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASM" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASW</td>
+  <td>US gas price up</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Econ Weekly, Oil and energy</td>
+  <td class="num">64,696,578</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASW" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASD</td>
+  <td>US gas price up</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil &amp; Gas, Oil and energy, Econ Daily</td>
+  <td class="num">55,547,104</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASD" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDFL</td>
+  <td>Florida gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">3,538,844</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDFL" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDOH</td>
+  <td>Ohio gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">2,779,503</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDOH" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDIL</td>
+  <td>Illinois gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">2,374,942</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDIL" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDNJ</td>
+  <td>New Jersey gas prices</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">2,304,761</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDNJ" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDCA</td>
+  <td>California gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">2,303,238</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDCA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDNC</td>
+  <td>North Carolina gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">2,254,547</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDNC" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASMAX</td>
+  <td>US highest gas price yearly</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil &amp; Gas, Oil and energy</td>
+  <td class="num">2,164,155</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASMAX" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDMI</td>
+  <td>Michigan gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">2,147,292</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDMI" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDTX</td>
+  <td>TX gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">2,119,995</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDTX" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDNY</td>
+  <td>New York gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,981,246</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDNY" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDGA</td>
+  <td>Georgia gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,978,159</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDGA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDSC</td>
+  <td>South Carolina gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,895,862</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDSC" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDPA</td>
+  <td>Pennsylvania gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,737,238</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDPA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDWA</td>
+  <td>Washington gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,731,512</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDWA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDMA</td>
+  <td>Massachusetts gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,584,377</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDMA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDVA</td>
+  <td>Virginia gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,576,602</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDVA" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDAZ</td>
+  <td>Arizona gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,470,009</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDAZ" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDTN</td>
+  <td>Tennessee gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,430,064</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDTN" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDCO</td>
+  <td>Colorado gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,427,596</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDCO" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDIN</td>
+  <td>Indiana gas price</td>
+  <td class="meta">Economics, Commodities</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,415,239</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDIN" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDMD</td>
+  <td>Maryland gas price</td>
+  <td class="meta">Economics</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,327,705</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDMD" target="_blank" rel="noopener">API</a></td>
+</tr><tr>
+  <td class="ticker">KXAAAGASDWI</td>
+  <td>Wisconsin gas price</td>
+  <td class="meta">Economics, Commodities</td>
+  <td class="meta">Oil and energy, Econ Daily</td>
+  <td class="num">1,257,599</td>
+  <td><a href="https://assets.kalshi.com/contract_terms/AAAGAS.pdf" target="_blank" rel="noopener">terms</a></td>
+  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/KXAAAGASDWI" target="_blank" rel="noopener">API</a></td>
+</tr></tbody></table></div>
+  </section>
+
+  <footer class="site">
+    <span>Data collected 2026-11-22 07:21:40 UTC.</span>
+    <span>·</span><a href="../verification.html">Sources &amp; verification</a>
+    <span>·</span><a href="../flagged.html">Flagged for review</a>
+    <span>·</span><a href="../requirements.html">Requirements</a>
+    <span>·</span><a href="../api-reference.html">API reference</a>
+    <span>·</span><span>Not investment advice. Demo/paper only.</span>
+  </footer>
+</main>
+</body>
+</html>

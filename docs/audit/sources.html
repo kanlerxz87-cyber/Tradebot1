@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Official sources · Kalshi audit</title>
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body>
+<header class="site"><div class="wrap bar">
+  <a class="brand" href="index.html">Kalshi audit <span>· line by line</span></a>
+  <nav><a class="" href="index.html">Overview</a><a class="" href="findings.html">Findings</a><a class="" href="flagged.html">Flagged for review</a><a class="on" href="sources.html">Official sources</a><a class="" href="methodology.html">Method</a></nav>
+  <a class="back" href="../">All dashboards</a>
+</div></header>
+<main class="wrap">
+
+<section class="hero tight">
+  <p class="tag">Official sources · 23 statements</p>
+  <h1>What Kalshi's own pages say, quoted</h1>
+  <p class="lede">These are the statements every verdict above rests on. Each was read on
+  2026-11-22; the quote is deliberately short and verbatim so it can be checked against
+  the page in a few seconds.</p>
+</section>
+<table class="grid quotes">
+<thead><tr><th>ID</th><th>Statement, quoted</th><th>The claim it settles</th></tr></thead>
+<tbody><tr>
+  <td class="mono">VF-01</td>
+  <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments and Endpoints</a>
+      <div class="quote">| Demo | `https://external-api.demo.kalshi.co/trade-api/v2` | `https://demo-api.kalshi.co/trade-api/v2` |</div></td>
+  <td>The demo Trade API v2 is served at external-api.demo.kalshi.co, with demo-api.kalshi.co also supported.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/api_environments</a></div></td>
+</tr><tr>
+  <td class="mono">VF-02</td>
+  <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments and Endpoints</a>
+      <div class="quote">| Demo | `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` | `wss://demo-api.kalshi.co/trade-api/ws/v2` |</div></td>
+  <td>The demo WebSocket endpoint is wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2, with the demo-api host also supported.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/api_environments</a></div></td>
+</tr><tr>
+  <td class="mono">VF-03</td>
+  <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments and Endpoints</a>
+      <div class="quote">| Production | `https://external-api.kalshi.com/trade-api/v2` | `https://api.elections.kalshi.com/trade-api/v2` |</div></td>
+  <td>For production, external-api.kalshi.com is recommended and api.elections.kalshi.com is also supported.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/api_environments</a></div></td>
+</tr><tr>
+  <td class="mono">VF-04</td>
+  <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments and Endpoints — Request Signing</a>
+      <div class="quote">Sign the full request path from the API root, without query parameters. [..] `/trade-api/v2/portfolio/orders` [..] not the hostname and not the query string.</div></td>
+  <td>A signed request covers the full path from the API root and excludes the query string; the host is not signed.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/api_environments</a></div></td>
+</tr><tr>
+  <td class="mono">VF-05</td>
+  <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook Responses</a>
+      <div class="quote">A **YES BID** at price X is equivalent to a **NO ASK** at price ($1.00 - X)</div></td>
+  <td>The order book returns bids only, and the ask on one side is the complement of the best bid on the other side.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/orderbook_responses</a></div></td>
+</tr><tr>
+  <td class="mono">VF-06</td>
+  <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook Responses</a>
+      <div class="quote">Arrays are sorted by price in **ascending order** [..] The **highest** bid (best bid) is the **last** element in each array</div></td>
+  <td>Levels are ascending by price, so the best bid is the last element of each array.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/orderbook_responses</a></div></td>
+</tr><tr>
+  <td class="mono">VF-07</td>
+  <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook Responses</a>
+      <div class="quote">A market with no resting orders returns empty `yes_dollars` and `no_dollars` arrays. So does a ticker that does not match any market: the endpoint returns `200` with empty arrays rather than `404`</div></td>
+  <td>An empty book and an unknown ticker both return 200 with empty arrays, not 404.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/orderbook_responses</a></div></td>
+</tr><tr>
+  <td class="mono">VF-08</td>
+  <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">Orderbook Responses</a>
+      <div class="quote">The orderbook response is wrapped in an `orderbook_fp` object containing two arrays of bids: `yes_dollars` for YES positions and `no_dollars` for NO positions. Each bid is a two-element string array: `[price_dollars, count_fp]`.</div></td>
+  <td>The order book is wrapped in orderbook_fp with yes_dollars and no_dollars string pairs [price, count].
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/orderbook_responses</a></div></td>
+</tr><tr>
+  <td class="mono">VF-09</td>
+  <td><a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">Fixed-Point Representation</a>
+      <div class="quote">**Prices**: fixed-point dollar strings (`_dollars` suffix), up to 4 decimal places [..] **Contract quantities**: fixed-point strings (`_fp` suffix), up to 2 decimal places</div></td>
+  <td>Prices are dollar strings with a _dollars suffix (up to 4 dp) and quantities are _fp strings (2 dp).
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/fixed_point_migration</a></div></td>
+</tr><tr>
+  <td class="mono">VF-10</td>
+  <td><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">Market Lifecycle</a>
+      <div class="quote">| `finalized` | Settlement complete. Positions have been paid out. Terminal state. |</div></td>
+  <td>REST market status is initialized, active, inactive, closed, determined, disputed, amended or finalized.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/market_lifecycle</a></div></td>
+</tr><tr>
+  <td class="mono">VF-11</td>
+  <td><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">Market Lifecycle</a>
+      <div class="quote">| `settled` | `finalized` |</div></td>
+  <td>The status filter value settled matches markets whose response status is finalized, and open matches active.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/market_lifecycle</a></div></td>
+</tr><tr>
+  <td class="mono">VF-12</td>
+  <td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">Get Markets</a>
+      <div class="quote">| min_close_ts, max_close_ts | `closed`, *empty* | [..] | min_settled_ts, max_settled_ts | `settled`, *empty* |</div></td>
+  <td>Timestamp filters are status-specific: min_close_ts pairs with closed, and settled pairs with min_settled_ts.
+      <div class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">docs.kalshi.com/api-reference/market/get-markets</a></div></td>
+</tr><tr>
+  <td class="mono">VF-13</td>
+  <td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">Get Markets</a>
+      <div class="quote">- yes_bid_dollars [..] - volume_fp [..] - open_interest_fp</div></td>
+  <td>The Market object's required price and size fields are the fixed-point ones: yes_bid_dollars, yes_ask_dollars, volume_fp, open_interest_fp.
+      <div class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">docs.kalshi.com/api-reference/market/get-markets</a></div></td>
+</tr><tr>
+  <td class="mono">VF-14</td>
+  <td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">Get Markets</a>
+      <div class="quote">result: type: string enum: - 'yes' - 'no' - scalar - ''</div></td>
+  <td>result is yes, no, scalar or empty; a binary market resolves to yes or no.
+      <div class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">docs.kalshi.com/api-reference/market/get-markets</a></div></td>
+</tr><tr>
+  <td class="mono">VF-15</td>
+  <td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer">Get Market Candlesticks</a>
+      <div class="quote">Valid values are 1 (1 minute), 60 (1 hour), or 1440 (1 day). [..] One request can span at most 5,000 periods.</div></td>
+  <td>Candle periods are 1, 60 or 1440 minutes, timestamps are seconds, and one request spans at most 5,000 periods.
+      <div class="src"><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer">docs.kalshi.com/api-reference/market/get-market-candlesticks</a></div></td>
+</tr><tr>
+  <td class="mono">VF-16</td>
+  <td><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer">Get Market Candlesticks</a>
+      <div class="quote">- yes_bid [..] - price: $ref: '#/components/schemas/PriceDistribution' description: &gt;- Open, high, low, close (OHLC) and more data for trade YES contract prices</div></td>
+  <td>A candlestick's trade-price block is OHLC under price, with _dollars fields (close_dollars).
+      <div class="src"><a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks" target="_blank" rel="noopener noreferrer">docs.kalshi.com/api-reference/market/get-market-candlesticks</a></div></td>
+</tr><tr>
+  <td class="mono">VF-17</td>
+  <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">Kalshi Fee Schedule (PDF, effective 2026-07-07)</a>
+      <div class="quote">fees = round up(M x 0.07 x C x P x (1-P)) [..] P = the price of a contract in dollars (50 cents is 0.5) [..] C = the number of contracts being traded [..] M = the multiplier for each contract (default is 1 unless otherwise indicated)</div></td>
+  <td>The general taker fee is round up(M x 0.07 x C x P x (1 - P)).
+      <div class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">kalshi.com/docs/kalshi-fee-schedule.pdf</a></div></td>
+</tr><tr>
+  <td class="mono">VF-18</td>
+  <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">Kalshi Fee Schedule (PDF) — Maker Fees</a>
+      <div class="quote">fees = round up(M x 0.0175 x C x P x (1-P)) [..] M = the multiplier for each contract (default is 0 unless otherwise indicated) [..] There is no settlement fee.</div></td>
+  <td>The maker fee is round up(M x 0.0175 x C x P x (1 - P)) with M defaulting to 0, and there is no settlement fee.
+      <div class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">kalshi.com/docs/kalshi-fee-schedule.pdf</a></div></td>
+</tr><tr>
+  <td class="mono">VF-19</td>
+  <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">Kalshi Fee Schedule (PDF) — General Trading Fees Table</a>
+      <div class="quote">| Price of 1 contract | Fee for 1 contract | Price for 100 contracts | Fee for 100 contracts | [..] | $0.01 | $0.01 | $1.00 | $0.07 |</div></td>
+  <td>The summary fee table has four columns: price for 1, fee for 1, price for 100, fee for 100. The one-cent row's fee for 100 is $0.07.
+      <div class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">kalshi.com/docs/kalshi-fee-schedule.pdf</a></div></td>
+</tr><tr>
+  <td class="mono">VF-20</td>
+  <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">Fee Rounding</a>
+      <div class="quote">**Trade fee** | Fee from the fee model, rounded up to the nearest `$0.000001` [..] Direct member balances are aligned to `$0.0001` (`0.01c`) [..] **Net fee** = trade fee + rounding fee - rebate</div></td>
+  <td>A fill's trade fee is rounded up to $0.000001, then the balance is aligned to $0.0001 (direct member) or $0.01 (non-direct), with a rebate accumulator.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/fee_rounding</a></div></td>
+</tr><tr>
+  <td class="mono">VF-21</td>
+  <td><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">Get Events</a>
+      <div class="quote">category: type: string description: Event category (deprecated, use series-level category instead).</div></td>
+  <td>An event's category field is deprecated; the series-level category is the supported place to read it.
+      <div class="src"><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener noreferrer">docs.kalshi.com/api-reference/events/get-events</a></div></td>
+</tr><tr>
+  <td class="mono">VF-22</td>
+  <td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">Get Markets</a>
+      <div class="quote">Markets that settled before the historical cutoff are only available via `GET /historical/markets`.</div></td>
+  <td>Markets settled before the historical cutoff are only available through /historical/markets.
+      <div class="src"><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">docs.kalshi.com/api-reference/market/get-markets</a></div></td>
+</tr><tr>
+  <td class="mono">VF-23</td>
+  <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">API Environments and Endpoints — Fill and order updates</a>
+      <div class="quote">These hosts serve the `fill` and `user_orders` channels today [..] Subscribing to any other channel returns error code 8 (`Unknown channel name`), so keep your other subscriptions on the hosts above.</div></td>
+  <td>The dedicated user WebSocket hosts serve only the fill and user_orders channels; any other channel returns error code 8 there.
+      <div class="src"><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">docs.kalshi.com/getting_started/api_environments</a></div></td>
+</tr></tbody>
+</table>
+
+</main>
+<footer class="wrap">
+  <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
+  6 finding(s) fixed and re-checked, 5 published as open,
+  2 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
+  <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
+     <a href="../desk/flagged.html">Desk flags</a> ·
+     <a href="../../flagged.html">Board flags</a> ·
+     <a href="https://docs.kalshi.com/getting_started/api_environments">Official API documentation</a></p>
+</footer>
+</body>
+</html>

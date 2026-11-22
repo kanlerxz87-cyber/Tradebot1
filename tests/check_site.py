@@ -50,6 +50,9 @@ errors = []
 parsers = {}
 current = ''
 for html in ROOT.rglob('*.html'):
+    # Parallel sites have their own generators and independent source/link gates.
+    if any(part in {'desk', 'engine', 'audit'} for part in html.relative_to(ROOT).parts):
+        continue
     current = html
     parser = Links()
     parser.feed(html.read_text())

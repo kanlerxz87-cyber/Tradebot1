@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market detail · Kalshi demo dashboard</title>
+<meta name="description" content="A Kalshi demo-environment dashboard: live swing alerts at the $0.10 threshold, price charts and order-book liquidity for gas prices, elections, culture, crypto and golf, with simulated strategies and resolution tracking.">
+<meta name="color-scheme" content="dark light">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
+</head>
+<body data-generated="2026-11-22T07:38:50.148Z">
+<a class="skip" href="#main">Skip to content</a>
+<header class="site">
+  <div class="wrap site-inner">
+    <a class="brand" href="board.html"><span class="dot" aria-hidden="true"></span> Tradebot1 <small>Kalshi demo</small></a>
+    <nav class="main" aria-label="Main"><a href="board.html">Board</a><a href="dashboard.html">Alerts</a><a href="markets.html">Markets</a><a href="portfolio.html">Portfolio</a><a href="strategies.html">Strategies</a><a href="demo-account.html">Demo account</a><a href="executive-summary.html">Summary</a><a href="sources.html">Sources</a><a href="methodology.html">Method</a><a href="suggestions.html">Ideas</a><a href="flagged.html">Flagged</a><a href="api.html">API</a></nav>
+  </div>
+</header>
+<main id="main" class="wrap page">
+<section>
+  <p class="small"><a href="board.html">Board</a> / <a href="markets.html">Markets</a> / <span id="crumb">market</span></p>
+  <h1 id="m-title">Market</h1>
+  <div class="pill-row" style="margin-bottom:10px">
+    <span class="badge" id="m-topic">—</span>
+    <span class="badge mono" id="m-ticker">—</span>
+    <span class="badge" id="m-status">—</span>
+    <span class="badge" id="m-result">—</span>
+  </div>
+  <p class="muted" id="m-rules" style="max-width:85ch"></p>
+  <div class="banner" id="data-banner" data-state="snapshot" role="status" aria-live="polite">
+    <span class="led" aria-hidden="true"></span><strong>Loading…</strong>
+  </div>
+</section>
+
+<section class="grid cols-4" aria-label="Market figures">
+  <div class="card tight"><div class="stat"><span class="k">YES bid</span><span class="v" id="m-bid">—</span><span class="s">best bid on the book</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">YES ask (derived)</span><span class="v" id="m-ask">—</span><span class="s">1 − best NO bid</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Spread</span><span class="v" id="m-spread">—</span><span class="s">ask − bid</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">24h volume</span><span class="v" id="m-volume">—</span><span class="s">contracts, exchange field</span></div></div>
+</section>
+
+<section>
+  <div class="toolbar" style="margin-bottom:10px">
+    <h2 style="margin:0">Price</h2>
+    <div class="seg" id="window-toggle" role="group" aria-label="Chart window">
+      <button data-win="60s" aria-pressed="false">60s</button>
+      <button data-win="5m" aria-pressed="false">5m</button>
+      <button data-win="15m" aria-pressed="false">15m</button>
+      <button data-win="1h" aria-pressed="true">1h</button>
+      <button data-win="6h" aria-pressed="false">6h</button>
+      <button data-win="24h" aria-pressed="false">24h</button>
+    </div>
+    <label class="small dim" style="margin-left:auto"><input type="checkbox" id="show-alerts" checked> mark recorded swings</label>
+  </div>
+  <div class="chart-shell">
+    <canvas class="chart" id="chart" aria-label="YES contract price over time. X axis is time, Y axis is price in cents." role="img"></canvas>
+    <div class="chart-legend">
+      <span><i style="background:#22c98a"></i>YES mid-price (bid+ask)/2</span>
+      <span><i style="background:#2fbf71"></i>dashed: recorded upward swing</span>
+      <span><i style="background:#ef5b5b"></i>dashed: recorded downward swing</span>
+      <span class="dim">Gaps are gaps: nothing is drawn where no observation exists.</span>
+    </div>
+  </div>
+  <p class="small dim" id="chart-note"></p>
+</section>
+
+<section>
+  <h2>Liquidity: how many contracts at each price</h2>
+  <p class="small" style="max-width:85ch">
+    Kalshi returns <strong>bids only</strong>. A YES bid at a price is a NO ask at one dollar minus
+    that price, so the ask columns below are <em>derived</em> and labelled as such. Quantity is in
+    contracts at each price level, exactly as the exchange reports it.
+    <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer nofollow">Kalshi: order-book responses ↗</a>
+  </p>
+  <div class="ladder">
+    <div class="card tight">
+      <h3 class="up" style="margin-bottom:8px">Bids on YES</h3>
+      <table class="compact"><thead><tr><th>Price</th><th class="num">Contracts</th><th class="num">$ notional</th><th>Depth</th><th>Source</th></tr></thead>
+      <tbody id="ladder-yes"><tr><td colspan="5" class="empty">No bids.</td></tr></tbody></table>
+    </div>
+    <div class="card tight">
+      <h3 class="down" style="margin-bottom:8px">Asks on YES <span class="badge">derived</span></h3>
+      <table class="compact"><thead><tr><th>Price</th><th class="num">Contracts</th><th class="num">$ notional</th><th>Depth</th><th>Source</th></tr></thead>
+      <tbody id="ladder-ask"><tr><td colspan="5" class="empty">No NO bids, so no YES asks.</td></tr></tbody></table>
+    </div>
+  </div>
+  <div class="grid cols-3" style="margin-top:14px">
+    <div class="card tight"><div class="stat"><span class="k">Contracts bid for YES</span><span class="v" id="depth-bid">—</span><span class="s">sum across all levels</span></div></div>
+    <div class="card tight"><div class="stat"><span class="k">Contracts offered on YES</span><span class="v" id="depth-ask">—</span><span class="s">derived from NO bids</span></div></div>
+    <div class="card tight"><div class="stat"><span class="k">Open interest</span><span class="v" id="m-oi">—</span><span class="s">exchange field</span></div></div>
+  </div>
+</section>
+
+<section>
+  <h2>Paper trade this market</h2>
+  <p class="small" style="max-width:85ch">
+    A local simulation only. It never touches your Kalshi account, sends no order, and is not
+    stored anywhere but this browser. The fee charged is Kalshi's published taker fee for the
+    price and size you enter.
+  </p>
+  <div class="card">
+    <div class="toolbar">
+      <label>Side
+        <select id="pt-side"><option value="yes">Buy YES</option><option value="no">Buy NO</option></select>
+      </label>
+      <label>Contracts <input type="text" id="pt-count" value="10" size="5" inputmode="numeric"></label>
+      <label>Limit price <input type="text" id="pt-price" value="" size="7" inputmode="decimal"></label>
+      <button class="seg" style="padding:0" type="button" id="pt-run"><span style="padding:6px 12px;font-weight:600">Simulate fill</span></button>
+    </div>
+    <div id="pt-out" style="margin-top:12px"></div>
+  </div>
+</section>
+
+<section>
+  <h2>Resolution</h2>
+  <p class="small" style="max-width:85ch">
+    A market is resolved only when the exchange marks it <code>finalized</code> and sets
+    <code>result</code> to <code>yes</code> or <code>no</code>. <code>determined</code> is not final:
+    the docs say a result can still be disputed.
+    <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">Kalshi: market lifecycle ↗</a>
+  </p>
+  <div class="table-wrap"><table class="compact" id="res-table">
+    <thead><tr><th>Status</th><th>Result</th><th>Checked</th><th>Settlement time</th><th>Source</th></tr></thead>
+    <tbody><tr><td colspan="5" class="empty">No resolution record for this market yet.</td></tr></tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>Contract details</h2>
+  <div class="table-wrap"><table class="compact" id="m-details">
+    <thead><tr><th>Field</th><th>Value</th><th>Where it comes from</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+</section>
+
+<script type="module" src="assets/market-page.js"></script>
+
+</main>
+<footer class="site">
+  <div class="wrap cols">
+    <div style="max-width:52ch">
+      <strong>Tradebot1</strong> — a dashboard over the <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener noreferrer">Kalshi demo environment</a>.
+      Demo markets use mock funds and Kalshi warns their prices may not reflect real markets.
+      This is not investment advice and nothing here is a forecast.
+      <div class="src" style="margin-top:8px">Data captured through https://external-api.demo.kalshi.co/trade-api/v2.</div>
+    </div>
+    <div>
+      <div><strong class="muted">Topics</strong></div>
+      <a href="categories/gas.html">Gas prices</a> · <a href="categories/elections.html">Elections</a> · <a href="categories/culture.html">Culture</a> · <a href="categories/crypto.html">Crypto</a> · <a href="categories/golf.html">Golf</a>
+    </div>
+    <div>
+      <div><strong class="muted">Review</strong></div>
+      <a href="flagged.html">Flagged for review</a> · <a href="sources.html">Sources</a> · <a href="methodology.html">Method</a>
+      <div class="src" style="margin-top:8px">Newest observation: 2026-11-22 07:29Z (10m ago)</div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>
