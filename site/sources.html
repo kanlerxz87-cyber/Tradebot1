@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sources — Kalshi Demo Dashboard</title><link rel="stylesheet" href="assets/style.css"></head>
+<body>
+<header><div class="logo">Kalshi <span>Demo</span> Dashboard</div>
+<nav><a href="index.html">Home</a><a href="dashboard.html">Live Dashboard</a><a href="portfolio.html">Portfolio &amp; Strategies</a><a href="methodology.html">Methodology</a><a href="sources.html">Sources</a><a href="flagged.html">Flagged for Review</a></nav></header>
+<main>
+<h1>Sources — every claim traced to an official page</h1>
+<p class="muted">If a value could not be confirmed from an official source, it is left blank and flagged (see <a href="flagged.html">Flagged for Review</a>). Full table: <code>docs/VERIFICATION.md</code> in the repo.</p>
+<div class="card"><table>
+<thead><tr><th>#</th><th>Claim</th><th>Value</th><th>Official source</th></tr></thead><tbody>
+<tr><td>A1</td><td>Demo REST base (recommended)</td><td><code>https://external-api.demo.kalshi.co/trade-api/v2</code></td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a></td></tr>
+<tr><td>A2</td><td>Demo REST base (alternate)</td><td><code>https://demo-api.kalshi.co/trade-api/v2</code></td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a></td></tr>
+<tr><td>A3</td><td>Demo WebSocket (recommended)</td><td><code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code></td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a></td></tr>
+<tr><td>A4</td><td>Demo WebSocket (alternate)</td><td><code>wss://demo-api.kalshi.co/trade-api/ws/v2</code></td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a></td></tr>
+<tr><td>A5</td><td>Demo web app</td><td><code>https://demo.kalshi.co/</code></td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a></td></tr>
+<tr><td>A6</td><td>Demo = mock funds; credentials not shared with production</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a></td></tr>
+<tr><td>A7</td><td>Demo prices may not reflect real markets</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Environment</a></td></tr>
+<tr><td>A8</td><td>Production REST base</td><td><code>https://external-api.kalshi.com/trade-api/v2</code></td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">API Environments</a></td></tr>
+<tr><td>A9</td><td>Demo/production credentials not interchangeable</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">API Environments</a></td></tr>
+<tr><td>A10</td><td>Public endpoints (e.g. Get Markets) need no auth</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/making_your_first_request" target="_blank" rel="noopener">Making Your First Request</a></td></tr>
+<tr><td>A11</td><td><code>GET /markets</code> fields: ticker, event_ticker, status, bids/asks, last price, volume, open interest, result</td><td>as listed</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">Get Markets</a></td></tr>
+<tr><td>A12</td><td>Market status values: unopened / open / closed / settled</td><td>as listed</td><td><a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener">Get Markets</a></td></tr>
+<tr><td>A13</td><td><code>GET /markets/{ticker}/orderbook</code> → <code>orderbook_fp</code> [price, size] levels; depth 0–100</td><td>as listed</td><td><a href="https://docs.kalshi.com/api-reference/market/get-market-orderbook" target="_blank" rel="noopener">Get Market Orderbook</a></td></tr>
+<tr><td>A14</td><td>Auth headers KALSHI-ACCESS-KEY / -TIMESTAMP / -SIGNATURE</td><td>as listed</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">API Keys</a></td></tr>
+<tr><td>A15</td><td>Sign timestamp + method + path (no query string)</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">API Keys</a></td></tr>
+<tr><td>A16</td><td>Timestamp within 30 s of Kalshi clock (ms)</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">API Keys</a></td></tr>
+<tr><td>A17</td><td>Key types: Ed25519 (recommended) or RSA-2048 RSA-PSS/SHA-256</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">API Keys</a></td></tr>
+<tr><td>A18</td><td>Keys created in Account/Profile settings</td><td>stated</td><td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">API Keys</a></td></tr>
+<tr><td>A19</td><td>Predictions REST OpenAPI spec</td><td><code>https://docs.kalshi.com/openapi.yaml</code></td><td><a href="https://docs.kalshi.com/welcome" target="_blank" rel="noopener">Welcome</a></td></tr>
+<tr><td>A20</td><td>Predictions WebSocket AsyncAPI spec</td><td><code>https://docs.kalshi.com/asyncapi.yaml</code></td><td><a href="https://docs.kalshi.com/welcome" target="_blank" rel="noopener">Welcome</a></td></tr>
+</tbody></table></div>
+</main>
+<footer>Tradebot1 · Kalshi demo · Paper trading — not financial advice</footer>
+</body></html>
