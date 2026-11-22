@@ -1,0 +1,232 @@
+{
+  "checked_on": "2026-11-22",
+  "verification_scope": "Official documentation was read through the page-fetch tool. These are specification checks, not claims of a successful authenticated live integration. Automated tests use synthetic fixtures and mocked network responses.",
+  "facts": [
+    {
+      "id": "demo-endpoints",
+      "status": "documentation_checked",
+      "fact": "Recommended REST root is external-api.demo.kalshi.co/trade-api/v2; demo-api.kalshi.co/trade-api/v2 is also supported. Recommended WebSocket root is external-api-ws.demo.kalshi.co/trade-api/ws/v2; demo-api.kalshi.co/trade-api/ws/v2 is also supported.",
+      "source_url": "https://docs.kalshi.com/getting_started/demo_env",
+      "implementation": "kalshi_demo/config.py: REST_URLS and WS_URLS"
+    },
+    {
+      "id": "demo-separation",
+      "status": "documentation_checked",
+      "fact": "Demo uses mock funds, has separate credentials, and its prices/behavior may not reflect production.",
+      "source_url": "https://docs.kalshi.com/getting_started/demo_env",
+      "implementation": "kalshi_demo/runtime.py: health"
+    },
+    {
+      "id": "auth-signature",
+      "status": "documentation_checked",
+      "fact": "Timestamp milliseconds + uppercase HTTP method + full path without query; RSA-PSS SHA-256 with digest-length salt, or Ed25519; base64 signature and three KALSHI-ACCESS headers.",
+      "source_url": "https://docs.kalshi.com/getting_started/quick_start_authenticated_requests",
+      "implementation": "kalshi_demo/auth.py: Signer.headers"
+    },
+    {
+      "id": "ws-auth",
+      "status": "documentation_checked",
+      "fact": "Even public market-data WebSocket channels require an authenticated handshake signed with GET /trade-api/ws/v2.",
+      "source_url": "https://docs.kalshi.com/getting_started/quick_start_websockets",
+      "implementation": "kalshi_demo/runtime.py: stream_loop"
+    },
+    {
+      "id": "events-pagination",
+      "status": "documentation_checked",
+      "fact": "GET /events has a maximum limit of 200 and cursor pagination. with_nested_markets includes child markets but excludes archived markets.",
+      "source_url": "https://docs.kalshi.com/api-reference/events/get-events",
+      "implementation": "kalshi_demo/client.py: pages; kalshi_demo/runtime.py: poll_once"
+    },
+    {
+      "id": "series-categorization",
+      "status": "documentation_checked",
+      "fact": "Use series-level category, not deprecated event.category. Series include title, category, categories, tags and settlement_sources. Dashboard topic classification itself is a local rule, not an official fact.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-series-list",
+      "implementation": "kalshi_demo/domain.py: classify_series"
+    },
+    {
+      "id": "rest-cached",
+      "status": "documentation_checked",
+      "fact": "Market REST responses are cached and can lag exchange state. Undecodable cursors may return the first page, requiring duplicate/loop protection.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-markets",
+      "implementation": "kalshi_demo/client.py: pages; kalshi_demo/runtime.py: ingest_market"
+    },
+    {
+      "id": "dollar-ranking",
+      "status": "documentation_checked",
+      "fact": "Ticker dollar_volume is whole-dollar cumulative traded notional; dollar_open_interest is whole-dollar open-interest notional. These are not cash paid, and are not 24-hour amounts.",
+      "source_url": "https://docs.kalshi.com/websockets/market-ticker",
+      "implementation": "kalshi_demo/domain.py: group_events"
+    },
+    {
+      "id": "ticker-conflation",
+      "status": "documentation_checked",
+      "fact": "Ticker updates are coalesced on a roughly one-second schedule; intermediate prices are not all sent. The trade channel sends notifications after each execution.",
+      "source_url": "https://docs.kalshi.com/websockets/public-trades",
+      "implementation": "kalshi_demo/runtime.py: process_frame and stream_loop"
+    },
+    {
+      "id": "threshold",
+      "status": "user_requirement_not_exchange_fact",
+      "fact": "Alert on an inclusive absolute YES last-price move of at least $0.10. This service uses a 60-second observed window and re-anchors after an alert; no interpolation or invented old history.",
+      "source_url": "https://docs.kalshi.com/websockets/market-ticker",
+      "implementation": "kalshi_demo/domain.py: AlertDetector"
+    },
+    {
+      "id": "rest-orderbook",
+      "status": "documentation_checked",
+      "fact": "REST orderbook_fp contains yes_dollars and no_dollars price/quantity pairs. Both are bid books; asks are complementary opposite bids. Quantities are contracts, not order counts.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-market-orderbook",
+      "implementation": "kalshi_demo/domain.py: OrderBook"
+    },
+    {
+      "id": "ws-orderbook",
+      "status": "documentation_checked",
+      "fact": "WebSocket snapshots use yes_dollars_fp/no_dollars_fp; deltas use price_dollars/delta_fp/side. seq is checked per subscription. Sequence gaps require fresh snapshots, not a repeated subscribe alone.",
+      "source_url": "https://docs.kalshi.com/websockets/orderbook-updates",
+      "implementation": "kalshi_demo/domain.py: SequenceGuard; kalshi_demo/runtime.py: process_frame"
+    },
+    {
+      "id": "unified-price",
+      "status": "documentation_checked",
+      "fact": "Order V2 uses bid/ask with a single YES price scale. Buying NO at cost q maps to ask at YES price 1-q. WebSocket orderbooks opt into YES pricing using use_yes_price=true; this service explicitly converts NO levels into its internal NO-leg book representation.",
+      "source_url": "https://docs.kalshi.com/getting_started/order_direction",
+      "implementation": "kalshi_demo/orders.py: submit_order; kalshi_demo/runtime.py: process_frame"
+    },
+    {
+      "id": "lifecycle",
+      "status": "documentation_checked",
+      "fact": "REST active is open; closed awaits determination; determined/disputed/amended are not final. REST finalized is terminal settlement. Filter settled maps to finalized. An event has no reliable top-level status and can contain children in different states.",
+      "source_url": "https://docs.kalshi.com/getting_started/market_lifecycle",
+      "implementation": "kalshi_demo/domain.py: normalize_market; kalshi_demo/paper.py: settle"
+    },
+    {
+      "id": "binary-payout",
+      "status": "documentation_checked",
+      "fact": "Simple binary YES/NO winners receive $1 per contract. Scalar and settlement-bound contracts need distinct treatment and are not forced to binary in this service.",
+      "source_url": "https://docs.kalshi.com/getting_started/market_settlement",
+      "implementation": "kalshi_demo/paper.py: settle"
+    },
+    {
+      "id": "current-order-api",
+      "status": "documentation_checked",
+      "fact": "POST /portfolio/events/orders is the V2 order-write endpoint. Legacy /portfolio/orders writes have been removed and return 410. 201 means accepted, not necessarily filled/resting.",
+      "source_url": "https://docs.kalshi.com/api-reference/orders/create-order-v2",
+      "implementation": "kalshi_demo/orders.py: submit_order"
+    },
+    {
+      "id": "idempotency",
+      "status": "documentation_checked",
+      "fact": "Upstream client_order_id uniqueness is limited to open orders in a subaccount/shard. Check acceptance before retrying after uncertainty; reusing an ID after fill/cancel is not durable exactly-once protection.",
+      "source_url": "https://docs.kalshi.com/getting_started/quick_start_create_order",
+      "implementation": "kalshi_demo/store.py: reserve_order; kalshi_demo/orders.py: submit_order"
+    },
+    {
+      "id": "cancel-routing",
+      "status": "documentation_checked",
+      "fact": "V2 cancellation requires market_ticker to auto-route to the correct shard; an order ID alone does not identify the shard.",
+      "source_url": "https://docs.kalshi.com/api-reference/orders/cancel-order-v2",
+      "implementation": "kalshi_demo/server.py: cancel"
+    },
+    {
+      "id": "balance-units",
+      "status": "documentation_checked",
+      "fact": "Balance and portfolio_value integer fields are in cents; balance_dollars is a dollar string. Balance has a separate rate bucket. This service caches protected portfolio reads for 15 seconds.",
+      "source_url": "https://docs.kalshi.com/api-reference/portfolio/get-balance",
+      "implementation": "kalshi_demo/runtime.py: portfolio"
+    },
+    {
+      "id": "positions-default",
+      "status": "documentation_checked",
+      "fact": "Positions default to unsettled. settlement_status=all includes unarchived settled positions. position_fp is signed; realized_pnl_dollars and fees_paid_dollars are explicit API fields.",
+      "source_url": "https://docs.kalshi.com/api-reference/portfolio/get-positions",
+      "implementation": "kalshi_demo/runtime.py: portfolio"
+    },
+    {
+      "id": "fills",
+      "status": "documentation_checked",
+      "fact": "Fills are matched trades. Current responses include outcome_side/book_side, fixed-point counts, prices and fee_cost; legacy action/side are deprecated.",
+      "source_url": "https://docs.kalshi.com/api-reference/portfolio/get-fills",
+      "implementation": "kalshi_demo/runtime.py: portfolio"
+    },
+    {
+      "id": "settlement-records",
+      "status": "documentation_checked",
+      "fact": "Settlement records include explicit market_result, fixed-point counts/cost, revenue in cents, fees and settlement time. This live endpoint does not return archived settlements.",
+      "source_url": "https://docs.kalshi.com/api-reference/portfolio/get-settlements",
+      "implementation": "kalshi_demo/runtime.py: portfolio"
+    },
+    {
+      "id": "historical-handoff",
+      "status": "documentation_checked",
+      "fact": "Historical markets, fills, orders and positions are separate. Read live positions before archive positions; reads are not atomic, overlap is possible, and archive positions differ from settlement records.",
+      "source_url": "https://docs.kalshi.com/getting_started/historical_data",
+      "implementation": "kalshi_demo/runtime.py: refresh_market and portfolio"
+    }
+  ],
+  "flagged_for_review": [
+    {
+      "id": "account-not-connected",
+      "severity": "capability_limit",
+      "value": null,
+      "detail": "No Kalshi credentials are present. No authenticated demo order, fill, balance or WebSocket handshake has been verified. Account values are blank.",
+      "source_url": "https://docs.kalshi.com/getting_started/quick_start_authenticated_requests"
+    },
+    {
+      "id": "network-restriction",
+      "severity": "environment_limit",
+      "value": null,
+      "detail": "The sandbox process cannot reach Kalshi hosts. A page-fetch tool successfully read public exchange/status, but that is not a persistent backend connection. Polling/streaming require a host with Kalshi network access.",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status"
+    },
+    {
+      "id": "pages-static-only",
+      "severity": "deployment_limit",
+      "value": null,
+      "detail": "GitHub Pages is a static website host. Secure signing, private account access, persistence and background collection require this separately deployed trusted service.",
+      "source_url": "https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages"
+    },
+    {
+      "id": "model-unvalidated",
+      "severity": "research_limit",
+      "value": null,
+      "detail": "Neither momentum nor mean reversion has validated out-of-sample net ROI. Fair value and gross edge are model outputs, not official data. No high-ROI guarantee is made.",
+      "source_url": "https://docs.kalshi.com/getting_started/demo_env"
+    },
+    {
+      "id": "fees-unknown",
+      "severity": "research_limit",
+      "value": null,
+      "detail": "Paper results are gross only. Fee types/multipliers and event overrides vary; no universal fee is assumed. Net ROI stays null.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-series-list"
+    },
+    {
+      "id": "news-causality",
+      "severity": "verification_limit",
+      "value": null,
+      "detail": "No verified causal news links have been observed. Catalyst lists remain empty rather than assigning news stories to price jumps.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-series-list"
+    },
+    {
+      "id": "notional-coverage",
+      "severity": "coverage_limit",
+      "value": null,
+      "detail": "REST markets may not include dollar_volume. Ranking values remain null until reported WS notional arrives for all tracked child markets; partial discovery is visibly flagged.",
+      "source_url": "https://docs.kalshi.com/websockets/market-ticker"
+    },
+    {
+      "id": "topic-classifier",
+      "severity": "coverage_limit",
+      "value": null,
+      "detail": "Five-topic classification uses explicit local metadata rules, not a verified full exchange taxonomy. Unmatched and ambiguous series are excluded and counted.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-series-list"
+    },
+    {
+      "id": "primary-subaccount",
+      "severity": "coverage_limit",
+      "value": null,
+      "detail": "Portfolio collection is scoped to primary subaccount 0. It does not claim all subaccounts, atomic live/archive reconciliation, or cash-flow-adjusted ROI.",
+      "source_url": "https://docs.kalshi.com/getting_started/historical_data"
+    }
+  ]
+}

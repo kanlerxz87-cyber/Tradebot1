@@ -1,168 +1,232 @@
-import {BASE, DOCS, TOPICS, topicFor, price, qty, dollars, count, marketUrl, eventUrl, bookUrl, sample, qualifies, swing, resolution, estimate, paperBuy, paperPnl} from './core.mjs';
-const $ = id => document.getElementById(id);
-const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const now = () => new Date().toLocaleTimeString('en-US', {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-const fmtTime = value => value ? new Date(value).toLocaleString('en-US', {month:'short',day:'numeric',hour:'2-digit',minute:'2-digit'}) : '—';
-const state = { events:new Map(), markets:new Map(), history:new Map(), alerts:[], selected:null, source:'Waiting for data', updated:null, partial:true, paper:[], candles:[], candleLabel:'Session samples', loading:false, seen:new Map(), watch:new Set(), cycle:0, topic:document.body.dataset.topic || 'all' };
-try { const saved=JSON.parse(localStorage.getItem('kalshi-paper-v1') || '[]'); if(Array.isArray(saved)) state.paper=saved.filter(t=>t && typeof t.ticker==='string' && typeof t.entry==='number').slice(-250); } catch {} // storage is optional
-function save() { try { localStorage.setItem('kalshi-paper-v1', JSON.stringify(state.paper)); } catch {} }
-function fetchJson(url, ms=14000) { return fetch(url, {cache:'no-store', signal:AbortSignal.timeout(ms)}).then(r=>{if(!r.ok) throw Error(`HTTP ${r.status}`);return r.json();}); }
-function record(m, event, origin='REST') {
-  if(!m?.ticker || !event || !topicFor(event)) return;
-  const previous=state.markets.get(m.ticker), seen=state.seen.get(m.ticker), prev=previous && sample(previous), next=sample(m);
-  state.seen.set(m.ticker,{at:Date.now(),origin,cycle:state.cycle});
-  state.markets.set(m.ticker, m); state.events.set(event.event_ticker,event);
-  if(next !== null) {
-    const history=state.history.get(m.ticker) || [];
-    if(!history.length || history.at(-1).v !== next) {
-      history.push({t:Date.now(),v:next}); state.history.set(m.ticker,history.slice(-1000));
+import {BASE,TOPICS,LABELS,DOCS,topicFor,price,qty,dollars,count,marketUrl,eventUrl,bookUrl,sample,qualifies,resolution,notional,eventGroups,normalizeBook,MoveDetector,csvCell} from './core.mjs';
+import {emptyPaper,restorePaper,simulateAlert,settlePaper,paperSummary,STRATEGIES} from './paper.mjs';
+
+const $=id=>document.getElementById(id);
+const text=(id,value)=>{if($(id))$(id).textContent=value;};
+const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const safeUrl=value=>{try{const url=new URL(value);return url.protocol==='https:'?url.href:null;}catch{return null;}};
+const sourceLink=(url,label='API ↗')=>`<a class="source-link" href="${esc(safeUrl(url)||DOCS.markets)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a>`;
+const toMs=value=>{if(value===null||value===undefined||value==='')return null;const n=typeof value==='number'?value:Date.parse(value);return Number.isFinite(n)?n:null;};
+const utc=(value,seconds=false)=>{const ms=toMs(value);return ms===null?'—':new Date(ms).toLocaleString('en-GB',{month:'short',day:'2-digit',hour:'2-digit',minute:'2-digit',...(seconds?{second:'2-digit'}:{}),timeZone:'UTC',hour12:false})+' UTC';};
+const timeOnly=value=>new Date(value).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit',timeZone:'UTC',hour12:false});
+const state={topic:document.body.dataset.topic||'all',view:document.body.dataset.view||'all',events:new Map(),markets:new Map(),histories:new Map(),alerts:[],series:new Map(),selected:null,range:'minutes',bookSide:'yes',book:null,chartPoints:[],chartSource:'Observed samples',adapter:false,backendActive:false,backendPaper:null,backendTickers:new Set(),stream:null,health:null,source:'No verified observations',updated:null,partial:true,loading:false,trackedLoading:false,roundRobin:0,query:'',sort:'contracts',visible:16,paused:false,storageError:false,detailVersion:0,paper:emptyPaper()};
+const detector=new MoveDetector();
+let lastBackendRender=0;
+
+function storageRead(key){try{return JSON.parse(localStorage.getItem(key)||'null');}catch{return null;}}
+function storageWrite(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch{state.storageError=true;}}
+state.paper=restorePaper(storageRead('tradebot1-paper-v2'));
+const saved=storageRead('tradebot1-observations-v2');
+if(saved?.version===2 && Array.isArray(saved.events) && Array.isArray(saved.markets)) {
+  for(const event of saved.events)if(event?.event_ticker&&topicFor(event))state.events.set(event.event_ticker,event);
+  for(const market of saved.markets)if(market?.ticker&&state.events.has(market.event_ticker))state.markets.set(market.ticker,{...market,_meta:{...market._meta,kind:'retained'}});
+}
+function persist(){storageWrite('tradebot1-paper-v2',state.paper);storageWrite('tradebot1-observations-v2',{version:2,events:[...state.events.values()],markets:[...state.markets.values()]});}
+async function fetchJson(url,timeout=10000){const response=await fetch(url,{cache:'no-store',signal:AbortSignal.timeout(timeout)});if(!response.ok)throw Error(`HTTP ${response.status}`);return response.json();}
+async function publicRead(path,params={}) {
+  const query=new URLSearchParams(params).toString();
+  const suffix=path+(query?'?'+query:'');
+  if(state.adapter)return fetchJson('/api/kalshi'+suffix);
+  return fetchJson(BASE+suffix);
+}
+function status(message,type='pending'){text('connection',message);if($('connection'))$('connection').className='status '+type;}
+function currentMarkets(){return [...state.markets.values()].filter(market=>{
+  const event=state.events.get(market.event_ticker);
+  return event&&(state.topic==='all'||topicFor(event)===state.topic);
+});}
+function filteredMarkets(){const query=state.query.trim().toLowerCase();return currentMarkets().filter(market=>market.status==='active'&&(!query||[market.ticker,market.title,market.yes_sub_title,state.events.get(market.event_ticker)?.title].some(value=>String(value||'').toLowerCase().includes(query))));}
+function retainPoint(ticker,value,at,kind){if(value===null||at===null)return;let points=state.histories.get(ticker)||[];if(!points.some(p=>p.t===at&&p.v===value)){points.push({t:at,v:value,kind});points.sort((a,b)=>a.t-b.t);points=points.slice(-5000);state.histories.set(ticker,points);}}
+function recordMarket(raw,event,kind='rest',at=Date.now()) {
+  if(!raw?.ticker||!event?.event_ticker||!topicFor(event))return;
+  const observed=toMs(at);
+  const previous=state.markets.get(raw.ticker);
+  if(previous?._meta?.observedAt&&observed!==null&&observed<previous._meta.observedAt)return;
+  const market={...raw,event_ticker:raw.event_ticker||event.event_ticker,_meta:{kind,observedAt:observed}};
+  state.events.set(event.event_ticker,event);state.markets.set(market.ticker,market);
+  // A snapshot keeps its source timestamp and is NEVER an alert baseline or paper fill.
+  const value=sample(market);
+  if(qty(market.volume_fp)!==0)retainPoint(market.ticker,value,observed,kind);
+  if(kind==='rest'&&market.status==='active'&&qty(market.volume_fp)!==0&&observed!==null) {
+    const move=detector.observe(market.ticker,value,observed);
+    if(move) {
+      const alert={id:`browser:${market.ticker}:${observed}`,ticker:market.ticker,eventTicker:market.event_ticker,topic:topicFor(event),title:market.title||event.title,...move,selected:qualifies(market),kind:'REST sample',model:null,source_url:market.source_url||marketUrl(market.ticker),catalysts:[]};
+      state.alerts.unshift(alert);state.alerts=state.alerts.slice(0,200);
+      if(simulateAlert(state.paper,alert,market,event,Date.now()))storageWrite('tradebot1-paper-v2',state.paper);
     }
   }
-  // A first observation is a baseline, not a swing. Market prices may skip intrapoll moves.
-  const change=origin!=='snapshot' && seen && seen.origin!=='snapshot' && seen.cycle!==state.cycle && Date.now()-seen.at<180000 && previous.status==='active' && m.status==='active' ? swing(prev,next) : null;
-  if(change !== null) {
-    state.alerts.unshift({ticker:m.ticker,eventTicker:m.event_ticker,topic:topicFor(event),title:m.title || event.title,change,price:next,at:Date.now(),screen:qualifies(m),origin});
-    state.alerts=state.alerts.slice(0,120);
-    if(qualifies(m) && !state.paper.some(t=>t.ticker===m.ticker)) {
-      const trade=paperBuy(m,topicFor(event),'Spread / activity screen');
-      if(trade) { state.paper.push(trade); save(); }
+  if(settlePaper(state.paper,market))storageWrite('tradebot1-paper-v2',state.paper);
+}
+function renderStats(){
+  const rows=filteredMarkets(),events=new Set(rows.map(m=>m.event_ticker)),alerts=state.alerts.filter(a=>state.topic==='all'||a.topic===state.topic);
+  text('stat-events',events.size.toLocaleString());text('stat-markets',rows.length.toLocaleString());text('stat-alerts',alerts.length.toLocaleString());text('row-count',rows.length);
+  const groups=eventGroups(rows,state.events,'notional');
+  const complete=groups.length&&groups.every(group=>group.notional!==null&&!group.event.markets_partial);
+  text('stat-notional',complete?dollars(groups.reduce((sum,group)=>sum+group.notional,0),true):'—');
+  text('notional-note',complete?'Cumulative notional · not cash turnover':'Not reported for every observed contract');
+  for(const el of document.querySelectorAll('[data-topic-count]')){const topic=el.dataset.topicCount;el.textContent=new Set([...state.markets.values()].filter(m=>m.status==='active'&&(topic==='all'||topicFor(state.events.get(m.event_ticker))===topic)).map(m=>m.event_ticker)).size;}
+  const updated=state.updated?utc(state.updated):'no confirmed timestamp';
+  text('coverage',`${state.source} · ${updated} · ${state.partial?'bounded coverage':'complete discovery pages, local topic rules'}`);
+  text('table-note',state.sort==='notional'?'Reported cumulative dollar notional only. Blanks rank after known values; 24h contracts break ties.':'Sorted by reported 24h contract count, not dollars. Switch to $ notional when reported values are available.');
+  if(state.storageError)text('data-mode','Browser storage is unavailable/full. Persistent tracking requires the trusted service; existing rows are retained in memory.');
+}
+function renderTable(){
+  if(!$('market-rows'))return;
+  const groups=eventGroups(filteredMarkets(),state.events,state.sort);let shown=0,html='';
+  for(const group of groups){if(shown>=state.visible)break;const {event}=group,topic=topicFor(event);
+    html+=`<tr class="event-row"><td colspan="7"><div class="event-heading"><span class="topic-dot ${esc(topic)}">${esc({gas:'◈',elections:'▧',culture:'✧',crypto:'₿',golf:'⚑'}[topic]||'·')}</span><strong>${esc(event.title||event.event_ticker)}</strong>${sourceLink(event.source_url||eventUrl(event.event_ticker),'Event ↗')}</div></td></tr>`;
+    for(const market of [...group.markets].sort((a,b)=>(qty(b.volume_24h_fp)??-1)-(qty(a.volume_24h_fp)??-1))){if(shown>=state.visible)break;shown++;
+      html+=`<tr class="event-child ${market.ticker===state.selected?'selected':''}"><td><button class="market-link" data-select="${esc(market.ticker)}">${esc(market.yes_sub_title||market.title||market.ticker)}</button><small class="ticker" title="${esc(market.ticker)}">${esc(market.ticker)}</small></td><td class="num price-value">${dollars(sample(market))}</td><td class="num">${dollars(price(market.yes_bid_dollars))} <span class="muted">/</span> ${dollars(price(market.yes_ask_dollars))}</td><td class="num">${count(qty(market.volume_24h_fp))}</td><td class="num" title="Exchange-reported cumulative notional; blank if not reported">${dollars(notional(market),true)}</td><td><span class="state-tag ${esc(market.status)}">${esc(market.status||'Unverified')}</span></td><td>${sourceLink(market.source_url||marketUrl(market.ticker))}<small>${market._meta?.kind==='snapshot'?'Snapshot':'Observed'}</small></td></tr>`;
     }
   }
-  if(resolution(m) && state.paper.some(t=>t.ticker===m.ticker && !t.result)) {
-    state.paper.forEach(t=>{if(t.ticker===m.ticker) t.result=resolution(m);}); save();
+  $('market-rows').innerHTML=html||`<tr><td colspan="7" class="empty">${state.query?'No observed contracts match that search.':'No source-confirmed contracts for this topic in the current sample.'}<br>A blank is not a zero. ${sourceLink(DOCS.events,'Official event documentation ↗')}</td></tr>`;
+  for(const button of document.querySelectorAll('[data-select]'))button.addEventListener('click',()=>selectMarket(button.dataset.select));
+  if($('show-more')){$('show-more').hidden=shown>=filteredMarkets().length;$('show-more').textContent=`Show more contracts (${Math.max(0,filteredMarkets().length-shown)} remaining) ↓`;}
+}
+function renderFeeds(){
+  if(!$('all-feed')||state.paused)return;
+  const alerts=state.alerts.filter(a=>state.topic==='all'||a.topic===state.topic);
+  const selected=alerts.filter(a=>a.selected);text('all-count',alerts.length);text('screen-count',`${selected.length} signals`);
+  text('model-caption',state.backendActive?'Prior observations + executable depth. Unvalidated.':'Quote-size / spread screen. No ROI estimate.');
+  for(const [id,items] of [['all-feed',alerts],['screen-feed',selected]]){
+    const feed=$(id),scroll=feed.scrollTop;
+    feed.innerHTML=items.length?items.slice(0,100).map(alert=>{
+      const up=alert.change>0;const model=alert.model;
+      return `<article class="feed-item"><div class="feed-top"><span class="move-badge ${up?'':'down'}">${up?'↗ +':'↘ −'}${Math.abs(alert.change).toFixed(2)}</span><span class="eyebrow">${esc(LABELS[alert.topic]||alert.topic)}</span><time datetime="${new Date(alert.at).toISOString()}">${timeOnly(alert.at)} UTC</time></div><strong>${esc(alert.title||alert.ticker)}</strong><small>${dollars(alert.from)} → ${dollars(alert.to)} · ${esc(alert.kind||'observed update')}</small>${model?`<small>Hypothesis: ${esc(model.strategy?.replaceAll('_',' '))} · ${esc(model.outcome?.toUpperCase())} · gross edge ${dollars(model.gross_edge_dollars)}. Fees unknown.</small>`:''}${sourceLink(alert.source_url||marketUrl(alert.ticker),'Market evidence ↗')}<small>No verified causal publication linked to this move.</small></article>`;
+    }).join(''):`<div class="feed-empty"><div class="empty-glyph">${id==='all-feed'?'⌁':'✧'}</div><strong>${id==='all-feed'?'Listening for the next move':'Waiting for a qualifying signal'}</strong><p>${id==='all-feed'?'A move of at least 10¢ in either direction appears here. Published snapshots never create alerts.':'Selection is a research hypothesis, not proof of high ROI. Missing data never becomes a signal.'}</p></div>`;
+    if(scroll>10)feed.scrollTop=scroll; // readers inspecting older chat are not yanked to the top
   }
 }
-function allRows() {
-  return [...state.markets.values()].filter(m=>{ const e=state.events.get(m.event_ticker); return e && (state.topic==='all'||topicFor(e)===state.topic); });
+function localPaper(){return paperSummary(state.paper,state.markets);}
+function paperRows(){
+  if(state.backendActive&&state.backendPaper?.accounts){return Object.entries(state.backendPaper.accounts).flatMap(([strategy,account])=>(account.positions||[]).map(p=>({ticker:p.ticker,topic:p.topic,strategy,side:p.outcome,count:p.count,entry:p.average_price,at:p.timestamp_ms,status:p.status,result:p.result,grossPnl:p.realized_gross_pnl,source_url:p.source_url,assumption:'Server depth-based hypothetical fill'})));}
+  return Object.values(localPaper().accounts).flatMap(account=>account.positions);
 }
-function topRows() { const rows=allRows().filter(m=>m.status==='active');const totals=new Map();for(const m of rows)totals.set(m.event_ticker,(totals.get(m.event_ticker)||0)+(estimate(m)||0));return rows.sort((a,b)=>(totals.get(b.event_ticker)-totals.get(a.event_ticker))||((estimate(b)??-1)-(estimate(a)??-1))).slice(0,80); }
-function setStatus(message, type='') { $('connection').textContent=message; $('connection').className='status '+type; }
-function stats() {
-  const rows=topRows(); $('stat-events').textContent=new Set(rows.map(m=>m.event_ticker)).size.toLocaleString();
-  $('stat-markets').textContent=rows.length.toLocaleString();
-  $('stat-alerts').textContent=state.alerts.filter(a=>a.topic===state.topic || state.topic==='all').length;
-  $('stat-updated').textContent=state.updated ? fmtTime(state.updated) : '—';
-  $('coverage').textContent=`${state.source} · ${state.partial?'Sampled coverage; not a complete exchange ranking':'Complete scanned pages'} · ${state.updated?fmtTime(state.updated):'no confirmed timestamp'}`;
-}
-function table() {
-  const rows=topRows();
-  $('market-rows').innerHTML=rows.length ? rows.map(m=>{
-    const e=state.events.get(m.event_ticker), topic=topicFor(e), est=estimate(m), selected=m.ticker===state.selected;
-    return `<tr class="${selected?'selected':''}"><td><span class="topic-tag ${topic}">${esc(topic)}</span><button class="market-link" data-select="${esc(m.ticker)}">${esc(e.title)}</button><small>${esc(m.title || m.ticker)} · ${esc(m.ticker)}</small></td><td class="num">${dollars(sample(m))}</td><td class="num">${dollars(price(m.yes_bid_dollars))} / ${dollars(price(m.yes_ask_dollars))}</td><td class="num">${count(qty(m.volume_24h_fp))}</td><td class="num">${est===null?'—':dollars(est)}</td><td>${esc(m.status)}${resolution(m)?' · '+resolution(m):''}</td><td><a href="${marketUrl(m.ticker)}" target="_blank" rel="noopener noreferrer" aria-label="Kalshi source for ${esc(m.ticker)}">API ↗</a></td></tr>`;
-  }).join('') : '<tr><td colspan="7" class="empty">No matching verified market rows available. A blank is not a zero. Check connection and coverage.</td></tr>';
-  document.querySelectorAll('[data-select]').forEach(button=>button.addEventListener('click',()=>select(button.dataset.select)));
-}
-function feeds() {
-  const list=state.alerts.filter(a=>state.topic==='all'||a.topic===state.topic);
-  for(const [id,items] of [['all-feed',list],['screen-feed',list.filter(a=>a.screen)]]) {
-    $(id).innerHTML=items.length?items.slice(0,45).map(a=>`<article class="feed-item"><div class="feed-top"><span class="${a.change>0?'up':'down'}">${a.change>0?'↗ +':'↘ −'}${Math.abs(a.change).toFixed(2)}</span><time>${fmtTime(a.at)}</time></div><strong>${esc(a.title)}</strong><small>${esc(a.topic)} · last price ${dollars(a.price)} · ${esc(a.origin)} observation</small><a href="${marketUrl(a.ticker)}" target="_blank" rel="noopener noreferrer">Market source ↗</a><small>Cause: unverified — no article linked to this move</small></article>`).join(''):'<p class="empty">Waiting for an observed ±$0.10 change. No retrospective alerts are invented.</p>';
+function renderPaper(){
+  const rows=paperRows().filter(p=>state.topic==='all'||p.topic===state.topic).sort((a,b)=>b.at-a.at);
+  if($('paper-rows'))$('paper-rows').innerHTML=rows.length?rows.slice(0,state.view==='portfolio'?500:8).map(p=>`<tr><td>${esc(p.strategy.replaceAll('_',' '))}<small>${esc(LABELS[p.topic]||p.topic)} · hypothetical</small></td><td><span class="ticker">${esc(p.ticker)}</span><small>${utc(p.at)}</small></td><td>${esc(p.side.toUpperCase())} / ${count(p.count)}</td><td class="num">${dollars(p.entry)}</td><td>${esc(p.result?.toUpperCase()||p.status)}</td><td class="num ${p.grossPnl!==null&&Number(p.grossPnl)<0?'down':'up'}">${dollars(p.grossPnl)}</td><td>${sourceLink(p.source_url||marketUrl(p.ticker))}</td></tr>`).join(''):`<tr><td colspan="7" class="empty">No hypothetical fills yet. Strategies wait for observed swings and confirmed quote size.<br>${sourceLink(DOCS.orderbook,'Liquidity specification ↗')}</td></tr>`;
+  text('paper-summary',`${rows.length} hypothetical entries · ${state.backendActive?'persistent server':'this browser'} ledger · gross only; fees and net ROI unverified`);
+  if($('strategy-cards')){
+    const local=localPaper();
+    $('strategy-cards').innerHTML=STRATEGIES.map(strategy=>{
+      const backend=state.backendActive&&state.backendPaper?.accounts?.[strategy];
+      const account=backend?{cash:backend.cash,grossEquity:backend.gross_equity,positions:backend.positions}:local.accounts[strategy];
+      return `<article class="panel strategy-card"><div class="eyebrow">HYPOTHESIS ${strategy==='momentum'?'01':'02'}</div><h3>${strategy==='momentum'?'Momentum':'Mean reversion'}</h3><p>${strategy==='momentum'?'Follow the direction of an observed price swing.':'Test a reversal after an observed price swing.'} No validated edge is assumed.</p><div class="strategy-stats"><div><label>Simulated cash</label><strong>${dollars(account.cash)}</strong></div><div><label>Gross equity</label><strong>${dollars(account.grossEquity)}</strong></div><div><label>Paper entries</label><strong>${account.positions.length}</strong></div></div><small>$1,000 starting cash is a simulation assumption. Fees, net ROI and real execution are unverified. ${sourceLink(DOCS.orders,'Execution specification ↗')}</small></article>`;
+    }).join('');
   }
 }
-function paper() {
-  let realized=0, open=0;
-  const lines=state.paper.filter(t=>state.topic==='all'||t.topic===state.topic).slice().reverse();
-  $('paper-rows').innerHTML=lines.length?lines.slice(0,60).map(t=>{
-    const m=state.markets.get(t.ticker), pnl=m?paperPnl(t,m):t.result?((t.result==='YES'?1:0)-t.entry):null;
-    if(pnl!==null) {if(t.result) realized+=pnl; else open+=pnl;}
-    return `<tr><td>${esc(t.topic)}<small>${esc(t.strategy)}</small></td><td>${esc(t.ticker)}<small>${fmtTime(t.at)}</small></td><td class="num">${dollars(t.entry)}</td><td>${esc(t.result||'Open / unknown')}</td><td class="num ${pnl===null?'':pnl>=0?'up':'down'}">${pnl===null?'—':(pnl>=0?'+':'')+dollars(pnl)}</td><td><a href="${marketUrl(t.ticker)}" target="_blank" rel="noopener noreferrer">API ↗</a></td></tr>`;
-  }).join(''):'<tr><td colspan="6" class="empty">No paper trades. The screen starts after an observed swing; it never submits real orders.</td></tr>';
-  $('paper-summary').textContent=`${lines.length} simulated YES buys · marked P&L ${dollars(realized+open)} across quoted rows only · excludes fees & slippage`;
+function renderLifecycle(){
+  if(!$('resolution-rows'))return;const rows=currentMarkets().filter(m=>m.status!=='active');
+  $('resolution-rows').innerHTML=rows.length?rows.map(m=>`<tr><td>${esc(state.events.get(m.event_ticker)?.title||m.event_ticker)}<small class="ticker">${esc(m.ticker)}</small></td><td><span class="state-tag ${esc(m.status)}">${esc(m.status||'Unknown')}</span></td><td>${resolution(m)||'—'}${m.result==='scalar'?'<small>Scalar — review required</small>':''}</td><td>${sourceLink(m.source_url||marketUrl(m.ticker))}</td></tr>`).join(''):`<tr><td colspan="4" class="empty">No closed or finalized contracts observed in this tracked set. Determination is not final settlement.<br>${sourceLink('https://docs.kalshi.com/getting_started/market_lifecycle','Official lifecycle ↗')}</td></tr>`;
 }
-function plot(points, label) {
-  const svg=$('chart'); svg.replaceChildren();
-  const S='http://www.w3.org/2000/svg'; const add=(tag,attrs,text)=>{const el=document.createElementNS(S,tag);Object.entries(attrs).forEach(([k,v])=>el.setAttribute(k,v));if(text!==undefined)el.textContent=text;svg.appendChild(el);return el;};
-  add('rect',{x:0,y:0,width:700,height:250,fill:'transparent'});
-  for(let i=0;i<=4;i++){const y=20+i*49;add('line',{x1:50,y1:y,x2:680,y2:y,stroke:'#263d50','stroke-dasharray':'3 5'});add('text',{x:8,y:y+4,fill:'#8ea7b1','font-size':'11'},'$'+(1-i*.25).toFixed(2));}
-  if(!points.length){add('text',{x:190,y:130,fill:'#8ea7b1','font-size':'14'},'No confirmed price samples for this range');$('chart-caption').textContent=label;return;}
-  const min=points[0].t,max=points.at(-1).t,span=Math.max(1,max-min);
-  const coords=points.map(p=>[50+(p.t-min)/span*630,216-p.v*196]);
-  if(coords.length>1)add('polyline',{points:coords.map(p=>p.join(',')).join(' '),fill:'none',stroke:'#35dbab','stroke-width':'2.5','stroke-linejoin':'round'});
-  coords.slice(-80).forEach(p=>add('circle',{cx:p[0],cy:p[1],r:2.5,fill:'#35dbab'}));
-  add('text',{x:50,y:244,fill:'#8ea7b1','font-size':'11'},fmtTime(min));add('text',{x:580,y:244,fill:'#8ea7b1','font-size':'11'},fmtTime(max));
-  $('chart-caption').textContent=label+' · x: observation time · y: YES last traded price ($)';
+function renderBook(){
+  if(!$('book-rows'))return;
+  if(!state.book){$('book-rows').innerHTML=`<tr><td colspan="3" class="empty">No confirmed orderbook available.<br>${sourceLink(DOCS.orderbook,'Orderbook specification ↗')}</td></tr>`;text('book-time','Unavailable · no levels inferred');return;}
+  const book=state.book,bids=state.bookSide==='yes'?book.yesBids:book.noBids,asks=state.bookSide==='yes'?book.yesAsks:book.noAsks;
+  const max=Math.max(1,...[...bids,...asks].map(level=>level.quantity));
+  const cell=(level,ask=false)=>level?`<td class="num"><span class="depth-bar ${ask?'ask':''}" style="width:${Math.min(100,level.quantity/max*100).toFixed(2)}%"></span><span class="depth-label ${ask?'ask-text':'bid-text'}">${dollars(level.price)} <span class="muted">/ ${count(level.quantity)}</span></span></td>`:'<td class="num">—</td>';
+  $('book-rows').innerHTML=Array.from({length:Math.min(7,Math.max(bids.length,asks.length))},(_,i)=>`<tr>${cell(bids[i])}${cell(asks[i],true)}<td>${sourceLink(book.source,'↗')}</td></tr>`).join('')||`<tr><td colspan="3" class="empty">No resting levels reported. ${sourceLink(book.source)}</td></tr>`;
+  text('book-time',`Observed ${timeOnly(book.observedAt)} UTC${Date.now()-book.observedAt>15000?' · stale':''}`);
 }
-function chart() {
-  const mode=$('range').value, cutoff=Date.now()-({seconds:300000,minutes:3600000,hours:86400000}[mode]);
-  const session=(state.history.get(state.selected)||[]).filter(p=>p.t>=cutoff);
-  const candles=mode==='seconds'?[]:state.candles.filter(p=>p.t>=cutoff);
-  plot(candles.length?candles:session,candles.length?state.candleLabel:'Browser-session samples (not exchange history)');
+function plot(){
+  const svg=$('chart');if(!svg)return;svg.replaceChildren();
+  const ns='http://www.w3.org/2000/svg';const add=(tag,attrs={},content,parent=svg)=>{const el=document.createElementNS(ns,tag);for(const [key,value]of Object.entries(attrs))el.setAttribute(key,value);if(content!==undefined)el.textContent=content;parent.append(el);return el;};
+  const width=760,height=260,left=48,right=735,top=12,bottom=224;
+  for(let i=0;i<=4;i++){const y=top+i*(bottom-top)/4;add('line',{x1:left,y1:y,x2:right,y2:y,stroke:'#26373a','stroke-dasharray':'3 6','stroke-width':1});add('text',{x:1,y:y+4,fill:'#698585','font-size':10,'font-family':'monospace'},'$'+(1-i*.25).toFixed(2));}
+  const all=state.chartPoints.length?state.chartPoints:(state.histories.get(state.selected)||[]);
+  const market=state.markets.get(state.selected),snapshot=market?._meta?.kind==='snapshot'||market?._meta?.kind==='retained';
+  const end=snapshot&&all.length?Math.max(...all.map(point=>point.t)):Date.now();const duration={seconds:60000,minutes:3600000,hours:86400000}[state.range];const start=end-duration;
+  const points=all.filter(p=>Number.isFinite(p.t)&&price(p.v)!==null&&p.t>=start&&p.t<=end).sort((a,b)=>a.t-b.t);
+  for(let i=0;i<5;i++){const t=start+duration*i/4;add('text',{x:left+(right-left)*i/4,y:height-9,fill:'#698585','font-size':9,'text-anchor':i===4?'end':i===0?'start':'middle','font-family':'monospace'},state.range==='hours'?timeOnly(t).slice(0,5):timeOnly(t));}
+  if(!points.length){add('text',{x:width/2,y:112,fill:'#829d94','font-size':12,'text-anchor':'middle'},'Price history starts with verified observations.');add('text',{x:width/2,y:134,fill:'#5f7e7b','font-size':10,'text-anchor':'middle'},'No samples are invented to fill the chart.');text('chart-caption','No confirmed points in this window. Seconds = 1m · minutes = 1h · hours = 24h.');return;}
+  const x=p=>left+(p.t-start)/duration*(right-left),y=p=>bottom-p.v*(bottom-top);
+  if(points.length>1){const defs=add('defs');const gradient=add('linearGradient',{id:'price-fill',x1:'0',y1:'0',x2:'0',y2:'1'},undefined,defs);add('stop',{offset:'0%','stop-color':'#a4d97d','stop-opacity':'.16'},undefined,gradient);add('stop',{offset:'100%','stop-color':'#a4d97d','stop-opacity':'.005'},undefined,gradient);const path=points.map((p,i)=>`${i?'L':'M'}${x(p).toFixed(2)},${y(p).toFixed(2)}`).join(' ');add('path',{d:path+` L${x(points.at(-1))},${bottom} L${x(points[0])},${bottom} Z`,fill:'url(#price-fill)'});add('path',{d:path,stroke:'#b3e981','stroke-width':2,fill:'none','stroke-linejoin':'round','stroke-linecap':'round'});}
+  for(const point of points.slice(-200)){const circle=add('circle',{cx:x(point),cy:y(point),r:points.length===1?4:2,fill:'#b3e981',stroke:'#172820','stroke-width':1});add('title',{},`${utc(point.t,true)} · ${dollars(point.v)} · ${point.kind||state.chartSource}`,circle);}
+  const move=state.alerts.filter(a=>a.ticker===state.selected&&a.at>=start&&a.at<=end);
+  for(const alert of move){const p={t:alert.at,v:alert.to};const marker=add('circle',{cx:x(p),cy:y(p),r:5,fill:alert.change>0?'#b3e981':'#e6a29b',stroke:'#111b1e','stroke-width':2});add('title',{},`Observed ${alert.change>0?'+':''}${alert.change.toFixed(2)} move. Cause unverified.`,marker);}
+  const cross=add('line',{x1:0,x2:0,y1:top,y2:bottom,stroke:'#63805c','stroke-dasharray':'3 4',visibility:'hidden'});
+  const hit=add('rect',{x:left,y:top,width:right-left,height:bottom-top,fill:'transparent'});
+  hit.addEventListener('pointermove',event=>{const bounds=svg.getBoundingClientRect(),px=(event.clientX-bounds.left)/bounds.width*width;const nearest=points.reduce((best,p)=>Math.abs(x(p)-px)<Math.abs(x(best)-px)?p:best,points[0]);cross.setAttribute('x1',x(nearest));cross.setAttribute('x2',x(nearest));cross.setAttribute('visibility','visible');if($('chart-tooltip')){$('chart-tooltip').hidden=false;text('chart-tooltip',`${utc(nearest.t,true)} · YES ${dollars(nearest.v)}`);}});
+  hit.addEventListener('pointerleave',()=>{cross.setAttribute('visibility','hidden');if($('chart-tooltip'))$('chart-tooltip').hidden=true;});
+  text('chart-caption',`${points.length} actual observations · ${state.chartSource}${snapshot?' · historical snapshot, not live':''}. Lines connect samples; intervening prices are unknown.`);
 }
-async function loadCandles(ticker) {
-  state.candles=[];state.candleLabel='Browser-session samples';chart();
-  const event=state.events.get(state.markets.get(ticker)?.event_ticker);
-  if(!event?.series_ticker)return;
-  const period=$('range').value==='hours'?60:1;
-  const end=Math.floor(Date.now()/1000), start=end-(period===60?86400:3600);
-  const url=`${BASE}/series/${encodeURIComponent(event.series_ticker)}/markets/${encodeURIComponent(ticker)}/candlesticks?start_ts=${start}&end_ts=${end}&period_interval=${period}`;
-  try {const data=await fetchJson(url);if(state.selected!==ticker)return;
-    state.candles=(data.candlesticks||[]).map(c=>({t:c.end_period_ts*1000,v:price(c.price?.close_dollars)})).filter(p=>p.v!==null).sort((a,b)=>a.t-b.t);
-    state.candleLabel=`Kalshi ${period===60?'hourly':'minute'} candlestick close (may lag)`;chart();
-  } catch { $('chart-caption').textContent+=' · Candles unavailable'; }
+function renderDetail(){const market=state.markets.get(state.selected),event=state.events.get(market?.event_ticker);if(!market||!event||!$('detail-title')){plot();return;}text('detail-title',event.title||market.title||market.ticker);text('detail-sub',market.ticker);text('detail-topic',LABELS[topicFor(event)]||'CONTRACT');text('detail-price',dollars(sample(market)));text('detail-meta',`YES · ${market._meta?.kind==='snapshot'?'snapshot':'observed'} ${utc(market._meta?.observedAt)}`);$('detail-source').href=safeUrl(market.source_url)||marketUrl(market.ticker);$('event-source').href=safeUrl(event.source_url)||eventUrl(event.event_ticker);text('rule-text',market.rules_primary||'No primary rule text supplied in this observation. Check the official market and event sources.');const links=$('settlement-sources');if(links){links.replaceChildren();for(const source of (event.settlement_sources||[]).slice(0,5)){const url=safeUrl(source.url);if(!url)continue;const a=document.createElement('a');a.href=url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=(source.name||'Listed settlement source')+' ↗';links.append(a);}if(!links.children.length)links.textContent='No verified settlement source supplied in this response.';}plot();}
+async function loadHistory(ticker,version){
+  state.chartPoints=[];state.chartSource='Source-timestamped observations';plot();
+  try{
+    if(state.adapter&&state.backendTickers.has(ticker)){const data=await fetchJson(`/api/markets/${encodeURIComponent(ticker)}/history?window=${state.range}`);if(version!==state.detailVersion)return;state.chartPoints=(data.points||[]).map(p=>({t:p.timestamp_ms,v:price(p.price_dollars),kind:p.kind})).filter(p=>p.v!==null);state.chartSource='Persisted demo observations';plot();return;}
+    if(state.range==='seconds')return;
+    const event=state.events.get(state.markets.get(ticker)?.event_ticker);if(!event?.series_ticker)return;
+    const end=Math.floor(Date.now()/1000),period=state.range==='hours'?60:1;const data=await publicRead(`/series/${encodeURIComponent(event.series_ticker)}/markets/${encodeURIComponent(ticker)}/candlesticks`,{start_ts:end-(period===60?86400:3600),end_ts:end,period_interval:period});
+    if(version!==state.detailVersion)return;state.chartPoints=(data.candlesticks||[]).map(c=>({t:c.end_period_ts*1000,v:price(c.price?.close_dollars),kind:'official candle close'})).filter(p=>p.v!==null);state.chartSource=`Kalshi ${period===60?'hourly':'minute'} candle closes`;plot();
+  }catch{if(version===state.detailVersion){state.chartSource='Observed points only; exchange history unavailable';plot();}}
 }
-async function select(ticker) {
-  state.selected=ticker;const m=state.markets.get(ticker), e=state.events.get(m?.event_ticker);if(!m||!e)return;
-  $('detail-title').textContent=e.title; $('detail-sub').textContent=`${m.title||m.ticker} · ${m.ticker}`;
-  $('detail-source').href=marketUrl(ticker);$('event-source').href=eventUrl(e.event_ticker);
-  $('detail-meta').textContent=`YES last ${dollars(sample(m))}  ·  Bid ${dollars(price(m.yes_bid_dollars))}  ·  Ask ${dollars(price(m.yes_ask_dollars))}  ·  ${resolution(m)||m.status}`;
-  $('rule-text').textContent=m.rules_primary||'Rules not supplied in this market response; consult the event source.';
-  const sources=(e.settlement_sources||[]).filter(x=>{try{return new URL(x.url).protocol==='https:'}catch{return false}}).slice(0,3);
-  $('settlement-sources').replaceChildren();for(const s of sources){const a=document.createElement('a');a.href=s.url;a.target='_blank';a.rel='noopener noreferrer';a.textContent=(s.name||'Settlement source')+' ↗';$('settlement-sources').append(a);}
-  $('book-rows').innerHTML='<tr><td colspan="3" class="empty">Loading public orderbook…</td></tr>';
-  table();chart();loadCandles(ticker);
-  try {const data=await fetchJson(bookUrl(ticker));if(state.selected!==ticker)return;
-    const book=data.orderbook_fp||{}, bids=[...(book.yes_dollars||[])].reverse().slice(0,5), no=[...(book.no_dollars||[])].reverse().slice(0,5);
-    $('book-rows').innerHTML=Array.from({length:Math.max(bids.length,no.length)},(_,i)=>`<tr><td class="num">${bids[i]?dollars(price(bids[i][0])):'—'} / ${bids[i]?count(qty(bids[i][1])):'—'}</td><td class="num">${no[i]?dollars(price(no[i][0])):'—'} / ${no[i]?count(qty(no[i][1])):'—'}</td><td><a href="${bookUrl(ticker)}" target="_blank" rel="noopener noreferrer">API ↗</a></td></tr>`).join('')||'<tr><td colspan="3" class="empty">No resting bids reported. Not a quote to buy.</td></tr>';
-  } catch {if(state.selected===ticker)$('book-rows').innerHTML='<tr><td colspan="3" class="empty">Orderbook unavailable; no levels inferred.</td></tr>';}
+async function loadBook(ticker,version){try{
+  let book;
+  if(state.adapter&&state.backendTickers.has(ticker)){const data=await fetchJson(`/api/markets/${encodeURIComponent(ticker)}/orderbook`);const levels=rows=>(rows||[]).map(p=>({price:price(p.price_dollars),quantity:qty(p.contracts)})).filter(p=>p.price!==null&&p.quantity!==null);book=data.valid&&!data.stale?{yesBids:levels(data.yes_bids),noBids:levels(data.no_bids),yesAsks:levels(data.yes_asks),noAsks:levels(data.no_asks),observedAt:data.observed_ms,source:data.source_url}:null;}
+  else book=normalizeBook(await publicRead(`/markets/${encodeURIComponent(ticker)}/orderbook`,{depth:7}),Date.now(),bookUrl(ticker));
+  if(version===state.detailVersion){state.book=book;renderBook();}
+}catch{if(version===state.detailVersion){state.book=null;renderBook();}}}
+function selectMarket(ticker){state.selected=ticker;state.book=null;state.chartPoints=[];state.detailVersion++;const version=state.detailVersion;renderTable();renderDetail();renderBook();loadHistory(ticker,version);loadBook(ticker,version);}
+function render(){renderStats();renderTable();renderFeeds();renderPaper();renderLifecycle();renderDetail();}
+function maybeSelect(){if(!$('chart'))return;if(!state.selected||!filteredMarkets().some(m=>m.ticker===state.selected)){const first=eventGroups(filteredMarkets(),state.events,state.sort)[0]?.markets[0];if(first)selectMarket(first.ticker);else{state.selected=null;state.chartPoints=[];state.book=null;renderBook();plot();}}}
+async function loadSnapshot(){
+  try{const data=await fetchJson(new URL('../data/snapshot.json',import.meta.url));const generated=toMs(data.generated_at);for(const event of data.events||[])if(topicFor(event))for(const market of event.markets||[])recordMarket(market,event,'snapshot',toMs(market.observed_at)||toMs(event.observed_at)||generated);
+    if(generated){state.source='Published official API snapshot';state.updated=generated;state.partial=true;text('data-mode',`Published snapshot · ${utc(generated)} · not a live feed`);status('Snapshot · not live','pending');}
+    else{text('data-mode','No confirmed public snapshot available. Unverified values stay blank.');status('No verified feed','pending');}
+    if(data.last_refresh_error)text('data-mode',`Snapshot refresh failed; retaining original timestamps. ${data.generated_at?utc(data.generated_at):'No previous verified snapshot.'}`);
+  }catch{text('data-mode','Source snapshot unavailable. No sample prices have been substituted.');status('Source unavailable','error');}
+  render();maybeSelect();
 }
-function lifecycle() {
-  const rows=[...state.markets.values()].filter(m=>m.status!=='active' && state.watch.has(m.ticker) && (state.topic==='all'||topicFor(state.events.get(m.event_ticker))===state.topic)).slice(-80);
-  $('resolution-rows').innerHTML=rows.length?rows.map(m=>`<tr><td>${esc(state.events.get(m.event_ticker)?.title||m.event_ticker)}<small>${esc(m.ticker)}</small></td><td>${esc(m.status)}</td><td>${resolution(m)||'—'}</td><td><a href="${marketUrl(m.ticker)}" target="_blank" rel="noopener noreferrer">API ↗</a></td></tr>`).join(''):'<tr><td colspan="4" class="empty">No watched contracts have closed yet. A determination is not final settlement.</td></tr>';
-}
-function render() {stats();table();feeds();paper();lifecycle();if(state.selected){const m=state.markets.get(state.selected);if(m){$('detail-meta').textContent=`YES last ${dollars(sample(m))} · Bid ${dollars(price(m.yes_bid_dollars))} · Ask ${dollars(price(m.yes_ask_dollars))} · ${resolution(m)||m.status}`;chart();}}}
-async function refreshWatch() {
-  if(state.loading)return;state.cycle++;
-  const tickers=[...new Set([...state.watch,...topRows().map(m=>m.ticker),...state.paper.map(t=>t.ticker),state.selected].filter(Boolean))].slice(-100);
-  if(!tickers.length)return;
-  for(let i=0;i<tickers.length;i+=20){
-    try {const data=await fetchJson(`${BASE}/markets?tickers=${tickers.slice(i,i+20).map(encodeURIComponent).join(',')}`);
-      for(const m of data.markets||[]){const event=state.events.get(m.event_ticker);if(event)record(m,event,'tracked REST');}
-    } catch {} // status retains last successful observation
+function consumeBackend(data){
+  if(!data?.health)return;state.health=data.health;state.backendTickers=new Set((data.markets||[]).map(m=>m.ticker));
+  const active=!data.health.data_stale&&['polling','partial'].includes(data.health.rest)||data.health.websocket==='connected'&&!data.health.data_stale;
+  state.backendActive=Boolean(active);state.backendPaper=data.paper||null;
+  if(data.markets?.length){const eventMap=new Map((data.events||[]).map(e=>[e.event_ticker,e]));for(const market of data.markets){const event=eventMap.get(market.event_ticker);if(event)recordMarket(market,event,'backend',market.price_observed_ms||market.observed_ms);}
+    state.alerts=(data.alerts||[]).map(a=>({id:a.id,ticker:a.ticker,topic:a.topic,title:a.title,from:price(a.from_price),to:price(a.to_price),change:Number(a.delta_dollars),at:a.timestamp_ms,selected:a.selected,model:a.model,source_url:a.source_url,kind:a.observation_kind,catalysts:a.catalysts||[]})).filter(a=>a.from!==null&&a.to!==null&&Number.isFinite(a.change)&&Number.isFinite(a.at));
+    state.source=data.health.websocket==='connected'?'Authenticated demo trade stream':'Server demo REST observations';state.updated=toMs(data.health.last_stream_message)||toMs(data.health.last_rest_success);state.partial=!data.health.discovery_complete;
   }
-  render();
+  if(active){status(data.health.websocket==='connected'?'Demo stream connected':'Demo REST · sampled','ok');text('data-mode',data.health.websocket==='connected'?'Authenticated demo stream · public market data only · no account values exposed':'Trusted service · sampled demo REST observations, not tick-by-tick streaming');text('feed-mode',data.health.websocket==='connected'?'Demo trade stream':'Server REST samples');}
+  else{if(!state.markets.size)text('data-mode','Service available; Kalshi network/account not connected. No market values fabricated.');status(state.updated?'Snapshot / stale observations':'Feed disconnected','pending');text('feed-mode','No current exchange stream');}
+  if(Date.now()-lastBackendRender>250){render();maybeSelect();lastBackendRender=Date.now();}
 }
-async function liveRefresh() {
-  if(state.loading)return;state.loading=true;state.cycle++;setStatus('Refreshing demo REST…','pending');
-  try {
-    let cursor='',pages=0,items=[],marketCursor='',marketPages=0,newest=[];
-    // Events lists include long-dated markets. Supplement them with newest non-combo markets.
-    do {const q=new URLSearchParams({limit:'200',status:'open',with_nested_markets:'true'});if(cursor)q.set('cursor',cursor);
-      const data=await fetchJson(`${BASE}/events?${q}`);items.push(...(data.events||[]));cursor=data.cursor||'';pages++;
-    } while(cursor && pages<4);
-    for(const event of items)if(topicFor(event))for(const market of event.markets||[])record(market,event);
-    do {const q=new URLSearchParams({limit:'1000',status:'open',mve_filter:'exclude'});if(marketCursor)q.set('cursor',marketCursor);
-      const data=await fetchJson(`${BASE}/markets?${q}`);newest.push(...(data.markets||[]));marketCursor=data.cursor||'';marketPages++;
-    } while(marketCursor && marketPages<2);
-    const candidates=newest.filter(m=>m.event_ticker).sort((a,b)=>(estimate(b)??-1)-(estimate(a)??-1)).slice(0,400);
-    const tickers=[...new Set(candidates.map(m=>m.event_ticker))];const matched=new Map();
-    for(let i=0;i<tickers.length;i+=50){const data=await fetchJson(`${BASE}/events?tickers=${tickers.slice(i,i+50).map(encodeURIComponent).join(',')}`);
-      for(const event of data.events||[])if(topicFor(event))matched.set(event.event_ticker,event);
-    }
-    for(const market of candidates){const event=matched.get(market.event_ticker);if(event)record(market,event);}
-    if(!items.length && !newest.length)throw Error('No public markets returned');
-    state.source=`Demo REST · ${items.length} event rows + ${newest.length} newest non-combo markets scanned`;
-    state.partial=!!cursor||!!marketCursor||candidates.length<newest.length;for(const m of topRows())state.watch.add(m.ticker);if(state.watch.size>100)state.watch=new Set([...state.watch].slice(-100));state.updated=new Date().toISOString();setStatus('Demo REST connected','ok');
-    if(!state.selected && topRows().length)await select(topRows()[0].ticker);
-    render();
-  } catch(error) {setStatus('REST unavailable · '+error.message,'error');$('coverage').textContent=`${state.source} · ${state.updated?`last observed ${fmtTime(state.updated)}`:'no live observations'} · fetch failed (CORS/network/rate limit possible)`;}
-  finally {state.loading=false;}
+async function detectService(){try{const health=await fetchJson('/api/health',2000);if(health.mode!=='demo_only')return;state.adapter=true;state.health=health;consumeBackend(await fetchJson('/api/snapshot'));state.stream=new EventSource('/api/stream');for(const event of ['snapshot','update'])state.stream.addEventListener(event,message=>{try{consumeBackend(JSON.parse(message.data));}catch{status('Feed payload invalid','error');}});state.stream.onerror=()=>{state.backendActive=false;status('Feed reconnecting','pending');};}catch{/* A static Pages deployment legitimately has no same-origin service. */}}
+async function discover(){
+  if(state.loading)return;state.loading=true;if($('refresh'))$('refresh').disabled=true;
+  if(state.adapter){try{consumeBackend(await fetchJson('/api/snapshot'));}catch{status('Service unavailable','error');}finally{state.loading=false;if($('refresh'))$('refresh').disabled=false;}return;}
+  status('Checking demo REST','pending');
+  try{
+    if(!state.series.size){const data=await publicRead('/series');if(!Array.isArray(data.series))throw Error('Series unavailable');for(const series of data.series)if(series?.ticker)state.series.set(series.ticker,series);}
+    let cursor='',pages=0;const seen=new Set();let observed=0;
+    do{const data=await publicRead('/events',{status:'open',with_nested_markets:'true',limit:200,...(cursor?{cursor}:{})});if(!Array.isArray(data.events))throw Error('Events unavailable');for(const rawEvent of data.events){const series=state.series.get(rawEvent.series_ticker);const event={...rawEvent,series_metadata:series,source_url:eventUrl(rawEvent.event_ticker)};if(!topicFor(event))continue;for(const market of event.markets||[]){recordMarket(market,event,'rest',Date.now());observed++;}}
+      if(data.cursor===undefined)throw Error('Pagination unverified');cursor=data.cursor;pages++;if(cursor&&seen.has(cursor))throw Error('Repeated pagination cursor');if(cursor)seen.add(cursor);
+    }while(cursor&&pages<4);
+    state.source=`Browser demo REST · ${pages} event pages`;state.partial=Boolean(cursor);state.updated=Date.now();status('Demo REST · sampled','ok');text('data-mode',`Public demo REST · ${observed} contract observations in this scan · not tick-by-tick`);text('feed-mode','REST observations · sampled every 20s');persist();render();maybeSelect();
+  }catch{status(state.updated?'Snapshot · REST unavailable':'REST unavailable','pending');text('data-mode',state.updated?`Showing source-timestamped observations from ${utc(state.updated)}. Live REST unavailable (network/CORS/rate limit).`:'Kalshi REST unavailable. No prices, balances or outcomes have been invented.');}
+  finally{state.loading=false;if($('refresh'))$('refresh').disabled=false;}
 }
-async function snapshot() {
-  try {const data=await fetchJson(new URL('../data/snapshot.json',import.meta.url));
-    for(const event of data.events||[])if(topicFor(event))for(const market of event.markets||[])record(market,event,'snapshot');
-    if(data.generated_at){state.source='Published API snapshot';state.updated=data.generated_at;state.partial=!!data.partial;setStatus('Snapshot · checking live REST','pending');}
-    for(const m of topRows())state.watch.add(m.ticker);if(!state.selected&&topRows().length)select(topRows()[0].ticker);render();
-  } catch {render();}
+async function refreshTracked(){
+  if(state.loading||state.trackedLoading)return;
+  if(state.backendActive){if(state.selected){loadBook(state.selected,state.detailVersion);loadHistory(state.selected,state.detailVersion);}return;}
+  if(state.adapter)return;
+  const unresolved=[...state.markets.values()].filter(m=>m.status!=='finalized').map(m=>m.ticker);
+  if(!unresolved.length)return;state.trackedLoading=true;
+  const offset=state.roundRobin%unresolved.length;const batch=[...new Set([state.selected,...unresolved.slice(offset),...unresolved.slice(0,offset)].filter(Boolean))].slice(0,100);state.roundRobin+=99;
+  try{const data=await publicRead('/markets',{tickers:batch.join(',')});if(!Array.isArray(data.markets))throw Error('Missing markets');const seen=new Set();for(const market of data.markets){seen.add(market.ticker);const event=state.events.get(market.event_ticker);if(event)recordMarket(market,event,'rest',Date.now());}
+    // Missing tickers stay retained. An unavailable endpoint is not evidence of resolution.
+    state.updated=Date.now();state.source='Browser demo REST · retained watchlist';state.partial=true;status('Demo REST · sampled','ok');text('data-mode',`Public demo REST · ${seen.size}/${batch.length} watched contracts refreshed · timestamps are observations`);text('feed-mode',`REST samples · ${unresolved.length} unresolved contracts retained`);persist();render();if(state.selected)loadBook(state.selected,state.detailVersion);
+  }catch{status('Last observations · feed stale','pending');}finally{state.trackedLoading=false;}
 }
-$('range').addEventListener('change',()=>{chart();if(state.selected)loadCandles(state.selected);});
-$('refresh').addEventListener('click',liveRefresh);
-snapshot().finally(()=>{liveRefresh();setInterval(liveRefresh,90000);setInterval(refreshWatch,45000);});
+function exportData(){const headers=['event_ticker','ticker','topic','last_yes_price','yes_bid','yes_ask','volume_24h_contracts','reported_cumulative_dollar_notional','status','final_result','observed_at','source_kind','source_url'];const rows=currentMarkets().map(m=>[m.event_ticker,m.ticker,topicFor(state.events.get(m.event_ticker)),sample(m),price(m.yes_bid_dollars),price(m.yes_ask_dollars),qty(m.volume_24h_fp),notional(m),m.status,resolution(m),m._meta?.observedAt?new Date(m._meta.observedAt).toISOString():null,m._meta?.kind,m.source_url||marketUrl(m.ticker)]);const csv=[headers,...rows].map(row=>row.map(csvCell).join(',')).join('\r\n');const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download=`kalshi-demo-observations-${new Date().toISOString().slice(0,10)}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+$('refresh')?.addEventListener('click',discover);$('export')?.addEventListener('click',exportData);
+$('search')?.addEventListener('input',event=>{state.query=event.target.value;state.visible=16;renderStats();renderTable();});
+$('sort')?.addEventListener('change',event=>{state.sort=event.target.value;renderStats();renderTable();});
+$('show-more')?.addEventListener('click',()=>{state.visible+=24;renderTable();});
+$('pause')?.addEventListener('click',()=>{state.paused=!state.paused;$('pause').setAttribute('aria-pressed',String(state.paused));text('pause',state.paused?'Resume feed display':'Pause feed display');if(!state.paused)renderFeeds();});
+for(const button of document.querySelectorAll('[data-range]'))button.addEventListener('click',()=>{state.range=button.dataset.range;for(const other of document.querySelectorAll('[data-range]')){const active=other===button;other.classList.toggle('active',active);other.setAttribute('aria-pressed',String(active));}state.detailVersion++;loadHistory(state.selected,state.detailVersion);});
+for(const button of document.querySelectorAll('[data-book-side]'))button.addEventListener('click',()=>{state.bookSide=button.dataset.bookSide;for(const other of document.querySelectorAll('[data-book-side]')){const active=other===button;other.classList.toggle('active',active);other.setAttribute('aria-pressed',String(active));}renderBook();});
+function clock(){text('utc-clock',timeOnly(Date.now())+' UTC');}clock();setInterval(clock,1000);
+render();
+loadSnapshot().then(detectService).then(discover);
+setInterval(discover,180000);setInterval(refreshTracked,20000);
+setInterval(()=>{renderPaper();if(state.book)renderBook();},15000);
+document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')refreshTracked();});
