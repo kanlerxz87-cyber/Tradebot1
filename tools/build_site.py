@@ -490,8 +490,10 @@ def build_portfolio_static(paper: dict[str, Any], latest: dict[str, Any]) -> str
 
 <div class="banner {'warn' if not headline.get('fee_verified') else 'ok'}" style="margin-top:14px">
   <b>Fee model:</b>&nbsp;<span class="grow">{esc(headline.get('fee_model'))} —
-  {"verified against an official Kalshi schedule." if headline.get('fee_verified') else
-   "0.07 × contracts × price × (1 − price) rounded up to the cent. The official fee-schedule PDF could not be retrieved during this build, so this figure is flagged unverified and every P&L number inherits that caveat."}</span>
+  {"roundup(0.07 × contracts × price × (1 − price)), maker 0.0175 with the schedule's default multiplier of 0. Verified 2026-11-22: every value of the published table (21 prices × 1 and × 100 contracts) reproduces exactly. " if headline.get('fee_verified') else
+   "0.07 × contracts × price × (1 − price) rounded up to the cent. The official fee-schedule PDF could not be retrieved during this build, so this figure is flagged unverified and every P&L number inherits that caveat. "}
+  <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Kalshi fee schedule</a> ·
+  <a href="https://kalshi.com/fee-schedule" target="_blank" rel="noopener">scheduled changes</a>.</span>
 </div>
 
 <div class="grid two" style="margin-top:16px">

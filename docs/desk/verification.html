@@ -239,6 +239,12 @@
   <td class="meta">Kalshi production API (live read)</td>
   <td><a href="https://external-api.kalshi.com/trade-api/v2/markets?series_ticker=KXAAAGASM&amp;status=open" target="_blank" rel="noopener">official source</a></td>
   <td class="center"><span class="chip ok">verified</span></td>
+</tr><tr>
+  <td class="ticker">S26</td>
+  <td>The general trading fee is roundup(M x 0.07 x C x P x (1 - P)) and the maker fee is roundup(M x 0.0175 x C x P x (1 - P)); there is no settlement fee and no membership fee. The published General Trading Fees Table (21 prices x 1 and 100 contracts) is reproduced exactly by kalshi_trader/fees.py (42/42 values, tests/test_model_fees.py). KXAAAGASM is listed at maker 1 / taker 1, i.e. the general formula applies to gas markets.</td>
+  <td class="meta">Kalshi — fee schedule, last updated and effective 2026-07-07 (retrieved 2026-11-22)</td>
+  <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">official source</a></td>
+  <td class="center"><span class="chip ok">verified</span></td>
 </tr></tbody></table></div>
 <!-- DATA:END --></div>
   </section>

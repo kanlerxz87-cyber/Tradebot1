@@ -1,41 +1,46 @@
 """Trading-fee model for the simulated book.
 
-**Verification status: UNVERIFIED — see the Flagged for Review page.**
+**Verification status: VERIFIED against Kalshi's published fee schedule.**
 
-Kalshi's fee schedule PDF (``https://kalshi.com/docs/kalshi-fee-schedule.pdf``, linked from
-the ``fee_type`` field of ``GET /series``) could not be retrieved during this session, so the
-formula below is *not* confirmed against an official Kalshi document. Multiple independent
-third-party write-ups report the general trading fee as
+Source: ``https://kalshi.com/docs/kalshi-fee-schedule.pdf`` ("Last updated and effective:
+July 7, 2026"), retrieved 2026-11-22 UTC. The schedule states, verbatim:
 
-    fee = ceil_to_cent(0.07 x contracts x price x (1 - price))
+    fees = roundup(M x 0.07 x C x P x (1 - P))     (taker / general trading fee)
+    fees = roundup(M x 0.0175 x C x P x (1 - P))   (maker fee; default M = 0)
 
-which is the shape Kalshi's own docs imply by describing ``fee_type`` as "quadratic"
-(https://docs.kalshi.com/api-reference/market/get-series-list). Maker fills are reported to
-pay a quarter of that.
+with C = contracts, P = price in dollars and M = the per-series multiplier (default 1 for
+takers, 0 for makers). The same document states there is **no settlement fee** and **no
+membership fee**, and its "General Trading Fees Table" lists 21 prices at 1 contract and
+21 prices at 100 contracts. ``tests/test_model_fees.py`` reproduces all 42 of those values,
+so the rounding rule used here (round up to the cent) is the published one rather than a
+third-party report.
 
-Because an unverified fee would silently distort every P&L number, the dashboard:
-  * applies this model by default, but
-  * labels every ledger entry with ``fee_model="quadratic_unverified"``,
-  * exposes ``KALSHI_FEE_MODEL=none`` to switch it off, and
-  * shows the caveat next to every performance figure.
+Per-series multipliers: the schedule lists KXAAAGASM (US gas price) at maker 1 / taker 1,
+i.e. the general formula; series with multiplier 0 are fee-free and are *not* special-cased
+here — flag F1 on the Flagged for Review page records that limitation.
 
-If Kalshi publishes the current schedule, replace ``TAKER_RATE`` / ``MAKER_RATE`` and flip
-``VERIFIED`` to ``True``.
+Rate changes are published at ``https://kalshi.com/fee-schedule`` (cited by the PDF), so
+``TAKER_RATE`` / ``MAKER_RATE`` must be re-read from the schedule before relying on any
+P&L figure produced by a future cycle.
 """
 
 from __future__ import annotations
 
 import math
 
-VERIFIED = False
+VERIFIED = True
+FEE_SCHEDULE_URL = "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+FEE_CHANGES_URL = "https://kalshi.com/fee-schedule"
+FEE_SCHEDULE_EFFECTIVE = "2026-07-07"
 TAKER_RATE = 0.07
-MAKER_RATE = 0.0175  # third-party reports: 25% of the taker rate
-MODEL_NAMES = {"quadratic": "quadratic_unverified", "none": "none"}
+MAKER_RATE = 0.0175
+MODEL_NAMES = {"quadratic": "quadratic_verified", "none": "none"}
 
 FEE_SOURCE_NOTE = (
-    "Fee model 0.07 x contracts x price x (1 - price), rounded up to the cent. "
-    "Reported by third parties; Kalshi's fee schedule PDF could not be retrieved, so this "
-    "is flagged unverified."
+    "Fee model 0.07 x contracts x price x (1 - price), rounded up to the cent, taken from "
+    "Kalshi's published fee schedule (effective 2026-07-07). Checks reproduce all 42 values "
+    "of that schedule's General Trading Fees Table. Maker rate 0.0175 with a published "
+    "default multiplier of 0; no settlement fee and no membership fee."
 )
 
 
@@ -55,7 +60,7 @@ def maker_fee(contracts: float, price: float, model: str = "quadratic") -> float
 
 
 def model_label(model: str) -> str:
-    return MODEL_NAMES.get(model, "quadratic_unverified")
+    return MODEL_NAMES.get(model, "quadratic_verified")
 
 
 def metadata() -> dict[str, object]:
@@ -65,4 +70,7 @@ def metadata() -> dict[str, object]:
         "maker_rate": MAKER_RATE,
         "formula": "ceil_to_cent(rate x contracts x price x (1 - price))",
         "note": FEE_SOURCE_NOTE,
+        "source": FEE_SCHEDULE_URL,
+        "changes_source": FEE_CHANGES_URL,
+        "effective": FEE_SCHEDULE_EFFECTIVE,
     }

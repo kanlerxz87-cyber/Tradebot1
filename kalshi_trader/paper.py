@@ -8,7 +8,7 @@ Accounting rules — deliberately conservative and simple:
 * Buying NO at price ``p`` is modelled as paying ``1 − yes_bid`` (the implied NO ask), which
   is exactly how Kalshi's bid-only book works
   (https://docs.kalshi.com/getting_started/orderbook_responses).
-* Fees follow :mod:`kalshi_trader.fees` (flagged unverified) and are charged on entry *and*
+* Fees follow :mod:`kalshi_trader.fees` (verified against Kalshi's published fee schedule) and are charged on entry *and*
   exit; settlement itself is fee-free.
 * Settlement pays ``$1.00`` per winning contract and ``$0.00`` per losing contract
   (https://docs.kalshi.com/getting_started/market_settlement).
