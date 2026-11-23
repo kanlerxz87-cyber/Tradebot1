@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-23T10:40:31.160Z",
-  "runId": "2026-11-23T10-40-31-160Z",
+  "updatedAt": "2026-11-23T22:13:53.266Z",
+  "runId": "2026-11-23T22-13-53-266Z",
   "root": "https://external-api.demo.kalshi.co/trade-api/v2",
   "exchange": {
     "exchangeActive": true,
@@ -70,10 +70,10 @@
           "value": "Elections",
           "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections",
           "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections",
-          "returned": 2712
+          "returned": 2713
         }
       ],
-      "seriesFound": 2712,
+      "seriesFound": 2713,
       "seriesRead": 0,
       "errors": []
     },
@@ -137,13 +137,13 @@
     },
     "elections": {
       "topic": "elections",
-      "seriesDiscovered": 2712,
-      "seriesRead": 12,
-      "seriesWithOpenMarkets": 3,
-      "marketsOpen": 13,
-      "marketsObserved": 13,
+      "seriesDiscovered": 2713,
+      "seriesRead": 7,
+      "seriesWithOpenMarkets": 2,
+      "marketsOpen": 238,
+      "marketsObserved": 60,
       "seriesCapped": true,
-      "marketCapReached": false,
+      "marketCapReached": true,
       "errors": []
     },
     "culture": {
@@ -160,23 +160,23 @@
     "crypto": {
       "topic": "crypto",
       "seriesDiscovered": 321,
-      "seriesRead": 9,
-      "seriesWithOpenMarkets": 1,
-      "marketsOpen": 1200,
-      "marketsObserved": 60,
+      "seriesRead": 12,
+      "seriesWithOpenMarkets": 3,
+      "marketsOpen": 41,
+      "marketsObserved": 41,
       "seriesCapped": true,
-      "marketCapReached": true,
+      "marketCapReached": false,
       "errors": []
     },
     "golf": {
       "topic": "golf",
       "seriesDiscovered": 134,
       "seriesRead": 12,
-      "seriesWithOpenMarkets": 3,
-      "marketsOpen": 84,
-      "marketsObserved": 60,
+      "seriesWithOpenMarkets": 0,
+      "marketsOpen": 0,
+      "marketsObserved": 0,
       "seriesCapped": true,
-      "marketCapReached": true,
+      "marketCapReached": false,
       "errors": []
     }
   },
@@ -8656,6 +8656,1521 @@
       "lastSeenAt": "2026-11-23T10:40:31.160Z",
       "closeTime": "2026-12-07T13:26:00Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R4DMCCHSPRBJAM-BJAM"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P7": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P7",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 7%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P7"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P4": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P4",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 4%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P4"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P22": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P22",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 22%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P22"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P19": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P19",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 19%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P19"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P16": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P16",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 16%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P16"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P13": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P13",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 13%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P13"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P10": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P10",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 10%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P10"
+    },
+    "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P1": {
+      "marketTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P1",
+      "eventTicker": "KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO",
+      "topic": "elections",
+      "title": "Will the margin of victory for No in the 2026 California Proposition 40 election be at least 1%?",
+      "seriesTicker": "KXCAWEALTHTAXMOVD",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-11-03T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCAWEALTHTAXMOVD-CAWEALTHTAX26NO-NO-P1"
+    },
+    "KXSTATELEGWI-28NOV07WIH003-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH003-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH003",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 3 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH003-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH003-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH003-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH003",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 3 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH003-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH002-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH002-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH002",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 2 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH002-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH002-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH002-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH002",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 2 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH002-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH005-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH005-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH005",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 5 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH005-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH005-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH005-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH005",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 5 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH005-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH004-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH004-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH004",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 4 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH004-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH004-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH004-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH004",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 4 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH004-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH006-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH006-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH006",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 6 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH006-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH006-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH006-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH006",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 6 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH006-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH007-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH007-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH007",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 7 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH007-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH007-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH007-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH007",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 7 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH007-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH008-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH008-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH008",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 8 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH008-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH008-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH008-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH008",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 8 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH008-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH009-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH009-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH009",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 9 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH009-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH009-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH009-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH009",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 9 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH009-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH011-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH011-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH011",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 11 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH011-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH011-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH011-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH011",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 11 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH011-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH010-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH010-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH010",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 10 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH010-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH010-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH010-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH010",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 10 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH010-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH012-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH012-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH012",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 12 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH012-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH012-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH012-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH012",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 12 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH012-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH013-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH013-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH013",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 13 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH013-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH013-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH013-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH013",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 13 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH013-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH014-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH014-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH014",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 14 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH014-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH014-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH014-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH014",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 14 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH014-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH015-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH015-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH015",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 15 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH015-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH015-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH015-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH015",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 15 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH015-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH016-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH016-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH016",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 16 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH016-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH016-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH016-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH016",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 16 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH016-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH017-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH017-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH017",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 17 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH017-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH017-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH017-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH017",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 17 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH017-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH018-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH018-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH018",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 18 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH018-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH018-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH018-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH018",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 18 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH018-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH019-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH019-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH019",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 19 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH019-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH019-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH019-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH019",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 19 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH019-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH020-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH020-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH020",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 20 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH020-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH020-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH020-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH020",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 20 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH020-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH022-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH022-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH022",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 22 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH022-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH022-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH022-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH022",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 22 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH022-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH021-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH021-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH021",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 21 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH021-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH021-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH021-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH021",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 21 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH021-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH023-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH023-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH023",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 23 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH023-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH023-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH023-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH023",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 23 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH023-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH024-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH024-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH024",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 24 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH024-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH024-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH024-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH024",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 24 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH024-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH025-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH025-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH025",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 25 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH025-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH025-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH025-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH025",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 25 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH025-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH026-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH026-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH026",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 26 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH026-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH026-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH026-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH026",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 26 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH026-D"
+    },
+    "KXSTATELEGWI-28NOV07WIH027-R": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH027-R",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH027",
+      "topic": "elections",
+      "title": "Will the Republican Party win the 2028 Wisconsin Assembly District 27 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH027-R"
+    },
+    "KXSTATELEGWI-28NOV07WIH027-D": {
+      "marketTicker": "KXSTATELEGWI-28NOV07WIH027-D",
+      "eventTicker": "KXSTATELEGWI-28NOV07WIH027",
+      "topic": "elections",
+      "title": "Will the Democratic Party win the 2028 Wisconsin Assembly District 27 election?",
+      "seriesTicker": "KXSTATELEGWI",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2029-11-07T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGWI-28NOV07WIH027-D"
+    },
+    "KXBNBY-27JAN0100-T40000": {
+      "marketTicker": "KXBNBY-27JAN0100-T40000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-T40000"
+    },
+    "KXBNBY-27JAN0100-T199999": {
+      "marketTicker": "KXBNBY-27JAN0100-T199999",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-T199999"
+    },
+    "KXBNBY-27JAN0100-B90000": {
+      "marketTicker": "KXBNBY-27JAN0100-B90000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B90000"
+    },
+    "KXBNBY-27JAN0100-B80000": {
+      "marketTicker": "KXBNBY-27JAN0100-B80000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B80000"
+    },
+    "KXBNBY-27JAN0100-B70000": {
+      "marketTicker": "KXBNBY-27JAN0100-B70000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B70000"
+    },
+    "KXBNBY-27JAN0100-B60000": {
+      "marketTicker": "KXBNBY-27JAN0100-B60000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B60000"
+    },
+    "KXBNBY-27JAN0100-B50000": {
+      "marketTicker": "KXBNBY-27JAN0100-B50000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B50000"
+    },
+    "KXBNBY-27JAN0100-B40000": {
+      "marketTicker": "KXBNBY-27JAN0100-B40000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B40000"
+    },
+    "KXBNBY-27JAN0100-B190000": {
+      "marketTicker": "KXBNBY-27JAN0100-B190000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B190000"
+    },
+    "KXBNBY-27JAN0100-B180000": {
+      "marketTicker": "KXBNBY-27JAN0100-B180000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B180000"
+    },
+    "KXBNBY-27JAN0100-B170000": {
+      "marketTicker": "KXBNBY-27JAN0100-B170000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B170000"
+    },
+    "KXBNBY-27JAN0100-B160000": {
+      "marketTicker": "KXBNBY-27JAN0100-B160000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B160000"
+    },
+    "KXBNBY-27JAN0100-B150000": {
+      "marketTicker": "KXBNBY-27JAN0100-B150000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B150000"
+    },
+    "KXBNBY-27JAN0100-B140000": {
+      "marketTicker": "KXBNBY-27JAN0100-B140000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B140000"
+    },
+    "KXBNBY-27JAN0100-B130000": {
+      "marketTicker": "KXBNBY-27JAN0100-B130000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B130000"
+    },
+    "KXBNBY-27JAN0100-B120000": {
+      "marketTicker": "KXBNBY-27JAN0100-B120000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B120000"
+    },
+    "KXBNBY-27JAN0100-B110000": {
+      "marketTicker": "KXBNBY-27JAN0100-B110000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B110000"
+    },
+    "KXBNBY-27JAN0100-B100000": {
+      "marketTicker": "KXBNBY-27JAN0100-B100000",
+      "eventTicker": "KXBNBY-27JAN0100",
+      "topic": "crypto",
+      "title": "BNB price on Jan 1, 2027?",
+      "seriesTicker": "KXBNBY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBY-27JAN0100-B100000"
+    },
+    "KXNEARY-27JAN0100-T99999": {
+      "marketTicker": "KXNEARY-27JAN0100-T99999",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-T99999"
+    },
+    "KXNEARY-27JAN0100-T05000": {
+      "marketTicker": "KXNEARY-27JAN0100-T05000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-T05000"
+    },
+    "KXNEARY-27JAN0100-B95000": {
+      "marketTicker": "KXNEARY-27JAN0100-B95000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B95000"
+    },
+    "KXNEARY-27JAN0100-B90000": {
+      "marketTicker": "KXNEARY-27JAN0100-B90000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B90000"
+    },
+    "KXNEARY-27JAN0100-B85000": {
+      "marketTicker": "KXNEARY-27JAN0100-B85000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B85000"
+    },
+    "KXNEARY-27JAN0100-B80000": {
+      "marketTicker": "KXNEARY-27JAN0100-B80000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B80000"
+    },
+    "KXNEARY-27JAN0100-B75000": {
+      "marketTicker": "KXNEARY-27JAN0100-B75000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B75000"
+    },
+    "KXNEARY-27JAN0100-B70000": {
+      "marketTicker": "KXNEARY-27JAN0100-B70000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B70000"
+    },
+    "KXNEARY-27JAN0100-B65000": {
+      "marketTicker": "KXNEARY-27JAN0100-B65000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B65000"
+    },
+    "KXNEARY-27JAN0100-B60000": {
+      "marketTicker": "KXNEARY-27JAN0100-B60000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B60000"
+    },
+    "KXNEARY-27JAN0100-B55000": {
+      "marketTicker": "KXNEARY-27JAN0100-B55000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B55000"
+    },
+    "KXNEARY-27JAN0100-B50000": {
+      "marketTicker": "KXNEARY-27JAN0100-B50000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B50000"
+    },
+    "KXNEARY-27JAN0100-B45000": {
+      "marketTicker": "KXNEARY-27JAN0100-B45000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B45000"
+    },
+    "KXNEARY-27JAN0100-B40000": {
+      "marketTicker": "KXNEARY-27JAN0100-B40000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B40000"
+    },
+    "KXNEARY-27JAN0100-B35000": {
+      "marketTicker": "KXNEARY-27JAN0100-B35000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B35000"
+    },
+    "KXNEARY-27JAN0100-B30000": {
+      "marketTicker": "KXNEARY-27JAN0100-B30000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B30000"
+    },
+    "KXNEARY-27JAN0100-B25000": {
+      "marketTicker": "KXNEARY-27JAN0100-B25000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B25000"
+    },
+    "KXNEARY-27JAN0100-B20000": {
+      "marketTicker": "KXNEARY-27JAN0100-B20000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B20000"
+    },
+    "KXNEARY-27JAN0100-B15000": {
+      "marketTicker": "KXNEARY-27JAN0100-B15000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B15000"
+    },
+    "KXNEARY-27JAN0100-B10000": {
+      "marketTicker": "KXNEARY-27JAN0100-B10000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B10000"
+    },
+    "KXNEARY-27JAN0100-B05000": {
+      "marketTicker": "KXNEARY-27JAN0100-B05000",
+      "eventTicker": "KXNEARY-27JAN0100",
+      "topic": "crypto",
+      "title": "NEAR price on Jan 1, 2027?",
+      "seriesTicker": "KXNEARY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2027-01-01T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXNEARY-27JAN0100-B05000"
+    },
+    "KXDOGE15M-26NOV231715-15": {
+      "marketTicker": "KXDOGE15M-26NOV231715-15",
+      "eventTicker": "KXDOGE15M-26NOV231715",
+      "topic": "crypto",
+      "title": "DOGE price up in next 15 mins?",
+      "seriesTicker": "KXDOGE15M",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2026-11-23T22:15:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDOGE15M-26NOV231715-15"
+    },
+    "KXDOGE15M-26MAY050000-00": {
+      "marketTicker": "KXDOGE15M-26MAY050000-00",
+      "eventTicker": "KXDOGE15M-26MAY050000",
+      "topic": "crypto",
+      "title": "DOGE price up in next 15 mins?",
+      "seriesTicker": "KXDOGE15M",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-23T22:13:53.266Z",
+      "history": [],
+      "lastSeenAt": "2026-11-23T22:13:53.266Z",
+      "closeTime": "2026-05-05T04:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDOGE15M-26MAY050000-00"
     }
   },
   "resolutions": {
@@ -8673,7 +10188,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCLMPSOEMAJ-27MAY23-AL17"
     },
     "KX2028RRUN-28-BGIL": {
@@ -8690,7 +10205,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BGIL"
     },
     "KX2028RRUN-28-RSCO": {
@@ -8707,7 +10222,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RSCO"
     },
     "KX2028RRUN-28-DMCC": {
@@ -8724,7 +10239,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DMCC"
     },
     "KX2028RRUN-28-DBAC": {
@@ -8741,7 +10256,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DBAC"
     },
     "KX2028RRUN-28-MPEN": {
@@ -8758,7 +10273,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MPEN"
     },
     "KX2028RRUN-28-PRYA": {
@@ -8775,7 +10290,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-PRYA"
     },
     "KX2028RRUN-28-TCOT": {
@@ -8792,7 +10307,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TCOT"
     },
     "KX2028RRUN-28-ITRU": {
@@ -8809,7 +10324,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-ITRU"
     },
     "KX2028RRUN-28-JKENT": {
@@ -8826,7 +10341,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKENT"
     },
     "KX2028RRUN-28-JKEN": {
@@ -8843,7 +10358,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKEN"
     },
     "KX2028RRUN-28-DBUR": {
@@ -8860,7 +10375,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DBUR"
     },
     "KX2028RRUN-28-CCHR": {
@@ -8877,7 +10392,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-CCHR"
     },
     "KX2028RRUN-28-LHOG": {
@@ -8894,7 +10409,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-LHOG"
     },
     "KX2028RRUN-28-TSCO": {
@@ -8911,7 +10426,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TSCO"
     },
     "KX2028RRUN-28-GBOV": {
@@ -8928,7 +10443,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GBOV"
     },
     "KX2028RRUN-28-JMCE": {
@@ -8945,7 +10460,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JMCE"
     },
     "KX2028RRUN-28-SPRA": {
@@ -8962,7 +10477,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-SPRA"
     },
     "KX2028RRUN-28-JBEZ": {
@@ -8979,7 +10494,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JBEZ"
     },
     "KX2028RRUN-28-TMAS": {
@@ -8996,7 +10511,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TMAS"
     },
     "KX2028RRUN-28-PHEG": {
@@ -9013,7 +10528,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-PHEG"
     },
     "KX2028RRUN-28-JKUS": {
@@ -9030,7 +10545,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKUS"
     },
     "KX2028RRUN-28-EKIR": {
@@ -9047,7 +10562,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-EKIR"
     },
     "KX2028RRUN-28-MTAY": {
@@ -9064,7 +10579,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MTAY"
     },
     "KX2028RRUN-28-TUC": {
@@ -9081,7 +10596,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TUC"
     },
     "KX2028RRUN-28-STE": {
@@ -9098,7 +10613,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-STE"
     },
     "KX2028RRUN-28-RPAU": {
@@ -9115,7 +10630,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RPAU"
     },
     "KX2028RRUN-28-TCRU": {
@@ -9132,7 +10647,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TCRU"
     },
     "KX2028RRUN-28-SHS": {
@@ -9149,7 +10664,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-SHS"
     },
     "KX2028RRUN-28-RFK": {
@@ -9166,7 +10681,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RFK"
     },
     "KX2028RRUN-28-NHAL": {
@@ -9183,7 +10698,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-NHAL"
     },
     "KX2028RRUN-28-MRUB": {
@@ -9200,7 +10715,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MRUB"
     },
     "KX2028RRUN-28-MGAE": {
@@ -9217,7 +10732,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MGAE"
     },
     "KX2028RRUN-28-KBRI": {
@@ -9234,7 +10749,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-KBRI"
     },
     "KX2028RRUN-28-JTHU": {
@@ -9251,7 +10766,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JTHU"
     },
     "KX2028RRUN-28-JHAW": {
@@ -9268,7 +10783,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JHAW"
     },
     "KX2028RRUN-28-GYOU": {
@@ -9285,7 +10800,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GYOU"
     },
     "KX2028RRUN-28-GABB": {
@@ -9302,7 +10817,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GABB"
     },
     "KX2028RRUN-28-ESTE": {
@@ -9319,7 +10834,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-ESTE"
     },
     "KX2028RRUN-28-EMUS": {
@@ -9336,7 +10851,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-EMUS"
     },
     "KX2028RRUN-28-BKEM": {
@@ -9353,7 +10868,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BKEM"
     },
     "KX2028RRUN-28-BDON": {
@@ -9370,7 +10885,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BDON"
     },
     "KX2028RRUN-28-VRAM": {
@@ -9387,7 +10902,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-VRAM"
     },
     "KX2028RRUN-28-TGAB": {
@@ -9404,7 +10919,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TGAB"
     },
     "KX2028RRUN-28-RDES": {
@@ -9421,7 +10936,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RDES"
     },
     "KX2028RRUN-28-JVAN": {
@@ -9438,7 +10953,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JVAN"
     },
     "KX2028RRUN-28-DJTJR": {
@@ -9455,7 +10970,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DJTJR"
     },
     "KX2028RRUN-28-DJT": {
@@ -9472,7 +10987,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DJT"
     },
     "KXWISTATELEG-28SEN-R": {
@@ -9489,7 +11004,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28SEN-R"
     },
     "KXWISTATELEG-28SEN-D": {
@@ -9506,7 +11021,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28SEN-D"
     },
     "KXWISTATELEG-28ASM-R": {
@@ -9523,7 +11038,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28ASM-R"
     },
     "KXWISTATELEG-28ASM-D": {
@@ -9540,7 +11055,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28ASM-D"
     },
     "KXSTATELEGNY-28NOV07NYH002-R": {
@@ -9557,7 +11072,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH002-R"
     },
     "KXSTATELEGNY-28NOV07NYH002-D": {
@@ -9574,7 +11089,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH002-D"
     },
     "KXSTATELEGNY-28NOV07NYH003-R": {
@@ -9591,7 +11106,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH003-R"
     },
     "KXSTATELEGNY-28NOV07NYH003-D": {
@@ -9608,7 +11123,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH003-D"
     },
     "KXSTATELEGNY-28NOV07NYH005-R": {
@@ -9625,7 +11140,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH005-R"
     },
     "KXSTATELEGNY-28NOV07NYH005-D": {
@@ -9642,7 +11157,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH005-D"
     },
     "KXSTATELEGNY-28NOV07NYH004-R": {
@@ -9659,7 +11174,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH004-R"
     },
     "KXSTATELEGNY-28NOV07NYH004-D": {
@@ -9676,7 +11191,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH004-D"
     },
     "KXRIVERSGOV-27FEB06-PDP": {
@@ -9693,7 +11208,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-PDP"
     },
     "KXRIVERSGOV-27FEB06-NDC": {
@@ -9710,7 +11225,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-NDC"
     },
     "KXRIVERSGOV-27FEB06-APC": {
@@ -9727,7 +11242,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-APC"
     },
     "KXRIVERSGOV-27FEB06-ADC": {
@@ -9744,7 +11259,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-ADC"
     },
     "KXHSINCHUCOUNTYMAG-26NOV28-HHSU": {
@@ -9761,7 +11276,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHSINCHUCOUNTYMAG-26NOV28-HHSU"
     },
     "KXHSINCHUCOUNTYMAG-26NOV28-CCHU": {
@@ -9778,7 +11293,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHSINCHUCOUNTYMAG-26NOV28-CCHU"
     },
     "KXHSINCHUCOUNTYMAG-26NOV28-CCHE": {
@@ -9795,7 +11310,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHSINCHUCOUNTYMAG-26NOV28-CCHE"
     },
     "KXBTC2026250-27JAN01-250000": {
@@ -9812,7 +11327,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTC2026250-27JAN01-250000"
     },
     "KXHYPE-26NOV2211-T95.2499": {
@@ -9829,7 +11344,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-T95.2499"
     },
     "KXHYPE-26NOV2211-T20.75": {
@@ -9846,7 +11361,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-T20.75"
     },
     "KXHYPE-26NOV2211-B95.125": {
@@ -9863,7 +11378,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B95.125"
     },
     "KXHYPE-26NOV2211-B94.875": {
@@ -9880,7 +11395,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.875"
     },
     "KXHYPE-26NOV2211-B94.625": {
@@ -9897,7 +11412,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.625"
     },
     "KXHYPE-26NOV2211-B94.375": {
@@ -9914,7 +11429,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.375"
     },
     "KXHYPE-26NOV2211-B94.125": {
@@ -9931,7 +11446,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.125"
     },
     "KXHYPE-26NOV2211-B93.875": {
@@ -9948,7 +11463,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.875"
     },
     "KXHYPE-26NOV2211-B93.625": {
@@ -9965,7 +11480,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.625"
     },
     "KXHYPE-26NOV2211-B93.375": {
@@ -9982,7 +11497,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.375"
     },
     "KXHYPE-26NOV2211-B93.125": {
@@ -9999,7 +11514,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.125"
     },
     "KXHYPE-26NOV2211-B92.875": {
@@ -10016,7 +11531,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.875"
     },
     "KXHYPE-26NOV2211-B92.625": {
@@ -10033,7 +11548,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.625"
     },
     "KXHYPE-26NOV2211-B92.375": {
@@ -10050,7 +11565,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.375"
     },
     "KXHYPE-26NOV2211-B92.125": {
@@ -10067,7 +11582,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.125"
     },
     "KXHYPE-26NOV2211-B91.875": {
@@ -10084,7 +11599,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.875"
     },
     "KXHYPE-26NOV2211-B91.625": {
@@ -10101,7 +11616,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.625"
     },
     "KXHYPE-26NOV2211-B91.375": {
@@ -10118,7 +11633,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.375"
     },
     "KXHYPE-26NOV2211-B91.125": {
@@ -10135,7 +11650,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.125"
     },
     "KXHYPE-26NOV2211-B90.875": {
@@ -10152,7 +11667,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.875"
     },
     "KXHYPE-26NOV2211-B90.625": {
@@ -10169,7 +11684,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.625"
     },
     "KXHYPE-26NOV2211-B90.375": {
@@ -10186,7 +11701,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.375"
     },
     "KXHYPE-26NOV2211-B90.125": {
@@ -10203,7 +11718,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.125"
     },
     "KXHYPE-26NOV2211-B89.875": {
@@ -10220,7 +11735,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B89.875"
     },
     "KXHYPE-26NOV2211-B89.625": {
@@ -10237,7 +11752,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B89.625"
     },
     "KXHYPE-26NOV2211-B89.375": {
@@ -10254,7 +11769,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B89.375"
     },
     "KXHYPE-26NOV2211-B89.125": {
@@ -10271,7 +11786,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B89.125"
     },
     "KXHYPE-26NOV2211-B88.875": {
@@ -10288,7 +11803,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B88.875"
     },
     "KXHYPE-26NOV2211-B88.625": {
@@ -10305,7 +11820,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B88.625"
     },
     "KXHYPE-26NOV2211-B88.375": {
@@ -10322,7 +11837,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B88.375"
     },
     "KXHYPE-26NOV2211-B88.125": {
@@ -10339,7 +11854,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B88.125"
     },
     "KXHYPE-26NOV2211-B87.875": {
@@ -10356,7 +11871,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B87.875"
     },
     "KXHYPE-26NOV2211-B87.625": {
@@ -10373,7 +11888,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B87.625"
     },
     "KXHYPE-26NOV2211-B87.375": {
@@ -10390,7 +11905,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B87.375"
     },
     "KXHYPE-26NOV2211-B87.125": {
@@ -10407,7 +11922,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B87.125"
     },
     "KXHYPE-26NOV2211-B86.875": {
@@ -10424,7 +11939,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B86.875"
     },
     "KXHYPE-26NOV2211-B86.625": {
@@ -10441,7 +11956,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B86.625"
     },
     "KXHYPE-26NOV2211-B86.375": {
@@ -10458,7 +11973,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B86.375"
     },
     "KXHYPE-26NOV2211-B86.125": {
@@ -10475,7 +11990,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B86.125"
     },
     "KXHYPE-26NOV2211-B85.875": {
@@ -10492,7 +12007,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B85.875"
     },
     "KXHYPE-26NOV2211-B85.625": {
@@ -10509,7 +12024,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B85.625"
     },
     "KXHYPE-26NOV2211-B85.375": {
@@ -10526,7 +12041,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B85.375"
     },
     "KXHYPE-26NOV2211-B85.125": {
@@ -10543,7 +12058,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B85.125"
     },
     "KXHYPE-26NOV2211-B84.875": {
@@ -10560,7 +12075,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B84.875"
     },
     "KXHYPE-26NOV2211-B84.625": {
@@ -10577,7 +12092,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B84.625"
     },
     "KXHYPE-26NOV2211-B84.375": {
@@ -10594,7 +12109,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B84.375"
     },
     "KXHYPE-26NOV2211-B84.125": {
@@ -10611,7 +12126,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B84.125"
     },
     "KXHYPE-26NOV2211-B83.875": {
@@ -10628,7 +12143,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B83.875"
     },
     "KXHYPE-26NOV2211-B83.625": {
@@ -10645,7 +12160,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B83.625"
     },
     "KXHYPE-26NOV2211-B83.375": {
@@ -10662,7 +12177,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B83.375"
     },
     "KXHYPE-26NOV2211-B83.125": {
@@ -10679,7 +12194,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B83.125"
     },
     "KXHYPE-26NOV2211-B82.875": {
@@ -10696,7 +12211,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B82.875"
     },
     "KXHYPE-26NOV2211-B82.625": {
@@ -10713,7 +12228,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B82.625"
     },
     "KXHYPE-26NOV2211-B82.375": {
@@ -10730,7 +12245,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B82.375"
     },
     "KXHYPE-26NOV2211-B82.125": {
@@ -10747,7 +12262,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B82.125"
     },
     "KXHYPE-26NOV2211-B81.875": {
@@ -10764,7 +12279,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B81.875"
     },
     "KXHYPE-26NOV2211-B81.625": {
@@ -10781,7 +12296,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B81.625"
     },
     "KXHYPE-26NOV2211-B81.375": {
@@ -10798,7 +12313,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B81.375"
     },
     "KXHYPE-26NOV2211-B81.125": {
@@ -10815,7 +12330,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B81.125"
     },
     "KXLIVCOMPETE-27APR-THAT": {
@@ -10832,7 +12347,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-THAT"
     },
     "KXLIVCOMPETE-27APR-TDET": {
@@ -10849,7 +12364,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-TDET"
     },
     "KXLIVCOMPETE-27APR-SGAR": {
@@ -10866,7 +12381,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-SGAR"
     },
     "KXLIVCOMPETE-27APR-PMIC": {
@@ -10883,7 +12398,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-PMIC"
     },
     "KXLIVCOMPETE-27APR-JRAH": {
@@ -10900,7 +12415,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-JRAH"
     },
     "KXLIVCOMPETE-27APR-JNIE": {
@@ -10917,7 +12432,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-JNIE"
     },
     "KXLIVCOMPETE-27APR-ESMY": {
@@ -10934,7 +12449,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-ESMY"
     },
     "KXLIVCOMPETE-27APR-DPUI": {
@@ -10951,7 +12466,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-DPUI"
     },
     "KXLIVCOMPETE-27APR-DJOH": {
@@ -10968,7 +12483,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-DJOH"
     },
     "KXLIVCOMPETE-27APR-DBUR": {
@@ -10985,7 +12500,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-DBUR"
     },
     "KXLIVCOMPETE-27APR-CSMI": {
@@ -11002,7 +12517,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-CSMI"
     },
     "KXLIVCOMPETE-27APR-BDEC": {
@@ -11019,7 +12534,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-BDEC"
     },
     "KXLIVCOMPETE-27APR-BAN": {
@@ -11036,7 +12551,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-BAN"
     },
     "KXLIVCOMPETE-27APR-AKIM": {
@@ -11053,7 +12568,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-23T10:40:31.160Z",
+      "checkedAt": "2026-11-23T22:13:53.266Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-AKIM"
     },
     "KXLIVCOMPETE-27APR-AANC": {
@@ -11609,6 +13124,6 @@
     "maxHistoryPoints": 720,
     "maxFeedRows": 400
   },
-  "marketCount": 133,
-  "observationCount": 133
+  "marketCount": 101,
+  "observationCount": 101
 }
