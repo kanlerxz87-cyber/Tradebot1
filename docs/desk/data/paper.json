@@ -2,11 +2,11 @@
  "headline": {
   "bankroll_start": 1000.0,
   "cash": 763.85,
-  "equity": 1015.72,
+  "equity": 1016.61,
   "realized_pnl": 0,
-  "unrealized_pnl": 15.72,
-  "total_pnl": 15.72,
-  "roi_pct": 1.57,
+  "unrealized_pnl": 16.61,
+  "total_pnl": 16.61,
+  "roi_pct": 1.66,
   "open_positions": 12,
   "fee_model": "quadratic",
   "fee_verified": true
