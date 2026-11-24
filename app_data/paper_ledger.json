@@ -1,7 +1,7 @@
 {
  "version": 1,
  "created_at": "2026-11-22T07:16:59Z",
- "updated_at": "2026-11-23T21:51:01Z",
+ "updated_at": "2026-11-24T05:41:51Z",
  "bankroll_start": 1000.0,
  "cash": 763.85,
  "fee_model": "quadratic",
@@ -55,10 +55,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.85 in [0.85, 0.96], 24h volume 8,085, closes in 134.8h",
    "model_score": 0.5427,
-   "last_mark": 0.95,
+   "last_mark": 0.92,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T53999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795470534
+   "last_mark_ts": 1795498781
   },
   "KXBTCD-26NOV2717-T52499.99:late_favorite": {
    "id": "pos-f23e582a9d",
@@ -109,10 +109,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.92 in [0.85, 0.96], 24h volume 9,733, closes in 134.8h",
    "model_score": 0.5158,
-   "last_mark": 0.97,
+   "last_mark": 0.95,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T51999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795470534
+   "last_mark_ts": 1795498781
   },
   "KXBTCD-26NOV2217-T57749.99:late_favorite": {
    "id": "pos-f5c7d8413e",
@@ -364,6 +364,10 @@
   [
    1795470534,
    1016.39
+  ],
+  [
+   1795498781,
+   1015.28
   ]
  ],
  "rejected": [
@@ -725,6 +729,54 @@
    "ts": 1795470534,
    "ticker": "KXBTCD-26NOV2317-T59499.99",
    "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXRT-FOC-30",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXUSGASCPI-26DEC10-T348",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXRT-FUR-77",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXRT-FOC-35",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXAAAGASM-26NOV30-3.50",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXUSGASCPI-26DEC10-T352",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXRT-FOC-25",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795498781,
+   "ticker": "KXBTCMINY-27JAN01-55000.00",
+   "strategy": "fade",
    "reason": "max open positions reached"
   }
  ],
