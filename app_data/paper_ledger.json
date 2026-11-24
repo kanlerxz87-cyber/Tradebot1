@@ -1,7 +1,7 @@
 {
  "version": 1,
  "created_at": "2026-11-22T07:16:59Z",
- "updated_at": "2026-11-24T05:41:51Z",
+ "updated_at": "2026-11-24T16:39:39Z",
  "bankroll_start": 1000.0,
  "cash": 763.85,
  "fee_model": "quadratic",
@@ -58,7 +58,7 @@
    "last_mark": 0.92,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T53999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795498781
+   "last_mark_ts": 1795538249
   },
   "KXBTCD-26NOV2717-T52499.99:late_favorite": {
    "id": "pos-f23e582a9d",
@@ -109,10 +109,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.92 in [0.85, 0.96], 24h volume 9,733, closes in 134.8h",
    "model_score": 0.5158,
-   "last_mark": 0.95,
+   "last_mark": 0.96,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T51999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795498781
+   "last_mark_ts": 1795538249
   },
   "KXBTCD-26NOV2217-T57749.99:late_favorite": {
    "id": "pos-f5c7d8413e",
@@ -368,6 +368,10 @@
   [
    1795498781,
    1015.28
+  ],
+  [
+   1795538249,
+   1015.49
   ]
  ],
  "rejected": [
@@ -777,6 +781,102 @@
    "ts": 1795498781,
    "ticker": "KXBTCMINY-27JAN01-55000.00",
    "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2417-T60999.99",
+   "strategy": "cheap_upside",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXRT-HEX-55",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXRT-HEX-55",
+   "strategy": "late_favorite",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXRT-HEX-52",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXRT-HEX-52",
+   "strategy": "late_favorite",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2717-T59999.99",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2717-T60499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXETHD-26NOV2717-T1659.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2717-T61499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2717-T59499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXRT-FOC-30",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2717-T58999.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2717-T58499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXBTCD-26NOV2717-T57999.99",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXRT-FUR-77",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795538249,
+   "ticker": "KXRT-FUR-77",
+   "strategy": "late_favorite",
    "reason": "max open positions reached"
   }
  ],
