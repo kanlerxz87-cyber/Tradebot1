@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-24T16:37:29Z",
+ "generated_at": "2026-11-25T01:10:30Z",
  "threshold": 0.1,
  "items": [
   {
@@ -14263,6 +14263,642 @@
      "open interest 47,940",
      "book spread $0.01",
      "time to close 5.4h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "12995f05f2b3",
+   "ts": 1795569030,
+   "iso": "2026-11-25T01:10:30Z",
+   "ticker": "KXRT-HEX-60",
+   "topic": "culture",
+   "title": "Hexed Rotten Tomatoes score?",
+   "subtitle": "Above 60",
+   "series_ticker": "KXRT",
+   "direction": "up",
+   "from_price": 0.715,
+   "to_price": 0.835,
+   "delta": 0.12,
+   "abs_delta": 0.12,
+   "pct_change": 16.78,
+   "basis": "mid",
+   "price": 0.835,
+   "yes_bid": 0.82,
+   "yes_ask": 0.85,
+   "spread": 0.03,
+   "volume_24h": 15159.34,
+   "open_interest": 38018.07,
+   "top_book_contracts": 14153.54,
+   "close_time": "2026-11-30T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-60",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxrt",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-60",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/RT.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Rotten Tomatoes",
+      "url": "https://www.rottentomatoes.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-25",
+      "url": "https://news.google.com/search?q=hexed+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F25%2F2026%2Ccd_max%3A11%2F25%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=hexed+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search rottentomatoes.com for hexed rotten tomatoes score",
+      "url": "https://duckduckgo.com/?q=site%3Arottentomatoes.com%20hexed%20rotten%20tomatoes%20score",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.8004,
+    "roi_pct_est": 28.76,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.1374,
+     "band": 0.033,
+     "time": 0.09,
+     "spread": -0.06
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 15,159 contracts",
+     "open interest 38,018",
+     "book spread $0.03",
+     "time to close 133.8h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "14f82d7488d5",
+   "ts": 1795569030,
+   "iso": "2026-11-25T01:10:30Z",
+   "ticker": "KXRT-HEX-65",
+   "topic": "culture",
+   "title": "Hexed Rotten Tomatoes score?",
+   "subtitle": "Above 65",
+   "series_ticker": "KXRT",
+   "direction": "down",
+   "from_price": 0.725,
+   "to_price": 0.58,
+   "delta": -0.145,
+   "abs_delta": 0.145,
+   "pct_change": -20.0,
+   "basis": "mid",
+   "price": 0.58,
+   "yes_bid": 0.57,
+   "yes_ask": 0.59,
+   "spread": 0.02,
+   "volume_24h": 28042.9,
+   "open_interest": 52797.76,
+   "top_book_contracts": 779.0,
+   "close_time": "2026-11-30T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-65",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxrt",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-HEX-65",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/RT.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Rotten Tomatoes",
+      "url": "https://www.rottentomatoes.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-25",
+      "url": "https://news.google.com/search?q=hexed+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F25%2F2026%2Ccd_max%3A11%2F25%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=hexed+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search rottentomatoes.com for hexed rotten tomatoes score",
+      "url": "https://duckduckgo.com/?q=site%3Arottentomatoes.com%20hexed%20rotten%20tomatoes%20score",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.7757,
+    "roi_pct_est": 25.41,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.3,
+     "liquidity": 0.2,
+     "open_interest": 0.1417,
+     "band": 0.084,
+     "time": 0.09,
+     "spread": -0.04
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 28,043 contracts",
+     "open interest 52,798",
+     "book spread $0.02",
+     "time to close 133.8h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "7e242a7241c3",
+   "ts": 1795569030,
+   "iso": "2026-11-25T01:10:30Z",
+   "ticker": "KXRT-VIO-65",
+   "topic": "culture",
+   "title": "Violent Night 2 Rotten Tomatoes score?",
+   "subtitle": "Above 65",
+   "series_ticker": "KXRT",
+   "direction": "down",
+   "from_price": 0.455,
+   "to_price": 0.255,
+   "delta": -0.2,
+   "abs_delta": 0.2,
+   "pct_change": -43.96,
+   "basis": "mid",
+   "price": 0.255,
+   "yes_bid": 0.24,
+   "yes_ask": 0.27,
+   "spread": 0.03,
+   "volume_24h": 18945.32,
+   "open_interest": 9738.45,
+   "top_book_contracts": 154.0,
+   "close_time": "2026-12-07T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-VIO-65",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxrt",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-VIO-65",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/RT.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Rotten Tomatoes",
+      "url": "https://www.rottentomatoes.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-25",
+      "url": "https://news.google.com/search?q=violent+night+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F25%2F2026%2Ccd_max%3A11%2F25%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=violent+night+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search rottentomatoes.com for violent night rotten tomatoes score",
+      "url": "https://duckduckgo.com/?q=site%3Arottentomatoes.com%20violent%20night%20rotten%20tomatoes%20score",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.7557,
+    "roi_pct_est": 81.5,
+    "direction": "no",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.1197,
+     "band": 0.051,
+     "time": 0.045,
+     "spread": -0.06
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 18,945 contracts",
+     "open interest 9,738",
+     "book spread $0.03",
+     "time to close 301.8h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "6f143cd2c6e8",
+   "ts": 1795569030,
+   "iso": "2026-11-25T01:10:30Z",
+   "ticker": "KXRT-VIO-45",
+   "topic": "culture",
+   "title": "Violent Night 2 Rotten Tomatoes score?",
+   "subtitle": "Above 45",
+   "series_ticker": "KXRT",
+   "direction": "down",
+   "from_price": 0.935,
+   "to_price": 0.65,
+   "delta": -0.285,
+   "abs_delta": 0.285,
+   "pct_change": -30.48,
+   "basis": "mid",
+   "price": 0.65,
+   "yes_bid": 0.61,
+   "yes_ask": 0.69,
+   "spread": 0.08,
+   "volume_24h": 4266.01,
+   "open_interest": 7605.3,
+   "top_book_contracts": 17.0,
+   "close_time": "2026-12-07T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-VIO-45",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxrt",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-VIO-45",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/RT.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Rotten Tomatoes",
+      "url": "https://www.rottentomatoes.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-25",
+      "url": "https://news.google.com/search?q=violent+night+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F25%2F2026%2Ccd_max%3A11%2F25%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=violent+night+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search rottentomatoes.com for violent night rotten tomatoes score",
+      "url": "https://duckduckgo.com/?q=site%3Arottentomatoes.com%20violent%20night%20rotten%20tomatoes%20score",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.6529,
+    "roi_pct_est": 30.13,
+    "direction": "no",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.1815,
+     "open_interest": 0.1164,
+     "band": 0.07,
+     "time": 0.045,
+     "spread": -0.16
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 4,266 contracts",
+     "open interest 7,605",
+     "book spread $0.08",
+     "time to close 301.8h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "bc97db4045b6",
+   "ts": 1795569030,
+   "iso": "2026-11-25T01:10:30Z",
+   "ticker": "KXRT-VIO-60",
+   "topic": "culture",
+   "title": "Violent Night 2 Rotten Tomatoes score?",
+   "subtitle": "Above 60",
+   "series_ticker": "KXRT",
+   "direction": "down",
+   "from_price": 0.625,
+   "to_price": 0.325,
+   "delta": -0.3,
+   "abs_delta": 0.3,
+   "pct_change": -48.0,
+   "basis": "mid",
+   "price": 0.325,
+   "yes_bid": 0.31,
+   "yes_ask": 0.34,
+   "spread": 0.03,
+   "volume_24h": 16372.02,
+   "open_interest": 16561.87,
+   "top_book_contracts": 64.92,
+   "close_time": "2026-12-07T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-VIO-60",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxrt",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-VIO-60",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/RT.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Rotten Tomatoes",
+      "url": "https://www.rottentomatoes.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-25",
+      "url": "https://news.google.com/search?q=violent+night+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F25%2F2026%2Ccd_max%3A11%2F25%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=violent+night+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search rottentomatoes.com for violent night rotten tomatoes score",
+      "url": "https://duckduckgo.com/?q=site%3Arottentomatoes.com%20violent%20night%20rotten%20tomatoes%20score",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.7766,
+    "roi_pct_est": 71.69,
+    "direction": "no",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.1266,
+     "band": 0.065,
+     "time": 0.045,
+     "spread": -0.06
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 16,372 contracts",
+     "open interest 16,562",
+     "book spread $0.03",
+     "time to close 301.8h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "c4a89b5e9944",
+   "ts": 1795569030,
+   "iso": "2026-11-25T01:10:30Z",
+   "ticker": "KXAAAGASD-26NOV25-3.5900",
+   "topic": "gas",
+   "title": "Will average **gas prices** be above $3.5900?",
+   "subtitle": "Above 3.5900",
+   "series_ticker": "KXAAAGASD",
+   "direction": "down",
+   "from_price": 0.665,
+   "to_price": 0.015,
+   "delta": -0.65,
+   "abs_delta": 0.65,
+   "pct_change": -97.74,
+   "basis": "mid",
+   "price": 0.015,
+   "yes_bid": 0.01,
+   "yes_ask": 0.02,
+   "spread": 0.01,
+   "volume_24h": 81010.91,
+   "open_interest": 30363.95,
+   "top_book_contracts": 12684.21,
+   "close_time": "2026-11-25T04:59:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV25-3.5900",
+   "series_page_url": "https://kalshi.com/markets/kxaaagasd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxaaagasd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV25-3.5900",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: AAA",
+      "url": "https://gasprices.aaa.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-25",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F25%2F2026%2Ccd_max%3A11%2F25%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search gasprices.aaa.com for gas prices",
+      "url": "https://duckduckgo.com/?q=site%3Agasprices.aaa.com%20gas%20prices",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.4675,
+    "roi_pct_est": 37.4,
+    "direction": null,
+    "components": {
+     "momentum": 0.0,
+     "liquidity": 0.2,
+     "open_interest": 0.1345,
+     "band": 0.003,
+     "time": 0.15,
+     "spread": -0.02
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 81,011 contracts",
+     "open interest 30,364",
+     "book spread $0.01",
+     "time to close 3.8h"
     ],
     "model_version": "heuristic-v1",
     "eligible": false,
