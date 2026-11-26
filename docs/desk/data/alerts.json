@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-25T19:43:38Z",
+ "generated_at": "2026-11-26T02:31:42Z",
  "threshold": 0.1,
  "items": [
   {
@@ -19563,6 +19563,1278 @@
      "open interest 40,606",
      "book spread $0.01",
      "time to close 2.3h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "279068bf69a1",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXAAAGASEOYNJ-26DEC31-3.6000",
+   "topic": "gas",
+   "title": "Will average **gas prices** be above $3.6000?",
+   "subtitle": "Above 3.6000",
+   "series_ticker": "KXAAAGASEOYNJ",
+   "direction": "down",
+   "from_price": 0.5,
+   "to_price": 0.4,
+   "delta": -0.1,
+   "abs_delta": 0.1,
+   "pct_change": -20.0,
+   "basis": "mid",
+   "price": 0.4,
+   "yes_bid": 0.3,
+   "yes_ask": 0.5,
+   "spread": 0.2,
+   "volume_24h": 16.47,
+   "open_interest": 16.47,
+   "top_book_contracts": 200.0,
+   "close_time": "2026-12-31T04:59:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASEOYNJ-26DEC31-3.6000",
+   "series_page_url": "https://kalshi.com/markets/kxaaagaseoynj",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxaaagaseoynj",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASEOYNJ-26DEC31-3.6000",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: AAA",
+      "url": "https://gasprices.aaa.com/?state=NJ",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search gasprices.aaa.com for gas prices",
+      "url": "https://duckduckgo.com/?q=site%3Agasprices.aaa.com%20gas%20prices",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.0244,
+    "roi_pct_est": 0.24,
+    "direction": null,
+    "components": {
+     "momentum": 0.0,
+     "liquidity": 0.0621,
+     "open_interest": 0.0373,
+     "band": 0.08,
+     "time": 0.045,
+     "spread": -0.2
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 16 contracts",
+     "open interest 16",
+     "book spread $0.20",
+     "time to close 842.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "27858ca3b330",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXBTCD-26NOV2717-T57999.99",
+   "topic": "crypto",
+   "title": "Bitcoin price on Nov 27, 2026?",
+   "subtitle": "$58,000 or above",
+   "series_ticker": "KXBTCD",
+   "direction": "up",
+   "from_price": 0.785,
+   "to_price": 0.895,
+   "delta": 0.11,
+   "abs_delta": 0.11,
+   "pct_change": 14.01,
+   "basis": "mid",
+   "price": 0.895,
+   "yes_bid": 0.89,
+   "yes_ask": 0.9,
+   "spread": 0.01,
+   "volume_24h": 36106.33,
+   "open_interest": 39061.75,
+   "top_book_contracts": 10883.0,
+   "close_time": "2026-11-27T22:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T57999.99",
+   "series_page_url": "https://kalshi.com/markets/kxbtcd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T57999.99",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for bitcoin price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20bitcoin%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.8888,
+    "roi_pct_est": 24.33,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.1378,
+     "band": 0.021,
+     "time": 0.15,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move +0.20 over the lookback (2 price points)",
+     "24h volume 36,106 contracts",
+     "open interest 39,062",
+     "book spread $0.01",
+     "time to close 43.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "c6aad440c47a",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXBTCD-26NOV2717-T58499.99",
+   "topic": "crypto",
+   "title": "Bitcoin price on Nov 27, 2026?",
+   "subtitle": "$58,500 or above",
+   "series_ticker": "KXBTCD",
+   "direction": "up",
+   "from_price": 0.725,
+   "to_price": 0.855,
+   "delta": 0.13,
+   "abs_delta": 0.13,
+   "pct_change": 17.93,
+   "basis": "mid",
+   "price": 0.855,
+   "yes_bid": 0.85,
+   "yes_ask": 0.86,
+   "spread": 0.01,
+   "volume_24h": 45001.7,
+   "open_interest": 29675.17,
+   "top_book_contracts": 5560.09,
+   "close_time": "2026-11-27T22:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T58499.99",
+   "series_page_url": "https://kalshi.com/markets/kxbtcd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T58499.99",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for bitcoin price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20bitcoin%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.7332,
+    "roi_pct_est": 13.72,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.24,
+     "liquidity": 0.2,
+     "open_interest": 0.1342,
+     "band": 0.029,
+     "time": 0.15,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move +0.12 over the lookback (4 price points)",
+     "24h volume 45,002 contracts",
+     "open interest 29,675",
+     "book spread $0.01",
+     "time to close 43.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "0f7fcc53d36a",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXAAAGASMINM-26NOV30-3.50",
+   "topic": "gas",
+   "title": "Will average gas prices go below $3.50 by Nov 30, 2026?",
+   "subtitle": "$3.50",
+   "series_ticker": "KXAAAGASMINM",
+   "direction": "down",
+   "from_price": 0.76,
+   "to_price": 0.62,
+   "delta": -0.14,
+   "abs_delta": 0.14,
+   "pct_change": -18.42,
+   "basis": "mid",
+   "price": 0.62,
+   "yes_bid": 0.55,
+   "yes_ask": 0.69,
+   "spread": 0.14,
+   "volume_24h": 9709.43,
+   "open_interest": 8084.7,
+   "top_book_contracts": 11.0,
+   "close_time": "2026-11-30T04:59:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMINM-26NOV30-3.50",
+   "series_page_url": "https://kalshi.com/markets/kxaaagasminm",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxaaagasminm",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASMINM-26NOV30-3.50",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: AAA",
+      "url": "https://gasprices.aaa.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search gasprices.aaa.com for gas prices",
+      "url": "https://duckduckgo.com/?q=site%3Agasprices.aaa.com%20gas%20prices",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.6826,
+    "roi_pct_est": 33.03,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.1994,
+     "open_interest": 0.1172,
+     "band": 0.076,
+     "time": 0.09,
+     "spread": -0.2
+    },
+    "reasons": [
+     "move +0.29 over the lookback (4 price points)",
+     "24h volume 9,709 contracts",
+     "open interest 8,085",
+     "book spread $0.14",
+     "time to close 98.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "935728f5805b",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXRT-FUR-80",
+   "topic": "culture",
+   "title": "The Further Mis-Adventures of Cliff Booth Rotten Tomatoes score?",
+   "subtitle": "Above 80",
+   "series_ticker": "KXRT",
+   "direction": "down",
+   "from_price": 0.62,
+   "to_price": 0.475,
+   "delta": -0.145,
+   "abs_delta": 0.145,
+   "pct_change": -23.39,
+   "basis": "mid",
+   "price": 0.475,
+   "yes_bid": 0.46,
+   "yes_ask": 0.49,
+   "spread": 0.03,
+   "volume_24h": 21998.36,
+   "open_interest": 50691.26,
+   "top_book_contracts": 6.0,
+   "close_time": "2026-11-30T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FUR-80",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxrt",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXRT-FUR-80",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/RT.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Rotten Tomatoes",
+      "url": "https://www.rottentomatoes.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=further+mis-adventures+cliff+booth+rotten&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=further+mis-adventures+cliff+booth+rotten&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search rottentomatoes.com for further mis-adventures cliff booth rotten",
+      "url": "https://duckduckgo.com/?q=site%3Arottentomatoes.com%20further%20mis-adventures%20cliff%20booth%20rotten",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.6761,
+    "roi_pct_est": 20.64,
+    "direction": "no",
+    "components": {
+     "momentum": 0.21,
+     "liquidity": 0.2,
+     "open_interest": 0.1411,
+     "band": 0.095,
+     "time": 0.09,
+     "spread": -0.06
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 21,998 contracts",
+     "open interest 50,691",
+     "book spread $0.03",
+     "time to close 108.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "b65cd8ae3890",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXALBUMEQUIV-GTA626NOV26-155K",
+   "topic": "culture",
+   "title": "Will Grand Theft Auto VI: The Album by Grand Theft Auto VI have above 155000 Album Equivalent Units during the November 20, 2026 -November 26, 2026 tracking week?",
+   "subtitle": "Above 155K",
+   "series_ticker": "KXALBUMEQUIV",
+   "direction": "down",
+   "from_price": 0.93,
+   "to_price": 0.78,
+   "delta": -0.15,
+   "abs_delta": 0.15,
+   "pct_change": -16.13,
+   "basis": "mid",
+   "price": 0.78,
+   "yes_bid": 0.73,
+   "yes_ask": 0.83,
+   "spread": 0.1,
+   "volume_24h": 2707.31,
+   "open_interest": 1504.93,
+   "top_book_contracts": 21.21,
+   "close_time": "2026-11-29T15:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXALBUMEQUIV-GTA626NOV26-155K",
+   "series_page_url": "https://kalshi.com/markets/kxalbumequiv",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxalbumequiv",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXALBUMEQUIV-GTA626NOV26-155K",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/PERIODMEDIACONSUMPTION.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Luminate",
+      "url": "https://luminatedata.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=grand+theft+auto+album+equivalent&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=grand+theft+auto+album+equivalent&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search luminatedata.com for grand theft auto album equivalent",
+      "url": "https://duckduckgo.com/?q=site%3Aluminatedata.com%20grand%20theft%20auto%20album%20equivalent",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.281,
+    "roi_pct_est": 2.88,
+    "direction": "no",
+    "components": {
+     "momentum": 0.08,
+     "liquidity": 0.1716,
+     "open_interest": 0.0953,
+     "band": 0.044,
+     "time": 0.09,
+     "spread": -0.2
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 2,707 contracts",
+     "open interest 1,505",
+     "book spread $0.10",
+     "time to close 84.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "7950ad01c7db",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXBTCD-26NOV2717-T58999.99",
+   "topic": "crypto",
+   "title": "Bitcoin price on Nov 27, 2026?",
+   "subtitle": "$59,000 or above",
+   "series_ticker": "KXBTCD",
+   "direction": "up",
+   "from_price": 0.645,
+   "to_price": 0.805,
+   "delta": 0.16,
+   "abs_delta": 0.16,
+   "pct_change": 24.81,
+   "basis": "mid",
+   "price": 0.805,
+   "yes_bid": 0.8,
+   "yes_ask": 0.81,
+   "spread": 0.01,
+   "volume_24h": 54179.76,
+   "open_interest": 35615.51,
+   "top_book_contracts": 2001.0,
+   "close_time": "2026-11-27T22:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T58999.99",
+   "series_page_url": "https://kalshi.com/markets/kxbtcd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T58999.99",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for bitcoin price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20bitcoin%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.6655,
+    "roi_pct_est": 9.92,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.16,
+     "liquidity": 0.2,
+     "open_interest": 0.1365,
+     "band": 0.039,
+     "time": 0.15,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move +0.08 over the lookback (8 price points)",
+     "24h volume 54,180 contracts",
+     "open interest 35,616",
+     "book spread $0.01",
+     "time to close 43.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "acf03dfae286",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXBTCD-26NOV2717-T59999.99",
+   "topic": "crypto",
+   "title": "Bitcoin price on Nov 27, 2026?",
+   "subtitle": "$60,000 or above",
+   "series_ticker": "KXBTCD",
+   "direction": "up",
+   "from_price": 0.485,
+   "to_price": 0.655,
+   "delta": 0.17,
+   "abs_delta": 0.17,
+   "pct_change": 35.05,
+   "basis": "mid",
+   "price": 0.655,
+   "yes_bid": 0.65,
+   "yes_ask": 0.66,
+   "spread": 0.01,
+   "volume_24h": 40209.62,
+   "open_interest": 37107.38,
+   "top_book_contracts": 12214.0,
+   "close_time": "2026-11-27T22:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T59999.99",
+   "series_page_url": "https://kalshi.com/markets/kxbtcd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T59999.99",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for bitcoin price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20bitcoin%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.9361,
+    "roi_pct_est": 42.87,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.1371,
+     "band": 0.069,
+     "time": 0.15,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move +0.28 over the lookback (2 price points)",
+     "24h volume 40,210 contracts",
+     "open interest 37,107",
+     "book spread $0.01",
+     "time to close 43.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "2b36942d4f9e",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXBTCD-26NOV2717-T59499.99",
+   "topic": "crypto",
+   "title": "Bitcoin price on Nov 27, 2026?",
+   "subtitle": "$59,500 or above",
+   "series_ticker": "KXBTCD",
+   "direction": "up",
+   "from_price": 0.565,
+   "to_price": 0.735,
+   "delta": 0.17,
+   "abs_delta": 0.17,
+   "pct_change": 30.09,
+   "basis": "mid",
+   "price": 0.735,
+   "yes_bid": 0.73,
+   "yes_ask": 0.74,
+   "spread": 0.01,
+   "volume_24h": 68786.92,
+   "open_interest": 30591.39,
+   "top_book_contracts": 6709.0,
+   "close_time": "2026-11-27T22:00:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T59499.99",
+   "series_page_url": "https://kalshi.com/markets/kxbtcd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T59499.99",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=bitcoin+price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for bitcoin price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20bitcoin%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.9176,
+    "roi_pct_est": 37.45,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.1346,
+     "band": 0.053,
+     "time": 0.15,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move +0.28 over the lookback (2 price points)",
+     "24h volume 68,787 contracts",
+     "open interest 30,591",
+     "book spread $0.01",
+     "time to close 43.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "7d77e233b08c",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXAAAGASW-26NOV30-3.4800",
+   "topic": "gas",
+   "title": "Will average **gas prices** be above $3.4800?",
+   "subtitle": "Above 3.4800",
+   "series_ticker": "KXAAAGASW",
+   "direction": "up",
+   "from_price": 0.755,
+   "to_price": 0.925,
+   "delta": 0.17,
+   "abs_delta": 0.17,
+   "pct_change": 22.52,
+   "basis": "mid",
+   "price": 0.925,
+   "yes_bid": 0.92,
+   "yes_ask": 0.93,
+   "spread": 0.01,
+   "volume_24h": 127073.45,
+   "open_interest": 63339.13,
+   "top_book_contracts": 9664.91,
+   "close_time": "2026-11-30T04:59:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV30-3.4800",
+   "series_page_url": "https://kalshi.com/markets/kxaaagasw",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxaaagasw",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASW-26NOV30-3.4800",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: AAA",
+      "url": "https://gasprices.aaa.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search gasprices.aaa.com for gas prices",
+      "url": "https://duckduckgo.com/?q=site%3Agasprices.aaa.com%20gas%20prices",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.7491,
+    "roi_pct_est": 16.2,
+    "direction": "no",
+    "components": {
+     "momentum": 0.32,
+     "liquidity": 0.2,
+     "open_interest": 0.1441,
+     "band": 0.015,
+     "time": 0.09,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move -0.16 over the lookback (10 price points)",
+     "24h volume 127,073 contracts",
+     "open interest 63,339",
+     "book spread $0.01",
+     "time to close 98.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": true,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "f471cbe68671",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXAAAGASWNJ-26NOV30-3.6800",
+   "topic": "gas",
+   "title": "Will average **gas prices** be above $3.6800?",
+   "subtitle": "Above 3.6800",
+   "series_ticker": "KXAAAGASWNJ",
+   "direction": "up",
+   "from_price": 0.46,
+   "to_price": 0.635,
+   "delta": 0.175,
+   "abs_delta": 0.175,
+   "pct_change": 38.04,
+   "basis": "mid",
+   "price": 0.635,
+   "yes_bid": 0.45,
+   "yes_ask": 0.82,
+   "spread": 0.37,
+   "volume_24h": 10.79,
+   "open_interest": 129.59,
+   "top_book_contracts": 5.15,
+   "close_time": "2026-11-30T04:59:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASWNJ-26NOV30-3.6800",
+   "series_page_url": "https://kalshi.com/markets/kxaaagaswnj",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxaaagaswnj",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASWNJ-26NOV30-3.6800",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: AAA",
+      "url": "https://gasprices.aaa.com/?state=NJ",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search gasprices.aaa.com for gas prices",
+      "url": "https://duckduckgo.com/?q=site%3Agasprices.aaa.com%20gas%20prices",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.4701,
+    "roi_pct_est": 17.4,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.39,
+     "liquidity": 0.0536,
+     "open_interest": 0.0635,
+     "band": 0.073,
+     "time": 0.09,
+     "spread": -0.2
+    },
+    "reasons": [
+     "move +0.20 over the lookback (2 price points)",
+     "24h volume 11 contracts",
+     "open interest 130",
+     "book spread $0.37",
+     "time to close 98.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "c06882ebaf71",
+   "ts": 1795660302,
+   "iso": "2026-11-26T02:31:42Z",
+   "ticker": "KXAAAGASD-26NOV26-3.5550",
+   "topic": "gas",
+   "title": "Will average **gas prices** be above $3.5550?",
+   "subtitle": "Above 3.5550",
+   "series_ticker": "KXAAAGASD",
+   "direction": "up",
+   "from_price": 0.335,
+   "to_price": 0.905,
+   "delta": 0.57,
+   "abs_delta": 0.57,
+   "pct_change": 170.15,
+   "basis": "mid",
+   "price": 0.905,
+   "yes_bid": 0.9,
+   "yes_ask": 0.91,
+   "spread": 0.01,
+   "volume_24h": 119235.79,
+   "open_interest": 26455.11,
+   "top_book_contracts": 2193.0,
+   "close_time": "2026-11-26T04:59:00Z",
+   "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV26-3.5550",
+   "series_page_url": "https://kalshi.com/markets/kxaaagasd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxaaagasd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.kalshi.com/trade-api/v2/markets/KXAAAGASD-26NOV26-3.5550",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: AAA",
+      "url": "https://gasprices.aaa.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-26",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F26%2F2026%2Ccd_max%3A11%2F26%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=gas+prices&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search gasprices.aaa.com for gas prices",
+      "url": "https://duckduckgo.com/?q=site%3Agasprices.aaa.com%20gas%20prices",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.4817,
+    "roi_pct_est": 2.13,
+    "direction": null,
+    "components": {
+     "momentum": 0.0,
+     "liquidity": 0.2,
+     "open_interest": 0.1327,
+     "band": 0.019,
+     "time": 0.15,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move +0.00 over the lookback (2 price points)",
+     "24h volume 119,236 contracts",
+     "open interest 26,455",
+     "book spread $0.01",
+     "time to close 2.5h"
     ],
     "model_version": "heuristic-v1",
     "eligible": false,
