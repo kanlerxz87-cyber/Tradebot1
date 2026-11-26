@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-25T19:43:42Z",
+ "generated_at": "2026-11-26T20:38:36Z",
  "schema": 1,
  "series": {
   "KXAAAGASW": {
@@ -15,7 +15,7 @@
    ],
    "frequency": "weekly",
    "topic": "gas",
-   "volume": 65784305.0,
+   "volume": 66088692.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -38,7 +38,7 @@
    ],
    "frequency": "monthly",
    "topic": "gas",
-   "volume": 65357679.0,
+   "volume": 65506329.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -62,7 +62,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 57148412.0,
+   "volume": 57778782.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -223,7 +223,7 @@
    ],
    "frequency": "annual",
    "topic": "gas",
-   "volume": 2198113.0,
+   "volume": 2208372.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
@@ -663,7 +663,7 @@
    ],
    "frequency": "monthly",
    "topic": "gas",
-   "volume": 1013807.0,
+   "volume": 1013808.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -733,7 +733,7 @@
    ],
    "frequency": "monthly",
    "topic": "gas",
-   "volume": 790262.0,
+   "volume": 812599.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ECONSTAT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ECONSTAT.pdf",
    "settlement_sources": [
@@ -744,6 +744,28 @@
     {
      "name": "Bureau of Labor Statistics- Consumer Price Index",
      "url": "https://www.bls.gov/news.release/cpi.nr0.htm"
+    }
+   ]
+  },
+  "KXAAAGASMINM": {
+   "ticker": "KXAAAGASMINM",
+   "title": "US lowest gas price monthly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "monthly",
+   "topic": "gas",
+   "volume": 749696.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
     }
    ]
   },
@@ -771,28 +793,6 @@
     }
    ]
   },
-  "KXAAAGASMINM": {
-   "ticker": "KXAAAGASMINM",
-   "title": "US lowest gas price monthly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "monthly",
-   "topic": "gas",
-   "volume": 710596.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
   "KXAAAGASWNJ": {
    "ticker": "KXAAAGASWNJ",
    "title": "New Jersey gas price this week",
@@ -806,7 +806,7 @@
    ],
    "frequency": "weekly",
    "topic": "gas",
-   "volume": 702458.0,
+   "volume": 702835.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -829,7 +829,7 @@
    ],
    "frequency": "annual",
    "topic": "gas",
-   "volume": 620982.0,
+   "volume": 621289.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
@@ -852,7 +852,7 @@
    ],
    "frequency": "annual",
    "topic": "gas",
-   "volume": 584820.0,
+   "volume": 584839.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -970,7 +970,7 @@
    ],
    "frequency": "monthly",
    "topic": "gas",
-   "volume": 535309.0,
+   "volume": 535403.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
@@ -1232,7 +1232,7 @@
    ],
    "frequency": "annual",
    "topic": "gas",
-   "volume": 422231.0,
+   "volume": 422246.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
@@ -1609,7 +1609,7 @@
    ],
    "frequency": "annual",
    "topic": "gas",
-   "volume": 137986.0,
+   "volume": 138306.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
@@ -1632,7 +1632,7 @@
    ],
    "frequency": "annual",
    "topic": "gas",
-   "volume": 108838.0,
+   "volume": 108843.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
@@ -1678,7 +1678,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 66660.0,
+   "volume": 67219.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1702,7 +1702,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 60846.0,
+   "volume": 60998.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1726,7 +1726,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 57410.0,
+   "volume": 57492.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1773,7 +1773,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 52603.0,
+   "volume": 52963.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1797,7 +1797,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 51185.0,
+   "volume": 51947.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1821,7 +1821,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 49475.0,
+   "volume": 49950.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1845,7 +1845,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 49254.0,
+   "volume": 49820.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1869,7 +1869,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 49128.0,
+   "volume": 49473.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1893,7 +1893,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 48507.0,
+   "volume": 48829.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1917,7 +1917,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 46703.0,
+   "volume": 47015.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1941,7 +1941,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 45854.0,
+   "volume": 45875.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1965,7 +1965,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 45656.0,
+   "volume": 45699.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -1989,7 +1989,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 44948.0,
+   "volume": 44974.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2013,7 +2013,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 44480.0,
+   "volume": 44811.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2037,7 +2037,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 43980.0,
+   "volume": 43981.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2061,7 +2061,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 43259.0,
+   "volume": 43901.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2085,7 +2085,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 43243.0,
+   "volume": 43579.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2109,13 +2109,61 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 42891.0,
+   "volume": 43360.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=CT"
+    }
+   ]
+  },
+  "KXAAAGASCDMT": {
+   "ticker": "KXAAAGASCDMT",
+   "title": "Montana gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 42896.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MT"
+    }
+   ]
+  },
+  "KXAAAGASCDAK": {
+   "ticker": "KXAAAGASCDAK",
+   "title": "Alaska gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 42854.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=AK"
     }
    ]
   },
@@ -2143,54 +2191,6 @@
     }
    ]
   },
-  "KXAAAGASCDMT": {
-   "ticker": "KXAAAGASCDMT",
-   "title": "Montana gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 42727.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MT"
-    }
-   ]
-  },
-  "KXAAAGASCDAK": {
-   "ticker": "KXAAAGASCDAK",
-   "title": "Alaska gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 42079.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=AK"
-    }
-   ]
-  },
   "KXAAAGASCDNJ": {
    "ticker": "KXAAAGASCDNJ",
    "title": "New Jersey gas price",
@@ -2205,7 +2205,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 41913.0,
+   "volume": 42517.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2229,7 +2229,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 41148.0,
+   "volume": 41149.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2253,7 +2253,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 40746.0,
+   "volume": 40864.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2277,7 +2277,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 38893.0,
+   "volume": 38970.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2301,37 +2301,13 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 38785.0,
+   "volume": 38864.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=LA"
-    }
-   ]
-  },
-  "KXAAAGASCDCO": {
-   "ticker": "KXAAAGASCDCO",
-   "title": "Colorado gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 38155.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=CO"
     }
    ]
   },
@@ -2349,7 +2325,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 38066.0,
+   "volume": 38357.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2359,9 +2335,9 @@
     }
    ]
   },
-  "KXAAAGASCDMO": {
-   "ticker": "KXAAAGASCDMO",
-   "title": "Missouri gas price",
+  "KXAAAGASCDCO": {
+   "ticker": "KXAAAGASCDCO",
+   "title": "Colorado gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2373,13 +2349,13 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 37901.0,
+   "volume": 38238.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MO"
+     "url": "https://gasprices.aaa.com/?state=CO"
     }
    ]
   },
@@ -2397,13 +2373,37 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 37720.0,
+   "volume": 38152.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=VA"
+    }
+   ]
+  },
+  "KXAAAGASCDMO": {
+   "ticker": "KXAAAGASCDMO",
+   "title": "Missouri gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 37908.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MO"
     }
    ]
   },
@@ -2431,30 +2431,6 @@
     }
    ]
   },
-  "KXAAAGASCDWA": {
-   "ticker": "KXAAAGASCDWA",
-   "title": "Washington gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 36907.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=WA"
-    }
-   ]
-  },
   "KXAAAGASCDNH": {
    "ticker": "KXAAAGASCDNH",
    "title": "New Hampshire gas price",
@@ -2469,13 +2445,37 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 36765.0,
+   "volume": 37646.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=NH"
+    }
+   ]
+  },
+  "KXAAAGASCDWA": {
+   "ticker": "KXAAAGASCDWA",
+   "title": "Washington gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 37079.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=WA"
     }
    ]
   },
@@ -2493,7 +2493,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 36722.0,
+   "volume": 36732.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2517,7 +2517,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 35314.0,
+   "volume": 35736.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2541,7 +2541,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 35195.0,
+   "volume": 35434.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2565,7 +2565,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 34880.0,
+   "volume": 34900.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2589,7 +2589,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 34232.0,
+   "volume": 34296.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2613,7 +2613,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 34144.0,
+   "volume": 34288.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2637,7 +2637,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 33411.0,
+   "volume": 33421.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2661,7 +2661,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 33060.0,
+   "volume": 33144.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2709,7 +2709,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 32101.0,
+   "volume": 32567.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2755,7 +2755,7 @@
    ],
    "frequency": "monthly",
    "topic": "gas",
-   "volume": 30524.0,
+   "volume": 30724.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ECONSTATB.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ECONSTATB.pdf",
    "settlement_sources": [
@@ -2779,7 +2779,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 28415.0,
+   "volume": 28448.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2826,7 +2826,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 21439.0,
+   "volume": 21466.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2850,7 +2850,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 16572.0,
+   "volume": 16953.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2874,7 +2874,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 14257.0,
+   "volume": 14272.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2920,7 +2920,7 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 5900.0,
+   "volume": 5921.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
@@ -2944,145 +2944,13 @@
    ],
    "frequency": "daily",
    "topic": "gas",
-   "volume": 3620.0,
+   "volume": 3640.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASNEW.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=IL"
-    }
-   ]
-  },
-  "AAAGASMAXTX": {
-   "ticker": "AAAGASMAXTX",
-   "title": "Texas highest gas price yearly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
-  "AAAGASMIN": {
-   "ticker": "AAAGASMIN",
-   "title": "US lowest gas price yearly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
-  "NGASW": {
-   "ticker": "NGASW",
-   "title": "Natural gas price max and min weekly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "weekly",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "Energy Information Administration",
-     "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
-    }
-   ]
-  },
-  "AAAGASMAXCA": {
-   "ticker": "AAAGASMAXCA",
-   "title": "California highest gas price yearly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
-  "KXAAAGASY": {
-   "ticker": "KXAAAGASY",
-   "title": "US gas price up",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil & Gas"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
-  "AAAGASMAX": {
-   "ticker": "AAAGASMAX",
-   "title": "US highest gas price yearly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
     }
    ]
   },
@@ -3105,28 +2973,6 @@
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
-  "NGASMAX": {
-   "ticker": "NGASMAX",
-   "title": "Natural gas price peak",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "Energy Information Administration",
-     "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
     }
    ]
   },
@@ -3174,6 +3020,50 @@
     }
    ]
   },
+  "AAAGASY": {
+   "ticker": "AAAGASY",
+   "title": "US gas price up",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
+  "AAAGASMAX": {
+   "ticker": "AAAGASMAX",
+   "title": "US highest gas price yearly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
   "AAAGASMINCA": {
    "ticker": "AAAGASMINCA",
    "title": "California lowest gas price yearly",
@@ -3218,28 +3108,6 @@
     }
    ]
   },
-  "AAAGASY": {
-   "ticker": "AAAGASY",
-   "title": "US gas price up",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
   "AAAGASD": {
    "ticker": "AAAGASD",
    "title": "US gas price up",
@@ -3255,6 +3123,138 @@
    "volume": 0.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
+  "NGASMAX": {
+   "ticker": "NGASMAX",
+   "title": "Natural gas price peak",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "Energy Information Administration",
+     "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
+    }
+   ]
+  },
+  "AAAGASMAXTX": {
+   "ticker": "AAAGASMAXTX",
+   "title": "Texas highest gas price yearly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
+  "NGASW": {
+   "ticker": "NGASW",
+   "title": "Natural gas price max and min weekly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "weekly",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "Energy Information Administration",
+     "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
+    }
+   ]
+  },
+  "AAAGASMIN": {
+   "ticker": "AAAGASMIN",
+   "title": "US lowest gas price yearly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
+  "KXAAAGASY": {
+   "ticker": "KXAAAGASY",
+   "title": "US gas price up",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil & Gas"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
+  "AAAGASMAXCA": {
+   "ticker": "AAAGASMAXCA",
+   "title": "California highest gas price yearly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
@@ -3298,7 +3298,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 313676923.0,
+   "volume": 314248413.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PRESNOM.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PRESNOM.pdf",
    "settlement_sources": [
@@ -3326,7 +3326,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 210389784.0,
+   "volume": 210391146.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CONTROL.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CONTROL.pdf",
    "settlement_sources": [
@@ -3374,7 +3374,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 166458888.0,
+   "volume": 166458912.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POLITICALECONOMICEVENTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/POLITICALECONOMICEVENTS.pdf",
    "settlement_sources": [
@@ -3406,7 +3406,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 146345849.0,
+   "volume": 146345896.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/USELECTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/USELECTION.pdf",
    "settlement_sources": [
@@ -3445,7 +3445,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 135499831.0,
+   "volume": 135499993.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POPVOTEMOV.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/POPVOTEMOV.pdf",
    "settlement_sources": [
@@ -3489,7 +3489,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 117438775.0,
+   "volume": 117439769.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CONTROL.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CONTROL.pdf",
    "settlement_sources": [
@@ -3513,7 +3513,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 111635380.0,
+   "volume": 112245689.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PRESPERSON.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PRESPERSON.pdf",
    "settlement_sources": [
@@ -3537,7 +3537,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 108401105.0,
+   "volume": 109555807.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PRESNOM.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PRESNOM.pdf",
    "settlement_sources": [
@@ -3586,7 +3586,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 86386952.0,
+   "volume": 86401340.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ECMOV.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ECMOV.pdf",
    "settlement_sources": [
@@ -3738,7 +3738,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 59679863.0,
+   "volume": 59679866.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SENATEPARTY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf",
    "settlement_sources": [
@@ -3762,7 +3762,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 54665738.0,
+   "volume": 54670548.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/HOUSEPARTY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOUSEPARTY.pdf",
    "settlement_sources": [
@@ -3826,7 +3826,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 48300110.0,
+   "volume": 48308276.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ELECTIONMOV.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ELECTIONMOV.pdf",
    "settlement_sources": [
@@ -4029,7 +4029,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 29071307.0,
+   "volume": 29071490.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POWER.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/POWER.pdf",
    "settlement_sources": [
@@ -4075,7 +4075,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 27788869.0,
+   "volume": 27957181.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SEATSCONGRESS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SEATSCONGRESS.pdf",
    "settlement_sources": [
@@ -4159,7 +4159,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 23125764.0,
+   "volume": 23210725.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SEATSCONGRESS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SEATSCONGRESS.pdf",
    "settlement_sources": [
@@ -4320,7 +4320,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 18581967.0,
+   "volume": 18581993.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SENATEPARTY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf",
    "settlement_sources": [
@@ -4484,6 +4484,41 @@
     }
    ]
   },
+  "KXBLUEWAVECOMBO": {
+   "ticker": "KXBLUEWAVECOMBO",
+   "title": "Will there be a blue wave?",
+   "category": "Elections",
+   "categories": [
+    "Elections"
+   ],
+   "tags": [
+    "Senate",
+    "House",
+    "Mixed Combos",
+    "US Elections",
+    "Other US Elections",
+    "Election Combos"
+   ],
+   "frequency": "one_off",
+   "topic": "elections",
+   "volume": 16392474.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POLITICALECONOMICEVENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/POLITICALECONOMICEVENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "Bureau of Labor Statistics",
+     "url": "https://www.bls.gov/news.release/empsit.nr0.htm"
+    },
+    {
+     "name": "Bureau of Labor Statistics",
+     "url": "https://www.bls.gov/cpi/"
+    },
+    {
+     "name": "Federal Reserve Board of Governors",
+     "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
+    }
+   ]
+  },
   "KXGOVWINOMD": {
    "ticker": "KXGOVWINOMD",
    "title": "Gov WI Nom D",
@@ -4503,41 +4538,6 @@
     {
      "name": "Republican Party",
      "url": "https://gop.com/"
-    }
-   ]
-  },
-  "KXBLUEWAVECOMBO": {
-   "ticker": "KXBLUEWAVECOMBO",
-   "title": "Will there be a blue wave?",
-   "category": "Elections",
-   "categories": [
-    "Elections"
-   ],
-   "tags": [
-    "Senate",
-    "House",
-    "Mixed Combos",
-    "US Elections",
-    "Other US Elections",
-    "Election Combos"
-   ],
-   "frequency": "one_off",
-   "topic": "elections",
-   "volume": 16387564.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POLITICALECONOMICEVENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/POLITICALECONOMICEVENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "Bureau of Labor Statistics",
-     "url": "https://www.bls.gov/news.release/empsit.nr0.htm"
-    },
-    {
-     "name": "Bureau of Labor Statistics",
-     "url": "https://www.bls.gov/cpi/"
-    },
-    {
-     "name": "Federal Reserve Board of Governors",
-     "url": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm"
     }
    ]
   },
@@ -4576,7 +4576,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 14700122.0,
+   "volume": 14700135.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SENATEPARTY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf",
    "settlement_sources": [
@@ -4670,7 +4670,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 13799972.0,
+   "volume": 14232867.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ELECTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ELECTION.pdf",
    "settlement_sources": [
@@ -4801,7 +4801,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 11849688.0,
+   "volume": 12095074.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOVHEAD.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOVHEAD.pdf",
    "settlement_sources": [
@@ -4867,7 +4867,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 11538845.0,
+   "volume": 11542246.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SEATSCONGRESS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SEATSCONGRESS.pdf",
    "settlement_sources": [
@@ -4978,7 +4978,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 10749942.0,
+   "volume": 10751074.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SEATSCONGRESS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SEATSCONGRESS.pdf",
    "settlement_sources": [
@@ -5116,6 +5116,73 @@
     }
    ]
   },
+  "KXDSENATESEATSH": {
+   "ticker": "KXDSENATESEATSH",
+   "title": "Democratic Senate seats (higher strikes)",
+   "category": "Elections",
+   "categories": [
+    "Elections"
+   ],
+   "tags": [
+    "Senate",
+    "Senate Combos",
+    "Election Combos"
+   ],
+   "frequency": "one_off",
+   "topic": "elections",
+   "volume": 9939962.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SEATSCONGRESS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SEATSCONGRESS.pdf",
+   "settlement_sources": [
+    {
+     "name": "United States Congress",
+     "url": "https://www.congress.gov/"
+    }
+   ]
+  },
+  "KXLEADERSOUT": {
+   "ticker": "KXLEADERSOUT",
+   "title": "World leaders out this year?",
+   "category": "Elections",
+   "categories": [
+    "Elections"
+   ],
+   "tags": [
+    "International elections",
+    "International"
+   ],
+   "frequency": "annual",
+   "topic": "elections",
+   "volume": 9919754.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/LEAVEOFFICE.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/LEAVEOFFICE.pdf",
+   "settlement_sources": [
+    {
+     "name": "ABC",
+     "url": "https://abcnews.go.com/"
+    },
+    {
+     "name": "Fox News",
+     "url": "https://www.foxnews.com/"
+    },
+    {
+     "name": "MSNBC",
+     "url": "https://www.msnbc.com/"
+    },
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "Semafor",
+     "url": "https://www.semafor.com/"
+    },
+    {
+     "name": "Bloomberg News",
+     "url": "https://www.bloomberg.com/news"
+    }
+   ]
+  },
   "KXLAMAYORMATCHUP": {
    "ticker": "KXLAMAYORMATCHUP",
    "title": "Los Angeles mayor matchup",
@@ -5163,47 +5230,27 @@
     }
    ]
   },
-  "KXDSENATESEATSH": {
-   "ticker": "KXDSENATESEATSH",
-   "title": "Democratic Senate seats (higher strikes)",
-   "category": "Elections",
-   "categories": [
-    "Elections"
-   ],
-   "tags": [
-    "Senate",
-    "Senate Combos",
-    "Election Combos"
-   ],
-   "frequency": "one_off",
-   "topic": "elections",
-   "volume": 9895838.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SEATSCONGRESS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SEATSCONGRESS.pdf",
-   "settlement_sources": [
-    {
-     "name": "United States Congress",
-     "url": "https://www.congress.gov/"
-    }
-   ]
-  },
-  "KXLEADERSOUT": {
-   "ticker": "KXLEADERSOUT",
-   "title": "World leaders out this year?",
+  "KXFRENCHPRES": {
+   "ticker": "KXFRENCHPRES",
+   "title": "French presidential election",
    "category": "Elections",
    "categories": [
     "Elections"
    ],
    "tags": [
     "International elections",
-    "International"
+    "Germany & France"
    ],
-   "frequency": "annual",
+   "frequency": "custom",
    "topic": "elections",
-   "volume": 9883026.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/LEAVEOFFICE.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/LEAVEOFFICE.pdf",
+   "volume": 9549103.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/FRENCHPRES.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/FRENCHPRES.pdf",
    "settlement_sources": [
+    {
+     "name": "the government of France",
+     "url": "https://www.elysee.fr/en/"
+    },
     {
      "name": "ABC",
      "url": "https://abcnews.go.com/"
@@ -5223,10 +5270,31 @@
     {
      "name": "Semafor",
      "url": "https://www.semafor.com/"
-    },
+    }
+   ]
+  },
+  "KXHOUSEPOPVOTEMARGIN": {
+   "ticker": "KXHOUSEPOPVOTEMARGIN",
+   "title": "National House popular vote margin?",
+   "category": "Elections",
+   "categories": [
+    "Elections"
+   ],
+   "tags": [
+    "House",
+    "House Combos",
+    "US Elections",
+    "Election Combos"
+   ],
+   "frequency": "one_off",
+   "topic": "elections",
+   "volume": 9126511.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POLITICALSTAT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/POLITICALSTAT.pdf",
+   "settlement_sources": [
     {
-     "name": "Bloomberg News",
-     "url": "https://www.bloomberg.com/news"
+     "name": "the statistical agency or entity responsible for the calculation and/or release of ",
+     "url": "https://kalshi.com/"
     }
    ]
   },
@@ -5292,31 +5360,6 @@
     }
    ]
   },
-  "KXHOUSEPOPVOTEMARGIN": {
-   "ticker": "KXHOUSEPOPVOTEMARGIN",
-   "title": "National House popular vote margin?",
-   "category": "Elections",
-   "categories": [
-    "Elections"
-   ],
-   "tags": [
-    "House",
-    "House Combos",
-    "US Elections",
-    "Election Combos"
-   ],
-   "frequency": "one_off",
-   "topic": "elections",
-   "volume": 9097974.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POLITICALSTAT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/POLITICALSTAT.pdf",
-   "settlement_sources": [
-    {
-     "name": "the statistical agency or entity responsible for the calculation and/or release of ",
-     "url": "https://kalshi.com/"
-    }
-   ]
-  },
   "SENATEMOV": {
    "ticker": "SENATEMOV",
    "title": "Senate margin of victory",
@@ -5336,49 +5379,6 @@
     {
      "name": "United States Congress",
      "url": "https://www.congress.gov/"
-    }
-   ]
-  },
-  "KXFRENCHPRES": {
-   "ticker": "KXFRENCHPRES",
-   "title": "French presidential election",
-   "category": "Elections",
-   "categories": [
-    "Elections"
-   ],
-   "tags": [
-    "International elections",
-    "Germany & France"
-   ],
-   "frequency": "custom",
-   "topic": "elections",
-   "volume": 8850361.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/FRENCHPRES.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/FRENCHPRES.pdf",
-   "settlement_sources": [
-    {
-     "name": "the government of France",
-     "url": "https://www.elysee.fr/en/"
-    },
-    {
-     "name": "ABC",
-     "url": "https://abcnews.go.com/"
-    },
-    {
-     "name": "Fox News",
-     "url": "https://www.foxnews.com/"
-    },
-    {
-     "name": "MSNBC",
-     "url": "https://www.msnbc.com/"
-    },
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "Semafor",
-     "url": "https://www.semafor.com/"
     }
    ]
   },
@@ -5521,7 +5521,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 7782912.0,
+   "volume": 7783014.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SENATEPARTY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf",
    "settlement_sources": [
@@ -5572,7 +5572,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 7324738.0,
+   "volume": 7324740.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SENATEPARTY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SENATEPARTY.pdf",
    "settlement_sources": [
@@ -5623,6 +5623,45 @@
     {
      "name": "Library of Congress",
      "url": "https://www.congress.gov/"
+    }
+   ]
+  },
+  "KXSENMAJ": {
+   "ticker": "KXSENMAJ",
+   "title": "120th Congress: Who will be elected Senate Majority Leader?",
+   "category": "Elections",
+   "categories": [
+    "Elections"
+   ],
+   "tags": [
+    "US Elections",
+    "Leadership races"
+   ],
+   "frequency": "one_off",
+   "topic": "elections",
+   "volume": 7169324.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/USELECTION.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/USELECTION.pdf",
+   "settlement_sources": [
+    {
+     "name": "relevant county clerk or board of elections",
+     "url": "https://kalshi.com/"
+    },
+    {
+     "name": "Attorney General of the United States",
+     "url": "https://www.justice.gov/ag"
+    },
+    {
+     "name": "relevant city/municipal clerk",
+     "url": "https://kalshi.com/"
+    },
+    {
+     "name": "the Federal Election Commission",
+     "url": "https://www.fec.gov"
+    },
+    {
+     "name": "state board of elections or canvassing board",
+     "url": "https://kalshi.com/"
     }
    ]
   },
@@ -5707,45 +5746,6 @@
     {
      "name": "Library of Congress",
      "url": "https://www.congress.gov/"
-    }
-   ]
-  },
-  "KXSENMAJ": {
-   "ticker": "KXSENMAJ",
-   "title": "120th Congress: Who will be elected Senate Majority Leader?",
-   "category": "Elections",
-   "categories": [
-    "Elections"
-   ],
-   "tags": [
-    "US Elections",
-    "Leadership races"
-   ],
-   "frequency": "one_off",
-   "topic": "elections",
-   "volume": 6705653.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/USELECTION.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/USELECTION.pdf",
-   "settlement_sources": [
-    {
-     "name": "relevant county clerk or board of elections",
-     "url": "https://kalshi.com/"
-    },
-    {
-     "name": "Attorney General of the United States",
-     "url": "https://www.justice.gov/ag"
-    },
-    {
-     "name": "relevant city/municipal clerk",
-     "url": "https://kalshi.com/"
-    },
-    {
-     "name": "the Federal Election Commission",
-     "url": "https://www.fec.gov"
-    },
-    {
-     "name": "state board of elections or canvassing board",
-     "url": "https://kalshi.com/"
     }
    ]
   },
@@ -6180,7 +6180,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 5424089.0,
+   "volume": 5425246.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/VOTEPERCENT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/VOTEPERCENT.pdf",
    "settlement_sources": [
@@ -6376,7 +6376,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 4820862.0,
+   "volume": 4829919.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/POLITICALECONOMICEVENTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/POLITICALECONOMICEVENTS.pdf",
    "settlement_sources": [
@@ -6601,7 +6601,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 4405219.0,
+   "volume": 4425274.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/VPRESNOM.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/VPRESNOM.pdf",
    "settlement_sources": [
@@ -6993,7 +6993,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 3600464.0,
+   "volume": 3600640.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SMALLESTMOV.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SMALLESTMOV.pdf",
    "settlement_sources": [
@@ -7201,7 +7201,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 113748775.0,
+   "volume": 113755552.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PERFORMANCEORDER.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PERFORMANCEORDER.pdf",
    "settlement_sources": [
@@ -7243,7 +7243,7 @@
    ],
    "frequency": "custom",
    "topic": "culture",
-   "volume": 102681076.0,
+   "volume": 103114851.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/RT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/RT.pdf",
    "settlement_sources": [
@@ -7308,7 +7308,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 45825624.0,
+   "volume": 45885519.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -7404,7 +7404,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 29200023.0,
+   "volume": 29254722.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -7428,7 +7428,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 27322501.0,
+   "volume": 27698230.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/TIME.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/TIME.pdf",
    "settlement_sources": [
@@ -7483,7 +7483,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 22051244.0,
+   "volume": 22070032.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/RANKLISTGOOGLESEARCH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/RANKLISTGOOGLESEARCH.pdf",
    "settlement_sources": [
@@ -7528,7 +7528,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 21368678.0,
+   "volume": 21381673.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/TOPARTIST.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/TOPARTIST.pdf",
    "settlement_sources": [
@@ -7576,7 +7576,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 18143722.0,
+   "volume": 18155940.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf",
    "settlement_sources": [
@@ -7666,7 +7666,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 12270054.0,
+   "volume": 12283486.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf",
    "settlement_sources": [
@@ -7689,7 +7689,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 12241660.0,
+   "volume": 12247485.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/FEATURE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/FEATURE.pdf",
    "settlement_sources": [
@@ -7734,7 +7734,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 11000866.0,
+   "volume": 11013004.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARNOMS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARNOMS.pdf",
    "settlement_sources": [
@@ -7758,7 +7758,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 10399223.0,
+   "volume": 10629527.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GAMEAWARDS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GAMEAWARDS.pdf",
    "settlement_sources": [
@@ -7782,7 +7782,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 10114345.0,
+   "volume": 10243768.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PERIODMEDIACONSUMPTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PERIODMEDIACONSUMPTION.pdf",
    "settlement_sources": [
@@ -7859,7 +7859,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 9068357.0,
+   "volume": 9076295.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -7906,7 +7906,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 8704596.0,
+   "volume": 8708769.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf",
    "settlement_sources": [
@@ -7929,7 +7929,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 8326279.0,
+   "volume": 8355489.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PERIODMEDIACONSUMPTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PERIODMEDIACONSUMPTION.pdf",
    "settlement_sources": [
@@ -7952,7 +7952,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 8250829.0,
+   "volume": 8255130.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -7975,7 +7975,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 7860853.0,
+   "volume": 7864623.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -8137,7 +8137,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 6615685.0,
+   "volume": 6618589.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GRAMMY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GRAMMY.pdf",
    "settlement_sources": [
@@ -8262,7 +8262,7 @@
    ],
    "frequency": "custom",
    "topic": "culture",
-   "volume": 6210849.0,
+   "volume": 6212087.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SBSETLISTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SBSETLISTS.pdf",
    "settlement_sources": [
@@ -8390,7 +8390,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 6058610.0,
+   "volume": 6058630.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/EUROVISION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/EUROVISION.pdf",
    "settlement_sources": [
@@ -8417,7 +8417,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 5512394.0,
+   "volume": 5513465.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -8467,7 +8467,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 5323257.0,
+   "volume": 5324206.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/RANKLIST.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/RANKLIST.pdf",
    "settlement_sources": [
@@ -8556,7 +8556,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 4760746.0,
+   "volume": 4763689.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GRAMMY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GRAMMY.pdf",
    "settlement_sources": [
@@ -8580,7 +8580,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 4757510.0,
+   "volume": 4760973.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf",
    "settlement_sources": [
@@ -8633,7 +8633,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 4581821.0,
+   "volume": 4593559.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARNOMS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARNOMS.pdf",
    "settlement_sources": [
@@ -8801,7 +8801,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 3880577.0,
+   "volume": 3880581.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -8846,7 +8846,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 3762858.0,
+   "volume": 3800762.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/RANKLISTGOOGLESEARCH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/RANKLISTGOOGLESEARCH.pdf",
    "settlement_sources": [
@@ -9022,7 +9022,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 3321960.0,
+   "volume": 3326009.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARNOMS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARNOMS.pdf",
    "settlement_sources": [
@@ -9046,7 +9046,7 @@
    ],
    "frequency": "monthly",
    "topic": "culture",
-   "volume": 3312948.0,
+   "volume": 3321723.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PERIODMEDIACONSUMPTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PERIODMEDIACONSUMPTION.pdf",
    "settlement_sources": [
@@ -9068,7 +9068,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 3142337.0,
+   "volume": 3144901.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PERIODMEDIACONSUMPTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PERIODMEDIACONSUMPTION.pdf",
    "settlement_sources": [
@@ -9133,7 +9133,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 2995631.0,
+   "volume": 2995635.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/RANKLIST.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/RANKLIST.pdf",
    "settlement_sources": [
@@ -9201,13 +9201,77 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 2887936.0,
+   "volume": 2914197.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXTOPVIEWS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXTOPVIEWS.pdf",
    "settlement_sources": [
     {
      "name": "Netflix",
      "url": "https://www.netflix.com/tudum/top10/tv"
+    }
+   ]
+  },
+  "KXGTA6UNITS": {
+   "ticker": "KXGTA6UNITS",
+   "title": "GTA VI reported units sold-in",
+   "category": "Entertainment",
+   "categories": [
+    "Entertainment"
+   ],
+   "tags": [
+    "Video games"
+   ],
+   "frequency": "custom",
+   "topic": "culture",
+   "volume": 2908501.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GTA6UNITS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GTA6UNITS.pdf",
+   "settlement_sources": [
+    {
+     "name": "MS Now",
+     "url": "https://www.ms.now/"
+    },
+    {
+     "name": "ABC",
+     "url": "https://abcnews.go.com/"
+    },
+    {
+     "name": "Fox News",
+     "url": "https://www.foxnews.com/"
+    },
+    {
+     "name": "Associated Press",
+     "url": "https://apnews.com"
+    },
+    {
+     "name": "BBC",
+     "url": "https://www.bbc.com/"
+    },
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    }
+   ]
+  },
+  "KXMC": {
+   "ticker": "KXMC",
+   "title": "What will be the Metacritic score for movie? ",
+   "category": "Entertainment",
+   "categories": [
+    "Entertainment"
+   ],
+   "tags": [
+    "Video games"
+   ],
+   "frequency": "one_off",
+   "topic": "culture",
+   "volume": 2871400.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/METACRITIC.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/METACRITIC.pdf",
+   "settlement_sources": [
+    {
+     "name": "Metacritic",
+     "url": "https://www.metacritic.com/game/"
     }
    ]
   },
@@ -9276,70 +9340,6 @@
     }
    ]
   },
-  "KXMC": {
-   "ticker": "KXMC",
-   "title": "What will be the Metacritic score for movie? ",
-   "category": "Entertainment",
-   "categories": [
-    "Entertainment"
-   ],
-   "tags": [
-    "Video games"
-   ],
-   "frequency": "one_off",
-   "topic": "culture",
-   "volume": 2798848.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/METACRITIC.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/METACRITIC.pdf",
-   "settlement_sources": [
-    {
-     "name": "Metacritic",
-     "url": "https://www.metacritic.com/game/"
-    }
-   ]
-  },
-  "KXGTA6UNITS": {
-   "ticker": "KXGTA6UNITS",
-   "title": "GTA VI reported units sold-in",
-   "category": "Entertainment",
-   "categories": [
-    "Entertainment"
-   ],
-   "tags": [
-    "Video games"
-   ],
-   "frequency": "custom",
-   "topic": "culture",
-   "volume": 2797823.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GTA6UNITS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GTA6UNITS.pdf",
-   "settlement_sources": [
-    {
-     "name": "MS Now",
-     "url": "https://www.ms.now/"
-    },
-    {
-     "name": "ABC",
-     "url": "https://abcnews.go.com/"
-    },
-    {
-     "name": "Fox News",
-     "url": "https://www.foxnews.com/"
-    },
-    {
-     "name": "Associated Press",
-     "url": "https://apnews.com"
-    },
-    {
-     "name": "BBC",
-     "url": "https://www.bbc.com/"
-    },
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    }
-   ]
-  },
   "KXMEDIARELEASEST": {
    "ticker": "KXMEDIARELEASEST",
    "title": "WILL THERE BE ANOTHER EPISODE OF STRANGER THINGS?",
@@ -9352,7 +9352,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 2793766.0,
+   "volume": 2807429.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/MEDIARELEASE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/MEDIARELEASE.pdf",
    "settlement_sources": [
@@ -9417,7 +9417,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 2657736.0,
+   "volume": 2683584.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/STREAMRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/STREAMRANK.pdf",
    "settlement_sources": [
@@ -9619,7 +9619,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 2168580.0,
+   "volume": 2168592.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -9664,7 +9664,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 2116501.0,
+   "volume": 2118241.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARNOMS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARNOMS.pdf",
    "settlement_sources": [
@@ -9686,7 +9686,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 2107823.0,
+   "volume": 2108531.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARNOMS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARNOMS.pdf",
    "settlement_sources": [
@@ -9733,7 +9733,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 2034702.0,
+   "volume": 2038073.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf",
    "settlement_sources": [
@@ -9904,7 +9904,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 1954226.0,
+   "volume": 1973015.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXTOPVIEWS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXTOPVIEWS.pdf",
    "settlement_sources": [
@@ -9927,7 +9927,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 1929714.0,
+   "volume": 1929717.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -9950,7 +9950,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 1927304.0,
+   "volume": 1928224.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PERIODMEDIACONSUMPTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PERIODMEDIACONSUMPTION.pdf",
    "settlement_sources": [
@@ -9973,7 +9973,7 @@
    ],
    "frequency": "custom",
    "topic": "culture",
-   "volume": 1910947.0,
+   "volume": 1910960.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SNLHOST.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SNLHOST.pdf",
    "settlement_sources": [
@@ -10061,7 +10061,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 1872850.0,
+   "volume": 1873183.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/STREAMRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/STREAMRANK.pdf",
    "settlement_sources": [
@@ -10152,7 +10152,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 1794074.0,
+   "volume": 1794900.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NETFLIXRANK.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NETFLIXRANK.pdf",
    "settlement_sources": [
@@ -10263,7 +10263,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 1720852.0,
+   "volume": 1720916.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -10778,7 +10778,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 1423156.0,
+   "volume": 1423874.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ALBUMDEBUTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ALBUMDEBUTS.pdf",
    "settlement_sources": [
@@ -10945,7 +10945,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 1357730.0,
+   "volume": 1359056.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/OSCARNOMS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARNOMS.pdf",
    "settlement_sources": [
@@ -10967,7 +10967,7 @@
    ],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 1342366.0,
+   "volume": 1357337.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ROLEINPRODUCTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ROLEINPRODUCTION.pdf",
    "settlement_sources": [
@@ -11180,7 +11180,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 39052633498.0,
+   "volume": 39453015754.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11205,7 +11205,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 9977674135.0,
+   "volume": 10007071733.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTC.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
    "settlement_sources": [
@@ -11230,7 +11230,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 2308273300.0,
+   "volume": 2336215505.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11254,7 +11254,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 1092834217.0,
+   "volume": 1108137901.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11279,7 +11279,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 926813149.0,
+   "volume": 939087241.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11303,7 +11303,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 573092769.0,
+   "volume": 582053365.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11327,7 +11327,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 513963345.0,
+   "volume": 517878559.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11352,7 +11352,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 502356137.0,
+   "volume": 503363194.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTC.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
    "settlement_sources": [
@@ -11377,7 +11377,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 404859263.0,
+   "volume": 405773187.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ETH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ETH.pdf",
    "settlement_sources": [
@@ -11401,7 +11401,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 325870421.0,
+   "volume": 329508659.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11426,7 +11426,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 273973204.0,
+   "volume": 278150084.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11451,7 +11451,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 240157995.0,
+   "volume": 244813080.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11476,7 +11476,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 119430784.0,
+   "volume": 119520332.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ETH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ETH.pdf",
    "settlement_sources": [
@@ -11500,7 +11500,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 62800126.0,
+   "volume": 63106054.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11524,7 +11524,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 52033330.0,
+   "volume": 52284716.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11548,7 +11548,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 39475716.0,
+   "volume": 39477829.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCMINMAX.pdf",
    "settlement_sources": [
@@ -11572,7 +11572,7 @@
    ],
    "frequency": "custom",
    "topic": "crypto",
-   "volume": 37016553.0,
+   "volume": 37017438.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCMINMAX.pdf",
    "settlement_sources": [
@@ -11596,7 +11596,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 31535693.0,
+   "volume": 31564794.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -11620,7 +11620,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 29854044.0,
+   "volume": 30138242.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCMINMAX.pdf",
    "settlement_sources": [
@@ -11643,7 +11643,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 24013786.0,
+   "volume": 24139165.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTORETURNCOMPARE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTORETURNCOMPARE.pdf",
    "settlement_sources": [
@@ -11667,7 +11667,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 22468972.0,
+   "volume": 22475345.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ETHMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ETHMINMAX.pdf",
    "settlement_sources": [
@@ -11690,7 +11690,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 21056550.0,
+   "volume": 21213342.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11714,7 +11714,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 17191631.0,
+   "volume": 17202637.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCMINMAX.pdf",
    "settlement_sources": [
@@ -11738,7 +11738,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 14918712.0,
+   "volume": 14930521.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCMINMAX.pdf",
    "settlement_sources": [
@@ -11762,7 +11762,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 14819638.0,
+   "volume": 14881448.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -11810,13 +11810,37 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 12728338.0,
+   "volume": 12728578.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
      "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
+  "KXBTC50VS100": {
+   "ticker": "KXBTC50VS100",
+   "title": "Will BTC fall below 50k before hitting 100k?",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "Crypto",
+    "BTC",
+    "Bitcoin"
+   ],
+   "frequency": "one_off",
+   "topic": "crypto",
+   "volume": 10115863.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOHIT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOHIT.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com"
     }
    ]
   },
@@ -11844,30 +11868,6 @@
     }
    ]
   },
-  "KXBTC50VS100": {
-   "ticker": "KXBTC50VS100",
-   "title": "Will BTC fall below 50k before hitting 100k?",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "Crypto",
-    "BTC",
-    "Bitcoin"
-   ],
-   "frequency": "one_off",
-   "topic": "crypto",
-   "volume": 9973720.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOHIT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOHIT.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com"
-    }
-   ]
-  },
   "KXETHMINY": {
    "ticker": "KXETHMINY",
    "title": "How low will Ethereum fall this year?",
@@ -11882,7 +11882,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 9712147.0,
+   "volume": 9726274.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ETHMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ETHMINMAX.pdf",
    "settlement_sources": [
@@ -11906,7 +11906,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 7791777.0,
+   "volume": 7792794.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/DOGE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/DOGE.pdf",
    "settlement_sources": [
@@ -11930,7 +11930,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 7124136.0,
+   "volume": 7144760.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11953,7 +11953,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 6953645.0,
+   "volume": 6999054.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11977,7 +11977,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 6615489.0,
+   "volume": 6617588.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/DOGE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/DOGE.pdf",
    "settlement_sources": [
@@ -12000,7 +12000,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 5465751.0,
+   "volume": 5477324.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -12024,7 +12024,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 4250214.0,
+   "volume": 4250885.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12047,9 +12047,32 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 2997661.0,
+   "volume": 3012600.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
+  "KXXRPMAXMON": {
+   "ticker": "KXXRPMAXMON",
+   "title": "XRP Max Monthly",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "Crypto",
+    "XRP"
+   ],
+   "frequency": "monthly",
+   "topic": "crypto",
+   "volume": 2712134.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
@@ -12070,36 +12093,13 @@
    ],
    "frequency": "daily",
    "topic": "crypto",
-   "volume": 2709469.0,
+   "volume": 2709817.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SHIBA.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SHIBA.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
      "url": "https://www.cfbenchmarks.com/data/indices/SHIBUSD_RTI"
-    }
-   ]
-  },
-  "KXXRPMAXMON": {
-   "ticker": "KXXRPMAXMON",
-   "title": "XRP Max Monthly",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "Crypto",
-    "XRP"
-   ],
-   "frequency": "monthly",
-   "topic": "crypto",
-   "volume": 2706995.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/"
     }
    ]
   },
@@ -12116,7 +12116,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 2311630.0,
+   "volume": 2314823.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -12162,7 +12162,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 2080169.0,
+   "volume": 2081881.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTORETURN.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTORETURN.pdf",
    "settlement_sources": [
@@ -12186,7 +12186,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 1790150.0,
+   "volume": 1790172.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12210,7 +12210,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 1725550.0,
+   "volume": 1731967.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCMINMAX.pdf",
    "settlement_sources": [
@@ -12233,7 +12233,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 1638560.0,
+   "volume": 1647354.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12280,7 +12280,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 1629470.0,
+   "volume": 1630185.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12303,7 +12303,7 @@
    ],
    "frequency": "daily",
    "topic": "crypto",
-   "volume": 1563761.0,
+   "volume": 1564889.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SHIBA.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SHIBA.pdf",
    "settlement_sources": [
@@ -12326,7 +12326,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 1454035.0,
+   "volume": 1457137.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SATOSHI.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SATOSHI.pdf",
    "settlement_sources": [
@@ -12349,7 +12349,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 1416862.0,
+   "volume": 1416977.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12373,7 +12373,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 1198949.0,
+   "volume": 1203345.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -12420,7 +12420,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 774955.0,
+   "volume": 776630.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12444,7 +12444,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 765111.0,
+   "volume": 765865.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12468,7 +12468,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 741779.0,
+   "volume": 749872.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -12491,7 +12491,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 556497.0,
+   "volume": 556653.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12539,7 +12539,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 500107.0,
+   "volume": 500292.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12563,7 +12563,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 483822.0,
+   "volume": 490527.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCPRICE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCPRICE.pdf",
    "settlement_sources": [
@@ -12587,7 +12587,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 450912.0,
+   "volume": 450934.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SOLMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SOLMINMAX.pdf",
    "settlement_sources": [
@@ -12698,7 +12698,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 327376.0,
+   "volume": 327853.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -12815,7 +12815,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 272085.0,
+   "volume": 275509.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/TOKENLAUNCH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/TOKENLAUNCH.pdf",
    "settlement_sources": [
@@ -12858,7 +12858,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 268895.0,
+   "volume": 270291.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOFDV.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOFDV.pdf",
    "settlement_sources": [
@@ -12973,7 +12973,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 216615.0,
+   "volume": 216629.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -13039,7 +13039,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 186371.0,
+   "volume": 186385.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -13062,7 +13062,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 168238.0,
+   "volume": 169807.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -13085,7 +13085,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 165653.0,
+   "volume": 165670.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -13175,7 +13175,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 142073.0,
+   "volume": 142083.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -13198,7 +13198,7 @@
    ],
    "frequency": "monthly",
    "topic": "crypto",
-   "volume": 130345.0,
+   "volume": 130625.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -13244,7 +13244,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 102713.0,
+   "volume": 103286.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -13685,6 +13685,28 @@
     }
    ]
   },
+  "KXBTCHIT85K": {
+   "ticker": "KXBTCHIT85K",
+   "title": "Bitcoin above $85,000 by a date",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "BTC"
+   ],
+   "frequency": "custom",
+   "topic": "crypto",
+   "volume": 35478.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCHITBY.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCHITBY.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com"
+    }
+   ]
+  },
   "KXUSDTMIN": {
    "ticker": "KXUSDTMIN",
    "title": "UDST de-peg",
@@ -13707,28 +13729,6 @@
     }
    ]
   },
-  "KXBTCHIT85K": {
-   "ticker": "KXBTCHIT85K",
-   "title": "Bitcoin above $85,000 by a date",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "BTC"
-   ],
-   "frequency": "custom",
-   "topic": "crypto",
-   "volume": 34644.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCHITBY.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCHITBY.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com"
-    }
-   ]
-  },
   "KXSOLMINY": {
    "ticker": "KXSOLMINY",
    "title": "Sol Min Yearly",
@@ -13743,13 +13743,35 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 31143.0,
+   "volume": 31703.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
      "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
+  "KXBTCHIT90K": {
+   "ticker": "KXBTCHIT90K",
+   "title": "Bitcoin above $90,000 by a date",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "BTC"
+   ],
+   "frequency": "custom",
+   "topic": "crypto",
+   "volume": 30175.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCHITBY.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCHITBY.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com"
     }
    ]
   },
@@ -13766,7 +13788,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 28440.0,
+   "volume": 28906.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOY.pdf",
    "settlement_sources": [
@@ -13790,7 +13812,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 28018.0,
+   "volume": 28166.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -13843,7 +13865,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 26475.0,
+   "volume": 26713.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -14117,28 +14139,6 @@
     }
    ]
   },
-  "KXBTCHIT90K": {
-   "ticker": "KXBTCHIT90K",
-   "title": "Bitcoin above $90,000 by a date",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "BTC"
-   ],
-   "frequency": "custom",
-   "topic": "crypto",
-   "volume": 22435.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCHITBY.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCHITBY.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/data/indices/BRTI?ref=blog.cfbenchmarks.com"
-    }
-   ]
-  },
   "KXSOLDATHOLDINGS": {
    "ticker": "KXSOLDATHOLDINGS",
    "title": "SOL Dat Holdings",
@@ -14296,7 +14296,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 17776.0,
+   "volume": 17940.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -14689,7 +14689,7 @@
    ],
    "frequency": "custom",
    "topic": "crypto",
-   "volume": 10497.0,
+   "volume": 10558.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/BTCEVENT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCEVENT.pdf",
    "settlement_sources": [
@@ -14971,7 +14971,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 8127.0,
+   "volume": 8224.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOY.pdf",
    "settlement_sources": [
@@ -15041,7 +15041,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 6675.0,
+   "volume": 6735.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
    "settlement_sources": [
@@ -15063,7 +15063,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 4107386811.0,
+   "volume": 4107451274.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
    "settlement_sources": [
@@ -15115,7 +15115,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 147876890.0,
+   "volume": 149474068.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
    "settlement_sources": [
@@ -15591,7 +15591,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 14585836.0,
+   "volume": 14586034.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PGATOUR.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOUR.pdf",
    "settlement_sources": [
@@ -15621,7 +15621,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 12210466.0,
+   "volume": 12560272.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
    "settlement_sources": [
@@ -15969,7 +15969,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 1533221.0,
+   "volume": 1576187.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
    "settlement_sources": [
@@ -16279,7 +16279,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 700790.0,
+   "volume": 703068.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFSLAM.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFSLAM.pdf",
    "settlement_sources": [
@@ -16343,7 +16343,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 668779.0,
+   "volume": 669803.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCUT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCUT.pdf",
    "settlement_sources": [
@@ -16575,7 +16575,7 @@
    ],
    "frequency": "one_off",
    "topic": "golf",
-   "volume": 477715.0,
+   "volume": 505153.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
    "settlement_sources": [
@@ -16647,7 +16647,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 368427.0,
+   "volume": 369392.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFFINISH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
    "settlement_sources": [
@@ -16691,7 +16691,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 285043.0,
+   "volume": 288567.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLF3BALL.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLF3BALL.pdf",
    "settlement_sources": [
@@ -16739,6 +16739,28 @@
     }
    ]
   },
+  "KXBRYSONCOURSERECORDS": {
+   "ticker": "KXBRYSONCOURSERECORDS",
+   "title": "Bryson Course Records",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 264728.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/COURSERECORDS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/COURSERECORDS.pdf",
+   "settlement_sources": [
+    {
+     "name": "Bryson DeChambeau",
+     "url": "https://www.youtube.com/@brysondechambeau"
+    }
+   ]
+  },
   "KXLIVOCCUR": {
    "ticker": "KXLIVOCCUR",
    "title": "LIV Golf Event Occurrence ",
@@ -16770,28 +16792,6 @@
     {
      "name": "Fox Sports",
      "url": "https://www.foxsports.com"
-    }
-   ]
-  },
-  "KXBRYSONCOURSERECORDS": {
-   "ticker": "KXBRYSONCOURSERECORDS",
-   "title": "Bryson Course Records",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 264635.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/COURSERECORDS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/COURSERECORDS.pdf",
-   "settlement_sources": [
-    {
-     "name": "Bryson DeChambeau",
-     "url": "https://www.youtube.com/@brysondechambeau"
     }
    ]
   },
@@ -16933,6 +16933,28 @@
     }
    ]
   },
+  "KXDPWTTOP10": {
+   "ticker": "KXDPWTTOP10",
+   "title": "DPWT Top 10 Finisher",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 220482.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFFINISH.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
+   "settlement_sources": [
+    {
+     "name": "DP World Tour",
+     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
+    }
+   ]
+  },
   "KXGOLFMAJOR": {
    "ticker": "KXGOLFMAJOR",
    "title": "Will golfer win a major by 2030?",
@@ -16959,28 +16981,6 @@
     }
    ]
   },
-  "KXDPWTTOP10": {
-   "ticker": "KXDPWTTOP10",
-   "title": "DPWT Top 10 Finisher",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 208729.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFFINISH.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
-   "settlement_sources": [
-    {
-     "name": "DP World Tour",
-     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
-    }
-   ]
-  },
   "KXDPWTTOP5": {
    "ticker": "KXDPWTTOP5",
    "title": "DPWT Top 5 Finisher",
@@ -16993,7 +16993,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 198997.0,
+   "volume": 207860.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFFINISH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
    "settlement_sources": [
@@ -17425,7 +17425,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 81902.0,
+   "volume": 81912.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SPORTROLE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTROLE.pdf",
    "settlement_sources": [
@@ -17493,7 +17493,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 69826.0,
+   "volume": 70246.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
    "settlement_sources": [
@@ -17802,7 +17802,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 28984.0,
+   "volume": 29102.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
    "settlement_sources": [
@@ -18192,9 +18192,9 @@
     }
    ]
   },
-  "KXGOLFMAJORFUT": {
-   "ticker": "KXGOLFMAJORFUT",
-   "title": "How many majors will golfer win by 2036?",
+  "KXBDSHOLEINONE": {
+   "ticker": "KXBDSHOLEINONE",
+   "title": "Bob Does Sports Hole in One",
    "category": "Sports",
    "categories": [
     "Sports"
@@ -18205,16 +18205,148 @@
    "frequency": "custom",
    "topic": "golf",
    "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFFUTUREMAJOR.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFUTUREMAJOR.pdf",
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
+   "settlement_sources": [
+    {
+     "name": "@jensen_curtis",
+     "url": "https://www.instagram.com/jensen_custis/?hl=en"
+    },
+    {
+     "name": "@joey.coldcuts",
+     "url": "https://www.instagram.com/joey.coldcuts/?hl=en"
+    },
+    {
+     "name": "RobbyBerger",
+     "url": "https://www.twitch.tv/robbyberger"
+    },
+    {
+     "name": "@thefatperez",
+     "url": "https://www.instagram.com/thefatperez/"
+    },
+    {
+     "name": "@benlambers",
+     "url": "https://www.instagram.com/benlambers/?hl=en"
+    },
+    {
+     "name": "RobbyBergerOfficial",
+     "url": "https://www.youtube.com/@RobbyBergerOfficial"
+    }
+   ]
+  },
+  "KXRYDERCUP": {
+   "ticker": "KXRYDERCUP",
+   "title": "Ryder Cup ",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXGOLFCAT": {
+   "ticker": "KXGOLFCAT",
+   "title": "a",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
    "settlement_sources": [
     {
      "name": "ESPN",
-     "url": "https://www.espn.com"
+     "url": "https://www.espn.com/"
     },
     {
      "name": "the Governing League",
      "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGARYDERCUPD3": {
+   "ticker": "KXPGARYDERCUPD3",
+   "title": "Ryder Cup Day 3 Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXNELKHOLEINONE": {
+   "ticker": "KXNELKHOLEINONE",
+   "title": "NELK Hole in One",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
+   "settlement_sources": [
+    {
+     "name": "NELK",
+     "url": "https://kick.com/NELKBOYS"
     }
    ]
   },
@@ -18256,32 +18388,6 @@
     }
    ]
   },
-  "KXGOLFCAT": {
-   "ticker": "KXGOLFCAT",
-   "title": "a",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
   "KXNEXTWIN": {
    "ticker": "KXNEXTWIN",
    "title": "Will golfer win this tournament next?",
@@ -18308,9 +18414,9 @@
     }
    ]
   },
-  "KXPGACAT": {
-   "ticker": "KXPGACAT",
-   "title": "PGA Golf Category Leader",
+  "KXGOLFMAJORFUT": {
+   "ticker": "KXGOLFMAJORFUT",
+   "title": "How many majors will golfer win by 2036?",
    "category": "Sports",
    "categories": [
     "Sports"
@@ -18321,8 +18427,34 @@
    "frequency": "custom",
    "topic": "golf",
    "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFFUTUREMAJOR.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFUTUREMAJOR.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGATOURCHAMP": {
+   "ticker": "KXPGATOURCHAMP",
+   "title": "Golfers to Participate in the Tour Championship",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
    "settlement_sources": [
     {
      "name": "ESPN",
@@ -18360,6 +18492,136 @@
     }
    ]
   },
+  "KXGOLF": {
+   "ticker": "KXGOLF",
+   "title": "Golf Tournament Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGACAT": {
+   "ticker": "KXPGACAT",
+   "title": "PGA Golf Category Leader",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAOCCUR": {
+   "ticker": "KXPGAOCCUR",
+   "title": "PGA Golf Event Occurence",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SPORTEVENTOCCUR.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTEVENTOCCUR.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAROUNDBIRDIES": {
+   "ticker": "KXPGAROUNDBIRDIES",
+   "title": "Golf Round Birdies",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFROUNDBIRDIES.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFROUNDBIRDIES.pdf",
+   "settlement_sources": [
+    {
+     "name": "Fox Sports",
+     "url": "https://foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    }
+   ]
+  },
+  "KXPGARYDERTOP3": {
+   "ticker": "KXPGARYDERTOP3",
+   "title": "Ryder Cup Top 3 Points Scorer",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "annual",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NEWACHIEVEMENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NEWACHIEVEMENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    }
+   ]
+  },
   "KXPGAREGION": {
    "ticker": "KXPGAREGION",
    "title": "PGA Region Winner",
@@ -18379,66 +18641,6 @@
     {
      "name": "the Governing League",
      "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGATOURCHAMP": {
-   "ticker": "KXPGATOURCHAMP",
-   "title": "Golfers to Participate in the Tour Championship",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXLIVMAKECUT": {
-   "ticker": "KXLIVMAKECUT",
-   "title": "DONT USE",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PGATOPX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOPX.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
     }
    ]
   },
@@ -18484,31 +18686,9 @@
     }
    ]
   },
-  "KXNELKHOLEINONE": {
-   "ticker": "KXNELKHOLEINONE",
-   "title": "NELK Hole in One",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
-   "settlement_sources": [
-    {
-     "name": "NELK",
-     "url": "https://kick.com/NELKBOYS"
-    }
-   ]
-  },
-  "KXRYDERCUP": {
-   "ticker": "KXRYDERCUP",
-   "title": "Ryder Cup ",
+  "KXLIVMAKECUT": {
+   "ticker": "KXLIVMAKECUT",
+   "title": "DONT USE",
    "category": "Sports",
    "categories": [
     "Sports"
@@ -18519,8 +18699,8 @@
    "frequency": "one_off",
    "topic": "golf",
    "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/PGATOPX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOPX.pdf",
    "settlement_sources": [
     {
      "name": "The Wall Street Journal",
@@ -18531,199 +18711,19 @@
      "url": "https://www.espn.com/"
     },
     {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXBDSHOLEINONE": {
-   "ticker": "KXBDSHOLEINONE",
-   "title": "Bob Does Sports Hole in One",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
-   "settlement_sources": [
-    {
-     "name": "@jensen_curtis",
-     "url": "https://www.instagram.com/jensen_custis/?hl=en"
-    },
-    {
-     "name": "@joey.coldcuts",
-     "url": "https://www.instagram.com/joey.coldcuts/?hl=en"
-    },
-    {
-     "name": "RobbyBerger",
-     "url": "https://www.twitch.tv/robbyberger"
-    },
-    {
-     "name": "@thefatperez",
-     "url": "https://www.instagram.com/thefatperez/"
-    },
-    {
-     "name": "@benlambers",
-     "url": "https://www.instagram.com/benlambers/?hl=en"
-    },
-    {
-     "name": "RobbyBergerOfficial",
-     "url": "https://www.youtube.com/@RobbyBergerOfficial"
-    }
-   ]
-  },
-  "KXPGAROUNDBIRDIES": {
-   "ticker": "KXPGAROUNDBIRDIES",
-   "title": "Golf Round Birdies",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFROUNDBIRDIES.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFROUNDBIRDIES.pdf",
-   "settlement_sources": [
-    {
-     "name": "Fox Sports",
-     "url": "https://foxsports.com"
-    },
-    {
      "name": "the Governing League",
      "url": "https://www.pgatour.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    }
-   ]
-  },
-  "KXPGAOCCUR": {
-   "ticker": "KXPGAOCCUR",
-   "title": "PGA Golf Event Occurence",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/SPORTEVENTOCCUR.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTEVENTOCCUR.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXGOLF": {
-   "ticker": "KXGOLF",
-   "title": "Golf Tournament Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGARYDERTOP3": {
-   "ticker": "KXPGARYDERTOP3",
-   "title": "Ryder Cup Top 3 Points Scorer",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "annual",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NEWACHIEVEMENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NEWACHIEVEMENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    }
-   ]
-  },
-  "KXPGARYDERCUPD3": {
-   "ticker": "KXPGARYDERCUPD3",
-   "title": "Ryder Cup Day 3 Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
     },
     {
      "name": "Fox Sports",
      "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
     }
    ]
   }
  },
  "totals": {
   "gas": 139,
-  "elections": 2635,
+  "elections": 2644,
   "culture": 2713,
   "crypto": 306,
   "golf": 128
