@@ -1925,11 +1925,11 @@
     },
     {
       "id": "F6",
-      "item": "Exact Winner Ticker of Settled Golf Event KXPGATOUR-THRC26 Without Full 150-Golfer Scan",
+      "item": "Calibrated Real-Money Expected Return ('High ROI') from Synthetic Demo Orderbooks",
       "verified_value": "",
-      "status": "Unverified in Partial Page \u2014 Watched Golfers (-CBEZ, -ZBAU, -LABE) Verified NO",
-      "reason": "Watched RSM Classic contracts (-CBEZ, -ZBAU, -LABE) were verified directly as finalized 'no' ($0.0000); winner across remaining field is left blank rather than inferred.",
-      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true"
+      "status": "Flagged \u2014 Heuristic Model Screen Only (Demo Prices != Real Markets)",
+      "reason": "Kalshi's Demo environment uses synthetic test liquidity and mock market-maker quotes; Selective High-ROI scores are fee-adjusted model screens, never guaranteed real-money returns.",
+      "source_url": "https://docs.kalshi.com/getting_started/demo_env"
     }
   ],
   "repo_audit": [

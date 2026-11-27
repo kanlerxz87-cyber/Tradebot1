@@ -2909,3 +2909,9 @@ series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/st
 1. **`.github/workflows/collect.yml`:** Runs `python live/build_page.py` (modifying `live.html`) without staging `live.html` in `git add docs/desk app_data`, which previously caused `live/build_page.py --check` drift in `pages.yml` (`run 46058188835`).
 2. **`tools/alerts.mjs` (`R17`):** When `no_bid_dollars == "0.0000"` (`yesAsk == null`), `spread(after)` returns `null` (`null > 0.15 === false`), allowing `$0.97`-spread thin markets into `data/live/feed.json` `selective`. Avoided in `demo-desk/assets/live-core.mjs` and `kalshi_engine/simulator.py`.
 3. **Demo vs. Production `fee_multiplier` (`R18`):** Live Demo `GET /trade-api/v2/series/KXBTCY` returns `"fee_multiplier": 1`, whereas Production `KXBTCY` uses `0`; Demo fills are priced using the verified Demo `/series/{ticker}` payload.
+
+### Merge & Live GitHub Pages Verification (`281a11e0`)
+
+* **PR #63** — https://github.com/kanlerxz87-cyber/Tradebot1/pull/63 — merged cleanly into `main` at `2026-11-27T20:28:33Z` (`04cea26eba704cc7b789e2c2245a4c52ebf64cb5`); all 7 active checks passed (`audit`, `backend-tests`, `browser-tests`, `build`, `demo-desk-v2`, `node-dashboard`, `test`).
+* **Pages Deploy Run** — [46063879772](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46063879772) (`Verify and deploy Kalshi research dashboard`) succeeded (`backend-tests`, `browser-tests`, `build`, `deploy`), and GitHub Pages build `04cea26` reported `status: built`.
+* **Live Verification** — fetched directly from `https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/` (`/`, `/suggestions/`, `/resolutions/`, `/flagged/`), confirming all 33 active contracts, 19 verified settlements, interactive VWAP + 6dp fee ticket, Auto-Poll (`20s`), S1–S6 roadmap, and 6 blank unverified cells.
