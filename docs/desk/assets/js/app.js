@@ -9,6 +9,8 @@
   "use strict";
 
   const DATA = (window.SITE_DATA_PREFIX || "data/");
+  const environment = window.KalshiDemoEnvironment;
+  const apiBase = () => environment ? environment.restBase(window.KALSHI_API_BASE || (state.latest && state.latest.rest_base)) : null;
   const THRESHOLD = 0.10;
   const RANGES = [
     { id: "30s", label: "30s", seconds: 30 },
@@ -97,13 +99,16 @@
 
     if (!state.latest) {
       showFatal("No snapshot data found. Run `python -m kalshi_trader.cli collect` or wait for the next scheduled collection.");
-      return;
+      return false;
     }
-    const embedsBlocked = state.latest.data_env === "demo";
-    if (embedsBlocked) { /* demo data still renders; banner explains the source */ }
+    if (!environment || !environment.isDemoSnapshot(state.latest)) {
+      showFatal("Demo dashboard paused. The committed snapshot is not verified as Kalshi demo data; market values and live requests are withheld until a successful demo-only collection cycle.");
+      return false;
+    }
 
     ensureSelection();
     renderAll();
+    return true;
   }
 
   function showFatal(message) {
@@ -203,7 +208,7 @@
     const topics = latest.topics || {};
     const totalNotional = Object.values(topics).reduce((sum, t) => sum + (t.notional_24h_est || 0), 0);
     const totalOi = Object.values(topics).reduce((sum, t) => sum + (t.open_interest || 0), 0);
-    const perf = latest.performance ? latest.performance.headline : {};
+    const perf = (latest.performance && latest.performance.headline) || {};
     const alertsToday = state.alerts.filter((a) => Date.now() - Date.parse(a.iso || 0) < 86400000).length;
     const picks = (latest.picks || []).length;
 
@@ -429,10 +434,6 @@
     }
   }
 
-  function apiBase() {
-    return window.KALSHI_API_BASE || (state.latest && state.latest.rest_base) || "https://external-api.kalshi.com/trade-api/v2";
-  }
-
   async function fetchLiveBook(btn) {
     const market = selectedMarket();
     const note = $("#liveBookNote");
@@ -440,6 +441,11 @@
     btn.disabled = true;
     note.textContent = "requesting…";
     const base = apiBase();
+    if (!base) {
+      note.textContent = "Live request blocked: only official demo API roots are allowed.";
+      btn.disabled = false;
+      return;
+    }
     try {
       const res = await fetch(`${base}/markets/${encodeURIComponent(market.ticker)}/orderbook?depth=10`, { mode: "cors" });
       if (!res.ok) throw new Error("HTTP " + res.status);
@@ -590,7 +596,7 @@
     if (!host) return;
     const paper = state.paper;
     if (!paper) { host.innerHTML = '<div class="empty">No paper ledger yet.</div>'; return; }
-    const perf = paper.summary || (state.latest ? state.latest.performance.summary : {}) || {};
+    const perf = paper.summary || (state.latest && state.latest.performance && state.latest.performance.summary) || {};
     const head = paper.headline || {};
     host.innerHTML = `
       <div class="grid kpi" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
@@ -612,7 +618,7 @@
     const errors = latest.errors || [];
     host.innerHTML = `
       <div class="status-line">
-        <span>Source: <b>${esc(latest.data_env === "demo" ? "Kalshi demo" : "Kalshi production")}</b> ${esc(latest.rest_base || "")}</span>
+        <span>Source: <b>Kalshi demo</b> ${esc(latest.rest_base || "")}</span>
         <span>·</span><span>Generated ${esc(latest.generated_at)} in ${esc(latest.cycle_seconds)}s</span>
         <span>·</span><span>${esc(latest.alerts.length)} alerts this cycle</span>
         <span>·</span><span>Exchange ${latest.exchange && latest.exchange.trading_active ? "trading" : "status unknown"}</span>
@@ -626,6 +632,13 @@
   /* ------------------------------------------------------------ live mode */
   async function probeDirect() {
     const base = apiBase();
+    if (!base) {
+      state.live.mode = "snapshot";
+      state.live.ok = false;
+      state.live.note = "Direct access disabled because no official demo API root is configured.";
+      renderHeaderState();
+      return;
+    }
     try {
       const controller = new AbortController();
       const timer = setTimeout(() => controller.abort(), 6000);
@@ -658,6 +671,7 @@
       const res = await fetch("api/status", { cache: "no-store" });
       if (!res.ok) return false;
       const status = await res.json();
+      if (!environment || !environment.isDemoSnapshot(status)) return false;
       state.live.mode = "server";
       state.live.ok = true;
       const proto = location.protocol === "https:" ? "wss:" : "ws:";
@@ -666,6 +680,11 @@
         try {
           const msg = JSON.parse(evt.data);
           if (msg.type === "tick" && msg.payload) {
+            if (!environment || !environment.isDemoSnapshot(msg.payload)) {
+              showFatal("Live server update blocked because its environment is not verified as Kalshi demo.");
+              if (state.live.ws) state.live.ws.close();
+              return;
+            }
             state.latest = msg.payload;
             ingestLivePayload(msg.payload);
           }
@@ -726,6 +745,10 @@
     if (state.live.timer) clearInterval(state.live.timer);
     const base = apiBase();
     const btn = $("#startLive");
+    if (!base) {
+      if (btn) { btn.disabled = true; btn.textContent = "Demo API unavailable"; }
+      return;
+    }
     if (btn) btn.textContent = "Live polling active (15s)";
     const poll = async () => {
       try {
@@ -780,12 +803,17 @@
 
   async function init() {
     wireControls();
-    await loadSnapshot();
+    const snapshotReady = await loadSnapshot();
+    if (!snapshotReady) return;
     const onServer = await probeServer();
     if (!onServer) probeDirect();
     setInterval(async () => {
       try {
         const latest = await getJson("latest.json");
+        if (!environment || !environment.isDemoSnapshot(latest)) {
+          showFatal("Demo dashboard paused. The refreshed snapshot is not verified as Kalshi demo data.");
+          return;
+        }
         if (!state.latest || latest.generated_ts !== state.latest.generated_ts) {
           state.latest = latest;
           const history = await getJson("history.json");

@@ -77,7 +77,13 @@ def _is_stale(value: str | None, hours: float) -> bool:
 def refresh_catalogue(client: RestClient, settings: Settings, *, force: bool = False) -> dict[str, Any]:
     path = settings.data_dir / "series.json"
     cached = store.read_json(path)
-    if cached and cached.get("series") and not force and not _is_stale(cached.get("generated_at"), 20):
+    if (
+        cached
+        and cached.get("series")
+        and cached.get("data_env") == settings.data_env
+        and not force
+        and not _is_stale(cached.get("generated_at"), 20)
+    ):
         return cached
 
     series: dict[str, dict[str, Any]] = {}
@@ -119,6 +125,7 @@ def refresh_catalogue(client: RestClient, settings: Settings, *, force: bool = F
 
     catalog = {
         "generated_at": _iso(),
+        "data_env": settings.data_env,
         "schema": SCHEMA_VERSION,
         "series": trimmed,
         "totals": totals,
@@ -286,6 +293,13 @@ def run_cycle(
     client = client or public_client(settings)
     errors: list[str] = []
     started = time.time()
+    prior_snapshot = store.read_json(settings.data_dir / "latest.json", {}) or {}
+    environment_changed = bool(prior_snapshot) and prior_snapshot.get("data_env") != settings.data_env
+    if environment_changed:
+        errors.append(
+            "Data environment changed; previous histories, alerts, resolutions, and simulated positions "
+            "are not reused across environments."
+        )
 
     # 1. exchange status -------------------------------------------------
     exchange: dict[str, Any] = {}
@@ -334,12 +348,12 @@ def run_cycle(
     # history.json stores {"generated_at": ..., "series": {ticker: [points]}}. Reading the
     # envelope instead of its "series" map made every cycle start from an empty history, so
     # charts never accumulated more than one cycle's samples. Read the map.
-    history_state = store.read_json(history_path, {}) or {}
+    history_state = {} if environment_changed else (store.read_json(history_path, {}) or {})
     history: dict[str, list[list[float]]] = (
         history_state.get("series", {}) if isinstance(history_state, dict) else {}
     ) or {}
     meta_path = settings.data_dir / "meta.json"
-    meta: dict[str, Any] = store.read_json(meta_path, {}) or {}
+    meta: dict[str, Any] = {} if environment_changed else (store.read_json(meta_path, {}) or {})
     last_prices: dict[str, list[float]] = meta.get("last_prices", {})
     tracked_series: list[str] = meta.get("tracked_series", [])
 
@@ -447,7 +461,7 @@ def run_cycle(
 
     # 8. resolutions -------------------------------------------------------
     resolved_path = settings.data_dir / "resolved.json"
-    resolved_state: dict[str, Any] = store.read_json(resolved_path, {}) or {}
+    resolved_state: dict[str, Any] = {} if environment_changed else (store.read_json(resolved_path, {}) or {})
     resolved_items: list[dict[str, Any]] = list(resolved_state.get("items", []))
     resolved_items = _collect_resolutions(
         client,
@@ -492,7 +506,7 @@ def run_cycle(
             "top_market": (_publish_market(max(markets, key=lambda m: m.get("notional_24h_est") or 0)) if markets else None),
         }
 
-    previous_alerts = store.read_json(settings.data_dir / "alerts.json", {}) or {}
+    previous_alerts = {} if environment_changed else (store.read_json(settings.data_dir / "alerts.json", {}) or {})
     merged_alerts = store.append_bounded(
         previous_alerts.get("items", []), alerts, settings.max_alerts
     )
@@ -554,6 +568,7 @@ def run_cycle(
             {
                 "generated_at": _iso(now),
                 "schema": SCHEMA_VERSION,
+                "data_env": settings.data_env,
                 "last_prices": {
                     m["ticker"]: [m.get("price"), now] for m in all_markets if m.get("price") is not None
                 },

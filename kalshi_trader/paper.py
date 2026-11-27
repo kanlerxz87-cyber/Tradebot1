@@ -79,6 +79,7 @@ class PaperLedger:
     def _fresh_state(self) -> dict[str, Any]:
         return {
             "version": STATE_VERSION,
+            "data_env": self.settings.data_env,
             "created_at": _now_iso(),
             "updated_at": _now_iso(),
             "bankroll_start": round(self.settings.bankroll, 2),
@@ -97,7 +98,9 @@ class PaperLedger:
         if path.exists():
             try:
                 state = json.loads(path.read_text(encoding="utf-8"))
-                if state.get("version") == STATE_VERSION:
+                # Never carry a simulated position across environments. Unlabelled legacy
+                # ledgers are not proven to be demo data, so start a clean book for them.
+                if state.get("version") == STATE_VERSION and state.get("data_env") == settings.data_env:
                     return cls(settings, state)
             except (json.JSONDecodeError, OSError):
                 pass
@@ -182,9 +185,15 @@ class PaperLedger:
             return None
 
         raw_mult = market.get("fee_multiplier")
-        multiplier = float(raw_mult) if raw_mult is not None else 1.0
+        multiplier = (
+            float(raw_mult)
+            if raw_mult is not None
+            else fee_mod.series_multiplier(market.get("series_ticker"), "taker")
+        )
         cost = round(contracts * price, 2)
-        fee = fee_mod.taker_fee(contracts, price, self.settings.fee_model, multiplier=multiplier)
+        fee = fee_mod.taker_fee(
+            contracts, price, self.settings.fee_model, multiplier=multiplier
+        )
         if cost + fee > self.cash:
             affordable = int(self.cash // (price + 0.01)) if price else 0
             contracts = max(0, min(contracts, affordable))
@@ -192,7 +201,9 @@ class PaperLedger:
                 self._record_rejection(market.get("ticker", ""), strategy_id, "insufficient cash", now)
                 return None
             cost = round(contracts * price, 2)
-            fee = fee_mod.taker_fee(contracts, price, self.settings.fee_model, multiplier=multiplier)
+            fee = fee_mod.taker_fee(
+                contracts, price, self.settings.fee_model, multiplier=multiplier
+            )
 
         strategy = strat_mod.STRATEGIES[strategy_id]
         position = {
@@ -255,8 +266,18 @@ class PaperLedger:
                 return None
             exit_price = _mark_price(market, side, position["entry_price"])
             raw_mult = market.get("fee_multiplier")
-            multiplier = float(raw_mult) if raw_mult is not None else float(position.get("fee_multiplier", 1.0))
-            fee = fee_mod.taker_fee(contracts, exit_price, self.settings.fee_model, multiplier=multiplier)
+            multiplier = (
+                float(raw_mult)
+                if raw_mult is not None
+                else fee_mod.series_multiplier(position.get("series_ticker"), "taker")
+            )
+            # The published series multiplier applies to the exit fill too.
+            fee = fee_mod.taker_fee(
+                contracts,
+                exit_price,
+                self.settings.fee_model,
+                multiplier=multiplier,
+            )
             if exit_price <= 0:
                 fee = 0.0  # nothing to sell into at $0
 

@@ -110,3 +110,38 @@ def test_fee_multiplier_zero_produces_zero_fee():
     assert fees.taker_fee(100, 0.50, multiplier=0.0) == 0.0
     assert fees.maker_fee(100, 0.50, multiplier=0.0) == 0.0
     assert fees.taker_fee(100, 0.50, multiplier=1.0) == 1.75
+
+
+def test_published_series_multipliers_zero_out_fee_free_series():
+    # "Non-Standard Fees" table, https://kalshi.com/docs/kalshi-fee-schedule.pdf
+    # (effective 2026-07-07): "KXBTCY | BTC price range EOY | 0 | 0".
+    assert fees.series_multiplier("KXBTCY") == 0.0
+    assert fees.series_multiplier("KXBTCY", "maker") == 0.0
+    assert fees.taker_fee(100, 0.5, multiplier=fees.series_multiplier("KXBTCY")) == 0.0
+    assert fees.maker_fee(100, 0.5, multiplier=fees.series_multiplier("KXBTCY")) == 0.0
+
+
+def test_series_named_fee_free_by_an_earlier_revision_are_charged():
+    # The published table lists KXCPI and KXFED at maker 1 / taker 1. An earlier
+    # docstring claimed they, like KXBTCY, were fee-free; that was wrong.
+    for series in ("KXCPI", "KXFED", "KXAAAGASM"):
+        assert fees.series_multiplier(series) == 1.0
+        assert fees.series_multiplier(series, "maker") == 1.0
+        assert fees.taker_fee(100, 0.5, multiplier=fees.series_multiplier(series)) == 1.75
+
+
+def test_unknown_series_uses_the_general_multiplier():
+    assert fees.series_multiplier("KXNOTINTHEPUBLISHEDTABLE") == 1.0
+    assert fees.series_multiplier(None) == 1.0
+
+
+def test_series_is_read_from_the_front_of_the_market_ticker():
+    assert fees.series_from_ticker("KXBTCY-27JAN0100-T20000.00") == "KXBTCY"
+    assert fees.series_from_ticker("KXAAAGASM-26DEC-T3.50") == "KXAAAGASM"
+    assert fees.series_from_ticker("KXBTCY") == "KXBTCY"
+
+
+def test_multiplier_is_the_only_thing_that_changes_the_formula():
+    # A multiplier of 1 must reproduce the published rows exactly.
+    for price in (0.01, 0.25, 0.5, 0.75, 0.99):
+        assert fees.taker_fee(100, price, multiplier=1.0) == fees.taker_fee(100, price)

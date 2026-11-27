@@ -14,7 +14,7 @@ those captures it is anchored to — which it names in `/api/meta`.
 | | Part A — research desk | Part B — market monitor |
 | - | - | - |
 | Location | `docs/desk/` | `docs/` |
-| Data path | scheduled server-side collector (production public REST) | browser polls public demo REST |
+| Data path | scheduled server-side collector (Kalshi demo REST by default); last production snapshot/history were cleared and values remain withheld pending the first successful demo refresh | browser polls public demo REST |
 | Alerts | persisted ≥ $0.10 archive + live ticks | session-only ≥ $0.10 observations |
 | Trading | 4 strategies, ledger committed to the repo | 1 screen, browser-local |
 | Verification | 26 dated source rows, 14 flags | endpoint-level citations, review page |
@@ -74,7 +74,7 @@ the [verification page](https://kanlerxz87-cyber.github.io/Tradebot1/verificatio
 
 | Decision | Rationale | Flag |
 | - | - | - |
-| Market data from production (read-only), execution in paper | Production data is keyless, real and liquid; demo prices may not reflect real markets | F6 |
+| Demo market data and paper execution by default | User requested the demo environment; `KALSHI_DATA_ENV` defaults to demo, the scheduled workflow pins demo, and the UI withholds snapshots whose environment/root do not match. The current committed `latest.json` remains a production snapshot until the next successful demo cycle. | F6 |
 | Static site + scheduled collector rather than a fake “live” label | GitHub Pages cannot poll an exchange; the snapshot age is always displayed | F10 |
 | Culture mapped to the official Entertainment category (+ Social) | No official Culture category exists | F3 |
 | Golf by Sports/Golf tag; gas by KXAAAGASM + gas-price matching | Both are official fields; a keyword fallback is used only when the fields miss | F4 |
@@ -267,7 +267,7 @@ Every committed dataset, 73 published pages and 1 280 internal references were r
 | - | - | - |
 | warn | 24h notional used an older price than the row prints | 15 of 300 rows; largest gap 32.2% on a 15-minute crypto market, a cent or two on slow markets. The implied price is an earlier mid, so the figure is directionally right and exactly wrong |
 | warn | Published order-book ladder is a partial view | 8 rows: reported depth exceeds the sum of printed levels, so ladder totals and depth totals must not be presented as the same quantity |
-| warn | Capture provenance is the production root | `docs/desk/data/latest.json` was collected from `external-api.kalshi.com`, while the brief specifies demo; the live desk surfaces the capture's environment in `/api/meta` |
+| warn | Last populated capture was production; demo refresh is pending | The previous `docs/desk/data/latest.json` reported `data_env=prod` at `https://external-api.kalshi.com/trade-api/v2`; its market values, histories and paper ledger have been cleared from current files. A successful demo collection must publish new values before the desk displays data. |
 | note | No resolved market in the capture | Resolution tables are empty rather than seeded; the live desk shows close-time countdowns and fills results only from Kalshi's own fields |
 | warn | An audit gate pins line numbers in a concurrently edited file | Another session's `audit/build_site.py --check` fails whenever `COORDINATION.md` line numbers shift, so every session that appends to the board breaks their build |
 | note | The Node generator's `--check` can never pass | It re-renders and compares, but the render embeds a fresh timestamp and relative text ("21m ago"), so every page reports stale within a minute. Verified against a clean checkout of `main`: identical output, so it is a check design issue, not stale data |

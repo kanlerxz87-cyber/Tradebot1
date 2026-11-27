@@ -69,14 +69,16 @@ The model is `ceil_to_cent(rate × contracts × price × (1 − price))` with ta
 0.0175. The constants are the published general schedule, but the schedule page could not be
 re-read from the authoring sandbox, so `FEE_VERIFIED` is `False` and `/api/meta` reports the
 model as unverified. Set it to `True` only after re-reading
-<https://docs.kalshi.com/getting_started/fees>.
+<https://kalshi.com/docs/kalshi-fee-schedule.pdf>. The docs site has no
+`getting_started/fees` page: fee rounding is at
+<https://docs.kalshi.com/getting_started/fee_rounding>.
 
 ## Sources
 
 * <https://docs.kalshi.com/getting_started/api_environments> — demo REST and WebSocket hosts
 * <https://docs.kalshi.com/getting_started/orderbook_responses> — bids only, implied asks, ascending arrays
 * <https://docs.kalshi.com/getting_started/market_lifecycle> — statuses, `result` values, finalisation
-* <https://docs.kalshi.com/getting_started/fees> — fee schedule (unverified in this branch)
+* <https://kalshi.com/docs/kalshi-fee-schedule.pdf> — fee schedule (general table plus per-series multipliers; the local desk applies the published multiplier)
 * <https://docs.kalshi.com/getting_started/quick_start_websockets> — the channel this process does not use
 
 Cross-implementation audit: [`qa/report.md`](../qa/report.md) · published page [`live.html`](../live.html).

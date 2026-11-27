@@ -190,6 +190,14 @@ async function getJson(path) {
   return res.json();
 }
 
+function isDemoSnapshot(snapshot) {
+  if (!snapshot || snapshot.data_env !== 'demo' || typeof snapshot.rest_base !== 'string') return false;
+  return [
+    'https://external-api.demo.kalshi.co/trade-api/v2',
+    'https://demo-api.kalshi.co/trade-api/v2'
+  ].includes(snapshot.rest_base.replace(/\/$/, ''));
+}
+
 function setStatus(text, ok) {
   const el = document.getElementById('status');
   el.className = 'status' + (ok ? ' ok' : '');
@@ -208,17 +216,16 @@ function setStatus(text, ok) {
   if (results[3].status === 'fulfilled') paper = results[3].value;
   if (results[4].status === 'fulfilled') flags = results[4].value;
 
-  if (!latest && !alerts) {
-    setStatus('published data unavailable — open the desk for the live view', false);
+  if (!latest || !isDemoSnapshot(latest)) {
+    setStatus('dashboard paused — the committed snapshot is not verified as Kalshi demo data', false);
     document.getElementById('alert-rows').innerHTML =
-      '<tr><td colspan="6">The published snapshot could not be loaded from this page. ' +
-      '<a href="docs/desk/">Open the desk</a> instead.</td></tr>';
+      '<tr><td colspan="6">Market values are withheld until a successful demo-only collection cycle. ' +
+      '<a href="docs/desk/flagged.html">See flagged items</a>.</td></tr>';
     return;
   }
 
   if (latest) {
-    setStatus('last published cycle ' + (latest.generated_at || 'unknown') +
-      ' · source ' + (latest.data_env === 'demo' ? 'demo REST' : 'public REST') +
+    setStatus('last Kalshi demo cycle ' + (latest.generated_at || 'unknown') +
       ' · ' + (latest.errors || []).length + ' collection error(s)', true);
     document.getElementById('m-cycle').textContent =
       (latest.generated_at || '').slice(11, 16) + ' UTC';

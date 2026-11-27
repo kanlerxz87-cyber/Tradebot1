@@ -64,7 +64,7 @@
   <p><strong>Impact.</strong> 'Track events until they resolve' could not work while every settled query was rejected, and an empty resolution table looks like a quiet week rather than an error.</p>
   <p><strong>Correction.</strong> The sweep now sends min_settled_ts with status=settled. A parallel session reached the same conclusion from the same table and landed the one-line change on main first (PR #16, with a per-topic series sweep and the same integer assertion); this branch therefore keeps main's implementation and its test rather than duplicating the edit. What this audit adds is the official statement behind it and a re-check that runs on every build.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:703</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:182</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:753</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:718</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:182</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:753</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>True,False,int</code> against expected <code>True,False,int</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></p>
   
@@ -80,7 +80,7 @@
   <p><strong>Impact.</strong> Every simulated P&amp;L figure is at most one cent per fill pessimistic. The difference is disclosed here and next to the performance numbers rather than silently changed, because changing it would also rewrite historical results on the board.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>tools/fees.mjs:23</code> — the disclosed difference, in the module that charges the fee<pre>ROUNDING CAVEAT</pre></li><li><code>kalshi_trader/fees.py:58</code> — the desk rounds to the cent too<pre>ceil(raw * 100.0</pre></li></ul>
+  <ul class="evidence"><li><code>tools/fees.mjs:23</code> — the disclosed difference, in the module that charges the fee<pre>ROUNDING CAVEAT</pre></li><li><code>kalshi_trader/fees.py:120</code> — the desk rounds to the cent too<pre>ceil(raw * 100.0</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>0.34,0.07</code> against expected <code>0.34,0.07</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
   
@@ -96,7 +96,7 @@
   <p><strong>Impact.</strong> A false flag against the exchange, and a test that quietly verified 20 rows where 21 were available.</p>
   <p><strong>Correction.</strong> The table entry is $0.07, all 21 rows are asserted in both columns, and flag F-02 is rewritten on the board's Flagged page to record the correction.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>tools/fees.mjs:81</code> — the corrected row<pre>[0.01, 0.01, 0.07]</pre></li><li><code>tests/fees.test.mjs:9</code> — asserts all of them<pre>the published table has 21 rows</pre></li><li><code>data/flags.json:33</code> — the board's flag, corrected<pre>Resolved 2026-11-22: the $0.01 fee row is reproducible</pre></li></ul>
+  <ul class="evidence"><li><code>tools/fees.mjs:148</code> — the corrected row<pre>[0.01, 0.01, 0.07]</pre></li><li><code>tests/fees.test.mjs:9</code> — asserts all of them<pre>the published table has 21 rows</pre></li><li><code>data/flags.json:33</code> — the board's flag, corrected<pre>Resolved 2026-11-22: the $0.01 fee row is reproducible</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>21,0,0.07</code> against expected <code>21,0,0.07</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a></p>
   
@@ -160,7 +160,7 @@
   <p><strong>Impact.</strong> None on the code; the earlier flag can be closed with a source rather than left open.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:703</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:718</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
   <p class='check muted'>No executable check: this finding is a documentation reconciliation.</p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-10</a> · <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a></p>
   
@@ -192,7 +192,7 @@
   <p><strong>Impact.</strong> None now: the label was corrected before this branch merged, and the rounding caveat is kept in AUD-04.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/fees.py:34</code> — the label, after the parallel fix<pre>VERIFIED = True</pre></li><li><code>kalshi_trader/fees.py:43</code> — the rounding caveat, stated in the code<pre>rounds up to the cent, which never understates the fee</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/fees.py:38</code> — the label, after the parallel fix<pre>VERIFIED = True</pre></li><li><code>kalshi_trader/fees.py:109</code> — the rounding caveat, stated in the code<pre>rounds up to the cent, which never understates the fee</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-18</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
   
@@ -224,7 +224,7 @@
   <p><strong>Impact.</strong> None today: both hosts are supported and serve the same data.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/config.py:24</code> — the current default<pre>api.elections.kalshi.com</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/config.py:23</code> — the current default<pre>api.elections.kalshi.com</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-03</a></p>
   
