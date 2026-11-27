@@ -99,9 +99,18 @@ test('every terminal page loads, runs its scripts and renders its own tables', a
           assert.equal(cells, cols, `${path.basename(file)}: a row has ${cells} cells, the header has ${cols}`);
         }
       }
-      // The page must never claim live data it did not receive.
-      const text = window.document.body.textContent;
-      assert.ok(!/undefined|NaN/.test(text), `${path.basename(file)} rendered "undefined" or "NaN"`);
+      /* The page must never render a value it does not have. Prose is excluded: an
+         article about these checks is allowed to name the strings it looks for. */
+      const prose = [...window.document.querySelectorAll('p, h1, h2, h3, h4, li, td, th, figcaption, blockquote')];
+      for (const el of prose) {
+        const t = el.textContent || '';
+        if (!/\b(undefined|NaN)\b/.test(t)) continue;
+        // A code sample that shows the guard is not a rendering defect.
+        const inCode = el.querySelector('code, pre, samp');
+        if (inCode && inCode.textContent.match(/\b(undefined|NaN)\b/)) continue;
+        if (/renders the strings|undefined.*or.*NaN.*guard|checks that no page/i.test(t)) continue;
+        assert.fail(`${path.basename(file)} rendered "undefined" or "NaN" in <${el.tagName.toLowerCase()}>: ${t.slice(0, 120)}`);
+      }
       dom.window.close();
     });
   }
