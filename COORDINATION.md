@@ -2842,3 +2842,7 @@ series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/st
 | UTC time | Session | Event |
 | - | - | - |
 | 2026-11-27 | `a7c59b93` | Claimed the summary-only stale scope described above. Official Kalshi environment documentation fetched; implementation and test results to be recorded after verification. |
+
+### Follow-up: generated `live.html` drift (in progress)
+
+**Task:** Correct the current Pages build-gate failure caused by stale generated root `live.html`. **Owner:** `a7c59b93`. **Exclusive file scope:** `live.html` output only, plus this append-only coordination record; do not change `live/**` generator code or any other session's implementation. **Reason/takeover:** the previous live-desk task is marked done, and the integration check `python live/build_page.py --check` now fails after successful static/Node checks. Regenerate only from the committed project generator, verify deterministic output and all remaining gates, then record the result. No changes have been made to `live.html` yet.
