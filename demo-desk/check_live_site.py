@@ -14,6 +14,7 @@ REPO_ROOT = LIVE_DIR.parent
 
 OFFICIAL_HOSTS = {
     "docs.kalshi.com",
+    "kalshi.com",
     "external-api.demo.kalshi.co",
     "demo-api.kalshi.co",
     "demo.kalshi.co",

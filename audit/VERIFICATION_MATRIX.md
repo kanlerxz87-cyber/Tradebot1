@@ -40,7 +40,7 @@ Every factual entry used in `/demo-desk/` (`demo-desk/data/verified_snapshot.jso
 | Gas Prices | `KXAAAGASMINTX-26DEC31-1.90` | `KXAAAGASMINTX-26DEC31` | `active` | `0.1600` | `0.0000 / 1.0000` | `101.21` | `22.02` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-1.90) |
 | Gas Prices | `KXAAAGASMINTX-26DEC31-2.20` | `KXAAAGASMINTX-26DEC31` | `active` | `0.4500` | `0.0000 / 0.9500` | `50.20` | `36.03` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.20) |
 
-## 2. Verified Finalized Kalshi Demo Resolutions (13 Settlements Across 5 Allowed Topics)
+## 2. Verified Finalized Kalshi Demo Resolutions (19 Settlements Across 5 Allowed Topics)
 
 | Topic | Ticker | Event Ticker | Status | Result | Settlement ($) | Total Vol (contracts) | Settled UTC | Official API Source |
 |---|---|---|---|---|---:|---:|---|---|
@@ -57,6 +57,12 @@ Every factual entry used in `/demo-desk/` (`demo-desk/data/verified_snapshot.jso
 | Elections | `KXXISUCCESSOR-45JAN01-DXUE` | `KXXISUCCESSOR-45JAN01` | `finalized` | `SCALAR` | `0.5000` | `26.00` | `2026-03-16T18:19:24.424158Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXXISUCCESSOR-45JAN01-DXUE) |
 | Culture | `KXGRAMBPS-68-MES` | `KXGRAMBPS-68` | `finalized` | `YES` | `1.0000` | `0.00` | `2026-02-02T04:41:24.006679Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-MES) |
 | Culture | `KXGRAMBPS-68-DAI` | `KXGRAMBPS-68` | `finalized` | `NO` | `0.0000` | `0.00` | `2026-02-02T04:41:24.006679Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-DAI) |
+| Golf | `KXPGATOUR-THRC26-MPEN` | `KXPGATOUR-THRC26` | `finalized` | `YES` | `1.0000` | `462081.71` | `2026-11-23T19:58:03.108438Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MPEN) |
+| Golf | `KXPGATOUR-THRC26-MMCN` | `KXPGATOUR-THRC26` | `finalized` | `NO` | `0.0000` | `166451.57` | `2026-11-23T19:58:03.108438Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MMCN) |
+| Golf | `KXPGATOUR-THRC26-MTHO` | `KXPGATOUR-THRC26` | `finalized` | `NO` | `0.0000` | `114456.17` | `2026-11-23T19:58:03.108438Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MTHO) |
+| Golf | `KXPGATOUR-AUCPBCS26-DBER` | `KXPGATOUR-AUCPBCS26` | `finalized` | `NO` | `0.0000` | `42623.60` | `2026-11-16T22:33:33.370951Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-AUCPBCS26-DBER) |
+| Culture | `KXGRAMBPS-68-MAN` | `KXGRAMBPS-68` | `finalized` | `NO` | `0.0000` | `0.00` | `2026-02-02T04:41:24.006679Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-MAN) |
+| Crypto | `KXBTCD-26NOV2203-T48099.99` | `KXBTCD-26NOV2203` | `finalized` | `NO` | `0.0000` | `0.00` | `2026-11-22T08:23:52.383938Z` | [API ↗](https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCD-26NOV2203-T48099.99) |
 
 ---
 

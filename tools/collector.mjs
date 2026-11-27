@@ -366,12 +366,15 @@ async function main() {
     }
     const obs = observations.find((o) => o.ticker === p.ticker);
     if (obs && obs.book) {
-      const m = markToMarket(p, { yesBid: obs.book.bestYesBid, noBid: obs.book.bestNoBid });
+      const m = markToMarket(p, { yesBid: obs.book.bestYesBid, noBid: obs.book.bestNoBid, seriesFeeMultiplier: obs.seriesFeeMultiplier ?? p.feeMultiplier });
       if (m) Object.assign(p, { markedAt: nowIso, ...m });
     }
   }
   log(`simulated positions settled: ${settled}`);
 
+  if (portfolio.positions.length > 0 && portfolio.note) {
+    delete portfolio.note;
+  }
   portfolio.summary = portfolioSummary({ positions: portfolio.positions, startingCash: portfolio.startingCash });
   portfolio.updatedAt = nowIso;
   portfolio.runId = runId;

@@ -130,6 +130,12 @@
           <td class="mono">Exchange Status Shard 3</td>
           <td>exchange_index_statuses[3] returns an empty string name (&#x27;&#x27;) while exchange_active=true.</td>
           <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>U6</strong></td>
+          <td class="mono">SERIES: KXBTCY vs Fee Schedule PDF</td>
+          <td>Kalshi&#x27;s July 7, 2026 Fee Schedule PDF (Non-Standard Fees, p. 4) lists KXBTCY with Maker=0, Taker=0, whereas live Demo GET /series/KXBTCY returns fee_multiplier: 1, fee_type: &#x27;quadratic&#x27;.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
         </tr></tbody>
       </table>
     </div>

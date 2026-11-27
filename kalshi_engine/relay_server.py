@@ -86,6 +86,7 @@ def make_handler(client: KalshiV2Client, static_dir: Path = REPO_ROOT):
                                 "KALSHI_DEMO_KEY_PATH locally to query /portfolio/balance, /portfolio/fills, "
                                 "and submit live V2 Demo orders."
                             ),
+                            "docs_url": "https://docs.kalshi.com/getting_started/api_keys",
                         },
                     )
                     return
@@ -178,6 +179,9 @@ def create_relay_server(
 ) -> ThreadingHTTPServer:
     active_client = client or KalshiV2Client.from_env()
     return ThreadingHTTPServer((host, port), make_handler(active_client, static_dir=static_dir))
+
+
+create_server = create_relay_server
 
 
 def main() -> None:

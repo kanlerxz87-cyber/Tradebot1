@@ -413,3 +413,33 @@ export function settlementPayoutPerContract(side, result, settlementValueDollars
   }
   return normSide === "yes" ? yesPayout : Number((1 - yesPayout).toFixed(4));
 }
+
+/**
+ * Compatible VWAP + slippage + 6dp fee helper wrapping `estimateOrderbookFill` + `rawTakerFee6dp`.
+ */
+export function estimateOrderSlippage(normBook, side = "yes", contracts = 10, feeMultiplier = 1) {
+  const fill = estimateOrderbookFill(normBook, side, contracts);
+  if (!fill.filledContracts || fill.vwapPrice === null) {
+    return {
+      requestedContracts: fill.requestedContracts,
+      filledContracts: 0,
+      unfilledContracts: fill.unfilledContracts,
+      topPrice: null,
+      vwapPrice: null,
+      slippageDollars: null,
+      feeCharged: 0
+    };
+  }
+  const rawFee = rawTakerFee6dp(fill.filledContracts, fill.vwapPrice, 0.07, feeMultiplier);
+  const feeRes = applyFeeAccumulator(rawFee, 0, true, -fill.totalCost);
+  return {
+    requestedContracts: fill.requestedContracts,
+    filledContracts: fill.filledContracts,
+    unfilledContracts: fill.unfilledContracts,
+    topPrice: fill.bestAsk,
+    vwapPrice: fill.vwapPrice,
+    slippageDollars: fill.slippage,
+    feeCharged: feeRes.charged
+  };
+}
+
