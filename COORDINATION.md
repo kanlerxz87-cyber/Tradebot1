@@ -2833,6 +2833,9 @@ series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/st
 **Handoff:** the matching broad integration claim in the merged historical board is dated 2026-11-22 and has no current-branch commits by its owner; this narrowly scoped safety fix is taken over under the board's >60-minute stale-claim rule. Prior artifacts are preserved. The user-requested `session-...` branch naming is incompatible with Arena's fixed branch assignment, so work remains on the assigned branch above.
 
 | Refresh strict audit evidence and generated outputs after the demo-environment safety correction; preserve unrelated finding statuses | complete | `f7815e4f` | `audit/items.json` (minimal evidence/status edits only if required), `docs/audit/data/audit.json`, `docs/audit/{findings,index,flagged,sources,methodology}.html`, `COORDINATION.md` | Refreshed via `audit/verify.py` and `audit/build_site.py`; `audit/verify.py --check`, `audit/build_site.py --check`, and `audit/check_site.py` pass. QA audit remains at 0 errors, 2 warnings, 4 notes. Sources: https://docs.kalshi.com/getting_started/api_environments and https://docs.kalshi.com/getting_started/demo_env. |
+
+---
+
 ## Session `arena/2573166c-tradebot1` — terminal live-data correctness + always-fresh front door
 
 **Branch:** `arena/2573166c-tradebot1` (fixed by Arena; no other branch or worktree created). **Base:** `f9b807c`, fast-forwarded onto `main` `71e3110` (PR #53) at claim time.
@@ -2915,3 +2918,16 @@ series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/st
 * **PR #63** — https://github.com/kanlerxz87-cyber/Tradebot1/pull/63 — merged cleanly into `main` at `2026-11-27T20:28:33Z` (`04cea26eba704cc7b789e2c2245a4c52ebf64cb5`); all 7 active checks passed (`audit`, `backend-tests`, `browser-tests`, `build`, `demo-desk-v2`, `node-dashboard`, `test`).
 * **Pages Deploy Run** — [46063879772](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46063879772) (`Verify and deploy Kalshi research dashboard`) succeeded (`backend-tests`, `browser-tests`, `build`, `deploy`), and GitHub Pages build `04cea26` reported `status: built`.
 * **Live Verification** — fetched directly from `https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/` (`/`, `/suggestions/`, `/resolutions/`, `/flagged/`), confirming all 33 active contracts, 19 verified settlements, interactive VWAP + 6dp fee ticket, Auto-Poll (`20s`), S1–S6 roadmap, and 6 blank unverified cells.
+
+---
+
+# Session `26a72154` (`arena/26a72154-tradebot1`) — Engine V2 Audit & Demo-Live Verification Desk
+
+**Assigned branch:** `arena/26a72154-tradebot1` (fixed by Arena; fast-forwarded onto `origin/main` before claiming; no other branch or worktree created).
+
+**Non-overlap check (2026-11-27):** Active parallel sessions read before claiming: `2573166c` (`terminal/**`, `tests/terminal.test.mjs`), `a7c59b93` (`EXECUTIVE_SUMMARY.md` opening, `docs/desk/executive-summary.html`, `live.html`, `qa/**`), `281a11e0` & `3f5311c5` (`demo-desk/**`, `kalshi_engine/**`, `audit/*.md`, `.github/workflows/collect-node.yml`, `.github/workflows/demo-account.yml`), `c1006390` (PR #58: `kalshi_trader/**`, `assets/board.js`, `tools/collector.mjs`, `tools/topics.mjs`, `audit/items.json`), `260ae8d0` (merged PRs #54/#55/#57), and `f7815e4f` (merged PR #56). None of those files are touched in this claim. Prior owners of `app/**`, `engine/**`, and `docs/engine/**` (`arena/7ae1c34f-tradebot1`, last commit `5240b7d` on `2026-11-22`, >130h old, marked `done`) are taken over cleanly under the >60-minute stale-claim rule while preserving 100% of prior work.
+
+| # | Task | Status | Owner | Exclusive file scope | Sources / verification / irregularities |
+| - | - | - | - | - | - |
+| E-1 | Line-by-line repo review of `app/**` & `engine/**`: fix V2 NO-buy order price mapping defect (`price = 1 - P_no` on unified YES scale), per-series `fee_multiplier` support, scalar settlement handling, and non-retry on authenticated writes | in progress | `26a72154` | `app/{kalshi_api,money,simulator}.py`, `tests/test_engine_v2.py` (new) | Official V2 specs: `https://docs.kalshi.com/api-reference/orders/create-order-v2`, `https://docs.kalshi.com/getting_started/order_direction`, `https://kalshi.com/docs/kalshi-fee-schedule.pdf`, `https://docs.kalshi.com/getting_started/market_settlement`. |
+| E-2 | Upgrade `engine/` + `docs/engine/` with live browser Kalshi Demo API interactive dashboard (CORS-verified public polling, dual ≥$0.10 swing alert chats, Seconds/Minutes/Hours price & liquidity ladder chart with jump catalyst links, automated strategy simulator + trade-type categorizer + custom strategy builder, YES/NO/scalar resolution tracker, executive summary, interactivity suggestions, and line-by-line repo audit + Flagged for Review register) | in progress | `26a72154` | `engine/{verification,export_site_data,build_site,check_site}.py`, `docs/engine/**`, `verification/2026-11-27-26a72154.md` (new), `COORDINATION.md` | Every table row carries an official `https://` source link; unverified items are blank (`--`) and listed on `docs/engine/flagged.html`. Reconciles `cors-unknown` with committed `probe/results.json` measurement. |
