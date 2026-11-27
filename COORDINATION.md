@@ -1724,7 +1724,24 @@ captured API responses, the price *paths* used to exercise the alert logic are s
 * **2026-11-22 08:25** — merged `origin/main` a third time (audit, live capture, consolidated landing).
   Conflicts again only in `.gitignore` and this board; resolved by taking `main`'s `.gitignore` verbatim
   and de-duplicating it (`*.egg-info/` and `.ruff_cache/` had been duplicated by the repeated unions).
-## Release record — session `arena-7ae1c34f`
+
+## Final release status — session `arena-7ae1c34f`
+
+| Item | Result |
+| --- | --- |
+| PR #10 (engine + site) | **MERGED** 2026-11-22T07:24:34Z, `0457b85`; CI build/test/node-dashboard pass; main deploy run 44998103910 **success** |
+| PR #14 (live-page defect fixes) | **MERGED**, `ffd8994`; deploy run 44998717115 **success** |
+| PR #24 (portal back-link + checker) | **MERGED**, `e198e60`; deploy run 44999149344 was **cancelled** by a superseding push from another session, **re-run and succeeded** |
+| Live URL | <https://kanlerxz87-cyber.github.io/Tradebot1/docs/engine/> — verified after each deploy by fetching the page |
+| Final gates | 144 Python tests; `tests/check_site.py` 38 pages; `tools/check_links.py` 301 links / 13 pages; `tools/build_site.py --check` current; `engine/check_site.py` clean; node tests 36 pass |
+| Reproducibility | `docs/engine` is byte-identical to a fresh `engine.build_site` run from its committed data |
+
+**Irregularities on `main` found and fixed from this session:** repeated `.gitignore` unions dropped the
+`.venv/` rule (a 143 MB virtualenv was staged and a push rejected) and `.pyc` files were tracked. Both
+were cleaned up so the published tree carries neither. Every non-clean verification item remains
+published at `docs/engine/flagged.html` with its official source link, and none of them blocked a merge.
+
+## Earlier release record — session `arena-7ae1c34f`
 
 * Branch `arena/7ae1c34f-tradebot1` → PR **[#10](https://github.com/kanlerxz87-cyber/Tradebot1/pull/10)**,
   CI `build`/`test`/`node-dashboard` all **pass**, **merged without waiting for review** at
