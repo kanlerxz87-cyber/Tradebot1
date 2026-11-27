@@ -11,7 +11,7 @@
 | Alerts | persisted ≥ $0.10 archive + live ticks | session-only ≥ $0.10 observations |
 | Trading | 4 strategies, ledger committed to the repo | 1 screen, browser-local |
 | Verification | 26 dated source rows, 14 flags | endpoint-level citations, review page |
-**Publication check:** GitHub Pages' latest observed deployment, [run 46040316255](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46040316255), succeeded on 2026-11-27; the homepage was fetched successfully. The official [Pages configuration API](https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages) reports the active source as `main /` (legacy). This confirms publication only—not a live Kalshi connection, an authenticated account, or an executed order.
+**Publication check before this change:** Pages build [run 46059538313](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059538313) succeeded for main commit `be8910684121d5aec57d8cee20155b6e71807783` on 2026-11-27; the homepage was fetched after that deployment. The official [Pages configuration API](https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages) reports the active source as `main /` (legacy). The fetched landing page still carries older hard-coded counts (“14 items” flagged and “9 notes” in QA); use the detailed flagged page and `qa.html` for current findings. This confirms publication only—not a live Kalshi connection, an authenticated account, or an executed order.
 
 ## Decision summary
 

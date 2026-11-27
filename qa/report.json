@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-27T19:50:20Z",
+  "generated_at": "2026-11-27T19:53:41Z",
   "counts": {
     "error": 0,
     "warn": 4,
@@ -16,9 +16,9 @@
     "docs/data/snapshot.json: 28 events, partial=True",
     "monitor docs/data/snapshot.json: 207 rows, price bounds",
     "74 HTML pages, 1361 internal references",
-    "tracked files: 352, bytecode/cache artefacts: 0",
+    "tracked files: 354, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 6826 paths"
+    "secret scan: 7039 paths"
   ],
   "findings": [
     {
@@ -188,7 +188,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-27T12:51:13Z",
-      "detail": "6.99 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "7.04 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
@@ -198,7 +198,7 @@
       "id": "STALE-1",
       "severity": "warn",
       "code": "STALE",
-      "title": "data/snapshot.json is 132.8 h old",
+      "title": "data/snapshot.json is 132.9 h old",
       "detail": "Timestamp 2026-11-22T07:00:00Z. Anything rendered from it is a historical snapshot, not a live quote.",
       "count": 0,
       "examples": [],
