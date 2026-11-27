@@ -129,17 +129,21 @@ class KalshiAPI:
         if auth and self._signer is None:
             raise PermissionError("This endpoint needs KALSHI_API_KEY_ID and KALSHI_PRIVATE_KEY_PATH")
 
+        max_retries = 0 if method.upper() != "GET" else self._max_retries
         attempt = 0
         while True:
             headers = {}
             if auth:
                 # Timestamp is generated per attempt: the 30 second window is
                 # measured against Kalshi's clock at send time.
-                headers = self._signer.headers(method, path)  # type: ignore[union-attr]
+                # Note: signing_path requires the full API path (/trade-api/v2/...)
+                # without query parameters, not the base_url-relative path alone.
+                full_path = f"{self._client.base_url.path.rstrip('/')}/{path.lstrip('/')}"
+                headers = self._signer.headers(method, full_path)  # type: ignore[union-attr]
             try:
                 response = await self._client.request(method, path, params=params, json=json, headers=headers)
             except httpx.HTTPError as exc:
-                if attempt >= self._max_retries:
+                if attempt >= max_retries:
                     raise KalshiAPIError(0, f"network error: {exc}", path, method) from exc
                 attempt += 1
                 await asyncio.sleep(_backoff(attempt))
@@ -160,7 +164,7 @@ class KalshiAPI:
             except Exception:
                 payload = response.text
             error = KalshiAPIError(response.status_code, payload, path, method)
-            if error.retryable and attempt < self._max_retries:
+            if error.retryable and attempt < max_retries:
                 attempt += 1
                 await asyncio.sleep(_backoff(attempt))
                 continue

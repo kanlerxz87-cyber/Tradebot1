@@ -577,7 +577,7 @@ class Collector:
                 continue
             result = (market.get("result") or "").lower()
             status = (market.get("status") or "").lower()
-            if result in {"yes", "no"} or status in {"determined", "settled", "finalized"}:
+            if result in {"yes", "no", "scalar"} or status in {"determined", "settled", "finalized"}:
                 row = {
                     "ticker": ticker,
                     "event_ticker": market.get("event_ticker"),
@@ -640,7 +640,7 @@ class Collector:
     async def _on_lifecycle(self, msg: dict) -> None:
         ticker = msg.get("market_ticker")
         result = (msg.get("result") or "").lower()
-        if not ticker or result not in {"yes", "no"}:
+        if not ticker or result not in {"yes", "no", "scalar"}:
             return
         row = {
             "ticker": ticker, "event_ticker": None,
