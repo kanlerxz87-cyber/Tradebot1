@@ -295,7 +295,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\", \"min_settled_ts\": cutoff",
           "note": "the query as it now stands on main",
-          "line": 658
+          "line": 673
         },
         {
           "file": "tests/test_collector.py",
@@ -578,7 +578,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\"",
           "note": "a filter value, as documented",
-          "line": 658
+          "line": 673
         }
       ],
       "sources": [
@@ -742,7 +742,7 @@
           "file": "kalshi_trader/config.py",
           "needle": "api.elections.kalshi.com",
           "note": "the current default",
-          "line": 24
+          "line": 23
         }
       ],
       "sources": [

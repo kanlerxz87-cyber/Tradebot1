@@ -1,192 +1,192 @@
 {
-  "generated_at": "2026-11-22",
-  "note": "Items that could not be confirmed from an official Kalshi source, or where this build deviates from a literal reading of the brief. Each item states what is affected, how the site avoids asserting anything unverified, and what would clear it. F15 and F16 were added on 2026-11-22 by session arena/568a5271 after an independent audit of the published snapshot and of the catalyst-block code.",
-  "flags": [
-    {
-      "id": "F1",
-      "severity": "warn",
-      "title": "Published per-series fee multipliers are applied for unambiguous schedule rows; the rest fall back to M = 1",
-      "detail": "RESOLVED for the formula. The general and maker formulas are now confirmed against Kalshi's own fee schedule PDF (effective 2026-07-07): taker roundup(0.07 \u00d7 C \u00d7 P \u00d7 (1 \u2212 P)), maker roundup(0.0175 \u00d7 \u2026), and the tests reproduce the PDF's published table (1 contract at $0.50 \u2192 $0.02; 100 contracts at $0.50 \u2192 $1.75). One part is still approximate: the PDF lists per-series multipliers M and several series carry M = 0 (fee-free). The paper book applies M = 1 unless a series is known to be fee-free, so a fee-free series is charged the default fee. Updated 2026-11-27: kalshi_trader/fees.py now reads M from the published Non-Standard Fees table (SERIES_MULTIPLIERS) for the rows whose three columns are unambiguous in the PDF \u2014 including the 0/0 rows such as KXBTCY, KXETHY, KXGREENLAND and KXLAYOFFSYINFO \u2014 and applies it through paper.py on both the entry and the exit fill. Two corrections came with it: an earlier revision of this flag's detail named KXCPI and KXFED as fee-free series, while the published table lists both at maker 1 / taker 1; and the rows from KXMVE onwards are still not encoded because the PDF interleaves their columns during text extraction, so those series still fall back to M = 1.",
-      "handling": "fees.VERIFIED is true and every ledger entry is labelled fee_model=quadratic; the paper book rounds the fee up to the cent, which can only overstate a fee, never understate it; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them. For the rows that are encoded, the multiplier now matches the published table exactly; tests/test_model_fees.py asserts both the 0/0 and the 1/1 rows.",
-      "sources": [
-        "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
-        "https://docs.kalshi.com/api-reference/market/get-series-list",
-        "https://docs.kalshi.com/getting_started/fee_rounding"
-      ],
-      "resolve": "Encode the full non-standard multiplier table (including the M = 0 fee-free series) in kalshi_trader/fees.py, then re-run the tests."
-    },
-    {
-      "id": "F2",
-      "severity": "warn",
-      "title": "Demo account is not connected \u2014 no live demo P&L",
-      "detail": "A Kalshi demo account and its API key can only be created by the account holder (demo.kalshi.co sign-up plus test-funding). This session cannot create one, so no demo balance, positions or fills exist to report. Nothing is estimated in their place.",
-      "handling": "Simulated trading runs autonomously in an internal ledger. The demo adapter (kalshi_trader/kalshi_demo.py) activates automatically when KALSHI_API_KEY_ID and KALSHI_PRIVATE_KEY are present; the dashboard shows an explicit 'not connected' block until then.",
-      "sources": [
-        "https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account",
-        "https://docs.kalshi.com/api-reference/portfolio/get-balance"
-      ],
-      "resolve": "Add demo API credentials as repository secrets; the next scheduled cycle reads the demo balance and mirrors new entries as demo orders."
-    },
-    {
-      "id": "F3",
-      "severity": "info",
-      "title": "'Culture' is a mapping, not an official Kalshi category",
-      "detail": "The official category list contains Entertainment, Social, Mentions, Politics and others \u2014 there is no 'Culture' category. The brief's culture topic is mapped to the official Entertainment category plus Social when a series carries it, which is a documented editorial decision.",
-      "handling": "The mapping is declared in kalshi_trader/topics.py, printed on the Culture page, and every row keeps its raw category so the mapping can be audited or changed.",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/terms",
-        "https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories"
-      ],
-      "resolve": "If Kalshi publishes a Culture category, add it to the mapping and drop Entertainment/Social."
-    },
-    {
-      "id": "F4",
-      "severity": "info",
-      "title": "Golf and gas-price topics need two matching paths",
-      "detail": "Golf is a tag under Sports, and the US gas-price series KXAAAGASM sits under Economics/Commodities. Series that omit the tag or the expected title would otherwise be missed, so a keyword fallback (golf/PGA/LPGA/Ryder Cup/LIV; gas price/gasoline/average gas) is used after the taxonomy match.",
-      "handling": "Taxonomy match always wins; the fallback is only applied when the official fields do not classify the series. Both paths are unit-tested and visible in the code.",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/terms",
-        "https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories"
-      ],
-      "resolve": "Drop the keyword fallback once Kalshi guarantees complete tagging for these series."
-    },
-    {
-      "id": "F5",
-      "severity": "info",
-      "title": "Browser CORS access to the Kalshi API is untested",
-      "detail": "GitHub Pages is static, so live data must come either from a committed snapshot or from the visitor's browser calling Kalshi directly. Whether Kalshi sends permissive CORS headers could not be determined from the documentation.",
-      "handling": "The published snapshot is the default data path (it cannot be blocked by CORS). The UI offers an explicit 'test live access' action and reports the result honestly; the included local server provides a same-origin proxy and WebSocket push.",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/quick_start_market_data",
-        "https://docs.kalshi.com/getting_started/api_environments"
-      ],
-      "resolve": "Confirm CORS behaviour in a browser, or deploy the included server behind the site."
-    },
-    {
-      "id": "F6",
-      "severity": "warn",
-      "title": "Market data source is production while execution is paper",
-      "detail": "Market data uses the production public endpoints because they are keyless, carry real volume and reflect real prices. Execution is the internal paper ledger. Kalshi warns that demo prices may not reflect real markets, so demo fills and production marks would not be strictly comparable.",
-      "handling": "The dashboard always names its data environment and execution mode. Switching to demo data is one environment variable (KALSHI_DATA_ENV=demo).",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/demo_env",
-        "https://docs.kalshi.com/getting_started/api_environments"
-      ],
-      "resolve": "Run the dashboard against the demo environment once demo credentials exist, and compare the two books side by side."
-    },
-    {
-      "id": "F7",
-      "severity": "info",
-      "title": "Alert timing is cycle-resolution, not tick-resolution",
-      "detail": "Kalshi documents that REST market reads are cached briefly and can lag by seconds. The scheduled collector runs every 30 minutes, so a swing is detected between consecutive cycles; the live server and direct mode raise the resolution to seconds.",
-      "handling": "Every alert records its timestamp, the compared-from price and the basis (midpoint or last), so the detection window is auditable rather than implied.",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/quick_start_market_data",
-        "https://docs.kalshi.com/getting_started/rate_limits"
-      ],
-      "resolve": "Subscribe to the orderbook_delta WebSocket channel for tick-level detection once credentials exist."
-    },
-    {
-      "id": "F8",
-      "severity": "info",
-      "title": "Dollar-volume and dollar-open-interest figures are derived",
-      "detail": "The market object reports contract counts (volume_24h_fp, open_interest_fp), not dollars. 'Est. 24h $' is computed as volume_24h \u00d7 price and 'OI $' as open interest \u00d7 price.",
-      "handling": "Derived fields carry an _est suffix, are listed in DERIVED_FIELDS in kalshi_trader/marketdata.py, and the dashboard labels them 'estimated, derived' wherever they appear.",
-      "sources": [
-        "https://docs.kalshi.com/api-reference/market/get-markets"
-      ],
-      "resolve": "Use the dollar_volume field from the ticker WebSocket channel, which Kalshi reports directly."
-    },
-    {
-      "id": "F9",
-      "severity": "info",
-      "title": "Orderbook asks are implied, not reported",
-      "detail": "Kalshi returns bids only. YES asks are computed as $1.00 \u2212 the best NO bid, and NO asks as $1.00 \u2212 the best YES bid.",
-      "handling": "The depth panel labels the ask column 'implied from NO bids' and the methodology page shows the arithmetic.",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/orderbook_responses"
-      ],
-      "resolve": "None needed; this is how a binary book works."
-    },
-    {
-      "id": "F10",
-      "severity": "info",
-      "title": "GitHub Pages cannot schedule work",
-      "detail": "The published site is static. Freshness depends on the GitHub Actions cron job that collects data and commits it under docs/data/.",
-      "handling": "The page shows the snapshot age and turns the freshness chip amber after 30 minutes; the workflow and its last run are linked from the verification page.",
-      "sources": [
-        "https://docs.github.com/en/pages"
-      ],
-      "resolve": "Run the included server for true live streaming, or accept the 30-minute cadence."
-    },
-    {
-      "id": "F11",
-      "severity": "info",
-      "title": "Ed25519 default-key claim is not used",
-      "detail": "Some third-party guides state that Ed25519 became the default API key type on 2026-10-01. The official pages read during this session describe support for both RSA (RSA-PSS/SHA-256) and Ed25519 but do not state a default date.",
-      "handling": "The signer detects the key type at runtime and supports both; no claim about a default is made anywhere on the site.",
-      "sources": [
-        "https://docs.kalshi.com/api-reference/portfolio/get-positions",
-        "https://docs.kalshi.com/getting_started/api_environments"
-      ],
-      "resolve": "Cite the official announcement if one is published."
-    },
-    {
-      "id": "F12",
-      "severity": "warn",
-      "title": "The ROI model is a transparent heuristic, not a validated alpha",
-      "detail": "The high-ROI chat is filtered by a hand-built score (momentum, liquidity, open interest, price band, time to close, spread penalty). It has no backtested accuracy claim; its hit rate is whatever the autonomous book records from now on.",
-      "handling": "Every pick exposes its components, inputs and version; the strategies page states plainly that the weights are starting assumptions to be replaced by measured results.",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/market_lifecycle"
-      ],
-      "resolve": "Re-fit the weights on accumulated paper results and publish the out-of-sample comparison."
-    },
-    {
-      "id": "F13",
-      "severity": "info",
-      "title": "Per-topic caps bound the ranking universe",
-      "detail": "Each cycle keeps at most 40 series and 60 markets per topic after scanning all open events, ranking by estimated notional. 'Highest dollar amount live events' therefore means the highest inside the tracked subset, not a guarantee of the global top of the exchange.",
-      "handling": "The caps are configuration (MAX_SERIES_PER_TOPIC, KALSHI_MAX_MARKETS_PER_TOPIC) and the counts actually scanned are printed on each topic page.",
-      "sources": [
-        "https://docs.kalshi.com/api-reference/market/get-markets"
-      ],
-      "resolve": "Raise the caps (at a request-cost trade-off) or paginate more aggressively."
-    },
-    {
-      "id": "F14",
-      "severity": "info",
-      "title": "Repo was empty at the start of this session",
-      "detail": "The repository contained a single 11-byte README.md at commit c8413fc, no code, no tests and no COORDINATION.md. Every table and claim on this site therefore had to be created and sourced in this session; there was no pre-existing data to audit.",
-      "handling": "COORDINATION.md records the initial state, the task claims, the source list and the verification performed. No claim inherited from an unverified source exists on the site.",
-      "sources": [
-        "https://github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fcae9e3388b1bd7fd433fac1500630b4140"
-      ],
-      "resolve": "Nothing to resolve; recorded for auditability."
-    },
-    {
-      "id": "F15",
-      "severity": "warn",
-      "title": "Published rows contradicted themselves (fixed 2026-11-22, data heals on the next cycle)",
-      "detail": "The collector takes a second sample inside one cycle for finer chart resolution and used to write back only the 'price' field. Every other price field in the row (mid, yes_bid, yes_ask) and the derived notional_24h_est stayed on the first sample, so a published row could quote a price that its own book contradicted and a notional that did not equal volume_24h x price. Example observed in the 07:21Z snapshot: KXSOL15M-26NOV220230-30 price 0.695 beside mid 0.53. The swing detector reads mid, so a move measured by the second sample could not raise an alert.",
-      "handling": "Fixed in kalshi_trader/collector.py (the whole row is replaced by the newer response) with a regression test in tests/test_collector.py. `cli verify` now checks every row for out-of-range prices, bid>ask, price/mid disagreement and notional arithmetic, and checks every alert against the $0.10 threshold. The rows still in the committed snapshot predate the fix and are replaced by the next scheduled cycle.",
-      "sources": [
-        "https://docs.kalshi.com/getting_started/quick_start_market_data",
-        "https://docs.kalshi.com/getting_started/orderbook_responses"
-      ],
-      "resolve": "Confirm `cli verify` reports zero consistency warnings after one scheduled cycle."
-    },
-    {
-      "id": "F16",
-      "severity": "info",
-      "title": "Catalyst links are date-restricted searches, not attributions",
-      "detail": "Each alert carries two blocks from kalshi_trader/catalysts.py: 'Contract sources', taken only from fields the API returns (series page, market object, filed terms and the exchange's own named settlement source), and 'Possible catalysts', which are news searches restricted to the hours around the observation and labelled unverified. No official Kalshi field reports a cause, and this project has no licensed news feed, so no headline, publisher or date is generated and no causal claim is made. Alerts recorded before the mechanism existed carry neither block and render without them.",
-      "handling": "The page labels the search block 'Possible catalysts (searches, unverified)' and the payload keeps them in a separate field from the official sources. A search that returns nothing is shown as a search, never as an absence of news.",
-      "sources": [
-        "https://docs.kalshi.com/api-reference/market/get-market"
-      ],
-      "resolve": "Only attributable with a licensed news feed, where each match would be shown with its publisher, headline and timestamp for manual review."
-    }
-  ]
+ "generated_at": "2026-11-22",
+ "note": "Items that could not be confirmed from an official Kalshi source, or where this build deviates from a literal reading of the brief. Each item states what is affected, how the site avoids asserting anything unverified, and what would clear it. F15 and F16 were added on 2026-11-22 by session arena/568a5271 after an independent audit of the published snapshot and of the catalyst-block code.",
+ "flags": [
+  {
+   "id": "F1",
+   "severity": "warn",
+   "title": "Published per-series fee multipliers are applied for unambiguous schedule rows; the rest fall back to M = 1",
+   "detail": "RESOLVED for the formula. The general and maker formulas are now confirmed against Kalshi's own fee schedule PDF (effective 2026-07-07): taker roundup(0.07 × C × P × (1 − P)), maker roundup(0.0175 × …), and the tests reproduce the PDF's published table (1 contract at $0.50 → $0.02; 100 contracts at $0.50 → $1.75). One part is still approximate: the PDF lists per-series multipliers M and several series carry M = 0 (fee-free). The paper book applies M = 1 unless a series is known to be fee-free, so a fee-free series is charged the default fee. Updated 2026-11-27: kalshi_trader/fees.py now reads M from the published Non-Standard Fees table (SERIES_MULTIPLIERS) for the rows whose three columns are unambiguous in the PDF — including the 0/0 rows such as KXBTCY, KXETHY, KXGREENLAND and KXLAYOFFSYINFO — and applies it through paper.py on both the entry and the exit fill. Two corrections came with it: an earlier revision of this flag's detail named KXCPI and KXFED as fee-free series, while the published table lists both at maker 1 / taker 1; and the rows from KXMVE onwards are still not encoded because the PDF interleaves their columns during text extraction, so those series still fall back to M = 1.",
+   "handling": "fees.VERIFIED is true and every ledger entry is labelled fee_model=quadratic; the paper book rounds the fee up to the cent, which can only overstate a fee, never understate it; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them. For the rows that are encoded, the multiplier now matches the published table exactly; tests/test_model_fees.py asserts both the 0/0 and the 1/1 rows.",
+   "sources": [
+    "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+    "https://docs.kalshi.com/api-reference/market/get-series-list",
+    "https://docs.kalshi.com/getting_started/fee_rounding"
+   ],
+   "resolve": "Encode the full non-standard multiplier table (including the M = 0 fee-free series) in kalshi_trader/fees.py, then re-run the tests."
+  },
+  {
+   "id": "F2",
+   "severity": "warn",
+   "title": "Demo account is not connected — no live demo P&L",
+   "detail": "A Kalshi demo account and its API key can only be created by the account holder (demo.kalshi.co sign-up plus test-funding). This session cannot create one, so no demo balance, positions or fills exist to report. Nothing is estimated in their place.",
+   "handling": "Simulated trading runs autonomously in an internal ledger. The demo adapter (kalshi_trader/kalshi_demo.py) activates automatically when KALSHI_API_KEY_ID and KALSHI_PRIVATE_KEY are present; the dashboard shows an explicit 'not connected' block until then.",
+   "sources": [
+    "https://help.kalshi.com/en/articles/13823775-creating-and-using-a-demo-account",
+    "https://docs.kalshi.com/api-reference/portfolio/get-balance"
+   ],
+   "resolve": "Add demo API credentials as repository secrets; the next scheduled cycle reads the demo balance and mirrors new entries as demo orders."
+  },
+  {
+   "id": "F3",
+   "severity": "info",
+   "title": "'Culture' is a mapping, not an official Kalshi category",
+   "detail": "The official category list contains Entertainment, Social, Mentions, Politics and others — there is no 'Culture' category. The brief's culture topic is mapped to the official Entertainment category plus Social when a series carries it, which is a documented editorial decision.",
+   "handling": "The mapping is declared in kalshi_trader/topics.py, printed on the Culture page, and every row keeps its raw category so the mapping can be audited or changed.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/terms",
+    "https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories"
+   ],
+   "resolve": "If Kalshi publishes a Culture category, add it to the mapping and drop Entertainment/Social."
+  },
+  {
+   "id": "F4",
+   "severity": "info",
+   "title": "Golf and gas-price topics need two matching paths",
+   "detail": "Golf is a tag under Sports, and the US gas-price series KXAAAGASM sits under Economics/Commodities. Series that omit the tag or the expected title would otherwise be missed, so a keyword fallback (golf/PGA/LPGA/Ryder Cup/LIV; gas price/gasoline/average gas) is used after the taxonomy match.",
+   "handling": "Taxonomy match always wins; the fallback is only applied when the official fields do not classify the series. Both paths are unit-tested and visible in the code.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/terms",
+    "https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories"
+   ],
+   "resolve": "Drop the keyword fallback once Kalshi guarantees complete tagging for these series."
+  },
+  {
+   "id": "F5",
+   "severity": "info",
+   "title": "Browser CORS access to the Kalshi API is untested",
+   "detail": "GitHub Pages is static, so live data must come either from a committed snapshot or from the visitor's browser calling Kalshi directly. Whether Kalshi sends permissive CORS headers could not be determined from the documentation.",
+   "handling": "The published snapshot is the default data path (it cannot be blocked by CORS). The UI offers an explicit 'test live access' action and reports the result honestly; the included local server provides a same-origin proxy and WebSocket push.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/quick_start_market_data",
+    "https://docs.kalshi.com/getting_started/api_environments"
+   ],
+   "resolve": "Confirm CORS behaviour in a browser, or deploy the included server behind the site."
+  },
+  {
+   "id": "F6",
+   "severity": "warn",
+   "title": "Committed market snapshot was production, not Kalshi demo",
+   "detail": "The last populated docs/desk/data/latest.json snapshot identified data_env=\"prod\" and https://external-api.kalshi.com/trade-api/v2 (captured 2026-11-27T12:51:13Z). Those production market values and derived histories have been removed from the published snapshot files. The dashboard remains blank until a successful demo-only collection cycle publishes a replacement. This is a repository-data observation, not a live API check.",
+   "handling": "KALSHI_DATA_ENV defaults to demo and the scheduled collector pins demo. Environment changes reset paper positions, histories, alerts, and resolutions; the landing page, desk, topic pages, and portfolio fail closed unless data_env and rest_base both identify an official demo API root.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/demo_env",
+    "https://docs.kalshi.com/getting_started/api_environments"
+   ],
+   "resolve": "After a successful demo collection, verify docs/desk/data/latest.json reports data_env=\"demo\" and an official demo REST base; confirm the published dashboard and all static category/portfolio tables use that cycle only."
+  },
+  {
+   "id": "F7",
+   "severity": "info",
+   "title": "Alert timing is cycle-resolution, not tick-resolution",
+   "detail": "Kalshi documents that REST market reads are cached briefly and can lag by seconds. The scheduled collector runs every 30 minutes, so a swing is detected between consecutive cycles; the live server and direct mode raise the resolution to seconds.",
+   "handling": "Every alert records its timestamp, the compared-from price and the basis (midpoint or last), so the detection window is auditable rather than implied.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/quick_start_market_data",
+    "https://docs.kalshi.com/getting_started/rate_limits"
+   ],
+   "resolve": "Subscribe to the orderbook_delta WebSocket channel for tick-level detection once credentials exist."
+  },
+  {
+   "id": "F8",
+   "severity": "info",
+   "title": "Dollar-volume and dollar-open-interest figures are derived",
+   "detail": "The market object reports contract counts (volume_24h_fp, open_interest_fp), not dollars. 'Est. 24h $' is computed as volume_24h × price and 'OI $' as open interest × price.",
+   "handling": "Derived fields carry an _est suffix, are listed in DERIVED_FIELDS in kalshi_trader/marketdata.py, and the dashboard labels them 'estimated, derived' wherever they appear.",
+   "sources": [
+    "https://docs.kalshi.com/api-reference/market/get-markets"
+   ],
+   "resolve": "Use the dollar_volume field from the ticker WebSocket channel, which Kalshi reports directly."
+  },
+  {
+   "id": "F9",
+   "severity": "info",
+   "title": "Orderbook asks are implied, not reported",
+   "detail": "Kalshi returns bids only. YES asks are computed as $1.00 − the best NO bid, and NO asks as $1.00 − the best YES bid.",
+   "handling": "The depth panel labels the ask column 'implied from NO bids' and the methodology page shows the arithmetic.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/orderbook_responses"
+   ],
+   "resolve": "None needed; this is how a binary book works."
+  },
+  {
+   "id": "F10",
+   "severity": "info",
+   "title": "GitHub Pages cannot schedule work",
+   "detail": "The published site is static. Freshness depends on the GitHub Actions cron job that collects data and commits it under docs/data/.",
+   "handling": "The page shows the snapshot age and turns the freshness chip amber after 30 minutes; the workflow and its last run are linked from the verification page.",
+   "sources": [
+    "https://docs.github.com/en/pages"
+   ],
+   "resolve": "Run the included server for true live streaming, or accept the 30-minute cadence."
+  },
+  {
+   "id": "F11",
+   "severity": "info",
+   "title": "Ed25519 default-key claim is not used",
+   "detail": "Some third-party guides state that Ed25519 became the default API key type on 2026-10-01. The official pages read during this session describe support for both RSA (RSA-PSS/SHA-256) and Ed25519 but do not state a default date.",
+   "handling": "The signer detects the key type at runtime and supports both; no claim about a default is made anywhere on the site.",
+   "sources": [
+    "https://docs.kalshi.com/api-reference/portfolio/get-positions",
+    "https://docs.kalshi.com/getting_started/api_environments"
+   ],
+   "resolve": "Cite the official announcement if one is published."
+  },
+  {
+   "id": "F12",
+   "severity": "warn",
+   "title": "The ROI model is a transparent heuristic, not a validated alpha",
+   "detail": "The high-ROI chat is filtered by a hand-built score (momentum, liquidity, open interest, price band, time to close, spread penalty). It has no backtested accuracy claim; its hit rate is whatever the autonomous book records from now on.",
+   "handling": "Every pick exposes its components, inputs and version; the strategies page states plainly that the weights are starting assumptions to be replaced by measured results.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/market_lifecycle"
+   ],
+   "resolve": "Re-fit the weights on accumulated paper results and publish the out-of-sample comparison."
+  },
+  {
+   "id": "F13",
+   "severity": "info",
+   "title": "Per-topic caps bound the ranking universe",
+   "detail": "Each cycle keeps at most 40 series and 60 markets per topic after scanning all open events, ranking by estimated notional. 'Highest dollar amount live events' therefore means the highest inside the tracked subset, not a guarantee of the global top of the exchange.",
+   "handling": "The caps are configuration (MAX_SERIES_PER_TOPIC, KALSHI_MAX_MARKETS_PER_TOPIC) and the counts actually scanned are printed on each topic page.",
+   "sources": [
+    "https://docs.kalshi.com/api-reference/market/get-markets"
+   ],
+   "resolve": "Raise the caps (at a request-cost trade-off) or paginate more aggressively."
+  },
+  {
+   "id": "F14",
+   "severity": "info",
+   "title": "Repo was empty at the start of this session",
+   "detail": "The repository contained a single 11-byte README.md at commit c8413fc, no code, no tests and no COORDINATION.md. Every table and claim on this site therefore had to be created and sourced in this session; there was no pre-existing data to audit.",
+   "handling": "COORDINATION.md records the initial state, the task claims, the source list and the verification performed. No claim inherited from an unverified source exists on the site.",
+   "sources": [
+    "https://github.com/kanlerxz87-cyber/Tradebot1/commit/c8413fcae9e3388b1bd7fd433fac1500630b4140"
+   ],
+   "resolve": "Nothing to resolve; recorded for auditability."
+  },
+  {
+   "id": "F15",
+   "severity": "warn",
+   "title": "Published rows contradicted themselves (fixed 2026-11-22, data heals on the next cycle)",
+   "detail": "The collector takes a second sample inside one cycle for finer chart resolution and used to write back only the 'price' field. Every other price field in the row (mid, yes_bid, yes_ask) and the derived notional_24h_est stayed on the first sample, so a published row could quote a price that its own book contradicted and a notional that did not equal volume_24h x price. Example observed in the 07:21Z snapshot: KXSOL15M-26NOV220230-30 price 0.695 beside mid 0.53. The swing detector reads mid, so a move measured by the second sample could not raise an alert.",
+   "handling": "Fixed in kalshi_trader/collector.py (the whole row is replaced by the newer response) with a regression test in tests/test_collector.py. `cli verify` now checks every row for out-of-range prices, bid>ask, price/mid disagreement and notional arithmetic, and checks every alert against the $0.10 threshold. The rows still in the committed snapshot predate the fix and are replaced by the next scheduled cycle.",
+   "sources": [
+    "https://docs.kalshi.com/getting_started/quick_start_market_data",
+    "https://docs.kalshi.com/getting_started/orderbook_responses"
+   ],
+   "resolve": "Confirm `cli verify` reports zero consistency warnings after one scheduled cycle."
+  },
+  {
+   "id": "F16",
+   "severity": "info",
+   "title": "Catalyst links are date-restricted searches, not attributions",
+   "detail": "Each alert carries two blocks from kalshi_trader/catalysts.py: 'Contract sources', taken only from fields the API returns (series page, market object, filed terms and the exchange's own named settlement source), and 'Possible catalysts', which are news searches restricted to the hours around the observation and labelled unverified. No official Kalshi field reports a cause, and this project has no licensed news feed, so no headline, publisher or date is generated and no causal claim is made. Alerts recorded before the mechanism existed carry neither block and render without them.",
+   "handling": "The page labels the search block 'Possible catalysts (searches, unverified)' and the payload keeps them in a separate field from the official sources. A search that returns nothing is shown as a search, never as an absence of news.",
+   "sources": [
+    "https://docs.kalshi.com/api-reference/market/get-market"
+   ],
+   "resolve": "Only attributable with a licensed news feed, where each match would be shown with its publisher, headline and timestamp for manual review."
+  }
+ ]
 }

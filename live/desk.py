@@ -443,8 +443,18 @@ def load_from_desk(path: Path) -> tuple[dict[str, list[Market]], dict[str, Any]]
 def load_from_board(path: Path) -> tuple[dict[str, list[Market]], dict[str, Any]]:
     payload = json.loads(path.read_text())
     markets: dict[str, list[Market]] = {topic: [] for topic in TOPICS}
-    rows = (payload.get("markets") or {}).values()
+    raw_markets = payload.get("markets") or []
+    # The source-linked Node board publishes markets as an array; older collectors
+    # wrote a ticker-keyed object. Accept either documented repository snapshot shape.
+    if isinstance(raw_markets, dict):
+        rows = raw_markets.values()
+    elif isinstance(raw_markets, list):
+        rows = raw_markets
+    else:
+        rows = ()
     for row in rows:
+        if not isinstance(row, dict):
+            continue
         topic = row.get("topic")
         if topic not in markets:
             continue
