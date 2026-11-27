@@ -182,7 +182,10 @@ class PaperLedger:
             return None
 
         cost = round(contracts * price, 2)
-        fee = fee_mod.taker_fee(contracts, price, self.settings.fee_model)
+        multiplier = fee_mod.series_multiplier(market.get("series_ticker"), "taker")
+        fee = fee_mod.taker_fee(
+            contracts, price, self.settings.fee_model, multiplier=multiplier
+        )
         if cost + fee > self.cash:
             affordable = int(self.cash // (price + 0.01)) if price else 0
             contracts = max(0, min(contracts, affordable))
@@ -190,7 +193,9 @@ class PaperLedger:
                 self._record_rejection(market.get("ticker", ""), strategy_id, "insufficient cash", now)
                 return None
             cost = round(contracts * price, 2)
-            fee = fee_mod.taker_fee(contracts, price, self.settings.fee_model)
+            fee = fee_mod.taker_fee(
+                contracts, price, self.settings.fee_model, multiplier=multiplier
+            )
 
         strategy = strat_mod.STRATEGIES[strategy_id]
         position = {
@@ -250,7 +255,13 @@ class PaperLedger:
             if market is None:
                 return None
             exit_price = _mark_price(market, side, position["entry_price"])
-            fee = fee_mod.taker_fee(contracts, exit_price, self.settings.fee_model)
+            # The published series multiplier applies to the exit fill too.
+            fee = fee_mod.taker_fee(
+                contracts,
+                exit_price,
+                self.settings.fee_model,
+                multiplier=fee_mod.series_multiplier(position.get("series_ticker"), "taker"),
+            )
             if exit_price <= 0:
                 fee = 0.0  # nothing to sell into at $0
 

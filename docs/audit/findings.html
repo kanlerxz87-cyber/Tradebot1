@@ -80,7 +80,7 @@
   <p><strong>Impact.</strong> Every simulated P&amp;L figure is at most one cent per fill pessimistic. The difference is disclosed here and next to the performance numbers rather than silently changed, because changing it would also rewrite historical results on the board.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>tools/fees.mjs:23</code> — the disclosed difference, in the module that charges the fee<pre>ROUNDING CAVEAT</pre></li><li><code>kalshi_trader/fees.py:52</code> — the desk rounds to the cent too<pre>ceil(raw * 100.0</pre></li></ul>
+  <ul class="evidence"><li><code>tools/fees.mjs:23</code> — the disclosed difference, in the module that charges the fee<pre>ROUNDING CAVEAT</pre></li><li><code>kalshi_trader/fees.py:120</code> — the desk rounds to the cent too<pre>ceil(raw * 100.0</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>0.34,0.07</code> against expected <code>0.34,0.07</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
   
@@ -96,7 +96,7 @@
   <p><strong>Impact.</strong> A false flag against the exchange, and a test that quietly verified 20 rows where 21 were available.</p>
   <p><strong>Correction.</strong> The table entry is $0.07, all 21 rows are asserted in both columns, and flag F-02 is rewritten on the board's Flagged page to record the correction.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>tools/fees.mjs:81</code> — the corrected row<pre>[0.01, 0.01, 0.07]</pre></li><li><code>tests/fees.test.mjs:9</code> — asserts all of them<pre>the published table has 21 rows</pre></li><li><code>data/flags.json:33</code> — the board's flag, corrected<pre>Resolved 2026-11-22: the $0.01 fee row is reproducible</pre></li></ul>
+  <ul class="evidence"><li><code>tools/fees.mjs:148</code> — the corrected row<pre>[0.01, 0.01, 0.07]</pre></li><li><code>tests/fees.test.mjs:9</code> — asserts all of them<pre>the published table has 21 rows</pre></li><li><code>data/flags.json:33</code> — the board's flag, corrected<pre>Resolved 2026-11-22: the $0.01 fee row is reproducible</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>21,0,0.07</code> against expected <code>21,0,0.07</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a></p>
   
@@ -192,7 +192,7 @@
   <p><strong>Impact.</strong> None now: the label was corrected before this branch merged, and the rounding caveat is kept in AUD-04.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/fees.py:34</code> — the label, after the parallel fix<pre>VERIFIED = True</pre></li><li><code>kalshi_trader/fees.py:43</code> — the rounding caveat, stated in the code<pre>rounds up to the cent, which never understates the fee</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/fees.py:38</code> — the label, after the parallel fix<pre>VERIFIED = True</pre></li><li><code>kalshi_trader/fees.py:109</code> — the rounding caveat, stated in the code<pre>rounds up to the cent, which never understates the fee</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-18</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
   

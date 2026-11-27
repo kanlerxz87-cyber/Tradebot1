@@ -2698,3 +2698,96 @@ Sandbox limitation unchanged: **this sandbox has no route to `external-api.demo.
 | UTC time | Session | Event |
 | - | - | - |
 | 2026-11-22 | `arena-30938ff3` | Claimed 12 tasks on `arena/30938ff3-tradebot1`; built terminal; discovered `main` had advanced; relocated all work to `/terminal/`; merged `origin/main`; resolved COORDINATION additively; no other session's files discarded or overwritten. |
+
+---
+
+# Session `arena/260ae8d0-tradebot1` — fee-multiplier defect, line-by-line re-check (2026-11-27)
+
+**Branch:** `arena/260ae8d0-tradebot1`, branched from `f9b807c`; `origin/main` merged in before any
+edit (main had advanced to `71e3110`). No other session was active on these files at claim time; the
+tasks below were previously marked **done** by earlier sessions, so this session claims only the
+specific files it touched and appends rather than rewrites anyone's record.
+
+## Claim
+
+| Task | Status | Owner | Files touched |
+| - | - | - | - |
+| Re-verify the fee model line by line against the published schedule; fix the per-series multiplier; reprice the committed simulated book | done | `arena/260ae8d0` | `tools/fees.mjs`, `tools/strategies.mjs`, `tools/collector.mjs`, `tools/reprice_fee_multipliers.mjs` (new), `kalshi_trader/fees.py`, `kalshi_trader/paper.py`, `live/desk.py`, `live/build_page.py`, `live/static/index.html`, `live/README.md`, `tests/fee-multipliers.test.mjs` (new), `tests/test_model_fees.py`, `live/tests/test_live.py`, `data/live/portfolio.json`, `data/flags.json`, `docs/desk/data/flags.json`, `tools/build_site.py` (one string) |
+| Regenerate the pages that render those files and re-run every gate | done | `arena/260ae8d0` | root `*.html`, `categories/*.html`, `flagged.html`, `live.html`, `docs/desk/flagged.html`, `docs/audit/*`, `qa/report.*` |
+
+## What was wrong (verified, not inferred)
+
+1. **The per-series multiplier M was not applied.** The schedule's formula is
+   `roundup(M × 0.07 × C × P × (1 − P))` and its **"Non-Standard Fees"** table gives a Maker and a
+   Taker multiplier per series. Source:
+   <https://kalshi.com/docs/kalshi-fee-schedule.pdf> (the PDF is headed "Last updated and effective:
+   July 7, 2026"; the KXBTCY row reads `KXBTCY | BTC price range EOY | 0 | 0`). The REST API publishes
+   the same number as `fee_multiplier` on `GET /series` ("a floating point multiplier applied to the
+   fee calculations"): <https://docs.kalshi.com/api-reference/market/get-series>. The simulator
+   charged M = 1 for every fill, so all eight committed KXBTCY positions carried a $0.01 entry fee the
+   schedule does not charge.
+2. **A docstring named the wrong examples.** `kalshi_trader/fees.py` cited `KXCPI` and `KXFED` as
+   fee-free series; the published table lists both at maker 1 / taker 1. Only `KXBTCY` of the three
+   named is 0 / 0.
+3. **A cited documentation page does not exist.** `live/desk.py`, `live/build_page.py` and
+   `live/static/index.html` linked `https://docs.kalshi.com/getting_started/fees`, which is absent from
+   the documentation index <https://docs.kalshi.com/llms.txt> and could not be fetched. Replaced with
+   the fee schedule PDF and <https://docs.kalshi.com/getting_started/fee_rounding>.
+
+## What changed
+
+* `tools/fees.mjs` now carries `PUBLISHED_SERIES_MULTIPLIERS` (31 rows whose three columns are
+  unambiguous in the PDF), `seriesMultiplier()` and `seriesFromTicker()`.
+* `tools/strategies.mjs` takes the multiplier from the exchange payload (`GET /series`
+  `fee_multiplier`) first, then the published table, then the general default of 1, and records which
+  source it used on every position (`feeMultiplier`, `feeMultiplierSource`). Both the entry and the
+  exit fill use it. `tools/collector.mjs` passes the value through from series discovery.
+* `kalshi_trader/fees.py` / `paper.py` do the same for the research desk's paper book.
+* `live/desk.py` applies the published multiplier to its simulated fills; its fee source link is fixed.
+* `tools/reprice_fee_multipliers.mjs --apply` re-priced the eight recorded fills. Result:
+  `feesPaid 0.10 → 0.00`, `totalPnl -0.07 → -0.03`, `equity 999.93 → 999.97`. The before/after
+  summary is stored in `data/live/portfolio.json` under `feeRepricing`.
+* `data/flags.json` gains **F-19** (published on the Flagged for Review page) documenting the defect,
+  the correction and the residual limitation; `docs/desk/data/flags.json` F1 is updated to match.
+
+## Verification performed (2026-11-27, this session)
+
+| Check | Result |
+| - | - |
+| `node --test tests/*.test.mjs` | 67 pass, 0 fail (includes the new `tests/fee-multipliers.test.mjs`, 9 tests) |
+| `python -m pytest -q` (venv, `requirements-dev.txt`) | 196 pass, 0 fail |
+| `python -m unittest discover -s live/tests` | 33 pass (4 new fee-multiplier tests) |
+| `node scripts/build-site.mjs --check` | 19 pages current |
+| `python tools/build_site.py --check` | current |
+| `node scripts/check-links.mjs` | 663 references, 0 problems |
+| `python tools/check_links.py` / `check_gateway.py` | 349 links OK / 39 published targets OK |
+| `python tools/check_all_links.py` | 1753 links across 96 pages, no broken target or anchor |
+| `python audit/verify.py --check`, `audit/build_site.py --check`, `audit/check_site.py` | current; 13 findings, 23 facts, no broken links |
+| `python -m engine.check_site --root docs/engine` | OK |
+| `python demo-desk/check_live_site.py`, `node --test demo-desk/test_live_core.mjs` | OK / pass |
+| `python live/build_page.py --check` | current |
+| `python qa/audit.py --check` | 0 errors, 4 warnings, 7 notes |
+| `python tests/check_site.py`, `kalshi_engine/test_engine.py` | OK / all passed |
+
+## Irregularities left open (published, non-blocking)
+
+* **F-19 residual:** from the row for `KXMVE` onwards the fee-schedule PDF interleaves tickers, names
+  and both multiplier columns during text extraction (e.g. `KXNASDAQ100Y Nasdaq yearly range 11`), so
+  those rows are not encoded. When `GET /series` does not return `fee_multiplier` for such a series,
+  the model falls back to M = 1, which can overstate a fee on a fee-free series.
+* **Fee rounding precision:** the model rounds each fee up to the whole cent, which reproduces every
+  row of the published General Trading Fees Table but is not the exchange's per-fill rule — the trade
+  fee is rounded up to $0.000001 and the balance is then aligned to $0.0001 (direct members) or $0.01
+  (non-direct), with a rebate accumulator. Source:
+  <https://docs.kalshi.com/getting_started/fee_rounding>. For a direct member the model therefore
+  overstates a fill by up to $0.0099. `docs/audit/` AUD-04 already carries this; it is unchanged here
+  because changing it would move every historical P&L figure.
+* **`qa/audit.py` STALE-1:** `data/snapshot.json` is a point-in-time capture from 2026-11-22T07:00:00Z
+  (130+ hours old at this writing) while `data/live/*` is refreshed by the scheduled workflow. Pages
+  that mix the two say which is which, but the snapshot is stale by construction.
+* **`qa/audit.py` PROVENANCE-1:** the research desk's capture uses the production REST root, not the
+  demo root; labelled on the pages that render it.
+
+## Merge record
+
+* PR: filled in below by this session after the merge.

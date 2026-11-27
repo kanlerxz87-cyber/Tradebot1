@@ -504,7 +504,7 @@ def build_portfolio_static(paper: dict[str, Any], latest: dict[str, Any]) -> str
 <div class="banner {'warn' if not headline.get('fee_verified') else 'ok'}" style="margin-top:14px">
   <b>Fee model:</b>&nbsp;<span class="grow">{esc(headline.get('fee_model'))} —
   {"verified against an official Kalshi schedule." if headline.get('fee_verified') else
-   "0.07 × contracts × price × (1 − price) rounded up to the cent, per the published Kalshi fee schedule (effective 2026-07-07). The round-up can only overstate a fee, never understate it; the per-series multiplier is still approximated (flag F1)."}</span>
+   "0.07 × contracts × price × (1 − price) rounded up to the cent, per the published Kalshi fee schedule (effective 2026-07-07). The round-up can only overstate a fee, never understate it. The published per-series multiplier is applied for the rows of the schedule's Non-Standard Fees table that are unambiguous in the PDF; the remaining rows fall back to 1 (flag F1)."}</span>
 </div>
 
 <div class="grid two" style="margin-top:16px">
