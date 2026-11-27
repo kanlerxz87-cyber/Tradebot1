@@ -7,17 +7,17 @@ const TOPIC = (location.pathname.split('/').pop() ?? '').replace('.html', '');
 const TOPIC_LABEL = { gas: 'Gas prices', elections: 'Elections', culture: 'Culture', crypto: 'Crypto', golf: 'Golf' }[TOPIC] ?? TOPIC;
 
 const BLURB = {
-  gas: 'US fuel prices. In the demo catalogue this means the diesel series: there is no Gas category, and GET /series?tags=Gasoline returns nothing (flag F-03).',
+  gas: 'US fuel prices — retail gasoline (KXAAAGASM / KXAAAGASW under Oil and energy) and weekly diesel (flag F-03).',
   elections: 'Candidate, party and ballot contests, found through the official series category Elections.',
-  culture: 'Bans, awards and entertainment, found through the official series category Culture.',
+  culture: 'Bans, awards, entertainment and social events across Culture, Entertainment and Social categories.',
   crypto: 'Bitcoin, Ethereum and other digital-asset contracts, found through the official series category Crypto, settling on CF Benchmarks indices.',
   golf: 'PGA, LIV and major outcomes. Golf is not a Kalshi category, so this topic uses the official Golf tag on series whose category is Sports (flag F-04).',
 };
 
 const DISCOVERY = {
-  gas: { label: 'series tag Gas', url: 'https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Gas' },
+  gas: { label: 'series tag Oil and energy', url: 'https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Oil%20and%20energy' },
   elections: { label: 'series category Elections', url: 'https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections' },
-  culture: { label: 'series category Culture', url: 'https://external-api.demo.kalshi.co/trade-api/v2/series?category=Culture' },
+  culture: { label: 'series category Entertainment', url: 'https://external-api.demo.kalshi.co/trade-api/v2/series?category=Entertainment' },
   crypto: { label: 'series category Crypto', url: 'https://external-api.demo.kalshi.co/trade-api/v2/series?category=Crypto' },
   golf: { label: 'series tag Golf', url: 'https://external-api.demo.kalshi.co/trade-api/v2/series?tags=Golf' },
 };
@@ -72,7 +72,7 @@ async function init() {
   const coverage = live.coverage?.[TOPIC];
   document.querySelector('#discovery-table tbody').innerHTML = `<tr>
     <td>${esc(d.label)}</td>
-    <td class="mono small">GET /series?${d.label.includes('tag') ? 'tags' : 'category'}=${esc(d.label.split(' ').pop())}</td>
+    <td class="mono small">GET /series${esc(new URL(d.url).search)}</td>
     <td>${esc(series.length ? `${series.length} series in the capture` : 'see the source response')}
       ${coverage ? `<span class="sub">collector read ${esc(int(coverage.marketsObserved))} markets this run</span>` : ''}</td>
     <td class="src">${sourceLink(d.url, 'series')}</td>

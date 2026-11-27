@@ -262,6 +262,8 @@
 <script>
 (async function () {
   const $ = (s) => document.querySelector(s);
+  const esc = (v) => String(v === null || v === undefined ? "" : v)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
   let latest = null;
   try {
     const res = await fetch("data/latest.json?v=" + Date.now(), { cache: "no-store" });
@@ -279,8 +281,8 @@
     <b>Demo account: ${connected ? "connected" : "not connected"}.</b>
     <span class="grow">${connected
       ? "Balance and positions are read from the demo API each cycle."
-      : (status.reason || "Demo credentials are not configured.") + " The simulated book below runs regardless; demo figures are left blank rather than estimated."}</span>
-    ${status.setup_url ? `<a href="${status.setup_url}" target="_blank" rel="noopener">setup guide</a>` : ""}
+      : esc(status.reason || "Demo credentials are not configured.") + " The simulated book below runs regardless; demo figures are left blank rather than estimated."}</span>
+    ${status.setup_url ? `<a href="${esc(status.setup_url)}" target="_blank" rel="noopener">setup guide</a>` : ""}
   </div>`;
 
   const detail = [];
@@ -292,13 +294,13 @@
     </div>`);
   } else {
     detail.push(`<div class="kv">
-      <dt>Demo API base</dt><dd class="mono">${status.api_base || "https://external-api.demo.kalshi.co/trade-api/v2"}</dd>
-      <dt>Required environment</dt><dd class="mono">${(status.required_env || ["KALSHI_API_KEY_ID", "KALSHI_PRIVATE_KEY"]).join(" · ")}</dd>
+      <dt>Demo API base</dt><dd class="mono">${esc(status.api_base || "https://external-api.demo.kalshi.co/trade-api/v2")}</dd>
+      <dt>Required environment</dt><dd class="mono">${(status.required_env || ["KALSHI_API_KEY_ID", "KALSHI_PRIVATE_KEY"]).map(esc).join(" · ")}</dd>
       <dt>Why this is blank</dt><dd>A demo account and key are created by the account holder at demo.kalshi.co; the site does not invent numbers when the credential is absent.</dd>
       <dt>Tracked instead</dt><dd>The simulated ledger on this page, which needs no credentials.</dd>
     </div>`);
   }
-  $("#demoDetail").innerHTML = detail.join("") + (demo.note ? `<p class="small">${demo.note}</p>` : "");
+  $("#demoDetail").innerHTML = detail.join("") + (demo.note ? `<p class="small">${esc(demo.note)}</p>` : "");
 
   // ---- equity curve
   const paperRes = await fetch("data/paper.json?v=" + Date.now(), { cache: "no-store" });

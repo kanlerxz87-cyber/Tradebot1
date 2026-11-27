@@ -12,8 +12,8 @@
     "factCount": 23,
     "itemCount": 13,
     "counts": {
-      "fixed": 6,
-      "open": 5,
+      "fixed": 8,
+      "open": 3,
       "verified": 0,
       "resolved": 2
     }
@@ -248,7 +248,7 @@
           "file": "kalshi_trader/marketdata.py",
           "needle": "if yes_ask is not None and yes_ask >= 1.0 and not no_bid:",
           "note": "the guard, with the reciprocity cited in a comment",
-          "line": 94
+          "line": 106
         },
         {
           "file": "tests/test_audit.py",
@@ -295,7 +295,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\", \"min_settled_ts\": cutoff",
           "note": "the query as it now stands on main",
-          "line": 658
+          "line": 703
         },
         {
           "file": "tests/test_collector.py",
@@ -353,7 +353,7 @@
           "file": "kalshi_trader/fees.py",
           "needle": "ceil(raw * 100.0",
           "note": "the desk rounds to the cent too",
-          "line": 52
+          "line": 58
         }
       ],
       "sources": [
@@ -478,15 +478,16 @@
       "id": "AUD-07",
       "title": "A topic comment disagrees with the same session's own captured probe",
       "severity": "low",
-      "status": "open",
+      "status": "fixed",
       "finding": "tools/topics.mjs says the Culture discovery request returns 'exactly 1 series (KXXBANNEDGROK)'. The probe recorded in data/snapshot.json for the same request against the same demo root returns two: KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1. A reader tracing the rule by hand would think the rule was broken.",
       "impact": "Documentation only: the code and the capture agree with each other, the comment does not.",
+      "fix": "Updated the comment in tools/topics.mjs to match the two series returned by the Culture probe (KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1) and expanded discovery to cover Entertainment, Social, and Oil and energy gasoline series.",
       "evidence": [
         {
           "file": "tools/topics.mjs",
-          "needle": "exactly 1 series",
-          "note": "the stale comment",
-          "line": 8
+          "needle": "KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1",
+          "note": "updated comment matching the capture",
+          "line": 9
         },
         {
           "file": "data/snapshot.json",
@@ -578,7 +579,7 @@
           "file": "kalshi_trader/collector.py",
           "needle": "\"status\": \"settled\"",
           "note": "a filter value, as documented",
-          "line": 658
+          "line": 703
         }
       ],
       "sources": [
@@ -694,15 +695,22 @@
       "id": "AUD-12",
       "title": "or-fallbacks hide a genuine zero quote behind the legacy field",
       "severity": "low",
-      "status": "open",
+      "status": "fixed",
       "finding": "Values are read as first_float(...) or price_from_cents(...). A leg whose real fixed-point value is 0.0 is falsy, so the reader falls through to the legacy cent field, which may be absent (None) or stale. The result is None or an old price where the true value is zero.",
       "impact": "Low: zero prices are the boundary of the book, and downstream guards treat them as an empty side anyway. It is still the wrong way to choose between two representations.",
+      "fix": "Replaced the falsy or-fallbacks with an explicit None check (_pick_price), so a quoted 0.0000 dollar price stays 0.0 instead of falling through to legacy cent fields.",
       "evidence": [
         {
           "file": "kalshi_trader/marketdata.py",
-          "needle": "first_float(market, \"yes_bid_dollars\") or price_from_cents",
-          "note": "the pattern",
-          "line": 74
+          "needle": "def _pick_price(payload: dict[str, Any], dollars_key: str, cents_key: str)",
+          "note": "explicit None check instead of or-fallback",
+          "line": 64
+        },
+        {
+          "file": "tests/test_audit.py",
+          "needle": "test_zero_dollar_quote_does_not_fall_back_to_legacy_cents",
+          "note": "regression test for 0.0000 dollar quote",
+          "line": 66
         }
       ],
       "sources": [
@@ -722,12 +730,12 @@
         }
       ],
       "check": {
-        "kind": "text",
+        "kind": "python",
         "ok": true,
-        "observed": "needle present: True",
-        "expected": "needle present: True"
+        "observed": "0.0",
+        "expected": "0.0"
       },
-      "howToCheck": "normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) returns 0.42, not 0.0. Use an explicit None check instead of `or`.",
+      "howToCheck": "normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) now returns yes_bid=0.0 instead of 0.42.",
       "repoSources": []
     },
     {

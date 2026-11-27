@@ -242,6 +242,10 @@ def fetch_markets(
                     event_title=raw.get("title"),
                     api_base=api_base,
                 )
+                if meta.get("fee_multiplier") is not None:
+                    market["fee_multiplier"] = meta["fee_multiplier"]
+                if meta.get("fee_type"):
+                    market["fee_type"] = meta["fee_type"]
                 if market.get("price", 0) <= 0 and not market.get("yes_bid"):
                     continue  # no observable price yet
                 grouped[topic][ticker] = market
@@ -396,7 +400,47 @@ def run_cycle(
 
     # 7. simulated book ---------------------------------------------------
     ledger = PaperLedger.load(settings)
-    cycle_result = paper_cycle(ledger, all_markets, scored_by_ticker, alerts, now)
+    series_meta = catalog.get("series") or {}
+    position_markets: dict[str, dict[str, Any]] = {}
+    if hasattr(client, "market"):
+        pos_by_ticker = {
+            p["ticker"]: p
+            for p in ledger.positions.values()
+            if p.get("ticker") and p["ticker"] not in market_by_ticker
+        }
+        for ticker, pos in sorted(pos_by_ticker.items()):
+            try:
+                raw_pos = client.market(ticker)
+            except Exception as exc:
+                errors.append(f"position market {ticker}: {type(exc).__name__}: {exc}")
+                continue
+            if not isinstance(raw_pos, dict) or not raw_pos.get("ticker"):
+                continue
+            s_ticker = str(raw_pos.get("series_ticker") or pos.get("series_ticker") or "")
+            topic = pos.get("topic") or topics_mod.topic_for_market(raw_pos, series_meta, s_ticker)
+            norm = normalize_market(
+                raw_pos,
+                topic=topic,
+                series_ticker=s_ticker or None,
+                series_title=(series_meta.get(s_ticker) or {}).get("title"),
+                event_title=raw_pos.get("title"),
+                api_base=getattr(client, "base_url", "") or settings.rest_base,
+            )
+            meta = series_meta.get(s_ticker) or {}
+            if meta.get("fee_multiplier") is not None:
+                norm["fee_multiplier"] = meta["fee_multiplier"]
+            elif pos.get("fee_multiplier") is not None:
+                norm["fee_multiplier"] = pos["fee_multiplier"]
+            position_markets[ticker] = norm
+
+    cycle_result = paper_cycle(
+        ledger,
+        all_markets,
+        scored_by_ticker,
+        alerts,
+        now,
+        extra_markets=position_markets.values(),
+    )
     ledger.save()
     paper_snapshot = ledger.snapshot(now)
     performance = summarize(paper_snapshot)
@@ -407,13 +451,13 @@ def run_cycle(
     resolved_items: list[dict[str, Any]] = list(resolved_state.get("items", []))
     resolved_items = _collect_resolutions(
         client,
-        market_by_ticker,
+        {**market_by_ticker, **position_markets},
         series_by_topic,
         resolved_items,
         errors,
         now,
         api_base=getattr(client, "base_url", "") or settings.rest_base,
-        series_meta=catalog.get("series") or {},
+        series_meta=series_meta,
     )
 
     # 9. demo account ------------------------------------------------------
@@ -630,7 +674,8 @@ def _collect_resolutions(
 
     # markets that settled while we were watching them
     for market in current_markets.values():
-        if market.get("result") in {"yes", "no"}:
+        status = str(market.get("status") or "").lower()
+        if market.get("result") in {"yes", "no"} and status in {"", "finalized", "settled"}:
             row = _resolution_row(market, api_base=api_base, series_meta=series_meta)
             row["topic"] = row.get("topic") or series_to_topic.get(market.get("series_ticker") or "")
             items[market["ticker"]] = row

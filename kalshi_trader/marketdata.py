@@ -61,6 +61,18 @@ def price_from_cents(payload: dict[str, Any], *keys: str) -> float | None:
     return None
 
 
+def _pick_price(payload: dict[str, Any], dollars_key: str, cents_key: str) -> float | None:
+    """Read a fixed-point dollar quote, falling back to cents only when absent/None."""
+    value = first_float(payload, dollars_key)
+    if value is not None:
+        return value
+    return price_from_cents(payload, cents_key)
+
+
+def _zero_if_none(value: float | None) -> float:
+    return 0.0 if value is None else value
+
+
 def normalize_market(
     market: dict[str, Any],
     *,
@@ -71,12 +83,12 @@ def normalize_market(
     api_base: str = "",
 ) -> dict[str, Any]:
     """Flatten one market object into the dashboard schema."""
-    yes_bid = first_float(market, "yes_bid_dollars") or price_from_cents(market, "yes_bid") or 0.0
-    yes_ask = first_float(market, "yes_ask_dollars") or price_from_cents(market, "yes_ask")
-    no_bid = first_float(market, "no_bid_dollars") or price_from_cents(market, "no_bid")
-    no_ask = first_float(market, "no_ask_dollars") or price_from_cents(market, "no_ask")
-    last = first_float(market, "last_price_dollars") or price_from_cents(market, "last_price")
-    prev = first_float(market, "previous_price_dollars") or price_from_cents(market, "previous_price")
+    yes_bid = _zero_if_none(_pick_price(market, "yes_bid_dollars", "yes_bid"))
+    yes_ask = _pick_price(market, "yes_ask_dollars", "yes_ask")
+    no_bid = _pick_price(market, "no_bid_dollars", "no_bid")
+    no_ask = _pick_price(market, "no_ask_dollars", "no_ask")
+    last = _pick_price(market, "last_price_dollars", "last_price")
+    prev = _pick_price(market, "previous_price_dollars", "previous_price")
 
     # Implied ask from the opposite side of the book when the API omits it.
     if yes_ask is None and no_bid is not None:
@@ -103,16 +115,16 @@ def normalize_market(
     else:
         mid = yes_bid if yes_bid is not None else None
 
-    price = mid if mid is not None else (last or 0.0)
+    price = mid if mid is not None else _zero_if_none(last)
     spread = None
     if yes_ask is not None and yes_bid is not None:
         spread = round(max(0.0, yes_ask - yes_bid), 4)
 
-    volume = first_float(market, "volume_fp", "volume") or 0.0
-    volume_24h = first_float(market, "volume_24h_fp", "volume_24h") or 0.0
-    open_interest = first_float(market, "open_interest_fp", "open_interest") or 0.0
-    yes_bid_size = first_float(market, "yes_bid_size_fp", "yes_bid_size") or 0.0
-    yes_ask_size = first_float(market, "yes_ask_size_fp", "yes_ask_size") or 0.0
+    volume = _zero_if_none(first_float(market, "volume_fp", "volume"))
+    volume_24h = _zero_if_none(first_float(market, "volume_24h_fp", "volume_24h"))
+    open_interest = _zero_if_none(first_float(market, "open_interest_fp", "open_interest"))
+    yes_bid_size = _zero_if_none(first_float(market, "yes_bid_size_fp", "yes_bid_size"))
+    yes_ask_size = _zero_if_none(first_float(market, "yes_ask_size_fp", "yes_ask_size"))
 
     ticker = str(market.get("ticker") or "")
     series = series_ticker or str(market.get("series_ticker") or "") or _series_from_ticker(ticker)

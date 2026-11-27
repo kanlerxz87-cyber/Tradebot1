@@ -63,6 +63,12 @@ def test_two_sided_book_midpoint_unchanged():
     assert row["spread"] == 0.04
 
 
+def test_zero_dollar_quote_does_not_fall_back_to_legacy_cents():
+    """AUD-12: a real 0.0000 dollar quote must stay 0.0 rather than falling through to cents."""
+    row = normalize_market({"ticker": "ZERO-1", "yes_bid_dollars": "0.0000", "yes_bid": 42})
+    assert row["yes_bid"] == 0.0
+
+
 class RecordingClient:
     """Minimal stand-in that records the query each sweep sends."""
 

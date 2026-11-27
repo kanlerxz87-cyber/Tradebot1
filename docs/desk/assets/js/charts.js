@@ -181,8 +181,10 @@
     }
 
     draw();
-    const observer = new ResizeObserver(() => draw());
-    observer.observe(container);
+    if (typeof ResizeObserver === "function") {
+      const observer = new ResizeObserver(() => draw());
+      observer.observe(container);
+    }
     state.redraw = draw;
     container.__chart = state;
   }

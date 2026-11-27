@@ -48,6 +48,8 @@ def test_scalar_is_not_yes_or_no(raw_market):
     ({"title": "Weekly gasoline prices", "category": "Economics"}, "gas"),
     ({"title": "State election winner", "category": "Politics"}, "elections"),
     ({"title": "Test", "category": "Culture"}, "culture"),
+    ({"title": "Game Awards Winner", "category": "Entertainment"}, "culture"),
+    ({"title": "Creator milestone", "category": "Social"}, "culture"),
     ({"title": "Test", "category": "Crypto"}, "crypto"),
     ({"title": "PGA golf winner", "category": "Sports"}, "golf"),
     ({"title": "Basketball", "category": "Sports"}, None),

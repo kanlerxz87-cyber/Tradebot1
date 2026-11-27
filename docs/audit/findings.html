@@ -48,7 +48,7 @@
   <p><strong>Impact.</strong> The desk's alert feed could fire on a sentinel change, and its paper book could mark a position at a price no one was quoting.</p>
   <p><strong>Correction.</strong> A reported ask of 1.0000 with no NO bid is now treated as no offer, which is the documented reciprocity: a YES offer can only rest against a NO bid. The midpoint then falls back to the last trade, and the spread is reported as unknown rather than 0.86.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/marketdata.py:94</code> — the guard, with the reciprocity cited in a comment<pre>if yes_ask is not None and yes_ask &gt;= 1.0 and not no_bid:</pre></li><li><code>tests/test_audit.py:42</code> — regression test on the captured shape<pre>test_empty_side_is_not_an_ask</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/marketdata.py:106</code> — the guard, with the reciprocity cited in a comment<pre>if yes_ask is not None and yes_ask &gt;= 1.0 and not no_bid:</pre></li><li><code>tests/test_audit.py:42</code> — regression test on the captured shape<pre>test_empty_side_is_not_an_ask</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>null,0.3</code> against expected <code>null,0.3</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer">VF-05</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
   
@@ -64,7 +64,7 @@
   <p><strong>Impact.</strong> 'Track events until they resolve' could not work while every settled query was rejected, and an empty resolution table looks like a quiet week rather than an error.</p>
   <p><strong>Correction.</strong> The sweep now sends min_settled_ts with status=settled. A parallel session reached the same conclusion from the same table and landed the one-line change on main first (PR #16, with a per-topic series sweep and the same integer assertion); this branch therefore keeps main's implementation and its test rather than duplicating the edit. What this audit adds is the official statement behind it and a re-check that runs on every build.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:658</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:182</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:753</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:703</code> — the query as it now stands on main<pre>&quot;status&quot;: &quot;settled&quot;, &quot;min_settled_ts&quot;: cutoff</pre></li><li><code>tests/test_collector.py:182</code> — the parallel session's assertion, still passing<pre>min_close_ts is incompatible with status=settled</pre></li><li><code>COORDINATION.md:753</code> — this session's record of the failed cycle<pre>ten HTTP 400s from it</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>True,False,int</code> against expected <code>True,False,int</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-12</a></p>
   
@@ -80,7 +80,7 @@
   <p><strong>Impact.</strong> Every simulated P&amp;L figure is at most one cent per fill pessimistic. The difference is disclosed here and next to the performance numbers rather than silently changed, because changing it would also rewrite historical results on the board.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>tools/fees.mjs:23</code> — the disclosed difference, in the module that charges the fee<pre>ROUNDING CAVEAT</pre></li><li><code>kalshi_trader/fees.py:52</code> — the desk rounds to the cent too<pre>ceil(raw * 100.0</pre></li></ul>
+  <ul class="evidence"><li><code>tools/fees.mjs:23</code> — the disclosed difference, in the module that charges the fee<pre>ROUNDING CAVEAT</pre></li><li><code>kalshi_trader/fees.py:58</code> — the desk rounds to the cent too<pre>ceil(raw * 100.0</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>0.34,0.07</code> against expected <code>0.34,0.07</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-17</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">VF-19</a> · <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener noreferrer">VF-20</a></p>
   
@@ -121,14 +121,14 @@
 <article class="finding" id="AUD-07">
   <header>
     <span class="mono id">AUD-07</span>
-    <span class="pill st-open">Open — flagged</span> <span class="pill sev-low">low</span>
+    <span class="pill st-fixed">Fixed, re-checked on every build</span> <span class="pill sev-low">low</span>
     <h3>A topic comment disagrees with the same session's own captured probe</h3>
   </header>
   <p>tools/topics.mjs says the Culture discovery request returns 'exactly 1 series (KXXBANNEDGROK)'. The probe recorded in data/snapshot.json for the same request against the same demo root returns two: KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1. A reader tracing the rule by hand would think the rule was broken.</p>
   <p><strong>Impact.</strong> Documentation only: the code and the capture agree with each other, the comment does not.</p>
-  
+  <p><strong>Correction.</strong> Updated the comment in tools/topics.mjs to match the two series returned by the Culture probe (KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1) and expanded discovery to cover Entertainment, Social, and Oil and energy gasoline series.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>tools/topics.mjs:8</code> — the stale comment<pre>exactly 1 series</pre></li><li><code>data/snapshot.json:67</code> — the second series, in the capture<pre>KXXBANNEDMURRAYHILLGUY1</pre></li></ul>
+  <ul class="evidence"><li><code>tools/topics.mjs:9</code> — updated comment matching the capture<pre>KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1</pre></li><li><code>data/snapshot.json:67</code> — the second series, in the capture<pre>KXXBANNEDMURRAYHILLGUY1</pre></li></ul>
   <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/topics.mjs" target="_blank" rel="noopener noreferrer">tools/topics.mjs — the comment</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/snapshot.json" target="_blank" rel="noopener noreferrer">data/snapshot.json — discoveryProbes, the capture it disagrees with</a></p>
   <p class="src"><strong>Why there is no official source.</strong> No official Kalshi page speaks to this: it is an internal disagreement between a comment and a capture taken from the same endpoint. The official statement underneath both is VF-01 (the demo root), which is why the comparison is possible at all.</p>
@@ -160,7 +160,7 @@
   <p><strong>Impact.</strong> None on the code; the earlier flag can be closed with a source rather than left open.</p>
   
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/collector.py:658</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
+  <ul class="evidence"><li><code>kalshi_trader/collector.py:703</code> — a filter value, as documented<pre>&quot;status&quot;: &quot;settled&quot;</pre></li></ul>
   <p class='check muted'>No executable check: this finding is a documentation reconciliation.</p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-10</a> · <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer">VF-11</a></p>
   
@@ -201,18 +201,18 @@
 <article class="finding" id="AUD-12">
   <header>
     <span class="mono id">AUD-12</span>
-    <span class="pill st-open">Open — flagged</span> <span class="pill sev-low">low</span>
+    <span class="pill st-fixed">Fixed, re-checked on every build</span> <span class="pill sev-low">low</span>
     <h3>or-fallbacks hide a genuine zero quote behind the legacy field</h3>
   </header>
   <p>Values are read as first_float(...) or price_from_cents(...). A leg whose real fixed-point value is 0.0 is falsy, so the reader falls through to the legacy cent field, which may be absent (None) or stale. The result is None or an old price where the true value is zero.</p>
   <p><strong>Impact.</strong> Low: zero prices are the boundary of the book, and downstream guards treat them as an empty side anyway. It is still the wrong way to choose between two representations.</p>
-  
+  <p><strong>Correction.</strong> Replaced the falsy or-fallbacks with an explicit None check (_pick_price), so a quoted 0.0000 dollar price stays 0.0 instead of falling through to legacy cent fields.</p>
   <h4>Evidence in this repository</h4>
-  <ul class="evidence"><li><code>kalshi_trader/marketdata.py:74</code> — the pattern<pre>first_float(market, &quot;yes_bid_dollars&quot;) or price_from_cents</pre></li></ul>
-  <p class='check ok'><strong>Re-checked:</strong> observed <code>needle present: True</code> against expected <code>needle present: True</code></p>
+  <ul class="evidence"><li><code>kalshi_trader/marketdata.py:64</code> — explicit None check instead of or-fallback<pre>def _pick_price(payload: dict[str, Any], dollars_key: str, cents_key: str)</pre></li><li><code>tests/test_audit.py:66</code> — regression test for 0.0000 dollar quote<pre>test_zero_dollar_quote_does_not_fall_back_to_legacy_cents</pre></li></ul>
+  <p class='check ok'><strong>Re-checked:</strong> observed <code>0.0</code> against expected <code>0.0</code></p>
   <p class="src"><strong>Sources:</strong> <a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">VF-09</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
   
-  <p class="src"><strong>Re-check it yourself:</strong> normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) returns 0.42, not 0.0. Use an explicit None check instead of `or`.</p>
+  <p class="src"><strong>Re-check it yourself:</strong> normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) now returns yes_bid=0.0 instead of 0.42.</p>
 </article>
 <article class="finding" id="AUD-13">
   <header>
@@ -234,7 +234,7 @@
 </main>
 <footer class="wrap">
   <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
-  6 finding(s) fixed and re-checked, 5 published as open,
+  8 finding(s) fixed and re-checked, 3 published as open,
   2 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
   <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
      <a href="../desk/flagged.html">Desk flags</a> ·

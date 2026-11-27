@@ -66,31 +66,53 @@ async function loadSnapshot() {
   return snap;
 }
 
+function matchesGasSeries(s) {
+  const tags = (s.tags ?? []).map((t) => String(t).toLowerCase());
+  if (tags.some((t) => t === 'gas' || t === 'gasoline' || t === 'diesel')) return true;
+  const scope = String(s.product_metadata?.scope ?? '').toLowerCase();
+  const title = String(s.title ?? '');
+  const ticker = String(s.ticker ?? '').toUpperCase();
+  return /\bgasoline\b|\bdiesel\b/i.test(scope) || /\b(gas\s*pric|gasoline|diesel|aaa\s+gas)\b/i.test(title) || /^KXAAAGAS|^DIESEL/i.test(ticker);
+}
+
 async function loadLive() {
   const probe = await probeApi();
   if (!probe.ok) return false;
-  // Sample a bounded number of series per topic; the same discovery rule the
-  // collector uses (category for three topics, Golf tag for golf).
+  // Sample a bounded number of series per topic, sorted by reported contract volume.
   const found = [];
   const probes = [
-    { topic: 'gas', url: `${DEMO_REST}/series?tags=Gas` },
-    { topic: 'elections', url: `${DEMO_REST}/series?category=Elections` },
-    { topic: 'culture', url: `${DEMO_REST}/series?category=Culture` },
-    { topic: 'crypto', url: `${DEMO_REST}/series?category=Crypto` },
-    { topic: 'golf', url: `${DEMO_REST}/series?tags=Golf` },
+    { topic: 'gas', url: `${DEMO_REST}/series?tags=Gas&include_volume=true`, filter: matchesGasSeries },
+    { topic: 'gas', url: `${DEMO_REST}/series?tags=${encodeURIComponent('Oil and energy')}&include_volume=true`, filter: matchesGasSeries },
+    { topic: 'elections', url: `${DEMO_REST}/series?category=Elections&include_volume=true` },
+    { topic: 'culture', url: `${DEMO_REST}/series?category=Culture&include_volume=true` },
+    { topic: 'culture', url: `${DEMO_REST}/series?category=Entertainment&include_volume=true` },
+    { topic: 'culture', url: `${DEMO_REST}/series?category=Social&include_volume=true` },
+    { topic: 'crypto', url: `${DEMO_REST}/series?category=Crypto&include_volume=true` },
+    { topic: 'golf', url: `${DEMO_REST}/series?tags=Golf&include_volume=true` },
   ];
   const results = await Promise.allSettled(probes.map((p) => fetch(p.url).then((r) => (r.ok ? r.json() : { series: [] }))));
+  const seenSeries = new Set();
   results.forEach((res, i) => {
     if (res.status !== 'fulfilled') return;
-    for (const s of res.value?.series ?? []) found.push({ ...s, topic: probes[i].topic });
+    const pred = probes[i].filter;
+    for (const s of res.value?.series ?? []) {
+      if (pred && !pred(s)) continue;
+      if (!s.ticker || seenSeries.has(`${probes[i].topic}:${s.ticker}`)) continue;
+      seenSeries.add(`${probes[i].topic}:${s.ticker}`);
+      found.push({ ...s, topic: probes[i].topic });
+    }
   });
   if (!found.length) return false;
 
   const perTopic = new Map();
   for (const s of found) {
     const list = perTopic.get(s.topic) ?? [];
-    if (list.length < 6) list.push(s);
+    list.push(s);
     perTopic.set(s.topic, list);
+  }
+  for (const [topic, list] of perTopic) {
+    list.sort((a, b) => (n(b.volume_fp) ?? 0) - (n(a.volume_fp) ?? 0));
+    perTopic.set(topic, list.slice(0, 6));
   }
   const marketFetches = [];
   for (const [topic, list] of perTopic) {
@@ -235,16 +257,16 @@ function renderTopics() {
   }
 
   const discoveryNote = {
-    gas: 'Series tag <code>Gas</code>',
+    gas: 'Series tags <code>Gas</code> / <code>Oil and energy</code> (gasoline/diesel)',
     elections: 'Series category <code>Elections</code>',
-    culture: 'Series category <code>Culture</code>',
+    culture: 'Series category <code>Culture</code> / <code>Entertainment</code> / <code>Social</code>',
     crypto: 'Series category <code>Crypto</code>',
     golf: 'Series tag <code>Golf</code>',
   };
   const discoverySource = {
-    gas: `${DEMO_REST}/series?tags=Gas`,
+    gas: `${DEMO_REST}/series?tags=${encodeURIComponent('Oil and energy')}`,
     elections: `${DEMO_REST}/series?category=Elections`,
-    culture: `${DEMO_REST}/series?category=Culture`,
+    culture: `${DEMO_REST}/series?category=Entertainment`,
     crypto: `${DEMO_REST}/series?category=Crypto`,
     golf: `${DEMO_REST}/series?tags=Golf`,
   };

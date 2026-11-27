@@ -44,18 +44,30 @@ FEE_SOURCE_NOTE = (
 )
 
 
-def taker_fee(contracts: float, price: float, model: str = "quadratic") -> float:
+def taker_fee(
+    contracts: float,
+    price: float,
+    model: str = "quadratic",
+    *,
+    multiplier: float = 1.0,
+) -> float:
     """Fee in dollars for a taker fill."""
-    if model == "none" or contracts <= 0 or price <= 0 or price >= 1:
+    if model == "none" or contracts <= 0 or price <= 0 or price >= 1 or multiplier <= 0:
         return 0.0
-    raw = TAKER_RATE * contracts * price * (1.0 - price)
+    raw = multiplier * TAKER_RATE * contracts * price * (1.0 - price)
     return math.ceil(raw * 100.0 - 1e-9) / 100.0
 
 
-def maker_fee(contracts: float, price: float, model: str = "quadratic") -> float:
-    if model == "none" or contracts <= 0 or price <= 0 or price >= 1:
+def maker_fee(
+    contracts: float,
+    price: float,
+    model: str = "quadratic",
+    *,
+    multiplier: float = 1.0,
+) -> float:
+    if model == "none" or contracts <= 0 or price <= 0 or price >= 1 or multiplier <= 0:
         return 0.0
-    raw = MAKER_RATE * contracts * price * (1.0 - price)
+    raw = multiplier * MAKER_RATE * contracts * price * (1.0 - price)
     return math.ceil(raw * 100.0 - 1e-9) / 100.0
 
 

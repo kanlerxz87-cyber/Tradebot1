@@ -240,3 +240,67 @@ def test_second_sample_replaces_a_whole_row_not_just_its_price(tmp_path):
     assert row["price"] == 0.29
     # ...and the derived notional follows it instead of the first sample's price.
     assert abs(row["notional_24h_est"] - round(row["volume_24h"] * row["price"], 2)) < 0.02
+
+
+class SettlementLookupClient(FakeClient):
+    """FakeClient that serves GET /markets/{ticker} for closed/finalized open positions."""
+
+    def __init__(self, *args, by_ticker=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._by_ticker = by_ticker or {}
+
+    def market(self, ticker):
+        self.request_count += 1
+        return self._by_ticker[ticker]
+
+
+def test_open_paper_position_settles_after_market_leaves_open_list(tmp_path):
+    from kalshi_trader.paper import PaperLedger
+
+    settings = _settings(tmp_path)
+    open_mkt = dict(CRYPTO_MARKET)
+    open_mkt.update({
+        "yes_bid_dollars": "0.9000",
+        "yes_ask_dollars": "0.9100",
+        "no_bid_dollars": "0.0900",
+        "no_ask_dollars": "0.1000",
+        "last_price_dollars": "0.9000",
+    })
+    ledger = PaperLedger(settings)
+    pos = ledger.open_position(
+        {
+            "ticker": CRYPTO_MARKET["ticker"],
+            "topic": "crypto",
+            "title": CRYPTO_MARKET["title"],
+            "series_ticker": "KXBTCHIT90K",
+            "yes_bid": 0.90,
+            "yes_ask": 0.91,
+            "top_book_contracts": 500,
+        },
+        "late_favorite",
+        "yes",
+        "test",
+        now=1_760_000_000,
+    )
+    assert pos is not None
+    ledger.save()
+
+    settled_mkt = {
+        **open_mkt,
+        "status": "finalized",
+        "result": "yes",
+        "settlement_value_dollars": "1.0000",
+        "settlement_ts": "2026-11-23T00:02:00Z",
+    }
+    client = SettlementLookupClient(
+        series=[GAS_SERIES, GOLF_SERIES, CRYPTO_SERIES, ELECTION_SERIES, CULTURE_SERIES],
+        events=[{"event_ticker": "KXAAAGASM-26NOV30", "series_ticker": "KXAAAGASM", "category": "Economics", "title": "Gas price"}],
+        markets_by_series={"KXAAAGASM": [GAS_MARKET_345]},
+        by_ticker={CRYPTO_MARKET["ticker"]: settled_mkt},
+    )
+    latest = run_cycle(settings, client=client, now=1_760_000_900, samples=1)
+    assert latest["paper"]["open_positions"] == []
+    assert latest["performance"]["headline"]["open_positions"] == 0
+    assert latest["performance"]["summary"]["trades"] == 1
+    assert latest["paper"]["trades"][0]["settled_result"] == "yes"
+    assert any(r["ticker"] == CRYPTO_MARKET["ticker"] and r["resolution"] == "YES" for r in latest["resolved"])

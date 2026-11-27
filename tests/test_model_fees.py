@@ -104,3 +104,9 @@ def test_maker_rate_is_a_quarter_of_the_taker_rate():
     assert MAKER_RATE == TAKER_RATE / 4
     # 100 contracts at $0.50: taker $1.75 -> maker $0.4375 -> $0.44 rounded up to the cent.
     assert maker_fee(100, 0.50) == 0.44
+
+
+def test_fee_multiplier_zero_produces_zero_fee():
+    assert fees.taker_fee(100, 0.50, multiplier=0.0) == 0.0
+    assert fees.maker_fee(100, 0.50, multiplier=0.0) == 0.0
+    assert fees.taker_fee(100, 0.50, multiplier=1.0) == 1.75

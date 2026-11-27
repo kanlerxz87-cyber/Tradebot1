@@ -49,7 +49,7 @@ def classify_series(series: dict) -> tuple[str | None, str]:
     matches = set()
     if category == "crypto" or re.search(r"\b(bitcoin|ethereum|cryptocurrency|crypto)\b", words):
         matches.add("crypto")
-    if category == "culture":
+    if category in {"culture", "entertainment", "social"} or re.search(r"\b(grammy|oscars?|emmy|box office|game awards?)\b", words):
         matches.add("culture")
     if re.search(r"\b(gasoline|gas prices?|gas price|gas at the pump)\b", words):
         matches.add("gas")
