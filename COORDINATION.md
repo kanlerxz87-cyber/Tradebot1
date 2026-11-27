@@ -2810,8 +2810,15 @@ The published wording on `/portfolio.html`, `/strategies.html` and `/market.html
 "published taker fee". It now says "published taker fee × the series multiplier", because a fee-free
 series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/strategies.tpl`,
 `templates/market.tpl`; the 19 generated pages were rebuilt and `build-site.mjs --check` and
-`check-links.mjs` (663 references, 0 problems) pass. The follow-up PR and its merge are recorded in
-the same commit that carries this paragraph.
+`check-links.mjs` (663 references, 0 problems) pass.
+
+* **PR #55** — https://github.com/kanlerxz87-cyber/Tradebot1/pull/55 — merged 2026-11-27T19:50Z,
+  merge commit `be8910684121d5aec57d8cee20155b6e71807783`; all nine PR checks passed. Deploy run
+  [46059538888](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059538888) completed
+  **success**, and the Pages build for `be89106` reports `status: built`.
+* **Live re-check (cache-busted URL, since the CDN served the previous revision on the first read)** —
+  `portfolio.html?v=be89106` renders "published taker fee × the series multiplier", `Fees paid
+  $0.00`, `Equity $999.97`; `flagged.html` renders F-19 with its four source links.
 
 ---
 
