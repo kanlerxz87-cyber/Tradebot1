@@ -102,10 +102,10 @@
   <td class="ticker">F6</td>
   <td><span class="chip warn">warn</span></td>
   <td>
-    <b>Market data source is production while execution is paper</b>
-    <div class="meta" style="margin-top:4px">Market data uses the production public endpoints because they are keyless, carry real volume and reflect real prices. Execution is the internal paper ledger. Kalshi warns that demo prices may not reflect real markets, so demo fills and production marks would not be strictly comparable.</div>
-    <div class="small" style="margin-top:6px"><b>Handling:</b> The dashboard always names its data environment and execution mode. Switching to demo data is one environment variable (KALSHI_DATA_ENV=demo).</div>
-    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> Run the dashboard against the demo environment once demo credentials exist, and compare the two books side by side.</div>
+    <b>Committed market snapshot was production, not Kalshi demo</b>
+    <div class="meta" style="margin-top:4px">The last populated docs/desk/data/latest.json snapshot identified data_env=&quot;prod&quot; and https://external-api.kalshi.com/trade-api/v2 (captured 2026-11-27T12:51:13Z). Those production market values and derived histories have been removed from the published snapshot files. The dashboard remains blank until a successful demo-only collection cycle publishes a replacement. This is a repository-data observation, not a live API check.</div>
+    <div class="small" style="margin-top:6px"><b>Handling:</b> KALSHI_DATA_ENV defaults to demo and the scheduled collector pins demo. Environment changes reset paper positions, histories, alerts, and resolutions; the landing page, desk, topic pages, and portfolio fail closed unless data_env and rest_base both identify an official demo API root.</div>
+    <div class="small" style="margin-top:4px"><b>Would be cleared by:</b> After a successful demo collection, verify docs/desk/data/latest.json reports data_env=&quot;demo&quot; and an official demo REST base; confirm the published dashboard and all static category/portfolio tables use that cycle only.</div>
     <div class="links small" style="margin-top:6px"><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs.kalshi.com/getting_started/demo_env</a> · <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com/getting_started/api_environments</a></div>
   </td>
 </tr><tr id="F7">

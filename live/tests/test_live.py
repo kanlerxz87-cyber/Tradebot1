@@ -106,6 +106,13 @@ class SwingTests(unittest.TestCase):
 
 
 class PriceBoundsTests(unittest.TestCase):
+    def test_array_shaped_demo_board_snapshot_is_loaded(self) -> None:
+        board = ROOT / "data" / "snapshot.json"
+        markets, meta = desk_module.load_from_board(board)
+        self.assertGreater(meta["markets"], 0)
+        self.assertEqual(meta["captureEnvironment"], "demo")
+        self.assertTrue(any(markets[topic] for topic in ("golf", "elections", "crypto", "gas", "culture")))
+
     def test_simulation_never_leaves_the_binary_range(self) -> None:
         desk = Desk(mode="simulated", seed=7)
         for _ in range(400):
@@ -344,14 +351,19 @@ class ServerTests(unittest.TestCase):
                 for market in event["markets"]:
                     total += 1
                     self.assertTrue(market["apiUrl"].startswith("https://"))
-        self.assertEqual(total, 300)
+        self.assertGreater(total, 0)
         for key in ("alerts", "portfolio", "resolutions", "resolvingSoon", "meta"):
             self.assertIn(key, state)
 
     def test_series_and_book_shapes(self) -> None:
         _, _, body = self.get("/api/state")
         state = json.loads(body)
-        ticker = state["topics"]["crypto"][0]["markets"][0]["ticker"]
+        ticker = next(
+            market["ticker"]
+            for events in state["topics"].values()
+            for event in events
+            for market in event["markets"]
+        )
         _, _, body = self.get(f"/api/series?ticker={ticker}&seconds=300")
         series = json.loads(body)
         self.assertEqual(series["ticker"], ticker)

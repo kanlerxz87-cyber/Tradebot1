@@ -79,6 +79,7 @@ class PaperLedger:
     def _fresh_state(self) -> dict[str, Any]:
         return {
             "version": STATE_VERSION,
+            "data_env": self.settings.data_env,
             "created_at": _now_iso(),
             "updated_at": _now_iso(),
             "bankroll_start": round(self.settings.bankroll, 2),
@@ -97,7 +98,9 @@ class PaperLedger:
         if path.exists():
             try:
                 state = json.loads(path.read_text(encoding="utf-8"))
-                if state.get("version") == STATE_VERSION:
+                # Never carry a simulated position across environments. Unlabelled legacy
+                # ledgers are not proven to be demo data, so start a clean book for them.
+                if state.get("version") == STATE_VERSION and state.get("data_env") == settings.data_env:
                     return cls(settings, state)
             except (json.JSONDecodeError, OSError):
                 pass
