@@ -1,29 +1,39 @@
-# Executive summary — Kalshi demo environment
+# Executive summary — Kalshi Demo research desk and paper trading
 
-**Prepared:** 2026-11-22 (UTC) · **Repository:** `kanlerxz87-cyber/Tradebot1`
-**Live gateways:** [research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
-[market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/)
+**Reviewed:** 2026-11-27 (UTC) · **Repository:** `kanlerxz87-cyber/Tradebot1`
 
-Five implementations now exist, each additive. **Part A** is the autonomous research desk (collector plus
-scheduled trading loop). **Part B** is the browser-side market monitor, preserved verbatim. **Part C**
-(bottom of this file) is the newest: a dependency-free live desk with a real server, plus a
-cross-implementation audit of every dataset in the repository. Where numbers disagree, the desk's come from
-a server-side collector, the monitor's from the visitor's browser, and the live desk's from whichever of
-those captures it is anchored to — which it names in `/api/meta`.
+**Published pages:** [homepage](https://kanlerxz87-cyber.github.io/Tradebot1/) · [primary research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) · [Demo API desk](https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/) · [browser Demo terminal](https://kanlerxz87-cyber.github.io/Tradebot1/terminal/) · [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) · [cross-implementation QA](https://kanlerxz87-cyber.github.io/Tradebot1/qa.html)
 
-| | Part A — research desk | Part B — market monitor |
-| - | - | - |
-| Location | `docs/desk/` | `docs/` |
-| Data path | scheduled server-side collector (Kalshi demo REST by default); last production snapshot/history were cleared and values remain withheld pending the first successful demo refresh | browser polls public demo REST |
-| Alerts | persisted ≥ $0.10 archive + live ticks | session-only ≥ $0.10 observations |
-| Trading | 4 strategies, ledger committed to the repo | 1 screen, browser-local |
-| Verification | 26 dated source rows, 14 flags | endpoint-level citations, review page |
+**Publication check before this change:** GitHub Pages build [run 46059819211](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059819211) completed successfully for main commit `2aebabb1a2add15d0a6b1c8662c9de93b8536147` on 2026-11-27; the Pages API reports the source as `main /` (legacy). The homepage was fetched after that build and shows blank market-derived values pending a successful Demo-only collection. This verifies publication, not a successful Kalshi read or account action. The landing page still contains hard-coded older counts (“14 items” flagged and “9 notes” in QA); use the detailed Flagged and QA pages for current findings.
 
-| Also published | Location | What it is |
-| - | - | - |
-| Trade board | `board.html` (+ five `categories/` pages) | Node implementation: events ranked by resting dollars, two auto-scrolling ≥ $0.10 feeds, 60s–24h chart, order-book ladder, five strategies, 17 flags |
-| Engine view | `docs/engine/` | Python engine's own site: 39-entry verification register, five topic tables, both alert feeds, six-strategy fee-exact simulator, its own flags page |
-| Prototype | `site/` | First standalone prototype, kept for review; simulated fallback data, clearly separated from verified values |
+## Current system state
+
+Following PR #56, the primary `docs/desk/` collector and scheduled collection are Demo-only, and browser/static views fail closed unless a snapshot identifies the official Demo environment. The previous production-derived snapshot, history, alerts, resolutions, and paper values were removed. The current [`latest.json`](docs/desk/data/latest.json) is explicitly `data_env: unverified`, has no REST root or capture timestamp, contains empty topic arrays, and explains that values are withheld pending a successful Demo refresh. Accordingly, this desk currently publishes **no verified live prices, swing feed, or paper-performance figures**; missing values stay blank rather than being presented as Demo observations.
+
+The project still provides the requested five-topic research and simulation structure: gas prices, elections, culture, crypto, and golf; ≥$0.10 swing-feed functionality; time/price and liquidity views; YES/NO lifecycle tracking; rule-based paper strategies and portfolio analysis. These capabilities do not imply that this snapshot contains a complete or current Demo market universe. When populated, `volume_24h × price` is an estimate, not a verified exchange-wide dollar-turnover leaderboard. The separate [`docs/data/snapshot.json`](docs/data/snapshot.json) is a bounded, partial Demo sample from 2026-11-22, not a current full-market capture.
+
+## Account, simulation, and model limits
+
+- **No authenticated Demo account is verified.** [`data/account.json`](data/account.json) remains disconnected. Demo balance, orders, fills, and settlement values are not claimed; no authenticated order, fill, balance read, or WebSocket session was verified for this review. Public market observations, paper simulation, and credentialed Demo-account actions are separate.
+- **Paper results are not Demo-account results.** The primary desk uses an internal simulated ledger and applies published per-series multipliers where the schedule is unambiguous; unresolved rows fall back to the default and remain flagged. The JavaScript board prefers the exchange's series `fee_multiplier`, then the published table, then the default. Fee rounding and simulated fills are not an exchange reconciliation, and no strategy ROI is validated out of sample.
+- **The alert score is a heuristic, not a forecast.** Possible-news links are research leads and do not establish the cause of a market move.
+- **Current QA result:** 0 errors, 2 warnings, 5 notes. The remaining warnings are the line-pinned audit evidence (FLAKY-1) and the stale root snapshot (STALE-1). QA checks internal consistency and provenance, not live-price accuracy or account connectivity. A clean build/test does not certify data completeness or profitability. See [`qa.html`](qa.html) and [`qa/report.md`](qa/report.md).
+
+## Official Kalshi references
+
+- **Environment separation:** Demo and production use distinct roots and credentials. [API environments](https://docs.kalshi.com/getting_started/api_environments) · [Demo environment](https://docs.kalshi.com/getting_started/demo_env)
+- **Public data versus account actions:** public market reads are distinct from signed authenticated requests. [Market-data quick start](https://docs.kalshi.com/getting_started/quick_start_market_data) · [Authenticated-request guide](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests)
+- **WebSockets:** the documented handshake requires authentication, including for public-data channels. [WebSocket quick start](https://docs.kalshi.com/getting_started/quick_start_websockets)
+- **Lifecycle and orders:** `finalized` is terminal settlement status; an accepted V2 order is not proof of a fill. [Market lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle) · [Create Order V2](https://docs.kalshi.com/api-reference/orders/create-order-v2)
+- **Fees:** the JavaScript board prefers the exchange's series `fee_multiplier`, then unambiguous published schedule rows, then the default. The Python paper ledger applies published multipliers where unambiguous; unresolved rows remain flagged. [Kalshi fee schedule](https://kalshi.com/docs/kalshi-fee-schedule.pdf) · [Get Series](https://docs.kalshi.com/api-reference/market/get-series) · [Fee rounding](https://docs.kalshi.com/getting_started/fee_rounding)
+
+## Suggested next steps
+
+1. Obtain and publish a successful official Demo-only collection cycle before presenting market-derived values; retain blank/flagged status on any failed or mismatched response.
+2. Keep private keys on a trusted server. Verify any Demo balance, order, fill, and WebSocket activity separately; never infer those actions from paper results or static Pages deployment.
+3. Compare the heuristic with out-of-sample, fee-aware simulated trades before describing it as “high ROI”; keep news timestamps separate from causation.
+
+The sections below are dated implementation and hand-off notes retained for audit history. Their figures describe the date shown in each section and are not silently promoted to current live values.
 
 ---
 
