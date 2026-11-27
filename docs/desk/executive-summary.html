@@ -10,7 +10,7 @@
 <body>
 <header class="top">
   <div class="top-inner">
-    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>demo / paper research desk</small></span></div>
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>public data / paper research desk</small></span></div>
     <nav class="main">
       <a href="index.html">Dashboard</a>
       <a href="topics/gas-prices.html">Gas</a>
@@ -32,49 +32,60 @@
 <main class="wrap narrow">
   <h1 class="page-title">Executive summary</h1>
   <p class="page-sub">
-    A live research desk for five Kalshi topics — gas prices, elections, culture, crypto, golf — that
-    detects ≥ $0.10 price swings, ranks them, tracks events to settlement, and trades the same signals
-    autonomously in a simulated book. Built from an empty repository, verified against official Kalshi
-    documentation, and published as a static site refreshed by a scheduled job.
+    A source-linked research and paper-trading desk for five Kalshi topics — gas prices, elections,
+    culture, crypto, and golf. It records observed ≥ $0.10 swings, shows time/price charts and order-book
+    depth, tracks markets through final settlement, and keeps simulated strategy results separate from
+    exchange account activity. GitHub Pages serves scheduled snapshots; it is not an always-on exchange
+    connection.
   </p>
 
+  <section class="section" id="current-status">
+    <h2>Current status — reviewed 2026-11-27</h2>
+    <div class="card">
+      <p style="margin-top:0"><strong>Published:</strong> the <a href="https://kanlerxz87-cyber.github.io/Tradebot1/">GitHub Pages homepage</a> was fetched successfully after <a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46040316255">deployment run 46040316255</a> succeeded. Pages currently reports <code>main /</code> as its source in the <a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages">GitHub Pages API</a>. This confirms site publication only.</p>
+      <p><strong>Environment split:</strong> the current <code>docs/desk/data/latest.json</code> snapshot says <code>data_env: prod</code> and names <code>https://external-api.kalshi.com/trade-api/v2</code>. That research desk uses production public market data and paper trading; it is <em>not</em> a Demo-quote view. For documented Demo hosts, see Kalshi's <a href="https://docs.kalshi.com/getting_started/api_environments">API environment list</a> and <a href="https://docs.kalshi.com/getting_started/demo_env">Demo environment guide</a>; Demo-specific pages are <a href="https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/">Demo API desk</a> and <a href="https://kanlerxz87-cyber.github.io/Tradebot1/terminal/">browser Demo terminal</a>. This source mismatch is flagged as <a href="https://kanlerxz87-cyber.github.io/Tradebot1/qa.html">PROVENANCE-1</a>.</p>
+      <p><strong>Account/execution:</strong> the committed <a href="https://kanlerxz87-cyber.github.io/Tradebot1/data/account.json">Demo-account snapshot</a> reads <code>connected: false</code>, so balance and fills are left blank. The separate <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/services/kalshi/README.md">Demo-only backend contract</a> is not hosted by Pages; Demo order routes are disabled by default and require a trusted credentialed host. Kalshi's <a href="https://docs.kalshi.com/getting_started/quick_start_authenticated_requests">authenticated request guide</a> and <a href="https://docs.kalshi.com/api-reference/orders/create-order-v2">V2 order specification</a> define the account boundary.</p>
+      <p><strong>Coverage:</strong> the primary desk labels its 24-hour dollar figure as an estimate derived from contract volume and price; a complete exchange-wide dollar ranking is unverified. The committed Demo sample at <code>docs/data/snapshot.json</code> is marked partial and dated 2026-11-22. The model-selected alert feed is a heuristic, not a validated ROI forecast. See <a href="https://kanlerxz87-cyber.github.io/Tradebot1/qa.html">current QA findings</a> and <a href="https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html">Flagged for Review</a>.</p>
+    </div>
+  </section>
+
   <section class="section">
-    <h2>The one-paragraph version</h2>
+    <h2>What this build does</h2>
     <div class="card">
       <p style="margin-top:0">
-        Kalshi's public market-data API needs no key, which makes a fully autonomous dashboard possible:
-        a scheduled job scans every open event, filters to the five requested topics using Kalshi's own
-        category and tag taxonomy, records prices, detects moves of at least ten cents, and writes a
-        compact JSON snapshot that a static site renders. A second, independent loop trades those signals
-        in a simulated ledger and settles positions on the exchange's reported outcome, so every strategy
-        has a record instead of an opinion. Execution against a real demo account is implemented and
-        dormant: it activates the moment demo credentials exist, and until then the site says so instead
-        of inventing a balance.
+        Kalshi documents public market-data reads separately from authenticated account requests. The
+        scheduled collector records official observations for the five requested topics and writes a
+        source-linked snapshot for the static site. One feed shows observed moves of at least ten cents;
+        a second shows only candidates that pass a documented heuristic. Paper strategies use a local
+        ledger and exchange-reported outcomes, not the Demo-account balance. The optional protected Demo
+        order route is a separate server feature; it is disabled unless a trusted host has credentials
+        and an explicit execution enable flag. No authenticated Demo order, fill, balance, or WebSocket
+        session was verified for this publication.
       </p>
     </div>
   </section>
 
   <section class="section">
-    <h2>What is live</h2>
+    <h2>What is delivered</h2>
     <div class="grid two">
       <div class="card">
         <h3>Delivered</h3>
         <ul class="clean">
-          <li><a href="index.html">Dashboard</a> — five-topic market table, highest-dollar event leaderboard, two alert chats, price chart with 30s→all windows, orderbook depth, resolution tracker, portfolio strip.</li>
-          <li>Five <a href="topics/gas-prices.html">topic pages</a> with server-rendered tables and a source link on every row.</li>
-          <li><a href="strategies.html">Four strategies</a>, a transparent ROI score, and the exact thresholds behind the second chat.</li>
-          <li><a href="portfolio.html">Portfolio analytics</a> — equity curve, win rate, profit factor, expectancy, drawdown, P&amp;L by strategy, topic, price band and exit reason.</li>
-          <li><a href="verification.html">Verification log</a> with 25 sourced claims plus live API reads.</li>
-          <li><a href="flagged.html">Flagged for review</a> — 14 items, each with handling and a clear condition.</li>
+          <li><a href="index.html">Dashboard</a> — five-topic market table, a labelled estimated 24-hour-dollar ranking (contract volume × price), two observed-swing feeds, time/price chart, order-book depth and resolution tracker. It is not a complete exchange-wide dollar-turnover ranking.</li>
+          <li>Five <a href="topics/gas-prices.html">topic pages</a> with server-rendered tables and official source links on market rows.</li>
+          <li><a href="strategies.html">Four paper strategies</a> and a documented heuristic screen; the score is not a validated ROI forecast.</li>
+          <li><a href="portfolio.html">Paper portfolio analytics</a> — equity, settled trades and breakdowns by strategy/topic. These are simulated results, not Demo-account performance.</li>
+          <li><a href="verification.html">Verification log</a> with dated official-source claims and the corresponding capture provenance.</li>
+          <li><a href="flagged.html">Flagged for review</a> — open limitations, source links and intentionally blank unverified account values.</li>
         </ul>
       </div>
       <div class="card">
         <h3>Autonomy</h3>
         <ul class="clean">
-          <li>A GitHub Actions cron runs the collector every 30 minutes, commits the new snapshot and advances the paper book.</li>
-          <li>No user action is required for the site to stay current; a stale snapshot is visibly labelled after 30 minutes.</li>
-          <li>Every failure (network, rate limit, unknown field) is recorded in the snapshot and printed on the page rather than silently swallowed.</li>
-          <li>The local server adds seconds-level collection, a same-origin proxy and WebSocket push when you want a faster loop.</li>
+          <li>GitHub Actions schedules public market-data collection and publishes timestamped snapshots; this static site is not a continuous exchange stream.</li>
+          <li>No account input is needed for public observations or paper simulation. Snapshot age and collection errors are shown rather than replaced with invented values.</li>
+          <li>Failures such as network errors, rate limits or unknown fields are recorded in the snapshot and disclosed on the page.</li>
+          <li>A separate Demo service implementation provides lower-latency collection and protected account routes; it is not part of the static Pages deployment, and its exchange connection and account execution are not verified here.</li>
         </ul>
       </div>
     </div>
@@ -119,7 +130,7 @@
   </section>
 
   <section class="section">
-    <h2>Numbers in this build</h2>
+    <h2>Structural figures recorded for the 2026-11-22 build</h2>
     <div class="grid kpi">
       <div class="card"><span class="label">Topics</span><span class="value">5</span><span class="foot">gas, elections, culture, crypto, golf</span></div>
       <div class="card"><span class="label">Alert threshold</span><span class="value">$0.10</span><span class="foot">inclusive, either direction</span></div>
@@ -149,15 +160,15 @@
     <h2>Next three moves</h2>
     <div class="card">
       <ol class="clean" style="list-style:decimal">
-        <li>Create the demo account and add <code>KALSHI_API_KEY_ID</code> plus <code>KALSHI_PRIVATE_KEY</code> as repository secrets — that single step turns paper results into exchange-confirmed results.</li>
-        <li>Retrieve the current fee schedule and flip <code>VERIFIED = True</code> in <code>fees.py</code>, which clears F1.</li>
-        <li>Promote the collector to <code>orderbook_delta</code> streaming once credentialed, so alerts fire on ticks instead of cycles.</li>
+        <li>Align the root research desk with the requested Demo source, or clearly label production read-only data in its primary status badge; refresh only from an official, timestamped Demo response.</li>
+        <li>Keep account keys on a separately hosted trusted service. GitHub Pages cannot hold signing credentials; no private key or account access was available to this review, so no Demo balance or exchange fill is claimed.</li>
+        <li>Before describing the selected alert feed as high ROI, compare it out of sample with fee-aware simulated fills; keep possible-news links explicitly separate from causal evidence.</li>
       </ol>
     </div>
   </section>
 
   <footer class="site">
-    <span>Summarised 2026-11-22 UTC.</span>
+    <span>Current-status note reviewed 2026-11-27 UTC; historical build figures above date from 2026-11-22.</span>
     <span>·</span><a href="verification.html">Verification log</a>
     <span>·</span><a href="flagged.html">Flagged for review</a>
     <span>·</span><a href="requirements.html">Requirements</a>

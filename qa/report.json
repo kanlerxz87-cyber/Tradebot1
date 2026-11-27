@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-11-27T19:49:48Z",
+  "generated_at": "2026-11-27T19:50:20Z",
   "counts": {
     "error": 0,
     "warn": 4,
-    "info": 7
+    "info": 8
   },
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
@@ -16,9 +16,9 @@
     "docs/data/snapshot.json: 28 events, partial=True",
     "monitor docs/data/snapshot.json: 207 rows, price bounds",
     "74 HTML pages, 1361 internal references",
-    "tracked files: 354, bytecode/cache artefacts: 0",
+    "tracked files: 352, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 5097 paths"
+    "secret scan: 6826 paths"
   ],
   "findings": [
     {
@@ -135,6 +135,19 @@
       "severity": "info",
       "code": "EXTERNAL",
       "title": "External link outside the official-source list",
+      "detail": "docs/desk/executive-summary.html links to api.github.com. Not a Kalshi source; kept for context.",
+      "count": 1,
+      "examples": [
+        "https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages"
+      ],
+      "source": "docs/desk/executive-summary.html",
+      "action": ""
+    },
+    {
+      "id": "EXTERNAL-4",
+      "severity": "info",
+      "code": "EXTERNAL",
+      "title": "External link outside the official-source list",
       "detail": "docs/engine/verification.html links to api.github.com. Not a Kalshi source; kept for context.",
       "count": 1,
       "examples": [
@@ -175,7 +188,7 @@
       "severity": "info",
       "code": "FRESH",
       "title": "docs/desk/data/latest.json captured 2026-11-27T12:51:13Z",
-      "detail": "6.98 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "detail": "6.99 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",

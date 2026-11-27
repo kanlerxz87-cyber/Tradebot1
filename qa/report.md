@@ -1,6 +1,6 @@
 # Cross-implementation audit
 
-Generated 2026-11-27T19:49:48Z by `qa/audit.py` (run it again to reproduce). **0 errors, 4 warnings, 7 notes.**
+Generated 2026-11-27T19:50:20Z by `qa/audit.py` (run it again to reproduce). **0 errors, 4 warnings, 8 notes.**
 
 This audit reads the committed datasets and every published page. It cannot confirm a price against Kalshi — that is done separately and recorded below. It checks internal consistency, official-host provenance and link integrity.
 
@@ -16,9 +16,9 @@ This audit reads the committed datasets and every published page. It cannot conf
 - docs/data/snapshot.json: 28 events, partial=True
 - monitor docs/data/snapshot.json: 207 rows, price bounds
 - 74 HTML pages, 1361 internal references
-- tracked files: 354, bytecode/cache artefacts: 0
+- tracked files: 352, bytecode/cache artefacts: 0
 - tools/build_site.py --check (run separately by CI; reports current)
-- secret scan: 5097 paths
+- secret scan: 6826 paths
 
 ## Findings
 
@@ -30,8 +30,9 @@ This audit reads the committed datasets and every published page. It cannot conf
 | `STALE-1` | warn | data/snapshot.json is 132.8 h old — Timestamp 2026-11-22T07:00:00Z. Anything rendered from it is a historical snapshot, not a live quote. | 0 | data/snapshot.json | Re-run the collector or label the page as historical. |
 | `EXTERNAL-1` | info | External link outside the official-source list — dashboard.html links to www.cfbenchmarks.com. Not a Kalshi source; kept for context. | 1 | dashboard.html | — |
 | `EXTERNAL-2` | info | External link outside the official-source list — dashboard.html links to www.livgolf.com. Not a Kalshi source; kept for context. | 1 | dashboard.html | — |
-| `EXTERNAL-3` | info | External link outside the official-source list — docs/engine/verification.html links to api.github.com. Not a Kalshi source; kept for context. | 1 | docs/engine/verification.html | — |
-| `FRESH-1` | info | docs/desk/data/latest.json captured 2026-11-27T12:51:13Z — 6.98 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample. | 0 | docs/desk/data/latest.json | — |
+| `EXTERNAL-3` | info | External link outside the official-source list — docs/desk/executive-summary.html links to api.github.com. Not a Kalshi source; kept for context. | 1 | docs/desk/executive-summary.html | — |
+| `EXTERNAL-4` | info | External link outside the official-source list — docs/engine/verification.html links to api.github.com. Not a Kalshi source; kept for context. | 1 | docs/engine/verification.html | — |
+| `FRESH-1` | info | docs/desk/data/latest.json captured 2026-11-27T12:51:13Z — 6.99 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample. | 0 | docs/desk/data/latest.json | — |
 | `GENCHECK-1` | info | The Node generator's --check can never pass as written — `scripts/build-site.mjs --check` re-renders every page and compares the result with the committed file, but the render embeds a fresh `data-generated` timestamp and relative text such as '21m ago'. Every page therefore reports stale within a minute of generation. The data itself matched when this audit compared it. | 0 | scripts/build-site.mjs | Compare the page with the timestamp and relative-time fields normalised, or drop the strict comparison from the gate. CI does not currently run this check. |
 | `MISSING-1` | info | docs/desk/data/positions.json not present — Dataset is absent on this branch; its checks were skipped. | 0 | docs/desk/data/positions.json | — |
 | `STATUS-1` | info | Status values match the documented lifecycle — Observed: active. The lifecycle page lists these statuses and maps the open/settled request filters onto active/finalized. | 1 | https://docs.kalshi.com/getting_started/market_lifecycle | — |

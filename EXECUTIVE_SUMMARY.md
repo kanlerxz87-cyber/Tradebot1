@@ -1,15 +1,8 @@
-# Executive summary — Kalshi demo environment
+# Executive summary — Kalshi research desk and Demo tooling
 
-**Prepared:** 2026-11-22 (UTC) · **Repository:** `kanlerxz87-cyber/Tradebot1`
-**Live gateways:** [research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) ·
-[market monitor](https://kanlerxz87-cyber.github.io/Tradebot1/docs/)
+**Reviewed:** 2026-11-27 (UTC) · **Repository:** `kanlerxz87-cyber/Tradebot1`
 
-Five implementations now exist, each additive. **Part A** is the autonomous research desk (collector plus
-scheduled trading loop). **Part B** is the browser-side market monitor, preserved verbatim. **Part C**
-(bottom of this file) is the newest: a dependency-free live desk with a real server, plus a
-cross-implementation audit of every dataset in the repository. Where numbers disagree, the desk's come from
-a server-side collector, the monitor's from the visitor's browser, and the live desk's from whichever of
-those captures it is anchored to — which it names in `/api/meta`.
+**Published site:** [homepage](https://kanlerxz87-cyber.github.io/Tradebot1/) · [primary research desk](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/) · [Demo API desk](https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/) · [browser Demo terminal](https://kanlerxz87-cyber.github.io/Tradebot1/terminal/) · [Flagged for Review](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) · [cross-implementation QA](https://kanlerxz87-cyber.github.io/Tradebot1/qa.html)
 
 | | Part A — research desk | Part B — market monitor |
 | - | - | - |
@@ -18,12 +11,42 @@ those captures it is anchored to — which it names in `/api/meta`.
 | Alerts | persisted ≥ $0.10 archive + live ticks | session-only ≥ $0.10 observations |
 | Trading | 4 strategies, ledger committed to the repo | 1 screen, browser-local |
 | Verification | 26 dated source rows, 14 flags | endpoint-level citations, review page |
+**Publication check:** GitHub Pages' latest observed deployment, [run 46040316255](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46040316255), succeeded on 2026-11-27; the homepage was fetched successfully. The official [Pages configuration API](https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages) reports the active source as `main /` (legacy). This confirms publication only—not a live Kalshi connection, an authenticated account, or an executed order.
 
-| Also published | Location | What it is |
-| - | - | - |
-| Trade board | `board.html` (+ five `categories/` pages) | Node implementation: events ranked by resting dollars, two auto-scrolling ≥ $0.10 feeds, 60s–24h chart, order-book ladder, five strategies, 17 flags |
-| Engine view | `docs/engine/` | Python engine's own site: 39-entry verification register, five topic tables, both alert feeds, six-strategy fee-exact simulator, its own flags page |
-| Prototype | `site/` | First standalone prototype, kept for review; simulated fallback data, clearly separated from verified values |
+## Decision summary
+
+This repository contains several parallel dashboards and a separately hosted backend—not one unified, credentialed Demo trading service. The root landing page routes to `docs/desk/`, whose latest committed snapshot identifies `data_env: prod` and `https://external-api.kalshi.com/trade-api/v2`: that view uses **production public market data and paper execution**, not Demo quotes. This mismatch with the requested Demo-only market source is published as **PROVENANCE-1** in [`qa.html`](qa.html) and must not be hidden by the site's “Demo and paper only” order-safety wording. The Demo-specific implementations are [`demo-desk/`](https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/) and [`terminal/`](https://kanlerxz87-cyber.github.io/Tradebot1/terminal/); the separate [`services/kalshi/`](services/kalshi/README.md) backend is Demo-only but is not hosted by GitHub Pages.
+
+The project covers the requested five topics—gas prices, elections, culture, crypto, and golf—with separate category pages; ≥$0.10 observed price-swing feeds in either direction; an all-events feed and a heuristic-filtered feed; time/price charts, order-book depth, and YES/NO lifecycle tracking; plus automated **simulated** strategies and portfolio analytics. The high-ROI selection is an unvalidated heuristic, not a profit forecast. Potential news links are research leads, not verified causes of a price move.
+
+## Important operating limits
+
+- **“Live” has multiple meanings here.** The main GitHub Pages desk is a scheduled snapshot, not an always-on WebSocket service. The Demo WebSocket API's official guide says even public market-data channels require an authenticated connection handshake; this repository has not verified an authenticated Demo WebSocket session. Static/browser-facing Demo views and the separately hosted service have different connectivity boundaries.
+- **No complete exchange-wide highest-dollar ranking is verified.** `docs/desk/` labels its `volume_24h × price` figure as an estimate; the bounded Demo snapshot in [`docs/data/snapshot.json`](docs/data/snapshot.json) states `partial: true` and leaves dollar notional blank when it is not reported. Do not interpret either as a complete dollar-turnover leaderboard. The service contract uses reported cumulative dollar notional only when complete; otherwise it returns null.
+- **No demo-account P&L or fill is shown.** The committed [`data/account.json`](data/account.json) says `connected: false`; demo balance, order, fill, and settlement values stay blank. Protected Demo order routes are disabled by default and require a separately trusted server, server-side credentials, and explicit enablement. No authenticated trade or fill was verified in this review.
+- **Strategy performance is simulated.** Paper ledgers are not the Kalshi Demo account. The fee model now applies exchange-reported series multipliers and published multipliers where available; ambiguous schedule rows still fall back to the default when the API omits a value, and modeled fills/rounding are not exchange-confirmed. Net ROI and causal news attribution remain unvalidated.
+- **The committed Demo sample is historical.** The bounded `docs/data/snapshot.json` was generated at `2026-11-22T07:47:55Z`; the current QA pass flags it as stale. The current `docs/desk/` capture is newer but uses the production public API as disclosed above.
+- **Current QA result:** 0 errors, 4 warnings, 8 notes. Open findings are linked on [`qa.html`](qa.html) and the main [`Flagged for Review`](https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html) page. A clean build/test does not certify data completeness, account connectivity, or strategy profitability.
+
+## Official Kalshi references
+
+- **Environment separation and exact endpoints:** Kalshi documents distinct Demo and production hosts and credentials. Demo REST: `https://external-api.demo.kalshi.co/trade-api/v2` (also `https://demo-api.kalshi.co/trade-api/v2`); Demo WebSocket: `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` (also `wss://demo-api.kalshi.co/trade-api/ws/v2`). [API environments](https://docs.kalshi.com/getting_started/api_environments) · [Demo environment](https://docs.kalshi.com/getting_started/demo_env)
+- **Demo is a testing environment:** it uses mock funds, credentials are separate from production, and Kalshi warns Demo prices and behavior may not reflect real markets. [Demo environment](https://docs.kalshi.com/getting_started/demo_env)
+- **Public data and private actions:** public market-data endpoints are documented separately from authenticated account requests; authenticated requests require API-key headers and signing. [Public market-data quick start](https://docs.kalshi.com/getting_started/quick_start_market_data) · [Authenticated-request quick start](https://docs.kalshi.com/getting_started/quick_start_authenticated_requests)
+- **Streams:** a WebSocket connection requires authentication during its handshake, including when subscribing only to public channels. [WebSocket quick start](https://docs.kalshi.com/getting_started/quick_start_websockets)
+- **Liquidity:** the official market-orderbook endpoint returns fixed-point YES/NO bid levels and contract quantities. [Get Market Orderbook](https://docs.kalshi.com/api-reference/market/get-market-orderbook)
+- **Resolution:** Kalshi's REST lifecycle uses `finalized` as the terminal settled market status; `result` can be YES, NO, or scalar. [Market lifecycle](https://docs.kalshi.com/getting_started/market_lifecycle)
+- **Order writes:** the V2 endpoint is `POST /portfolio/events/orders`; an accepted response does not mean an order filled. This repository keeps Demo order submission disabled by default. [Create Order V2](https://docs.kalshi.com/api-reference/orders/create-order-v2)
+- **Fees:** the fee model prefers the exchange's series `fee_multiplier`, then a published schedule value when unambiguous, then the default multiplier; unresolved rows remain flagged. [Kalshi fee schedule](https://kalshi.com/docs/kalshi-fee-schedule.pdf) · [Get Series](https://docs.kalshi.com/api-reference/market/get-series) · [Fee rounding](https://docs.kalshi.com/getting_started/fee_rounding)
+
+## Suggested next improvements
+
+1. Make the root desk's environment explicit in its status badge, and either switch its public read path to the Demo host or change the primary navigation so Demo data is the default. Refresh the snapshot only after a successful official Demo read.
+2. Replace estimated or bounded event rankings with a coverage-qualified leaderboard based only on exchange-reported dollar notional; keep missing values blank.
+3. For second-level alerts, deploy the Demo backend on a trusted always-on host and verify authenticated WebSocket connectivity there. Never put private keys in GitHub Pages or browser storage.
+4. Measure the ROI filter with out-of-sample, fee-aware simulated trades before calling it “high ROI”; keep news timestamps separate from causation.
+
+The sections below are dated implementation and hand-off notes retained for audit history. Their figures describe the date shown in each section and are not silently promoted to current live values.
 
 ---
 
