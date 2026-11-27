@@ -353,7 +353,7 @@
           "file": "kalshi_trader/fees.py",
           "needle": "ceil(raw * 100.0",
           "note": "the desk rounds to the cent too",
-          "line": 52
+          "line": 120
         }
       ],
       "sources": [
@@ -401,7 +401,7 @@
           "file": "tools/fees.mjs",
           "needle": "[0.01, 0.01, 0.07]",
           "note": "the corrected row",
-          "line": 81
+          "line": 148
         },
         {
           "file": "tests/fees.test.mjs",
@@ -649,13 +649,13 @@
           "file": "kalshi_trader/fees.py",
           "needle": "VERIFIED = True",
           "note": "the label, after the parallel fix",
-          "line": 34
+          "line": 38
         },
         {
           "file": "kalshi_trader/fees.py",
           "needle": "rounds up to the cent, which never understates the fee",
           "note": "the rounding caveat, stated in the code",
-          "line": 43
+          "line": 109
         }
       ],
       "sources": [

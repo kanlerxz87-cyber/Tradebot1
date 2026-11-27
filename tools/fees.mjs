@@ -33,6 +33,73 @@ export const ROUNDING_SOURCE = 'https://docs.kalshi.com/getting_started/fee_roun
 export const TAKER_RATE = 0.07;
 export const MAKER_RATE = 0.0175;
 
+// The schedule's "Non-Standard Fees" table sets a per-series multiplier M, which the
+// general formula multiplies in: fees = roundup(M x 0.07 x C x P x (1 - P)). The table
+// gives a Maker and a Taker multiplier per series, so a series with 0/0 pays no fee at all
+// and a series with 1/1 pays the general fee. Source:
+// https://kalshi.com/docs/kalshi-fee-schedule.pdf ("Non-Standard Fees", effective 2026-07-07)
+//
+// Only the rows whose three columns are unambiguous in the published PDF are encoded here.
+// From "KXMVE" onwards the PDF's multi-column layout interleaves series tickers, names and
+// two multiplier columns during text extraction (for example "KXNASDAQ100Y Nasdaq yearly
+// range 11"), so those rows are NOT encoded and fall back to the general multiplier of 1.
+// That fallback can overstate a fee on a fee-free series; it is listed on the Flagged for
+// Review page rather than guessed. A series that is absent from this table therefore means
+// "not published as non-standard in an unambiguous row of the PDF", not "fee-free".
+export const MULTIPLIER_SOURCE = 'https://kalshi.com/docs/kalshi-fee-schedule.pdf';
+
+export const PUBLISHED_SERIES_MULTIPLIERS = Object.freeze({
+  KXAAAGASM: Object.freeze({ maker: 1, taker: 1, description: 'US gas price' }),
+  KXATPMATCH: Object.freeze({ maker: 1, taker: 1, description: 'ATP Tennis Match' }),
+  KXBALLONDOR: Object.freeze({ maker: 1, taker: 1, description: "Ballon d'Or" }),
+  KXBTCMAX150: Object.freeze({ maker: 1, taker: 1, description: 'When will bitcoin hit 150k?' }),
+  KXBTCY: Object.freeze({ maker: 0, taker: 0, description: 'BTC price range EOY' }),
+  KXCITRINI: Object.freeze({ maker: 0, taker: 0, description: 'Will the Citrini scenario materialize?' }),
+  KXCPI: Object.freeze({ maker: 1, taker: 1, description: 'CPI' }),
+  KXCPIYOY: Object.freeze({ maker: 1, taker: 1, description: 'Inflation' }),
+  KXDOED: Object.freeze({ maker: 0, taker: 0, description: 'DOE eliminated' }),
+  KXEGGS: Object.freeze({ maker: 1, taker: 1, description: 'Egg prices' }),
+  KXELECTIRAN: Object.freeze({ maker: 0, taker: 0, description: 'Will Iran hold a presidential election?' }),
+  KXEMMYCACTO: Object.freeze({ maker: 1, taker: 1, description: 'Emmys Award for Lead Comedy Actor' }),
+  KXEMMYCACTR: Object.freeze({ maker: 1, taker: 1, description: 'Emmys Award for Lead Comedy Actress' }),
+  KXEMMYCSERIES: Object.freeze({ maker: 1, taker: 1, description: 'Emmys Award for Comedy Series' }),
+  KXEMMYDACTO: Object.freeze({ maker: 1, taker: 1, description: 'Emmys Award for Lead Drama Actor' }),
+  KXEMMYDACTR: Object.freeze({ maker: 1, taker: 1, description: 'Emmys Award for Lead Drama Actress' }),
+  KXEMMYDSERIES: Object.freeze({ maker: 1, taker: 1, description: 'Emmys Award for Drama Series' }),
+  KXETHY: Object.freeze({ maker: 0, taker: 0, description: 'ETH price EOY' }),
+  KXFED: Object.freeze({ maker: 1, taker: 1, description: 'Fed funds rate' }),
+  KXFEDDECISION: Object.freeze({ maker: 1, taker: 1, description: 'Fed meeting' }),
+  KXGAMBLINGREPEAL: Object.freeze({ maker: 0, taker: 0, description: 'Gambling Repeal' }),
+  KXGDP: Object.freeze({ maker: 1, taker: 1, description: 'US GDP growth' }),
+  KXGREENLAND: Object.freeze({ maker: 0, taker: 0, description: 'Greenland purchase' }),
+  KXHEISMAN: Object.freeze({ maker: 1, taker: 1, description: 'Heisman Trophy Winner' }),
+  KXINXY: Object.freeze({ maker: 1, taker: 1, description: 'S&P 500 yearly range' }),
+  KXIPO: Object.freeze({ maker: 1, taker: 1, description: 'IPOs' }),
+  KXIRANDEMOCRACY: Object.freeze({ maker: 0, taker: 0, description: 'Will Iran become a democracy in 2026?' }),
+  KXLALIGA: Object.freeze({ maker: 1, taker: 1, description: 'LA LIGA' }),
+  KXLAYOFFSYINFO: Object.freeze({ maker: 0, taker: 0, description: 'Tech layoffs' }),
+  KXLLM1: Object.freeze({ maker: 1, taker: 1, description: 'Year-end top LLM' }),
+  KXMARMAD: Object.freeze({ maker: 1, taker: 1, description: 'College Basketball Champion' }),
+});
+
+/** Series ticker of a market ticker: "KXBTCY-27JAN0100-T20000.00" -> "KXBTCY". */
+export function seriesFromTicker(ticker) {
+  const s = String(ticker ?? '').toUpperCase();
+  const dash = s.indexOf('-');
+  return dash === -1 ? s : s.slice(0, dash);
+}
+
+/**
+ * Published multiplier for a series. `side` is "taker" (a fill against resting orders)
+ * or "maker" (a resting order that later executes). Unknown series use the general
+ * default of 1, which the schedule states as the taker default.
+ */
+export function seriesMultiplier(seriesTicker, side = 'taker') {
+  const row = PUBLISHED_SERIES_MULTIPLIERS[String(seriesTicker ?? '').toUpperCase()];
+  if (!row) return 1;
+  return side === 'maker' ? row.maker : row.taker;
+}
+
 /** Round a dollar amount up to the nearest $0.0001 (the exchange's centicent). */
 export function roundUpCenticent(value) {
   const cents = Math.ceil(value * 10000 - 1e-9) / 10000;
