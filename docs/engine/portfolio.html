@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portfolio &amp; strategies · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html" class="active">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Portfolio &amp; Automated Strategy Lab</h1>
+<p class="lede">Automates simulated paper trades across six distinct trade-type categories using Kalshi's
+published July 7, 2026 fee schedule and per-series multipliers, and tracks Kalshi Demo Account connectivity.</p>
+
+<div class="grid c3">
+<div class="card"><div class="stat">Kalshi Demo Account Cash</div><div class="n">--</div>
+<div class="stat">Unverified in static CI (no private key in repo; connect local <code>uvicorn app.main:app</code> for live signed fills · <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs</a>)</div></div>
+<div class="card"><div class="stat">Paper Starting Bankroll / Strategy</div><div class="n">$10,000.00</div>
+<div class="stat">Isolated simulated ledger per strategy category</div></div>
+<div class="card"><div class="stat">Recorded Collector Paper Trades</div><div class="n">8</div>
+<div class="stat">Priced with published series fee multipliers</div></div>
+</div>
+
+<h2>Trade Categories &amp; Strategy Definitions</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>ID</th><th>Strategy</th><th>Trade Category</th><th>Fee Schedule</th><th>Rule</th><th>Official Source</th></tr></thead>
+<tbody><tr>
+<td class="mono">momentum_follow</td>
+<td><strong>Momentum follow</strong></td>
+<td><span class="tag">Trend following</span></td>
+<td>Taker (0.07 × M)</td>
+<td>When a contract repriced by 10c+ on confirmed trades or two-sided quotes, the move often continues for a few ticks. Buy YES in the direction of the move.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a></td>
+</tr><tr>
+<td class="mono">mean_reversion</td>
+<td><strong>Mean reversion (fade the panic)</strong></td>
+<td><span class="tag">Contrarian</span></td>
+<td>Taker (0.07 × M)</td>
+<td>A sharp DOWN move in a market that is still above 25c is often a liquidity gap rather than news. Buy YES into the drop and exit on the bounce.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a></td>
+</tr><tr>
+<td class="mono">cheap_tail</td>
+<td><strong>Cheap tail (longshot)</strong></td>
+<td><span class="tag">Asymmetric payoff</span></td>
+<td>Taker (0.07 × M)</td>
+<td>Low-priced contracts offer large payout multiples. Only enter when the swing is large, confirmed, and the book can absorb the order within 10 cents.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a></td>
+</tr><tr>
+<td class="mono">favorite_carry</td>
+<td><strong>Favorite carry</strong></td>
+<td><span class="tag">High-probability carry</span></td>
+<td>Taker (0.07 × M)</td>
+<td>High-priced favourites that dip on noise tend to revert. Small edge, high hit rate; held to resolution to collect the full $1 payout.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a></td>
+</tr><tr>
+<td class="mono">news_catalyst</td>
+<td><strong>News catalyst</strong></td>
+<td><span class="tag">Event driven</span></td>
+<td>Taker (0.07 × M)</td>
+<td>Only trade swings that coincide with a headline from a trusted outlet in the lookback window. Fewer trades, higher conviction.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a></td>
+</tr><tr>
+<td class="mono">baseline_control</td>
+<td><strong>Baseline control</strong></td>
+<td><span class="tag">Control / benchmark</span></td>
+<td>Taker (0.07 × M)</td>
+<td>Equal-sized YES entry on every qualifying swing. No filtering at all. Used as the benchmark every other strategy must beat.</td>
+<td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a></td>
+</tr></tbody></table></div>
+
+<h2>Interactive Strategy Backtester &amp; Custom Trade-Type Builder</h2>
+<div class="card" id="sim-lab-root">
+<div class="toolbar">
+<label>Category:
+<select id="sim-category">
+<option value="momentum">momentum (Swing Follower)</option>
+<option value="mean_reversion">mean_reversion (Swing Fader)</option>
+<option value="tail">tail (Discounted Tail YES ≤ 12c)</option>
+<option value="carry">carry (High-Prob Carry 85c–94c)</option>
+<option value="catalyst">catalyst (Selective High-ROI ≥ 0.60)</option>
+</select></label>
+<label>Topic filter:
+<select id="sim-topic">
+<option value="all">All 5 Topics</option>
+<option value="gas">Gas prices</option>
+<option value="elections">Elections</option>
+<option value="culture">Culture</option>
+<option value="crypto">Crypto</option>
+<option value="golf">Golf</option>
+</select></label>
+<label>Order size (contracts): <input id="sim-qty" type="number" min="1" max="500" value="25" style="width:76px"></label>
+<button type="button" class="btn primary" id="btn-run-sim">Simulate Automated Trades</button>
+<button type="button" class="btn" id="btn-reset-sim">Reset Paper Ledger</button>
+</div>
+<div id="sim-summary" class="muted">Click "Simulate Automated Trades" to execute paper trades against the current live/captured orderbooks using exact Kalshi taker/maker fees.</div>
+<div class="tblwrap" style="margin-top:10px"><table id="sim-ledger-table">
+<thead><tr><th>Time</th><th>Ticker</th><th>Topic</th><th>Category</th><th>Side (Order V2)</th><th class="num">Qty</th><th class="num">Fill Price</th><th class="num">Kalshi Fee</th><th>Source</th></tr></thead>
+<tbody id="sim-ledger-body"><tr><td colspan="9" class="muted">No interactive paper trades run in this browser session yet.</td></tr></tbody>
+</table></div>
+</div>
+
+<h2>Collector Paper Portfolio Ledger (Demo API Book)</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Ticker</th><th>Topic</th><th>Strategy · Category</th><th>Side</th><th class="num">Contracts</th>
+<th class="num">Entry Price</th><th class="num">Fee</th><th>Status</th><th>Official Source</th></tr></thead>
+<tbody><tr>
+<td class="mono">KXBTCY-27JAN0100-T20000.00</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0100</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-T20000.00" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr><tr>
+<td class="mono">KXBTCY-27JAN0100-T149999.99</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0100</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-T149999.99" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr><tr>
+<td class="mono">KXBTCY-27JAN0100-B97500</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0100</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B97500" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr><tr>
+<td class="mono">KXBTCY-27JAN0100-B92500</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0100</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B92500" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr><tr>
+<td class="mono">KXBTCY-27JAN0100-B82500</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0200</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B82500" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr><tr>
+<td class="mono">KXBTCY-27JAN0100-B42500</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0500</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B42500" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr><tr>
+<td class="mono">KXBTCY-27JAN0100-B27500</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0100</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B27500" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr><tr>
+<td class="mono">KXBTCY-27JAN0100-B102500</td>
+<td><span class="tag">crypto</span></td>
+<td><code>longshot</code> · <span class="tag">tail</span></td>
+<td>YES</td>
+<td class="num">1</td>
+<td class="num">$0.0100</td>
+<td class="num">$0.0000 (M=0)</td>
+<td><span class="tag">open</span></td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B102500" target="_blank" rel="noopener">Demo market</a> ·
+<a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr></tbody></table></div>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

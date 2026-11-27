@@ -43,7 +43,7 @@ from typing import Any
 
 from .alerts import ScoringInputs, score_alert
 from .config import Settings
-from .money import CENT, ONE, ZERO, fee_dollars, to_decimal
+from .money import CENT, ONE, ZERO, fee_dollars, series_fee_multiplier, to_decimal
 from .storage import Store
 
 BUY, SELL = "buy", "sell"
@@ -205,6 +205,7 @@ class MarketContext:
     hours_to_close: float | None = None
     two_sided: bool = False
     page_url: str | None = None
+    fee_multiplier: Decimal | None = None
 
 
 @dataclass
@@ -372,7 +373,8 @@ class Simulator:
                     "status": "rejected", "rejection": rejection or "risk limit",
                 })
 
-            fee = self._fee(decision.price, contracts, maker=spec.maker_entry)
+            fee = self._fee(decision.price, contracts, maker=spec.maker_entry,
+                            ticker=ctx.ticker, api_fee_multiplier=ctx.fee_multiplier)
             cost = decision.price * contracts + fee
             if cost > cash:
                 contracts = ((cash - fee) / decision.price).to_integral_value(rounding="ROUND_FLOOR")
@@ -380,6 +382,8 @@ class Simulator:
                     return self._record_event(spec, decision, alert, ctx, {
                         "status": "rejected", "rejection": "insufficient cash after fees",
                     })
+                fee = self._fee(decision.price, contracts, maker=spec.maker_entry,
+                                ticker=ctx.ticker, api_fee_multiplier=ctx.fee_multiplier)
                 cost = decision.price * contracts + fee
 
             order_id, status = None, "filled"
@@ -423,8 +427,10 @@ class Simulator:
                 return None
 
             if payout_value is not None:
-                # Settlement: payout is $1 per contract for the winning side, $0 otherwise.
-                value = ONE if (side == YES and payout_value == ONE) or (side == NO and payout_value == ZERO) else ZERO
+                # Settlement: binary YES=1/NO=0 or scalar settlement_value_dollars in [0, 1].
+                # YES holders receive payout_value; NO holders receive (1 - payout_value).
+                clamped = max(ZERO, min(ONE, payout_value))
+                value = clamped if side == YES else (ONE - clamped)
                 proceeds = value * contracts
                 fee = ZERO           # documented: there is no settlement fee
                 status = "settled"
@@ -433,7 +439,7 @@ class Simulator:
                 if price is None:
                     return None
                 proceeds = price * contracts
-                fee = self._fee(price, contracts, maker=False)
+                fee = self._fee(price, contracts, maker=False, ticker=ticker)
                 proceeds -= fee
                 status = "closed"
 
@@ -467,18 +473,24 @@ class Simulator:
                                decision: Decision, contracts: Decimal) -> tuple[str | None, str]:
         """Mirror a simulated buy to the demo account.
 
-        Request/response contract: https://docs.kalshi.com/api-reference/orders/create-order-v2
-        `side: bid` buys YES at `price`; `count` and `price` are fixed-point strings;
-        `time_in_force` and `self_trade_prevention_type` are required.
+        Request/response contract:
+        * https://docs.kalshi.com/api-reference/orders/create-order-v2
+        * https://docs.kalshi.com/getting_started/order_direction
+        Order V2 uses `bid`/`ask` on a unified YES price scale:
+          - buying YES at P_yes -> `side: "bid"`, `price: P_yes`
+          - buying NO at P_no   -> `side: "ask"`, `price: 1 - P_no`
+        `count` and `price` are fixed-point strings; `time_in_force` and
+        `self_trade_prevention_type` are required.
         """
         if self.api is None or not self.settings.live_orders_enabled:
             return None, "filled"
+        yes_scale_price = decision.price if decision.side == YES else (ONE - decision.price)
         payload = {
             "ticker": ctx.ticker,
             "client_order_id": f"sim-{spec.key}-{int(time.time()*1000)}",
             "side": "bid" if decision.side == YES else "ask",
             "count": f"{contracts:.2f}",
-            "price": f"{decision.price:.4f}",
+            "price": f"{yes_scale_price:.4f}",
             "time_in_force": "immediate_or_cancel",
             "self_trade_prevention_type": "taker_at_cross",
         }
@@ -528,16 +540,29 @@ class Simulator:
         return actions
 
     async def settle_resolutions(self, resolutions: list[dict], *, mode: str = "paper") -> list[dict]:
-        """Settle open positions in markets that have been determined."""
+        """Settle open positions in markets that have been determined (`yes`, `no`, or `scalar`)."""
         actions: list[dict] = []
-        by_ticker = {r["ticker"]: r for r in resolutions if r.get("result") in {"yes", "no"}}
+        by_ticker: dict[str, tuple[str, Decimal]] = {}
+        for r in resolutions:
+            res_val = str(r.get("result") or "").lower()
+            ticker = r.get("ticker")
+            if not ticker:
+                continue
+            if res_val == "yes":
+                by_ticker[ticker] = ("YES", ONE)
+            elif res_val == "no":
+                by_ticker[ticker] = ("NO", ZERO)
+            elif res_val == "scalar":
+                sv = to_decimal(r.get("settlement_value"), None)
+                if sv is not None and ZERO <= sv <= ONE:
+                    by_ticker[ticker] = (f"SCALAR ({sv:.4f})", sv)
         for spec in SPECS:
             for pos in self.store.positions(spec.key):
-                res = by_ticker.get(pos["ticker"])
-                if not res:
+                entry = by_ticker.get(pos["ticker"])
+                if not entry:
                     continue
-                payout = ONE if res["result"] == "yes" else ZERO
-                event = await self.close(spec, pos["ticker"], reason=f"resolved {res['result'].upper()}",
+                label, payout = entry
+                event = await self.close(spec, pos["ticker"], reason=f"resolved {label}",
                                          mode=mode, payout_value=payout)
                 if event:
                     actions.append(event)
@@ -554,8 +579,11 @@ class Simulator:
             self.store.record_equity(spec.key, cash=cash, positions_value=value)
 
     # -- helpers ----------------------------------------------------------
-    def _fee(self, price: Decimal, contracts: Decimal, *, maker: bool) -> Decimal:
-        return fee_dollars(price, contracts, maker=maker, rounding=self.settings.fee_rounding)
+    def _fee(self, price: Decimal, contracts: Decimal, *, maker: bool,
+             ticker: str | None = None, api_fee_multiplier: Decimal | None = None) -> Decimal:
+        sm = series_fee_multiplier(ticker, maker=maker, api_fee_multiplier=api_fee_multiplier)
+        return fee_dollars(price, contracts, maker=maker, series_multiplier=sm,
+                           rounding=self.settings.fee_rounding)
 
     def _record_event(self, spec: StrategySpec, decision: Decision, alert: dict,
                       ctx: MarketContext, extra: dict) -> dict:

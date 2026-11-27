@@ -35,6 +35,72 @@ MICRO = Decimal("0.000001")
 TAKER_FEE_MULTIPLIER = Decimal("0.07")
 MAKER_FEE_MULTIPLIER = Decimal("0.0175")
 
+# Unambiguous rows from the "Non-Standard Fees" table in
+# https://kalshi.com/docs/kalshi-fee-schedule.pdf (effective July 7, 2026),
+# stored as (maker_series_multiplier, taker_series_multiplier).
+PUBLISHED_SERIES_MULTIPLIERS: dict[str, tuple[Decimal, Decimal]] = {
+    "KXAAAGASM": (Decimal("1"), Decimal("1")),
+    "KXATPMATCH": (Decimal("1"), Decimal("1")),
+    "KXBALLONDOR": (Decimal("1"), Decimal("1")),
+    "KXBTCMAX150": (Decimal("1"), Decimal("1")),
+    "KXBTCY": (Decimal("0"), Decimal("0")),
+    "KXCITRINI": (Decimal("0"), Decimal("0")),
+    "KXCPI": (Decimal("1"), Decimal("1")),
+    "KXCPIYOY": (Decimal("1"), Decimal("1")),
+    "KXDOED": (Decimal("0"), Decimal("0")),
+    "KXEGGS": (Decimal("1"), Decimal("1")),
+    "KXELECTIRAN": (Decimal("0"), Decimal("0")),
+    "KXEMMYCACTO": (Decimal("1"), Decimal("1")),
+    "KXEMMYCACTR": (Decimal("1"), Decimal("1")),
+    "KXEMMYCSERIES": (Decimal("1"), Decimal("1")),
+    "KXEMMYDACTO": (Decimal("1"), Decimal("1")),
+    "KXEMMYDACTR": (Decimal("1"), Decimal("1")),
+    "KXEMMYDSERIES": (Decimal("1"), Decimal("1")),
+    "KXETHY": (Decimal("0"), Decimal("0")),
+    "KXFED": (Decimal("1"), Decimal("1")),
+    "KXFEDDECISION": (Decimal("1"), Decimal("1")),
+    "KXGAMBLINGREPEAL": (Decimal("0"), Decimal("0")),
+    "KXGDP": (Decimal("1"), Decimal("1")),
+    "KXGREENLAND": (Decimal("0"), Decimal("0")),
+    "KXHEISMAN": (Decimal("1"), Decimal("1")),
+    "KXINXY": (Decimal("1"), Decimal("1")),
+    "KXIPO": (Decimal("1"), Decimal("1")),
+    "KXIRANDEMOCRACY": (Decimal("0"), Decimal("0")),
+    "KXLALIGA": (Decimal("1"), Decimal("1")),
+    "KXLAYOFFSYINFO": (Decimal("0"), Decimal("0")),
+    "KXLLM1": (Decimal("1"), Decimal("1")),
+    "KXMARMAD": (Decimal("1"), Decimal("1")),
+}
+
+
+def series_from_ticker(ticker: str | None) -> str:
+    if not ticker:
+        return ""
+    return str(ticker).strip().upper().split("-", 1)[0]
+
+
+def series_fee_multiplier(
+    series_or_ticker: str | None = None,
+    *,
+    maker: bool = False,
+    api_fee_multiplier: Decimal | float | int | str | None = None,
+) -> Decimal:
+    """Resolve the per-series fee multiplier M.
+
+    Prefers an explicit `fee_multiplier` returned by `GET /series/{ticker}`
+    (https://docs.kalshi.com/api-reference/market/get-series), then falls back
+    to the published Non-Standard Fees table, then to the general schedule
+    default of 1.
+    """
+    explicit = to_decimal(api_fee_multiplier, None)
+    if explicit is not None and explicit >= ZERO:
+        return explicit
+    series = series_from_ticker(series_or_ticker)
+    pair = PUBLISHED_SERIES_MULTIPLIERS.get(series)
+    if pair is not None:
+        return pair[0] if maker else pair[1]
+    return ONE
+
 
 # --------------------------------------------------------------------------- #
 # Parsing / formatting
@@ -95,6 +161,7 @@ def fee_dollars(
     *,
     maker: bool = False,
     multiplier: Decimal | None = None,
+    series_multiplier: Decimal | None = None,
     rounding: str = "cent",
 ) -> Decimal:
     """Fee for one execution, in dollars.
@@ -105,6 +172,9 @@ def fee_dollars(
     matching the fill-level `trade_fee` described in
     https://docs.kalshi.com/getting_started/fee_rounding.
 
+    `series_multiplier` is the per-series multiplier M from GET /series (`fee_multiplier`)
+    or the Non-Standard Fees table (default 1).
+
     Never returns a negative number. A non-positive count or a price outside
     (0, 1) yields 0: Kalshi never charges a fee for an order that did not
     execute, and such inputs cannot execute.
@@ -113,8 +183,11 @@ def fee_dollars(
         return ZERO
     if count <= 0 or price <= 0 or price >= ONE:
         return ZERO
-    m = multiplier if multiplier is not None else (MAKER_FEE_MULTIPLIER if maker else TAKER_FEE_MULTIPLIER)
-    raw = m * count * price * (ONE - price)
+    rate = multiplier if multiplier is not None else (MAKER_FEE_MULTIPLIER if maker else TAKER_FEE_MULTIPLIER)
+    sm = series_multiplier if series_multiplier is not None else ONE
+    if sm <= ZERO:
+        return ZERO
+    raw = sm * rate * count * price * (ONE - price)
     if rounding == "micro":
         return max(ZERO, raw.quantize(MICRO, rounding=ROUND_CEILING))
     # round up (fee + position_cost) to the cent, then subtract position cost

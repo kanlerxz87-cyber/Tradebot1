@@ -25,9 +25,12 @@ from pathlib import Path
 
 from app.config import load_settings
 from app.replay import CAPTURE_DIR, REPLAY_SCRIPT, build_replay, series_catalog
+from app.simulator import SPECS
 from app.storage import Store
 from app.topics import TOPIC_META, TOPIC_ORDER
 from engine.verification import build_registry
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
 
 
 def _plain(text):
@@ -124,6 +127,175 @@ def _resolution_record(row: dict) -> dict:
     }
 
 
+def _strategy_catalog() -> list[dict]:
+    return [
+        {
+            "key": spec.key,
+            "name": spec.name,
+            "category": spec.category,
+            "description": spec.thesis,
+            "maker": bool(spec.maker_entry),
+            "source_url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+        }
+        for spec in SPECS
+    ]
+
+
+def _load_demo_live_artifacts() -> dict:
+    """Read committed Kalshi Demo API collector snapshots from data/live/ if present."""
+    state_path = REPO_ROOT / "data" / "live" / "state.json"
+    feed_path = REPO_ROOT / "data" / "live" / "feed.json"
+    port_path = REPO_ROOT / "data" / "live" / "portfolio.json"
+
+    resolutions_out: list[dict] = []
+    live_swings_out: list[dict] = []
+    portfolio_out: list[dict] = []
+    orderbook_levels: dict[str, list[dict]] = {}
+
+    if state_path.exists():
+        try:
+            state = json.loads(state_path.read_text())
+        except json.JSONDecodeError:
+            state = {}
+        tracked = state.get("tracked") or {}
+        for ticker, r in (state.get("resolutions") or {}).items():
+            res = str(r.get("result") or "").lower()
+            if res not in ("yes", "no", "scalar"):
+                continue
+            tr = tracked.get(ticker) or {}
+            topic = tr.get("topic") or "other"
+            if topic not in TOPIC_META:
+                continue
+            series_t = tr.get("seriesTicker") or ticker.split("-")[0]
+            resolutions_out.append({
+                "ticker": ticker,
+                "event_ticker": tr.get("eventTicker"),
+                "series_ticker": series_t,
+                "title": _plain(tr.get("title") or ticker),
+                "topic": topic,
+                "result": res,
+                "settlement_value": r.get("settlementValue"),
+                "determined_utc": r.get("settlementTs") or r.get("checkedAt"),
+                "page_url": r.get("sourceUrl") or f"https://external-api.demo.kalshi.co/trade-api/v2/markets/{ticker}",
+                "note": f"Kalshi Demo status={r.get('status')}",
+                "source": "GET /markets/{ticker} (Kalshi Demo API)",
+                "source_url": r.get("sourceUrl") or f"https://external-api.demo.kalshi.co/trade-api/v2/markets/{ticker}",
+            })
+        resolutions_out.sort(key=lambda x: str(x.get("determined_utc") or ""), reverse=True)
+
+    if feed_path.exists():
+        try:
+            feed = json.loads(feed_path.read_text())
+        except json.JSONDecodeError:
+            feed = {}
+        for idx, a in enumerate(feed.get("alerts") or [], start=1000):
+            if a.get("topic") not in TOPIC_META:
+                continue
+            obs_str = a.get("observedAt") or ""
+            try:
+                obs_ts = datetime.fromisoformat(obs_str.replace("Z", "+00:00")).timestamp()
+            except ValueError:
+                obs_ts = float(idx)
+            live_swings_out.append({
+                "id": idx,
+                "ts": obs_ts,
+                "time_utc": obs_str,
+                "ticker": a.get("marketTicker"),
+                "event_ticker": a.get("eventTicker"),
+                "series_ticker": (a.get("marketTicker") or "").split("-")[0] or None,
+                "title": _plain(a.get("title")),
+                "topic": a.get("topic"),
+                "direction": a.get("direction"),
+                "from_price": f"{float(a.get('from') or 0):.4f}",
+                "to_price": f"{float(a.get('to') or 0):.4f}",
+                "delta": f"{float(a.get('delta') or 0):+.4f}",
+                "window_s": None,
+                "confidence": "demo-poll",
+                "score": f"{float(a.get('score') or 0) / 100.0:.3f}",
+                "selective": bool(a.get("eligibleForFilteredFeed")),
+                "page_url": a.get("marketUrl") or "https://docs.kalshi.com/getting_started/orderbook_responses",
+                "orderbook_url": a.get("orderbookUrl"),
+                "cross_depth": a.get("crossDepthContracts"),
+                "reasons": [a.get("note") or "observed >= $0.10 mid-price swing on Kalshi Demo API"],
+                "news": {"status": "settlement_sources", "contract_sources": a.get("settlementSources") or []},
+            })
+
+    if port_path.exists():
+        try:
+            port = json.loads(port_path.read_text())
+        except json.JSONDecodeError:
+            port = {}
+        for p in port.get("positions") or []:
+            if p.get("topic") not in TOPIC_META:
+                continue
+            portfolio_out.append({
+                "ticker": p.get("ticker"),
+                "event_ticker": p.get("eventTicker"),
+                "series_ticker": p.get("seriesTicker"),
+                "title": _plain(p.get("title")),
+                "topic": p.get("topic"),
+                "strategy": p.get("strategyId"),
+                "category": "tail" if p.get("strategyId") == "longshot" else p.get("strategyId"),
+                "side": p.get("side"),
+                "contracts": p.get("contracts"),
+                "entry_price": f"{float(p.get('entryPrice') or 0):.4f}",
+                "entry_fee": f"{float(p.get('entryFee') or 0):.4f}",
+                "fee_multiplier": p.get("feeMultiplier"),
+                "status": p.get("status"),
+                "opened_utc": p.get("openedAt"),
+                "reason": p.get("reason"),
+                "source_url": p.get("feeSource") or "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+                "market_url": f"https://external-api.demo.kalshi.co/trade-api/v2/markets/{p.get('ticker')}",
+            })
+
+    desk_snap = REPO_ROOT / "demo-desk" / "data" / "verified_snapshot.json"
+    if desk_snap.exists():
+        try:
+            ds = json.loads(desk_snap.read_text())
+        except json.JSONDecodeError:
+            ds = {}
+        for ticker, ob in (ds.get("orderbooks") or {}).items():
+            fp = (ob or {}).get("orderbook_fp") or {}
+            yes_levels = [{"side": "yes_bid", "price": str(lv[0]), "contracts": str(lv[1])}
+                          for lv in (fp.get("yes_dollars") or []) if isinstance(lv, list) and len(lv) >= 2]
+            no_levels = [{"side": "no_bid", "price": str(lv[0]), "contracts": str(lv[1]),
+                          "implied_yes_ask": f"{max(0.0, 1.0 - float(lv[0])):.4f}"}
+                         for lv in (fp.get("no_dollars") or []) if isinstance(lv, list) and len(lv) >= 2]
+            if yes_levels or no_levels:
+                orderbook_levels[ticker] = {
+                    "source_url": f"https://external-api.demo.kalshi.co/trade-api/v2/markets/{ticker}/orderbook",
+                    "yes_bids": yes_levels,
+                    "no_bids": no_levels,
+                }
+
+    return {
+        "resolutions": resolutions_out[:60],
+        "live_swings": live_swings_out,
+        "portfolio": portfolio_out,
+        "orderbooks": orderbook_levels,
+    }
+
+
+def _export_tick_series(store: Store, tickers: list[str]) -> dict[str, list[dict]]:
+    out: dict[str, list[dict]] = {}
+    for ticker in tickers:
+        rows = store.ticks(ticker, since_ts=0, limit=120)
+        if rows:
+            out[ticker] = [
+                {
+                    "ts": r.get("ts"),
+                    "time_utc": _iso(r.get("ts")),
+                    "yes_bid": r.get("yes_bid"),
+                    "yes_ask": r.get("yes_ask"),
+                    "last_price": r.get("last_price"),
+                    "liquidity": r.get("liquidity"),
+                    "source": r.get("source"),
+                }
+                for r in rows
+            ]
+    return out
+
+
 def export_from_store(db_path: str | Path, *, limit: int = 400) -> dict:
     store = Store(db_path)
     try:
@@ -131,6 +303,7 @@ def export_from_store(db_path: str | Path, *, limit: int = 400) -> dict:
         alerts = list(reversed(store.list_alerts(limit=200)))
         resolutions = store.list_resolutions(limit=200)
         counts = store.counts()
+        tick_series = _export_tick_series(store, [m.get("ticker") for m in markets if m.get("ticker")])
     finally:
         store.close()
 
@@ -139,6 +312,7 @@ def export_from_store(db_path: str | Path, *, limit: int = 400) -> dict:
         topic = row.get("topic") or "other"
         by_topic.setdefault(topic, []).append(_market_record(row))
 
+    live_art = _load_demo_live_artifacts()
     return {
         "generated_utc": _iso(),
         "provenance": "live",
@@ -150,9 +324,18 @@ def export_from_store(db_path: str | Path, *, limit: int = 400) -> dict:
         ],
         "alerts": [_alert_record(a) for a in alerts],
         "selective_alerts": [_alert_record(a) for a in alerts if a.get("selective")],
-        "resolutions": [_resolution_record(r) for r in resolutions],
-        "portfolio": [],
+        "resolutions": [_resolution_record(r) for r in resolutions] or live_art["resolutions"],
+        "portfolio": live_art["portfolio"],
         "strategy_trades": [],
+        "strategy_catalog": _strategy_catalog(),
+        "tick_series": tick_series,
+        "orderbooks": live_art["orderbooks"],
+        "demo_endpoints": {
+            "rest_primary": "https://external-api.demo.kalshi.co/trade-api/v2",
+            "rest_fallback": "https://demo-api.kalshi.co/trade-api/v2",
+            "ws_primary": "wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2",
+            "ws_fallback": "wss://demo-api.kalshi.co/trade-api/ws/v2",
+        },
         "series_catalog": series_catalog(),
     }
 
@@ -168,14 +351,23 @@ def export_from_replay(*, settings=None) -> dict:
         info = build_replay(store, settings, refresh_lookback=settings.news_lookback_hours)
         markets = store.list_markets(limit=400)
         alerts = list(reversed(store.list_alerts(limit=200)))
-        resolutions = []
         counts = store.counts()
+        tick_series = _export_tick_series(store, [m.get("ticker") for m in markets if m.get("ticker")])
     finally:
         store.close()
 
     by_topic: dict[str, list[dict]] = {t: [] for t in TOPIC_ORDER}
     for row in markets:
         by_topic.setdefault(row.get("topic") or "other", []).append(_market_record(row))
+
+    live_art = _load_demo_live_artifacts()
+    all_alerts = live_art["live_swings"] + [_alert_record(a) for a in alerts]
+    selective_alerts = [a for a in all_alerts if a.get("selective")]
+    resolutions = live_art["resolutions"]
+    counts["alerts"] = len(all_alerts)
+    counts["selective_alerts"] = len(selective_alerts)
+    counts["resolutions"] = len(resolutions)
+    counts["sim_trades"] = len(live_art["portfolio"])
 
     return {
         "generated_utc": _iso(),
@@ -187,11 +379,20 @@ def export_from_replay(*, settings=None) -> dict:
              "basis": TOPIC_META[key]["basis"], "markets": by_topic.get(key, [])}
             for key in TOPIC_ORDER
         ],
-        "alerts": [_alert_record(a) for a in alerts],
-        "selective_alerts": [_alert_record(a) for a in alerts if a.get("selective")],
+        "alerts": all_alerts,
+        "selective_alerts": selective_alerts,
         "resolutions": resolutions,
-        "portfolio": [],
-        "strategy_trades": [],
+        "portfolio": live_art["portfolio"],
+        "strategy_trades": live_art["portfolio"],
+        "strategy_catalog": _strategy_catalog(),
+        "tick_series": tick_series,
+        "orderbooks": live_art["orderbooks"],
+        "demo_endpoints": {
+            "rest_primary": "https://external-api.demo.kalshi.co/trade-api/v2",
+            "rest_fallback": "https://demo-api.kalshi.co/trade-api/v2",
+            "ws_primary": "wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2",
+            "ws_fallback": "wss://demo-api.kalshi.co/trade-api/ws/v2",
+        },
         "series_catalog": series_catalog(),
     }
 

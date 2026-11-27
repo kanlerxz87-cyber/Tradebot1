@@ -6,7 +6,7 @@
 </head><body>
 <header class="top"><div class="wrap">
 <a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
-<nav><a href="index.html">Overview</a><a href="findings.html" class="active">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+<nav><a href="index.html">Overview</a><a href="findings.html" class="active">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
 </div></header>
 <main><div class="wrap">
 
@@ -22,7 +22,7 @@ resolved YES or NO, and runs six simulated strategies with their own portfolios 
 be compared by category.</p>
 
 <h2>2. What was verified</h2>
-<p>32 of 39 recorded facts are backed by an official
+<p>34 of 42 recorded facts are backed by an official
 Kalshi page or an official Kalshi API response. The full list, each with a link, is on the
 <a href="verification.html">Verification page</a>.</p>
 <ul class="tight">
@@ -30,15 +30,20 @@ Kalshi page or an official Kalshi API response. The full list, each with a link,
 and production is <code>https://external-api.kalshi.com/trade-api/v2</code>; the WebSocket hosts are
 <code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code> and
 <code>wss://external-api-ws.kalshi.com/trade-api/ws/v2</code>. <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">[source]</a> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">[source]</a></li>
-<li><strong>Orderbook shape.</strong> The book returns bids only; a YES bid at X equals a NO ask at
-1−X; arrays are ascending, so the best bid is the last element. <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">[source]</a></li>
-<li><strong>Fees.</strong> Taker fee is <code>roundup(0.07 × C × P × (1−P))</code> and maker fee is
-<code>roundup(0.0175 × C × P × (1−P))</code>; there is no settlement fee. This project's fee code
-reproduces all 42 values in Kalshi's published fee table exactly. <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">[source]</a></li>
+<li><strong>Orderbook &amp; Order V2 Unified YES Grid.</strong> The book returns bids only; a YES bid at X
+equals a NO ask at 1−X; arrays are ascending, so the best bid is the last element. Order V2 uses
+<code>bid</code>/<code>ask</code> on a unified YES scale, so buying NO at <code>P_no</code> submits
+<code>side="ask"</code> at <code>1.0000 − P_no</code>, and authenticated requests sign the full
+<code>/trade-api/v2/...</code> path without retrying non-GET writes. <a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">[source]</a> <a href="https://docs.kalshi.com/getting_started/order_direction" target="_blank" rel="noopener">[source]</a></li>
+<li><strong>Fees &amp; Per-Series Multipliers.</strong> Taker fee is <code>roundup(M × 0.07 × C × P × (1−P))</code>
+and maker fee is <code>roundup(M × 0.0175 × C × P × (1−P))</code>; there is no settlement fee. Engine V2
+applies explicit <code>GET /series</code> <code>fee_multiplier</code> overrides plus 31 Non-Standard Fee rows
+from Kalshi's July 7, 2026 schedule PDF, and reproduces all 42 general fee table values. <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">[source]</a> <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">[source]</a></li>
 <li><strong>Taxonomy.</strong> Kalshi publishes 14 categories; <em>Golf</em> is a tag under
 <em>Sports</em>, and <em>Oil &amp; Gas</em> is a tag under <em>Commodities</em>. <a href="https://external-api.kalshi.com/trade-api/v2/search/tags_by_categories" target="_blank" rel="noopener">[source]</a></li>
-<li><strong>Resolution.</strong> A determined market carries <code>result</code> (yes/no) and
-<code>settlement_value_dollars</code>; the lifecycle WebSocket carries the same fields. <a href="https://docs.kalshi.com/websockets/market-and-event-lifecycle" target="_blank" rel="noopener">[source]</a></li>
+<li><strong>Resolution (Binary &amp; Scalar).</strong> A determined market carries <code>result</code>
+(<code>yes</code>, <code>no</code>, or <code>scalar</code>) and <code>settlement_value_dollars</code>;
+scalar settlement pays <code>v</code> to YES and <code>1 − v</code> to NO with zero fee. <a href="https://docs.kalshi.com/websockets/market-and-event-lifecycle" target="_blank" rel="noopener">[source]</a> <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">[source]</a></li>
 </ul>
 
 <h2>3. Findings that change how to read this dashboard</h2>
@@ -97,19 +102,23 @@ one ticker, so they are excluded from single-topic boards. <a href="https://exte
 
 <h2>4. What could not be verified</h2>
 <ul class="tight">
-<li><strong>A signed request against a real Kalshi account.</strong> No demo API key exists in this
-repository, so the signing code is unit-tested but has never authenticated. <span class="tag warn">unverified</span></li>
-<li><strong>The WebSocket handshake.</strong> Documented and implemented, never observed live.
-<span class="tag warn">unverified</span></li>
-<li><strong>Whether Kalshi sends CORS headers.</strong> No official statement found; the static site
-therefore does not call Kalshi from the browser. <span class="tag warn">unverified</span></li>
+<li><strong>A signed request against a live Kalshi demo account in static CI.</strong> No demo API key
+is stored in repository secrets, so demo-account cash and fills remain <code>--</code> on the static build
+until connected to a local Python runner (<code>uvicorn app.main:app</code>). <span class="tag warn">unverified</span></li>
+<li><strong>Authenticated WebSocket streaming in a static browser tab.</strong> Browser
+<code>new WebSocket(url)</code> cannot attach Kalshi's required <code>KALSHI-ACCESS-*</code> headers, so
+unsigned handshakes return HTTP 401; real-time WS streaming runs in <code>app/ws.py</code>. <span class="tag warn">unverified</span></li>
 </ul>
 
 <h2>5. Irregularities affecting the numbers</h2>
 <ul class="tight">
-<li><strong>Per-series fee multipliers are not applied.</strong> The simulator uses the general
-0.07 / 0.0175 rates; series the schedule marks 0 (e.g. <code>KXBTCY</code>) would be overcharged in
-simulation. <span class="tag bad">flagged</span></li>
+<li><strong>Browser CORS is asymmetric.</strong> Public GET reads on both
+<code>external-api.demo.kalshi.co</code> and <code>demo-api.kalshi.co</code> return
+<code>Access-Control-Allow-Origin</code> (powering <a href="live.html">live.html</a>), whereas
+<code>OPTIONS</code> preflight omits <code>KALSHI-ACCESS-*</code> headers for signed portfolio/order calls. <a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">[source]</a> <span class="tag bad">flagged</span></li>
+<li><strong>Residual per-series fee schedule rows.</strong> Engine V2 encodes 31 unambiguous Non-Standard
+Fee rows from the July 7, 2026 PDF and honors API <code>fee_multiplier</code>, but interleaved PDF rows
+from <code>KXMVE</code> onward fall back to <code>M = 1</code> when the API omits <code>fee_multiplier</code>. <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">[source]</a> <span class="tag bad">flagged</span></li>
 <li><strong>The fee rebate accumulator is not modelled.</strong> Simulated P&amp;L can differ from
 the exchange by fractions of a cent per fill. <span class="tag bad">flagged</span></li>
 <li><strong>The demo golf event had already passed its stated expiry</strong> while still listing as
@@ -117,14 +126,33 @@ active. Closing times are shown rather than assumed. <span class="tag bad">flagg
 </ul>
 <p>All of these are published with source links on <a href="flagged.html">Flagged for review</a>.</p>
 
-<h2>6. How to use it</h2>
+<h2>6. Trader UX &amp; Live Architecture Recommendations</h2>
+<ul class="tight">
+<li><strong>Hybrid Live + Signed Relay:</strong> Keep unauthenticated public polling directly in the
+browser for zero-latency topic/orderbook inspection on GitHub Pages (<a href="live.html">Live chart &amp; chat</a>),
+and pair with a lightweight Cloudflare Worker or local FastAPI relay (<code>uvicorn app.main:app</code>)
+holding demo RSA-PSS/Ed25519 keys so WebSockets (<code>ticker</code>, <code>orderbook_delta</code>,
+<code>market_lifecycle_v2</code>) push sub-second updates over SSE.</li>
+<li><strong>Decision-First Simplified Charts:</strong> Show executable YES ask / YES bid bands rather
+than misleading empty-book midpoints, overlay <code>|Δprice| ≥ $0.10</code> catalyst pins directly on the
+price curve, and display crossable contract depth within 5c/10c next to the ticket so traders see slippage
+before sizing an order.</li>
+<li><strong>Strict 5-Topic Discipline:</strong> Keep Gas, Elections, Culture, Crypto, and Golf isolated in
+separate ranked tables sorted by 24h dollar/contract volume, auto-quarantining <code>KXMVE*</code>
+multivariate parlays and quote-only 99c spreads so noise never drowns real repricings.</li>
+</ul>
+
+<h2>7. How to use it</h2>
 <ol class="tight">
-<li>Pick a topic. Each topic page lists every captured entry in one table, with the price, both sides
-of the book, volume, open interest and a source link.</li>
-<li>Watch the two alert feeds: <em>all events</em> (every ≥$0.10 move) and <em>high ROI</em> (the same
-moves, filtered by a trade-quality score).</li>
-<li>Compare strategies on the portfolio view: each strategy is a distinct trade category with its own
-starting balance, so returns are comparable.</li>
+<li>Open <a href="live.html">Live chart &amp; chat</a> to poll Kalshi Demo REST endpoints live, inspect
+the Seconds / Minutes / Hours price curve and orderbook depth bars, and monitor both scrolling ≥$0.10
+alert chats.</li>
+<li>Pick a topic (<a href="gas.html">Gas</a>, <a href="elections.html">Elections</a>,
+<a href="culture.html">Culture</a>, <a href="crypto.html">Crypto</a>, <a href="golf.html">Golf</a>) to
+audit every captured contract with official source links.</li>
+<li>Compare the six trade-type categories and build custom paper rules on
+<a href="portfolio.html">Portfolio &amp; strategies</a>, and verify settled outcomes on
+<a href="resolutions.html">Resolutions</a>.</li>
 <li>Check <a href="flagged.html">Flagged for review</a> before relying on any specific figure.</li>
 </ol>
 
