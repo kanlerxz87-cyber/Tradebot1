@@ -71,9 +71,17 @@ jobs:
             echo "No change to commit."
             exit 0
           fi
+          node scripts/build-site.mjs
+          node scripts/check-links.mjs
+          git add data/live \
+            board.html dashboard.html markets.html market.html portfolio.html \
+            strategies.html demo-account.html executive-summary.html sources.html \
+            methodology.html suggestions.html flagged.html api.html 404.html \
+            categories/gas.html categories/elections.html categories/culture.html \
+            categories/crypto.html categories/golf.html
           git commit -m "data: live demo capture $(date -u +%Y-%m-%dT%H:%M:%SZ)"
           for attempt in 1 2 3; do
-            if git pull --rebase --autostash origin main && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
               exit 0
             fi
             echo "push attempt $attempt failed; retrying"
