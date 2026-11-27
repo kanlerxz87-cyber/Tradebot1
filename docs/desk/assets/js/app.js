@@ -10,7 +10,7 @@
 
   const DATA = (window.SITE_DATA_PREFIX || "data/");
   const environment = window.KalshiDemoEnvironment;
-  const apiBase = () => environment ? environment.restBase(window.KALSHI_API_BASE) : null;
+  const apiBase = () => environment ? environment.restBase(window.KALSHI_API_BASE || (state.latest && state.latest.rest_base)) : null;
   const THRESHOLD = 0.10;
   const RANGES = [
     { id: "30s", label: "30s", seconds: 30 },
@@ -208,7 +208,7 @@
     const topics = latest.topics || {};
     const totalNotional = Object.values(topics).reduce((sum, t) => sum + (t.notional_24h_est || 0), 0);
     const totalOi = Object.values(topics).reduce((sum, t) => sum + (t.open_interest || 0), 0);
-    const perf = latest.performance ? latest.performance.headline : {};
+    const perf = (latest.performance && latest.performance.headline) || {};
     const alertsToday = state.alerts.filter((a) => Date.now() - Date.parse(a.iso || 0) < 86400000).length;
     const picks = (latest.picks || []).length;
 
@@ -458,8 +458,8 @@
       const noSorted = no.sort((a, b) => a.price - b.price);
       const normalized = {
         yes_bids: yesSorted.slice().reverse().slice(0, 8),
-        yes_asks: noSorted.slice().reverse().map((l) => ({ price: 1 - l.price, contracts: l.contracts })).slice(0, 8),
-        spread: yesSorted.length && noSorted.length ? (1 - noSorted[noSorted.length - 1].price) - yesSorted[yesSorted.length - 1].price : null,
+        yes_asks: noSorted.slice().reverse().map((l) => ({ price: Number((1 - l.price).toFixed(4)), contracts: l.contracts })).slice(0, 8),
+        spread: yesSorted.length && noSorted.length ? Number(((1 - noSorted[noSorted.length - 1].price) - yesSorted[yesSorted.length - 1].price).toFixed(4)) : null,
         yes_depth_contracts: yes.reduce((s, l) => s + l.contracts, 0),
         no_depth_contracts: no.reduce((s, l) => s + l.contracts, 0),
       };
@@ -495,6 +495,16 @@
   function alertMarkup(alert, opts) {
     const dir = alert.direction === "up" ? "up" : "down";
     const model = alert.model || {};
+    const reasons = Array.isArray(model.reasons) ? model.reasons.filter(Boolean) : [];
+    const meta = [];
+    if (model.score !== undefined && model.score !== null) meta.push(`Score ${Number(model.score).toFixed(2)}`);
+    if (model.direction) meta.push(`Side ${esc(String(model.direction).toUpperCase())}`);
+    if (model.roi_pct_est !== undefined && model.roi_pct_est !== null) meta.push(`Est. ROI ${signed(model.roi_pct_est, 1)}%`);
+    const parts = [];
+    if (meta.length) parts.push(`<div><b>${meta.join(" · ")}</b>${model.eligible === true ? ' <span class="chip ok">eligible</span>' : ""}</div>`);
+    if (reasons.length) parts.push(`<div>${reasons.map((r) => esc(r)).join(" · ")}</div>`);
+    if (model.note) parts.push(`<div class="small">${esc(model.note)}</div>`);
+    const why = parts.join("");
     return `
       <div class="msg" data-alert="${esc(alert.id)}">
         <div class="ts">${clock(alert.iso)}<br><span style="font-size:9.5px">UTC</span></div>
@@ -586,7 +596,7 @@
     if (!host) return;
     const paper = state.paper;
     if (!paper) { host.innerHTML = '<div class="empty">No paper ledger yet.</div>'; return; }
-    const perf = paper.summary || (state.latest ? state.latest.performance.summary : {}) || {};
+    const perf = paper.summary || (state.latest && state.latest.performance && state.latest.performance.summary) || {};
     const head = paper.headline || {};
     host.innerHTML = `
       <div class="grid kpi" style="grid-template-columns:repeat(auto-fit,minmax(150px,1fr))">
@@ -747,9 +757,13 @@
         const payload = await res.json();
         const found = (payload.markets || []).find((m) => m.ticker === market.ticker);
         if (!found) return;
-        const price = found.yes_bid_dollars !== undefined && found.yes_ask_dollars !== undefined
-          ? (Number(found.yes_bid_dollars) + Number(found.yes_ask_dollars)) / 2
-          : Number(found.last_price_dollars || 0);
+        const bid = found.yes_bid_dollars !== undefined && found.yes_bid_dollars !== "" ? Number(found.yes_bid_dollars) : null;
+        const askRaw = found.yes_ask_dollars !== undefined && found.yes_ask_dollars !== "" ? Number(found.yes_ask_dollars) : null;
+        const noBid = found.no_bid_dollars !== undefined && found.no_bid_dollars !== "" ? Number(found.no_bid_dollars) : null;
+        const ask = (askRaw !== null && !(askRaw >= 1 && !noBid)) ? askRaw : null;
+        const price = (bid !== null && ask !== null && ask >= bid)
+          ? (bid + ask) / 2
+          : Number(found.last_price_dollars || bid || 0);
         const ts = Math.floor(Date.now() / 1000);
         const series = state.history[market.ticker] || (state.history[market.ticker] = []);
         const prev = series.length ? series[series.length - 1][1] : null;

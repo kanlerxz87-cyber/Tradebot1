@@ -21,7 +21,7 @@ export function topicFor(event) {
   if (/\b(elections?|electoral|presidential nominee|presidential nomination|democratic nominee|republican nominee)\b/.test(words)) matches.add('elections');
   if (category === 'crypto' || /\b(bitcoin|ethereum|cryptocurrency|crypto)\b/.test(words)) matches.add('crypto');
   if (/\b(golf|pga|lpga|ryder cup)\b/.test(words)) matches.add('golf');
-  if (category === 'culture' || /\b(grammy|oscars?|emmy|box office|movie|album|celebrity)\b/.test(words)) matches.add('culture');
+  if (category === 'culture' || category === 'entertainment' || category === 'social' || /\b(grammy|oscars?|emmy|box office|movie|album|celebrity|game awards?)\b/.test(words)) matches.add('culture');
   return matches.size === 1 ? [...matches][0] : null;
 }
 export function numeric(value) {

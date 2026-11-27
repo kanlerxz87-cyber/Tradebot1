@@ -108,12 +108,18 @@ def check_python(name: str) -> str:
             f"{'min_settled_ts' in params},{'min_close_ts' in params},"
             f"{type(params.get('min_settled_ts')).__name__}"
         )
+    if name == "zero_dollar_quote":
+        from kalshi_trader.marketdata import normalize_market
+
+        row = normalize_market({"ticker": "ZERO-TEST", "yes_bid_dollars": "0.0000", "yes_bid": 42})
+        return str(row["yes_bid"])
     raise AuditError(f"unknown python check {name}")
 
 
 EXPECTED = {
     ("python", "sentinel_mid"): "null,0.3",
     ("python", "settled_sweep"): "True,False,int",
+    ("python", "zero_dollar_quote"): "0.0",
 }
 
 

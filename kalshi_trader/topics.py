@@ -201,6 +201,8 @@ def compact_series(series: dict[str, Any], topic: str | None = None) -> dict[str
         "frequency": series.get("frequency"),
         "topic": topic,
         "volume": _to_float(series.get("volume_fp")),
+        "fee_type": series.get("fee_type"),
+        "fee_multiplier": _to_float(series.get("fee_multiplier")),
         "contract_url": series.get("contract_url"),
         "contract_terms_url": series.get("contract_terms_url"),
         "settlement_sources": [

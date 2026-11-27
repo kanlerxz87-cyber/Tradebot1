@@ -17,7 +17,7 @@
 
 <section class="hero tight">
   <p class="tag">Flagged for review</p>
-  <h1>5 items that are proved but not corrected here, or cannot be proved at all</h1>
+  <h1>3 items that are proved but not corrected here, or cannot be proved at all</h1>
   <p class="lede">Nothing on this page blocks publication, and nothing on it is silently smoothed over: each
   item says what is wrong, who it affects, which official page decides it, and what would fix it. Items that
   need a credential, a browser or an API call this session could not make are listed with that reason rather
@@ -33,15 +33,6 @@
   
   <p class="src"><strong>How to check:</strong> Compare the table's 100-contract column with Fee Rounding's worked examples. A direct member's net fee on 100 contracts at $0.05 is $0.3325 before balance alignment, not $0.34.</p>
 </article>
-<article class="finding" id="AUD-07">
-  <header><span class="mono id">AUD-07</span> <span class="pill sev-low">low</span>
-    <h3>A topic comment disagrees with the same session's own captured probe</h3></header>
-  <p>tools/topics.mjs says the Culture discovery request returns 'exactly 1 series (KXXBANNEDGROK)'. The probe recorded in data/snapshot.json for the same request against the same demo root returns two: KXXBANNEDGROK and KXXBANNEDMURRAYHILLGUY1. A reader tracing the rule by hand would think the rule was broken.</p>
-  <p><strong>Impact.</strong> Documentation only: the code and the capture agree with each other, the comment does not.</p>
-  <p class="src"><strong>Deciding source:</strong> <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/topics.mjs" target="_blank" rel="noopener noreferrer">tools/topics.mjs — the comment</a> · <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/snapshot.json" target="_blank" rel="noopener noreferrer">data/snapshot.json — discoveryProbes, the capture it disagrees with</a></p>
-  <p class="src"><strong>Why there is no official source.</strong> No official Kalshi page speaks to this: it is an internal disagreement between a comment and a capture taken from the same endpoint. The official statement underneath both is VF-01 (the demo root), which is why the comparison is possible at all.</p>
-  <p class="src"><strong>How to check:</strong> Read the Culture probe in data/snapshot.json -&gt; discoveryProbes and compare with the header comment in tools/topics.mjs.</p>
-</article>
 <article class="finding" id="AUD-10">
   <header><span class="mono id">AUD-10</span> <span class="pill sev-low">low</span>
     <h3>Two sessions disagree about Culture, and both are right about different roots</h3></header>
@@ -50,15 +41,6 @@
   <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener noreferrer">VF-01</a></p>
   
   <p class="src"><strong>How to check:</strong> Read discoveryProbes in data/snapshot.json (root recorded per probe) next to docs/desk/topics/culture.html (production catalogue).</p>
-</article>
-<article class="finding" id="AUD-12">
-  <header><span class="mono id">AUD-12</span> <span class="pill sev-low">low</span>
-    <h3>or-fallbacks hide a genuine zero quote behind the legacy field</h3></header>
-  <p>Values are read as first_float(...) or price_from_cents(...). A leg whose real fixed-point value is 0.0 is falsy, so the reader falls through to the legacy cent field, which may be absent (None) or stale. The result is None or an old price where the true value is zero.</p>
-  <p><strong>Impact.</strong> Low: zero prices are the boundary of the book, and downstream guards treat them as an empty side anyway. It is still the wrong way to choose between two representations.</p>
-  <p class="src"><strong>Deciding source:</strong> <a href="https://docs.kalshi.com/getting_started/fixed_point_migration" target="_blank" rel="noopener noreferrer">VF-09</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets" target="_blank" rel="noopener noreferrer">VF-13</a></p>
-  
-  <p class="src"><strong>How to check:</strong> normalize_market({'yes_bid_dollars': '0.0000', 'yes_bid': 42}) returns 0.42, not 0.0. Use an explicit None check instead of `or`.</p>
 </article>
 <article class="finding" id="AUD-13">
   <header><span class="mono id">AUD-13</span> <span class="pill sev-info">info</span>
@@ -76,7 +58,7 @@ individual dashboards' own review pages, where they were first raised.</p>
 </main>
 <footer class="wrap">
   <p>Read against <strong>23 official statements</strong> checked on 2026-11-22:
-  6 finding(s) fixed and re-checked, 5 published as open,
+  8 finding(s) fixed and re-checked, 3 published as open,
   2 earlier flag withdrawn. Demo and paper trading only; no production order path exists in this repository.</p>
   <p><a href="https://github.com/kanlerxz87-cyber/Tradebot1">Repository</a> ·
      <a href="../desk/flagged.html">Desk flags</a> ·

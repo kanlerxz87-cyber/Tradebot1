@@ -184,8 +184,13 @@ class PaperLedger:
             self._record_rejection(market.get("ticker", ""), strategy_id, "size rounded to zero", now)
             return None
 
+        raw_mult = market.get("fee_multiplier")
+        multiplier = (
+            float(raw_mult)
+            if raw_mult is not None
+            else fee_mod.series_multiplier(market.get("series_ticker"), "taker")
+        )
         cost = round(contracts * price, 2)
-        multiplier = fee_mod.series_multiplier(market.get("series_ticker"), "taker")
         fee = fee_mod.taker_fee(
             contracts, price, self.settings.fee_model, multiplier=multiplier
         )
@@ -217,6 +222,7 @@ class PaperLedger:
             "entry_iso": _now_iso(),
             "cost": cost,
             "entry_fee": fee,
+            "fee_multiplier": multiplier,
             "target_move": strategy.target_move,
             "stop_move": strategy.stop_move,
             "timeout_hours": strategy.timeout_hours,
@@ -254,16 +260,23 @@ class PaperLedger:
                 return None
             exit_price = 1.0 if result == side else 0.0
             fee = 0.0
+            multiplier = float(position.get("fee_multiplier", 1.0))
         else:
             if market is None:
                 return None
             exit_price = _mark_price(market, side, position["entry_price"])
+            raw_mult = market.get("fee_multiplier")
+            multiplier = (
+                float(raw_mult)
+                if raw_mult is not None
+                else fee_mod.series_multiplier(position.get("series_ticker"), "taker")
+            )
             # The published series multiplier applies to the exit fill too.
             fee = fee_mod.taker_fee(
                 contracts,
                 exit_price,
                 self.settings.fee_model,
-                multiplier=fee_mod.series_multiplier(position.get("series_ticker"), "taker"),
+                multiplier=multiplier,
             )
             if exit_price <= 0:
                 fee = 0.0  # nothing to sell into at $0
@@ -301,6 +314,7 @@ class PaperLedger:
             "api_url": position.get("api_url"),
             "series_page_url": position.get("series_page_url"),
             "fee_model": self.state.get("fee_model"),
+            "fee_multiplier": multiplier,
         }
         self.state["cash"] = round(self.cash + proceeds - fee, 2)
         del self.positions[key]
@@ -322,8 +336,9 @@ class PaperLedger:
             position["last_mark"] = _mark_price(market, position["side"], position["entry_price"])
             position["last_mark_ts"] = now
 
-            # Settlement always wins over price rules.
-            if market.get("result") in {"yes", "no"}:
+            # Settlement always wins over price rules, once finalized (or in fixtures without status).
+            status = str(market.get("status") or "").lower()
+            if market.get("result") in {"yes", "no"} and status in {"", "finalized", "settled"}:
                 trade = self.close_position(key, market, now, f"settled {market['result'].upper()}", settle=True)
                 if trade:
                     closed.append(trade)
@@ -386,6 +401,8 @@ def run_cycle(
     scored: dict[str, dict[str, Any]],
     alerts: list[dict[str, Any]],
     now: int,
+    *,
+    extra_markets: Iterable[dict[str, Any]] = (),
 ) -> dict[str, Any]:
     """One autonomous decision cycle.
 
@@ -394,8 +411,13 @@ def run_cycle(
     """
     market_list = list(markets)
     by_ticker = {m["ticker"]: m for m in market_list if m.get("ticker")}
+    exit_universe = dict(by_ticker)
+    for m in extra_markets:
+        ticker = m.get("ticker")
+        if ticker and ticker not in exit_universe:
+            exit_universe[ticker] = m
 
-    closed = ledger.mark_and_exit(by_ticker, now)
+    closed = ledger.mark_and_exit(exit_universe, now)
     opened: list[dict[str, Any]] = []
 
     # 1. Alert-driven entries (highest priority).

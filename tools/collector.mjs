@@ -78,14 +78,13 @@ async function main() {
     seriesByTopic[topic.id] = [];
     discovery[topic.id] = { topic: topic.id, rules: [], seriesFound: 0, seriesRead: 0, errors: [] };
     for (const rule of topic.discovery) {
-      const url = rule.kind === 'series-tags'
-        ? new URL(`${client.root}/series?tags=${encodeURIComponent(rule.value)}`).toString()
-        : new URL(`${client.root}/series?category=${encodeURIComponent(rule.value)}`).toString();
+      const query = rule.kind === 'series-tags'
+        ? { tags: rule.value, include_volume: true }
+        : { category: rule.value, ...(rule.tags ? { tags: rule.tags } : {}), include_volume: true };
+      const url = new URL(`${client.root}/series?${new URLSearchParams(Object.entries(query).map(([k, v]) => [k, String(v)])).toString()}`).toString();
       let found = [];
       try {
-        const res = rule.kind === 'series-tags'
-          ? await client.listSeries({ tags: rule.value })
-          : await client.listSeries({ category: rule.value });
+        const res = await client.listSeries(query);
         found = res.series ?? [];
         log(`discovery ${topic.id} ${rule.kind}=${rule.value}: ${found.length} series`);
       } catch (err) {
@@ -97,13 +96,19 @@ async function main() {
       for (const s of found) {
         const mapped = topicForSeries(s);
         if (mapped !== topic.id) continue;
-        if (seriesByTopic[topic.id].some((x) => x.ticker === s.ticker)) continue;
+        const vol = num(s.volume_fp) ?? num(s.volume) ?? 0;
+        const existing = seriesByTopic[topic.id].find((x) => x.ticker === s.ticker);
+        if (existing) {
+          existing.volume = Math.max(existing.volume ?? 0, vol);
+          continue;
+        }
         seriesByTopic[topic.id].push({
           ticker: s.ticker,
           title: s.title ?? '',
           category: s.category ?? '',
           categories: s.categories ?? [],
           tags: s.tags ?? [],
+          volume: vol,
           feeType: s.fee_type ?? '',
           feeMultiplier: s.fee_multiplier ?? null,
           frequency: s.frequency ?? '',
@@ -111,11 +116,13 @@ async function main() {
           sourceUrl: seriesSourceUrl(s.ticker),
         });
       }
+      seriesByTopic[topic.id].sort((a, b) => (b.volume ?? 0) - (a.volume ?? 0));
       discovery[topic.id].seriesFound = seriesByTopic[topic.id].length;
     }
   }
 
-  // 3. markets + resolutions
+  // 3. markets + resolutions (balanced across highest-volume series per topic)
+  const portfolio = await loadJson(PORTFOLIO_FILE, defaultPortfolio());
   const markets = [];
   const coverage = {};
   for (const topic of TOPICS) {
@@ -131,8 +138,8 @@ async function main() {
       marketCapReached: false,
       errors: discovery[topic.id].errors,
     };
+    const perSeriesQueues = [];
     for (const s of series) {
-      if (markets.filter((m) => m.topic === topic.id).length >= MAX_MARKETS_PER_TOPIC) { coverage[topic.id].marketCapReached = true; break; }
       let open = [];
       try {
         const res = await client.listMarkets({ series_ticker: s.ticker, status: 'open', limit: 100 });
@@ -143,24 +150,52 @@ async function main() {
         continue;
       }
       if (open.length) coverage[topic.id].seriesWithOpenMarkets += 1;
-      for (const m of open) {
-        if (markets.filter((x) => x.topic === topic.id).length >= MAX_MARKETS_PER_TOPIC) { coverage[topic.id].marketCapReached = true; break; }
-        markets.push(toMarketRow(m, topic.id, s));
-      }
       coverage[topic.id].marketsOpen += open.length;
+      const ranked = open
+        .map((m) => toMarketRow(m, topic.id, s))
+        .sort((a, b) => (b.volume24h ?? b.openInterest ?? 0) - (a.volume24h ?? a.openInterest ?? 0));
+      if (ranked.length) perSeriesQueues.push(ranked);
     }
+    const picked = [];
+    for (let idx = 0; picked.length < MAX_MARKETS_PER_TOPIC; idx += 1) {
+      let added = false;
+      for (const q of perSeriesQueues) {
+        if (idx < q.length) {
+          picked.push(q[idx]);
+          added = true;
+          if (picked.length >= MAX_MARKETS_PER_TOPIC) {
+            coverage[topic.id].marketCapReached = true;
+            break;
+          }
+        }
+      }
+      if (!added) break;
+    }
+    if (coverage[topic.id].marketsOpen > picked.length) coverage[topic.id].marketCapReached = true;
+    markets.push(...picked);
   }
 
-  // Resolve anything still being tracked, including markets that dropped out of
-  // the open list. This is what "follow events until they resolve" means here.
-  const trackedTickers = new Set(Object.keys(state.tracked ?? {}));
-  for (const m of markets) trackedTickers.add(m.ticker);
+  // Resolve anything still being tracked, prioritizing open simulated positions and
+  // non-finalized markets that dropped out of the open list.
+  const openMarketSet = new Set(markets.map((m) => m.ticker));
+  const openPositionTickers = portfolio.positions.filter((p) => p.status === 'open').map((p) => p.ticker);
+  const trackedRecent = Object.entries(state.tracked ?? {})
+    .sort((a, b) => String(b[1]?.lastSeenAt ?? '').localeCompare(String(a[1]?.lastSeenAt ?? '')))
+    .map(([ticker]) => ticker);
+  const isFinalized = (ticker) => {
+    const prev = state.resolutions?.[ticker];
+    return prev && prev.status === 'finalized' && (prev.result === 'yes' || prev.result === 'no');
+  };
+  const prioritized = [];
+  const seenQueue = new Set();
+  for (const ticker of [...openPositionTickers, ...trackedRecent]) {
+    if (!ticker || seenQueue.has(ticker) || openMarketSet.has(ticker) || isFinalized(ticker)) continue;
+    seenQueue.add(ticker);
+    prioritized.push(ticker);
+  }
   const resolutions = {};
-  const resolutionQueue = [...trackedTickers].slice(0, MAX_TRACKED_RESOLUTIONS + markets.length);
+  const resolutionQueue = prioritized.slice(0, Math.max(MAX_TRACKED_RESOLUTIONS, openPositionTickers.length));
   for (const ticker of resolutionQueue) {
-    const existing = resolutions[ticker];
-    if (existing) continue;
-    if (markets.some((m) => m.ticker === ticker)) continue; // already have fresh data
     try {
       const res = await client.getMarket(ticker);
       const m = res.market;
@@ -198,6 +233,7 @@ async function main() {
       ticker: m.ticker,
       marketTicker: m.ticker,
       eventTicker: m.eventTicker,
+      seriesTicker: m.seriesTicker,
       title: m.title,
       topic: m.topic,
       yesBid: m.yesBid,
@@ -311,14 +347,13 @@ async function main() {
       orderbookUrl: obs.orderbookUrl ?? null,
       // No cause is claimed. The sources the exchange itself names for the
       // contract are the only links offered as "where to look".
-      settlementSources: seriesByTopic[obs.topic]?.find((s) => s.ticker === obs.eventTicker?.split('-')[0])?.settlementSources ?? [],
+      settlementSources: seriesByTopic[obs.topic]?.find((s) => s.ticker === (obs.seriesTicker || obs.eventTicker?.split('-')[0]))?.settlementSources ?? [],
       note: 'observed difference between two consecutive polls of the demo order book mid-price; no cause is inferred',
     });
   }
   log(`new alerts this cycle: ${newAlerts.length}`);
 
   // 7. simulated trading
-  const portfolio = await loadJson(PORTFOLIO_FILE, defaultPortfolio());
   const openByTicker = new Map(portfolio.positions.filter((p) => p.status === 'open').map((p) => [p.ticker, p]));
   let opened = 0;
   for (const obs of observations) {
@@ -358,15 +393,16 @@ async function main() {
   let settled = 0;
   for (const p of portfolio.positions) {
     if (p.status !== 'open') continue;
-    const r = resolutions[p.ticker];
-    if (r && ['determined', 'finalized'].includes(r.status) === false && r.status !== 'unknown') { /* still open */ }
+    const r = resolutions[p.ticker] ?? state.resolutions?.[p.ticker];
     if (r && (r.result === 'yes' || r.result === 'no') && r.status === 'finalized') {
       const done = settlePosition(p, { status: 'finalized', result: r.result }, nowIso);
       if (done) { Object.assign(p, done); settled += 1; continue; }
     }
     const obs = observations.find((o) => o.ticker === p.ticker);
-    if (obs && obs.book) {
-      const m = markToMarket(p, { yesBid: obs.book.bestYesBid, noBid: obs.book.bestNoBid });
+    if (obs) {
+      const yesBid = obs.book ? obs.book.bestYesBid : obs.yesBid;
+      const noBid = obs.book ? obs.book.bestNoBid : obs.noBid;
+      const m = markToMarket(p, { yesBid, noBid });
       if (m) Object.assign(p, { markedAt: nowIso, ...m });
     }
   }

@@ -1,109 +1,25 @@
 {
-  "generated_at": "2026-11-27T19:49:48Z",
+  "generated_at": "2026-11-27T19:57:16Z",
   "counts": {
     "error": 0,
-    "warn": 4,
-    "info": 7
+    "warn": 2,
+    "info": 4
   },
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
-    "docs/desk latest.json: 300 rows, price bounds",
-    "docs/desk/data/alerts.json: 10 alerts",
-    "docs/desk/data/history.json: 76 tracked series, sample length 34",
+    "docs/desk latest.json: 0 rows, price bounds",
+    "docs/desk/data/alerts.json: 0 alerts",
     "data/snapshot.json: 8 markets",
     "board data/snapshot.json: 8 rows, price bounds",
     "data/account.json: connected=False",
     "docs/data/snapshot.json: 28 events, partial=True",
     "monitor docs/data/snapshot.json: 207 rows, price bounds",
     "74 HTML pages, 1361 internal references",
-    "tracked files: 354, bytecode/cache artefacts: 0",
+    "tracked files: 414, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 5097 paths"
+    "secret scan: 6978 paths"
   ],
   "findings": [
-    {
-      "id": "BOOK-1",
-      "severity": "warn",
-      "code": "BOOK",
-      "title": "Published ladder is a partial view of the book",
-      "detail": "The reported total depth is larger than the sum of the levels printed in the same payload, and one row's top-of-book total disagrees with its first level. The ladder is monotonic and every level is within $0.00-$1.00, so this is a display-truncation issue rather than a corrupt quote \u2014 but a page must not print the ladder total and the depth total as if they were the same number.",
-      "count": 8,
-      "examples": [
-        {
-          "ticker": "KXAAAGASW-26NOV30-3.4800",
-          "problems": [
-            "yes_depth_contracts 13347.43 != ladder sum 13274.25"
-          ]
-        },
-        {
-          "ticker": "KXGAMEAWARDS-2026-GTA",
-          "problems": [
-            "yes_depth_contracts 36820.48 != ladder sum 36677.89"
-          ]
-        },
-        {
-          "ticker": "KXBTCD-26NOV2717-T59999.99",
-          "problems": [
-            "yes_depth_contracts 56015.26 != ladder sum 55954.26"
-          ]
-        },
-        {
-          "ticker": "KXBTCD-26NOV2717-T57999.99",
-          "problems": [
-            "yes_depth_contracts 62484.23 != ladder sum 62432.23"
-          ]
-        },
-        {
-          "ticker": "KXBTCD-26NOV2717-T57499.99",
-          "problems": [
-            "yes_depth_contracts 57087.44 != ladder sum 53849.53"
-          ]
-        },
-        {
-          "ticker": "KXBTCD-26NOV2717-T60499.99",
-          "problems": [
-            "yes_depth_contracts 52595.61 != ladder sum 52502.41"
-          ]
-        }
-      ],
-      "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "action": "Recompute from the raw payload or blank the derived field."
-    },
-    {
-      "id": "STATUS-1",
-      "severity": "info",
-      "code": "STATUS",
-      "title": "Status values match the documented lifecycle",
-      "detail": "Observed: active. The lifecycle page lists these statuses and maps the open/settled request filters onto active/finalized.",
-      "count": 1,
-      "examples": [
-        "active"
-      ],
-      "source": "https://docs.kalshi.com/getting_started/market_lifecycle",
-      "action": ""
-    },
-    {
-      "id": "PROVENANCE-1",
-      "severity": "warn",
-      "code": "PROVENANCE",
-      "title": "Research-desk capture comes from the production root",
-      "detail": "rest_base is https://external-api.kalshi.com/trade-api/v2, while the brief asks for the demo environment and the Node board's capture uses the demo root. Production and demo catalogues and quotes differ (https://docs.kalshi.com/getting_started/demo_env), so a page mixing the two must say which is which.",
-      "count": 0,
-      "examples": [],
-      "source": "docs/desk/data/latest.json",
-      "action": "Label the environment on every page that renders this capture, as the live desk does in /api/meta."
-    },
-    {
-      "id": "MISSING-1",
-      "severity": "info",
-      "code": "MISSING",
-      "title": "docs/desk/data/positions.json not present",
-      "detail": "Dataset is absent on this branch; its checks were skipped.",
-      "count": 0,
-      "examples": [],
-      "source": "docs/desk/data/positions.json",
-      "action": ""
-    },
     {
       "id": "EXTERNAL-1",
       "severity": "info",
@@ -171,21 +87,10 @@
       "action": "Cite the section heading or a stable quote instead of a line number, or exclude the reference from the staleness comparison."
     },
     {
-      "id": "FRESH-1",
-      "severity": "info",
-      "code": "FRESH",
-      "title": "docs/desk/data/latest.json captured 2026-11-27T12:51:13Z",
-      "detail": "6.98 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
-      "count": 0,
-      "examples": [],
-      "source": "docs/desk/data/latest.json",
-      "action": ""
-    },
-    {
       "id": "STALE-1",
       "severity": "warn",
       "code": "STALE",
-      "title": "data/snapshot.json is 132.8 h old",
+      "title": "data/snapshot.json is 133.0 h old",
       "detail": "Timestamp 2026-11-22T07:00:00Z. Anything rendered from it is a historical snapshot, not a live quote.",
       "count": 0,
       "examples": [],

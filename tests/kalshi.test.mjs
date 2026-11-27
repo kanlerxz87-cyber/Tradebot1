@@ -118,8 +118,23 @@ test('topics map from the series fields the API actually returns', () => {
   assert.equal(topicForSeries({ category: 'Crypto' }), 'crypto');
   assert.equal(topicForSeries({ category: 'Elections' }), 'elections');
   assert.equal(topicForSeries({ category: 'Culture' }), 'culture');
+  assert.equal(topicForSeries({ category: 'Entertainment' }), 'culture');
+  assert.equal(topicForSeries({ category: 'Social' }), 'culture');
   assert.equal(topicForSeries({ category: 'Sports', tags: ['Golf'] }), 'golf');
   assert.equal(topicForSeries({ category: 'Economics', tags: ['Gas'] }), 'gas');
+  assert.equal(topicForSeries({
+    ticker: 'KXAAAGASM',
+    category: 'Economics',
+    tags: ['Oil & Gas', 'Oil and energy'],
+    title: 'US gas price, monthly',
+    product_metadata: { scope: 'Gasoline' },
+  }), 'gas');
+  assert.equal(topicForSeries({
+    ticker: 'KXWTIW',
+    category: 'Economics',
+    tags: ['Oil and energy'],
+    title: 'WTI Crude Oil weekly',
+  }), null);
   assert.equal(topicForSeries({ category: 'Sports', tags: ['NFL'] }), null);
   // A word in a title must not be enough. An Elections series whose title
   // mentions gas routes to Elections, never to gas.

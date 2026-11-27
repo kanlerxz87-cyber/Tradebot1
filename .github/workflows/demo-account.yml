@@ -18,7 +18,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: demo-account-snapshot
+  group: main-writers
   cancel-in-progress: false
 
 jobs:
@@ -44,12 +44,17 @@ jobs:
       - name: Validate the committed data against its contract
         run: node scripts/check-data.mjs
 
+      - name: Rebuild generated HTML pages from the updated account snapshot
+        run: |
+          node scripts/build-site.mjs
+          node scripts/build-site.mjs --check
+
       - name: Commit the snapshot
         run: |
           set -euo pipefail
           git config user.name 'kalshi-demo-account'
           git config user.email 'kalshi-demo-account@users.noreply.github.com'
-          git add data/account.json
+          git add data/account.json categories 404.html api.html board.html dashboard.html demo-account.html executive-summary.html flagged.html market.html markets.html methodology.html portfolio.html sources.html strategies.html suggestions.html
           if git diff --cached --quiet; then
             echo "No change to commit."
             exit 0

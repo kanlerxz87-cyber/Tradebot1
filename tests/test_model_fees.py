@@ -106,6 +106,12 @@ def test_maker_rate_is_a_quarter_of_the_taker_rate():
     assert maker_fee(100, 0.50) == 0.44
 
 
+def test_fee_multiplier_zero_produces_zero_fee():
+    assert fees.taker_fee(100, 0.50, multiplier=0.0) == 0.0
+    assert fees.maker_fee(100, 0.50, multiplier=0.0) == 0.0
+    assert fees.taker_fee(100, 0.50, multiplier=1.0) == 1.75
+
+
 def test_published_series_multipliers_zero_out_fee_free_series():
     # "Non-Standard Fees" table, https://kalshi.com/docs/kalshi-fee-schedule.pdf
     # (effective 2026-07-07): "KXBTCY | BTC price range EOY | 0 | 0".
