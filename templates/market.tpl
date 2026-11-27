@@ -76,7 +76,7 @@
   <h2>Paper trade this market</h2>
   <p class="small" style="max-width:85ch">
     A local simulation only. It never touches your Kalshi account, sends no order, and is not
-    stored anywhere but this browser. The fee charged is Kalshi's published taker fee for the
+    stored anywhere but this browser. The fee charged is Kalshi's published taker fee (times the series' published multiplier) for the
     price and size you enter.
   </p>
   <div class="card">

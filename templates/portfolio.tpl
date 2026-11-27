@@ -7,7 +7,9 @@
   <h1>Simulated portfolio</h1>
   <p class="muted" style="max-width:85ch">
     Five strategies trading one contract at a time against demo market data, with the published
-    taker fee charged on every entry. Positions settle only when the exchange finalizes a
+    taker fee charged on every entry, times the per-series fee multiplier the schedule publishes
+    for that contract's series (a series listed 0/0 in the schedule's Non-Standard Fees table is
+    filled fee-free). Positions settle only when the exchange finalizes a
     <code>yes</code> or <code>no</code> result. This is a test harness, not performance a real
     account would have earned.
   </p>
@@ -20,7 +22,7 @@
   <div class="card tight"><div class="stat"><span class="k">Equity</span><span class="v" id="p-equity">—</span><span class="s" id="p-equity-sub">starting cash + realized + unrealized</span></div></div>
   <div class="card tight"><div class="stat"><span class="k">Realized P&amp;L</span><span class="v" id="p-realized">—</span><span class="s">settled positions only</span></div></div>
   <div class="card tight"><div class="stat"><span class="k">Unrealized</span><span class="v" id="p-unrealized">—</span><span class="s">marked at the exit side of the book</span></div></div>
-  <div class="card tight"><div class="stat"><span class="k">Fees paid</span><span class="v" id="p-fees">—</span><span class="s">published taker fee</span></div></div>
+  <div class="card tight"><div class="stat"><span class="k">Fees paid</span><span class="v" id="p-fees">—</span><span class="s">published taker fee × the series multiplier</span></div></div>
   <div class="card tight"><div class="stat"><span class="k">Win rate</span><span class="v" id="p-winrate">—</span><span class="s" id="p-winrate-sub">no settled trades yet</span></div></div>
 </section>
 

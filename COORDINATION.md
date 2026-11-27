@@ -2790,4 +2790,24 @@ specific files it touched and appends rather than rewrites anyone's record.
 
 ## Merge record
 
-* PR: filled in below by this session after the merge.
+* **PR #54** — https://github.com/kanlerxz87-cyber/Tradebot1/pull/54 — merged into `main`
+  2026-11-27T19:46:35Z, merge commit `106cb274f816bd6ff88e62891ca1d5cce50d642c`.
+  All nine checks on the PR passed (`audit`, `backend-tests`, `browser-tests`, `build`,
+  `demo-desk-v2`, `node-dashboard`, `test`; `deploy` and `snapshot-preview` skip on a PR).
+* **Deploy confirmed** — workflow run
+  [46059052802](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059052802)
+  ("Verify and deploy Kalshi research dashboard", `main`) completed **success** in 1m22s, and the
+  Pages build record for commit `106cb27` reports `status: built`.
+* **Live verification** — fetched from the published site after the deploy:
+  `/flagged.html` shows "19 flags published" and renders **F-19** with its four source links;
+  `/portfolio.html` shows `Equity $999.97 · Fees paid $0.00` and `$0.00` fee on all eight KXBTCY
+  rows, which is the repriced ledger.
+
+## Follow-up (same session, second PR)
+
+The published wording on `/portfolio.html`, `/strategies.html` and `/market.html` said only
+"published taker fee". It now says "published taker fee × the series multiplier", because a fee-free
+series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/strategies.tpl`,
+`templates/market.tpl`; the 19 generated pages were rebuilt and `build-site.mjs --check` and
+`check-links.mjs` (663 references, 0 problems) pass. The follow-up PR and its merge are recorded in
+the same commit that carries this paragraph.
