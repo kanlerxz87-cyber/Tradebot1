@@ -1,0 +1,810 @@
+{
+ "events": [
+  {
+   "event_ticker": "KXAAAGASW-26NOV30",
+   "series_ticker": "KXAAAGASW",
+   "title": "Will average **gas prices** be above $3.4800?",
+   "sub_title": "Above 3.4800",
+   "category": "Economics",
+   "markets": [
+    {
+     "ticker": "KXAAAGASW-26NOV30-3.4800",
+     "event_ticker": "KXAAAGASW-26NOV30",
+     "series_ticker": "KXAAAGASW",
+     "title": "Will average **gas prices** be above $3.4800?",
+     "yes_sub_title": "Above 3.4800",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T04:59:00Z",
+     "yes_bid_dollars": "0.9800",
+     "yes_ask_dollars": null,
+     "last_price_dollars": "0.9900",
+     "previous_price_dollars": null,
+     "volume_fp": "336552.21",
+     "volume_24h_fp": "120606.69",
+     "open_interest_fp": "107286.16",
+     "rules_primary": "If average regular gas prices for United States are strictly greater than $3.4800 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+     "tags": [
+      "Econ Weekly",
+      "Oil and energy"
+     ]
+    },
+    {
+     "ticker": "KXAAAGASW-26NOV30-3.5000",
+     "event_ticker": "KXAAAGASW-26NOV30",
+     "series_ticker": "KXAAAGASW",
+     "title": "Will average **gas prices** be above $3.5000?",
+     "yes_sub_title": "Above 3.5000",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T04:59:00Z",
+     "yes_bid_dollars": "0.3500",
+     "yes_ask_dollars": "0.3700",
+     "last_price_dollars": "0.3700",
+     "previous_price_dollars": null,
+     "volume_fp": "202257.03",
+     "volume_24h_fp": "100014.52",
+     "open_interest_fp": "57183.73",
+     "rules_primary": "If average regular gas prices for United States are strictly greater than $3.5000 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+     "tags": [
+      "Econ Weekly",
+      "Oil and energy"
+     ]
+    },
+    {
+     "ticker": "KXAAAGASW-26NOV30-3.4600",
+     "event_ticker": "KXAAAGASW-26NOV30",
+     "series_ticker": "KXAAAGASW",
+     "title": "Will average **gas prices** be above $3.4600?",
+     "yes_sub_title": "Above 3.4600",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T04:59:00Z",
+     "yes_bid_dollars": "0.9900",
+     "yes_ask_dollars": null,
+     "last_price_dollars": "0.9900",
+     "previous_price_dollars": null,
+     "volume_fp": "68232.69",
+     "volume_24h_fp": "9561.80",
+     "open_interest_fp": "45715.79",
+     "rules_primary": "If average regular gas prices for United States are strictly greater than $3.4600 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+     "tags": [
+      "Econ Weekly",
+      "Oil and energy"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXAAAGASM-26NOV30",
+   "series_ticker": "KXAAAGASM",
+   "title": "Will average **gas prices** be above $3.50?",
+   "sub_title": "Above 3.50",
+   "category": "Economics",
+   "markets": [
+    {
+     "ticker": "KXAAAGASM-26NOV30-3.50",
+     "event_ticker": "KXAAAGASM-26NOV30",
+     "series_ticker": "KXAAAGASM",
+     "title": "Will average **gas prices** be above $3.50?",
+     "yes_sub_title": "Above 3.50",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T04:59:00Z",
+     "yes_bid_dollars": "0.3700",
+     "yes_ask_dollars": "0.3900",
+     "last_price_dollars": "0.3700",
+     "previous_price_dollars": null,
+     "volume_fp": "476725.98",
+     "volume_24h_fp": "89246.04",
+     "open_interest_fp": "77418.09",
+     "rules_primary": "If average regular gas prices for United States are strictly greater than $3.50 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+     "tags": [
+      "Oil & Gas",
+      "Oil and energy"
+     ]
+    },
+    {
+     "ticker": "KXAAAGASM-26NOV30-3.45",
+     "event_ticker": "KXAAAGASM-26NOV30",
+     "series_ticker": "KXAAAGASM",
+     "title": "Will average **gas prices** be above $3.45?",
+     "yes_sub_title": "Above 3.45",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T04:59:00Z",
+     "yes_bid_dollars": "0.9900",
+     "yes_ask_dollars": null,
+     "last_price_dollars": "0.9900",
+     "previous_price_dollars": null,
+     "volume_fp": "134471.76",
+     "volume_24h_fp": "19295.87",
+     "open_interest_fp": "70829.35",
+     "rules_primary": "If average regular gas prices for United States are strictly greater than $3.45 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+     "tags": [
+      "Oil & Gas",
+      "Oil and energy"
+     ]
+    },
+    {
+     "ticker": "KXAAAGASM-26NOV30-3.40",
+     "event_ticker": "KXAAAGASM-26NOV30",
+     "series_ticker": "KXAAAGASM",
+     "title": "Will average **gas prices** be above $3.40?",
+     "yes_sub_title": "Above 3.40",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T04:59:00Z",
+     "yes_bid_dollars": "0.9900",
+     "yes_ask_dollars": null,
+     "last_price_dollars": "0.9900",
+     "previous_price_dollars": null,
+     "volume_fp": "256817.05",
+     "volume_24h_fp": "9351.00",
+     "open_interest_fp": "145817.75",
+     "rules_primary": "If average regular gas prices for United States are strictly greater than $3.40 on Nov 30, 2026 according to AAA, then the market resolves to Yes.",
+     "tags": [
+      "Oil & Gas",
+      "Oil and energy"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXPRESNOMR-28",
+   "series_ticker": "KXPRESNOMR",
+   "title": "Will Marco Rubio be the nominee for the Presidency for the Republican party?",
+   "sub_title": "Marco Rubio",
+   "category": "Elections",
+   "markets": [
+    {
+     "ticker": "KXPRESNOMR-28-MR",
+     "event_ticker": "KXPRESNOMR-28",
+     "series_ticker": "KXPRESNOMR",
+     "title": "Will Marco Rubio be the nominee for the Presidency for the Republican party?",
+     "yes_sub_title": "Marco Rubio",
+     "status": "active",
+     "result": "",
+     "close_time": "2028-11-07T15:00:00Z",
+     "yes_bid_dollars": "0.2000",
+     "yes_ask_dollars": "0.2100",
+     "last_price_dollars": "0.2100",
+     "previous_price_dollars": null,
+     "volume_fp": "7890820.74",
+     "volume_24h_fp": "186164.24",
+     "open_interest_fp": "3705210.29",
+     "rules_primary": "If Marco Rubio wins and accepts the nomination for the Presidency for the Republican party in 2028, then the market resolves to Yes.",
+     "tags": [
+      "2028",
+      "Nomination race",
+      "US Elections"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXPRESNOMD-28",
+   "series_ticker": "KXPRESNOMD",
+   "title": "Will Alexandria Ocasio-Cortez be the Democratic Presidential nominee in 2028?",
+   "sub_title": "Alexandria Ocasio-Cortez",
+   "category": "Elections",
+   "markets": [
+    {
+     "ticker": "KXPRESNOMD-28-AOC",
+     "event_ticker": "KXPRESNOMD-28",
+     "series_ticker": "KXPRESNOMD",
+     "title": "Will Alexandria Ocasio-Cortez be the Democratic Presidential nominee in 2028?",
+     "yes_sub_title": "Alexandria Ocasio-Cortez",
+     "status": "active",
+     "result": "",
+     "close_time": "2028-11-07T15:00:00Z",
+     "yes_bid_dollars": "0.1600",
+     "yes_ask_dollars": "0.1700",
+     "last_price_dollars": "0.1700",
+     "previous_price_dollars": null,
+     "volume_fp": "11862269.40",
+     "volume_24h_fp": "192267.10",
+     "open_interest_fp": "6242646.16",
+     "rules_primary": "If Alexandria Ocasio-Cortez wins and accepts the nomination for the Presidency for the Democratic party in 2028, then the market resolves to Yes.",
+     "tags": [
+      "2028",
+      "Nomination race",
+      "US Elections"
+     ]
+    },
+    {
+     "ticker": "KXPRESNOMD-28-JOSS",
+     "event_ticker": "KXPRESNOMD-28",
+     "series_ticker": "KXPRESNOMD",
+     "title": "Will Jon Ossoff be the Democratic Presidential nominee in 2028?",
+     "yes_sub_title": "Jon Ossoff",
+     "status": "active",
+     "result": "",
+     "close_time": "2028-11-07T15:00:00Z",
+     "yes_bid_dollars": "0.2300",
+     "yes_ask_dollars": "0.2400",
+     "last_price_dollars": "0.2400",
+     "previous_price_dollars": null,
+     "volume_fp": "12942060.56",
+     "volume_24h_fp": "58417.99",
+     "open_interest_fp": "6154446.34",
+     "rules_primary": "If Jon Ossoff wins and accepts the nomination for the Presidency for the Democratic party in 2028, then the market resolves to Yes.",
+     "tags": [
+      "2028",
+      "Nomination race",
+      "US Elections"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "RSENATESEATS-27",
+   "series_ticker": "RSENATESEATS",
+   "title": "Will the Republican party hold fewer than 45 Senate seats in the 120th Congress?",
+   "sub_title": "Below 45",
+   "category": "Elections",
+   "markets": [
+    {
+     "ticker": "RSENATESEATS-27-B45",
+     "event_ticker": "RSENATESEATS-27",
+     "series_ticker": "RSENATESEATS",
+     "title": "Will the Republican party hold fewer than 45 Senate seats in the 120th Congress?",
+     "yes_sub_title": "Below 45",
+     "status": "active",
+     "result": "",
+     "close_time": "2027-02-01T15:00:00Z",
+     "yes_bid_dollars": "0.9600",
+     "yes_ask_dollars": "0.9700",
+     "last_price_dollars": "0.9600",
+     "previous_price_dollars": null,
+     "volume_fp": "3301316.94",
+     "volume_24h_fp": "9936.48",
+     "open_interest_fp": "1005018.50",
+     "rules_primary": "If the Republican party has below 45 Senate seats on Feb 1, 2027, then the market resolves to Yes.",
+     "tags": [
+      "Senate",
+      "Senate Combos",
+      "Election Combos"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXPRESPERSON-28",
+   "series_ticker": "KXPRESPERSON",
+   "title": "Who will win the next presidential election?",
+   "sub_title": ":: Democratic",
+   "category": "Elections",
+   "markets": [
+    {
+     "ticker": "KXPRESPERSON-28-JOSS",
+     "event_ticker": "KXPRESPERSON-28",
+     "series_ticker": "KXPRESPERSON",
+     "title": "Who will win the next presidential election?",
+     "yes_sub_title": ":: Democratic",
+     "status": "active",
+     "result": "",
+     "close_time": "2029-11-07T15:00:00Z",
+     "yes_bid_dollars": "0.1600",
+     "yes_ask_dollars": "0.1700",
+     "last_price_dollars": "0.1600",
+     "previous_price_dollars": null,
+     "volume_fp": "6960447.81",
+     "volume_24h_fp": "38155.98",
+     "open_interest_fp": "3701996.92",
+     "rules_primary": "If Jon Ossoff is the next person inaugurated as President for the term beginning in 2029, then the market resolves to Yes.",
+     "tags": [
+      "2028",
+      "US Elections",
+      "Presidential winner"
+     ]
+    },
+    {
+     "ticker": "KXPRESPERSON-28-KHAR",
+     "event_ticker": "KXPRESPERSON-28",
+     "series_ticker": "KXPRESPERSON",
+     "title": "Who will win the next presidential election?",
+     "yes_sub_title": ":: Democratic",
+     "status": "active",
+     "result": "",
+     "close_time": "2029-11-07T15:00:00Z",
+     "yes_bid_dollars": "0.0300",
+     "yes_ask_dollars": "0.0320",
+     "last_price_dollars": "0.0290",
+     "previous_price_dollars": null,
+     "volume_fp": "3905628.49",
+     "volume_24h_fp": "107213.89",
+     "open_interest_fp": "2809697.86",
+     "rules_primary": "If Kamala Harris is the next person inaugurated as President for the term beginning in 2029, then the market resolves to Yes.",
+     "tags": [
+      "2028",
+      "US Elections",
+      "Presidential winner"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXGAMEAWARDS-2026",
+   "series_ticker": "KXGAMEAWARDS",
+   "title": "2026 Game of the Year?",
+   "sub_title": "Grand Theft Auto VI",
+   "category": "Entertainment",
+   "markets": [
+    {
+     "ticker": "KXGAMEAWARDS-2026-GTA",
+     "event_ticker": "KXGAMEAWARDS-2026",
+     "series_ticker": "KXGAMEAWARDS",
+     "title": "2026 Game of the Year?",
+     "yes_sub_title": "Grand Theft Auto VI",
+     "status": "active",
+     "result": "",
+     "close_time": "2027-12-31T15:00:00Z",
+     "yes_bid_dollars": "0.9300",
+     "yes_ask_dollars": "0.9400",
+     "last_price_dollars": "0.9300",
+     "previous_price_dollars": null,
+     "volume_fp": "1307844.03",
+     "volume_24h_fp": "93182.63",
+     "open_interest_fp": "692611.86",
+     "rules_primary": "If Grand Theft Auto VI has won Game of the Year at the 2026 Game Awards, then the market resolves to Yes.",
+     "tags": [
+      "Video games",
+      "The Game Awards",
+      "Awards"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXRT-FUR",
+   "series_ticker": "KXRT",
+   "title": "The Further Mis-Adventures of Cliff Booth Rotten Tomatoes score?",
+   "sub_title": "Above 75",
+   "category": "Entertainment",
+   "markets": [
+    {
+     "ticker": "KXRT-FUR-75",
+     "event_ticker": "KXRT-FUR",
+     "series_ticker": "KXRT",
+     "title": "The Further Mis-Adventures of Cliff Booth Rotten Tomatoes score?",
+     "yes_sub_title": "Above 75",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T15:00:00Z",
+     "yes_bid_dollars": "0.9700",
+     "yes_ask_dollars": "0.9800",
+     "last_price_dollars": "0.9800",
+     "previous_price_dollars": null,
+     "volume_fp": "120208.12",
+     "volume_24h_fp": "32713.01",
+     "open_interest_fp": "22654.61",
+     "rules_primary": "If The Further Mis-Adventures of Cliff Booth has a Tomatometer score of above 75 on Nov 30, 2026 at 10:00 AM ET, then the market resolves to Yes.",
+     "tags": [
+      "Rotten Tomatoes"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXTIME-26",
+   "series_ticker": "KXTIME",
+   "title": "Will James Talarico be Time Person of the Year in 2026?",
+   "sub_title": "James Talarico",
+   "category": "Entertainment",
+   "markets": [
+    {
+     "ticker": "KXTIME-26-JAM",
+     "event_ticker": "KXTIME-26",
+     "series_ticker": "KXTIME",
+     "title": "Will James Talarico be Time Person of the Year in 2026?",
+     "yes_sub_title": "James Talarico",
+     "status": "active",
+     "result": "",
+     "close_time": "2027-01-01T04:59:00Z",
+     "yes_bid_dollars": "0.2900",
+     "yes_ask_dollars": "0.3000",
+     "last_price_dollars": "0.2900",
+     "previous_price_dollars": null,
+     "volume_fp": "465894.81",
+     "volume_24h_fp": "49435.00",
+     "open_interest_fp": "359997.85",
+     "rules_primary": "If James Talarico is Time Person of the Year for 2026, then the market resolves to Yes.",
+     "tags": [
+      "Achievements",
+      "People",
+      "Awards"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXRT-HEX",
+   "series_ticker": "KXRT",
+   "title": "Hexed Rotten Tomatoes score?",
+   "sub_title": "Above 65",
+   "category": "Entertainment",
+   "markets": [
+    {
+     "ticker": "KXRT-HEX-65",
+     "event_ticker": "KXRT-HEX",
+     "series_ticker": "KXRT",
+     "title": "Hexed Rotten Tomatoes score?",
+     "yes_sub_title": "Above 65",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T15:00:00Z",
+     "yes_bid_dollars": "0.7500",
+     "yes_ask_dollars": "0.8000",
+     "last_price_dollars": "0.8000",
+     "previous_price_dollars": null,
+     "volume_fp": "143360.91",
+     "volume_24h_fp": "16343.35",
+     "open_interest_fp": "80438.04",
+     "rules_primary": "If Hexed has a Tomatometer score of above 65 on Nov 30, 2026 at 10:00 AM ET, then the market resolves to Yes.",
+     "tags": [
+      "Rotten Tomatoes"
+     ]
+    },
+    {
+     "ticker": "KXRT-HEX-62",
+     "event_ticker": "KXRT-HEX",
+     "series_ticker": "KXRT",
+     "title": "Hexed Rotten Tomatoes score?",
+     "yes_sub_title": "Above 62",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T15:00:00Z",
+     "yes_bid_dollars": "0.9500",
+     "yes_ask_dollars": "0.9600",
+     "last_price_dollars": "0.9600",
+     "previous_price_dollars": null,
+     "volume_fp": "49690.91",
+     "volume_24h_fp": "13210.80",
+     "open_interest_fp": "29392.98",
+     "rules_primary": "If Hexed has a Tomatometer score of above 62 on Nov 30, 2026 at 10:00 AM ET, then the market resolves to Yes.",
+     "tags": [
+      "Rotten Tomatoes"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXRT-FOC",
+   "series_ticker": "KXRT",
+   "title": "Focker-In-Law Rotten Tomatoes score?",
+   "sub_title": "Above 30",
+   "category": "Entertainment",
+   "markets": [
+    {
+     "ticker": "KXRT-FOC-30",
+     "event_ticker": "KXRT-FOC",
+     "series_ticker": "KXRT",
+     "title": "Focker-In-Law Rotten Tomatoes score?",
+     "yes_sub_title": "Above 30",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-30T15:00:00Z",
+     "yes_bid_dollars": "0.6400",
+     "yes_ask_dollars": "0.6500",
+     "last_price_dollars": "0.6400",
+     "previous_price_dollars": null,
+     "volume_fp": "363723.39",
+     "volume_24h_fp": "16755.38",
+     "open_interest_fp": "79579.15",
+     "rules_primary": "If Focker-In-Law has a Tomatometer score of above 30 on Nov 30, 2026 at 10:00 AM ET, then the market resolves to Yes.",
+     "tags": [
+      "Rotten Tomatoes"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXBTCD-26NOV2717",
+   "series_ticker": "KXBTCD",
+   "title": "Bitcoin price on Nov 27, 2026?",
+   "sub_title": "$60,000 or above",
+   "category": "Crypto",
+   "markets": [
+    {
+     "ticker": "KXBTCD-26NOV2717-T59999.99",
+     "event_ticker": "KXBTCD-26NOV2717",
+     "series_ticker": "KXBTCD",
+     "title": "Bitcoin price on Nov 27, 2026?",
+     "yes_sub_title": "$60,000 or above",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-27T22:00:00Z",
+     "yes_bid_dollars": "0.8900",
+     "yes_ask_dollars": "0.9000",
+     "last_price_dollars": "0.9000",
+     "previous_price_dollars": null,
+     "volume_fp": "313677.09",
+     "volume_24h_fp": "157882.71",
+     "open_interest_fp": "83631.70",
+     "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' Bitcoin Real-Time Index (BRTI) before 5 PM EST is above 59999.99 at 5 PM EST on Nov 27, 2026, then the market resolves to Yes.",
+     "tags": [
+      "Crypto",
+      "Hourly",
+      "BTC",
+      "Bitcoin"
+     ]
+    },
+    {
+     "ticker": "KXBTCD-26NOV2717-T57999.99",
+     "event_ticker": "KXBTCD-26NOV2717",
+     "series_ticker": "KXBTCD",
+     "title": "Bitcoin price on Nov 27, 2026?",
+     "yes_sub_title": "$58,000 or above",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-27T22:00:00Z",
+     "yes_bid_dollars": "0.9800",
+     "yes_ask_dollars": "0.9900",
+     "last_price_dollars": "0.9900",
+     "previous_price_dollars": null,
+     "volume_fp": "233438.83",
+     "volume_24h_fp": "96689.03",
+     "open_interest_fp": "88981.22",
+     "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' Bitcoin Real-Time Index (BRTI) before 5 PM EST is above 57999.99 at 5 PM EST on Nov 27, 2026, then the market resolves to Yes.",
+     "tags": [
+      "Crypto",
+      "Hourly",
+      "BTC",
+      "Bitcoin"
+     ]
+    },
+    {
+     "ticker": "KXBTCD-26NOV2717-T57499.99",
+     "event_ticker": "KXBTCD-26NOV2717",
+     "series_ticker": "KXBTCD",
+     "title": "Bitcoin price on Nov 27, 2026?",
+     "yes_sub_title": "$57,500 or above",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-27T22:00:00Z",
+     "yes_bid_dollars": "0.9800",
+     "yes_ask_dollars": "0.9900",
+     "last_price_dollars": "0.9800",
+     "previous_price_dollars": null,
+     "volume_fp": "139921.85",
+     "volume_24h_fp": "72558.01",
+     "open_interest_fp": "75148.28",
+     "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' Bitcoin Real-Time Index (BRTI) before 5 PM EST is above 57499.99 at 5 PM EST on Nov 27, 2026, then the market resolves to Yes.",
+     "tags": [
+      "Crypto",
+      "Hourly",
+      "BTC",
+      "Bitcoin"
+     ]
+    },
+    {
+     "ticker": "KXBTCD-26NOV2717-T60499.99",
+     "event_ticker": "KXBTCD-26NOV2717",
+     "series_ticker": "KXBTCD",
+     "title": "Bitcoin price on Nov 27, 2026?",
+     "yes_sub_title": "$60,500 or above",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-27T22:00:00Z",
+     "yes_bid_dollars": "0.7900",
+     "yes_ask_dollars": "0.8000",
+     "last_price_dollars": "0.7900",
+     "previous_price_dollars": null,
+     "volume_fp": "170370.15",
+     "volume_24h_fp": "80730.95",
+     "open_interest_fp": "42092.27",
+     "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' Bitcoin Real-Time Index (BRTI) before 5 PM EST is above 60499.99 at 5 PM EST on Nov 27, 2026, then the market resolves to Yes.",
+     "tags": [
+      "Crypto",
+      "Hourly",
+      "BTC",
+      "Bitcoin"
+     ]
+    },
+    {
+     "ticker": "KXBTCD-26NOV2717-T59499.99",
+     "event_ticker": "KXBTCD-26NOV2717",
+     "series_ticker": "KXBTCD",
+     "title": "Bitcoin price on Nov 27, 2026?",
+     "yes_sub_title": "$59,500 or above",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-27T22:00:00Z",
+     "yes_bid_dollars": "0.9400",
+     "yes_ask_dollars": "0.9500",
+     "last_price_dollars": "0.9500",
+     "previous_price_dollars": null,
+     "volume_fp": "168143.18",
+     "volume_24h_fp": "60265.75",
+     "open_interest_fp": "51973.63",
+     "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' Bitcoin Real-Time Index (BRTI) before 5 PM EST is above 59499.99 at 5 PM EST on Nov 27, 2026, then the market resolves to Yes.",
+     "tags": [
+      "Crypto",
+      "Hourly",
+      "BTC",
+      "Bitcoin"
+     ]
+    },
+    {
+     "ticker": "KXBTCD-26NOV2717-T60999.99",
+     "event_ticker": "KXBTCD-26NOV2717",
+     "series_ticker": "KXBTCD",
+     "title": "Bitcoin price on Nov 27, 2026?",
+     "yes_sub_title": "$61,000 or above",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-11-27T22:00:00Z",
+     "yes_bid_dollars": "0.6400",
+     "yes_ask_dollars": "0.6500",
+     "last_price_dollars": "0.6400",
+     "previous_price_dollars": null,
+     "volume_fp": "180954.85",
+     "volume_24h_fp": "83732.74",
+     "open_interest_fp": "41337.78",
+     "rules_primary": "If the simple average of the sixty seconds of CF Benchmarks' Bitcoin Real-Time Index (BRTI) before 5 PM EST is above 60999.99 at 5 PM EST on Nov 27, 2026, then the market resolves to Yes.",
+     "tags": [
+      "Crypto",
+      "Hourly",
+      "BTC",
+      "Bitcoin"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXDPWORLDTOUR-BMAPC26",
+   "series_ticker": "KXDPWORLDTOUR",
+   "title": "BMW Australian PGA Championship: Cameron Smith wins",
+   "sub_title": "Cameron Smith",
+   "category": "Sports",
+   "markets": [
+    {
+     "ticker": "KXDPWORLDTOUR-BMAPC26-CSMI",
+     "event_ticker": "KXDPWORLDTOUR-BMAPC26",
+     "series_ticker": "KXDPWORLDTOUR",
+     "title": "BMW Australian PGA Championship: Cameron Smith wins",
+     "yes_sub_title": "Cameron Smith",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-12-13T00:00:00Z",
+     "yes_bid_dollars": "0.1600",
+     "yes_ask_dollars": "0.1700",
+     "last_price_dollars": "0.1700",
+     "previous_price_dollars": null,
+     "volume_fp": "205466.67",
+     "volume_24h_fp": "59437.84",
+     "open_interest_fp": "192196.38",
+     "rules_primary": "If Cameron Smith wins the BMW Australian PGA Championship, then the market resolves to Yes.",
+     "tags": [
+      "Golf"
+     ]
+    },
+    {
+     "ticker": "KXDPWORLDTOUR-BMAPC26-NVON",
+     "event_ticker": "KXDPWORLDTOUR-BMAPC26",
+     "series_ticker": "KXDPWORLDTOUR",
+     "title": "BMW Australian PGA Championship: Nicolai von Dellingshausen wins",
+     "yes_sub_title": "Nicolai von Dellingshausen",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-12-13T00:00:00Z",
+     "yes_bid_dollars": "0.2600",
+     "yes_ask_dollars": "0.2800",
+     "last_price_dollars": "0.2500",
+     "previous_price_dollars": null,
+     "volume_fp": "48199.08",
+     "volume_24h_fp": "30885.37",
+     "open_interest_fp": "39904.03",
+     "rules_primary": "If Nicolai von Dellingshausen wins the BMW Australian PGA Championship, then the market resolves to Yes.",
+     "tags": [
+      "Golf"
+     ]
+    },
+    {
+     "ticker": "KXDPWORLDTOUR-BMAPC26-TMCK",
+     "event_ticker": "KXDPWORLDTOUR-BMAPC26",
+     "series_ticker": "KXDPWORLDTOUR",
+     "title": "BMW Australian PGA Championship: Tom McKibbin wins",
+     "yes_sub_title": "Tom McKibbin",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-12-13T00:00:00Z",
+     "yes_bid_dollars": "0.2400",
+     "yes_ask_dollars": "0.2500",
+     "last_price_dollars": "0.2500",
+     "previous_price_dollars": null,
+     "volume_fp": "101891.40",
+     "volume_24h_fp": "14133.29",
+     "open_interest_fp": "94004.07",
+     "rules_primary": "If Tom McKibbin wins the BMW Australian PGA Championship, then the market resolves to Yes.",
+     "tags": [
+      "Golf"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXDPWORLDTOURR2LEAD-BMAPC26",
+   "series_ticker": "KXDPWORLDTOURR2LEAD",
+   "title": "Nicolai Von Dellingshausen leads at the end of Round 2",
+   "sub_title": "Nicolai Von Dellingshausen",
+   "category": "Sports",
+   "markets": [
+    {
+     "ticker": "KXDPWORLDTOURR2LEAD-BMAPC26-NVON",
+     "event_ticker": "KXDPWORLDTOURR2LEAD-BMAPC26",
+     "series_ticker": "KXDPWORLDTOURR2LEAD",
+     "title": "Nicolai Von Dellingshausen leads at the end of Round 2",
+     "yes_sub_title": "Nicolai Von Dellingshausen",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-12-27T00:00:00Z",
+     "yes_bid_dollars": "0.9900",
+     "yes_ask_dollars": null,
+     "last_price_dollars": "0.9500",
+     "previous_price_dollars": null,
+     "volume_fp": "7722.03",
+     "volume_24h_fp": "7722.03",
+     "open_interest_fp": "6917.43",
+     "rules_primary": "If Nicolai Von Dellingshausen is the leader at the end of Round 2 in the 2026 BMW Australian PGA Championship, then the market resolves to Yes.",
+     "tags": [
+      "Golf"
+     ]
+    }
+   ]
+  },
+  {
+   "event_ticker": "KXPGATOUR-FAISG26",
+   "series_ticker": "KXPGATOUR",
+   "title": "Farmers Insurance Skins Game: Jackson Koivun wins",
+   "sub_title": "Jackson Koivun",
+   "category": "Sports",
+   "markets": [
+    {
+     "ticker": "KXPGATOUR-FAISG26-JKOI",
+     "event_ticker": "KXPGATOUR-FAISG26",
+     "series_ticker": "KXPGATOUR",
+     "title": "Farmers Insurance Skins Game: Jackson Koivun wins",
+     "yes_sub_title": "Jackson Koivun",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-12-12T03:00:00Z",
+     "yes_bid_dollars": "0.2400",
+     "yes_ask_dollars": "0.2500",
+     "last_price_dollars": "0.2500",
+     "previous_price_dollars": null,
+     "volume_fp": "22077.87",
+     "volume_24h_fp": "15895.49",
+     "open_interest_fp": "19934.09",
+     "rules_primary": "If Jackson Koivun wins the 2026 Farmers Insurance Skins Game, then the market resolves to Yes.",
+     "tags": [
+      "Golf"
+     ]
+    },
+    {
+     "ticker": "KXPGATOUR-FAISG26-BKOE",
+     "event_ticker": "KXPGATOUR-FAISG26",
+     "series_ticker": "KXPGATOUR",
+     "title": "Farmers Insurance Skins Game: Brooks Koepka wins",
+     "yes_sub_title": "Brooks Koepka",
+     "status": "active",
+     "result": "",
+     "close_time": "2026-12-12T03:00:00Z",
+     "yes_bid_dollars": "0.2500",
+     "yes_ask_dollars": "0.2600",
+     "last_price_dollars": "0.2600",
+     "previous_price_dollars": null,
+     "volume_fp": "17506.57",
+     "volume_24h_fp": "15047.33",
+     "open_interest_fp": "17382.57",
+     "rules_primary": "If Brooks Koepka wins the 2026 Farmers Insurance Skins Game, then the market resolves to Yes.",
+     "tags": [
+      "Golf"
+     ]
+    }
+   ]
+  }
+ ],
+ "cursor": ""
+}
