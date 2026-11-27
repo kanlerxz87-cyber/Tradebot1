@@ -4,7 +4,28 @@
  "data_env": "unverified",
  "rest_base": null,
  "note": "Market data withheld: the previously committed snapshot identified production, not Kalshi demo. Run the scheduled demo-only collector to publish verified demo observations.",
- "topics": {},
+ "topics": {
+  "gas": {
+   "markets": [],
+   "events": []
+  },
+  "elections": {
+   "markets": [],
+   "events": []
+  },
+  "culture": {
+   "markets": [],
+   "events": []
+  },
+  "crypto": {
+   "markets": [],
+   "events": []
+  },
+  "golf": {
+   "markets": [],
+   "events": []
+  }
+ },
  "market_count": null,
  "event_count": null,
  "alerts": [],
