@@ -12,26 +12,25 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="active">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="active">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
 
   <section class="hero">
-    <span class="badge ok">Verified Lifecycle Tracking · active &rarr; closed &rarr; determined &rarr; finalized</span>
+    <span class="badge ok">Verified Multi-Day Lifecycle Tracking · active &rarr; closed &rarr; determined &rarr; finalized</span>
     <h1>Live-to-Resolution Outcome Tracker (`yes`, `no` &amp; Proportional `scalar`)</h1>
     <p>
-      Per Kalshi's official <a href="https://docs.kalshi.com/getting_started/market_lifecycle.md" target="_blank" rel="noopener">Market Lifecycle specification</a>,
-      settled contracts are queried with `?status=settled` and return `market.status === "finalized"` (never `"settled"`). During this session,
-      `KXDEMOFUTHOURLY-26NOV22H07-UP` was observed transitioning live from `active` to `finalized` (`result: "yes"`, `$1.0000` at `2026-11-22T07:01:32Z`).
-      We also document and support proportional `result: "scalar"` settlements (`$0.5000` on `KXXISUCCESSOR-45JAN01-DXUE`).
+      Per Kalshi's official <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">Market Lifecycle specification</a>,
+      settled contracts are queried with `?status=settled` and return `market.status === "finalized"` (never `"settled"`).
+      Across `2026-11-22` through `2026-11-27`, watched open contracts across Gas Prices (`KXAAAGASMIN-26DEC31-3.60` &rarr; `YES`), Golf (`KXPGATOUR-THRC26-CBEZ/-ZBAU/-LABE` &rarr; `NO`), and Crypto (`KXDEMOFUTHOURLY-26NOV22H08-UP` &rarr; `YES`, `26NOV27H19-UP` &rarr; `NO`) were tracked all the way through official settlement.
     </p>
   </section>
 
   <section class="card">
-    <h2>Verified Finalized Contracts Across the 5 Topics</h2>
+    <h2>Verified Finalized Contracts Across All 5 Topics (13 Settlements)</h2>
     <div class="table-wrap">
       <table>
         <thead>
@@ -42,9 +41,93 @@
         </thead>
         <tbody>
         <tr>
+          <td>Gas Prices</td>
+          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.60</strong></td>
+          <td>U.S. average regular gas below $3.60/gal (tracked active on Nov 22 -&gt; finalized YES on Nov 27)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">3.21</td>
+          <td class="mono">2026-11-27T19:38:16Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMIN-26DEC31?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Crypto</td>
+          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV27H19-UP</strong></td>
+          <td>Demo BTC at or above 59847.1 USD (finalized NO at 19:01:27 UTC today)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">8,220.00</td>
+          <td class="mono">2026-11-27T19:01:27Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H19-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Exchange BTC-USD Candles ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Golf</td>
+          <td class="mono"><strong>KXPGATOUR-THRC26-CBEZ</strong></td>
+          <td>The RSM Classic: Christiaan Bezuidenhout wins (tracked active on Nov 22 -&gt; finalized NO on Nov 23)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">242,634.55</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Golf</td>
+          <td class="mono"><strong>KXPGATOUR-THRC26-ZBAU</strong></td>
+          <td>The RSM Classic: Zachary Bauchou wins (tracked active on Nov 22 -&gt; finalized NO on Nov 23)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">80,931.04</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Golf</td>
+          <td class="mono"><strong>KXPGATOUR-THRC26-LABE</strong></td>
+          <td>The RSM Classic: Ludvig Aberg wins (tracked active on Nov 22 -&gt; finalized NO on Nov 23)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">11.00</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Crypto</td>
+          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H08-UP</strong></td>
+          <td>Demo BTC at or above 59023.8 USD (tracked active on Nov 22 -&gt; finalized YES)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">8,220.00</td>
+          <td class="mono">2026-11-22T08:01:42Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Exchange BTC-USD Candles ↗</a>
+          </td>
+        </tr>
+        <tr>
           <td>Crypto</td>
           <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H07-UP</strong></td>
-          <td>BTC above hourly strike at 07:00 UTC (observed active -&gt; finalized live in session)</td>
+          <td>BTC above hourly strike at 07:00 UTC (observed active -&gt; finalized YES)</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge ok">YES</span></td>
           <td class="num">$1.0000</td>
@@ -56,101 +139,45 @@
           </td>
         </tr>
         <tr>
-          <td>Gas Prices</td>
-          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.80</strong></td>
-          <td>U.S. national regular gas below $3.80/gal threshold triggered early</td>
-          <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge ok">YES</span></td>
-          <td class="num">$1.0000</td>
-          <td class="num">12.00</td>
-          <td class="mono">2026-07-06T19:27:27Z</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMIN-26DEC31?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td>Culture</td>
-          <td class="mono"><strong>KXGRAMBPS-68-MES</strong></td>
-          <td>Messy (Lola Young) — Best Pop Solo Performance</td>
-          <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge ok">YES</span></td>
-          <td class="num">$1.0000</td>
-          <td class="num">14,820.00</td>
-          <td class="mono">2026-02-02T04:41:24Z</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXGRAMBPS-68?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td>Culture</td>
-          <td class="mono"><strong>KXGRAMBPS-68-DAI</strong></td>
-          <td>DAISIES — Best Pop Solo Performance</td>
-          <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge down">NO</span></td>
-          <td class="num">$0.0000</td>
-          <td class="num">9,310.00</td>
-          <td class="mono">2026-02-02T04:41:24Z</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXGRAMBPS-68?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td>Culture</td>
-          <td class="mono"><strong>KXGRAMBPS-68-MAN</strong></td>
-          <td>Manchild — Best Pop Solo Performance</td>
-          <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge down">NO</span></td>
-          <td class="num">$0.0000</td>
-          <td class="num">8,140.00</td>
-          <td class="mono">2026-02-02T04:41:24Z</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXGRAMBPS-68?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
-          </td>
-        </tr>
-        <tr>
           <td>Golf</td>
           <td class="mono"><strong>KXPGATOUR-AUCPBCS26-ZBAU</strong></td>
-          <td>Will Zach Bauchou win the Butterfield Bermuda Championship?</td>
+          <td>Austin Championship presented by Compliance Solutions: Zachary Bauchou wins</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge down">NO</span></td>
           <td class="num">$0.0000</td>
           <td class="num">226,899.55</td>
           <td class="mono">2026-11-16T22:33:33Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-AUCPBCS26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-AUCPBCS26-ZBAU" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
           <td>Golf</td>
           <td class="mono"><strong>KXPGATOUR-AUCPBCS26-CBEZ</strong></td>
-          <td>Will Christiaan Bezuidenhout win the Butterfield Bermuda Championship?</td>
+          <td>Austin Championship presented by Compliance Solutions: Christiaan Bezuidenhout wins</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge down">NO</span></td>
           <td class="num">$0.0000</td>
           <td class="num">169,355.65</td>
           <td class="mono">2026-11-16T22:33:33Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-AUCPBCS26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-AUCPBCS26-CBEZ" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
-          <td>Golf</td>
-          <td class="mono"><strong>KXPGATOUR-AUCPBCS26-DBER</strong></td>
-          <td>Will Daniel Berger win the Butterfield Bermuda Championship?</td>
+          <td>Gas Prices</td>
+          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.80</strong></td>
+          <td>Will average gas prices be below $3.80 by Dec 31, 2026?</td>
           <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge down">NO</span></td>
-          <td class="num">$0.0000</td>
-          <td class="num">42,623.60</td>
-          <td class="mono">2026-11-16T22:33:33Z</td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">0.00</td>
+          <td class="mono">2026-07-06T19:27:27Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-AUCPBCS26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMIN-26DEC31?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
           </td>
         </tr>
         <tr>
@@ -160,11 +187,39 @@
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge warn">SCALAR</span></td>
           <td class="num">$0.5000</td>
-          <td class="num">540.00</td>
+          <td class="num">26.00</td>
           <td class="mono">2026-03-16T18:19:24Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&amp;with_nested_markets=true&amp;limit=3" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://docs.kalshi.com/getting_started/market_lifecycle.md" target="_blank" rel="noopener">Kalshi Market Lifecycle — Proportional Settlement ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXXISUCCESSOR-45JAN01-DXUE" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">Kalshi Market Lifecycle — Proportional Settlement ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Culture</td>
+          <td class="mono"><strong>KXGRAMBPS-68-MES</strong></td>
+          <td>Will Messy win Best Pop Solo Performance at the Grammys?</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">0.00</td>
+          <td class="mono">2026-02-02T04:41:24Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-MES" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Culture</td>
+          <td class="mono"><strong>KXGRAMBPS-68-DAI</strong></td>
+          <td>Will DAISIES win Best Pop Solo Performance at the Grammys?</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">0.00</td>
+          <td class="mono">2026-02-02T04:41:24Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-DAI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
           </td>
         </tr></tbody>
       </table>
@@ -174,11 +229,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

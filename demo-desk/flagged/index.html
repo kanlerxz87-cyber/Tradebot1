@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="active">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="active">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -23,7 +23,7 @@
     <span class="badge warn">Flagged for Review · Zero Inferred Values · Blank Cells Where Unconfirmed</span>
     <h1>Flagged for Review — Unverified Items &amp; Upstream Demo Irregularities</h1>
     <p>
-      Strict verification policy: if a value cannot be confirmed directly from an official Kalshi endpoint or official documentation (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">docs.kalshi.com ↗</a>),
+      Strict verification policy: if a value cannot be confirmed directly from an official Kalshi endpoint or official documentation (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com ↗</a>),
       its <strong>Verified Value cell is left completely blank</strong> and the item is flagged below with its official reference link. None of these items are hidden or guessed.
     </p>
   </section>
@@ -49,7 +49,7 @@
           <td class="blank-cell" data-unverified-blank="true"></td>
           <td><span class="badge warn">Unverified — Credentials Not Present</span></td>
           <td>Requires user-owned Demo API Key ID + RSA-PSS/Ed25519 private key generated in https://demo.kalshi.co/account/profile. Never fabricated.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/api_keys.md" target="_blank" rel="noopener">Official Source ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/api_keys" target="_blank" rel="noopener">Official Source ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>F2</strong></td>
@@ -57,23 +57,23 @@
           <td class="blank-cell" data-unverified-blank="true"></td>
           <td><span class="badge warn">Unverified — Simulated Locally Unless Relay Key Provided</span></td>
           <td>V2 payload and Ed25519/RSA-PSS signing are implemented &amp; unit-tested in kalshi_engine/, but no live exchange order_id is claimed without credentials.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order.md" target="_blank" rel="noopener">Official Source ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">Official Source ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>F3</strong></td>
-          <td><strong>Authenticated WebSocket Private Fill Channel (fill / market_positions)</strong></td>
+          <td><strong>Authenticated WebSocket Private Fill Channel (wss://user-ws.demo.kalshi.co/trade-api/ws/v2)</strong></td>
           <td class="blank-cell" data-unverified-blank="true"></td>
           <td><span class="badge warn">Unverified — Requires Signed WS Handshake</span></td>
-          <td>Kalshi WebSocket connection handshake requires KALSHI-ACCESS-* headers on GET /trade-api/ws/v2.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets.md" target="_blank" rel="noopener">Official Source ↗</a></td>
+          <td>Kalshi WebSocket connection handshake requires KALSHI-ACCESS-* headers on GET /trade-api/ws/v2 (`warp-ws` deprecated).</td>
+          <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">Official Source ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>F4</strong></td>
-          <td><strong>Browser Cross-Origin (CORS) Header Guarantee on external-api.demo.kalshi.co</strong></td>
+          <td><strong>Permanent SLA Guarantee on Third-Party Browser CORS Headers for external-api.demo.kalshi.co</strong></td>
           <td class="blank-cell" data-unverified-blank="true"></td>
-          <td><span class="badge warn">Unverified Across All Browsers — Committed Snapshot + Optional Local Relay Provided</span></td>
-          <td>Kalshi API docs do not guarantee Access-Control-Allow-Origin: * for third-party static origins; live/ loads verified_snapshot.json first and treats browser fetch as best-effort.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">Official Source ↗</a></td>
+          <td><span class="badge warn">Observed Working on Public GETs — Committed Snapshot + Same-Origin Relay Fallback Provided</span></td>
+          <td>Public GET endpoints currently serve CORS responses, but Kalshi docs do not guarantee permanent browser CORS SLA; demo-desk loads verified_snapshot.json first and provides same-origin /api/demo/public fallback.</td>
+          <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">Official Source ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>F5</strong></td>
@@ -81,15 +81,15 @@
           <td class="blank-cell" data-unverified-blank="true"></td>
           <td><span class="badge warn">Unverified — Demo Synthetic Market-Maker Activity</span></td>
           <td>Kalshi explicitly documents that Demo prices are mock test data; alerts link official settlement sources without claiming unverified news causation.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/demo_env.md" target="_blank" rel="noopener">Official Source ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Official Source ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>F6</strong></td>
-          <td><strong>Open Demo Contract Count in KXGRAMBPS / KXCA1SPECIAL / KXGOLFMAJORS at 2026-11-22T07:08Z</strong></td>
+          <td><strong>Exact Winner Ticker of Settled Golf Event KXPGATOUR-THRC26 Without Full 150-Golfer Scan</strong></td>
           <td class="blank-cell" data-unverified-blank="true"></td>
-          <td><span class="badge warn">Verified Empty (0 Open Markets at Capture Time)</span></td>
-          <td>GET /events?status=open returned [] for those series; open Culture &amp; Golf coverage uses verified active KXPERFORMBONDSONG-35 and KXPGATOUR-THRC26 series instead.</td>
-          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events?status=open&amp;series_ticker=KXGRAMBPS" target="_blank" rel="noopener">Official Source ↗</a></td>
+          <td><span class="badge warn">Unverified in Partial Page — Watched Golfers (-CBEZ, -ZBAU, -LABE) Verified NO</span></td>
+          <td>Watched RSM Classic contracts (-CBEZ, -ZBAU, -LABE) were verified directly as finalized &#x27;no&#x27; ($0.0000); winner across remaining field is left blank rather than inferred.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true" target="_blank" rel="noopener">Official Source ↗</a></td>
         </tr></tbody>
       </table>
     </div>
@@ -109,26 +109,26 @@
         </tr>
         <tr>
           <td class="mono"><strong>U2</strong></td>
-          <td class="mono">Series KXGOLFMAJORS / KXUSOPEN / KXPGAROUNDBIRDIES</td>
-          <td>Demo golf series settlement_sources contain unpopulated template text referencing Gonzaga Men&#x27;s Basketball with blank fields.</td>
-          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series?category=Sports&amp;tags=Golf" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
+          <td class="mono">Series KXPGATOUR / KXGOLFMAJORS</td>
+          <td>Demo golf series additional_prohibitions contain unpopulated template text (&#x27;specific sport in  ... Gonzaga Men&#x27;s Basketball Team is playing in &#x27;) with blank fields.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXPGATOUR" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>U3</strong></td>
           <td class="mono">Series KXDEMOFUTHOURLY</td>
-          <td>Demo hourly BTC series is tagged category=&#x27;Test&#x27; on exchange_index=0 rather than category=&#x27;Crypto&#x27; on shard 2.</td>
-          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXDEMOFUTHOURLY-26NOV22H08" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
+          <td>Demo hourly BTC series is tagged category=&#x27;Test&#x27; with contract_terms_url=&#x27;https://assets.kalshi.com/contract_terms/.pdf&#x27; (blank filename) rather than category=&#x27;Crypto&#x27;.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>U4</strong></td>
           <td class="mono">Event KXXISUCCESSOR-45JAN01</td>
           <td>Binary contracts (market_type=&#x27;binary&#x27;) finalized with result=&#x27;scalar&#x27; and settlement_value_dollars=&#x27;0.5000&#x27;.</td>
-          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&amp;with_nested_markets=true&amp;limit=3" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXXISUCCESSOR-45JAN01-DXUE" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>U5</strong></td>
           <td class="mono">Exchange Status Shard 3</td>
-          <td>exchange_instances[3] returns an empty string name (&#x27;&#x27;) while active.</td>
+          <td>exchange_index_statuses[3] returns an empty string name (&#x27;&#x27;) while exchange_active=true.</td>
           <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
         </tr></tbody>
       </table>
@@ -138,11 +138,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

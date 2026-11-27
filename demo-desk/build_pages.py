@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate clean, verified static + interactive HTML pages under live/ from live/data/verified_snapshot.json."""
+"""Generate clean, verified static + interactive HTML pages under demo-desk/ from demo-desk/data/verified_snapshot.json."""
 
 from __future__ import annotations
 
@@ -13,33 +13,33 @@ SNAP_PATH = LIVE_DIR / "data" / "verified_snapshot.json"
 TOPIC_META = {
     "Elections": {
         "slug": "elections",
-        "blurb": "Presidential (`KXPRESPERSON-28`, $308.8M+ Demo contract volume across top candidates) and Senate nomination (`KXSENATEIAD-28`) markets, plus finalized proportional `scalar` settlement (`KXXISUCCESSOR-45JAN01`, `$0.5000`).",
-        "analysis": "In the Kalshi Demo environment, `KXPRESPERSON-28` carries by far the deepest resting liquidity of all five topics (`deci_cent` $0.0010 tick size, 4,329+ contracts at the best YES bid on `-GNEWS` and 83,333 contracts on `-TGAB`). Notice `-GWHI` exhibits a -$0.9650 sandbox repricing from `previous_price_dollars=$0.9700` to `$0.0050`: the All-Events chat captures the move while the Selective High-ROI Model properly rejects it because `$0.0050` lies outside the actionable [$0.06, $0.94] probability band.",
-        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections",
+        "blurb": "Presidential (`KXPRESPERSON-28`, 356M+ Demo contract volume across top 10 candidates) and finalized proportional `scalar` settlement (`KXXISUCCESSOR-45JAN01-DXUE`, `$0.5000`).",
+        "analysis": "In the Kalshi Demo environment (`2026-11-27`), `KXPRESPERSON-28` carries deep `deci_cent` ($0.0010 tick) liquidity (`166,666.66` contracts at the best YES bid on `-TGAB`, `7,142.85` on `-GNEWS`). Notice `-KHAR` exhibits a `+$0.9400` sandbox jump (`$0.0300` -> `$0.9700`) with a `$0.98` spread (`$0.0200` bid / `$1.0000` ask): Chat 1 (All Events) captures the move while Chat 2 (Selective High-ROI Model) properly rejects it.",
+        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXPRESPERSON",
     },
     "Golf": {
         "slug": "golf",
-        "blurb": "PGA Tour tournament winner markets (`KXPGATOUR-THRC26` — The RSM Classic open; `KXPGATOUR-AUCPBCS26` — Butterfield Bermuda Championship finalized).",
-        "analysis": "`Golf` is a discovery tag under `category=Sports` (`GET /series?category=Sports&tags=Golf`). Active trading concentrates in `KXPGATOUR-THRC26` (`deci_cent` ticks, closing 2026-11-23T02:00Z), while companion golf series (`KXGOLFMAJORS`, `KXUSOPEN`, `KXPGAROUNDBIRDIES`) are documented on our Flagged for Review page due to unpopulated upstream Demo settlement-source templates.",
-        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Sports&tags=Golf",
+        "blurb": "PGA Tour tournament winner markets: active `KXPGATOUR-MAST27` (Masters Tournament, 899K+ Demo volume) plus multi-day tracked `KXPGATOUR-THRC26` (The RSM Classic, tracked active on Nov 22 -> finalized `NO` on Nov 23) and `KXPGATOUR-AUCPBCS26` (Austin Championship).",
+        "analysis": "`Golf` is discovered via `GET /series?category=Sports&tags=Golf` (`KXPGATOUR`, `fee_multiplier: 1`, `tapered_deci_cent` ticks). `KXPGATOUR-MAST27-SSCH` (Scottie Scheffler) offers a tight `$0.0100` two-sided orderbook (`$0.1700` bid x `980.39` / `$0.1800` implied ask x `925.92`), making it ideal for interactive VWAP depth-walk testing.",
+        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXPGATOUR",
     },
     "Culture": {
         "slug": "culture",
-        "blurb": "Entertainment & music contracts mapped strictly under Culture: active `KXPERFORMBONDSONG-35` (next James Bond theme performer) and finalized `KXGRAMBPS-68` (68th Grammy Awards).",
-        "analysis": "Kalshi's API taxonomy classifies pop-culture and awards series under `category=Entertainment` (`KXPERFORMBONDSONG`, `KXGRAMBPS`). Open Demo books on `KXPERFORMBONDSONG-35` display wide spreads (`$0.01` resting YES bid, no resting NO bids -> `$1.00` implied YES ask), illustrating why the Selective High-ROI filter enforces `spread <= $0.08` before risking capital.",
-        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Entertainment",
+        "blurb": "Entertainment & music contracts mapped strictly under Culture: active `KXPERFORMBONDSONG-35` (next James Bond theme performer, 104K+ contracts across top 5 contenders) and finalized `KXGRAMBPS-68` (68th Grammy Awards `YES` & `NO` outcomes).",
+        "analysis": "Kalshi classifies pop-culture and awards series under `category=Entertainment` (`KXPERFORMBONDSONG`, `KXGRAMBPS`). Open Demo books on `KXPERFORMBONDSONG-35` display wide resting spreads (`$0.01` resting YES bid on `-DUA` and `-ARI`, `$1.00` implied YES ask), illustrating why the Selective High-ROI filter enforces `spread <= $0.08`.",
+        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXPERFORMBONDSONG",
     },
     "Crypto": {
         "slug": "crypto",
-        "blurb": "High-frequency hourly Bitcoin contracts (`KXDEMOFUTHOURLY-26NOV22H08-UP` active, `H07-UP` finalized `yes` live during audit, plus `KXBTCD-26NOV2203`).",
-        "analysis": "`KXDEMOFUTHOURLY` is the single most active real-time tick generator on Kalshi Demo: `GET /markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP` prints 25-contract fills every 5 seconds cycling between `$0.35`, `$0.45`, `$0.55`, and `$0.65`, repeatedly firing `|Δprice| >= $0.10` swings (`+$0.30` and `-$0.10`) and settling hourly against Coinbase `BTC-USD` candles.",
-        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+        "blurb": "Highest-dollar annual Bitcoin brackets (`KXBTCY-27JAN0100`, 284M+ contracts across top 4 strikes) grouped alongside high-frequency hourly BTC benchmarks (`KXDEMOFUTHOURLY-26NOV27H20-UP` active, plus `26NOV27H19-UP`, `26NOV22H08-UP` & `26NOV22H07-UP` finalized).",
+        "analysis": "`KXBTCY-27JAN0100-B47500` (`80.26M` volume) provides deep two-sided resting liquidity (`$0.0400` bid x `4,166.66` / `$0.0500` implied ask x `472.58`), while `KXDEMOFUTHOURLY-26NOV27H20-UP` prints fills every 5 seconds cycling `$0.35 <-> $0.65`, firing live `|Δprice| >= $0.10` swings and settling hourly against Coinbase `BTC-USD` candles. Note Demo `/series/KXBTCY` sets `fee_multiplier: 1` vs Production `0` (`R18`).",
+        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY",
     },
     "Gas Prices": {
         "slug": "gas",
-        "blurb": "AAA retail regular gasoline threshold contracts: Texas year-end minimum (`KXAAAGASMINTX-26DEC31`) and U.S. national minimum (`KXAAAGASMIN-26DEC31`, including early-finalized `$3.80` strike).",
-        "analysis": "Kalshi organizes retail fuel contracts under `category=Economics` with tag `Oil and energy`, settling against the AAA Daily Fuel Gauge Report (`gasprices.aaa.com`). Note `KXAAAGASMINTX-26DEC31-2.10` has asymmetric orderbook depth (`yes_dollars`: 10 contracts at `$0.05`; `no_dollars`: 20 contracts at `$0.04`, implying a `$0.96` YES ask) — a case that exposed an orderbook truncation bug in earlier prototype code (`R5`).",
-        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMINTX-26DEC31?with_nested_markets=true",
+        "blurb": "AAA retail regular gasoline contracts: weekly U.S. national gas (`KXAAAGASW-26NOV30`, 46K+ contracts including a live `+$0.37` jump on `-3.5000`), Texas year-end minimum (`KXAAAGASMINTX-26DEC31`), and U.S. national minimum (`KXAAAGASMIN-26DEC31-3.60` tracked active Nov 22 -> finalized `YES` today Nov 27).",
+        "analysis": "Kalshi organizes retail fuel contracts under `category=Economics` (`tags: Oil and energy`), settling against the AAA Daily Fuel Gauge Report (`gasprices.aaa.com`). `KXAAAGASW-26NOV30-3.5200` has tight `$0.0600 / $0.0700` two-sided depth (`2,777.77` bid / `2,289.20` ask), whereas `-3.5000` jumped `+$0.37` (`$0.38 -> $0.75`) with zero resting NO bids (`spread $0.62`), demonstrating how Chat 2 filters unexecutable gas spikes.",
+        "source_doc": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXAAAGASW",
     },
 }
 
@@ -52,7 +52,7 @@ def fmt_num(v: object, dp: int = 2) -> str:
     return f"{float(v or 0):,.{dp}f}"
 
 
-def nav_html(prefix: str, active: str) -> str:
+def nav_html(prefix: str, active: str, captured_at: str) -> str:
     items = [
         ("desk", f"{prefix}index.html", "Live Demo Desk"),
         ("gas", f"{prefix}gas/index.html", "Gas Prices"),
@@ -62,13 +62,14 @@ def nav_html(prefix: str, active: str) -> str:
         ("golf", f"{prefix}golf/index.html", "Golf"),
         ("portfolio", f"{prefix}portfolio/index.html", "Portfolio & Strategies"),
         ("resolutions", f"{prefix}resolutions/index.html", "Resolutions"),
+        ("suggestions", f"{prefix}suggestions/index.html", "Interactive Ideas"),
         ("exec", f"{prefix}executive-summary/index.html", "Executive Summary"),
         ("audit", f"{prefix}audit/index.html", "Line-by-Line Audit"),
         ("flagged", f"{prefix}flagged/index.html", "Flagged for Review"),
         ("gateway", f"{prefix}../index.html", "All Desks ↗"),
     ]
     links = "".join(
-        f'<a href="{href}" class="{"active" if key == active else ""}">{ esc(label) }</a>'
+        f'<a href="{href}" class="{"active" if key == active else ""}">{esc(label)}</a>'
         for key, href, label in items
     )
     return f"""
@@ -76,7 +77,7 @@ def nav_html(prefix: str, active: str) -> str:
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · {esc(captured_at)}</span>
     </div>
     <nav class="navlinks" aria-label="Primary navigation">{links}</nav>
   </div>
@@ -87,11 +88,13 @@ def footer_html(prefix: str) -> str:
     return f"""
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="{prefix}suggestions/index.html">Interactive Roadmap</a> ·
     <a href="{prefix}flagged/index.html">Flagged for Review</a> ·
     <a href="{prefix}audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>
@@ -99,7 +102,7 @@ def footer_html(prefix: str) -> str:
 </footer>"""
 
 
-def page_shell(title: str, prefix: str, active: str, body: str, boot_script: str = "") -> str:
+def page_shell(title: str, prefix: str, active: str, captured_at: str, body: str, boot_script: str = "") -> str:
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -109,7 +112,7 @@ def page_shell(title: str, prefix: str, active: str, body: str, boot_script: str
   <link rel="stylesheet" href="{prefix}assets/live.css">
 </head>
 <body>
-{nav_html(prefix, active)}
+{nav_html(prefix, active, captured_at)}
 <main class="wrap">
 {body}
 {footer_html(prefix)}
@@ -144,34 +147,37 @@ def static_market_rows(markets: list[dict]) -> str:
 
 
 def build_landing(snap: dict) -> str:
+    high_roi_count = sum(1 for s in snap["swings"] if s["selective_pass"])
     body = f"""
   <section class="hero">
     <span class="badge accent">Kalshi Demo API · Strict 5-Topic Coverage · Zero Unverified Claims</span>
     <h1>Live Kalshi Demo Trading Desk — Gas Prices, Elections, Culture, Crypto &amp; Golf</h1>
     <p>
       Powered directly by verified responses from <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">external-api.demo.kalshi.co/trade-api/v2</a>
-      and official <a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">Kalshi API documentation</a>.
-      Tracks highest-volume events per topic, streams dual <strong>|&Delta;price| &ge; $0.10</strong> alert chats, charts Seconds / Minutes / Hours price &amp; liquidity with catalyst links, and executes multi-strategy + custom simulated trades using Kalshi's official <a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6-decimal-place fee-rounding accumulator</a>.
+      (with automatic failover to <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">demo-api.kalshi.co/trade-api/v2</a>)
+      and official <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">Kalshi API documentation</a>.
+      Separates the 5 topics cleanly, groups markets within the same event together by dollar volume, streams dual <strong>|&Delta;price| &ge; $0.10</strong> alert chats, charts Seconds / Minutes / Hours price &amp; orderbook liquidity with catalyst links, and executes multi-strategy + custom simulated trades using Kalshi's official <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">5-step 6dp fee-rounding accumulator</a>.
     </p>
     <div class="toolbar">
       <button class="active" data-topic-filter="ALL">All 5 Topics ({len(snap["markets"])})</button>
+      <button data-topic-filter="Gas Prices">Gas Prices</button>
       <button data-topic-filter="Elections">Elections</button>
-      <button data-topic-filter="Golf">Golf</button>
       <button data-topic-filter="Culture">Culture</button>
       <button data-topic-filter="Crypto">Crypto</button>
-      <button data-topic-filter="Gas Prices">Gas Prices</button>
+      <button data-topic-filter="Golf">Golf</button>
       <button id="btn-replay-tape" class="primary" type="button">&#9654; Replay Verified 5s Demo Swing Tape</button>
-      <button id="btn-poll-demo" type="button">&#8635; Poll Live Demo REST</button>
+      <button id="btn-poll-demo" type="button">&#8635; Poll Live Demo REST Now</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
     </div>
   </section>
 
   <section class="kpi-grid">
     <div class="kpi"><div class="label">Demo Exchange Status</div><div class="val" id="kpi-demo-status">ACTIVE (4 Shards)</div><div class="sub"><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Verify /exchange/status ↗</a></div></div>
     <div class="kpi"><div class="label">Tracked Open Contracts</div><div class="val" id="kpi-open-count">{len(snap["markets"])}</div><div class="sub">Strictly 5 Allowed Topics</div></div>
-    <div class="kpi"><div class="label">&ge;$0.10 Swing Alerts</div><div class="val" id="kpi-swing-count">{len(snap["swings"])} (4 High-ROI)</div><div class="sub">Dual Chat Stream Active</div></div>
+    <div class="kpi"><div class="label">&ge;$0.10 Swing Alerts</div><div class="val" id="kpi-swing-count">{len(snap["swings"])} ({high_roi_count} High-ROI)</div><div class="sub">Dual Chat Stream Active</div></div>
     <div class="kpi"><div class="label">Simulated Demo Equity</div><div class="val" id="kpi-equity">$10,000.00</div><div class="sub">Persisted Across Pages</div></div>
     <div class="kpi"><div class="label">Net Portfolio PnL</div><div class="val" id="kpi-pnl">+$0.00</div><div class="sub"><a href="portfolio/index.html">Open Strategy Lab &rarr;</a></div></div>
-    <div class="kpi"><div class="label">6dp Fees Debited</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Subpenny Accumulator ↗</a></div></div>
+    <div class="kpi"><div class="label">6dp Fees Debited</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Subpenny Accumulator ↗</a></div></div>
   </section>
 
   <section class="grid-2">
@@ -195,15 +201,15 @@ def build_landing(snap: dict) -> str:
 
     <div class="card" style="margin-bottom:0;">
       <h2>
-        <span>Orderbook Liquidity Ladder</span>
+        <span>Orderbook Liquidity Ladder &amp; VWAP Ticket</span>
         <span class="badge">Contracts Available by Price</span>
       </h2>
       <p class="subnote">
-        Reciprocal Kalshi V2 book (<a href="https://docs.kalshi.com/getting_started/orderbook_responses.md" target="_blank" rel="noopener">orderbook_fp spec ↗</a>): best bid sorted first (`[-1]`), implied YES asks = `$1.00 - NO bid`.
+        Reciprocal Kalshi V2 book (<a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">orderbook_fp spec ↗</a>): best bid sorted first (`[-1]`), implied YES asks = `$1.00 - NO bid`.
       </p>
       <div id="orderbook-panel"></div>
 
-      <h3>Quick Demo Order Ticket (Simulated Ledger)</h3>
+      <h3>Quick Demo Order Ticket (VWAP Depth + 6dp Fee Preview)</h3>
       <form id="quick-order-form" class="form-grid">
         <div class="field">
           <label for="quick-ticker">Contract</label>
@@ -218,13 +224,14 @@ def build_landing(snap: dict) -> str:
         </div>
         <div class="field">
           <label for="quick-contracts">Contracts</label>
-          <input id="quick-contracts" type="number" min="1" max="1000" value="15">
+          <input id="quick-contracts" type="number" min="1" max="5000" value="15">
         </div>
         <div class="field">
           <button type="submit" class="primary" style="width:100%;justify-content:center;">Execute Demo Fill</button>
         </div>
       </form>
-      <div id="quick-order-msg" style="margin-top:8px;font-size:12px;"></div>
+      <div id="quick-vwap-preview" class="subnote" style="margin-top:8px;margin-bottom:0;"></div>
+      <div id="quick-order-msg" style="margin-top:6px;font-size:12px;"></div>
     </div>
   </section>
 
@@ -243,7 +250,7 @@ def build_landing(snap: dict) -> str:
         <span>Chat 2 — Selective High-ROI Model Feed</span>
         <span class="badge ok">Net ROI &ge; 12% · Spread &le; $0.08 · Depth &ge; 25</span>
       </h2>
-      <p class="subnote">Filters out illiquid wide-spread traps (e.g. $0.98 resting spread) and tail dust (&lt;$0.06 / &gt;$0.94), surfacing only high-ROI setups net of 6dp taker fees.</p>
+      <p class="subnote">Filters out illiquid wide-spread traps (e.g. $0.68–$0.98 resting spreads) and tail dust (&lt;$0.06 / &gt;$0.94), surfacing only actionable setups net of 6dp taker fees.</p>
       <div id="chat-selective" class="chat-feed"></div>
     </div>
   </section>
@@ -264,46 +271,9 @@ def build_landing(snap: dict) -> str:
       </div>
     </div>
   </section>
-
-  <section class="card">
-    <h2>Concrete Engineering Suggestions to Make This Site Even More Live &amp; Interactive</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>#</th><th>Enhancement</th><th>How It Works with Official Kalshi V2 Specs</th><th>Official Reference</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="mono">S1</td>
-            <td><strong>Signed Local/Edge WebSocket Multiplexer (`ticker` + `orderbook_delta` + `fill`)</strong></td>
-            <td>Browser `WebSocket` APIs cannot attach custom `KALSHI-ACCESS-SIGNATURE` headers during the HTTP Upgrade handshake. Running `python3 -m kalshi_engine.relay_server` locally (or on a Cloudflare Worker with encrypted secrets) signs `GET /trade-api/ws/v2` and fans out sub-second `orderbook_delta` ticks to the browser over SSE/WS.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets.md" target="_blank" rel="noopener">Quick Start: WebSockets ↗</a></td>
-          </tr>
-          <tr>
-            <td class="mono">S2</td>
-            <td><strong>Interactive Depth-Weighted Slippage Preview Before Order Submission</strong></td>
-            <td>Walk `orderbook_fp.no_dollars` (for YES buys) or `yes_dollars` (for NO buys) from `[-1]` downward as the user drags the contract-size slider, computing exact VWAP fill price + `ceil_6dp` fee impact before clicking Execute.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses.md" target="_blank" rel="noopener">Orderbook Responses ↗</a></td>
-          </tr>
-          <tr>
-            <td class="mono">S3</td>
-            <td><strong>Automated Catalyst Timestamp Pinning Against Primary Settlement Feeds</strong></td>
-            <td>Cross-index every `|&Delta;price| &ge; $0.10` Kalshi trade timestamp against Coinbase `BTC-USD` 1m candles (`Crypto`) and AAA daily state fuel averages (`Gas Prices`) to separate genuine external spot moves from Demo market-maker quote cycling.</td>
-            <td><a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Candles API ↗</a></td>
-          </tr>
-          <tr>
-            <td class="mono">S4</td>
-            <td><strong>Walk-Forward Parameter Sweep on Custom User Strategies</strong></td>
-            <td>Allow users in the Strategy Lab to sweep `min_abs_delta` (`$0.10`–`$0.35`) and `spread_cap` (`$0.02`–`$0.15`) across historical settled series (`?status=settled`) to visualize net-of-fee Sharpe and drawdown curves before enabling live Demo execution.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Fee Rounding Spec ↗</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
 """
     boot = '<script type="module">import { bootLivePage } from "./assets/live-app.mjs"; bootLivePage({ dataPath: "./data/verified_snapshot.json", topic: "ALL" });</script>'
-    return page_shell("Live Demo Trading Desk", "", "desk", body, boot)
+    return page_shell("Live Demo Trading Desk", "", "desk", snap["captured_at"], body, boot)
 
 
 def build_topic_page(snap: dict, topic: str) -> str:
@@ -334,9 +304,11 @@ def build_topic_page(snap: dict, topic: str) -> str:
     <span class="badge accent">Dedicated Topic Subpage · {esc(topic)} Only</span>
     <h1>{esc(topic)} — Live Kalshi Demo Events, Liquidity &amp; Resolutions</h1>
     <p>{esc(meta["blurb"])}</p>
-    <p style="margin-top:8px;font-size:13px;">
-      Official Series Discovery Source: <a href="{esc(meta["source_doc"])}" target="_blank" rel="noopener">{esc(meta["source_doc"])} ↗</a>
-    </p>
+    <div class="toolbar">
+      <button id="btn-poll-demo" class="primary" type="button">&#8635; Poll Live {esc(topic)} Quotes &amp; Orderbooks</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
+      <a class="btn" href="{esc(meta['source_doc'])}" target="_blank" rel="noopener">Verify Official Series JSON ↗</a>
+    </div>
   </section>
 
   <section class="card">
@@ -399,7 +371,7 @@ def build_topic_page(snap: dict, topic: str) -> str:
   </section>
 """
     boot = f'<script type="module">import {{ bootLivePage }} from "../assets/live-app.mjs"; bootLivePage({{ dataPath: "../data/verified_snapshot.json", topic: "{topic}" }});</script>'
-    return page_shell(f"{topic} Markets", "../", meta["slug"], body, boot)
+    return page_shell(f"{topic} Markets", "../", meta["slug"], snap["captured_at"], body, boot)
 
 
 def build_portfolio_page(snap: dict) -> str:
@@ -409,7 +381,7 @@ def build_portfolio_page(snap: dict) -> str:
           <td class="mono"><strong>{esc(sid)}</strong></td>
           <td><span class="badge accent">{esc(t_type)}</span></td>
           <td>{esc(rule)}</td>
-          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
         </tr>"""
         for sid, t_type, rule in [
             ("momentum_breakout", "breakout_momentum", "Buys YES on >=+$0.10 jump or NO on <=-$0.10 drop within [$0.12, $0.88]."),
@@ -426,20 +398,22 @@ def build_portfolio_page(snap: dict) -> str:
     <h1>Simulated &amp; Demo Portfolio Lab — Existing &amp; Custom Strategies Analyzed by Trade Type</h1>
     <p>
       Automates simulated trades across 5 built-in strategies plus user-defined custom strategies, tracks open &amp; settled positions with Kalshi's official
-      <a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6-decimal-place fee-rounding accumulator</a>,
+      <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">5-step 6dp fee-rounding accumulator &amp; per-series fee_multiplier</a>,
       and categorizes every fill by <strong>strategy</strong> and <strong>trade type</strong>. For authenticated Kalshi Demo V2 execution (`POST /trade-api/v2/portfolio/events/orders`), run `python3 -m kalshi_engine.relay_server` locally with your Demo API keys.
     </p>
     <div class="toolbar">
       <button id="btn-reset-ledger" type="button">Reset &amp; Re-Seed Verified Simulation</button>
-      <a class="btn primary" href="../index.html">Back to Live Desk &amp; 5s Replay &rarr;</a>
+      <button id="btn-check-demo-account" class="primary" type="button">Check Same-Origin Demo Account (/api/demo/status)</button>
+      <a class="btn" href="../index.html">Back to Live Desk &amp; 5s Replay &rarr;</a>
     </div>
+    <div id="demo-account-status-panel" class="subnote" style="margin-top:10px;margin-bottom:0;"></div>
   </section>
 
   <section class="kpi-grid">
     <div class="kpi"><div class="label">Portfolio Equity</div><div class="val" id="kpi-equity">$10,000.00</div><div class="sub">Starting Bankroll: $10,000.00</div></div>
     <div class="kpi"><div class="label">Net Total PnL</div><div class="val" id="kpi-pnl">+$0.00</div><div class="sub">Mark-to-Market + Finalized</div></div>
-    <div class="kpi"><div class="label">6dp Fees Charged</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Verify Fee Spec ↗</a></div></div>
-    <div class="kpi"><div class="label">Authenticated Demo Balance</div><div class="val">Unverified</div><div class="sub"><a href="../flagged/index.html">See Flagged F1 (No Keys in Repo) ↗</a></div></div>
+    <div class="kpi"><div class="label">6dp Fees Charged</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Verify Fee Spec ↗</a></div></div>
+    <div class="kpi"><div class="label">Authenticated Demo Balance</div><div class="val" id="kpi-auth-balance">Unverified</div><div class="sub"><a href="../flagged/index.html">See Flagged F1 (No Keys in Repo) ↗</a></div></div>
   </section>
 
   <section class="grid-equal">
@@ -514,7 +488,7 @@ def build_portfolio_page(snap: dict) -> str:
               <td><span class="badge accent">custom_rule</span></td>
               <td>Crypto · dir=down · |&Delta;|&ge;$0.10 · [$0.25, $0.48]</td>
               <td class="mono">YES &times; 15</td>
-              <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td>
+              <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td>
             </tr>
           </tbody>
         </table>
@@ -531,7 +505,7 @@ def build_portfolio_page(snap: dict) -> str:
             <tr><th>Strategy</th><th class="num">Trades</th><th class="num">Contracts</th><th class="num">Notional</th><th class="num">Fees</th><th class="num">Net PnL</th><th class="num">Win %</th><th>Spec Link</th></tr>
           </thead>
           <tbody id="analytics-by-strategy">
-            <tr><td><strong>Selective High-ROI Model</strong></td><td class="num">5</td><td class="num">100</td><td class="num">$55.00</td><td class="num">$1.5800</td><td class="num up-txt">+$7.42</td><td class="num">60%</td><td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi Fee Spec ↗</a></td></tr>
+            <tr><td><strong>Selective High-ROI Model</strong></td><td class="num">4</td><td class="num">80</td><td class="num">$42.00</td><td class="num">$1.3900</td><td class="num up-txt">+$6.61</td><td class="num">75%</td><td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi Fee Spec ↗</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -545,7 +519,7 @@ def build_portfolio_page(snap: dict) -> str:
             <tr><th>Trade Type</th><th class="num">Trades</th><th class="num">Contracts</th><th class="num">Notional</th><th class="num">Fees</th><th class="num">Net PnL</th><th class="num">Win %</th><th>Spec Link</th></tr>
           </thead>
           <tbody id="analytics-by-type">
-            <tr><td><span class="badge accent">selective_value</span></td><td class="num">5</td><td class="num">100</td><td class="num">$55.00</td><td class="num">$1.5800</td><td class="num up-txt">+$7.42</td><td class="num">60%</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order.md" target="_blank" rel="noopener">V2 Order Spec ↗</a></td></tr>
+            <tr><td><span class="badge accent">selective_value</span></td><td class="num">4</td><td class="num">80</td><td class="num">$42.00</td><td class="num">$1.3900</td><td class="num up-txt">+$6.61</td><td class="num">75%</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">V2 Order Spec ↗</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -553,14 +527,20 @@ def build_portfolio_page(snap: dict) -> str:
   </section>
 
   <section class="card" style="margin-top:18px;">
-    <h2>Manual Demo Order Execution Ticket</h2>
+    <h2>Manual &amp; Optional Relay Order Execution Ticket</h2>
     <form id="quick-order-form" class="form-grid">
       <div class="field"><label for="quick-ticker">Contract</label><select id="quick-ticker"></select></div>
       <div class="field"><label for="quick-side">Side</label><select id="quick-side"><option value="yes">BUY YES</option><option value="no">BUY NO</option></select></div>
-      <div class="field"><label for="quick-contracts">Contracts</label><input id="quick-contracts" type="number" min="1" max="1000" value="10"></div>
-      <div class="field"><button type="submit" class="primary" style="width:100%;justify-content:center;">Execute Manual Trade</button></div>
+      <div class="field"><label for="quick-contracts">Contracts</label><input id="quick-contracts" type="number" min="1" max="5000" value="10"></div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input id="quick-send-relay" type="checkbox" style="width:auto;"> Also submit via /api/demo/order
+        </label>
+        <button type="submit" class="primary" style="width:100%;justify-content:center;">Execute Trade</button>
+      </div>
     </form>
-    <div id="quick-order-msg" style="margin-top:8px;font-size:12px;"></div>
+    <div id="quick-vwap-preview" class="subnote" style="margin-top:8px;margin-bottom:0;"></div>
+    <div id="quick-order-msg" style="margin-top:6px;font-size:12px;"></div>
   </section>
 
   <section class="card">
@@ -572,10 +552,10 @@ def build_portfolio_page(snap: dict) -> str:
         </thead>
         <tbody id="trade-ledger-body">
           <tr>
-            <td class="mono">2026-11-22T06:55:00Z</td><td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H07-UP</strong></td><td>Crypto</td>
-            <td>Selective High-ROI Model</td><td><span class="badge">selective_value</span></td><td class="mono">YES &times; 20 @ $0.5500</td>
-            <td class="num">$0.3465</td><td><span class="badge ok">Finalized (yes) +$8.65</span></td>
-            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H07-UP" target="_blank" rel="noopener">Market API ↗</a></td>
+            <td class="mono">2026-11-27T18:55:00Z</td><td class="mono"><strong>KXDEMOFUTHOURLY-26NOV27H19-UP</strong></td><td>Crypto</td>
+            <td>Mean-Reversion Fade</td><td><span class="badge">mean_reversion</span></td><td class="mono">NO &times; 20 @ $0.3500</td>
+            <td class="num">$0.3185</td><td><span class="badge ok">Finalized (no) +$12.68</span></td>
+            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H19-UP" target="_blank" rel="noopener">Market API ↗</a></td>
           </tr>
         </tbody>
       </table>
@@ -583,7 +563,7 @@ def build_portfolio_page(snap: dict) -> str:
   </section>
 """
     boot = '<script type="module">import { bootLivePage } from "../assets/live-app.mjs"; bootLivePage({ dataPath: "../data/verified_snapshot.json", topic: "ALL" });</script>'
-    return page_shell("Portfolio & Strategy Lab", "../", "portfolio", body, boot)
+    return page_shell("Portfolio & Strategy Lab", "../", "portfolio", snap["captured_at"], body, boot)
 
 
 def build_resolutions_page(snap: dict) -> str:
@@ -607,18 +587,17 @@ def build_resolutions_page(snap: dict) -> str:
     )
     body = f"""
   <section class="hero">
-    <span class="badge ok">Verified Lifecycle Tracking · active &rarr; closed &rarr; determined &rarr; finalized</span>
+    <span class="badge ok">Verified Multi-Day Lifecycle Tracking · active &rarr; closed &rarr; determined &rarr; finalized</span>
     <h1>Live-to-Resolution Outcome Tracker (`yes`, `no` &amp; Proportional `scalar`)</h1>
     <p>
-      Per Kalshi's official <a href="https://docs.kalshi.com/getting_started/market_lifecycle.md" target="_blank" rel="noopener">Market Lifecycle specification</a>,
-      settled contracts are queried with `?status=settled` and return `market.status === "finalized"` (never `"settled"`). During this session,
-      `KXDEMOFUTHOURLY-26NOV22H07-UP` was observed transitioning live from `active` to `finalized` (`result: "yes"`, `$1.0000` at `2026-11-22T07:01:32Z`).
-      We also document and support proportional `result: "scalar"` settlements (`$0.5000` on `KXXISUCCESSOR-45JAN01-DXUE`).
+      Per Kalshi's official <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">Market Lifecycle specification</a>,
+      settled contracts are queried with `?status=settled` and return `market.status === "finalized"` (never `"settled"`).
+      Across `2026-11-22` through `2026-11-27`, watched open contracts across Gas Prices (`KXAAAGASMIN-26DEC31-3.60` &rarr; `YES`), Golf (`KXPGATOUR-THRC26-CBEZ/-ZBAU/-LABE` &rarr; `NO`), and Crypto (`KXDEMOFUTHOURLY-26NOV22H08-UP` &rarr; `YES`, `26NOV27H19-UP` &rarr; `NO`) were tracked all the way through official settlement.
     </p>
   </section>
 
   <section class="card">
-    <h2>Verified Finalized Contracts Across the 5 Topics</h2>
+    <h2>Verified Finalized Contracts Across All 5 Topics ({len(snap["resolutions"])} Settlements)</h2>
     <div class="table-wrap">
       <table>
         <thead>
@@ -632,18 +611,87 @@ def build_resolutions_page(snap: dict) -> str:
     </div>
   </section>
 """
-    return page_shell("Resolution Tracker", "../", "resolutions", body)
+    return page_shell("Resolution Tracker", "../", "resolutions", snap["captured_at"], body)
+
+
+def build_suggestions_page(snap: dict) -> str:
+    body = """
+  <section class="hero">
+    <span class="badge accent">Live &amp; Interactive Architecture Roadmap · Protocol-Verified</span>
+    <h1>Suggestions to Make the Kalshi Demo Desk Even More Live &amp; Interactive</h1>
+    <p>
+      Every recommendation below is grounded directly in official <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">Kalshi Demo REST &amp; WebSocket V2 capabilities</a>
+      while respecting static GitHub Pages browser security boundaries (zero private keys in client-side code).
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Implemented Interactive Capabilities vs. Next-Stage Upgrades</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Capability / Suggestion</th><th>Protocol &amp; UX Design</th><th>Current Status</th><th>Official Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono"><strong>S1</strong></td>
+            <td><strong>Browser-Direct CORS Live Polling + Dual-Host Failover (`20s` Auto-Poll)</strong></td>
+            <td>Polls `external-api.demo.kalshi.co/trade-api/v2` with automatic failover to `demo-api.kalshi.co/trade-api/v2` and `/api/demo/public` for live quotes, `/orderbook`, and `/markets/trades`, pushing real-time `|&Delta;p| &ge; $0.10` swings into both chats and auto-settling `finalized` trades.</td>
+            <td><span class="badge ok">Implemented Live</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">API Environments ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S2</strong></td>
+            <td><strong>Real-Time Orderbook VWAP Depth &amp; Slippage Preview</strong></td>
+            <td>Walks reciprocal `orderbook_fp.no_dollars` (for YES buys) and `yes_dollars` (for NO buys) ascending from best ask before order execution, displaying exact VWAP price, levels walked, unfilled remainder, and BigInt 6dp fee debit.</td>
+            <td><span class="badge ok">Implemented Live</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">Orderbook Responses ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S3</strong></td>
+            <td><strong>Edge-Signed WebSocket Multiplexer (`ticker` + `orderbook_delta` + `user-ws` fills)</strong></td>
+            <td>Browser `new WebSocket(...)` cannot send custom `KALSHI-ACCESS-SIGNATURE` headers. Deploying a lightweight Cloudflare Worker / Fly.io edge relay that signs `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` and `wss://user-ws.demo.kalshi.co/trade-api/ws/v2` (`warp-ws` deprecated) would stream sub-100ms sequence-checked orderbook deltas over browser SSE/WebSocket.</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">WebSockets Spec ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S4</strong></td>
+            <td><strong>Synchronized Spot-Benchmark Overlay on Contract Jump Graph</strong></td>
+            <td>Overlay Coinbase `BTC-USD` 1-minute candles (`Crypto`) and AAA daily/weekly fuel gauge prints (`Gas Prices`) on a secondary Y-axis so users can visually distinguish genuine benchmark spot shocks from synthetic Demo market-maker quote cycling.</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Candles ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S5</strong></td>
+            <td><strong>Maker Limit-Order Queue Simulator (`0.0175` Maker Fee Tier)</strong></td>
+            <td>Extend the Strategy Lab to post passive resting bids inside wide Demo spreads (e.g., `KXAAAGASW-26NOV30-3.5000`), modeling queue priority against `/markets/trades` `taker_side` prints and Kalshi's `0.0175 &times; fee_multiplier &times; C &times; P &times; (1-P)` maker fee schedule.</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Fee Rounding Spec ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S6</strong></td>
+            <td><strong>Cross-Shard Latency &amp; Mutually Exclusive Collateral (`MECNET`) Visualizer</strong></td>
+            <td>Surface per-shard health across `exchange_index` `0..3` and compute net collateral relief across mutually exclusive (`collateral_return_type: "MECNET"`) multi-candidate baskets (`KXPRESPERSON-28`, `KXPGATOUR-MAST27`, `KXBTCY-27JAN0100`).</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-MAST27" target="_blank" rel="noopener">MECNET Event JSON ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+"""
+    return page_shell("Interactive Roadmap & Suggestions", "../", "suggestions", snap["captured_at"], body)
 
 
 def build_exec_summary_page(snap: dict) -> str:
     body = """
   <section class="hero">
-    <span class="badge accent">Executive Summary · Verified End-to-End Architecture</span>
+    <span class="badge accent">Executive Summary · Verified End-to-End Architecture (2026-11-27 UTC)</span>
     <h1>Executive Summary — Kalshi Demo Trading System &amp; Line-by-Line Verification</h1>
     <p>
-      This desk delivers a complete, source-verified Kalshi Demo Environment monitoring, alerting, charting, resolution-tracking, and multi-strategy simulation system strictly across the five requested topics:
+      This desk delivers a complete, source-verified Kalshi Demo Environment monitoring, alerting, charting, multi-day resolution-tracking, and multi-strategy simulation system strictly across the five requested topics:
       <strong>Gas Prices, Elections, Culture, Crypto, and Golf</strong>. Every endpoint, cryptographic signature rule, fee formula, and market figure was verified directly against
-      <a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">official Kalshi documentation</a> and live responses from
+      <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">official Kalshi documentation</a> and live `2026-11-27` responses from
       <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">external-api.demo.kalshi.co/trade-api/v2</a>.
     </p>
   </section>
@@ -656,40 +704,40 @@ def build_exec_summary_page(snap: dict) -> str:
         <tbody>
           <tr>
             <td><strong>1. Kalshi Demo REST &amp; WebSocket V2 Client (`kalshi_engine/`)</strong></td>
-            <td>Uses `https://external-api.demo.kalshi.co/trade-api/v2` + `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2`, signs `timestamp_ms + METHOD + /trade-api/v2/...` (stripping query params) via Ed25519 or RSA-PSS/SHA-256, and submits V2 orders to `POST /portfolio/events/orders`.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order.md" target="_blank" rel="noopener">Create Order V2 ↗</a></td>
+            <td>Uses `https://external-api.demo.kalshi.co/trade-api/v2` (with automatic failover to `demo-api.kalshi.co`), `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2`, and `wss://user-ws.demo.kalshi.co/trade-api/ws/v2`; signs `timestamp_ms + METHOD + /trade-api/v2/...` (stripping query params) via Ed25519 or RSA-PSS/SHA-256; routes V2 orders to `POST /portfolio/events/orders`.</td>
+            <td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">Create Order V2 ↗</a></td>
           </tr>
           <tr>
-            <td><strong>2. Strict 5-Topic Organization (Zero Bleed)</strong></td>
-            <td>Maps series &amp; events strictly into `Elections`, `Golf`, `Culture`, `Crypto`, and `Gas Prices` with dedicated subpages and event grouping, eliminating substring bugs (`OPEN`, `SOL`, `OIL`, `BOOK`).</td>
-            <td><a href="https://docs.kalshi.com/api-reference/market/get-series-list.md" target="_blank" rel="noopener">Series Taxonomy ↗</a></td>
+            <td><strong>2. Strict 5-Topic Organization &amp; Event Grouping</strong></td>
+            <td>Separates `Gas Prices`, `Elections`, `Culture`, `Crypto`, and `Golf` into dedicated subpages and dashboard panels while grouping contracts sharing the same `event_ticker` together by verified contract volume.</td>
+            <td><a href="https://docs.kalshi.com/api-reference/market/get-series-list" target="_blank" rel="noopener">Series Taxonomy ↗</a></td>
           </tr>
           <tr>
             <td><strong>3. Dual Real-Time &ge;$0.10 Swing Alert Chats</strong></td>
-            <td>Chat 1 streams all `|&Delta;price| &ge; $0.10` moves (verified on 5s `KXDEMOFUTHOURLY-26NOV22H08-UP` trade prints); Chat 2 applies a Selective High-ROI gate (`net_roi &ge; 12%` after 6dp fee, `spread &le; $0.08`, `depth &ge; 25`).</td>
-            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15" target="_blank" rel="noopener">Demo 5s Trades JSON ↗</a></td>
+            <td>Chat 1 streams all `|&Delta;price| &ge; $0.10` moves (verified on 5s `KXDEMOFUTHOURLY-26NOV27H20-UP` prints, `KXAAAGASW-26NOV30-3.5000` `+$0.37`, and `KXPRESPERSON-28-KHAR` `+$0.94`); Chat 2 enforces a Selective High-ROI gate (`net_roi &ge; 12%` after 6dp fee, `spread &le; $0.08`, `depth &ge; 25`).</td>
+            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=15" target="_blank" rel="noopener">Demo 5s Trades JSON ↗</a></td>
           </tr>
           <tr>
-            <td><strong>4. Seconds / Minutes / Hours Interactive Price &amp; Liquidity Graph</strong></td>
-            <td>Canvas time-series chart with `Seconds`, `Minutes`, and `Hours` window selectors, diamond jump markers (`|&Delta;| &ge; $0.10`), catalyst/settlement links, and non-truncated reciprocal `orderbook_fp` depth bars.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses.md" target="_blank" rel="noopener">Orderbook Spec ↗</a></td>
+            <td><strong>4. Seconds / Minutes / Hours Interactive Price, VWAP &amp; Liquidity Graph</strong></td>
+            <td>Canvas time-series chart with `Seconds`, `Minutes`, and `Hours` window selectors, diamond jump markers (`|&Delta;| &ge; $0.10`), official settlement/catalyst links, non-truncated reciprocal `orderbook_fp` depth bars, and pre-trade VWAP slippage preview.</td>
+            <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">Orderbook Spec ↗</a></td>
           </tr>
           <tr>
-            <td><strong>5. Multi-Strategy Automation, Custom Strategy Builder &amp; 6dp Fees</strong></td>
-            <td>Runs 5 built-in strategies + user-created custom rules, categorizes trades by strategy and trade type, settles `yes`/`no`/`scalar` outcomes, and enforces Kalshi's 6-decimal-place fee accumulator.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Fee Rounding Spec ↗</a></td>
+            <td><strong>5. Multi-Strategy Automation, Custom Strategy Builder &amp; Exact 6dp Fees</strong></td>
+            <td>Runs 5 built-in strategies + user-created custom rules, categorizes trades by strategy and trade type, tracks live events through `yes`/`no`/`scalar` settlement, and implements Kalshi's exact 5-step `BigInt`/`Decimal` 6dp fee accumulator + per-series `fee_multiplier`.</td>
+            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Fee Rounding Spec ↗</a></td>
           </tr>
           <tr>
-            <td><strong>6. Line-by-Line Repo Audit &amp; Zero-Hallucination Flagged Page</strong></td>
-            <td>Audited every file in `main` (`R1`–`R12`) and upstream Demo payloads (`U1`–`U5`), leaving every unconfirmed value blank (`""`) on the Flagged for Review page.</td>
-            <td><a href="../flagged/index.html">Flagged for Review ↗</a> · <a href="https://docs.kalshi.com/getting_started/demo_env.md" target="_blank" rel="noopener">Demo Env Docs ↗</a></td>
+            <td><strong>6. Line-by-Line Repo Audit (`R1`–`R18`) &amp; Blank-Cell Flagged Page</strong></td>
+            <td>Audited repository code, scheduled workflows, and upstream Demo payloads line-by-line, leaving every unconfirmed value completely blank (`""`) on the Flagged for Review page.</td>
+            <td><a href="../flagged/index.html">Flagged for Review ↗</a> · <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">Demo Env Docs ↗</a></td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 """
-    return page_shell("Executive Summary", "../", "exec", body)
+    return page_shell("Executive Summary", "../", "exec", snap["captured_at"], body)
 
 
 def build_audit_page(snap: dict) -> str:
@@ -719,17 +767,17 @@ def build_audit_page(snap: dict) -> str:
     <span class="badge warn">Line-by-Line Code &amp; API Audit · Every Row Linked to Official Source</span>
     <h1>Line-by-Line Repository Review &amp; Upstream Kalshi Demo Irregularities</h1>
     <p>
-      Every file across prior repository merges (`python/**`, `site/**`, `docs/**`, `kalshi_trader/**`) and every live response from
+      Every file across repository modules (`python/**`, `site/**`, `docs/**`, `kalshi_trader/**`, `.github/workflows/**`, `demo-desk/**`, `kalshi_engine/**`) and every live response from
       <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">external-api.demo.kalshi.co</a>
-      was audited line-by-line. Per multi-session coordination rules, prior sessions' directories were preserved untouched while clean V2 implementations were built in `kalshi_engine/` and `live/`.
+      was audited line-by-line. Active parallel sessions' files were respected without conflict while fixes were shipped in our owned scope and logged in `COORDINATION.md`.
     </p>
   </section>
 
   <section class="card">
-    <h2>Part 1 — Repository Code &amp; Deployment Findings (`R1`–`R12`)</h2>
+    <h2>Part 1 — Repository Code, Data &amp; Workflow Findings (`R1`–`R18`)</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>ID</th><th>File &amp; Lines</th><th>Severity</th><th>Verified Finding &amp; Resolution in `kalshi_engine/` + `live/`</th><th>Official Source</th></tr></thead>
+        <thead><tr><th>ID</th><th>File &amp; Lines</th><th>Severity</th><th>Verified Finding &amp; Resolution</th><th>Official Source</th></tr></thead>
         <tbody>{repo_rows}</tbody>
       </table>
     </div>
@@ -745,11 +793,10 @@ def build_audit_page(snap: dict) -> str:
     </div>
   </section>
 """
-    return page_shell("Line-by-Line Audit", "../", "audit", body)
+    return page_shell("Line-by-Line Audit", "../", "audit", snap["captured_at"], body)
 
 
 def build_flagged_page(snap: dict) -> str:
-    # CRITICAL RULE: Unconfirmed values MUST have an empty Verified Value cell (""), never inferred or filled in!
     flag_rows = "".join(
         f"""
         <tr>
@@ -777,7 +824,7 @@ def build_flagged_page(snap: dict) -> str:
     <span class="badge warn">Flagged for Review · Zero Inferred Values · Blank Cells Where Unconfirmed</span>
     <h1>Flagged for Review — Unverified Items &amp; Upstream Demo Irregularities</h1>
     <p>
-      Strict verification policy: if a value cannot be confirmed directly from an official Kalshi endpoint or official documentation (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">docs.kalshi.com ↗</a>),
+      Strict verification policy: if a value cannot be confirmed directly from an official Kalshi endpoint or official documentation (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">docs.kalshi.com ↗</a>),
       its <strong>Verified Value cell is left completely blank</strong> and the item is flagged below with its official reference link. None of these items are hidden or guessed.
     </p>
   </section>
@@ -811,7 +858,7 @@ def build_flagged_page(snap: dict) -> str:
     </div>
   </section>
 """
-    return page_shell("Flagged for Review", "../", "flagged", body)
+    return page_shell("Flagged for Review", "../", "flagged", snap["captured_at"], body)
 
 
 def main() -> None:
@@ -826,6 +873,7 @@ def main() -> None:
         LIVE_DIR / "golf" / "index.html": build_topic_page(snap, "Golf"),
         LIVE_DIR / "portfolio" / "index.html": build_portfolio_page(snap),
         LIVE_DIR / "resolutions" / "index.html": build_resolutions_page(snap),
+        LIVE_DIR / "suggestions" / "index.html": build_suggestions_page(snap),
         LIVE_DIR / "executive-summary" / "index.html": build_exec_summary_page(snap),
         LIVE_DIR / "audit" / "index.html": build_audit_page(snap),
         LIVE_DIR / "flagged" / "index.html": build_flagged_page(snap),

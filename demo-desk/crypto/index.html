@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="active">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="active">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -22,15 +22,17 @@
   <section class="hero">
     <span class="badge accent">Dedicated Topic Subpage · Crypto Only</span>
     <h1>Crypto — Live Kalshi Demo Events, Liquidity &amp; Resolutions</h1>
-    <p>High-frequency hourly Bitcoin contracts (`KXDEMOFUTHOURLY-26NOV22H08-UP` active, `H07-UP` finalized `yes` live during audit, plus `KXBTCD-26NOV2203`).</p>
-    <p style="margin-top:8px;font-size:13px;">
-      Official Series Discovery Source: <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&amp;limit=15" target="_blank" rel="noopener">https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&amp;limit=15 ↗</a>
-    </p>
+    <p>Highest-dollar annual Bitcoin brackets (`KXBTCY-27JAN0100`, 284M+ contracts across top 4 strikes) grouped alongside high-frequency hourly BTC benchmarks (`KXDEMOFUTHOURLY-26NOV27H20-UP` active, plus `26NOV27H19-UP`, `26NOV22H08-UP` &amp; `26NOV22H07-UP` finalized).</p>
+    <div class="toolbar">
+      <button id="btn-poll-demo" class="primary" type="button">&#8635; Poll Live Crypto Quotes &amp; Orderbooks</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
+      <a class="btn" href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY" target="_blank" rel="noopener">Verify Official Series JSON ↗</a>
+    </div>
   </section>
 
   <section class="card">
     <h2>Topic Microstructure &amp; Strategy Analysis — Crypto</h2>
-    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">`KXDEMOFUTHOURLY` is the single most active real-time tick generator on Kalshi Demo: `GET /markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP` prints 25-contract fills every 5 seconds cycling between `$0.35`, `$0.45`, `$0.55`, and `$0.65`, repeatedly firing `|Δprice| &gt;= $0.10` swings (`+$0.30` and `-$0.10`) and settling hourly against Coinbase `BTC-USD` candles.</p>
+    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">`KXBTCY-27JAN0100-B47500` (`80.26M` volume) provides deep two-sided resting liquidity (`$0.0400` bid x `4,166.66` / `$0.0500` implied ask x `472.58`), while `KXDEMOFUTHOURLY-26NOV27H20-UP` prints fills every 5 seconds cycling `$0.35 &lt;-&gt; $0.65`, firing live `|Δprice| &gt;= $0.10` swings and settling hourly against Coinbase `BTC-USD` candles. Note Demo `/series/KXBTCY` sets `fee_multiplier: 1` vs Production `0` (`R18`).</p>
   </section>
 
   <section class="grid-2">
@@ -68,31 +70,73 @@
           </thead>
           <tbody>
         <tr>
-          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H08-UP</strong></td>
-          <td class="mono">KXDEMOFUTHOURLY-26NOV22H08</td>
-          <td>BTC &gt; $59,023.80</td>
-          <td class="num">$0.5500</td>
-          <td class="num">$0.0100 / $0.9900</td>
-          <td class="num">865.34 / 1.00</td>
-          <td class="num">1,300.00</td>
-          <td class="num">90.00</td>
+          <td class="mono"><strong>KXBTCY-27JAN0100-B22500</strong></td>
+          <td class="mono">KXBTCY-27JAN0100</td>
+          <td>$20,000 to $24,999.99</td>
+          <td class="num">$0.0100</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
+          <td class="num">81,978,568.36</td>
+          <td class="num">25,003,538.99</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Exchange BTC-USD Candles ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B22500" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
           </td>
         </tr>
         <tr>
-          <td class="mono"><strong>KXBTCD-26NOV2203-T48099.99</strong></td>
-          <td class="mono">KXBTCD-26NOV2203</td>
-          <td>BTC &gt;= $48,100</td>
-          <td class="num">$0.0000</td>
-          <td class="num">$0.0000 / $1.0000</td>
-          <td class="num">0.00 / 0.00</td>
-          <td class="num">0.00</td>
-          <td class="num">0.00</td>
+          <td class="mono"><strong>KXBTCY-27JAN0100-B47500</strong></td>
+          <td class="mono">KXBTCY-27JAN0100</td>
+          <td>$45,000 to $49,999.99</td>
+          <td class="num">$0.0500</td>
+          <td class="num">$0.0400 / $0.0500</td>
+          <td class="num">4,166.66 / 472.58</td>
+          <td class="num">80,261,505.27</td>
+          <td class="num">26,598,343.53</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCD-26NOV2203-T48099.99" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.cfbenchmarks.com/data/indices/BRTI" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXBTCY-27JAN0100-B27500</strong></td>
+          <td class="mono">KXBTCY-27JAN0100</td>
+          <td>$25,000 to $29,999.99</td>
+          <td class="num">$0.0100</td>
+          <td class="num">$0.0000 / $0.0100</td>
+          <td class="num">0.00 / 13,751.06</td>
+          <td class="num">69,939,723.53</td>
+          <td class="num">19,489,294.22</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B27500" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXBTCY-27JAN0100-T20000.00</strong></td>
+          <td class="mono">KXBTCY-27JAN0100</td>
+          <td>$19,999.99 or below</td>
+          <td class="num">$0.0200</td>
+          <td class="num">$0.0100 / $0.0200</td>
+          <td class="num">16,666.66 / 8,333.33</td>
+          <td class="num">52,203,680.39</td>
+          <td class="num">9,376,731.35</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-T20000.00" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV27H20-UP</strong></td>
+          <td class="mono">KXDEMOFUTHOURLY-26NOV27H20</td>
+          <td>BTC &gt;= $59,843.27</td>
+          <td class="num">$0.5500</td>
+          <td class="num">$0.3100 / $0.9900</td>
+          <td class="num">5.00 / 1.00</td>
+          <td class="num">7,225.00</td>
+          <td class="num">90.00</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H20-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Exchange BTC-USD Candles ↗</a>
           </td>
         </tr></tbody>
         </table>
@@ -112,8 +156,34 @@
         </thead>
         <tbody>
         <tr>
+          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV27H19-UP</strong></td>
+          <td>Demo BTC at or above 59847.1 USD (finalized NO at 19:01:27 UTC today)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">8,220.00</td>
+          <td class="mono">2026-11-27T19:01:27Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H19-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Exchange BTC-USD Candles ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H08-UP</strong></td>
+          <td>Demo BTC at or above 59023.8 USD (tracked active on Nov 22 -&gt; finalized YES)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">8,220.00</td>
+          <td class="mono">2026-11-22T08:01:42Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Exchange BTC-USD Candles ↗</a>
+          </td>
+        </tr>
+        <tr>
           <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H07-UP</strong></td>
-          <td>BTC above hourly strike at 07:00 UTC (observed active -&gt; finalized live in session)</td>
+          <td>BTC above hourly strike at 07:00 UTC (observed active -&gt; finalized YES)</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge ok">YES</span></td>
           <td class="num">$1.0000</td>
@@ -131,11 +201,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

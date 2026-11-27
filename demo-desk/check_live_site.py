@@ -16,8 +16,12 @@ OFFICIAL_HOSTS = {
     "docs.kalshi.com",
     "external-api.demo.kalshi.co",
     "demo-api.kalshi.co",
+    "demo.kalshi.co",
+    "kalshi.com",
+    "assets.kalshi.com",
     "gasprices.aaa.com",
     "www.congress.gov",
+    "www.whitehouse.gov",
     "apnews.com",
     "www.pgatour.com",
     "www.billboard.com",
@@ -94,8 +98,13 @@ def main() -> int:
             errors.append(f"Unverified flag {f['id']} must have blank verified_value, got {f['verified_value']!r}")
 
     pages = sorted(LIVE_DIR.rglob("*.html"))
-    if len(pages) < 11:
-        errors.append(f"Expected >=11 HTML pages under live/, found {len(pages)}")
+    if len(pages) < 12:
+        errors.append(f"Expected >=12 HTML pages under demo-desk/, found {len(pages)}")
+
+    for js_file in sorted((LIVE_DIR / "assets").glob("*.mjs")):
+        js_txt = js_file.read_text(encoding="utf-8")
+        if "127.0.0.1" in js_txt or "localhost" in js_txt:
+            errors.append(f"{js_file.relative_to(REPO_ROOT)}: must not contain hardcoded localhost/127.0.0.1")
 
     parsed_map: dict[Path, PageAuditParser] = {}
     for page in pages:
