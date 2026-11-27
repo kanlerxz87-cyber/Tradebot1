@@ -4,14 +4,18 @@ import {
   rawTakerFee6dp,
   applyFeeAccumulator,
   normalizeOrderbook,
+  estimateOrderbookFill,
   evaluateSwing,
   generateStrategySignals,
-  settlementPayoutPerContract,
-  estimateOrderSlippage
+  settlementPayoutPerContract
 } from "./live-core.mjs";
 
 const STORAGE_KEY = "kalshi_live_demo_desk_v2";
-const DEMO_REST = "https://external-api.demo.kalshi.co/trade-api/v2";
+const DEMO_REST_BASES = [
+  "https://external-api.demo.kalshi.co/trade-api/v2",
+  "https://demo-api.kalshi.co/trade-api/v2"
+];
+const DEMO_REST = DEMO_REST_BASES[0];
 
 function esc(v) {
   return String(v ?? "")
@@ -32,6 +36,45 @@ function fmtNum(n, dp = 2) {
     minimumFractionDigits: dp,
     maximumFractionDigits: dp
   });
+}
+
+function resolveApiPath(relApiPath) {
+  // Works whether served at /demo-desk/ or /Tradebot1/demo-desk/ or subpage /demo-desk/portfolio/
+  const path = window.location.pathname || "/";
+  const idx = path.indexOf("/demo-desk/");
+  const rootPrefix = idx >= 0 ? path.slice(0, idx) : "";
+  return `${rootPrefix}${relApiPath}`;
+}
+
+async function fetchDemoPublicJson(endpointPath) {
+  const clean = endpointPath.startsWith("/") ? endpointPath : `/${endpointPath}`;
+  let lastErr = null;
+  for (const base of DEMO_REST_BASES) {
+    try {
+      const res = await fetch(`${base}${clean}`, { mode: "cors", cache: "no-store" });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      return { data, via: base };
+    } catch (err) {
+      lastErr = err;
+    }
+  }
+  // Fallback to same-origin read-only relay (/api/demo/public) when running kalshi_engine.relay_server
+  try {
+    const relayRes = await fetch(
+      `${resolveApiPath("/api/demo/public")}?endpoint=${encodeURIComponent(clean)}`,
+      { cache: "no-store" }
+    );
+    if (relayRes.ok) {
+      const payload = await relayRes.json();
+      if (payload?.ok && payload?.data) {
+        return { data: payload.data, via: "/api/demo/public" };
+      }
+    }
+  } catch {
+    // Static GitHub Pages has no server endpoint; ignore fallback error
+  }
+  throw lastErr || new Error("Unreachable");
 }
 
 function defaultState() {
@@ -64,7 +107,7 @@ function defaultState() {
     ],
     trades: [],
     seeded: false,
-    relayBase: "/api/demo"
+    routeLiveRelayOrders: false
   };
 }
 
@@ -88,9 +131,12 @@ function saveState(st) {
 }
 
 function recordTrade(st, trade) {
-  const cost = Number((trade.contracts * trade.price).toFixed(4));
-  const raw6dp = rawTakerFee6dp(trade.contracts, trade.price, 0.07, trade.fee_multiplier ?? 1);
-  const feeRes = applyFeeAccumulator(raw6dp, st.feeAccumulator, true);
+  const contracts = Number(trade.contracts);
+  const price = Number(trade.price);
+  const feeMult = trade.fee_multiplier !== undefined ? Number(trade.fee_multiplier) : 1;
+  const cost = Number((contracts * price).toFixed(4));
+  const raw6dp = rawTakerFee6dp(contracts, price, 0.07, feeMult);
+  const feeRes = applyFeeAccumulator(raw6dp, st.feeAccumulator, true, -cost);
   if (st.cash < cost + feeRes.charged) return null;
 
   st.cash = Number((st.cash - cost - feeRes.charged).toFixed(4));
@@ -106,8 +152,9 @@ function recordTrade(st, trade) {
     strategy_label: trade.strategy_label,
     trade_type: trade.trade_type,
     side: trade.side,
-    contracts: Number(trade.contracts),
-    price: Number(trade.price),
+    contracts,
+    price,
+    fee_multiplier: feeMult,
     cost,
     fee_raw_6dp: raw6dp,
     fee_charged: feeRes.charged,
@@ -120,6 +167,22 @@ function recordTrade(st, trade) {
   };
   st.trades.unshift(entry);
   return entry;
+}
+
+function settleTradesForMarket(st, ticker, result, settlementValueDollars = null) {
+  let count = 0;
+  for (const tr of st.trades) {
+    if (tr.ticker !== ticker || tr.settled) continue;
+    const unitPayout = settlementPayoutPerContract(tr.side, result, settlementValueDollars);
+    const payout = Number((tr.contracts * unitPayout).toFixed(4));
+    tr.settled = true;
+    tr.settlement_result = String(result).toLowerCase();
+    tr.payout = payout;
+    tr.realized_pnl = Number((payout - tr.cost - tr.fee_charged).toFixed(4));
+    st.cash = Number((st.cash + payout).toFixed(4));
+    count += 1;
+  }
+  return count;
 }
 
 function seedInitialPortfolioIfNeeded(st, snap) {
@@ -136,28 +199,35 @@ function seedInitialPortfolioIfNeeded(st, snap) {
       });
     }
   }
-  // Also record and settle one verified finalized contract (`KXDEMOFUTHOURLY-26NOV22H07-UP` -> `yes`)
-  const settledTr = recordTrade(st, {
-    ts: "2026-11-22T06:55:00Z",
-    ticker: "KXDEMOFUTHOURLY-26NOV22H07-UP",
-    topic: "Crypto",
-    strategy_id: "high_roi_selective",
-    strategy_label: "Selective High-ROI Model",
-    trade_type: "selective_value",
+  // Seed two verified 2026-11-27 finalized settlements (YES on Gas $3.60 & NO fade on BTC H19)
+  const gasTr = recordTrade(st, {
+    ts: "2026-11-27T18:30:00Z",
+    ticker: "KXAAAGASMIN-26DEC31-3.60",
+    topic: "Gas Prices",
+    strategy_id: "favorite_compounder",
+    strategy_label: "Favorite Compounder",
+    trade_type: "tail_convexity",
     side: "yes",
-    contracts: 20,
-    price: 0.55,
-    source_url: `${DEMO_REST}/markets/KXDEMOFUTHOURLY-26NOV22H07-UP`
+    contracts: 15,
+    price: 0.90,
+    source_url: `${DEMO_REST}/events/KXAAAGASMIN-26DEC31?with_nested_markets=true`
   });
-  if (settledTr) {
-    const unitPayout = settlementPayoutPerContract("yes", "yes", "1.0000");
-    const payout = Number((settledTr.contracts * unitPayout).toFixed(4));
-    settledTr.settled = true;
-    settledTr.settlement_result = "yes";
-    settledTr.payout = payout;
-    settledTr.realized_pnl = Number((payout - settledTr.cost - settledTr.fee_charged).toFixed(4));
-    st.cash = Number((st.cash + payout).toFixed(4));
-  }
+  if (gasTr) settleTradesForMarket(st, "KXAAAGASMIN-26DEC31-3.60", "yes", "1.0000");
+
+  const btcH19Tr = recordTrade(st, {
+    ts: "2026-11-27T18:55:00Z",
+    ticker: "KXDEMOFUTHOURLY-26NOV27H19-UP",
+    topic: "Crypto",
+    strategy_id: "mean_reversion_fade",
+    strategy_label: "Mean-Reversion Fade",
+    trade_type: "mean_reversion",
+    side: "no",
+    contracts: 20,
+    price: 0.35,
+    source_url: `${DEMO_REST}/markets/KXDEMOFUTHOURLY-26NOV27H19-UP`
+  });
+  if (btcH19Tr) settleTradesForMarket(st, "KXDEMOFUTHOURLY-26NOV27H19-UP", "no", "0.0000");
+
   st.seeded = true;
   saveState(st);
 }
@@ -235,7 +305,7 @@ function buildChartSeries(snap, market, windowMode) {
   const curr = Number(market.last_price_dollars || 0);
   return [
     {
-      ts: "2026-11-21T07:12:00Z",
+      ts: "2026-11-26T19:49:18Z",
       price: prev,
       source_url: market.api_url,
       catalyst_url: market.settlement_source_url
@@ -268,7 +338,6 @@ function drawPriceChart(canvas, tooltipEl, points, market) {
   ctx.fillStyle = "#0b111e";
   ctx.fillRect(0, 0, width, height);
 
-  // Y-axis grid ($0.00 to $1.00)
   ctx.strokeStyle = "#1e293b";
   ctx.lineWidth = 1;
   ctx.font = "11px ui-monospace, monospace";
@@ -293,7 +362,6 @@ function drawPriceChart(canvas, tooltipEl, points, market) {
     return { ...pt, x, y, delta, isJump: idx > 0 && Math.abs(delta) + 1e-9 >= 0.10 };
   });
 
-  // Area fill
   const grad = ctx.createLinearGradient(0, pad.top, 0, pad.top + plotH);
   grad.addColorStop(0, "rgba(56, 189, 248, 0.28)");
   grad.addColorStop(1, "rgba(56, 189, 248, 0.01)");
@@ -305,14 +373,12 @@ function drawPriceChart(canvas, tooltipEl, points, market) {
   ctx.fillStyle = grad;
   ctx.fill();
 
-  // Price line
   ctx.beginPath();
   coords.forEach((c, idx) => (idx === 0 ? ctx.moveTo(c.x, c.y) : ctx.lineTo(c.x, c.y)));
   ctx.strokeStyle = "#38bdf8";
   ctx.lineWidth = 2.2;
   ctx.stroke();
 
-  // Points + >=$0.10 diamond jump markers
   coords.forEach((c) => {
     if (c.isJump) {
       ctx.save();
@@ -329,7 +395,6 @@ function drawPriceChart(canvas, tooltipEl, points, market) {
     }
   });
 
-  // X-axis time labels
   ctx.fillStyle = "#93a4c3";
   const labelIndices = [0, Math.floor((coords.length - 1) / 2), coords.length - 1];
   [...new Set(labelIndices)].forEach((idx) => {
@@ -378,7 +443,7 @@ function drawPriceChart(canvas, tooltipEl, points, market) {
 }
 
 function renderOrderbookPanel(container, snap, market) {
-  if (!container) return;
+  if (!container || !market) return;
   const rawBook = snap.orderbooks?.[market.ticker] || null;
   const norm = normalizeOrderbook(rawBook, market);
   const maxSize = Math.max(
@@ -391,7 +456,7 @@ function renderOrderbookPanel(container, snap, market) {
 
   container.innerHTML = `
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:12px;">
-      <span>Source: <span class="mono">${norm.sourceType === "orderbook_fp" ? "Full /orderbook_fp" : "Market Top-of-Book"}</span></span>
+      <span>Source: <span class="mono">${norm.sourceType === "orderbook_fp" ? "Full /orderbook_fp" : "Market Top-of-Book"}</span> · Fee Mult: <span class="mono">${market.fee_multiplier ?? 1}&times;</span></span>
       <a href="${esc(srcUrl)}" target="_blank" rel="noopener">Verify Orderbook JSON ↗</a>
     </div>
     <div style="font-size:11px;color:var(--muted);margin-bottom:4px;">IMPLIED YES ASKS ($1.00 &minus; NO Bid) · Contracts Available</div>
@@ -430,6 +495,47 @@ function renderOrderbookPanel(container, snap, market) {
         : `<div class="subnote" style="margin:4px 0;">No resting YES bids.</div>`
     }
   `;
+}
+
+function renderVwapPreview(previewEl, snap, state) {
+  if (!previewEl) return;
+  const tickerEl = document.getElementById("quick-ticker");
+  const sideEl = document.getElementById("quick-side");
+  const contractsEl = document.getElementById("quick-contracts");
+  if (!tickerEl || !sideEl || !contractsEl) return;
+
+  const ticker = tickerEl.value;
+  const side = sideEl.value || "yes";
+  const contracts = Math.max(1, Number(contractsEl.value || 10));
+  const market = snap.markets.find((m) => m.ticker === ticker) || snap.markets[0];
+  if (!market) return;
+
+  const rawBook = snap.orderbooks?.[market.ticker] || null;
+  const norm = normalizeOrderbook(rawBook, market);
+  const est = estimateOrderbookFill(norm, side, contracts);
+  const fallbackYes = Number(market.last_price_dollars || market.yes_ask_dollars || 0.5);
+  const execPrice =
+    est.vwapPrice !== null
+      ? est.vwapPrice
+      : Math.min(0.99, Math.max(0.01, side === "yes" ? fallbackYes : Number((1 - fallbackYes).toFixed(4))));
+  const feeMult = market.fee_multiplier !== undefined ? Number(market.fee_multiplier) : 1;
+  const raw6dp = rawTakerFee6dp(contracts, execPrice, 0.07, feeMult);
+  const feeStep = applyFeeAccumulator(raw6dp, state.feeAccumulator, true, -(contracts * execPrice));
+
+  if (est.vwapPrice !== null) {
+    previewEl.innerHTML = `
+      <span class="mono">Depth Preview (${esc(side.toUpperCase())} &times; ${contracts}):</span>
+      VWAP <strong>$${est.vwapPrice.toFixed(4)}</strong> across ${est.levelsWalked} level(s)
+      (slippage ${est.slippage >= 0 ? "+" : ""}$${est.slippage.toFixed(4)}, resting depth ${fmtNum(est.totalDepth, 2)}${est.unfilledContracts > 0 ? `, <span class="down-txt">${fmtNum(est.unfilledContracts, 0)} unfilled</span>` : ""}) ·
+      6dp Fee <span class="mono">$${raw6dp.toFixed(6)}</span> (debit <span class="mono">$${feeStep.charged.toFixed(4)}</span>)
+    `;
+  } else {
+    previewEl.innerHTML = `
+      <span class="mono">Mark Preview (${esc(side.toUpperCase())} &times; ${contracts}):</span>
+      No resting ${esc(side.toUpperCase())} ask liquidity &lt; $1.00 — simulated fill marks at last print <strong>$${execPrice.toFixed(4)}</strong> ·
+      6dp Fee <span class="mono">$${raw6dp.toFixed(6)}</span> (debit <span class="mono">$${feeStep.charged.toFixed(4)}</span>)
+    `;
+  }
 }
 
 function renderAlertChats(allEl, selEl, swings, topicFilter) {
@@ -495,7 +601,6 @@ function renderTopicTables(container, snap, selectedTicker, topicFilter, onSelec
       .filter((m) => m.topic === topic)
       .sort((a, b) => Number(b.volume_fp) - Number(a.volume_fp));
 
-    // Group events within the topic together, sorted by total event contract volume
     const eventMap = new Map();
     for (const m of topicMarkets) {
       if (!eventMap.has(m.event_ticker)) {
@@ -592,38 +697,8 @@ export async function bootLivePage(config = {}) {
     activeTopic === "ALL" ? snap.markets : snap.markets.filter((m) => m.topic === activeTopic);
   let selectedTicker =
     (initialCandidates.find((m) => m.ticker === "KXDEMOFUTHOURLY-26NOV27H20-UP") ||
-      initialCandidates.find((m) => snap.series_history?.[m.ticker]?.seconds?.length) ||
       initialCandidates[0] ||
       snap.markets[0])?.ticker;
-
-  const updateSlippagePreview = () => {
-    const previewEl = document.getElementById("quick-slippage-preview");
-    const tickerEl = document.getElementById("quick-ticker");
-    const sideEl = document.getElementById("quick-side");
-    const contractsEl = document.getElementById("quick-contracts");
-    if (!previewEl || !tickerEl || !sideEl || !contractsEl) return;
-    const ticker = tickerEl.value || selectedTicker;
-    const side = sideEl.value || "yes";
-    const contracts = Math.max(1, Number(contractsEl.value || 10));
-    const m = snap.markets.find((x) => x.ticker === ticker) || snap.markets[0];
-    const norm = normalizeOrderbook(snap.orderbooks?.[ticker] || null, m);
-    const est = estimateOrderSlippage(norm, side, contracts, m?.fee_multiplier ?? 1);
-    if (est.vwapPrice !== null) {
-      previewEl.innerHTML =
-        `Depth VWAP Preview: <strong>${est.filledContracts}/${est.requestedContracts}</strong> filled @ ` +
-        `<strong class="mono">$${est.vwapPrice.toFixed(4)}</strong> ` +
-        `(top $${est.topPrice.toFixed(4)}, slip +$${est.slippageDollars.toFixed(4)}, ` +
-        `6dp fee $${est.feeCharged.toFixed(4)}, mult &times;${Number(m?.fee_multiplier ?? 1).toFixed(1)})` +
-        (est.unfilledContracts > 0 ? ` · <span class="down-txt">${est.unfilledContracts} exceeds visible book</span>` : "");
-    } else {
-      const fallbackYes = Number(m?.last_price_dollars || 0.5);
-      const refP = side === "yes" ? fallbackYes : Number((1 - fallbackYes).toFixed(4));
-      const rawFee = rawTakerFee6dp(contracts, refP, 0.07, m?.fee_multiplier ?? 1);
-      previewEl.innerHTML =
-        `Ref Last-Print Estimate: <strong class="mono">$${refP.toFixed(4)}</strong> &times; ${contracts} ` +
-        `(no resting ask in book; est. 6dp fee $${rawFee.toFixed(6)}, mult &times;${Number(m?.fee_multiplier ?? 1).toFixed(1)})`;
-    }
-  };
 
   const updateTopKpis = () => {
     const metrics = computePortfolioMetrics(state, snap);
@@ -653,6 +728,7 @@ export async function bootLivePage(config = {}) {
       drawPriceChart(canvas, tooltip, pts, market);
     }
     renderOrderbookPanel(document.getElementById("orderbook-panel"), snap, market);
+    renderVwapPreview(document.getElementById("quick-vwap-preview"), snap, state);
     renderAlertChats(
       document.getElementById("chat-all"),
       document.getElementById("chat-selective"),
@@ -671,10 +747,138 @@ export async function bootLivePage(config = {}) {
         renderMainDashboard();
       }
     );
-    updateSlippagePreview();
   };
 
-  // Wire window selector buttons (Seconds / Minutes / Hours)
+  async function refreshLiveDemoData() {
+    const statusBadge = document.getElementById("conn-badge");
+    if (statusBadge) statusBadge.textContent = "Polling Live Kalshi Demo REST...";
+    try {
+      const stRes = await fetchDemoPublicJson("/exchange/status");
+      snap.environment.exchange_active = Boolean(stRes.data?.exchange_active);
+
+      // Refresh watched market quotes & detect real-time >=$0.10 swings + finalized resolutions
+      const tickersCsv = snap.markets.map((m) => m.ticker).join(",");
+      const mktsRes = await fetchDemoPublicJson(`/markets?tickers=${encodeURIComponent(tickersCsv)}&limit=100`);
+      const liveMarkets = Array.isArray(mktsRes.data?.markets) ? mktsRes.data.markets : [];
+      let newSwingCount = 0;
+      let newlyFinalized = 0;
+
+      for (const lm of liveMarkets) {
+        const local = snap.markets.find((x) => x.ticker === lm.ticker);
+        if (!local) continue;
+        const prevLast = Number(local.last_price_dollars || 0);
+        const nextLast = Number(lm.last_price_dollars || prevLast);
+
+        local.last_price_dollars = lm.last_price_dollars ?? local.last_price_dollars;
+        local.yes_bid_dollars = lm.yes_bid_dollars ?? local.yes_bid_dollars;
+        local.yes_ask_dollars = lm.yes_ask_dollars ?? local.yes_ask_dollars;
+        local.yes_bid_size_fp = lm.yes_bid_size_fp ?? local.yes_bid_size_fp;
+        local.yes_ask_size_fp = lm.yes_ask_size_fp ?? local.yes_ask_size_fp;
+        local.volume_fp = lm.volume_fp ?? local.volume_fp;
+        local.volume_24h_fp = lm.volume_24h_fp ?? local.volume_24h_fp;
+        local.open_interest_fp = lm.open_interest_fp ?? local.open_interest_fp;
+        local.status = lm.status ?? local.status;
+
+        if (prevLast > 0 && nextLast > 0) {
+          const yb = Number(local.yes_bid_dollars || 0);
+          const ya = Number(local.yes_ask_dollars || 1);
+          const sp = ya >= yb && ya > 0 ? Number((ya - yb).toFixed(4)) : 1.0;
+          const depth = Number(local.yes_bid_size_fp || 0) + Number(local.yes_ask_size_fp || 0);
+          const sw = evaluateSwing({
+            ticker: local.ticker,
+            topic: local.topic,
+            title: `${local.title} [Live Poll]`,
+            prevPrice: prevLast,
+            newPrice: nextLast,
+            spread: sp,
+            depthContracts: depth,
+            feeMultiplier: local.fee_multiplier ?? 1,
+            ts: new Date().toISOString(),
+            apiUrl: local.api_url,
+            catalystLabel: `${local.settlement_source_name} (Live Demo Poll)`,
+            catalystUrl: local.settlement_source_url
+          });
+          if (sw) {
+            liveSwings.unshift(sw);
+            newSwingCount += 1;
+            const sigs = generateStrategySignals(sw, state.enabledStrategies, state.customStrategies);
+            sigs.forEach((sig) =>
+              recordTrade(state, {
+                ...sig,
+                ts: sw.ts,
+                ticker: sw.ticker,
+                topic: sw.topic,
+                fee_multiplier: local.fee_multiplier ?? 1,
+                source_url: sw.api_url
+              })
+            );
+          }
+        }
+
+        if (lm.status === "finalized" && lm.result) {
+          newlyFinalized += settleTradesForMarket(state, lm.ticker, lm.result, lm.settlement_value_dollars);
+        }
+      }
+
+      // Refresh selected contract orderbook & recent trade prints for chart
+      const selMarket = snap.markets.find((m) => m.ticker === selectedTicker) || snap.markets[0];
+      if (selMarket) {
+        try {
+          const obRes = await fetchDemoPublicJson(
+            `/markets/${encodeURIComponent(selMarket.ticker)}/orderbook?depth=10`
+          );
+          const obFp = obRes.data?.orderbook_fp || obRes.data?.orderbook;
+          if (obFp) {
+            snap.orderbooks = snap.orderbooks || {};
+            snap.orderbooks[selMarket.ticker] = {
+              source_url: `${DEMO_REST}/markets/${selMarket.ticker}/orderbook?depth=10`,
+              yes_dollars: obFp.yes_dollars || [],
+              no_dollars: obFp.no_dollars || []
+            };
+          }
+        } catch {
+          // Keep snapshot orderbook if individual call fails
+        }
+        try {
+          const trRes = await fetchDemoPublicJson(
+            `/markets/trades?ticker=${encodeURIComponent(selMarket.ticker)}&limit=15`
+          );
+          const prints = Array.isArray(trRes.data?.trades) ? [...trRes.data.trades].reverse() : [];
+          if (prints.length >= 2) {
+            snap.series_history = snap.series_history || {};
+            snap.series_history[selMarket.ticker] = snap.series_history[selMarket.ticker] || {};
+            snap.series_history[selMarket.ticker].seconds = prints.map((p) => ({
+              ts: p.created_time,
+              price: Number(p.yes_price_dollars || 0),
+              count: Number(p.count_fp || 0),
+              taker_side: p.taker_side,
+              trade_id: p.trade_id,
+              source_url: `${DEMO_REST}/markets/trades?ticker=${selMarket.ticker}&limit=15`,
+              catalyst_url: selMarket.settlement_source_url
+            }));
+          }
+        } catch {
+          // Keep snapshot trades if individual call fails
+        }
+      }
+
+      if (newSwingCount > 0 || newlyFinalized > 0) saveState(state);
+      renderMainDashboard();
+      renderPortfolioPage();
+
+      if (statusBadge) {
+        const nowStr = new Date().toISOString().slice(11, 19) + "Z";
+        statusBadge.textContent = `Live Demo REST Synced ${nowStr} (${liveMarkets.length} mkts${newSwingCount ? `, +${newSwingCount} swing` : ""})`;
+        statusBadge.className = "badge ok";
+      }
+    } catch (err) {
+      if (statusBadge) {
+        statusBadge.textContent = `Live Fetch Fallback (${err.message}) — Serving Verified Snapshot`;
+        statusBadge.className = "badge warn";
+      }
+    }
+  }
+
   document.querySelectorAll("[data-window]").forEach((btn) => {
     btn.addEventListener("click", () => {
       windowMode = btn.getAttribute("data-window");
@@ -683,7 +887,6 @@ export async function bootLivePage(config = {}) {
     });
   });
 
-  // Wire topic filter buttons on main landing page
   document.querySelectorAll("[data-topic-filter]").forEach((btn) => {
     btn.addEventListener("click", () => {
       activeTopic = btn.getAttribute("data-topic-filter");
@@ -696,7 +899,9 @@ export async function bootLivePage(config = {}) {
     });
   });
 
-  // Wire Replay Verified 5s Demo Tape button
+  const replayTicker =
+    Object.keys(snap.series_history || {}).find((k) => snap.series_history[k]?.seconds?.length >= 2) ||
+    "KXDEMOFUTHOURLY-26NOV27H20-UP";
   const replayBtn = document.getElementById("btn-replay-tape");
   let replayTimer = null;
   if (replayBtn) {
@@ -705,10 +910,7 @@ export async function bootLivePage(config = {}) {
         clearInterval(replayTimer);
         replayTimer = null;
       }
-      const replayTicker = snap.series_history?.["KXDEMOFUTHOURLY-26NOV27H20-UP"]?.seconds?.length
-        ? "KXDEMOFUTHOURLY-26NOV27H20-UP"
-        : Object.keys(snap.series_history || {}).find((k) => snap.series_history[k]?.seconds?.length);
-      const ticks = (replayTicker && snap.series_history?.[replayTicker]?.seconds) || [];
+      const ticks = snap.series_history?.[replayTicker]?.seconds || [];
       if (ticks.length < 2) return;
       selectedTicker = replayTicker;
       windowMode = "seconds";
@@ -719,7 +921,7 @@ export async function bootLivePage(config = {}) {
         if (idx >= ticks.length) {
           clearInterval(replayTimer);
           replayTimer = null;
-          if (statusBadge) statusBadge.textContent = "Verified Demo Snapshot + Replay Complete";
+          if (statusBadge) statusBadge.textContent = "Verified Demo Snapshot + 5s Replay Complete";
           return;
         }
         const prev = ticks[idx - 1];
@@ -727,11 +929,11 @@ export async function bootLivePage(config = {}) {
         const sw = evaluateSwing({
           ticker: replayTicker,
           topic: "Crypto",
-          title: "Demo BTC Hourly Reference [Replay]",
+          title: `Demo hourly BTC price [Replay ${curr.trade_id ? curr.trade_id.slice(0, 8) : ""}]`,
           prevPrice: prev.price,
           newPrice: curr.price,
           spread: 0.06,
-          depthContracts: 93.0,
+          depthContracts: 90.0,
           ts: curr.ts,
           apiUrl: curr.source_url,
           catalystLabel: "Coinbase BTC-USD Candles (Verified 5s Trade Print)",
@@ -757,125 +959,38 @@ export async function bootLivePage(config = {}) {
     });
   }
 
-  // Live Demo REST poller (fetches exchange status + selected market quote, orderbook_fp, and recent trades)
-  let relayConnected = false;
-  const pollLiveDemo = async () => {
-    const statusBadge = document.getElementById("conn-badge");
-    if (statusBadge) statusBadge.textContent = "Polling external-api.demo.kalshi.co...";
-    try {
-      const target = snap.markets.find((m) => m.ticker === selectedTicker) || snap.markets[0];
-      const [stRes, mktRes, bookRes, trRes] = await Promise.all([
-        fetch(`${DEMO_REST}/exchange/status`, { mode: "cors" }),
-        target ? fetch(`${DEMO_REST}/markets/${encodeURIComponent(target.ticker)}`, { mode: "cors" }) : Promise.resolve(null),
-        target ? fetch(`${DEMO_REST}/markets/${encodeURIComponent(target.ticker)}/orderbook`, { mode: "cors" }) : Promise.resolve(null),
-        target ? fetch(`${DEMO_REST}/markets/trades?ticker=${encodeURIComponent(target.ticker)}&limit=12`, { mode: "cors" }) : Promise.resolve(null)
-      ]);
-      if (!stRes.ok) throw new Error(`HTTP ${stRes.status}`);
-      const stJson = await stRes.json();
-
-      if (target && mktRes?.ok) {
-        const mktJson = await mktRes.json();
-        const liveM = mktJson.market || mktJson;
-        const prevPrice = Number(target.last_price_dollars || 0);
-        const nextPrice = Number(liveM.last_price_dollars || prevPrice);
-        Object.assign(target, {
-          status: liveM.status || target.status,
-          last_price_dollars: liveM.last_price_dollars ?? target.last_price_dollars,
-          yes_bid_dollars: liveM.yes_bid_dollars ?? target.yes_bid_dollars,
-          yes_ask_dollars: liveM.yes_ask_dollars ?? target.yes_ask_dollars,
-          yes_bid_size_fp: liveM.yes_bid_size_fp ?? target.yes_bid_size_fp,
-          yes_ask_size_fp: liveM.yes_ask_size_fp ?? target.yes_ask_size_fp,
-          volume_fp: liveM.volume_fp ?? target.volume_fp,
-          open_interest_fp: liveM.open_interest_fp ?? target.open_interest_fp
-        });
-        if (bookRes?.ok) {
-          const bJson = await bookRes.json();
-          const fp = bJson.orderbook_fp || bJson.orderbook || {};
-          snap.orderbooks[target.ticker] = {
-            source_url: `${DEMO_REST}/markets/${target.ticker}/orderbook`,
-            yes_dollars: fp.yes_dollars || [],
-            no_dollars: fp.no_dollars || []
-          };
-        }
-        if (trRes?.ok) {
-          const tJson = await trRes.json();
-          const prints = [...(tJson.trades || [])].reverse();
-          if (prints.length >= 2) {
-            snap.series_history[target.ticker] = snap.series_history[target.ticker] || {};
-            snap.series_history[target.ticker].seconds = prints.map((p) => ({
-              ts: p.created_time,
-              price: Number(p.yes_price_dollars),
-              source_url: `${DEMO_REST}/markets/trades?ticker=${target.ticker}&limit=12`,
-              catalyst_url: target.settlement_source_url
-            }));
-          }
-        }
-        const norm = normalizeOrderbook(snap.orderbooks[target.ticker], target);
-        const depth = [...norm.yesBids, ...norm.yesAsks].reduce((s, r) => s + r.size, 0);
-        const sw = evaluateSwing({
-          ticker: target.ticker,
-          topic: target.topic,
-          title: target.title,
-          prevPrice,
-          newPrice: nextPrice,
-          spread: norm.spread ?? 0.06,
-          depthContracts: depth || 50,
-          ts: new Date().toISOString(),
-          apiUrl: target.api_url,
-          catalystLabel: `${target.settlement_source_name} (Live Demo Poll)`,
-          catalystUrl: target.settlement_source_url
-        });
-        if (sw && !liveSwings.some((x) => x.ticker === sw.ticker && Math.abs(x.new_price - sw.new_price) < 1e-6)) {
-          liveSwings.unshift(sw);
-        }
-      }
-
-      if (statusBadge) {
-        statusBadge.textContent = `Live Demo REST Connected (exchange_active=${stJson.exchange_active})`;
-        statusBadge.className = "badge ok";
-      }
-      renderMainDashboard();
-      renderPortfolioPage();
-    } catch (err) {
-      if (statusBadge) {
-        statusBadge.textContent = `Offline / Restricted (${err.message}) — Serving Verified Demo Snapshot`;
-        statusBadge.className = "badge warn";
-      }
-    }
-  };
-
   const pollBtn = document.getElementById("btn-poll-demo");
   if (pollBtn) {
-    pollBtn.addEventListener("click", pollLiveDemo);
+    pollBtn.addEventListener("click", () => {
+      refreshLiveDemoData();
+    });
   }
 
-  // Probe same-origin relative /api/demo/status for authenticated Demo account info
-  const relayBadgeEl = document.getElementById("demo-relay-status");
-  (async () => {
-    try {
-      const r = await fetch(`${state.relayBase}/status`, { headers: { Accept: "application/json" } });
-      if (r.ok && (r.headers.get("content-type") || "").includes("application/json")) {
-        const info = await r.json();
-        relayConnected = Boolean(info.connected);
-        if (relayBadgeEl) {
-          if (info.connected) {
-            const balDollars = ((info.balance?.balance ?? 0) / 100).toFixed(2);
-            relayBadgeEl.innerHTML = `<span class="badge ok">Authenticated Demo Relay Active</span> Balance: <strong class="mono">$${balDollars}</strong>`;
-          } else {
-            relayBadgeEl.innerHTML = `<span class="badge warn">Same-Origin Relay Ready (Paper Mode)</span> ${esc(info.reason || "")}`;
-          }
-        }
+  const autoPollBtn = document.getElementById("btn-autopoll-demo");
+  let autoPollTimer = null;
+  if (autoPollBtn) {
+    autoPollBtn.addEventListener("click", () => {
+      if (autoPollTimer) {
+        clearInterval(autoPollTimer);
+        autoPollTimer = null;
+        autoPollBtn.classList.remove("active");
+        autoPollBtn.textContent = "Auto-Poll (20s): OFF";
+      } else {
+        autoPollBtn.classList.add("active");
+        autoPollBtn.textContent = "Auto-Poll (20s): ON";
+        refreshLiveDemoData();
+        autoPollTimer = setInterval(refreshLiveDemoData, 20000);
       }
-    } catch {
-      // Static GitHub Pages hosting — no same-origin relay daemon running, paper mode stays active silently.
-    }
-  })();
+    });
+  }
 
-  // Quick manual trade ticket on dashboard or portfolio page
   const quickTicker = document.getElementById("quick-ticker");
   if (quickTicker) {
     quickTicker.innerHTML = snap.markets
-      .map((m) => `<option value="${esc(m.ticker)}" ${m.ticker === selectedTicker ? "selected" : ""}>${esc(m.ticker)} (${esc(m.topic)} · $${Number(m.last_price_dollars).toFixed(3)})</option>`)
+      .map(
+        (m) =>
+          `<option value="${esc(m.ticker)}" ${m.ticker === selectedTicker ? "selected" : ""}>${esc(m.ticker)} (${esc(m.topic)} · $${Number(m.last_price_dollars).toFixed(3)})</option>`
+      )
       .join("");
     quickTicker.addEventListener("change", () => {
       selectedTicker = quickTicker.value;
@@ -884,40 +999,43 @@ export async function bootLivePage(config = {}) {
   }
   ["quick-side", "quick-contracts"].forEach((id) => {
     const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener("change", updateSlippagePreview);
-      el.addEventListener("input", updateSlippagePreview);
-    }
+    if (el) el.addEventListener("input", () => renderVwapPreview(document.getElementById("quick-vwap-preview"), snap, state));
+    if (el) el.addEventListener("change", () => renderVwapPreview(document.getElementById("quick-vwap-preview"), snap, state));
   });
 
   const quickForm = document.getElementById("quick-order-form");
   if (quickForm) {
-    updateSlippagePreview();
     quickForm.addEventListener("submit", async (ev) => {
       ev.preventDefault();
       const ticker = document.getElementById("quick-ticker").value;
       const side = document.getElementById("quick-side").value;
       const contracts = Math.max(1, Number(document.getElementById("quick-contracts").value || 10));
       const m = snap.markets.find((x) => x.ticker === ticker) || snap.markets[0];
-      const norm = normalizeOrderbook(snap.orderbooks?.[ticker] || null, m);
-      const slip = estimateOrderSlippage(norm, side, contracts, m?.fee_multiplier ?? 1);
+      const rawBook = snap.orderbooks?.[m.ticker] || null;
+      const norm = normalizeOrderbook(rawBook, m);
+      const est = estimateOrderbookFill(norm, side, contracts);
       const yesPrice = Number(m.last_price_dollars || m.yes_ask_dollars || 0.50);
-      const fallbackPrice = Math.min(0.99, Math.max(0.01, side === "yes" ? yesPrice : Number((1 - yesPrice).toFixed(4))));
-      const price = slip.vwapPrice !== null ? Math.min(0.99, Math.max(0.01, slip.vwapPrice)) : fallbackPrice;
+      const price =
+        est.vwapPrice !== null
+          ? est.vwapPrice
+          : Math.min(0.99, Math.max(0.01, side === "yes" ? yesPrice : Number((1 - yesPrice).toFixed(4))));
       const msgEl = document.getElementById("quick-order-msg");
 
-      let relayNote = "";
-      if (relayConnected) {
+      let relayInfo = "";
+      const relayCheckbox = document.getElementById("quick-send-relay");
+      if (relayCheckbox?.checked) {
         try {
-          const r = await fetch(`${state.relayBase}/order`, {
+          const r = await fetch(resolveApiPath("/api/demo/order"), {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ ticker, side, action: "buy", count: contracts, price_dollars: price.toFixed(4) })
+            body: JSON.stringify({ ticker, side, action: "buy", contracts, price_dollars: price.toFixed(4) })
           });
-          const rj = await r.json();
-          if (rj.ok) relayNote = " · Submitted to Live Kalshi Demo Account!";
+          const j = await r.json();
+          relayInfo = j.ok
+            ? ` · Live V2 Demo order submitted (${esc(j.order?.order?.order_id || "accepted")})`
+            : ` · Relay note: ${esc(j.error || "no Demo keys configured; recorded in local simulation")}`;
         } catch {
-          // Keep paper ledger fill even if live relay rejects
+          relayInfo = " · Static Pages mode (no server relay; recorded in local simulation)";
         }
       }
 
@@ -936,7 +1054,7 @@ export async function bootLivePage(config = {}) {
       saveState(state);
       if (msgEl) {
         msgEl.innerHTML = tr
-          ? `<span class="up-txt">Executed Demo fill: BUY ${tr.contracts} ${tr.side.toUpperCase()} @ $${tr.price.toFixed(4)} VWAP on ${esc(tr.ticker)} (6dp fee $${tr.fee_raw_6dp.toFixed(6)}, charged $${tr.fee_charged.toFixed(4)})${esc(relayNote)}.</span>`
+          ? `<span class="up-txt">Executed simulated Demo fill: BUY ${tr.contracts} ${tr.side.toUpperCase()} @ $${tr.price.toFixed(4)} on ${esc(tr.ticker)} (6dp fee $${tr.fee_raw_6dp.toFixed(6)}, aligned debit $${tr.fee_charged.toFixed(4)})${relayInfo}.</span>`
           : `<span class="down-txt">Insufficient simulated cash balance.</span>`;
       }
       renderMainDashboard();
@@ -944,7 +1062,32 @@ export async function bootLivePage(config = {}) {
     });
   }
 
-  // Portfolio & Strategy Builder page controller
+  const checkDemoBtn = document.getElementById("btn-check-demo-account");
+  if (checkDemoBtn) {
+    checkDemoBtn.addEventListener("click", async () => {
+      const box = document.getElementById("demo-account-status-panel");
+      if (!box) return;
+      box.textContent = "Checking same-origin /api/demo/status...";
+      try {
+        const res = await fetch(resolveApiPath("/api/demo/status"), { cache: "no-store" });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const d = await res.json();
+        if (d.authenticated && d.balance) {
+          const cents = Number(d.balance.balance ?? 0);
+          const portCents = Number(d.balance.portfolio_value ?? 0);
+          const fillsCount = Array.isArray(d.fills?.fills) ? d.fills.fills.length : 0;
+          box.innerHTML = `<span class="up-txt">Connected to Authenticated Kalshi Demo Account:</span> Cash <strong>$${(cents / 100).toFixed(2)}</strong> · Portfolio Value <strong>$${(portCents / 100).toFixed(2)}</strong> · Recent Fills: <strong>${fillsCount}</strong>`;
+          const kpiAuth = document.getElementById("kpi-auth-balance");
+          if (kpiAuth) kpiAuth.textContent = `$${(cents / 100).toFixed(2)}`;
+        } else {
+          box.innerHTML = `<span class="badge warn">Public Relay Active (Unauthenticated)</span> ${esc(d.auth_note || "Set KALSHI_DEMO_KEY_ID and KALSHI_DEMO_KEY_PATH locally to enable signed Demo Account reads.")}`;
+        }
+      } catch {
+        box.innerHTML = `<span class="badge warn">Static GitHub Pages Mode</span> No local signed relay detected at <span class="mono">/api/demo/status</span>; authenticated Demo balance remains unverified (blank on Flagged F1) while simulated paper trading runs locally.`;
+      }
+    });
+  }
+
   const renderPortfolioPage = () => {
     const stratTogglesEl = document.getElementById("strategy-toggles");
     if (!stratTogglesEl) return;
@@ -983,11 +1126,11 @@ export async function bootLivePage(config = {}) {
             <td><span class="badge accent">${esc(cs.trade_type)}</span></td>
             <td>${esc(cs.topic)} · dir=${esc(cs.direction)} · |Δ|&ge;$${Number(cs.min_abs_delta).toFixed(2)} · [$${Number(cs.min_price).toFixed(2)}, $${Number(cs.max_price).toFixed(2)}]</td>
             <td class="mono">${esc(cs.side.toUpperCase())} &times; ${cs.contracts}</td>
-            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td>
+            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td>
           </tr>`
             )
             .join("")
-        : `<tr><td colspan="5">No custom strategies added yet.</td></tr>`;
+        : `<tr><td colspan="5">No custom strategies added yet. <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td></tr>`;
     }
 
     const byStratBody = document.getElementById("analytics-by-strategy");
@@ -1003,7 +1146,7 @@ export async function bootLivePage(config = {}) {
           <td class="num">${fmtUsd(r.fees, 4)}</td>
           <td class="num ${r.pnl >= 0 ? "up-txt" : "down-txt"}">${r.pnl >= 0 ? "+" : ""}${fmtUsd(r.pnl)}</td>
           <td class="num">${r.trades ? ((r.wins / r.trades) * 100).toFixed(0) : "0"}%</td>
-          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi Fee Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi Fee Spec ↗</a></td>
         </tr>`
         )
         .join("");
@@ -1022,7 +1165,7 @@ export async function bootLivePage(config = {}) {
           <td class="num">${fmtUsd(r.fees, 4)}</td>
           <td class="num ${r.pnl >= 0 ? "up-txt" : "down-txt"}">${r.pnl >= 0 ? "+" : ""}${fmtUsd(r.pnl)}</td>
           <td class="num">${r.trades ? ((r.wins / r.trades) * 100).toFixed(0) : "0"}%</td>
-          <td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order.md" target="_blank" rel="noopener">V2 Order Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">V2 Order Spec ↗</a></td>
         </tr>`
         )
         .join("");
@@ -1078,7 +1221,6 @@ export async function bootLivePage(config = {}) {
         enabled: true
       };
       state.customStrategies.push(cs);
-      // Immediately backtest custom strategy across verified swings
       for (const sw of [...snap.swings].reverse()) {
         const sigs = generateStrategySignals(sw, [], [cs]);
         sigs.forEach((sig) =>
@@ -1104,7 +1246,7 @@ export async function bootLivePage(config = {}) {
       seedInitialPortfolioIfNeeded(fresh, snap);
       Object.assign(state, fresh);
       renderPortfolioPage();
-      updateTopKpis();
+      renderMainDashboard();
     });
   }
 

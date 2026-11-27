@@ -88,19 +88,25 @@ def compute_kalshi_fee(
     fee_multiplier: float = 0.07,
     target_precision: str = "0.01",
     rounding_accumulator: Decimal = Decimal("0"),
+    series_fee_multiplier: float = 1.0,
+    is_maker: bool = False,
 ) -> tuple[Decimal, Decimal]:
     """Compute quadratic Kalshi trade fee + precision rounding per official Fee Rounding docs.
 
     Source: https://docs.kalshi.com/getting_started/fee_rounding.md
+    Supports per-series `series_fee_multiplier` (`1`, `0.5`, `0` from `GET /series/{ticker}`)
+    and maker (`0.0175`) vs. taker (`0.07`) base rates.
     Returns `(net_fee_dollars, updated_accumulator)`.
     """
-    p = max(0.0, min(1.0, float(price_dollars)))
-    c = max(0.0, float(contracts))
-    raw_model_fee = Decimal(str(fee_multiplier * c * p * (1.0 - p)))
+    dec_p = max(Decimal("0"), min(Decimal("1"), Decimal(str(price_dollars))))
+    dec_c = max(Decimal("0"), Decimal(str(contracts)))
+    base_rate = Decimal("0.0175") if is_maker else Decimal(str(fee_multiplier))
+    dec_mult = max(Decimal("0"), Decimal(str(series_fee_multiplier)))
+    raw_model_fee = base_rate * dec_mult * dec_c * dec_p * (Decimal("1") - dec_p)
     trade_fee = (raw_model_fee * Decimal("1000000")).to_integral_value(rounding=ROUND_CEILING) / Decimal("1000000")
 
     prec = Decimal(target_precision)
-    signed_revenue = -(Decimal(str(p)) * Decimal(str(c)))
+    signed_revenue = -(dec_p * dec_c)
     unaligned = signed_revenue - trade_fee
     aligned_change = (unaligned / prec).to_integral_value(rounding=ROUND_FLOOR) * prec
     rounding_fee = unaligned - aligned_change
@@ -119,7 +125,7 @@ def score_roi_opportunity(market: dict[str, Any], swing_delta: float | None = No
 
     Explicitly NOT a calibrated probability forecast or return guarantee.
     Evaluates:
-      1. Spread efficiency (0-30 pts)
+      1. Spread efficiency (0-30 pts) + hard executable spread gate (<= $0.15)
       2. Volume & Open Interest liquidity (0-30 pts)
       3. Payoff symmetry / non-degenerate pricing (0-20 pts)
       4. Swing magnitude & fee ratio (0-20 pts)
@@ -146,9 +152,11 @@ def score_roi_opportunity(market: dict[str, Any], swing_delta: float | None = No
     swing_pts = min(20.0, swing_abs * 80.0)
 
     total = int(round(min(100.0, spread_pts + liq_pts + symmetry_pts + swing_pts)))
+    actionable_spread = spread is None or spread <= 0.15
+    actionable_band = 0.04 <= ref_p <= 0.96
     return {
         "score": total,
-        "qualifies_high_roi": total >= HIGH_ROI_SCORE_THRESHOLD,
+        "qualifies_high_roi": bool(total >= HIGH_ROI_SCORE_THRESHOLD and actionable_spread and actionable_band),
         "spread": spread,
         "components": {
             "spread_efficiency": round(spread_pts, 1),
@@ -302,7 +310,15 @@ class StrategyPortfolioEngine:
         if entry <= 0.0 or entry >= 1.0:
             return None
 
-        fee_dec, new_acc = compute_kalshi_fee(entry, contracts, rounding_accumulator=self.fee_accumulator)
+        series_mult = _to_float(market.get("fee_multiplier"))
+        if series_mult is None:
+            series_mult = 1.0
+        fee_dec, new_acc = compute_kalshi_fee(
+            entry,
+            contracts,
+            rounding_accumulator=self.fee_accumulator,
+            series_fee_multiplier=series_mult,
+        )
         fee = float(fee_dec)
         gross = round(entry * contracts, 4)
         total_outlay = gross + fee

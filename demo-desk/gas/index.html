@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="active">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="active">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -22,15 +22,17 @@
   <section class="hero">
     <span class="badge accent">Dedicated Topic Subpage · Gas Prices Only</span>
     <h1>Gas Prices — Live Kalshi Demo Events, Liquidity &amp; Resolutions</h1>
-    <p>AAA retail regular gasoline threshold contracts: Texas year-end minimum (`KXAAAGASMINTX-26DEC31`) and U.S. national minimum (`KXAAAGASMIN-26DEC31`, including early-finalized `$3.80` strike).</p>
-    <p style="margin-top:8px;font-size:13px;">
-      Official Series Discovery Source: <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMINTX-26DEC31?with_nested_markets=true" target="_blank" rel="noopener">https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMINTX-26DEC31?with_nested_markets=true ↗</a>
-    </p>
+    <p>AAA retail regular gasoline contracts: weekly U.S. national gas (`KXAAAGASW-26NOV30`, 46K+ contracts including a live `+$0.37` jump on `-3.5000`), Texas year-end minimum (`KXAAAGASMINTX-26DEC31`), and U.S. national minimum (`KXAAAGASMIN-26DEC31-3.60` tracked active Nov 22 -&gt; finalized `YES` today Nov 27).</p>
+    <div class="toolbar">
+      <button id="btn-poll-demo" class="primary" type="button">&#8635; Poll Live Gas Prices Quotes &amp; Orderbooks</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
+      <a class="btn" href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXAAAGASW" target="_blank" rel="noopener">Verify Official Series JSON ↗</a>
+    </div>
   </section>
 
   <section class="card">
     <h2>Topic Microstructure &amp; Strategy Analysis — Gas Prices</h2>
-    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">Kalshi organizes retail fuel contracts under `category=Economics` with tag `Oil and energy`, settling against the AAA Daily Fuel Gauge Report (`gasprices.aaa.com`). Note `KXAAAGASMINTX-26DEC31-2.10` has asymmetric orderbook depth (`yes_dollars`: 10 contracts at `$0.05`; `no_dollars`: 20 contracts at `$0.04`, implying a `$0.96` YES ask) — a case that exposed an orderbook truncation bug in earlier prototype code (`R5`).</p>
+    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">Kalshi organizes retail fuel contracts under `category=Economics` (`tags: Oil and energy`), settling against the AAA Daily Fuel Gauge Report (`gasprices.aaa.com`). `KXAAAGASW-26NOV30-3.5200` has tight `$0.0600 / $0.0700` two-sided depth (`2,777.77` bid / `2,289.20` ask), whereas `-3.5000` jumped `+$0.37` (`$0.38 -&gt; $0.75`) with zero resting NO bids (`spread $0.62`), demonstrating how Chat 2 filters unexecutable gas spikes.</p>
   </section>
 
   <section class="grid-2">
@@ -68,6 +70,76 @@
           </thead>
           <tbody>
         <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.5200</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.5200</td>
+          <td class="num">$0.0700</td>
+          <td class="num">$0.0600 / $0.0700</td>
+          <td class="num">2,777.77 / 2,289.20</td>
+          <td class="num">18,110.86</td>
+          <td class="num">12,447.47</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5200" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.5000</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.5000</td>
+          <td class="num">$0.7500</td>
+          <td class="num">$0.3800 / $1.0000</td>
+          <td class="num">438.59 / 0.00</td>
+          <td class="num">11,345.14</td>
+          <td class="num">9,713.47</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5000" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.5400</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.5400</td>
+          <td class="num">$0.0200</td>
+          <td class="num">$0.0000 / $0.9000</td>
+          <td class="num">0.00 / 5.00</td>
+          <td class="num">8,674.31</td>
+          <td class="num">8,674.31</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5400" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.6000</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.6000</td>
+          <td class="num">$0.0200</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
+          <td class="num">4,298.50</td>
+          <td class="num">4,297.50</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.6000" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.4800</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.4800</td>
+          <td class="num">$0.8900</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
+          <td class="num">4,032.63</td>
+          <td class="num">2,972.95</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.4800" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
           <td class="mono"><strong>KXAAAGASMINTX-26DEC31-2.10</strong></td>
           <td class="mono">KXAAAGASMINTX-26DEC31</td>
           <td>TX Gas &lt; $2.10</td>
@@ -86,8 +158,8 @@
           <td class="mono">KXAAAGASMINTX-26DEC31</td>
           <td>TX Gas &lt; $1.90</td>
           <td class="num">$0.1600</td>
-          <td class="num">$0.0100 / $0.9500</td>
-          <td class="num">10.00 / 15.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">101.21</td>
           <td class="num">22.02</td>
           <td>
@@ -101,68 +173,12 @@
           <td>TX Gas &lt; $2.20</td>
           <td class="num">$0.4500</td>
           <td class="num">$0.0000 / $0.9500</td>
-          <td class="num">0.00 / 12.00</td>
+          <td class="num">0.00 / 20.00</td>
           <td class="num">50.20</td>
           <td class="num">36.03</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.20" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report (Texas) ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMINTX-26DEC31-2.30</strong></td>
-          <td class="mono">KXAAAGASMINTX-26DEC31</td>
-          <td>TX Gas &lt; $2.30</td>
-          <td class="num">$0.9800</td>
-          <td class="num">$0.1800 / $1.0000</td>
-          <td class="num">10.00 / 0.00</td>
-          <td class="num">41.58</td>
-          <td class="num">38.41</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.30" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report (Texas) ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMINTX-26DEC31-2.00</strong></td>
-          <td class="mono">KXAAAGASMINTX-26DEC31</td>
-          <td>TX Gas &lt; $2.00</td>
-          <td class="num">$0.2200</td>
-          <td class="num">$0.0100 / $0.9300</td>
-          <td class="num">10.00 / 10.00</td>
-          <td class="num">34.20</td>
-          <td class="num">19.03</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.00" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report (Texas) ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.60</strong></td>
-          <td class="mono">KXAAAGASMIN-26DEC31</td>
-          <td>US Gas &lt; $3.60</td>
-          <td class="num">$0.9000</td>
-          <td class="num">$0.8500 / $0.9500</td>
-          <td class="num">5.00 / 5.00</td>
-          <td class="num">3.21</td>
-          <td class="num">2.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMIN-26DEC31-3.60" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.40</strong></td>
-          <td class="mono">KXAAAGASMIN-26DEC31</td>
-          <td>US Gas &lt; $3.40</td>
-          <td class="num">$0.0100</td>
-          <td class="num">$0.0100 / $0.9900</td>
-          <td class="num">5.00 / 5.00</td>
-          <td class="num">3.20</td>
-          <td class="num">2.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMIN-26DEC31-3.40" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
           </td>
         </tr></tbody>
         </table>
@@ -182,12 +198,25 @@
         </thead>
         <tbody>
         <tr>
-          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.80</strong></td>
-          <td>U.S. national regular gas below $3.80/gal threshold triggered early</td>
+          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.60</strong></td>
+          <td>U.S. average regular gas below $3.60/gal (tracked active on Nov 22 -&gt; finalized YES on Nov 27)</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge ok">YES</span></td>
           <td class="num">$1.0000</td>
-          <td class="num">12.00</td>
+          <td class="num">3.21</td>
+          <td class="mono">2026-11-27T19:38:16Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMIN-26DEC31?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.80</strong></td>
+          <td>Will average gas prices be below $3.80 by Dec 31, 2026?</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">0.00</td>
           <td class="mono">2026-07-06T19:27:27Z</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMIN-26DEC31?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
@@ -201,11 +230,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

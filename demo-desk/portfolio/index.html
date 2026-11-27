@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="active">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="active">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -24,20 +24,22 @@
     <h1>Simulated &amp; Demo Portfolio Lab — Existing &amp; Custom Strategies Analyzed by Trade Type</h1>
     <p>
       Automates simulated trades across 5 built-in strategies plus user-defined custom strategies, tracks open &amp; settled positions with Kalshi's official
-      <a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6-decimal-place fee-rounding accumulator</a>,
+      <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">5-step 6dp fee-rounding accumulator &amp; per-series fee_multiplier</a>,
       and categorizes every fill by <strong>strategy</strong> and <strong>trade type</strong>. For authenticated Kalshi Demo V2 execution (`POST /trade-api/v2/portfolio/events/orders`), run `python3 -m kalshi_engine.relay_server` locally with your Demo API keys.
     </p>
     <div class="toolbar">
       <button id="btn-reset-ledger" type="button">Reset &amp; Re-Seed Verified Simulation</button>
-      <a class="btn primary" href="../index.html">Back to Live Desk &amp; 5s Replay &rarr;</a>
+      <button id="btn-check-demo-account" class="primary" type="button">Check Same-Origin Demo Account (/api/demo/status)</button>
+      <a class="btn" href="../index.html">Back to Live Desk &amp; 5s Replay &rarr;</a>
     </div>
+    <div id="demo-account-status-panel" class="subnote" style="margin-top:10px;margin-bottom:0;"></div>
   </section>
 
   <section class="kpi-grid">
     <div class="kpi"><div class="label">Portfolio Equity</div><div class="val" id="kpi-equity">$10,000.00</div><div class="sub">Starting Bankroll: $10,000.00</div></div>
     <div class="kpi"><div class="label">Net Total PnL</div><div class="val" id="kpi-pnl">+$0.00</div><div class="sub">Mark-to-Market + Finalized</div></div>
-    <div class="kpi"><div class="label">6dp Fees Charged</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Verify Fee Spec ↗</a></div></div>
-    <div class="kpi"><div class="label">Authenticated Demo Balance</div><div class="val">Unverified</div><div class="sub"><a href="../flagged/index.html">See Flagged F1 (No Keys in Repo) ↗</a></div></div>
+    <div class="kpi"><div class="label">6dp Fees Charged</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Verify Fee Spec ↗</a></div></div>
+    <div class="kpi"><div class="label">Authenticated Demo Balance</div><div class="val" id="kpi-auth-balance">Unverified</div><div class="sub"><a href="../flagged/index.html">See Flagged F1 (No Keys in Repo) ↗</a></div></div>
   </section>
 
   <section class="grid-equal">
@@ -52,31 +54,31 @@
           <td class="mono"><strong>momentum_breakout</strong></td>
           <td><span class="badge accent">breakout_momentum</span></td>
           <td>Buys YES on &gt;=+$0.10 jump or NO on &lt;=-$0.10 drop within [$0.12, $0.88].</td>
-          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>mean_reversion_fade</strong></td>
           <td><span class="badge accent">mean_reversion</span></td>
           <td>Fades &gt;=$0.10 spikes: buys NO at YES &gt;=$0.60 or buys YES at YES &lt;=$0.40.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>high_roi_selective</strong></td>
           <td><span class="badge accent">selective_value</span></td>
           <td>Trades only alerts passing Selective High-ROI chat (net ROI &gt;=12%, spread &lt;=$0.08, depth &gt;=25).</td>
-          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>favorite_compounder</strong></td>
           <td><span class="badge accent">tail_convexity</span></td>
           <td>Compounds high-probability contracts in [$0.62, $0.92] on upward &gt;=$0.10 confirmation.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
         </tr>
         <tr>
           <td class="mono"><strong>longshot_asymmetric</strong></td>
           <td><span class="badge accent">tail_convexity</span></td>
           <td>Capped convexity allocation in [$0.05, $0.25] on upward &gt;=$0.10 momentum.</td>
-          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
+          <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi 6dp Fee Spec ↗</a></td>
         </tr></tbody>
         </table>
       </div>
@@ -142,7 +144,7 @@
               <td><span class="badge accent">custom_rule</span></td>
               <td>Crypto · dir=down · |&Delta;|&ge;$0.10 · [$0.25, $0.48]</td>
               <td class="mono">YES &times; 15</td>
-              <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td>
+              <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">6dp Fee Spec ↗</a></td>
             </tr>
           </tbody>
         </table>
@@ -159,7 +161,7 @@
             <tr><th>Strategy</th><th class="num">Trades</th><th class="num">Contracts</th><th class="num">Notional</th><th class="num">Fees</th><th class="num">Net PnL</th><th class="num">Win %</th><th>Spec Link</th></tr>
           </thead>
           <tbody id="analytics-by-strategy">
-            <tr><td><strong>Selective High-ROI Model</strong></td><td class="num">5</td><td class="num">100</td><td class="num">$55.00</td><td class="num">$1.5800</td><td class="num up-txt">+$7.42</td><td class="num">60%</td><td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Kalshi Fee Spec ↗</a></td></tr>
+            <tr><td><strong>Selective High-ROI Model</strong></td><td class="num">4</td><td class="num">80</td><td class="num">$42.00</td><td class="num">$1.3900</td><td class="num up-txt">+$6.61</td><td class="num">75%</td><td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Kalshi Fee Spec ↗</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -173,7 +175,7 @@
             <tr><th>Trade Type</th><th class="num">Trades</th><th class="num">Contracts</th><th class="num">Notional</th><th class="num">Fees</th><th class="num">Net PnL</th><th class="num">Win %</th><th>Spec Link</th></tr>
           </thead>
           <tbody id="analytics-by-type">
-            <tr><td><span class="badge accent">selective_value</span></td><td class="num">5</td><td class="num">100</td><td class="num">$55.00</td><td class="num">$1.5800</td><td class="num up-txt">+$7.42</td><td class="num">60%</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order.md" target="_blank" rel="noopener">V2 Order Spec ↗</a></td></tr>
+            <tr><td><span class="badge accent">selective_value</span></td><td class="num">4</td><td class="num">80</td><td class="num">$42.00</td><td class="num">$1.3900</td><td class="num up-txt">+$6.61</td><td class="num">75%</td><td><a href="https://docs.kalshi.com/getting_started/quick_start_create_order" target="_blank" rel="noopener">V2 Order Spec ↗</a></td></tr>
           </tbody>
         </table>
       </div>
@@ -181,16 +183,20 @@
   </section>
 
   <section class="card" style="margin-top:18px;">
-    <h2>Manual Demo Order Execution Ticket</h2>
+    <h2>Manual &amp; Optional Relay Order Execution Ticket</h2>
     <form id="quick-order-form" class="form-grid">
       <div class="field"><label for="quick-ticker">Contract</label><select id="quick-ticker"></select></div>
       <div class="field"><label for="quick-side">Side</label><select id="quick-side"><option value="yes">BUY YES</option><option value="no">BUY NO</option></select></div>
-      <div class="field"><label for="quick-contracts">Contracts</label><input id="quick-contracts" type="number" min="1" max="1000" value="10"></div>
-      <div class="field"><button type="submit" class="primary" style="width:100%;justify-content:center;">Execute Manual Trade</button></div>
+      <div class="field"><label for="quick-contracts">Contracts</label><input id="quick-contracts" type="number" min="1" max="5000" value="10"></div>
+      <div class="field">
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;">
+          <input id="quick-send-relay" type="checkbox" style="width:auto;"> Also submit via /api/demo/order
+        </label>
+        <button type="submit" class="primary" style="width:100%;justify-content:center;">Execute Trade</button>
+      </div>
     </form>
-    <div id="quick-slippage-preview" class="subnote" style="margin-top:8px;"></div>
-    <div id="demo-relay-status" class="subnote" style="margin-top:4px;"></div>
-    <div id="quick-order-msg" style="margin-top:8px;font-size:12px;"></div>
+    <div id="quick-vwap-preview" class="subnote" style="margin-top:8px;margin-bottom:0;"></div>
+    <div id="quick-order-msg" style="margin-top:6px;font-size:12px;"></div>
   </section>
 
   <section class="card">
@@ -202,10 +208,10 @@
         </thead>
         <tbody id="trade-ledger-body">
           <tr>
-            <td class="mono">2026-11-22T06:55:00Z</td><td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H07-UP</strong></td><td>Crypto</td>
-            <td>Selective High-ROI Model</td><td><span class="badge">selective_value</span></td><td class="mono">YES &times; 20 @ $0.5500</td>
-            <td class="num">$0.3465</td><td><span class="badge ok">Finalized (yes) +$8.65</span></td>
-            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H07-UP" target="_blank" rel="noopener">Market API ↗</a></td>
+            <td class="mono">2026-11-27T18:55:00Z</td><td class="mono"><strong>KXDEMOFUTHOURLY-26NOV27H19-UP</strong></td><td>Crypto</td>
+            <td>Mean-Reversion Fade</td><td><span class="badge">mean_reversion</span></td><td class="mono">NO &times; 20 @ $0.3500</td>
+            <td class="num">$0.3185</td><td><span class="badge ok">Finalized (no) +$12.68</span></td>
+            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H19-UP" target="_blank" rel="noopener">Market API ↗</a></td>
           </tr>
         </tbody>
       </table>
@@ -215,11 +221,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

@@ -1,163 +1,197 @@
-"""Same-origin static server + authenticated Kalshi Demo V2 relay (`/api/demo/*`).
+"""Same-origin static server + signed V2 relay for Kalshi Demo API (`/demo-desk/` & `/live/`).
 
-Why this server exists:
-  1. Kalshi's signed headers (`KALSHI-ACCESS-KEY`, `KALSHI-ACCESS-SIGNATURE`,
-     `KALSHI-ACCESS-TIMESTAMP`) are omitted from browser CORS preflight
-     `Access-Control-Allow-Headers` on `external-api.demo.kalshi.co`, and private
-     RSA-PSS / Ed25519 keys must never be shipped to client-side JavaScript.
-  2. Browser-facing code must never call `127.0.0.1` or `localhost` directly; instead,
-     `demo-desk` calls relative same-origin endpoints (`/api/demo/status` and
-     `/api/demo/order`).
-  3. Binding to `0.0.0.0` lets this server host the static repository pages AND the
-     `/api/demo/*` endpoints on a single origin (works identically locally or behind a
-     cloud preview proxy). When `KALSHI_DEMO_KEY_ID` is absent, `/api/demo/status`
-     reports `connected: false` cleanly so the UI continues in verified paper mode.
-
-Usage:
-    python3 -m kalshi_engine.relay_server --host 0.0.0.0 --port 8787
+Security boundary:
+- Private keys NEVER enter GitHub Pages, repository files, or browser storage.
+- Serves static workspace pages cleanly alongside relative `/api/demo/*` endpoints
+  so browser code never needs hardcoded `localhost` / `127.0.0.1` URLs:
+    GET  /api/demo/status     -> public Demo exchange status + authenticated Demo account if keys set
+    GET  /api/demo/public?... -> read-only proxy for allowlisted public Kalshi Demo V2 paths
+    POST /api/demo/order      -> submits V2 event order to POST /trade-api/v2/portfolio/events/orders
+- Dotfiles (`.git`, `.env`) and key files (`*.pem`, `*.key`) are strictly blocked from static serving.
 """
 from __future__ import annotations
 
 import argparse
+import functools
 import json
 import os
+import urllib.parse
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
-from typing import Optional
-from urllib.parse import urlparse
+from typing import Any
 
-from .kalshi_v2_client import KalshiV2Client
+from kalshi_engine.kalshi_v2_client import KalshiV2Client
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
+ALLOWED_PUBLIC_PREFIXES = ("/exchange/status", "/series", "/events", "/markets")
 
 
-def _try_load_client() -> tuple[Optional[KalshiV2Client], Optional[str]]:
-    if not os.environ.get("KALSHI_DEMO_KEY_ID"):
-        return None, (
-            "KALSHI_DEMO_KEY_ID / KALSHI_DEMO_KEY_PATH not configured in server environment; "
-            "running in verified paper simulation + public Demo REST mode."
-        )
-    try:
-        return KalshiV2Client.from_env(), None
-    except Exception as exc:  # pragma: no cover - defensive env diagnostics
-        return None, str(exc)
+def _is_blocked_static_path(url_path: str) -> bool:
+    clean = urllib.parse.unquote(url_path.split("?", 1)[0])
+    parts = [p for p in clean.split("/") if p]
+    for part in parts:
+        if part.startswith(".") or part.endswith((".pem", ".key", ".p8", ".env")):
+            return True
+    return False
 
 
-class DemoRelayHandler(SimpleHTTPRequestHandler):
-    client: Optional[KalshiV2Client] = None
-    client_error: Optional[str] = None
-    static_root: Path = REPO_ROOT
+def make_handler(client: KalshiV2Client, static_dir: Path = REPO_ROOT):
+    class RelayHandler(SimpleHTTPRequestHandler):
+        def __init__(self, *args: Any, **kwargs: Any) -> None:
+            super().__init__(*args, directory=str(static_dir), **kwargs)
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, directory=str(self.static_root), **kwargs)
+        def log_message(self, fmt: str, *args: Any) -> None:  # quiet clean logs
+            super().log_message(fmt, *args)
 
-    def end_headers(self) -> None:
-        # Allow embedding in preview iframes and cross-origin reads without host rejections.
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
-        super().end_headers()
+        def _send_json(self, code: int, payload: dict[str, Any]) -> None:
+            body = json.dumps(payload).encode("utf-8")
+            self.send_response(code)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.send_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS")
+            self.send_header("Access-Control-Allow-Headers", "Content-Type")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
 
-    def _send_json(self, code: int, payload: dict) -> None:
-        raw = json.dumps(payload, indent=2).encode("utf-8")
-        self.send_response(code)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Cache-Control", "no-store")
-        self.send_header("Content-Length", str(len(raw)))
-        self.end_headers()
-        self.wfile.write(raw)
+        def do_OPTIONS(self) -> None:  # noqa: N802
+            self._send_json(200, {"ok": True})
 
-    def do_OPTIONS(self) -> None:  # noqa: N802
-        self.send_response(204)
-        self.end_headers()
+        def do_GET(self) -> None:  # noqa: N802
+            parsed = urllib.parse.urlsplit(self.path)
+            route = parsed.path
 
-    def do_GET(self) -> None:  # noqa: N802
-        parsed = urlparse(self.path)
-        if parsed.path == "/api/demo/status":
-            if self.client is None:
-                self._send_json(
-                    200,
-                    {
-                        "connected": False,
-                        "mode": "public_demo_plus_paper",
-                        "reason": self.client_error or "Demo API key not configured.",
-                        "docs_url": "https://docs.kalshi.com/getting_started/api_keys",
-                    },
-                )
+            if route == "/api/demo/status":
+                has_creds = bool(client.key_id and client.private_key is not None)
+                exchange_data: dict[str, Any] | None = None
+                exchange_err: str | None = None
+                try:
+                    exchange_data = client.get_exchange_status()
+                except Exception as exc:
+                    exchange_err = str(exc)
+
+                if not has_creds:
+                    self._send_json(
+                        200,
+                        {
+                            "ok": exchange_data is not None,
+                            "connected": False,
+                            "authenticated": False,
+                            "mode": "public_relay_no_demo_key",
+                            "exchange": exchange_data,
+                            "exchange_error": exchange_err,
+                            "auth_note": (
+                                "Unauthenticated public relay active. Set KALSHI_DEMO_KEY_ID and "
+                                "KALSHI_DEMO_KEY_PATH locally to query /portfolio/balance, /portfolio/fills, "
+                                "and submit live V2 Demo orders."
+                            ),
+                            "docs_url": "https://docs.kalshi.com/getting_started/api_keys",
+                        },
+                    )
+                    return
+
+                try:
+                    bal = client.get_balance()
+                    pos = client.get_positions()
+                    fills = client.get_fills(limit=50)
+                    self._send_json(
+                        200,
+                        {
+                            "ok": True,
+                            "connected": True,
+                            "authenticated": True,
+                            "mode": "authenticated_demo_account",
+                            "exchange": exchange_data,
+                            "balance": bal,
+                            "positions": pos,
+                            "fills": fills,
+                        },
+                    )
+                except Exception as exc:
+                    self._send_json(
+                        502,
+                        {
+                            "ok": False,
+                            "connected": False,
+                            "authenticated": False,
+                            "exchange": exchange_data,
+                            "error": str(exc),
+                        },
+                    )
                 return
-            try:
-                ex = self.client.get_exchange_status()
-                bal = self.client.get_balance()
-                pos = self.client.get_positions()
-                orders = self.client.get_orders()
-                fills = self.client.get_fills(limit=25)
-                self._send_json(
-                    200,
-                    {
-                        "connected": True,
-                        "mode": "authenticated_demo_v2",
-                        "exchange_status": ex,
-                        "balance": bal,
-                        "positions": pos,
-                        "orders": orders,
-                        "fills": fills,
-                    },
-                )
-            except Exception as exc:
-                self._send_json(502, {"connected": False, "error": str(exc)})
-            return
 
-        # Serve static workspace files (root landing, /demo-desk/, /docs/, /terminal/, etc.)
-        return super().do_GET()
+            if route == "/api/demo/public":
+                qs = urllib.parse.parse_qs(parsed.query)
+                endpoint = (qs.get("endpoint") or [""])[0].strip()
+                ep_parts = urllib.parse.urlsplit(endpoint)
+                ep_path = "/" + ep_parts.path.lstrip("/")
+                if not any(ep_path == p or ep_path.startswith(p + "/") for p in ALLOWED_PUBLIC_PREFIXES):
+                    self._send_json(400, {"ok": False, "error": f"Disallowed public endpoint: {ep_path!r}"})
+                    return
+                ep_params = dict(urllib.parse.parse_qsl(ep_parts.query, keep_blank_values=False))
+                try:
+                    data = client.request("GET", ep_path, params=ep_params, authenticated=False)
+                    self._send_json(200, {"ok": True, "endpoint": ep_path, "data": data})
+                except Exception as exc:
+                    self._send_json(502, {"ok": False, "endpoint": ep_path, "error": str(exc)})
+                return
 
-    def do_POST(self) -> None:  # noqa: N802
-        parsed = urlparse(self.path)
-        if parsed.path != "/api/demo/order":
-            self._send_json(404, {"error": "Unknown POST endpoint"})
-            return
-        if self.client is None:
-            self._send_json(
-                503,
-                {
-                    "connected": False,
-                    "error": self.client_error or "KALSHI_DEMO_KEY_ID not configured on relay server.",
-                    "docs_url": "https://docs.kalshi.com/getting_started/quick_start_create_order",
-                },
-            )
-            return
-        length = int(self.headers.get("Content-Length", "0"))
-        body = json.loads(self.rfile.read(length).decode("utf-8") or "{}")
-        try:
-            resp = self.client.create_event_order(
-                ticker=str(body["ticker"]),
-                yes_or_no=str(body.get("side", "yes")),
-                buy_or_sell=str(body.get("action", "buy")),
-                contracts=body.get("count", 1),
-                price_dollars=body["price_dollars"],
-                time_in_force=str(body.get("time_in_force", "good_till_canceled")),
-            )
-            self._send_json(201, {"ok": True, "response": resp})
-        except Exception as exc:
-            self._send_json(400, {"ok": False, "error": str(exc)})
+            if _is_blocked_static_path(route):
+                self._send_json(403, {"error": "Forbidden path"})
+                return
+
+            super().do_GET()
+
+        def do_HEAD(self) -> None:  # noqa: N802
+            if _is_blocked_static_path(self.path):
+                self.send_error(403, "Forbidden path")
+                return
+            super().do_HEAD()
+
+        def do_POST(self) -> None:  # noqa: N802
+            parsed = urllib.parse.urlsplit(self.path)
+            if parsed.path == "/api/demo/order":
+                try:
+                    length = int(self.headers.get("Content-Length", "0"))
+                    req = json.loads(self.rfile.read(length).decode("utf-8"))
+                    order = client.create_event_order(
+                        ticker=req["ticker"],
+                        outcome=req.get("side", "yes"),
+                        action=req.get("action", "buy"),
+                        count=req.get("contracts", 1),
+                        price_dollars=req["price_dollars"],
+                    )
+                    self._send_json(201, {"ok": True, "order": order})
+                except Exception as exc:
+                    self._send_json(400, {"ok": False, "error": str(exc)})
+                return
+            self._send_json(404, {"error": "Not found"})
+
+    return functools.partial(RelayHandler)
 
 
-def create_server(host: str = "0.0.0.0", port: int = 8787) -> ThreadingHTTPServer:
-    client, err = _try_load_client()
-    DemoRelayHandler.client = client
-    DemoRelayHandler.client_error = err
-    DemoRelayHandler.static_root = REPO_ROOT
-    return ThreadingHTTPServer((host, port), DemoRelayHandler)
+def create_relay_server(
+    host: str = "0.0.0.0",
+    port: int = 8787,
+    client: KalshiV2Client | None = None,
+    static_dir: Path = REPO_ROOT,
+) -> ThreadingHTTPServer:
+    active_client = client or KalshiV2Client.from_env()
+    return ThreadingHTTPServer((host, port), make_handler(active_client, static_dir=static_dir))
+
+
+create_server = create_relay_server
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Same-origin static server + Kalshi Demo V2 relay")
-    parser.add_argument("--host", default="0.0.0.0")
-    parser.add_argument("--port", type=int, default=8787)
+    parser = argparse.ArgumentParser(description="Same-origin static server + signed V2 relay for Kalshi Demo API")
+    parser.add_argument("--host", default=os.environ.get("KALSHI_RELAY_HOST", "0.0.0.0"))
+    parser.add_argument("--port", type=int, default=int(os.environ.get("KALSHI_RELAY_PORT", "8787")))
     args = parser.parse_args()
-    srv = create_server(args.host, args.port)
-    mode = "authenticated Demo V2" if DemoRelayHandler.client else "public Demo + paper simulation"
-    print(f"Serving Tradebot1 + Kalshi Demo V2 relay ({mode}) at http://{args.host}:{args.port}")
-    srv.serve_forever()
+    server = create_relay_server(host=args.host, port=args.port)
+    print(f"Kalshi Demo V2 server & relay listening on http://{args.host}:{args.port}/demo-desk/")
+    server.serve_forever()
 
 
 if __name__ == "__main__":

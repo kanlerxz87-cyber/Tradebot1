@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="active">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="active">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -22,15 +22,17 @@
   <section class="hero">
     <span class="badge accent">Dedicated Topic Subpage · Golf Only</span>
     <h1>Golf — Live Kalshi Demo Events, Liquidity &amp; Resolutions</h1>
-    <p>PGA Tour &amp; LIV Golf markets: 2027 Masters Tournament (`KXPGATOUR-MAST27`) and Q1 2027 LIV Golf (`KXLIVCOMPETE-27APR`) active; The RSM Classic (`KXPGATOUR-THRC26-MPEN` YES `$1.0000`, `-CBEZ`/`-MMCN`/`-MTHO` NO) tracked live from open through `finalized` settlement.</p>
-    <p style="margin-top:8px;font-size:13px;">
-      Official Series Discovery Source: <a href="https://external-api.demo.kalshi.co/trade-api/v2/series?category=Sports&amp;tags=Golf" target="_blank" rel="noopener">https://external-api.demo.kalshi.co/trade-api/v2/series?category=Sports&amp;tags=Golf ↗</a>
-    </p>
+    <p>PGA Tour tournament winner markets: active `KXPGATOUR-MAST27` (Masters Tournament, 899K+ Demo volume) plus multi-day tracked `KXPGATOUR-THRC26` (The RSM Classic, tracked active on Nov 22 -&gt; finalized `NO` on Nov 23) and `KXPGATOUR-AUCPBCS26` (Austin Championship).</p>
+    <div class="toolbar">
+      <button id="btn-poll-demo" class="primary" type="button">&#8635; Poll Live Golf Quotes &amp; Orderbooks</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
+      <a class="btn" href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXPGATOUR" target="_blank" rel="noopener">Verify Official Series JSON ↗</a>
+    </div>
   </section>
 
   <section class="card">
     <h2>Topic Microstructure &amp; Strategy Analysis — Golf</h2>
-    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">`Golf` is a discovery tag under `category=Sports` (`GET /series?category=Sports&amp;tags=Golf`). Between Nov 22 and Nov 27, 2026, `KXPGATOUR-THRC26` (The RSM Classic) transitioned from `active` to `finalized` (`2026-11-23T19:58:03Z`), with `KXPGATOUR-THRC26-MPEN` (Marco Penge) settling `YES` at `$1.0000` (`462,081.71` contracts). Active liquidity now centers in `KXPGATOUR-MAST27` (`tapered_deci_cent`, led by Scottie Scheffler `-SSCH` at `$0.1700/$0.1800` with `47,456.46` volume).</p>
+    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">`Golf` is discovered via `GET /series?category=Sports&amp;tags=Golf` (`KXPGATOUR`, `fee_multiplier: 1`, `tapered_deci_cent` ticks). `KXPGATOUR-MAST27-SSCH` (Scottie Scheffler) offers a tight `$0.0100` two-sided orderbook (`$0.1700` bid x `980.39` / `$0.1800` implied ask x `925.92`), making it ideal for interactive VWAP depth-walk testing.</p>
   </section>
 
   <section class="grid-2">
@@ -68,6 +70,20 @@
           </thead>
           <tbody>
         <tr>
+          <td class="mono"><strong>KXPGATOUR-MAST27-MFIT</strong></td>
+          <td class="mono">KXPGATOUR-MAST27</td>
+          <td>Matt Fitzpatrick</td>
+          <td class="num">$0.0230</td>
+          <td class="num">$0.0210 / $0.0250</td>
+          <td class="num">7,936.50 / 6,666.66</td>
+          <td class="num">833,849.07</td>
+          <td class="num">833,821.07</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-MFIT" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
           <td class="mono"><strong>KXPGATOUR-MAST27-SSCH</strong></td>
           <td class="mono">KXPGATOUR-MAST27</td>
           <td>Scottie Scheffler</td>
@@ -78,35 +94,35 @@
           <td class="num">46,296.00</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-SSCH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
-          <td class="mono"><strong>KXPGATOUR-MAST27-WCLA</strong></td>
+          <td class="mono"><strong>KXPGATOUR-MAST27-LABE</strong></td>
           <td class="mono">KXPGATOUR-MAST27</td>
-          <td>Wyndham Clark</td>
-          <td class="num">$0.0190</td>
-          <td class="num">$0.0150 / $0.0160</td>
-          <td class="num">11,111.11 / 10,416.66</td>
-          <td class="num">25,566.37</td>
-          <td class="num">25,562.37</td>
+          <td>Ludvig Aberg</td>
+          <td class="num">$0.0300</td>
+          <td class="num">$0.0330 / $0.0380</td>
+          <td class="num">5,050.50 / 4,385.96</td>
+          <td class="num">17,281.05</td>
+          <td class="num">17,255.05</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-WCLA" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-LABE" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
-          <td class="mono"><strong>KXPGATOUR-MAST27-XSCH</strong></td>
+          <td class="mono"><strong>KXPGATOUR-MAST27-SBUR</strong></td>
           <td class="mono">KXPGATOUR-MAST27</td>
-          <td>Xander Schauffele</td>
-          <td class="num">$0.0270</td>
-          <td class="num">$0.0000 / $1.0000</td>
-          <td class="num">0.00 / 0.00</td>
-          <td class="num">12,345.66</td>
-          <td class="num">12,345.66</td>
+          <td>Sam Burns</td>
+          <td class="num">$0.0320</td>
+          <td class="num">$0.0190 / $0.0200</td>
+          <td class="num">17,543.84 / 16,666.66</td>
+          <td class="num">636.37</td>
+          <td class="num">514.37</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-XSCH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-SBUR" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
@@ -120,35 +136,7 @@
           <td class="num">569.55</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-RMCI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXPGATOUR-MAST27-JSPI</strong></td>
-          <td class="mono">KXPGATOUR-MAST27</td>
-          <td>Jordan Spieth</td>
-          <td class="num">$0.0110</td>
-          <td class="num">$0.0080 / $0.0200</td>
-          <td class="num">41,666.66 / 16,666.66</td>
-          <td class="num">551.11</td>
-          <td class="num">551.11</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-JSPI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXLIVCOMPETE-27APR-JRAH</strong></td>
-          <td class="mono">KXLIVCOMPETE-27APR</td>
-          <td>Jon Rahm (Q1 2027)</td>
-          <td class="num">$0.4500</td>
-          <td class="num">$0.4500 / $0.5500</td>
-          <td class="num">99.00 / 98.00</td>
-          <td class="num">6.16</td>
-          <td class="num">1.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-JRAH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour / Official Golf Tour Records ↗</a>
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr></tbody>
         </table>
@@ -168,8 +156,73 @@
         </thead>
         <tbody>
         <tr>
+          <td class="mono"><strong>KXPGATOUR-THRC26-CBEZ</strong></td>
+          <td>The RSM Classic: Christiaan Bezuidenhout wins (tracked active on Nov 22 -&gt; finalized NO on Nov 23)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">242,634.55</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPGATOUR-THRC26-ZBAU</strong></td>
+          <td>The RSM Classic: Zachary Bauchou wins (tracked active on Nov 22 -&gt; finalized NO on Nov 23)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">80,931.04</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPGATOUR-THRC26-LABE</strong></td>
+          <td>The RSM Classic: Ludvig Aberg wins (tracked active on Nov 22 -&gt; finalized NO on Nov 23)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">11.00</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPGATOUR-AUCPBCS26-ZBAU</strong></td>
+          <td>Austin Championship presented by Compliance Solutions: Zachary Bauchou wins</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">226,899.55</td>
+          <td class="mono">2026-11-16T22:33:33Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-AUCPBCS26-ZBAU" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPGATOUR-AUCPBCS26-CBEZ</strong></td>
+          <td>Austin Championship presented by Compliance Solutions: Christiaan Bezuidenhout wins</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">169,355.65</td>
+          <td class="mono">2026-11-16T22:33:33Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-AUCPBCS26-CBEZ" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
           <td class="mono"><strong>KXPGATOUR-THRC26-MPEN</strong></td>
-          <td>The RSM Classic: Marco Penge wins (Tracked Open -&gt; Finalized YES)</td>
+          <td>The RSM Classic: Marco Penge wins</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge ok">YES</span></td>
           <td class="num">$1.0000</td>
@@ -177,25 +230,12 @@
           <td class="mono">2026-11-23T19:58:03Z</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MPEN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXPGATOUR-THRC26-CBEZ</strong></td>
-          <td>The RSM Classic: Christiaan Bezuidenhout wins (Tracked Open -&gt; Finalized NO)</td>
-          <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge down">NO</span></td>
-          <td class="num">$0.0000</td>
-          <td class="num">242,634.55</td>
-          <td class="mono">2026-11-23T19:58:03Z</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-CBEZ" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPGATOUR-THRC26-MMCN</strong></td>
-          <td>The RSM Classic: Maverick McNealy wins (Tracked Open -&gt; Finalized NO)</td>
+          <td>The RSM Classic: Maverick McNealy wins</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge down">NO</span></td>
           <td class="num">$0.0000</td>
@@ -203,12 +243,12 @@
           <td class="mono">2026-11-23T19:58:03Z</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MMCN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPGATOUR-THRC26-MTHO</strong></td>
-          <td>The RSM Classic: Michael Thorbjornsen wins (Tracked Open -&gt; Finalized NO)</td>
+          <td>The RSM Classic: Michael Thorbjornsen wins</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge down">NO</span></td>
           <td class="num">$0.0000</td>
@@ -216,46 +256,20 @@
           <td class="mono">2026-11-23T19:58:03Z</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MTHO" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXPGATOUR-AUCPBCS26-ZBAU</strong></td>
-          <td>Will Zach Bauchou win the Butterfield Bermuda Championship?</td>
-          <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge down">NO</span></td>
-          <td class="num">$0.0000</td>
-          <td class="num">226,899.55</td>
-          <td class="mono">2026-11-16T22:33:33Z</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-AUCPBCS26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXPGATOUR-AUCPBCS26-CBEZ</strong></td>
-          <td>Will Christiaan Bezuidenhout win the Butterfield Bermuda Championship?</td>
-          <td><span class="badge ok">finalized</span></td>
-          <td><span class="badge down">NO</span></td>
-          <td class="num">$0.0000</td>
-          <td class="num">169,355.65</td>
-          <td class="mono">2026-11-16T22:33:33Z</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-AUCPBCS26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPGATOUR-AUCPBCS26-DBER</strong></td>
-          <td>Will Daniel Berger win the Butterfield Bermuda Championship?</td>
+          <td>Austin Championship presented by Compliance Solutions: Daniel Berger wins</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge down">NO</span></td>
           <td class="num">$0.0000</td>
           <td class="num">42,623.60</td>
           <td class="mono">2026-11-16T22:33:33Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-AUCPBCS26?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-AUCPBCS26-DBER" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/leaderboard" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr></tbody>
       </table>
@@ -265,11 +279,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

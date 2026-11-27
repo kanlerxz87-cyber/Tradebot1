@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="active">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="active">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -22,15 +22,17 @@
   <section class="hero">
     <span class="badge accent">Dedicated Topic Subpage · Elections Only</span>
     <h1>Elections — Live Kalshi Demo Events, Liquidity &amp; Resolutions</h1>
-    <p>Presidential (`KXPRESPERSON-28`, $308.8M+ Demo contract volume across top candidates) and Senate nomination (`KXSENATEIAD-28`) markets, plus finalized proportional `scalar` settlement (`KXXISUCCESSOR-45JAN01`, `$0.5000`).</p>
-    <p style="margin-top:8px;font-size:13px;">
-      Official Series Discovery Source: <a href="https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections" target="_blank" rel="noopener">https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections ↗</a>
-    </p>
+    <p>Presidential (`KXPRESPERSON-28`, 356M+ Demo contract volume across top 10 candidates) and finalized proportional `scalar` settlement (`KXXISUCCESSOR-45JAN01-DXUE`, `$0.5000`).</p>
+    <div class="toolbar">
+      <button id="btn-poll-demo" class="primary" type="button">&#8635; Poll Live Elections Quotes &amp; Orderbooks</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
+      <a class="btn" href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXPRESPERSON" target="_blank" rel="noopener">Verify Official Series JSON ↗</a>
+    </div>
   </section>
 
   <section class="card">
     <h2>Topic Microstructure &amp; Strategy Analysis — Elections</h2>
-    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">In the Kalshi Demo environment, `KXPRESPERSON-28` carries by far the deepest resting liquidity of all five topics (`deci_cent` $0.0010 tick size, 4,329+ contracts at the best YES bid on `-GNEWS` and 83,333 contracts on `-TGAB`). Notice `-GWHI` exhibits a -$0.9650 sandbox repricing from `previous_price_dollars=$0.9700` to `$0.0050`: the All-Events chat captures the move while the Selective High-ROI Model properly rejects it because `$0.0050` lies outside the actionable [$0.06, $0.94] probability band.</p>
+    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">In the Kalshi Demo environment (`2026-11-27`), `KXPRESPERSON-28` carries deep `deci_cent` ($0.0010 tick) liquidity (`166,666.66` contracts at the best YES bid on `-TGAB`, `7,142.85` on `-GNEWS`). Notice `-KHAR` exhibits a `+$0.9400` sandbox jump (`$0.0300` -&gt; `$0.9700`) with a `$0.98` spread (`$0.0200` bid / `$1.0000` ask): Chat 1 (All Events) captures the move while Chat 2 (Selective High-ROI Model) properly rejects it.</p>
   </section>
 
   <section class="grid-2">
@@ -71,98 +73,112 @@
           <td class="mono"><strong>KXPRESPERSON-28-TGAB</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Tulsi Gabbard</td>
-          <td class="num">$0.0040</td>
-          <td class="num">$0.0020 / $0.0040</td>
-          <td class="num">83,333.33 / 39,315.71</td>
-          <td class="num">73,056,512.96</td>
-          <td class="num">42,164,270.58</td>
+          <td class="num">$0.0030</td>
+          <td class="num">$0.0020 / $0.0030</td>
+          <td class="num">166,666.66 / 52,471.62</td>
+          <td class="num">73,477,269.75</td>
+          <td class="num">42,226,994.97</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-TGAB" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-DTRU</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
-          <td>Donald Trump</td>
-          <td class="num">$0.0080</td>
-          <td class="num">$0.0060 / $0.0080</td>
-          <td class="num">12,500.00 / 9,800.00</td>
-          <td class="num">51,659,827.26</td>
-          <td class="num">17,161,797.38</td>
+          <td>Donald J. Trump</td>
+          <td class="num">$0.0100</td>
+          <td class="num">$0.0080 / $0.0100</td>
+          <td class="num">20,833.33 / 14,000.75</td>
+          <td class="num">51,880,779.30</td>
+          <td class="num">17,312,360.66</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-DTRU" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPRESPERSON-28-WMOO</strong></td>
+          <td class="mono">KXPRESPERSON-28</td>
+          <td>Wes Moore</td>
+          <td class="num">$0.0150</td>
+          <td class="num">$0.0130 / $0.0150</td>
+          <td class="num">12,820.51 / 8,395.18</td>
+          <td class="num">46,306,523.56</td>
+          <td class="num">17,100,522.73</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-WMOO" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-GWHI</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Gretchen Whitmer</td>
-          <td class="num">$0.0050</td>
-          <td class="num">$0.0040 / $0.0060</td>
-          <td class="num">15,400.00 / 11,200.00</td>
-          <td class="num">43,076,608.96</td>
-          <td class="num">17,311,632.57</td>
+          <td class="num">$0.0030</td>
+          <td class="num">$0.0020 / $0.0040</td>
+          <td class="num">83,333.33 / 40,704.12</td>
+          <td class="num">43,220,303.46</td>
+          <td class="num">17,388,479.67</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GWHI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-KHAR</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Kamala Harris</td>
-          <td class="num">$0.0330</td>
-          <td class="num">$0.0320 / $0.0330</td>
-          <td class="num">6,250.00 / 5,100.00</td>
-          <td class="num">38,298,695.64</td>
-          <td class="num">8,522,680.65</td>
+          <td class="num">$0.9700</td>
+          <td class="num">$0.0200 / $1.0000</td>
+          <td class="num">4,522.00 / 0.00</td>
+          <td class="num">38,361,938.15</td>
+          <td class="num">8,525,412.24</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-KHAR" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-AOCA</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Alexandria Ocasio-Cortez</td>
-          <td class="num">$0.0920</td>
-          <td class="num">$0.0900 / $0.0920</td>
-          <td class="num">3,703.70 / 3,433.72</td>
-          <td class="num">30,338,092.09</td>
-          <td class="num">6,543,822.04</td>
+          <td class="num">$0.1200</td>
+          <td class="num">$0.1100 / $0.1200</td>
+          <td class="num">3,030.30 / 979.80</td>
+          <td class="num">30,378,699.47</td>
+          <td class="num">6,556,188.51</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-AOCA" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-PBUT</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Pete Buttigieg</td>
-          <td class="num">$0.0310</td>
-          <td class="num">$0.0300 / $0.0310</td>
-          <td class="num">5,800.00 / 4,900.00</td>
-          <td class="num">23,709,652.80</td>
-          <td class="num">9,648,985.32</td>
+          <td class="num">$0.0300</td>
+          <td class="num">$0.0290 / $0.0300</td>
+          <td class="num">11,494.24 / 8,418.21</td>
+          <td class="num">23,754,449.92</td>
+          <td class="num">9,671,380.15</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-PBUT" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-MRUB</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Marco Rubio</td>
-          <td class="num">$0.0950</td>
-          <td class="num">$0.0910 / $1.0000</td>
-          <td class="num">3,100.00 / 0.00</td>
-          <td class="num">21,778,853.95</td>
-          <td class="num">3,513,312.37</td>
+          <td class="num">$0.0980</td>
+          <td class="num">$0.0950 / $0.0980</td>
+          <td class="num">1,754.38 / 259.81</td>
+          <td class="num">21,820,059.91</td>
+          <td class="num">3,521,452.35</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-MRUB" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
@@ -176,13 +192,13 @@
           <td class="num">4,735,924.20</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GNEWS" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-JVAN</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
-          <td>JD Vance</td>
+          <td>J.D. Vance</td>
           <td class="num">$0.1200</td>
           <td class="num">$0.1100 / $0.1200</td>
           <td class="num">4,545.45 / 692.31</td>
@@ -190,21 +206,7 @@
           <td class="num">3,084,462.82</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-JVAN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXSENATEIAD-28-ZWAH</strong></td>
-          <td class="mono">KXSENATEIAD-28</td>
-          <td>Zach Wahls</td>
-          <td class="num">$0.0000</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">10.00 / 0.00</td>
-          <td class="num">0.00</td>
-          <td class="num">0.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSENATEIAD-28-ZWAH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://apnews.com" target="_blank" rel="noopener">Associated Press / Iowa Secretary of State ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr></tbody>
         </table>
@@ -229,11 +231,11 @@
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge warn">SCALAR</span></td>
           <td class="num">$0.5000</td>
-          <td class="num">540.00</td>
+          <td class="num">26.00</td>
           <td class="mono">2026-03-16T18:19:24Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&amp;with_nested_markets=true&amp;limit=3" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://docs.kalshi.com/getting_started/market_lifecycle.md" target="_blank" rel="noopener">Kalshi Market Lifecycle — Proportional Settlement ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXXISUCCESSOR-45JAN01-DXUE" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">Kalshi Market Lifecycle — Proportional Settlement ↗</a>
           </td>
         </tr></tbody>
       </table>
@@ -243,11 +245,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

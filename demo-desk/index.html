@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="index.html" class="active">Live Demo Desk</a><a href="gas/index.html" class="">Gas Prices</a><a href="elections/index.html" class="">Elections</a><a href="culture/index.html" class="">Culture</a><a href="crypto/index.html" class="">Crypto</a><a href="golf/index.html" class="">Golf</a><a href="portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="resolutions/index.html" class="">Resolutions</a><a href="executive-summary/index.html" class="">Executive Summary</a><a href="audit/index.html" class="">Line-by-Line Audit</a><a href="flagged/index.html" class="">Flagged for Review</a><a href="../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="index.html" class="active">Live Demo Desk</a><a href="gas/index.html" class="">Gas Prices</a><a href="elections/index.html" class="">Elections</a><a href="culture/index.html" class="">Culture</a><a href="crypto/index.html" class="">Crypto</a><a href="golf/index.html" class="">Golf</a><a href="portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="resolutions/index.html" class="">Resolutions</a><a href="suggestions/index.html" class="">Interactive Ideas</a><a href="executive-summary/index.html" class="">Executive Summary</a><a href="audit/index.html" class="">Line-by-Line Audit</a><a href="flagged/index.html" class="">Flagged for Review</a><a href="../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -24,28 +24,30 @@
     <h1>Live Kalshi Demo Trading Desk — Gas Prices, Elections, Culture, Crypto &amp; Golf</h1>
     <p>
       Powered directly by verified responses from <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">external-api.demo.kalshi.co/trade-api/v2</a>
-      and official <a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">Kalshi API documentation</a>.
-      Tracks highest-volume events per topic, streams dual <strong>|&Delta;price| &ge; $0.10</strong> alert chats, charts Seconds / Minutes / Hours price &amp; liquidity with catalyst links, and executes multi-strategy + custom simulated trades using Kalshi's official <a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">6-decimal-place fee-rounding accumulator</a>.
+      (with automatic failover to <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">demo-api.kalshi.co/trade-api/v2</a>)
+      and official <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">Kalshi API documentation</a>.
+      Separates the 5 topics cleanly, groups markets within the same event together by dollar volume, streams dual <strong>|&Delta;price| &ge; $0.10</strong> alert chats, charts Seconds / Minutes / Hours price &amp; orderbook liquidity with catalyst links, and executes multi-strategy + custom simulated trades using Kalshi's official <a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">5-step 6dp fee-rounding accumulator</a>.
     </p>
     <div class="toolbar">
-      <button class="active" data-topic-filter="ALL">All 5 Topics (32)</button>
+      <button class="active" data-topic-filter="ALL">All 5 Topics (33)</button>
+      <button data-topic-filter="Gas Prices">Gas Prices</button>
       <button data-topic-filter="Elections">Elections</button>
-      <button data-topic-filter="Golf">Golf</button>
       <button data-topic-filter="Culture">Culture</button>
       <button data-topic-filter="Crypto">Crypto</button>
-      <button data-topic-filter="Gas Prices">Gas Prices</button>
+      <button data-topic-filter="Golf">Golf</button>
       <button id="btn-replay-tape" class="primary" type="button">&#9654; Replay Verified 5s Demo Swing Tape</button>
-      <button id="btn-poll-demo" type="button">&#8635; Poll Live Demo REST</button>
+      <button id="btn-poll-demo" type="button">&#8635; Poll Live Demo REST Now</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
     </div>
   </section>
 
   <section class="kpi-grid">
     <div class="kpi"><div class="label">Demo Exchange Status</div><div class="val" id="kpi-demo-status">ACTIVE (4 Shards)</div><div class="sub"><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Verify /exchange/status ↗</a></div></div>
-    <div class="kpi"><div class="label">Tracked Open Contracts</div><div class="val" id="kpi-open-count">32</div><div class="sub">Strictly 5 Allowed Topics</div></div>
-    <div class="kpi"><div class="label">&ge;$0.10 Swing Alerts</div><div class="val" id="kpi-swing-count">10 (4 High-ROI)</div><div class="sub">Dual Chat Stream Active</div></div>
+    <div class="kpi"><div class="label">Tracked Open Contracts</div><div class="val" id="kpi-open-count">33</div><div class="sub">Strictly 5 Allowed Topics</div></div>
+    <div class="kpi"><div class="label">&ge;$0.10 Swing Alerts</div><div class="val" id="kpi-swing-count">7 (4 High-ROI)</div><div class="sub">Dual Chat Stream Active</div></div>
     <div class="kpi"><div class="label">Simulated Demo Equity</div><div class="val" id="kpi-equity">$10,000.00</div><div class="sub">Persisted Across Pages</div></div>
     <div class="kpi"><div class="label">Net Portfolio PnL</div><div class="val" id="kpi-pnl">+$0.00</div><div class="sub"><a href="portfolio/index.html">Open Strategy Lab &rarr;</a></div></div>
-    <div class="kpi"><div class="label">6dp Fees Debited</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Subpenny Accumulator ↗</a></div></div>
+    <div class="kpi"><div class="label">6dp Fees Debited</div><div class="val" id="kpi-fees">$0.0000</div><div class="sub"><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Subpenny Accumulator ↗</a></div></div>
   </section>
 
   <section class="grid-2">
@@ -69,15 +71,15 @@
 
     <div class="card" style="margin-bottom:0;">
       <h2>
-        <span>Orderbook Liquidity Ladder</span>
+        <span>Orderbook Liquidity Ladder &amp; VWAP Ticket</span>
         <span class="badge">Contracts Available by Price</span>
       </h2>
       <p class="subnote">
-        Reciprocal Kalshi V2 book (<a href="https://docs.kalshi.com/getting_started/orderbook_responses.md" target="_blank" rel="noopener">orderbook_fp spec ↗</a>): best bid sorted first (`[-1]`), implied YES asks = `$1.00 - NO bid`.
+        Reciprocal Kalshi V2 book (<a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">orderbook_fp spec ↗</a>): best bid sorted first (`[-1]`), implied YES asks = `$1.00 - NO bid`.
       </p>
       <div id="orderbook-panel"></div>
 
-      <h3>Quick Demo Order Ticket (Simulated Ledger)</h3>
+      <h3>Quick Demo Order Ticket (VWAP Depth + 6dp Fee Preview)</h3>
       <form id="quick-order-form" class="form-grid">
         <div class="field">
           <label for="quick-ticker">Contract</label>
@@ -92,15 +94,14 @@
         </div>
         <div class="field">
           <label for="quick-contracts">Contracts</label>
-          <input id="quick-contracts" type="number" min="1" max="1000" value="15">
+          <input id="quick-contracts" type="number" min="1" max="5000" value="15">
         </div>
         <div class="field">
           <button type="submit" class="primary" style="width:100%;justify-content:center;">Execute Demo Fill</button>
         </div>
       </form>
-      <div id="quick-slippage-preview" class="subnote" style="margin-top:8px;"></div>
-      <div id="demo-relay-status" class="subnote" style="margin-top:4px;"></div>
-      <div id="quick-order-msg" style="margin-top:8px;font-size:12px;"></div>
+      <div id="quick-vwap-preview" class="subnote" style="margin-top:8px;margin-bottom:0;"></div>
+      <div id="quick-order-msg" style="margin-top:6px;font-size:12px;"></div>
     </div>
   </section>
 
@@ -119,7 +120,7 @@
         <span>Chat 2 — Selective High-ROI Model Feed</span>
         <span class="badge ok">Net ROI &ge; 12% · Spread &le; $0.08 · Depth &ge; 25</span>
       </h2>
-      <p class="subnote">Filters out illiquid wide-spread traps (e.g. $0.98 resting spread) and tail dust (&lt;$0.06 / &gt;$0.94), surfacing only high-ROI setups net of 6dp taker fees.</p>
+      <p class="subnote">Filters out illiquid wide-spread traps (e.g. $0.68–$0.98 resting spreads) and tail dust (&lt;$0.06 / &gt;$0.94), surfacing only actionable setups net of 6dp taker fees.</p>
       <div id="chat-selective" class="chat-feed"></div>
     </div>
   </section>
@@ -137,9 +138,23 @@
           </thead>
           <tbody>
         <tr>
+          <td class="mono"><strong>KXBTCY-27JAN0100-B22500</strong></td>
+          <td class="mono">KXBTCY-27JAN0100</td>
+          <td>$20,000 to $24,999.99</td>
+          <td class="num">$0.0100</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
+          <td class="num">81,978,568.36</td>
+          <td class="num">25,003,538.99</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B22500" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+          </td>
+        </tr>
+        <tr>
           <td class="mono"><strong>KXBTCY-27JAN0100-B47500</strong></td>
           <td class="mono">KXBTCY-27JAN0100</td>
-          <td>45,000 to 49,999.99</td>
+          <td>$45,000 to $49,999.99</td>
           <td class="num">$0.0500</td>
           <td class="num">$0.0400 / $0.0500</td>
           <td class="num">4,166.66 / 472.58</td>
@@ -147,119 +162,147 @@
           <td class="num">26,598,343.53</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.cfbenchmarks.com" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-TGAB</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Tulsi Gabbard</td>
-          <td class="num">$0.0040</td>
-          <td class="num">$0.0020 / $0.0040</td>
-          <td class="num">83,333.33 / 39,315.71</td>
-          <td class="num">73,056,512.96</td>
-          <td class="num">42,164,270.58</td>
+          <td class="num">$0.0030</td>
+          <td class="num">$0.0020 / $0.0030</td>
+          <td class="num">166,666.66 / 52,471.62</td>
+          <td class="num">73,477,269.75</td>
+          <td class="num">42,226,994.97</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-TGAB" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXBTCY-27JAN0100-B27500</strong></td>
+          <td class="mono">KXBTCY-27JAN0100</td>
+          <td>$25,000 to $29,999.99</td>
+          <td class="num">$0.0100</td>
+          <td class="num">$0.0000 / $0.0100</td>
+          <td class="num">0.00 / 13,751.06</td>
+          <td class="num">69,939,723.53</td>
+          <td class="num">19,489,294.22</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B27500" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXBTCY-27JAN0100-T20000.00</strong></td>
+          <td class="mono">KXBTCY-27JAN0100</td>
+          <td>$19,999.99 or below</td>
+          <td class="num">$0.0200</td>
+          <td class="num">$0.0100 / $0.0200</td>
+          <td class="num">16,666.66 / 8,333.33</td>
+          <td class="num">52,203,680.39</td>
+          <td class="num">9,376,731.35</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-T20000.00" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-DTRU</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
-          <td>Donald Trump</td>
-          <td class="num">$0.0080</td>
-          <td class="num">$0.0060 / $0.0080</td>
-          <td class="num">12,500.00 / 9,800.00</td>
-          <td class="num">51,659,827.26</td>
-          <td class="num">17,161,797.38</td>
+          <td>Donald J. Trump</td>
+          <td class="num">$0.0100</td>
+          <td class="num">$0.0080 / $0.0100</td>
+          <td class="num">20,833.33 / 14,000.75</td>
+          <td class="num">51,880,779.30</td>
+          <td class="num">17,312,360.66</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-DTRU" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPRESPERSON-28-WMOO</strong></td>
+          <td class="mono">KXPRESPERSON-28</td>
+          <td>Wes Moore</td>
+          <td class="num">$0.0150</td>
+          <td class="num">$0.0130 / $0.0150</td>
+          <td class="num">12,820.51 / 8,395.18</td>
+          <td class="num">46,306,523.56</td>
+          <td class="num">17,100,522.73</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-WMOO" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-GWHI</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Gretchen Whitmer</td>
-          <td class="num">$0.0050</td>
-          <td class="num">$0.0040 / $0.0060</td>
-          <td class="num">15,400.00 / 11,200.00</td>
-          <td class="num">43,076,608.96</td>
-          <td class="num">17,311,632.57</td>
+          <td class="num">$0.0030</td>
+          <td class="num">$0.0020 / $0.0040</td>
+          <td class="num">83,333.33 / 40,704.12</td>
+          <td class="num">43,220,303.46</td>
+          <td class="num">17,388,479.67</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GWHI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXBTCY-27JAN0100-B67500</strong></td>
-          <td class="mono">KXBTCY-27JAN0100</td>
-          <td>65,000 to 69,999.99</td>
-          <td class="num">$0.1500</td>
-          <td class="num">$0.1400 / $0.1500</td>
-          <td class="num">1,190.47 / 575.26</td>
-          <td class="num">43,038,230.84</td>
-          <td class="num">7,169,945.27</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B67500" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.cfbenchmarks.com" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-KHAR</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Kamala Harris</td>
-          <td class="num">$0.0330</td>
-          <td class="num">$0.0320 / $0.0330</td>
-          <td class="num">6,250.00 / 5,100.00</td>
-          <td class="num">38,298,695.64</td>
-          <td class="num">8,522,680.65</td>
+          <td class="num">$0.9700</td>
+          <td class="num">$0.0200 / $1.0000</td>
+          <td class="num">4,522.00 / 0.00</td>
+          <td class="num">38,361,938.15</td>
+          <td class="num">8,525,412.24</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-KHAR" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-AOCA</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Alexandria Ocasio-Cortez</td>
-          <td class="num">$0.0920</td>
-          <td class="num">$0.0900 / $0.0920</td>
-          <td class="num">3,703.70 / 3,433.72</td>
-          <td class="num">30,338,092.09</td>
-          <td class="num">6,543,822.04</td>
+          <td class="num">$0.1200</td>
+          <td class="num">$0.1100 / $0.1200</td>
+          <td class="num">3,030.30 / 979.80</td>
+          <td class="num">30,378,699.47</td>
+          <td class="num">6,556,188.51</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-AOCA" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-PBUT</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Pete Buttigieg</td>
-          <td class="num">$0.0310</td>
-          <td class="num">$0.0300 / $0.0310</td>
-          <td class="num">5,800.00 / 4,900.00</td>
-          <td class="num">23,709,652.80</td>
-          <td class="num">9,648,985.32</td>
+          <td class="num">$0.0300</td>
+          <td class="num">$0.0290 / $0.0300</td>
+          <td class="num">11,494.24 / 8,418.21</td>
+          <td class="num">23,754,449.92</td>
+          <td class="num">9,671,380.15</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-PBUT" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-MRUB</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
           <td>Marco Rubio</td>
-          <td class="num">$0.0950</td>
-          <td class="num">$0.0910 / $1.0000</td>
-          <td class="num">3,100.00 / 0.00</td>
-          <td class="num">21,778,853.95</td>
-          <td class="num">3,513,312.37</td>
+          <td class="num">$0.0980</td>
+          <td class="num">$0.0950 / $0.0980</td>
+          <td class="num">1,754.38 / 259.81</td>
+          <td class="num">21,820,059.91</td>
+          <td class="num">3,521,452.35</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-MRUB" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
@@ -273,13 +316,13 @@
           <td class="num">4,735,924.20</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GNEWS" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXPRESPERSON-28-JVAN</strong></td>
           <td class="mono">KXPRESPERSON-28</td>
-          <td>JD Vance</td>
+          <td>J.D. Vance</td>
           <td class="num">$0.1200</td>
           <td class="num">$0.1100 / $0.1200</td>
           <td class="num">4,545.45 / 692.31</td>
@@ -287,7 +330,21 @@
           <td class="num">3,084,462.82</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-JVAN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.congress.gov" target="_blank" rel="noopener">U.S. Congress / Electoral Certification ↗</a>
+            <a href="https://www.whitehouse.gov/administration/executive-office-of-the-president/" target="_blank" rel="noopener">Executive Office of the President ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPGATOUR-MAST27-MFIT</strong></td>
+          <td class="mono">KXPGATOUR-MAST27</td>
+          <td>Matt Fitzpatrick</td>
+          <td class="num">$0.0230</td>
+          <td class="num">$0.0210 / $0.0250</td>
+          <td class="num">7,936.50 / 6,666.66</td>
+          <td class="num">833,849.07</td>
+          <td class="num">833,821.07</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-MFIT" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
@@ -301,21 +358,7 @@
           <td class="num">46,296.00</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-SSCH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXPGATOUR-MAST27-WCLA</strong></td>
-          <td class="mono">KXPGATOUR-MAST27</td>
-          <td>Wyndham Clark</td>
-          <td class="num">$0.0190</td>
-          <td class="num">$0.0150 / $0.0160</td>
-          <td class="num">11,111.11 / 10,416.66</td>
-          <td class="num">25,566.37</td>
-          <td class="num">25,562.37</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-WCLA" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
@@ -351,13 +394,27 @@
           <td class="mono">KXPERFORMBONDSONG-35</td>
           <td>Lana Del Rey</td>
           <td class="num">$0.0200</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">1.00 / 0.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">20,605.15</td>
-          <td class="num">6,840.00</td>
+          <td class="num">7,171.00</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPERFORMBONDSONG-35-LAN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://www.billboard.com/" target="_blank" rel="noopener">Billboard / Variety Official Film Credits ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.5200</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.5200</td>
+          <td class="num">$0.0700</td>
+          <td class="num">$0.0600 / $0.0700</td>
+          <td class="num">2,777.77 / 2,289.20</td>
+          <td class="num">18,110.86</td>
+          <td class="num">12,447.47</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5200" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
           </td>
         </tr>
         <tr>
@@ -365,8 +422,8 @@
           <td class="mono">KXPERFORMBONDSONG-35</td>
           <td>Lady Gaga</td>
           <td class="num">$0.0200</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">1.00 / 0.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">18,033.15</td>
           <td class="num">11,128.00</td>
           <td>
@@ -375,45 +432,115 @@
           </td>
         </tr>
         <tr>
+          <td class="mono"><strong>KXPGATOUR-MAST27-LABE</strong></td>
+          <td class="mono">KXPGATOUR-MAST27</td>
+          <td>Ludvig Aberg</td>
+          <td class="num">$0.0300</td>
+          <td class="num">$0.0330 / $0.0380</td>
+          <td class="num">5,050.50 / 4,385.96</td>
+          <td class="num">17,281.05</td>
+          <td class="num">17,255.05</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-LABE" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
           <td class="mono"><strong>KXPERFORMBONDSONG-35-WEE</strong></td>
           <td class="mono">KXPERFORMBONDSONG-35</td>
           <td>The Weeknd</td>
           <td class="num">$0.0200</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">1.00 / 0.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">16,947.15</td>
-          <td class="num">5,910.00</td>
+          <td class="num">4,467.00</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPERFORMBONDSONG-35-WEE" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://www.billboard.com/" target="_blank" rel="noopener">Billboard / Variety Official Film Credits ↗</a>
           </td>
         </tr>
         <tr>
-          <td class="mono"><strong>KXPGATOUR-MAST27-XSCH</strong></td>
-          <td class="mono">KXPGATOUR-MAST27</td>
-          <td>Xander Schauffele</td>
-          <td class="num">$0.0270</td>
-          <td class="num">$0.0000 / $1.0000</td>
-          <td class="num">0.00 / 0.00</td>
-          <td class="num">12,345.66</td>
-          <td class="num">12,345.66</td>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.5000</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.5000</td>
+          <td class="num">$0.7500</td>
+          <td class="num">$0.3800 / $1.0000</td>
+          <td class="num">438.59 / 0.00</td>
+          <td class="num">11,345.14</td>
+          <td class="num">9,713.47</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-XSCH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5000" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.5400</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.5400</td>
+          <td class="num">$0.0200</td>
+          <td class="num">$0.0000 / $0.9000</td>
+          <td class="num">0.00 / 5.00</td>
+          <td class="num">8,674.31</td>
+          <td class="num">8,674.31</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5400" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV27H20-UP</strong></td>
           <td class="mono">KXDEMOFUTHOURLY-26NOV27H20</td>
-          <td>At or above 59,843.27 USD (20:00 UTC)</td>
-          <td class="num">$0.6500</td>
+          <td>BTC &gt;= $59,843.27</td>
+          <td class="num">$0.5500</td>
           <td class="num">$0.3100 / $0.9900</td>
           <td class="num">5.00 / 1.00</td>
-          <td class="num">6,660.00</td>
-          <td class="num">65.00</td>
+          <td class="num">7,225.00</td>
+          <td class="num">90.00</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H20-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase BTC-USD 1m Candle ↗</a>
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Exchange BTC-USD Candles ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.6000</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.6000</td>
+          <td class="num">$0.0200</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
+          <td class="num">4,298.50</td>
+          <td class="num">4,297.50</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.6000" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXAAAGASW-26NOV30-3.4800</strong></td>
+          <td class="mono">KXAAAGASW-26NOV30</td>
+          <td>US Gas &gt; $3.4800</td>
+          <td class="num">$0.8900</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
+          <td class="num">4,032.63</td>
+          <td class="num">2,972.95</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.4800" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>KXPGATOUR-MAST27-SBUR</strong></td>
+          <td class="mono">KXPGATOUR-MAST27</td>
+          <td>Sam Burns</td>
+          <td class="num">$0.0320</td>
+          <td class="num">$0.0190 / $0.0200</td>
+          <td class="num">17,543.84 / 16,666.66</td>
+          <td class="num">636.37</td>
+          <td class="num">514.37</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-SBUR" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
@@ -427,21 +554,7 @@
           <td class="num">569.55</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-RMCI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXPGATOUR-MAST27-JSPI</strong></td>
-          <td class="mono">KXPGATOUR-MAST27</td>
-          <td>Jordan Spieth</td>
-          <td class="num">$0.0110</td>
-          <td class="num">$0.0080 / $0.0200</td>
-          <td class="num">41,666.66 / 16,666.66</td>
-          <td class="num">551.11</td>
-          <td class="num">551.11</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-JSPI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+            <a href="https://www.pgatour.com/" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
           </td>
         </tr>
         <tr>
@@ -463,8 +576,8 @@
           <td class="mono">KXAAAGASMINTX-26DEC31</td>
           <td>TX Gas &lt; $1.90</td>
           <td class="num">$0.1600</td>
-          <td class="num">$0.0100 / $0.9500</td>
-          <td class="num">10.00 / 15.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">101.21</td>
           <td class="num">22.02</td>
           <td>
@@ -478,110 +591,12 @@
           <td>TX Gas &lt; $2.20</td>
           <td class="num">$0.4500</td>
           <td class="num">$0.0000 / $0.9500</td>
-          <td class="num">0.00 / 12.00</td>
+          <td class="num">0.00 / 20.00</td>
           <td class="num">50.20</td>
           <td class="num">36.03</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.20" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report (Texas) ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMINTX-26DEC31-2.30</strong></td>
-          <td class="mono">KXAAAGASMINTX-26DEC31</td>
-          <td>TX Gas &lt; $2.30</td>
-          <td class="num">$0.9800</td>
-          <td class="num">$0.1800 / $1.0000</td>
-          <td class="num">10.00 / 0.00</td>
-          <td class="num">41.58</td>
-          <td class="num">38.41</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.30" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report (Texas) ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMINTX-26DEC31-2.00</strong></td>
-          <td class="mono">KXAAAGASMINTX-26DEC31</td>
-          <td>TX Gas &lt; $2.00</td>
-          <td class="num">$0.2200</td>
-          <td class="num">$0.0100 / $0.9300</td>
-          <td class="num">10.00 / 10.00</td>
-          <td class="num">34.20</td>
-          <td class="num">19.03</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.00" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA Daily Fuel Gauge Report (Texas) ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXLIVCOMPETE-27APR-JRAH</strong></td>
-          <td class="mono">KXLIVCOMPETE-27APR</td>
-          <td>Jon Rahm (Q1 2027)</td>
-          <td class="num">$0.4500</td>
-          <td class="num">$0.4500 / $0.5500</td>
-          <td class="num">99.00 / 98.00</td>
-          <td class="num">6.16</td>
-          <td class="num">1.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-JRAH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour / Official Golf Tour Records ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.60</strong></td>
-          <td class="mono">KXAAAGASMIN-26DEC31</td>
-          <td>US Gas &lt; $3.60</td>
-          <td class="num">$0.9000</td>
-          <td class="num">$0.8500 / $0.9500</td>
-          <td class="num">5.00 / 5.00</td>
-          <td class="num">3.21</td>
-          <td class="num">2.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMIN-26DEC31-3.60" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXAAAGASMIN-26DEC31-3.40</strong></td>
-          <td class="mono">KXAAAGASMIN-26DEC31</td>
-          <td>US Gas &lt; $3.40</td>
-          <td class="num">$0.0100</td>
-          <td class="num">$0.0100 / $0.9900</td>
-          <td class="num">5.00 / 5.00</td>
-          <td class="num">3.20</td>
-          <td class="num">2.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMIN-26DEC31-3.40" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA National Fuel Gauge Report ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXSENATEIAD-28-ZWAH</strong></td>
-          <td class="mono">KXSENATEIAD-28</td>
-          <td>Zach Wahls</td>
-          <td class="num">$0.0000</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">10.00 / 0.00</td>
-          <td class="num">0.00</td>
-          <td class="num">0.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSENATEIAD-28-ZWAH" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://apnews.com" target="_blank" rel="noopener">Associated Press / Iowa Secretary of State ↗</a>
-          </td>
-        </tr>
-        <tr>
-          <td class="mono"><strong>KXBTCD-26NOV2817-T71249.99</strong></td>
-          <td class="mono">KXBTCD-26NOV2817</td>
-          <td>$71,250 or above</td>
-          <td class="num">$0.0000</td>
-          <td class="num">$0.0000 / $0.0000</td>
-          <td class="num">0.00 / 0.00</td>
-          <td class="num">0.00</td>
-          <td class="num">0.00</td>
-          <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCD-26NOV2817-T71249.99" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.cfbenchmarks.com" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
           </td>
         </tr></tbody>
         </table>
@@ -589,57 +604,16 @@
     </div>
   </section>
 
-  <section class="card">
-    <h2>Concrete Engineering Suggestions to Make This Site Even More Live &amp; Interactive</h2>
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr><th>#</th><th>Enhancement</th><th>How It Works with Official Kalshi V2 Specs</th><th>Official Reference</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td class="mono">S1</td>
-            <td><strong>Signed Local/Edge WebSocket Multiplexer (`ticker` + `orderbook_delta` + `fill`)</strong></td>
-            <td>Browser `WebSocket` APIs cannot attach custom `KALSHI-ACCESS-SIGNATURE` headers during the HTTP Upgrade handshake. Running `python3 -m kalshi_engine.relay_server` locally (or on a Cloudflare Worker with encrypted secrets) signs `GET /trade-api/ws/v2` and fans out sub-second `orderbook_delta` ticks to the browser over SSE/WS.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets.md" target="_blank" rel="noopener">Quick Start: WebSockets ↗</a></td>
-          </tr>
-          <tr>
-            <td class="mono">S2</td>
-            <td><strong>Interactive Depth-Weighted Slippage Preview Before Order Submission</strong></td>
-            <td>Walk `orderbook_fp.no_dollars` (for YES buys) or `yes_dollars` (for NO buys) from `[-1]` downward as the user drags the contract-size slider, computing exact VWAP fill price + `ceil_6dp` fee impact before clicking Execute.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses.md" target="_blank" rel="noopener">Orderbook Responses ↗</a></td>
-          </tr>
-          <tr>
-            <td class="mono">S3</td>
-            <td><strong>Automated Catalyst Timestamp Pinning Against Primary Settlement Feeds</strong></td>
-            <td>Cross-index every `|&Delta;price| &ge; $0.10` Kalshi trade timestamp against Coinbase `BTC-USD` 1m candles (`Crypto`) and AAA daily state fuel averages (`Gas Prices`) to separate genuine external spot moves from Demo market-maker quote cycling.</td>
-            <td><a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Candles API ↗</a></td>
-          </tr>
-          <tr>
-            <td class="mono">S4</td>
-            <td><strong>Walk-Forward Parameter Sweep on Custom User Strategies</strong></td>
-            <td>Allow users in the Strategy Lab to sweep `min_abs_delta` (`$0.10`–`$0.35`) and `spread_cap` (`$0.02`–`$0.15`) across historical settled series (`?status=settled`) to visualize net-of-fee Sharpe and drawdown curves before enabling live Demo execution.</td>
-            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Fee Rounding Spec ↗</a></td>
-          </tr>
-          <tr>
-            <td class="mono">S5</td>
-            <td><strong>Live `series.fee_multiplier` Sync vs. Static Fee Schedule PDF</strong></td>
-            <td>Query `GET /series/{series_ticker}` for `fee_multiplier` (`1`, `0.5`, or `0`) rather than relying solely on the static Fee Schedule PDF (which lists `KXBTCY` as `0/0` while Demo `/series/KXBTCY` charges `fee_multiplier=1`).</td>
-            <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Kalshi Fee Schedule PDF ↗</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="suggestions/index.html">Interactive Roadmap</a> ·
     <a href="flagged/index.html">Flagged for Review</a> ·
     <a href="audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>
