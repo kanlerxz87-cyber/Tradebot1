@@ -10,19 +10,23 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from kalshi_engine.kalshi_v2_client import (
     DEMO_REST_PRIMARY,
+    DEMO_USER_WS_PRIMARY,
     DEMO_WS_PRIMARY,
     KalshiV2Client,
     build_presign_message,
     build_v2_event_order_payload,
     canonical_sign_path,
+    estimate_orderbook_vwap,
     sign_kalshi_message,
     summarize_orderbook,
 )
+from kalshi_engine.relay_server import create_relay_server
 from kalshi_engine.simulator import (
     CustomStrategyRule,
     StrategyPortfolioEngine,
     classify_topic,
     compute_kalshi_fee,
+    score_roi_opportunity,
 )
 
 
@@ -165,9 +169,83 @@ def test_alerts_all_five_strategies_custom_rules_fees_and_scalar_settlement():
     eng.settle_market("KXXISUCCESSOR-45JAN01-DXUE", "scalar", settlement_value_dollars=0.50)
     assert ts.status == "finalized" and ts.payout == 5.0
 
-    # Fee rounding accumulator sanity check
+    # Fee rounding accumulator sanity check + official worked examples & per-series fee_multiplier
     fee1, acc1 = compute_kalshi_fee(0.55, 1, target_precision="0.01")
     assert fee1 >= Decimal("0") and acc1 >= Decimal("0")
+
+    # Official Kalshi worked example: 1 contract @ $0.055 -> raw 0.00363825 -> trade_fee 0.003639
+    # Non-direct ($0.01): signed_revenue=-0.055, unaligned=-0.058639 -> aligned=-0.06, rounding_fee=0.001361 -> net_fee=0.005, acc=0.001361
+    nf_nd, acc_nd = compute_kalshi_fee(0.055, 1, target_precision="0.01")
+    assert nf_nd == Decimal("0.005000") and acc_nd == Decimal("0.001361")
+
+    # Direct ($0.0001): signed_revenue=-0.055, unaligned=-0.058639 -> aligned=-0.0587, rounding_fee=0.000061 -> net_fee=0.0037, acc=0.000061
+    nf_d, acc_d = compute_kalshi_fee(0.055, 1, target_precision="0.0001")
+    assert nf_d == Decimal("0.003700") and acc_d == Decimal("0.000061")
+
+    # Series fee_multiplier = 0 (zero-fee series) and 0.5 (reduced-fee series)
+    nf_zero, acc_zero = compute_kalshi_fee(0.50, 100, target_precision="0.0001", series_fee_multiplier=0.0)
+    assert nf_zero == Decimal("0") and acc_zero == Decimal("0")
+    nf_half, _ = compute_kalshi_fee(0.50, 100, target_precision="0.0001", series_fee_multiplier=0.5)
+    assert nf_half == Decimal("0.875000")
+
+
+def test_vwap_slippage_selective_spread_gate_and_same_origin_relay():
+    import threading
+    import urllib.error
+    import urllib.request
+
+    assert DEMO_USER_WS_PRIMARY == "wss://user-ws.demo.kalshi.co/trade-api/ws/v2"
+
+    # Regression for $0.97-spread false-positive High-ROI bug (KXBTCY-27JAN0100-B47500 when wide)
+    wide_mkt = {
+        "ticker": "KXBTCY-27JAN0100-B47500",
+        "yes_bid_dollars": "0.0300",
+        "yes_ask_dollars": "1.0000",
+        "last_price_dollars": "0.5000",
+        "volume_fp": "80261505.27",
+        "volume_24h_fp": "50000.00",
+        "open_interest_fp": "26598343.53",
+    }
+    scored_wide = score_roi_opportunity(wide_mkt, swing_delta=0.45)
+    assert scored_wide["qualifies_high_roi"] is False
+
+    # VWAP across live KXPGATOUR-MAST27-SSCH orderbook levels
+    ob = {
+        "orderbook_fp": {
+            "no_dollars": [["0.8000", "833.33"], ["0.8100", "877.19"], ["0.8200", "925.92"]],
+            "yes_dollars": [["0.1500", "1111.11"], ["0.1600", "1041.66"], ["0.1700", "980.39"]],
+        }
+    }
+    # Implied YES asks ascending: $0.18 (925.92), $0.19 (877.19), $0.20 (833.33)
+    vwap_small = estimate_orderbook_vwap(ob, "yes", 500)
+    assert vwap_small["vwap_price"] == 0.18 and vwap_small["levels_walked"] == 1 and vwap_small["slippage_dollars"] == 0.0
+    vwap_large = estimate_orderbook_vwap(ob, "yes", 1500)
+    assert vwap_large["levels_walked"] == 2 and vwap_large["vwap_price"] > 0.18 and vwap_large["unfilled_contracts"] == 0.0
+
+    # Same-origin relay test (static /demo-desk/ + /api/demo/status + blocked dotfile 403)
+    class StubClient(KalshiV2Client):
+        def get_exchange_status(self):
+            return {"exchange_active": True, "trading_active": True}
+
+    srv = create_relay_server(host="127.0.0.1", port=0, client=StubClient())
+    port = srv.server_address[1]
+    th = threading.Thread(target=srv.serve_forever, daemon=True)
+    th.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/demo/status", timeout=5) as r:
+            st = json.loads(r.read().decode("utf-8"))
+            assert st["ok"] is True and st["authenticated"] is False
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/demo-desk/index.html", timeout=5) as r2:
+            html = r2.read().decode("utf-8")
+            assert "Kalshi Demo" in html
+        try:
+            urllib.request.urlopen(f"http://127.0.0.1:{port}/.git/HEAD", timeout=5)
+            raise AssertionError("Expected 403 on dotfile path")
+        except urllib.error.HTTPError as he:
+            assert he.code == 403
+    finally:
+        srv.shutdown()
+        srv.server_close()
 
 
 if __name__ == "__main__":
@@ -177,4 +255,5 @@ if __name__ == "__main__":
     test_reciprocal_orderbook_math_and_no_truncation()
     test_strict_five_topics_no_substring_false_positives()
     test_alerts_all_five_strategies_custom_rules_fees_and_scalar_settlement()
+    test_vwap_slippage_selective_spread_gate_and_same_origin_relay()
     print("All kalshi_engine tests passed.")
