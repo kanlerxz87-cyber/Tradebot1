@@ -1,7 +1,7 @@
 {
   "version": 1,
-  "updatedAt": "2026-11-27T14:57:14.802Z",
-  "runId": "2026-11-27T14-57-14-802Z",
+  "updatedAt": "2026-11-27T23:24:29.698Z",
+  "runId": "2026-11-27T23-24-29-698Z",
   "root": "https://external-api.demo.kalshi.co/trade-api/v2",
   "exchange": {
     "exchangeActive": true,
@@ -70,10 +70,10 @@
           "value": "Elections",
           "url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections",
           "requestUrl": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections",
-          "returned": 2736
+          "returned": 2749
         }
       ],
-      "seriesFound": 2736,
+      "seriesFound": 2749,
       "seriesRead": 0,
       "errors": []
     },
@@ -137,11 +137,11 @@
     },
     "elections": {
       "topic": "elections",
-      "seriesDiscovered": 2736,
+      "seriesDiscovered": 2749,
       "seriesRead": 12,
-      "seriesWithOpenMarkets": 4,
-      "marketsOpen": 40,
-      "marketsObserved": 40,
+      "seriesWithOpenMarkets": 3,
+      "marketsOpen": 27,
+      "marketsObserved": 27,
       "seriesCapped": true,
       "marketCapReached": false,
       "errors": []
@@ -160,12 +160,12 @@
     "crypto": {
       "topic": "crypto",
       "seriesDiscovered": 321,
-      "seriesRead": 2,
-      "seriesWithOpenMarkets": 1,
-      "marketsOpen": 144,
-      "marketsObserved": 60,
+      "seriesRead": 12,
+      "seriesWithOpenMarkets": 2,
+      "marketsOpen": 16,
+      "marketsObserved": 16,
       "seriesCapped": true,
-      "marketCapReached": true,
+      "marketCapReached": false,
       "errors": []
     },
     "golf": {
@@ -173,8 +173,8 @@
       "seriesDiscovered": 134,
       "seriesRead": 12,
       "seriesWithOpenMarkets": 1,
-      "marketsOpen": 18,
-      "marketsObserved": 18,
+      "marketsOpen": 1,
+      "marketsObserved": 1,
       "seriesCapped": true,
       "marketCapReached": false,
       "errors": []
@@ -27477,6 +27477,673 @@
       "lastSeenAt": "2026-11-27T14:57:14.802Z",
       "closeTime": "2027-10-07T14:00:00Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRYDERCUPCAPTAIN-2027USA-BSNE"
+    },
+    "KXSPEAKER120VOTE-27FEB01-TMAS": {
+      "marketTicker": "KXSPEAKER120VOTE-27FEB01-TMAS",
+      "eventTicker": "KXSPEAKER120VOTE-27FEB01",
+      "topic": "elections",
+      "title": "Will it be confirmed that Thomas Massie receives at least one vote for Speaker of the House on a roll call at the opening of the 120th Congress?",
+      "seriesTicker": "KXSPEAKER120VOTE",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-02-01T04:59:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSPEAKER120VOTE-27FEB01-TMAS"
+    },
+    "KXSPEAKER120VOTE-27FEB01-SSCA": {
+      "marketTicker": "KXSPEAKER120VOTE-27FEB01-SSCA",
+      "eventTicker": "KXSPEAKER120VOTE-27FEB01",
+      "topic": "elections",
+      "title": "Will it be confirmed that Steve Scalise receives at least one vote for Speaker of the House on a roll call at the opening of the 120th Congress?",
+      "seriesTicker": "KXSPEAKER120VOTE",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-02-01T04:59:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSPEAKER120VOTE-27FEB01-SSCA"
+    },
+    "KXSPEAKER120VOTE-27FEB01-RTLA": {
+      "marketTicker": "KXSPEAKER120VOTE-27FEB01-RTLA",
+      "eventTicker": "KXSPEAKER120VOTE-27FEB01",
+      "topic": "elections",
+      "title": "Will it be confirmed that Rashida Tlaib receives at least one vote for Speaker of the House on a roll call at the opening of the 120th Congress?",
+      "seriesTicker": "KXSPEAKER120VOTE",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-02-01T04:59:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSPEAKER120VOTE-27FEB01-RTLA"
+    },
+    "KXSPEAKER120VOTE-27FEB01-MJOH": {
+      "marketTicker": "KXSPEAKER120VOTE-27FEB01-MJOH",
+      "eventTicker": "KXSPEAKER120VOTE-27FEB01",
+      "topic": "elections",
+      "title": "Will it be confirmed that Mike Johnson receives at least one vote for Speaker of the House on a roll call at the opening of the 120th Congress?",
+      "seriesTicker": "KXSPEAKER120VOTE",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-02-01T04:59:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSPEAKER120VOTE-27FEB01-MJOH"
+    },
+    "KXSPEAKER120VOTE-27FEB01-BSAN": {
+      "marketTicker": "KXSPEAKER120VOTE-27FEB01-BSAN",
+      "eventTicker": "KXSPEAKER120VOTE-27FEB01",
+      "topic": "elections",
+      "title": "Will it be confirmed that Bernie Sanders receives at least one vote for Speaker of the House on a roll call at the opening of the 120th Congress?",
+      "seriesTicker": "KXSPEAKER120VOTE",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-02-01T04:59:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSPEAKER120VOTE-27FEB01-BSAN"
+    },
+    "KXSPEAKER120VOTE-27FEB01-APRE": {
+      "marketTicker": "KXSPEAKER120VOTE-27FEB01-APRE",
+      "eventTicker": "KXSPEAKER120VOTE-27FEB01",
+      "topic": "elections",
+      "title": "Will it be confirmed that Ayanna Pressley receives at least one vote for Speaker of the House on a roll call at the opening of the 120th Congress?",
+      "seriesTicker": "KXSPEAKER120VOTE",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-02-01T04:59:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSPEAKER120VOTE-27FEB01-APRE"
+    },
+    "KXSPEAKER120VOTE-27FEB01-AOCA": {
+      "marketTicker": "KXSPEAKER120VOTE-27FEB01-AOCA",
+      "eventTicker": "KXSPEAKER120VOTE-27FEB01",
+      "topic": "elections",
+      "title": "Will it be confirmed that Alexandria Ocasio-Cortez receives at least one vote for Speaker of the House on a roll call at the opening of the 120th Congress?",
+      "seriesTicker": "KXSPEAKER120VOTE",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-02-01T04:59:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSPEAKER120VOTE-27FEB01-AOCA"
+    },
+    "KXBRAZILPRES-30OCT27-RFON": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-RFON",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Rafael Fonteles win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-RFON"
+    },
+    "KXBRAZILPRES-30OCT27-NFER": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-NFER",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Nikolas Ferreira win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-NFER"
+    },
+    "KXBRAZILPRES-30OCT27-EBOL": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-EBOL",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Eduardo Bolsonaro win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-EBOL"
+    },
+    "KXBRAZILPRES-30OCT27-CSAN": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-CSAN",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Camilo Santana win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-CSAN"
+    },
+    "KXBRAZILPRES-30OCT27-TFRE": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-TFRE",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Tarcísio de Freitas win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-TFRE"
+    },
+    "KXBRAZILPRES-30OCT27-RZEM": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-RZEM",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Romeu Zema win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-RZEM"
+    },
+    "KXBRAZILPRES-30OCT27-RSAN": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-RSAN",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Renan Santos win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-RSAN"
+    },
+    "KXBRAZILPRES-30OCT27-RJUN": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-RJUN",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Ratinho Júnior win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-RJUN"
+    },
+    "KXBRAZILPRES-30OCT27-RCAI": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-RCAI",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Ronaldo Caiado win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-RCAI"
+    },
+    "KXBRAZILPRES-30OCT27-MBOL": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-MBOL",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Michelle Bolsonaro win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-MBOL"
+    },
+    "KXBRAZILPRES-30OCT27-JCAM": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-JCAM",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will João Campos win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-JCAM"
+    },
+    "KXBRAZILPRES-30OCT27-GBOU": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-GBOU",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Guilherme Boulos win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-GBOU"
+    },
+    "KXBRAZILPRES-30OCT27-GALC": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-GALC",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Geraldo Alckmin win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-GALC"
+    },
+    "KXBRAZILPRES-30OCT27-FHAD": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-FHAD",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Fernando Haddad win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-FHAD"
+    },
+    "KXBRAZILPRES-30OCT27-FBOL": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-FBOL",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Flávio Bolsonaro win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-FBOL"
+    },
+    "KXBRAZILPRES-30OCT27-ELEI": {
+      "marketTicker": "KXBRAZILPRES-30OCT27-ELEI",
+      "eventTicker": "KXBRAZILPRES-30OCT27",
+      "topic": "elections",
+      "title": "Will Eduardo Leite win the 2030 Brazilian presidential election?",
+      "seriesTicker": "KXBRAZILPRES",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2031-10-27T14:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBRAZILPRES-30OCT27-ELEI"
+    },
+    "KXPRESTAIWAN-28-CLIW": {
+      "marketTicker": "KXPRESTAIWAN-28-CLIW",
+      "eventTicker": "KXPRESTAIWAN-28",
+      "topic": "elections",
+      "title": "Who will win the next Taiwanese presidential election?",
+      "seriesTicker": "KXPRESTAIWAN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2029-01-30T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESTAIWAN-28-CLIW"
+    },
+    "KXPRESTAIWAN-28-WLAI": {
+      "marketTicker": "KXPRESTAIWAN-28-WLAI",
+      "eventTicker": "KXPRESTAIWAN-28",
+      "topic": "elections",
+      "title": "Who will win the next Taiwanese presidential election?",
+      "seriesTicker": "KXPRESTAIWAN",
+      "yesMid": null,
+      "yesBid": 0.99,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2029-01-30T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESTAIWAN-28-WLAI"
+    },
+    "KXPRESTAIWAN-28-TGOU": {
+      "marketTicker": "KXPRESTAIWAN-28-TGOU",
+      "eventTicker": "KXPRESTAIWAN-28",
+      "topic": "elections",
+      "title": "Who will win the next Taiwanese presidential election?",
+      "seriesTicker": "KXPRESTAIWAN",
+      "yesMid": 0.545,
+      "yesBid": 0.1,
+      "yesAsk": 0.99,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [
+        {
+          "t": "2026-11-27T23:24:29.698Z",
+          "bid": 0.1,
+          "ask": 0.99,
+          "mid": 0.545
+        }
+      ],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2029-01-30T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESTAIWAN-28-TGOU"
+    },
+    "KXPRESTAIWAN-28-HYUI": {
+      "marketTicker": "KXPRESTAIWAN-28-HYUI",
+      "eventTicker": "KXPRESTAIWAN-28",
+      "topic": "elections",
+      "title": "Who will win the next Taiwanese presidential election?",
+      "seriesTicker": "KXPRESTAIWAN",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0.01,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2029-01-30T15:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESTAIWAN-28-HYUI"
+    },
+    "KXSOLMINMON-SOL-26NOV30-9000": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-9000",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $90.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-9000"
+    },
+    "KXSOLMINMON-SOL-26NOV30-8500": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-8500",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $85.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-8500"
+    },
+    "KXSOLMINMON-SOL-26NOV30-8000": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-8000",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $80.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-8000"
+    },
+    "KXSOLMINMON-SOL-26NOV30-7500": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-7500",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $75.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-7500"
+    },
+    "KXSOLMINMON-SOL-26NOV30-7000": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-7000",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $70.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-7000"
+    },
+    "KXSOLMINMON-SOL-26NOV30-6500": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-6500",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $65.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-6500"
+    },
+    "KXSOLMINMON-SOL-26NOV30-6000": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-6000",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $60.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-6000"
+    },
+    "KXSOLMINMON-SOL-26NOV30-5500": {
+      "marketTicker": "KXSOLMINMON-SOL-26NOV30-5500",
+      "eventTicker": "KXSOLMINMON-SOL-26NOV30",
+      "topic": "crypto",
+      "title": "Will SOL trimmed mean be below $55.00 by 11:59 PM ET on Nov 30, 2026?",
+      "seriesTicker": "KXSOLMINMON",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2026-12-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSOLMINMON-SOL-26NOV30-5500"
+    },
+    "KXBNBMAXY-BNB-26DEC31-67000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-67000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $670.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-67000"
+    },
+    "KXBNBMAXY-BNB-26DEC31-66000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-66000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $660.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-66000"
+    },
+    "KXBNBMAXY-BNB-26DEC31-65000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-65000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $650.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-65000"
+    },
+    "KXBNBMAXY-BNB-26DEC31-64000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-64000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $640.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 0.31,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-64000"
+    },
+    "KXBNBMAXY-BNB-26DEC31-63000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-63000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $630.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-63000"
+    },
+    "KXBNBMAXY-BNB-26DEC31-62000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-62000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $620.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-62000"
+    },
+    "KXBNBMAXY-BNB-26DEC31-61000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-61000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $610.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-61000"
+    },
+    "KXBNBMAXY-BNB-26DEC31-60000": {
+      "marketTicker": "KXBNBMAXY-BNB-26DEC31-60000",
+      "eventTicker": "KXBNBMAXY-BNB-26DEC31",
+      "topic": "crypto",
+      "title": "Will BNB trimmed mean be above $600.00 by 11:59 PM ET on Dec 31, 2026?",
+      "seriesTicker": "KXBNBMAXY",
+      "yesMid": null,
+      "yesBid": 0,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-01T04:59:59Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBNBMAXY-BNB-26DEC31-60000"
+    },
+    "KXPGATOP20-THOC26H24975-RFOX": {
+      "marketTicker": "KXPGATOP20-THOC26H24975-RFOX",
+      "eventTicker": "KXPGATOP20-THOC26H24975",
+      "topic": "golf",
+      "title": "Ryan Fox finishes top 20",
+      "seriesTicker": "KXPGATOP20",
+      "yesMid": null,
+      "yesBid": 0.01,
+      "yesAsk": 1,
+      "observedAt": "2026-11-27T23:24:29.698Z",
+      "history": [],
+      "lastSeenAt": "2026-11-27T23:24:29.698Z",
+      "closeTime": "2027-01-02T05:00:00Z",
+      "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOP20-THOC26H24975-RFOX"
     }
   },
   "resolutions": {
@@ -27494,7 +28161,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCLMPSOEMAJ-27MAY23-AL17"
     },
     "KX2028RRUN-28-BGIL": {
@@ -27511,7 +28178,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BGIL"
     },
     "KX2028RRUN-28-RSCO": {
@@ -27528,7 +28195,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RSCO"
     },
     "KX2028RRUN-28-DMCC": {
@@ -27545,7 +28212,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DMCC"
     },
     "KX2028RRUN-28-DBAC": {
@@ -27562,7 +28229,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DBAC"
     },
     "KX2028RRUN-28-MPEN": {
@@ -27579,7 +28246,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MPEN"
     },
     "KX2028RRUN-28-PRYA": {
@@ -27596,7 +28263,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-PRYA"
     },
     "KX2028RRUN-28-TCOT": {
@@ -27613,7 +28280,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TCOT"
     },
     "KX2028RRUN-28-ITRU": {
@@ -27630,7 +28297,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-ITRU"
     },
     "KX2028RRUN-28-JKENT": {
@@ -27647,7 +28314,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKENT"
     },
     "KX2028RRUN-28-JKEN": {
@@ -27664,7 +28331,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKEN"
     },
     "KX2028RRUN-28-DBUR": {
@@ -27681,7 +28348,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DBUR"
     },
     "KX2028RRUN-28-CCHR": {
@@ -27698,7 +28365,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-CCHR"
     },
     "KX2028RRUN-28-LHOG": {
@@ -27715,7 +28382,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-LHOG"
     },
     "KX2028RRUN-28-TSCO": {
@@ -27732,7 +28399,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TSCO"
     },
     "KX2028RRUN-28-GBOV": {
@@ -27749,7 +28416,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GBOV"
     },
     "KX2028RRUN-28-JMCE": {
@@ -27766,7 +28433,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JMCE"
     },
     "KX2028RRUN-28-SPRA": {
@@ -27783,7 +28450,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-SPRA"
     },
     "KX2028RRUN-28-JBEZ": {
@@ -27800,7 +28467,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JBEZ"
     },
     "KX2028RRUN-28-TMAS": {
@@ -27817,7 +28484,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TMAS"
     },
     "KX2028RRUN-28-PHEG": {
@@ -27834,7 +28501,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-PHEG"
     },
     "KX2028RRUN-28-JKUS": {
@@ -27851,7 +28518,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JKUS"
     },
     "KX2028RRUN-28-EKIR": {
@@ -27868,7 +28535,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-EKIR"
     },
     "KX2028RRUN-28-MTAY": {
@@ -27885,7 +28552,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MTAY"
     },
     "KX2028RRUN-28-TUC": {
@@ -27902,7 +28569,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TUC"
     },
     "KX2028RRUN-28-STE": {
@@ -27919,7 +28586,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-STE"
     },
     "KX2028RRUN-28-RPAU": {
@@ -27936,7 +28603,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RPAU"
     },
     "KX2028RRUN-28-TCRU": {
@@ -27953,7 +28620,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TCRU"
     },
     "KX2028RRUN-28-SHS": {
@@ -27970,7 +28637,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-SHS"
     },
     "KX2028RRUN-28-RFK": {
@@ -27987,7 +28654,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RFK"
     },
     "KX2028RRUN-28-NHAL": {
@@ -28004,7 +28671,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-NHAL"
     },
     "KX2028RRUN-28-MRUB": {
@@ -28021,7 +28688,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MRUB"
     },
     "KX2028RRUN-28-MGAE": {
@@ -28038,7 +28705,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-MGAE"
     },
     "KX2028RRUN-28-KBRI": {
@@ -28055,7 +28722,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-KBRI"
     },
     "KX2028RRUN-28-JTHU": {
@@ -28072,7 +28739,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JTHU"
     },
     "KX2028RRUN-28-JHAW": {
@@ -28089,7 +28756,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JHAW"
     },
     "KX2028RRUN-28-GYOU": {
@@ -28106,7 +28773,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GYOU"
     },
     "KX2028RRUN-28-GABB": {
@@ -28123,7 +28790,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-GABB"
     },
     "KX2028RRUN-28-ESTE": {
@@ -28140,7 +28807,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-ESTE"
     },
     "KX2028RRUN-28-EMUS": {
@@ -28157,7 +28824,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-EMUS"
     },
     "KX2028RRUN-28-BKEM": {
@@ -28174,7 +28841,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BKEM"
     },
     "KX2028RRUN-28-BDON": {
@@ -28191,7 +28858,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-BDON"
     },
     "KX2028RRUN-28-VRAM": {
@@ -28208,7 +28875,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-VRAM"
     },
     "KX2028RRUN-28-TGAB": {
@@ -28225,7 +28892,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-TGAB"
     },
     "KX2028RRUN-28-RDES": {
@@ -28242,7 +28909,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-RDES"
     },
     "KX2028RRUN-28-JVAN": {
@@ -28259,7 +28926,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-JVAN"
     },
     "KX2028RRUN-28-DJTJR": {
@@ -28276,7 +28943,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DJTJR"
     },
     "KX2028RRUN-28-DJT": {
@@ -28293,7 +28960,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KX2028RRUN-28-DJT"
     },
     "KXWISTATELEG-28SEN-R": {
@@ -28310,7 +28977,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28SEN-R"
     },
     "KXWISTATELEG-28SEN-D": {
@@ -28327,7 +28994,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28SEN-D"
     },
     "KXWISTATELEG-28ASM-R": {
@@ -28344,7 +29011,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28ASM-R"
     },
     "KXWISTATELEG-28ASM-D": {
@@ -28361,7 +29028,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXWISTATELEG-28ASM-D"
     },
     "KXSTATELEGNY-28NOV07NYH002-R": {
@@ -28378,7 +29045,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH002-R"
     },
     "KXSTATELEGNY-28NOV07NYH002-D": {
@@ -28395,7 +29062,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH002-D"
     },
     "KXSTATELEGNY-28NOV07NYH003-R": {
@@ -28412,7 +29079,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH003-R"
     },
     "KXSTATELEGNY-28NOV07NYH003-D": {
@@ -28429,7 +29096,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH003-D"
     },
     "KXSTATELEGNY-28NOV07NYH005-R": {
@@ -28446,7 +29113,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH005-R"
     },
     "KXSTATELEGNY-28NOV07NYH005-D": {
@@ -28463,7 +29130,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH005-D"
     },
     "KXSTATELEGNY-28NOV07NYH004-R": {
@@ -28480,7 +29147,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH004-R"
     },
     "KXSTATELEGNY-28NOV07NYH004-D": {
@@ -28497,7 +29164,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGNY-28NOV07NYH004-D"
     },
     "KXRIVERSGOV-27FEB06-PDP": {
@@ -28514,7 +29181,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-PDP"
     },
     "KXRIVERSGOV-27FEB06-NDC": {
@@ -28531,7 +29198,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-NDC"
     },
     "KXRIVERSGOV-27FEB06-APC": {
@@ -28548,7 +29215,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-APC"
     },
     "KXRIVERSGOV-27FEB06-ADC": {
@@ -28565,7 +29232,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRIVERSGOV-27FEB06-ADC"
     },
     "KXHSINCHUCOUNTYMAG-26NOV28-HHSU": {
@@ -28582,7 +29249,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHSINCHUCOUNTYMAG-26NOV28-HHSU"
     },
     "KXHSINCHUCOUNTYMAG-26NOV28-CCHU": {
@@ -28599,7 +29266,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHSINCHUCOUNTYMAG-26NOV28-CCHU"
     },
     "KXHSINCHUCOUNTYMAG-26NOV28-CCHE": {
@@ -28616,7 +29283,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHSINCHUCOUNTYMAG-26NOV28-CCHE"
     },
     "KXBTC2026250-27JAN01-250000": {
@@ -28633,7 +29300,7 @@
         "label": "Trading",
         "final": false
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTC2026250-27JAN01-250000"
     },
     "KXHYPE-26NOV2211-T95.2499": {
@@ -28650,7 +29317,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-T95.2499"
     },
     "KXHYPE-26NOV2211-T20.75": {
@@ -28667,7 +29334,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-T20.75"
     },
     "KXHYPE-26NOV2211-B95.125": {
@@ -28684,7 +29351,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B95.125"
     },
     "KXHYPE-26NOV2211-B94.875": {
@@ -28701,7 +29368,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.875"
     },
     "KXHYPE-26NOV2211-B94.625": {
@@ -28718,7 +29385,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.625"
     },
     "KXHYPE-26NOV2211-B94.375": {
@@ -28735,7 +29402,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.375"
     },
     "KXHYPE-26NOV2211-B94.125": {
@@ -28752,7 +29419,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.125"
     },
     "KXHYPE-26NOV2211-B93.875": {
@@ -28769,7 +29436,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.875"
     },
     "KXHYPE-26NOV2211-B93.625": {
@@ -28786,7 +29453,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.625"
     },
     "KXHYPE-26NOV2211-B93.375": {
@@ -28803,7 +29470,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.375"
     },
     "KXHYPE-26NOV2211-B93.125": {
@@ -28820,7 +29487,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.125"
     },
     "KXHYPE-26NOV2211-B92.875": {
@@ -28837,7 +29504,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.875"
     },
     "KXHYPE-26NOV2211-B92.625": {
@@ -28854,7 +29521,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.625"
     },
     "KXHYPE-26NOV2211-B92.375": {
@@ -28871,7 +29538,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.375"
     },
     "KXHYPE-26NOV2211-B92.125": {
@@ -28888,7 +29555,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.125"
     },
     "KXHYPE-26NOV2211-B91.875": {
@@ -28905,7 +29572,7 @@
         "label": "NO",
         "final": true
       },
-      "checkedAt": "2026-11-27T14:57:14.802Z",
+      "checkedAt": "2026-11-27T23:24:29.698Z",
       "sourceUrl": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.875"
     },
     "KXHYPE-26NOV2211-B91.625": {
@@ -31229,6 +31896,6 @@
     "maxHistoryPoints": 720,
     "maxFeedRows": 400
   },
-  "marketCount": 118,
-  "observationCount": 118
+  "marketCount": 44,
+  "observationCount": 44
 }
