@@ -1,13 +1,16 @@
 """Render the static GitHub Pages site from engine-exported data.
 
-Pages produced (all under --out, default docs/):
+    Pages produced (all under --out, default docs/):
 
     index.html                  landing page: what this is, headline findings, topic links
     topics/<topic>.html         one page per tracked topic, every entry in a table
+    live.html                   live interactive Demo API feed, dual scrolling chats, SVG chart & orderbook
+    portfolio.html              strategy simulator, trade-type categorizer & demo portfolio tracker
+    resolutions.html            live resolution ledger (yes / no / scalar / unconfirmed --)
     alerts.html                 the alert feed + the exact rule that produced each alert
     verification.html           every verified fact, with its official source link
     flagged.html                Flagged for Review: unverified + flagged items
-    methodology.html            how topics, alerts, scoring, fees and simulation work
+    methodology.html            how topics, alerts, scoring, fees, simulation & UX suggestions work
     findings.html               executive summary: what was verified, what was not
     assets/*.css|js             no external dependencies
 
@@ -43,12 +46,15 @@ TOPIC_META = {
 NAV = [
     ("index.html", "Overview"),
     ("findings.html", "Executive summary"),
+    ("live.html", "Live chart & chat"),
     ("gas.html", "Gas"),
     ("elections.html", "Elections"),
     ("culture.html", "Culture"),
     ("crypto.html", "Crypto"),
     ("golf.html", "Golf"),
     ("alerts.html", "Alerts"),
+    ("portfolio.html", "Portfolio & strategies"),
+    ("resolutions.html", "Resolutions"),
     ("verification.html", "Verification"),
     ("flagged.html", "Flagged for review"),
     ("methodology.html", "Methodology"),
@@ -120,6 +126,21 @@ ul.tight li{margin:3px 0}
 code{background:#eef1f6;padding:1px 5px;border-radius:4px;font-size:12.5px}
 .bar{height:8px;background:#eef1f6;border-radius:999px;overflow:hidden;margin-top:6px}
 .bar i{display:block;height:100%;background:var(--accent)}
+.btn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);
+color:var(--text);padding:6px 11px;border-radius:7px;font-size:12.5px;font-weight:600;cursor:pointer}
+.btn:hover{border-color:#b8c7dd;background:#f4f7fc}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn.active{background:#e7f0fc;border-color:var(--accent);color:var(--accent)}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0}
+.toolbar select,.toolbar input{padding:6px 9px;border:1px solid var(--line);border-radius:7px;font-size:13px;background:#fff}
+.chatbox{height:300px;overflow-y:auto;border:1px solid var(--line);border-radius:10px;background:#fbfcfe;padding:10px;display:flex;flex-direction:column;gap:8px}
+.chatmsg{background:#fff;border:1px solid #e7ebf2;border-radius:8px;padding:8px 10px;font-size:12.5px}
+.chatmsg .meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:11.5px;margin-bottom:3px}
+.svgwrap{border:1px solid var(--line);border-radius:10px;background:#fff;padding:10px;overflow:hidden}
+.ob-row{display:grid;grid-template-columns:72px 1fr 84px;gap:8px;align-items:center;font-size:12px;margin:4px 0}
+.ob-track{height:12px;background:#eef1f6;border-radius:4px;overflow:hidden}
+.ob-fill.yes{height:100%;background:#1e8e5a}
+.ob-fill.no{height:100%;background:#c93b2b}
 """
 
 
@@ -269,12 +290,20 @@ that are not clean are published on <a href="flagged.html">Flagged for review</a
 
 <h2>Start here</h2>
 <ul class="tight">
-<li><a href="findings.html">Executive summary</a> — what was verified, what was flagged, and the
-three findings that change how this dashboard should be read.</li>
+<li><a href="live.html">Live interactive chart, orderbook &amp; dual alert chats</a> — polls
+<code>external-api.demo.kalshi.co</code> / <code>demo-api.kalshi.co</code> directly in the browser
+(with replay fallback), plots contract price vs. selectable Seconds/Minutes/Hours windows, displays
+orderbook contract depth by price level, and runs the two scrolling ≥$0.10 swing chats.</li>
+<li><a href="findings.html">Executive summary</a> — what was verified, what was fixed in Engine V2,
+and the six findings that change how this dashboard should be read.</li>
+<li><a href="portfolio.html">Portfolio &amp; strategy lab</a> — six trade-type categories, automated
+paper execution with published series fee multipliers, and custom strategy builder.</li>
+<li><a href="resolutions.html">Resolutions ledger</a> — tracks markets through Kalshi settlement
+(<code>yes</code>, <code>no</code>, or <code>scalar</code>; unconfirmed values stay <code>--</code>).</li>
 <li><a href="alerts.html">Alert feeds</a> — the $0.10 rule, and why a one-sided book can look like a
 collapse when it is not.</li>
-<li><a href="methodology.html">Methodology</a> — how a market is assigned to a topic, how the
-high-ROI score works, and how fees are computed.</li>
+<li><a href="methodology.html">Methodology &amp; UX roadmap</a> — topic assignment, High-ROI scoring,
+fee math, and trader-focused recommendations for continuous simplification.</li>
 </ul>
 """
     return page("Overview", "index.html", body)
@@ -364,15 +393,20 @@ Kalshi page or an official Kalshi API response. The full list, each with a link,
 and production is <code>https://external-api.kalshi.com/trade-api/v2</code>; the WebSocket hosts are
 <code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code> and
 <code>wss://external-api-ws.kalshi.com/trade-api/ws/v2</code>.{cite('rest-demo-url')}{cite('ws-demo-url')}</li>
-<li><strong>Orderbook shape.</strong> The book returns bids only; a YES bid at X equals a NO ask at
-1−X; arrays are ascending, so the best bid is the last element.{cite('orderbook-bids-only')}</li>
-<li><strong>Fees.</strong> Taker fee is <code>roundup(0.07 × C × P × (1−P))</code> and maker fee is
-<code>roundup(0.0175 × C × P × (1−P))</code>; there is no settlement fee. This project's fee code
-reproduces all 42 values in Kalshi's published fee table exactly.{cite('fee-taker')}</li>
+<li><strong>Orderbook &amp; Order V2 Unified YES Grid.</strong> The book returns bids only; a YES bid at X
+equals a NO ask at 1−X; arrays are ascending, so the best bid is the last element. Order V2 uses
+<code>bid</code>/<code>ask</code> on a unified YES scale, so buying NO at <code>P_no</code> submits
+<code>side="ask"</code> at <code>1.0000 − P_no</code>, and authenticated requests sign the full
+<code>/trade-api/v2/...</code> path without retrying non-GET writes.{cite('orderbook-bids-only')}{cite('order-direction-v2')}</li>
+<li><strong>Fees &amp; Per-Series Multipliers.</strong> Taker fee is <code>roundup(M × 0.07 × C × P × (1−P))</code>
+and maker fee is <code>roundup(M × 0.0175 × C × P × (1−P))</code>; there is no settlement fee. Engine V2
+applies explicit <code>GET /series</code> <code>fee_multiplier</code> overrides plus 31 Non-Standard Fee rows
+from Kalshi's July 7, 2026 schedule PDF, and reproduces all 42 general fee table values.{cite('fee-taker')}{cite('fee-nonstandard')}</li>
 <li><strong>Taxonomy.</strong> Kalshi publishes 14 categories; <em>Golf</em> is a tag under
 <em>Sports</em>, and <em>Oil &amp; Gas</em> is a tag under <em>Commodities</em>.{cite('taxonomy')}</li>
-<li><strong>Resolution.</strong> A determined market carries <code>result</code> (yes/no) and
-<code>settlement_value_dollars</code>; the lifecycle WebSocket carries the same fields.{cite('lifecycle-resolution')}</li>
+<li><strong>Resolution (Binary &amp; Scalar).</strong> A determined market carries <code>result</code>
+(<code>yes</code>, <code>no</code>, or <code>scalar</code>) and <code>settlement_value_dollars</code>;
+scalar settlement pays <code>v</code> to YES and <code>1 − v</code> to NO with zero fee.{cite('lifecycle-resolution')}{cite('scalar-settlement')}</li>
 </ul>
 
 <h2>3. Findings that change how to read this dashboard</h2>
@@ -431,19 +465,23 @@ one ticker, so they are excluded from single-topic boards.{cite('mve-combo-marke
 
 <h2>4. What could not be verified</h2>
 <ul class="tight">
-<li><strong>A signed request against a real Kalshi account.</strong> No demo API key exists in this
-repository, so the signing code is unit-tested but has never authenticated. {badge('unverified')}</li>
-<li><strong>The WebSocket handshake.</strong> Documented and implemented, never observed live.
-{badge('unverified')}</li>
-<li><strong>Whether Kalshi sends CORS headers.</strong> No official statement found; the static site
-therefore does not call Kalshi from the browser. {badge('unverified')}</li>
+<li><strong>A signed request against a live Kalshi demo account in static CI.</strong> No demo API key
+is stored in repository secrets, so demo-account cash and fills remain <code>--</code> on the static build
+until connected to a local Python runner (<code>uvicorn app.main:app</code>). {badge('unverified')}</li>
+<li><strong>Authenticated WebSocket streaming in a static browser tab.</strong> Browser
+<code>new WebSocket(url)</code> cannot attach Kalshi's required <code>KALSHI-ACCESS-*</code> headers, so
+unsigned handshakes return HTTP 401; real-time WS streaming runs in <code>app/ws.py</code>. {badge('unverified')}</li>
 </ul>
 
 <h2>5. Irregularities affecting the numbers</h2>
 <ul class="tight">
-<li><strong>Per-series fee multipliers are not applied.</strong> The simulator uses the general
-0.07 / 0.0175 rates; series the schedule marks 0 (e.g. <code>KXBTCY</code>) would be overcharged in
-simulation. {badge('flagged')}</li>
+<li><strong>Browser CORS is asymmetric.</strong> Public GET reads on both
+<code>external-api.demo.kalshi.co</code> and <code>demo-api.kalshi.co</code> return
+<code>Access-Control-Allow-Origin</code> (powering <a href="live.html">live.html</a>), whereas
+<code>OPTIONS</code> preflight omits <code>KALSHI-ACCESS-*</code> headers for signed portfolio/order calls.{cite('cors-unknown')} {badge('flagged')}</li>
+<li><strong>Residual per-series fee schedule rows.</strong> Engine V2 encodes 31 unambiguous Non-Standard
+Fee rows from the July 7, 2026 PDF and honors API <code>fee_multiplier</code>, but interleaved PDF rows
+from <code>KXMVE</code> onward fall back to <code>M = 1</code> when the API omits <code>fee_multiplier</code>.{cite('fee-nonstandard')} {badge('flagged')}</li>
 <li><strong>The fee rebate accumulator is not modelled.</strong> Simulated P&amp;L can differ from
 the exchange by fractions of a cent per fill. {badge('flagged')}</li>
 <li><strong>The demo golf event had already passed its stated expiry</strong> while still listing as
@@ -451,14 +489,33 @@ active. Closing times are shown rather than assumed. {badge('flagged')}</li>
 </ul>
 <p>All of these are published with source links on <a href="flagged.html">Flagged for review</a>.</p>
 
-<h2>6. How to use it</h2>
+<h2>6. Trader UX &amp; Live Architecture Recommendations</h2>
+<ul class="tight">
+<li><strong>Hybrid Live + Signed Relay:</strong> Keep unauthenticated public polling directly in the
+browser for zero-latency topic/orderbook inspection on GitHub Pages (<a href="live.html">Live chart &amp; chat</a>),
+and pair with a lightweight Cloudflare Worker or local FastAPI relay (<code>uvicorn app.main:app</code>)
+holding demo RSA-PSS/Ed25519 keys so WebSockets (<code>ticker</code>, <code>orderbook_delta</code>,
+<code>market_lifecycle_v2</code>) push sub-second updates over SSE.</li>
+<li><strong>Decision-First Simplified Charts:</strong> Show executable YES ask / YES bid bands rather
+than misleading empty-book midpoints, overlay <code>|Δprice| ≥ $0.10</code> catalyst pins directly on the
+price curve, and display crossable contract depth within 5c/10c next to the ticket so traders see slippage
+before sizing an order.</li>
+<li><strong>Strict 5-Topic Discipline:</strong> Keep Gas, Elections, Culture, Crypto, and Golf isolated in
+separate ranked tables sorted by 24h dollar/contract volume, auto-quarantining <code>KXMVE*</code>
+multivariate parlays and quote-only 99c spreads so noise never drowns real repricings.</li>
+</ul>
+
+<h2>7. How to use it</h2>
 <ol class="tight">
-<li>Pick a topic. Each topic page lists every captured entry in one table, with the price, both sides
-of the book, volume, open interest and a source link.</li>
-<li>Watch the two alert feeds: <em>all events</em> (every ≥$0.10 move) and <em>high ROI</em> (the same
-moves, filtered by a trade-quality score).</li>
-<li>Compare strategies on the portfolio view: each strategy is a distinct trade category with its own
-starting balance, so returns are comparable.</li>
+<li>Open <a href="live.html">Live chart &amp; chat</a> to poll Kalshi Demo REST endpoints live, inspect
+the Seconds / Minutes / Hours price curve and orderbook depth bars, and monitor both scrolling ≥$0.10
+alert chats.</li>
+<li>Pick a topic (<a href="gas.html">Gas</a>, <a href="elections.html">Elections</a>,
+<a href="culture.html">Culture</a>, <a href="crypto.html">Crypto</a>, <a href="golf.html">Golf</a>) to
+audit every captured contract with official source links.</li>
+<li>Compare the six trade-type categories and build custom paper rules on
+<a href="portfolio.html">Portfolio &amp; strategies</a>, and verify settled outcomes on
+<a href="resolutions.html">Resolutions</a>.</li>
 <li>Check <a href="flagged.html">Flagged for review</a> before relying on any specific figure.</li>
 </ol>
 """
@@ -586,12 +643,15 @@ of these block the site; they are here so you can review them and ask for change
 
 <h2>Known gaps in this build</h2>
 <ul class="tight">
-<li>The static site shows a <strong>snapshot</strong>. A browser page cannot hold a Kalshi private key,
-so live alerting and order execution run in the Python service, not here.</li>
-<li>The snapshot was produced in an environment with no route to Kalshi. Market, strike and quote
-values are real captured API responses; the price <em>paths</em> used to demonstrate alerts are
-scripted and labelled <code>captured-replay</code>.</li>
-<li>Per-series fee multipliers and the fee rebate accumulator are not modelled in simulation.</li>
+<li>Authenticated Kalshi demo orders and WebSocket handshakes require RSA-PSS / Ed25519
+<code>KALSHI-ACCESS-*</code> headers that browsers cannot attach safely on static hosting; public GET
+polling runs live on <a href="live.html">live.html</a>, while authenticated execution runs in the local
+Python service (<code>uvicorn app.main:app</code>).</li>
+<li>Baseline offline tables use real captured API responses plus deterministic price paths labelled
+<code>captured-replay</code> when offline.</li>
+<li>31 Non-Standard Fee rows from Kalshi's July 7, 2026 PDF and explicit API <code>fee_multiplier</code>
+values are applied; interleaved PDF rows from <code>KXMVE</code> onward and the micro-cent fee rebate
+accumulator remain unmodelled.</li>
 </ul>
 """
     return page("Flagged for review", "flagged.html", body)
@@ -668,14 +728,274 @@ payoff, high-probability carry, event driven, and an unfiltered control benchmar
 <li>Each strategy starts at $10,000 with its own ledger, so returns are comparable.</li>
 <li>Positions are opened once and closed once per market; exits are take-profit, stop-loss, max hold,
 or settlement.</li>
-<li>Resolution pays $1 per contract for the winning side and $0 for the loser, with no fee.</li>
+<li>Resolution pays $1 per contract for <code>yes</code>/<code>no</code> winners, $0 for losers, and
+proportional <code>v</code> / <code>1 − v</code> for <code>scalar</code> settlements, with zero settlement fee.</li>
 <li>An empty book means no trade, with the rejection reason recorded.</li>
 </ul>
-<div class="note warn"><strong>Limitations.</strong> Per-series fee multipliers are not applied, and the
-exchange's fee rounding rebate is not modelled. Simulated results are simulations of a demo
-environment whose prices Kalshi itself says may not reflect real markets.</div>
+<div class="note warn"><strong>Limitations.</strong> 31 Non-Standard Fee rows from Kalshi's July 7, 2026 PDF
+and explicit <code>GET /series</code> <code>fee_multiplier</code> values are applied, while interleaved PDF
+rows from <code>KXMVE</code> onward default to <code>M = 1</code> and the exchange's micro-cent rounding
+rebate accumulator is not modelled. Simulated results are simulations of a demo environment whose prices
+Kalshi itself says may not reflect real markets.</div>
+
+<h2>Continuous Organization &amp; Simplification for Traders</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Focus Area</th><th>Design Rule</th><th>Official Basis</th></tr></thead><tbody>
+<tr><td><strong>1. Live Interactivity</strong></td>
+<td>Poll public <code>/events?status=open&amp;with_nested_markets=true</code> and
+<code>/markets/{ticker}/orderbook</code> directly in the browser with automatic host failover
+(<code>external-api.demo.kalshi.co</code> → <code>demo-api.kalshi.co</code> → <code>captured-replay</code>),
+and expose one-click local FastAPI relay connection for signed WebSockets and demo orders.</td>
+<td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs.kalshi.com/getting_started/demo_env</a></td></tr>
+<tr><td><strong>2. Simplified Charts</strong></td>
+<td>Single clean SVG contract chart with X-axis toggle (<code>Seconds</code> / <code>Minutes</code> /
+<code>Hours</code>), Y-axis fixed on <code>$0.00–$1.00</code>, horizontal orderbook contract depth bars
+at each price level, and clickable <code>|Δprice| ≥ $0.10</code> jump pins linked to official contract pages.</td>
+<td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a></td></tr>
+<tr><td><strong>3. Strict 5-Topic Organization</strong></td>
+<td>Keep Gas prices, Elections, Culture, Crypto, and Golf strictly separate, ranked by dollar/contract
+volume within each topic, and exclude <code>KXMVE*</code> combo parlays and unconfirmed guesses.</td>
+<td><a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener">docs.kalshi.com/api-reference/search</a></td></tr>
+</tbody></table></div>
 """
     return page("Methodology", "methodology.html", body)
+
+
+def build_live(data: dict) -> str:
+    endpoints = data.get("demo_endpoints") or {}
+    rest_p = endpoints.get("rest_primary") or "https://external-api.demo.kalshi.co/trade-api/v2"
+    rest_f = endpoints.get("rest_fallback") or "https://demo-api.kalshi.co/trade-api/v2"
+    ws_p = endpoints.get("ws_primary") or "wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2"
+    ws_f = endpoints.get("ws_fallback") or "wss://demo-api.kalshi.co/trade-api/ws/v2"
+
+    all_markets = [m for t in data.get("topics", []) for m in (t.get("markets") or [])]
+    options = "".join(
+        f'<option value="{esc(m.get("ticker"))}">{esc(m.get("topic"))}: {esc(m.get("ticker"))} — {esc(m.get("title"))}</option>'
+        for m in all_markets
+    )
+
+    alerts = data.get("alerts") or []
+    selective = data.get("selective_alerts") or []
+
+    def chat_items(items: list[dict]) -> str:
+        if not items:
+            return '<div class="muted">Waiting for a ≥ $0.10 contract swing…</div>'
+        out = []
+        for a in items[:25]:
+            klass = "up" if a.get("direction") == "up" else "down"
+            url = a.get("page_url") or "https://docs.kalshi.com/getting_started/orderbook_responses"
+            srcs = ((a.get("news") or {}).get("contract_sources") if isinstance(a.get("news"), dict) else []) or []
+            cat_link = ""
+            if srcs and srcs[0].get("url", "").startswith("https://"):
+                cat_link = f' · <a href="{esc(srcs[0]["url"])}" target="_blank" rel="noopener">{esc(srcs[0].get("name") or "settlement source")}</a>'
+            out.append(
+                f'<div class="chatmsg"><div class="meta"><span class="mono">{esc(a.get("time_utc") or "--")}</span>'
+                f'<span class="tag">{esc(a.get("topic"))}</span></div>'
+                f'<div><strong class="{klass}">{esc(a.get("delta"))}</strong> '
+                f'<span class="mono">{esc(a.get("ticker"))}</span> ({cents(a.get("from_price"))} → {cents(a.get("to_price"))})</div>'
+                f'<div class="muted">{esc(a.get("title"))} · '
+                f'<a href="{esc(url)}" target="_blank" rel="noopener">official market</a>{cat_link}</div></div>'
+            )
+        return "".join(out)
+
+    body = f"""
+<h1>Live Interactive Chart, Orderbook &amp; Dual Swing Chats</h1>
+<p class="lede">Polls Kalshi's official Demo Trade API v2 directly in your browser across the five
+isolated topics (Gas prices, Elections, Culture, Crypto, Golf), with automatic fallback to
+<code>data/dashboard.json</code> (<code>captured-replay</code>) when offline.</p>
+
+<div class="card">
+<div class="toolbar">
+<span id="live-conn-badge" class="tag warn">Initializing feed…</span>
+<button type="button" class="btn primary" id="btn-poll-now">Poll Demo API Now</button>
+<label class="muted">Auto-poll:
+<select id="sel-poll-interval">
+<option value="10000">Every 10s</option>
+<option value="30000" selected>Every 30s</option>
+<option value="0">Paused</option>
+</select></label>
+<label class="muted">REST host:
+<select id="sel-rest-host">
+<option value="{esc(rest_p)}">{esc(rest_p)}</option>
+<option value="{esc(rest_f)}">{esc(rest_f)}</option>
+</select></label>
+</div>
+<p class="muted">WebSocket endpoints configured in <code>app/ws.py</code>:
+<code>{esc(ws_p)}</code> and <code>{esc(ws_f)}</code>
+(<a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">official WS docs</a>;
+browsers cannot attach <code>KALSHI-ACCESS-*</code> headers on unsigned <code>new WebSocket()</code>, so browser mode uses CORS-verified REST polling).</p>
+</div>
+
+<h2>Interactive Contract Price &amp; Liquidity Graph</h2>
+<div class="card" id="interactive-chart-root">
+<div class="toolbar">
+<label><strong>Contract:</strong>
+<select id="chart-market-select">{options}</select></label>
+<span><strong>X-axis window:</strong></span>
+<button type="button" class="btn" data-win="seconds">Seconds (60s)</button>
+<button type="button" class="btn" data-win="minutes">Minutes (30m)</button>
+<button type="button" class="btn active" data-win="hours">Hours (6h)</button>
+<a id="chart-market-link" href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">Official market source ↗</a>
+</div>
+<div class="grid c2">
+<div>
+<div class="svgwrap">
+<svg id="price-svg" viewBox="0 0 640 280" width="100%" height="280" role="img" aria-label="Contract price over time">
+<text x="20" y="140" fill="#5f6b7d" font-size="13">Loading interactive contract series…</text>
+</svg>
+</div>
+<div id="jump-pins" class="muted" style="margin-top:8px">Sharp ≥ $0.10 jump markers with associated market &amp; settlement links appear here.</div>
+</div>
+<div>
+<h3 style="margin-top:0">Current Orderbook Liquidity (Contracts per Price)</h3>
+<p class="muted">Kalshi returns YES bids and NO bids only; a NO bid at <code>p</code> implies a YES ask at <code>1 − p</code>
+(<a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">orderbook spec</a>).</p>
+<div id="orderbook-bars"><div class="muted">Select a contract or poll live orderbook…</div></div>
+</div>
+</div>
+</div>
+
+<h2>Real-Time Scrolling Swing Chats (|Δprice| ≥ $0.10)</h2>
+<div class="grid c2">
+<div class="card">
+<h3 style="margin-top:0">Chat 1 · All Events (≥ $0.10 either direction) <span class="tag" id="chat-all-count">{len(alerts)}</span></h3>
+<div class="chatbox" id="chat-all">{chat_items(alerts)}</div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Chat 2 · Selective High-ROI Filter <span class="tag ok" id="chat-roi-count">{len(selective)}</span></h3>
+<div class="chatbox" id="chat-roi">{chat_items(selective)}</div>
+</div>
+</div>
+
+<h2>Live Topic Separation (Highest Dollar / Contract Volume First)</h2>
+<div id="live-topic-boards" class="muted">Polling live Demo API events… if unreachable, see captured topic tables on
+<a href="gas.html">Gas</a>, <a href="elections.html">Elections</a>, <a href="culture.html">Culture</a>,
+<a href="crypto.html">Crypto</a>, and <a href="golf.html">Golf</a>.</div>
+"""
+    return page("Live chart & chat", "live.html", body)
+
+
+def build_portfolio(data: dict) -> str:
+    specs = data.get("strategy_catalog") or []
+    positions = data.get("portfolio") or []
+
+    spec_rows = "".join(f"""<tr>
+<td class="mono">{esc(s.get('key'))}</td>
+<td><strong>{esc(s.get('name'))}</strong></td>
+<td><span class="tag">{esc(s.get('category'))}</span></td>
+<td>{'Maker (0.0175 × M)' if s.get('maker') else 'Taker (0.07 × M)'}</td>
+<td>{esc(s.get('description'))}</td>
+<td><a href="{esc(s.get('source_url'))}" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a></td>
+</tr>""" for s in specs)
+
+    pos_rows = "".join(f"""<tr>
+<td class="mono">{esc(p.get('ticker'))}</td>
+<td><span class="tag">{esc(p.get('topic'))}</span></td>
+<td><code>{esc(p.get('strategy'))}</code> · <span class="tag">{esc(p.get('category'))}</span></td>
+<td>{esc((p.get('side') or '').upper())}</td>
+<td class="num">{esc(p.get('contracts'))}</td>
+<td class="num">{money(p.get('entry_price'), 4)}</td>
+<td class="num">{money(p.get('entry_fee'), 4)} (M={esc(p.get('fee_multiplier'))})</td>
+<td><span class="tag">{esc(p.get('status'))}</span></td>
+<td><a href="{esc(p.get('market_url'))}" target="_blank" rel="noopener">Demo market</a> ·
+<a href="{esc(p.get('source_url'))}" target="_blank" rel="noopener">Fee PDF</a></td>
+</tr>""" for p in positions) or '<tr><td colspan="9" class="muted">No pre-recorded simulated positions in snapshot. Use the interactive simulator below to run strategies.</td></tr>'
+
+    body = f"""
+<h1>Portfolio &amp; Automated Strategy Lab</h1>
+<p class="lede">Automates simulated paper trades across six distinct trade-type categories using Kalshi's
+published July 7, 2026 fee schedule and per-series multipliers, and tracks Kalshi Demo Account connectivity.</p>
+
+<div class="grid c3">
+<div class="card"><div class="stat">Kalshi Demo Account Cash</div><div class="n">--</div>
+<div class="stat">Unverified in static CI (no private key in repo; connect local <code>uvicorn app.main:app</code> for live signed fills · <a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs</a>)</div></div>
+<div class="card"><div class="stat">Paper Starting Bankroll / Strategy</div><div class="n">$10,000.00</div>
+<div class="stat">Isolated simulated ledger per strategy category</div></div>
+<div class="card"><div class="stat">Recorded Collector Paper Trades</div><div class="n">{len(positions)}</div>
+<div class="stat">Priced with published series fee multipliers</div></div>
+</div>
+
+<h2>Trade Categories &amp; Strategy Definitions</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>ID</th><th>Strategy</th><th>Trade Category</th><th>Fee Schedule</th><th>Rule</th><th>Official Source</th></tr></thead>
+<tbody>{spec_rows}</tbody></table></div>
+
+<h2>Interactive Strategy Backtester &amp; Custom Trade-Type Builder</h2>
+<div class="card" id="sim-lab-root">
+<div class="toolbar">
+<label>Category:
+<select id="sim-category">
+<option value="momentum">momentum (Swing Follower)</option>
+<option value="mean_reversion">mean_reversion (Swing Fader)</option>
+<option value="tail">tail (Discounted Tail YES ≤ 12c)</option>
+<option value="carry">carry (High-Prob Carry 85c–94c)</option>
+<option value="catalyst">catalyst (Selective High-ROI ≥ 0.60)</option>
+</select></label>
+<label>Topic filter:
+<select id="sim-topic">
+<option value="all">All 5 Topics</option>
+<option value="gas">Gas prices</option>
+<option value="elections">Elections</option>
+<option value="culture">Culture</option>
+<option value="crypto">Crypto</option>
+<option value="golf">Golf</option>
+</select></label>
+<label>Order size (contracts): <input id="sim-qty" type="number" min="1" max="500" value="25" style="width:76px"></label>
+<button type="button" class="btn primary" id="btn-run-sim">Simulate Automated Trades</button>
+<button type="button" class="btn" id="btn-reset-sim">Reset Paper Ledger</button>
+</div>
+<div id="sim-summary" class="muted">Click "Simulate Automated Trades" to execute paper trades against the current live/captured orderbooks using exact Kalshi taker/maker fees.</div>
+<div class="tblwrap" style="margin-top:10px"><table id="sim-ledger-table">
+<thead><tr><th>Time</th><th>Ticker</th><th>Topic</th><th>Category</th><th>Side (Order V2)</th><th class="num">Qty</th><th class="num">Fill Price</th><th class="num">Kalshi Fee</th><th>Source</th></tr></thead>
+<tbody id="sim-ledger-body"><tr><td colspan="9" class="muted">No interactive paper trades run in this browser session yet.</td></tr></tbody>
+</table></div>
+</div>
+
+<h2>Collector Paper Portfolio Ledger (Demo API Book)</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Ticker</th><th>Topic</th><th>Strategy · Category</th><th>Side</th><th class="num">Contracts</th>
+<th class="num">Entry Price</th><th class="num">Fee</th><th>Status</th><th>Official Source</th></tr></thead>
+<tbody>{pos_rows}</tbody></table></div>
+"""
+    return page("Portfolio & strategies", "portfolio.html", body)
+
+
+def build_resolutions(data: dict) -> str:
+    resolutions = data.get("resolutions") or []
+    yes_n = sum(1 for r in resolutions if r.get("result") == "yes")
+    no_n = sum(1 for r in resolutions if r.get("result") == "no")
+    scalar_n = sum(1 for r in resolutions if r.get("result") == "scalar")
+
+    rows = "".join(f"""<tr>
+<td class="mono">{esc(r.get('ticker'))}</td>
+<td>{esc(r.get('title'))}</td>
+<td><span class="tag">{esc(r.get('topic'))}</span></td>
+<td><span class="tag {'ok' if r.get('result') == 'yes' else ('bad' if r.get('result') == 'no' else 'warn')}">{esc((r.get('result') or '--').upper())}</span></td>
+<td class="num">{esc(r.get('settlement_value') if r.get('settlement_value') is not None else ('1.0000' if r.get('result') == 'yes' else ('0.0000' if r.get('result') == 'no' else '--')))}</td>
+<td class="mono">{esc((r.get('determined_utc') or '--')[:19])}</td>
+<td><a href="{esc(r.get('source_url') or r.get('page_url'))}" target="_blank" rel="noopener">GET /markets/{esc(r.get('ticker'))}</a></td>
+</tr>""" for r in resolutions) or '<tr><td colspan="7" class="muted">No settled contracts recorded in this snapshot; open markets remain "--" until Kalshi publishes result in {yes, no, scalar}.</td></tr>'
+
+    body = f"""
+<h1>Event Resolution Ledger</h1>
+<p class="lede">Tracks monitored markets in the five topics until Kalshi determines the official outcome
+(<code>yes</code>, <code>no</code>, or <code>scalar</code> proportional payout). Unresolved markets are
+never guessed and remain <code>--</code> until <code>GET /markets/&lt;ticker&gt;</code> or
+<code>market_lifecycle_v2</code> confirms determination
+(<a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">official lifecycle docs</a>).</p>
+
+<div class="grid c3">
+<div class="card"><div class="stat">Resolved YES</div><div class="n up">{yes_n}</div></div>
+<div class="card"><div class="stat">Resolved NO</div><div class="n down">{no_n}</div></div>
+<div class="card"><div class="stat">Resolved SCALAR</div><div class="n">{scalar_n}</div></div>
+</div>
+
+<div class="tblwrap"><table>
+<thead><tr><th>Ticker</th><th>Contract</th><th>Topic</th><th>Outcome</th><th class="num">Settlement ($)</th>
+<th>Determined (UTC)</th><th>Official API Source</th></tr></thead>
+<tbody>{rows}</tbody></table></div>
+"""
+    return page("Resolutions", "resolutions.html", body)
 
 
 # --------------------------------------------------------------------------- #
@@ -699,7 +1019,10 @@ def build(out_dir: str | Path, data_dir: str | Path) -> dict:
     pages = {
         "index.html": build_index(data, verification),
         "findings.html": build_findings(data, verification),
+        "live.html": build_live(data),
         "alerts.html": build_alerts(data),
+        "portfolio.html": build_portfolio(data),
+        "resolutions.html": build_resolutions(data),
         "verification.html": build_verification(verification),
         "flagged.html": build_flagged(verification, captures),
         "methodology.html": build_methodology(),
@@ -738,32 +1061,513 @@ def build(out_dir: str | Path, data_dir: str | Path) -> dict:
 
 
 JS = """
-// Minimal, dependency-free behaviour: active nav highlight + table sorting.
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('table').forEach(function (table) {
-    var headers = table.querySelectorAll('thead th');
-    headers.forEach(function (th, index) {
-      if (th.dataset.nosort !== undefined) return;
-      th.style.cursor = 'pointer';
-      th.title = 'Click to sort';
-      var ascending = false;
-      th.addEventListener('click', function () {
-        var body = table.tBodies[0];
-        var rows = Array.prototype.slice.call(body.rows);
-        ascending = !ascending;
-        rows.sort(function (a, b) {
-          var av = (a.cells[index] || {}).textContent || '';
-          var bv = (b.cells[index] || {}).textContent || '';
-          var an = parseFloat(av.replace(/[^0-9.\\-]/g, ''));
-          var bn = parseFloat(bv.replace(/[^0-9.\\-]/g, ''));
-          if (!isNaN(an) && !isNaN(bn) && an !== bn) return ascending ? an - bn : bn - an;
-          return ascending ? av.localeCompare(bv) : bv.localeCompare(av);
+// Dependency-free interactive engine client: table sorting, live Demo API polling with host failover,
+// SVG contract price chart (Seconds / Minutes / Hours), orderbook depth bars, dual >= $0.10 swing chats,
+// and automated paper strategy simulator using published Kalshi fee formulas.
+(function () {
+  var SERIES_MULT = {
+    KXAAAGASM: 1.0, KXBTCY: 0.0, KXETHY: 0.0, KXBTCD: 1.0, KXPGATOUR: 1.0, KXNEXTNATOSECGEN: 1.0,
+    KXFEDDECISION: 1.5, KXCPI: 1.5, KXGDP: 1.5
+  };
+
+  function escHtml(s) {
+    if (s === null || s === undefined) return '--';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function kalshiFee(contracts, price, maker, seriesTicker) {
+    var rate = maker ? 0.0175 : 0.07;
+    var m = (seriesTicker && SERIES_MULT[seriesTicker] !== undefined) ? SERIES_MULT[seriesTicker] : (maker ? 0.0 : 1.0);
+    var raw = m * rate * contracts * price * (1.0 - price);
+    return Math.ceil(raw * 100 - 1e-12) / 100;
+  }
+
+  function matchTopic(ev, mkt) {
+    var ticker = String((mkt && mkt.ticker) || '');
+    var series = String((ev && ev.series_ticker) || ticker.split('-')[0] || '').toUpperCase();
+    if (series.indexOf('KXMVE') === 0 || ticker.indexOf('KXMVE') === 0) return null;
+    var cat = String((ev && ev.category) || '').toLowerCase();
+    var title = String(((mkt && mkt.title) || '') + ' ' + ((ev && ev.title) || '')).toLowerCase();
+    if (series.indexOf('KXAAAGAS') === 0 || title.indexOf('gas price') >= 0 || title.indexOf('gasoline') >= 0) return 'gas';
+    if (cat === 'elections' || series.indexOf('NATO') >= 0 || title.indexOf('election') >= 0 || title.indexOf('senate') >= 0 || title.indexOf('president') >= 0) return 'elections';
+    if (cat === 'entertainment' || cat === 'mentions' || title.indexOf('grammy') >= 0 || title.indexOf('oscar') >= 0 || title.indexOf('netflix') >= 0 || title.indexOf('album') >= 0) return 'culture';
+    if (cat === 'crypto' || series.indexOf('KXBTC') === 0 || series.indexOf('KXETH') === 0 || series.indexOf('KXSOL') === 0 || title.indexOf('bitcoin') >= 0 || title.indexOf('ethereum') >= 0) return 'crypto';
+    if (series.indexOf('KXPGA') === 0 || series.indexOf('KXLIV') === 0 || series.indexOf('KXLPGA') === 0 || series.indexOf('KXDPWORLD') === 0 || title.indexOf('pga tour') >= 0 || title.indexOf('masters') >= 0 || title.indexOf('golf') >= 0) return 'golf';
+    return null;
+  }
+
+  function attachTableSort() {
+    document.querySelectorAll('table').forEach(function (table) {
+      var headers = table.querySelectorAll('thead th');
+      headers.forEach(function (th, index) {
+        if (th.dataset.nosort !== undefined) return;
+        th.style.cursor = 'pointer';
+        th.title = 'Click to sort';
+        var ascending = false;
+        th.addEventListener('click', function () {
+          var body = table.tBodies[0];
+          if (!body) return;
+          var rows = Array.prototype.slice.call(body.rows);
+          ascending = !ascending;
+          rows.sort(function (a, b) {
+            var av = (a.cells[index] || {}).textContent || '';
+            var bv = (b.cells[index] || {}).textContent || '';
+            var an = parseFloat(av.replace(/[^0-9.\\-]/g, ''));
+            var bn = parseFloat(bv.replace(/[^0-9.\\-]/g, ''));
+            if (!isNaN(an) && !isNaN(bn) && an !== bn) return ascending ? an - bn : bn - an;
+            return ascending ? av.localeCompare(bv) : bv.localeCompare(av);
+          });
+          rows.forEach(function (r) { body.appendChild(r); });
         });
-        rows.forEach(function (r) { body.appendChild(r); });
       });
     });
+  }
+
+  function loadJson(relPath) {
+    return fetch(relPath, { cache: 'no-store' }).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    });
+  }
+
+  function initLivePage(dash) {
+    var svg = document.getElementById('price-svg');
+    var selMarket = document.getElementById('chart-market-select');
+    var obBox = document.getElementById('orderbook-bars');
+    var jumpBox = document.getElementById('jump-pins');
+    var badge = document.getElementById('live-conn-badge');
+    var btnPoll = document.getElementById('btn-poll-now');
+    var selInterval = document.getElementById('sel-poll-interval');
+    var selHost = document.getElementById('sel-rest-host');
+    var mktLink = document.getElementById('chart-market-link');
+    var boards = document.getElementById('live-topic-boards');
+    if (!svg || !selMarket) return;
+
+    var state = {
+      win: 'hours',
+      ticks: Object.assign({}, dash.tick_series || {}),
+      orderbooks: Object.assign({}, dash.orderbooks || {}),
+      marketsByTicker: {},
+      alerts: (dash.alerts || []).slice(),
+      selective: (dash.selective_alerts || []).slice(),
+      lastMid: {},
+      timer: null
+    };
+
+    (dash.topics || []).forEach(function (t) {
+      (t.markets || []).forEach(function (m) {
+        state.marketsByTicker[m.ticker] = m;
+        var lp = parseFloat(m.last_price);
+        if (!isNaN(lp)) state.lastMid[m.ticker] = lp;
+      });
+    });
+
+    function renderChats() {
+      var allBox = document.getElementById('chat-all');
+      var roiBox = document.getElementById('chat-roi');
+      var allCnt = document.getElementById('chat-all-count');
+      var roiCnt = document.getElementById('chat-roi-count');
+      if (allCnt) allCnt.textContent = String(state.alerts.length);
+      if (roiCnt) roiCnt.textContent = String(state.selective.length);
+      function rowsHtml(list) {
+        if (!list.length) return '<div class="muted">No >= $0.10 swings observed yet.</div>';
+        return list.slice(0, 30).map(function (a) {
+          var cls = a.direction === 'up' ? 'up' : 'down';
+          var url = a.page_url || 'https://docs.kalshi.com/getting_started/orderbook_responses';
+          var fC = isNaN(parseFloat(a.from_price)) ? '--' : Math.round(parseFloat(a.from_price) * 100) + 'c';
+          var tC = isNaN(parseFloat(a.to_price)) ? '--' : Math.round(parseFloat(a.to_price) * 100) + 'c';
+          return '<div class="chatmsg"><div class="meta"><span class="mono">' + escHtml(a.time_utc || '--') + '</span>' +
+            '<span class="tag">' + escHtml(a.topic) + '</span></div>' +
+            '<div><strong class="' + cls + '">' + escHtml(a.delta) + '</strong> <span class="mono">' + escHtml(a.ticker) + '</span> (' + fC + ' -> ' + tC + ')</div>' +
+            '<div class="muted">' + escHtml(a.title) + ' · <a href="' + escHtml(url) + '" target="_blank" rel="noopener">official market</a></div></div>';
+        }).join('');
+      }
+      if (allBox) allBox.innerHTML = rowsHtml(state.alerts);
+      if (roiBox) roiBox.innerHTML = rowsHtml(state.selective);
+    }
+
+    function renderOrderbook(ticker) {
+      var ob = state.orderbooks[ticker];
+      var m = state.marketsByTicker[ticker];
+      if (!ob && m) {
+        var yb = parseFloat(m.yes_bid);
+        var ya = parseFloat(m.yes_ask);
+        ob = {
+          source_url: m.page_url || 'https://docs.kalshi.com/getting_started/orderbook_responses',
+          yes_bids: !isNaN(yb) && yb > 0 ? [{ price: yb.toFixed(4), contracts: m.open_interest_fp || '100' }] : [],
+          no_bids: !isNaN(ya) && ya < 1 ? [{ price: (1 - ya).toFixed(4), implied_yes_ask: ya.toFixed(4), contracts: m.open_interest_fp || '100' }] : []
+        };
+      }
+      if (!ob || ((!ob.yes_bids || !ob.yes_bids.length) && (!ob.no_bids || !ob.no_bids.length))) {
+        obBox.innerHTML = '<div class="muted">No resting bids returned for <span class="mono">' + escHtml(ticker) + '</span> (empty book; values left as <code>--</code>).</div>';
+        return;
+      }
+      var levels = [];
+      (ob.yes_bids || []).slice(-5).reverse().forEach(function (lv) {
+        levels.push({ kind: 'yes', label: 'YES bid $' + parseFloat(lv.price).toFixed(2), qty: parseFloat(lv.contracts) || 0 });
+      });
+      (ob.no_bids || []).slice(-5).reverse().forEach(function (lv) {
+        var ask = lv.implied_yes_ask !== undefined ? parseFloat(lv.implied_yes_ask) : (1 - parseFloat(lv.price));
+        levels.push({ kind: 'no', label: 'NO bid $' + parseFloat(lv.price).toFixed(2) + ' (YES ask $' + ask.toFixed(2) + ')', qty: parseFloat(lv.contracts) || 0 });
+      });
+      var maxQ = 1;
+      levels.forEach(function (l) { if (l.qty > maxQ) maxQ = l.qty; });
+      obBox.innerHTML = levels.map(function (l) {
+        var pct = Math.max(3, Math.round((l.qty / maxQ) * 100));
+        return '<div class="ob-row"><span class="mono">' + escHtml(l.label.split(' ')[0] + ' ' + l.label.split(' ')[2]) + '</span>' +
+          '<div class="ob-track"><div class="ob-fill ' + l.kind + '" style="width:' + pct + '%"></div></div>' +
+          '<span class="mono" style="text-align:right">' + Math.round(l.qty).toLocaleString() + ' ctr</span></div>';
+      }).join('') + '<div class="muted" style="margin-top:6px"><a href="' + escHtml(ob.source_url) + '" target="_blank" rel="noopener">Orderbook endpoint source ↗</a></div>';
+    }
+
+    function renderChart() {
+      var ticker = selMarket.value;
+      var m = state.marketsByTicker[ticker] || {};
+      if (mktLink) {
+        mktLink.href = m.page_url || ('https://external-api.demo.kalshi.co/trade-api/v2/markets/' + encodeURIComponent(ticker));
+      }
+      var raw = (state.ticks[ticker] || []).slice();
+      if (!raw.length && m.last_price) {
+        var nowS = Date.now() / 1000;
+        raw = [
+          { ts: nowS - 60, last_price: m.last_price, yes_bid: m.yes_bid, yes_ask: m.yes_ask },
+          { ts: nowS, last_price: m.last_price, yes_bid: m.yes_bid, yes_ask: m.yes_ask }
+        ];
+      }
+      if (!raw.length) {
+        svg.innerHTML = '<text x="20" y="140" fill="#5f6b7d" font-size="13">No verified price ticks for ' + escHtml(ticker) + ' (--).</text>';
+        renderOrderbook(ticker);
+        return;
+      }
+      var maxTs = raw[raw.length - 1].ts || (Date.now() / 1000);
+      var spanS = state.win === 'seconds' ? 60 : (state.win === 'minutes' ? 1800 : 21600);
+      var filtered = raw.filter(function (pt) { return (maxTs - (pt.ts || maxTs)) <= spanS; });
+      if (filtered.length < 2) filtered = raw.slice(-Math.min(raw.length, 6));
+
+      var W = 640, H = 280, padL = 48, padR = 18, padT = 20, padB = 34;
+      var plotW = W - padL - padR, plotH = H - padT - padB;
+      var t0 = filtered[0].ts || 0;
+      var t1 = filtered[filtered.length - 1].ts || (t0 + 1);
+      if (t1 <= t0) t1 = t0 + 1;
+
+      function xOf(t) { return padL + ((t - t0) / (t1 - t0)) * plotW; }
+      function yOf(p) { return padT + (1.0 - Math.max(0, Math.min(1, p))) * plotH; }
+
+      var grid = '';
+      [0, 0.25, 0.5, 0.75, 1.0].forEach(function (yv) {
+        var yy = yOf(yv).toFixed(1);
+        grid += '<line x1="' + padL + '" y1="' + yy + '" x2="' + (W - padR) + '" y2="' + yy + '" stroke="#eef1f6"/>' +
+          '<text x="6" y="' + (parseFloat(yy) + 4) + '" fill="#5f6b7d" font-size="11">$' + yv.toFixed(2) + '</text>';
+      });
+
+      var pts = [];
+      var jumps = [];
+      for (var i = 0; i < filtered.length; i++) {
+        var pv = parseFloat(filtered[i].last_price);
+        if (isNaN(pv)) continue;
+        var xx = xOf(filtered[i].ts || t0);
+        var yy = yOf(pv);
+        pts.push(xx.toFixed(1) + ',' + yy.toFixed(1));
+        if (i > 0) {
+          var prev = parseFloat(filtered[i - 1].last_price);
+          if (!isNaN(prev) && Math.abs(pv - prev) >= 0.10 - 1e-9) {
+            jumps.push({ x: xx, y: yy, delta: pv - prev, from: prev, to: pv, ts: filtered[i].ts });
+          }
+        }
+      }
+
+      var poly = pts.length ? '<polyline fill="none" stroke="#0b63ce" stroke-width="2.5" points="' + pts.join(' ') + '"/>' : '';
+      var dots = pts.map(function (pair) {
+        var sp = pair.split(',');
+        return '<circle cx="' + sp[0] + '" cy="' + sp[1] + '" r="3.5" fill="#0b63ce"/>';
+      }).join('');
+      var jumpSvg = jumps.map(function (j) {
+        var col = j.delta > 0 ? '#0a7b45' : '#b3261e';
+        var lbl = (j.delta > 0 ? '+' : '') + Math.round(j.delta * 100) + 'c';
+        return '<circle cx="' + j.x.toFixed(1) + '" cy="' + j.y.toFixed(1) + '" r="6.5" fill="' + col + '" stroke="#fff" stroke-width="1.5"/>' +
+          '<text x="' + (j.x - 14).toFixed(1) + '" y="' + Math.max(14, j.y - 10).toFixed(1) + '" fill="' + col + '" font-size="11" font-weight="700">' + lbl + '</text>';
+      }).join('');
+
+      var xLabel = 'Window: ' + state.win.toUpperCase() + ' (' + filtered.length + ' samples)';
+      svg.innerHTML = grid + poly + dots + jumpSvg +
+        '<text x="' + padL + '" y="' + (H - 8) + '" fill="#5f6b7d" font-size="11">' + escHtml(xLabel) + '</text>' +
+        '<text x="' + (W - padR - 145) + '" y="' + (H - 8) + '" fill="#5f6b7d" font-size="11">' + escHtml(ticker) + '</text>';
+
+      if (jumpBox) {
+        var mUrl = m.page_url || ('https://external-api.demo.kalshi.co/trade-api/v2/markets/' + encodeURIComponent(ticker));
+        var sList = m.settlement_sources || [];
+        var sHtml = (sList.length && sList[0].url) ? (' · <a href="' + escHtml(sList[0].url) + '" target="_blank" rel="noopener">' + escHtml(sList[0].name || 'Settlement source') + '</a>') : '';
+        if (jumps.length) {
+          jumpBox.innerHTML = '<strong>Sharp >= $0.10 jumps on chart:</strong> ' + jumps.map(function (j) {
+            var sg = j.delta > 0 ? '+' : '';
+            return '<span class="tag ' + (j.delta > 0 ? 'ok' : 'bad') + '">' + sg + (j.delta).toFixed(2) + ' ($' + j.from.toFixed(2) + ' -> $' + j.to.toFixed(2) + ')</span> ' +
+              '<a href="' + escHtml(mUrl) + '" target="_blank" rel="noopener">Kalshi event</a>' + sHtml;
+          }).join(' · ');
+        } else {
+          jumpBox.innerHTML = 'No >= $0.10 jump inside current zoom window for <span class="mono">' + escHtml(ticker) + '</span> · <a href="' + escHtml(mUrl) + '" target="_blank" rel="noopener">Official Kalshi page</a>' + sHtml;
+        }
+      }
+      renderOrderbook(ticker);
+    }
+
+    document.querySelectorAll('[data-win]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('[data-win]').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        state.win = btn.getAttribute('data-win') || 'hours';
+        renderChart();
+      });
+    });
+    selMarket.addEventListener('change', renderChart);
+
+    function pollDemoApi() {
+      var primary = selHost ? selHost.value : 'https://external-api.demo.kalshi.co/trade-api/v2';
+      var fallback = primary.indexOf('external-api') >= 0 ? 'https://demo-api.kalshi.co/trade-api/v2' : 'https://external-api.demo.kalshi.co/trade-api/v2';
+      if (badge) { badge.className = 'tag warn'; badge.textContent = 'Polling Demo API…'; }
+
+      function tryHost(base) {
+        return fetch(base + '/events?limit=50&status=open&with_nested_markets=true', { mode: 'cors', cache: 'no-store' })
+          .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+          .then(function (payload) { return { base: base, payload: payload }; });
+      }
+
+      tryHost(primary).catch(function () { return tryHost(fallback); }).then(function (res) {
+        var events = (res.payload && res.payload.events) || [];
+        var grouped = { gas: [], elections: [], culture: [], crypto: [], golf: [] };
+        var nowS = Date.now() / 1000;
+        var nowIso = new Date().toISOString().slice(0, 19) + 'Z';
+        var addedOptions = 0;
+
+        events.forEach(function (ev) {
+          (ev.markets || []).forEach(function (mk) {
+            var tp = matchTopic(ev, mk);
+            if (!tp) return;
+            var yb = parseFloat(mk.yes_bid_dollars);
+            var ya = parseFloat(mk.yes_ask_dollars);
+            var lp = parseFloat(mk.last_price_dollars);
+            var mid = (!isNaN(yb) && !isNaN(ya) && yb > 0 && ya < 1 && ya >= yb) ? ((yb + ya) / 2) : (!isNaN(lp) ? lp : NaN);
+            var vol = parseFloat(mk.volume_fp || '0') || 0;
+            var rec = {
+              ticker: mk.ticker,
+              title: String(mk.title || ev.title || mk.ticker).replace(/\\*\\*/g, ''),
+              topic: tp,
+              yes_bid: mk.yes_bid_dollars,
+              yes_ask: mk.yes_ask_dollars,
+              last_price: !isNaN(mid) ? mid.toFixed(4) : mk.last_price_dollars,
+              volume_fp: String(vol),
+              open_interest_fp: mk.open_interest_fp || '0',
+              page_url: res.base + '/markets/' + encodeURIComponent(mk.ticker),
+              settlement_sources: ev.settlement_sources || []
+            };
+            grouped[tp].push(rec);
+            if (!state.marketsByTicker[mk.ticker] && addedOptions < 40) {
+              var opt = document.createElement('option');
+              opt.value = mk.ticker;
+              opt.textContent = tp + ': ' + mk.ticker + ' — ' + rec.title.slice(0, 64);
+              selMarket.appendChild(opt);
+              addedOptions++;
+            }
+            state.marketsByTicker[mk.ticker] = rec;
+            if (!isNaN(mid)) {
+              if (!state.ticks[mk.ticker]) state.ticks[mk.ticker] = [];
+              state.ticks[mk.ticker].push({ ts: nowS, last_price: mid.toFixed(4), yes_bid: mk.yes_bid_dollars, yes_ask: mk.yes_ask_dollars });
+              if (state.lastMid[mk.ticker] !== undefined && Math.abs(mid - state.lastMid[mk.ticker]) >= 0.10 - 1e-9) {
+                var d = mid - state.lastMid[mk.ticker];
+                var alertObj = {
+                  time_utc: nowIso,
+                  ticker: mk.ticker,
+                  title: rec.title,
+                  topic: tp,
+                  direction: d > 0 ? 'up' : 'down',
+                  from_price: state.lastMid[mk.ticker].toFixed(4),
+                  to_price: mid.toFixed(4),
+                  delta: (d > 0 ? '+' : '') + d.toFixed(4),
+                  selective: (vol >= 100 && (!isNaN(yb) && !isNaN(ya) && (ya - yb) <= 0.15)),
+                  page_url: rec.page_url
+                };
+                state.alerts.unshift(alertObj);
+                if (alertObj.selective) state.selective.unshift(alertObj);
+              }
+              state.lastMid[mk.ticker] = mid;
+            }
+          });
+        });
+
+        // Also fetch live orderbook for currently selected ticker
+        var activeTicker = selMarket.value;
+        if (activeTicker) {
+          fetch(res.base + '/markets/' + encodeURIComponent(activeTicker) + '/orderbook', { mode: 'cors', cache: 'no-store' })
+            .then(function (r) { return r.ok ? r.json() : null; })
+            .then(function (obDoc) {
+              if (obDoc && obDoc.orderbook_fp) {
+                var fp = obDoc.orderbook_fp;
+                state.orderbooks[activeTicker] = {
+                  source_url: res.base + '/markets/' + encodeURIComponent(activeTicker) + '/orderbook',
+                  yes_bids: (fp.yes_dollars || []).map(function (lv) { return { price: lv[0], contracts: lv[1] }; }),
+                  no_bids: (fp.no_dollars || []).map(function (lv) { return { price: lv[0], contracts: lv[1], implied_yes_ask: (1 - parseFloat(lv[0])).toFixed(4) }; })
+                };
+                renderOrderbook(activeTicker);
+              }
+            }).catch(function () {});
+        }
+
+        if (badge) {
+          badge.className = 'tag ok';
+          badge.textContent = 'LIVE Demo API (' + res.base.replace('https://', '') + ' · ' + nowIso + ')';
+        }
+
+        if (boards) {
+          var topicKeys = ['gas', 'elections', 'culture', 'crypto', 'golf'];
+          boards.innerHTML = topicKeys.map(function (tk) {
+            var arr = grouped[tk].sort(function (a, b) { return parseFloat(b.volume_fp) - parseFloat(a.volume_fp); }).slice(0, 6);
+            if (!arr.length) {
+              return '<div class="card"><h3>' + tk.toUpperCase() + ' (0 open in current 50-event page)</h3><div class="muted">Unconfirmed / none open in sample — left blank rather than inferred.</div></div>';
+            }
+            var trs = arr.map(function (m) {
+              return '<tr><td class="mono">' + escHtml(m.ticker) + '</td><td>' + escHtml(m.title) + '</td>' +
+                '<td class="num">' + escHtml(m.last_price || '--') + '</td><td class="num">' + escHtml(m.volume_fp) + '</td>' +
+                '<td><a href="' + escHtml(m.page_url) + '" target="_blank" rel="noopener">API market</a></td></tr>';
+            }).join('');
+            return '<div class="card"><h3>' + tk.toUpperCase() + ' (Top by Volume)</h3><div class="tblwrap"><table><thead><tr><th>Ticker</th><th>Contract</th><th class="num">Price ($)</th><th class="num">Volume</th><th>Source</th></tr></thead><tbody>' + trs + '</tbody></table></div></div>';
+          }).join('');
+        }
+
+        renderChats();
+        renderChart();
+      }).catch(function (err) {
+        if (badge) {
+          badge.className = 'tag warn';
+          badge.textContent = 'Offline / Replay fallback (' + (err && err.message ? err.message : 'no network') + ')';
+        }
+        renderChats();
+        renderChart();
+      });
+    }
+
+    if (btnPoll) btnPoll.addEventListener('click', pollDemoApi);
+    if (selInterval) {
+      selInterval.addEventListener('change', function () {
+        if (state.timer) clearInterval(state.timer);
+        var ms = parseInt(selInterval.value, 10) || 0;
+        if (ms > 0) state.timer = setInterval(pollDemoApi, ms);
+      });
+      state.timer = setInterval(pollDemoApi, 30000);
+    }
+    renderChats();
+    renderChart();
+    pollDemoApi();
+  }
+
+  function initSimLab(dash) {
+    var root = document.getElementById('sim-lab-root');
+    if (!root) return;
+    var btnRun = document.getElementById('btn-run-sim');
+    var btnReset = document.getElementById('btn-reset-sim');
+    var selCat = document.getElementById('sim-category');
+    var selTopic = document.getElementById('sim-topic');
+    var inpQty = document.getElementById('sim-qty');
+    var summary = document.getElementById('sim-summary');
+    var tbody = document.getElementById('sim-ledger-body');
+    var ledger = [];
+    var cash = 10000.0;
+
+    function renderLedger() {
+      if (!ledger.length) {
+        tbody.innerHTML = '<tr><td colspan="9" class="muted">No interactive paper trades run in this browser session yet.</td></tr>';
+        summary.textContent = 'Paper bankroll: $' + cash.toFixed(2) + ' (0 session fills).';
+        return;
+      }
+      var totalFees = ledger.reduce(function (s, x) { return s + x.fee; }, 0);
+      summary.innerHTML = '<strong>Paper bankroll remaining:</strong> $' + cash.toFixed(2) +
+        ' · <strong>Fills executed:</strong> ' + ledger.length +
+        ' · <strong>Published Kalshi fees charged:</strong> $' + totalFees.toFixed(2) +
+        ' (Order V2 unified YES scale applied on NO buys).';
+      tbody.innerHTML = ledger.map(function (t) {
+        return '<tr><td class="mono">' + escHtml(t.time) + '</td><td class="mono">' + escHtml(t.ticker) + '</td>' +
+          '<td><span class="tag">' + escHtml(t.topic) + '</span></td><td><code>' + escHtml(t.category) + '</code></td>' +
+          '<td>' + escHtml(t.v2Desc) + '</td><td class="num">' + t.qty + '</td>' +
+          '<td class="num">$' + t.price.toFixed(4) + '</td><td class="num">$' + t.fee.toFixed(2) + '</td>' +
+          '<td><a href="' + escHtml(t.url) + '" target="_blank" rel="noopener">Kalshi source</a></td></tr>';
+      }).join('');
+    }
+
+    if (btnRun) {
+      btnRun.addEventListener('click', function () {
+        var cat = selCat ? selCat.value : 'momentum';
+        var tf = selTopic ? selTopic.value : 'all';
+        var qty = Math.max(1, Math.min(500, parseInt((inpQty && inpQty.value) || '25', 10) || 25));
+        var candidates = [];
+        (dash.topics || []).forEach(function (t) {
+          if (tf !== 'all' && t.key !== tf) return;
+          (t.markets || []).forEach(function (m) { candidates.push(m); });
+        });
+        var nowIso = new Date().toISOString().slice(11, 19) + 'Z';
+        candidates.forEach(function (m) {
+          var ya = parseFloat(m.yes_ask);
+          var yb = parseFloat(m.yes_bid);
+          var lp = parseFloat(m.last_price);
+          var execYes = !isNaN(ya) && ya > 0 && ya < 1 ? ya : (!isNaN(lp) && lp > 0 && lp < 1 ? lp : NaN);
+          if (isNaN(execYes)) return;
+          var side = 'YES';
+          var price = execYes;
+          var maker = false;
+          if (cat === 'tail' && execYes > 0.35) return;
+          if (cat === 'carry') {
+            maker = true;
+            if (execYes < 0.50 && (1 - (!isNaN(yb) && yb > 0 ? yb : execYes)) >= 0.65) {
+              side = 'NO';
+              price = 1.0 - (!isNaN(yb) && yb > 0 ? yb : execYes);
+            }
+          } else if (cat === 'mean_reversion') {
+            side = 'NO';
+            price = 1.0 - (!isNaN(yb) && yb > 0 ? yb : execYes);
+          }
+          if (price <= 0 || price >= 1) return;
+          var fee = kalshiFee(qty, price, maker, m.series_ticker);
+          var cost = qty * price + fee;
+          if (cost > cash) return;
+          cash -= cost;
+          var v2Desc = side === 'YES'
+            ? ('BUY YES (side=bid @ $' + price.toFixed(4) + ')')
+            : ('BUY NO (side=ask @ YES $' + (1.0 - price).toFixed(4) + ')');
+          ledger.unshift({
+            time: nowIso,
+            ticker: m.ticker,
+            topic: m.topic,
+            category: cat,
+            v2Desc: v2Desc,
+            qty: qty,
+            price: price,
+            fee: fee,
+            url: m.page_url || 'https://kalshi.com/docs/kalshi-fee-schedule.pdf'
+          });
+        });
+        renderLedger();
+      });
+    }
+    if (btnReset) {
+      btnReset.addEventListener('click', function () {
+        ledger = [];
+        cash = 10000.0;
+        renderLedger();
+      });
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    attachTableSort();
+    if (document.getElementById('interactive-chart-root') || document.getElementById('sim-lab-root')) {
+      loadJson('data/dashboard.json').then(function (dash) {
+        initLivePage(dash);
+        initSimLab(dash);
+      }).catch(function () {});
+    }
   });
-});
+})();
 """
 
 

@@ -6,7 +6,7 @@
 </head><body>
 <header class="top"><div class="wrap">
 <a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
-<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html" class="active">Methodology</a></nav>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html" class="active">Methodology</a></nav>
 </div></header>
 <main><div class="wrap">
 
@@ -79,12 +79,35 @@ payoff, high-probability carry, event driven, and an unfiltered control benchmar
 <li>Each strategy starts at $10,000 with its own ledger, so returns are comparable.</li>
 <li>Positions are opened once and closed once per market; exits are take-profit, stop-loss, max hold,
 or settlement.</li>
-<li>Resolution pays $1 per contract for the winning side and $0 for the loser, with no fee.</li>
+<li>Resolution pays $1 per contract for <code>yes</code>/<code>no</code> winners, $0 for losers, and
+proportional <code>v</code> / <code>1 − v</code> for <code>scalar</code> settlements, with zero settlement fee.</li>
 <li>An empty book means no trade, with the rejection reason recorded.</li>
 </ul>
-<div class="note warn"><strong>Limitations.</strong> Per-series fee multipliers are not applied, and the
-exchange's fee rounding rebate is not modelled. Simulated results are simulations of a demo
-environment whose prices Kalshi itself says may not reflect real markets.</div>
+<div class="note warn"><strong>Limitations.</strong> 31 Non-Standard Fee rows from Kalshi's July 7, 2026 PDF
+and explicit <code>GET /series</code> <code>fee_multiplier</code> values are applied, while interleaved PDF
+rows from <code>KXMVE</code> onward default to <code>M = 1</code> and the exchange's micro-cent rounding
+rebate accumulator is not modelled. Simulated results are simulations of a demo environment whose prices
+Kalshi itself says may not reflect real markets.</div>
+
+<h2>Continuous Organization &amp; Simplification for Traders</h2>
+<div class="tblwrap"><table>
+<thead><tr><th>Focus Area</th><th>Design Rule</th><th>Official Basis</th></tr></thead><tbody>
+<tr><td><strong>1. Live Interactivity</strong></td>
+<td>Poll public <code>/events?status=open&amp;with_nested_markets=true</code> and
+<code>/markets/{ticker}/orderbook</code> directly in the browser with automatic host failover
+(<code>external-api.demo.kalshi.co</code> → <code>demo-api.kalshi.co</code> → <code>captured-replay</code>),
+and expose one-click local FastAPI relay connection for signed WebSockets and demo orders.</td>
+<td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs.kalshi.com/getting_started/demo_env</a></td></tr>
+<tr><td><strong>2. Simplified Charts</strong></td>
+<td>Single clean SVG contract chart with X-axis toggle (<code>Seconds</code> / <code>Minutes</code> /
+<code>Hours</code>), Y-axis fixed on <code>$0.00–$1.00</code>, horizontal orderbook contract depth bars
+at each price level, and clickable <code>|Δprice| ≥ $0.10</code> jump pins linked to official contract pages.</td>
+<td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">docs.kalshi.com/getting_started/orderbook_responses</a></td></tr>
+<tr><td><strong>3. Strict 5-Topic Organization</strong></td>
+<td>Keep Gas prices, Elections, Culture, Crypto, and Golf strictly separate, ranked by dollar/contract
+volume within each topic, and exclude <code>KXMVE*</code> combo parlays and unconfirmed guesses.</td>
+<td><a href="https://docs.kalshi.com/api-reference/search/get-tags-for-series-categories" target="_blank" rel="noopener">docs.kalshi.com/api-reference/search</a></td></tr>
+</tbody></table></div>
 
 </div></main>
 <footer><div class="wrap">

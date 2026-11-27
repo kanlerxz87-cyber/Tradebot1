@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live chart &amp; chat · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="live.html" class="active">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Live Interactive Chart, Orderbook &amp; Dual Swing Chats</h1>
+<p class="lede">Polls Kalshi's official Demo Trade API v2 directly in your browser across the five
+isolated topics (Gas prices, Elections, Culture, Crypto, Golf), with automatic fallback to
+<code>data/dashboard.json</code> (<code>captured-replay</code>) when offline.</p>
+
+<div class="card">
+<div class="toolbar">
+<span id="live-conn-badge" class="tag warn">Initializing feed…</span>
+<button type="button" class="btn primary" id="btn-poll-now">Poll Demo API Now</button>
+<label class="muted">Auto-poll:
+<select id="sel-poll-interval">
+<option value="10000">Every 10s</option>
+<option value="30000" selected>Every 30s</option>
+<option value="0">Paused</option>
+</select></label>
+<label class="muted">REST host:
+<select id="sel-rest-host">
+<option value="https://external-api.demo.kalshi.co/trade-api/v2">https://external-api.demo.kalshi.co/trade-api/v2</option>
+<option value="https://demo-api.kalshi.co/trade-api/v2">https://demo-api.kalshi.co/trade-api/v2</option>
+</select></label>
+</div>
+<p class="muted">WebSocket endpoints configured in <code>app/ws.py</code>:
+<code>wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2</code> and <code>wss://demo-api.kalshi.co/trade-api/ws/v2</code>
+(<a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">official WS docs</a>;
+browsers cannot attach <code>KALSHI-ACCESS-*</code> headers on unsigned <code>new WebSocket()</code>, so browser mode uses CORS-verified REST polling).</p>
+</div>
+
+<h2>Interactive Contract Price &amp; Liquidity Graph</h2>
+<div class="card" id="interactive-chart-root">
+<div class="toolbar">
+<label><strong>Contract:</strong>
+<select id="chart-market-select"><option value="KXAAAGASM-26NOV30-3.00">gas: KXAAAGASM-26NOV30-3.00 — Will average gas prices be above $3.00?</option><option value="KXAAAGASM-26NOV30-3.50">gas: KXAAAGASM-26NOV30-3.50 — Will average gas prices be above $3.50?</option><option value="KXNEXTNATOSECGEN-99-KIOH">elections: KXNEXTNATOSECGEN-99-KIOH — Will Klaus Iohannis be the next Secretary General of NATO?</option><option value="KXBTCD-26NOV22-T95000">crypto: KXBTCD-26NOV22-T95000 — Will Bitcoin be above $95,000 at 5pm EST on Nov 22?</option><option value="KXPGATOUR-THRC26-CBEZ">golf: KXPGATOUR-THRC26-CBEZ — The RSM Classic: Christiaan Bezuidenhout wins</option><option value="KXPGATOUR-THRC26-ZBAU">golf: KXPGATOUR-THRC26-ZBAU — The RSM Classic: Zachary Bauchou wins</option></select></label>
+<span><strong>X-axis window:</strong></span>
+<button type="button" class="btn" data-win="seconds">Seconds (60s)</button>
+<button type="button" class="btn" data-win="minutes">Minutes (30m)</button>
+<button type="button" class="btn active" data-win="hours">Hours (6h)</button>
+<a id="chart-market-link" href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">Official market source ↗</a>
+</div>
+<div class="grid c2">
+<div>
+<div class="svgwrap">
+<svg id="price-svg" viewBox="0 0 640 280" width="100%" height="280" role="img" aria-label="Contract price over time">
+<text x="20" y="140" fill="#5f6b7d" font-size="13">Loading interactive contract series…</text>
+</svg>
+</div>
+<div id="jump-pins" class="muted" style="margin-top:8px">Sharp ≥ $0.10 jump markers with associated market &amp; settlement links appear here.</div>
+</div>
+<div>
+<h3 style="margin-top:0">Current Orderbook Liquidity (Contracts per Price)</h3>
+<p class="muted">Kalshi returns YES bids and NO bids only; a NO bid at <code>p</code> implies a YES ask at <code>1 − p</code>
+(<a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">orderbook spec</a>).</p>
+<div id="orderbook-bars"><div class="muted">Select a contract or poll live orderbook…</div></div>
+</div>
+</div>
+</div>
+
+<h2>Real-Time Scrolling Swing Chats (|Δprice| ≥ $0.10)</h2>
+<div class="grid c2">
+<div class="card">
+<h3 style="margin-top:0">Chat 1 · All Events (≥ $0.10 either direction) <span class="tag" id="chat-all-count">4</span></h3>
+<div class="chatbox" id="chat-all"><div class="chatmsg"><div class="meta"><span class="mono">2026-11-26T04:06:50.963Z</span><span class="tag">crypto</span></div><div><strong class="up">+0.4400</strong> <span class="mono">KXBTCY-27JAN0100-B47500</span> (6c → 50c)</div><div class="muted">BTC price  on Jan 1, 2027? · <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500" target="_blank" rel="noopener">official market</a> · <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks</a></div></div><div class="chatmsg"><div class="meta"><span class="mono">2026-11-27T19:52:56Z</span><span class="tag">gas</span></div><div><strong class="up">0.1000</strong> <span class="mono">KXAAAGASM-26NOV30-3.50</span> (30c → 40c)</div><div class="muted">Will average gas prices be above $3.50? · <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">official market</a> · <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA</a></div></div><div class="chatmsg"><div class="meta"><span class="mono">2026-11-27T19:52:56Z</span><span class="tag">elections</span></div><div><strong class="up">0.1000</strong> <span class="mono">KXNEXTNATOSECGEN-99-KIOH</span> (2c → 12c)</div><div class="muted">Will Klaus Iohannis be the next Secretary General of NATO? · <a href="https://kalshi.com/markets/kxnextnatosecgen" target="_blank" rel="noopener">official market</a> · <a href="https://www.nato.int/" target="_blank" rel="noopener">North Atlantic Treaty Organization</a></div></div><div class="chatmsg"><div class="meta"><span class="mono">2026-11-27T19:52:56Z</span><span class="tag">crypto</span></div><div><strong class="up">0.1000</strong> <span class="mono">KXBTCD-26NOV22-T95000</span> (45c → 55c)</div><div class="muted">Will Bitcoin be above $95,000 at 5pm EST on Nov 22? · <a href="https://kalshi.com/markets/kxbtcd" target="_blank" rel="noopener">official market</a> · <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks</a></div></div></div>
+</div>
+<div class="card">
+<h3 style="margin-top:0">Chat 2 · Selective High-ROI Filter <span class="tag ok" id="chat-roi-count">4</span></h3>
+<div class="chatbox" id="chat-roi"><div class="chatmsg"><div class="meta"><span class="mono">2026-11-26T04:06:50.963Z</span><span class="tag">crypto</span></div><div><strong class="up">+0.4400</strong> <span class="mono">KXBTCY-27JAN0100-B47500</span> (6c → 50c)</div><div class="muted">BTC price  on Jan 1, 2027? · <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500" target="_blank" rel="noopener">official market</a> · <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks</a></div></div><div class="chatmsg"><div class="meta"><span class="mono">2026-11-27T19:52:56Z</span><span class="tag">gas</span></div><div><strong class="up">0.1000</strong> <span class="mono">KXAAAGASM-26NOV30-3.50</span> (30c → 40c)</div><div class="muted">Will average gas prices be above $3.50? · <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">official market</a> · <a href="https://gasprices.aaa.com/" target="_blank" rel="noopener">AAA</a></div></div><div class="chatmsg"><div class="meta"><span class="mono">2026-11-27T19:52:56Z</span><span class="tag">elections</span></div><div><strong class="up">0.1000</strong> <span class="mono">KXNEXTNATOSECGEN-99-KIOH</span> (2c → 12c)</div><div class="muted">Will Klaus Iohannis be the next Secretary General of NATO? · <a href="https://kalshi.com/markets/kxnextnatosecgen" target="_blank" rel="noopener">official market</a> · <a href="https://www.nato.int/" target="_blank" rel="noopener">North Atlantic Treaty Organization</a></div></div><div class="chatmsg"><div class="meta"><span class="mono">2026-11-27T19:52:56Z</span><span class="tag">crypto</span></div><div><strong class="up">0.1000</strong> <span class="mono">KXBTCD-26NOV22-T95000</span> (45c → 55c)</div><div class="muted">Will Bitcoin be above $95,000 at 5pm EST on Nov 22? · <a href="https://kalshi.com/markets/kxbtcd" target="_blank" rel="noopener">official market</a> · <a href="https://www.cfbenchmarks.com/" target="_blank" rel="noopener">CF Benchmarks</a></div></div></div>
+</div>
+</div>
+
+<h2>Live Topic Separation (Highest Dollar / Contract Volume First)</h2>
+<div id="live-topic-boards" class="muted">Polling live Demo API events… if unreachable, see captured topic tables on
+<a href="gas.html">Gas</a>, <a href="elections.html">Elections</a>, <a href="culture.html">Culture</a>,
+<a href="crypto.html">Crypto</a>, and <a href="golf.html">Golf</a>.</div>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

@@ -6,7 +6,7 @@
 </head><body>
 <header class="top"><div class="wrap">
 <a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
-<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html" class="active">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html" class="active">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
 </div></header>
 <main><div class="wrap">
 
@@ -15,7 +15,7 @@
 were verified and contradicted something, and individual rows where a value had to be derived. None
 of these block the site; they are here so you can review them and ask for changes.</p>
 
-<div class="note warn">Counts: 7 verification items flagged or unverified,
+<div class="note warn">Counts: 8 verification items flagged or unverified,
 4 captured rows carrying a derivation note.</div>
 
 <h2>Verification items</h2>
@@ -35,9 +35,9 @@ of these block the site; they are here so you can review them and ask for change
 <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">official source</a></td>
 </tr><tr>
 <td><span class="tag bad">flagged</span><div class="mono muted">fee-nonstandard</div></td>
-<td><strong>Some series carry their own fee multiplier; the schedule lists KXAAAGASM (US gas price) at maker 1 / taker 1</strong>
-<div class="muted">The simulator applies the general 0.07 / 0.0175 multipliers and does not read per-series multipliers from the schedule.</div>
-<div class="muted"><em>Why it matters:</em> Series with multiplier 0 (fee-free, e.g. KXBTCY) would be overcharged in simulation, and series with multiplier &gt; 1 undercharged. Needs review.</div></td>
+<td><strong>Some series carry their own fee multiplier; the schedule lists KXAAAGASM at 1 / 1 and KXBTCY at 0 / 0</strong>
+<div class="muted">app/money.series_fee_multiplier applies explicit GET /series fee_multiplier first, then the 31 unambiguous Non-Standard Fees rows from the schedule PDF, then default 1. Rows from KXMVE onwards interleave columns in PDF text extraction and remain unencoded.</div>
+<div class="muted"><em>Why it matters:</em> Residual limitation: unencoded PDF rows fall back to M = 1 when API fee_multiplier is absent; also Demo GET /series/KXBTCY reports fee_multiplier=1 whereas Production/PDF lists 0.</div></td>
 <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">official source</a></td>
 </tr><tr>
 <td><span class="tag bad">flagged</span><div class="mono muted">market-status-values</div></td>
@@ -52,11 +52,17 @@ of these block the site; they are here so you can review them and ask for change
 <div class="muted"><em>Why it matters:</em> The engine therefore fetches open events and filters by published fields client-side. Do not rely on the server-side category filter.</div></td>
 <td><a href="https://docs.kalshi.com/api-reference/events/get-events" target="_blank" rel="noopener">official source</a></td>
 </tr><tr>
-<td><span class="tag warn">unverified</span><div class="mono muted">cors-unknown</div></td>
-<td><strong>Kalshi&#x27;s API sends Access-Control-Allow-Origin, so a static browser page could poll it directly with no server</strong>
-<div class="muted">NOT ESTABLISHED. No official page states a CORS policy, and response headers could not be inspected from this sandbox.</div>
-<div class="muted"><em>Why it matters:</em> The static site therefore does not call Kalshi from the browser. It reads captured snapshots only. Needs review if a browser-only live feed is wanted.</div></td>
+<td><span class="tag bad">flagged</span><div class="mono muted">cors-unknown</div></td>
+<td><strong>Kalshi&#x27;s demo API echoes Access-Control-Allow-Origin for public GET reads, while signed browser requests and unsigned WebSocket handshakes are blocked</strong>
+<div class="muted">Measured from a GitHub-hosted runner (committed at probe/results.json): public GETs on both external-api.demo.kalshi.co and demo-api.kalshi.co echo Origin https://kanlerxz87-cyber.github.io with HTTP 200; OPTIONS preflight omits KALSHI-ACCESS-KEY/-SIGNATURE/-TIMESTAMP; unsigned WS returns 401.</div>
+<div class="muted"><em>Why it matters:</em> Public browser polling works on live.html without credentials, whereas signed demo portfolio/order requests and authenticated WebSockets require the local Python backend or signed relay.</div></td>
 <td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">official source</a></td>
+</tr><tr>
+<td><span class="tag warn">unverified</span><div class="mono muted">demo-account-unconnected</div></td>
+<td><strong>Live authenticated Kalshi demo account balance, positions, and order fills</strong>
+<div class="muted">UNVERIFIED in static CI: no KALSHI_API_KEY_ID or private key is configured in repository secrets.</div>
+<div class="muted"><em>Why it matters:</em> Left blank (--) rather than inferred. Paper strategies run autonomously in simulation; connect a local Python backend (uvicorn app.main:app) with demo keys for real demo-account fills.</div></td>
+<td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">official source</a></td>
 </tr><tr>
 <td><span class="tag bad">flagged</span><div class="mono muted">golf-already-resolved</div></td>
 <td><strong>The demo golf event used in the replay resolves shortly after capture</strong>
@@ -78,12 +84,15 @@ of these block the site; they are here so you can review them and ask for change
 
 <h2>Known gaps in this build</h2>
 <ul class="tight">
-<li>The static site shows a <strong>snapshot</strong>. A browser page cannot hold a Kalshi private key,
-so live alerting and order execution run in the Python service, not here.</li>
-<li>The snapshot was produced in an environment with no route to Kalshi. Market, strike and quote
-values are real captured API responses; the price <em>paths</em> used to demonstrate alerts are
-scripted and labelled <code>captured-replay</code>.</li>
-<li>Per-series fee multipliers and the fee rebate accumulator are not modelled in simulation.</li>
+<li>Authenticated Kalshi demo orders and WebSocket handshakes require RSA-PSS / Ed25519
+<code>KALSHI-ACCESS-*</code> headers that browsers cannot attach safely on static hosting; public GET
+polling runs live on <a href="live.html">live.html</a>, while authenticated execution runs in the local
+Python service (<code>uvicorn app.main:app</code>).</li>
+<li>Baseline offline tables use real captured API responses plus deterministic price paths labelled
+<code>captured-replay</code> when offline.</li>
+<li>31 Non-Standard Fee rows from Kalshi's July 7, 2026 PDF and explicit API <code>fee_multiplier</code>
+values are applied; interleaved PDF rows from <code>KXMVE</code> onward and the micro-cent fee rebate
+accumulator remain unmodelled.</li>
 </ul>
 
 </div></main>

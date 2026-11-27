@@ -134,3 +134,26 @@ def test_docs_directory_matches_a_fresh_build(built):
     # The published copy must carry the same verification register as a fresh build.
     for name in ("verification.json", "dashboard.json", "captures.json"):
         assert (committed / "data" / name).exists(), name
+
+
+def test_interactive_live_portfolio_and_resolutions_pages(built):
+    out, data = built
+    payload = json.loads((data / "dashboard.json").read_text())
+    assert payload.get("demo_endpoints", {}).get("rest_primary") == "https://external-api.demo.kalshi.co/trade-api/v2"
+    assert payload.get("demo_endpoints", {}).get("rest_fallback") == "https://demo-api.kalshi.co/trade-api/v2"
+    assert payload.get("demo_endpoints", {}).get("ws_primary") == "wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2"
+    assert payload.get("demo_endpoints", {}).get("ws_fallback") == "wss://demo-api.kalshi.co/trade-api/ws/v2"
+    assert payload.get("strategy_catalog"), "strategy catalog must be exported"
+    assert payload.get("tick_series"), "tick series for interactive chart must be exported"
+
+    live_html = (out / "live.html").read_text()
+    for required in ("price-svg", "orderbook-bars", "chat-all", "chat-roi", "seconds", "minutes", "hours"):
+        assert required in live_html, required
+
+    port_html = (out / "portfolio.html").read_text()
+    assert "sim-lab-root" in port_html
+    assert "kalshi-fee-schedule.pdf" in port_html
+
+    res_html = (out / "resolutions.html").read_text()
+    assert "Event Resolution Ledger" in res_html
+    assert "scalar" in res_html

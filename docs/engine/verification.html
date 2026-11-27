@@ -6,14 +6,14 @@
 </head><body>
 <header class="top"><div class="wrap">
 <a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
-<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html" class="active">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html" class="active">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
 </div></header>
 <main><div class="wrap">
 
 <h1>Verification register</h1>
 <p class="lede">Every claim this project makes about Kalshi, the official source that states it, and
-what was actually checked. 32 verified, 5 flagged,
-2 unverified, out of 39.</p>
+what was actually checked. 34 verified, 6 flagged,
+2 unverified, out of 42.</p>
 <div class="note">A fact is &#x27;verified&#x27; only when an official Kalshi page or an official Kalshi API response states or demonstrates it. &#x27;unverified&#x27; means it could not be checked. &#x27;flagged&#x27; means it was checked and something disagrees, or a known limitation exists. Nothing is inferred.</div>
 <div class="tblwrap"><table>
 <thead><tr><th>ID</th><th>Claim</th><th>Status</th><th>How it was checked</th><th>Official source</th>
@@ -172,12 +172,28 @@ what was actually checked. 32 verified, 5 flagged,
 <td class="muted">Simulated P&amp;L can differ from the exchange by fractions of a cent per fill because the rebate accumulator is not implemented.</td>
 </tr><tr>
 <td class="mono">fee-nonstandard</td>
-<td>Some series carry their own fee multiplier; the schedule lists KXAAAGASM (US gas price) at maker 1 / taker 1<div class="mono muted">per-series multipliers</div></td>
+<td>Some series carry their own fee multiplier; the schedule lists KXAAAGASM at 1 / 1 and KXBTCY at 0 / 0<div class="mono muted">per-series multipliers (31 PDF rows + GET /series override)</div></td>
 <td><span class="tag bad">flagged</span></td>
-<td>The simulator applies the general 0.07 / 0.0175 multipliers and does not read per-series multipliers from the schedule.</td>
+<td>app/money.series_fee_multiplier applies explicit GET /series fee_multiplier first, then the 31 unambiguous Non-Standard Fees rows from the schedule PDF, then default 1. Rows from KXMVE onwards interleave columns in PDF text extraction and remain unencoded.</td>
 <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">kalshi.com/docs/kalshi-fee-schedule.pdf</a>
 <div class="mono muted">official-filing</div></td>
-<td class="muted">Series with multiplier 0 (fee-free, e.g. KXBTCY) would be overcharged in simulation, and series with multiplier &gt; 1 undercharged. Needs review.</td>
+<td class="muted">Residual limitation: unencoded PDF rows fall back to M = 1 when API fee_multiplier is absent; also Demo GET /series/KXBTCY reports fee_multiplier=1 whereas Production/PDF lists 0.</td>
+</tr><tr>
+<td class="mono">order-direction-v2</td>
+<td>Order V2 uses bid/ask on a unified YES price scale: buying NO at P_no sends side=&#x27;ask&#x27; with price = 1.0000 - P_no<div class="mono muted">unified YES grid (1 - P_no)</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>Fixed in app/simulator.py (_send_demo_order) and verified by tests/test_engine_v2.py; authenticated paths in app/kalshi_api.py also sign the full /trade-api/v2/... path without retrying POST writes.</td>
+<td><a href="https://docs.kalshi.com/getting_started/order_direction" target="_blank" rel="noopener">docs.kalshi.com/getting_started/order_direction</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">Earlier code in app/simulator.py sent raw decision.price on ask, which inverted NO-buy prices.</td>
+</tr><tr>
+<td class="mono">scalar-settlement</td>
+<td>Market lifecycle supports result in {&#x27;yes&#x27;, &#x27;no&#x27;, &#x27;scalar&#x27;} with proportional settlement_value_dollars in [0, 1]<div class="mono muted">yes | no | scalar</div></td>
+<td><span class="tag ok">verified</span></td>
+<td>app/collector.py and app/simulator.py settle &#x27;yes&#x27; ($1), &#x27;no&#x27; ($0), and &#x27;scalar&#x27; (settlement_value_dollars for YES, 1 - settlement_value_dollars for NO) with zero settlement fee.</td>
+<td><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">docs.kalshi.com/getting_started/market_lifecycle</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted"></td>
 </tr><tr>
 <td class="mono">market-status-values</td>
 <td>Market status values are unopened, open, closed and settled<div class="mono muted">unopened|open|closed|settled (documented)</div></td>
@@ -292,12 +308,20 @@ what was actually checked. 32 verified, 5 flagged,
 <td class="muted">Consequence: the running app falls back to captured-payload replay inside this sandbox. On a machine with normal egress the same code path is live.</td>
 </tr><tr>
 <td class="mono">cors-unknown</td>
-<td>Kalshi&#x27;s API sends Access-Control-Allow-Origin, so a static browser page could poll it directly with no server<div class="mono muted">--</div></td>
-<td><span class="tag warn">unverified</span></td>
-<td>NOT ESTABLISHED. No official page states a CORS policy, and response headers could not be inspected from this sandbox.</td>
+<td>Kalshi&#x27;s demo API echoes Access-Control-Allow-Origin for public GET reads, while signed browser requests and unsigned WebSocket handshakes are blocked<div class="mono muted">public GET allowed; signed headers &amp; unsigned WS blocked</div></td>
+<td><span class="tag bad">flagged</span></td>
+<td>Measured from a GitHub-hosted runner (committed at probe/results.json): public GETs on both external-api.demo.kalshi.co and demo-api.kalshi.co echo Origin https://kanlerxz87-cyber.github.io with HTTP 200; OPTIONS preflight omits KALSHI-ACCESS-KEY/-SIGNATURE/-TIMESTAMP; unsigned WS returns 401.</td>
 <td><a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener">docs.kalshi.com/getting_started/quick_start_market_data</a>
 <div class="mono muted">official-docs</div></td>
-<td class="muted">The static site therefore does not call Kalshi from the browser. It reads captured snapshots only. Needs review if a browser-only live feed is wanted.</td>
+<td class="muted">Public browser polling works on live.html without credentials, whereas signed demo portfolio/order requests and authenticated WebSockets require the local Python backend or signed relay.</td>
+</tr><tr>
+<td class="mono">demo-account-unconnected</td>
+<td>Live authenticated Kalshi demo account balance, positions, and order fills<div class="mono muted">--</div></td>
+<td><span class="tag warn">unverified</span></td>
+<td>UNVERIFIED in static CI: no KALSHI_API_KEY_ID or private key is configured in repository secrets.</td>
+<td><a href="https://docs.kalshi.com/getting_started/demo_env" target="_blank" rel="noopener">docs.kalshi.com/getting_started/demo_env</a>
+<div class="mono muted">official-docs</div></td>
+<td class="muted">Left blank (--) rather than inferred. Paper strategies run autonomously in simulation; connect a local Python backend (uvicorn app.main:app) with demo keys for real demo-account fills.</td>
 </tr><tr>
 <td class="mono">pages-https</td>
 <td>GitHub Pages serves the repository from https://kanlerxz87-cyber.github.io/Tradebot1/<div class="mono muted">published over HTTPS</div></td>

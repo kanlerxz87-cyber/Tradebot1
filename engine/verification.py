@@ -234,16 +234,37 @@ FACTS: list[dict] = [
     },
     {
         "id": "fee-nonstandard",
-        "claim": "Some series carry their own fee multiplier; the schedule lists KXAAAGASM (US gas price) "
-                 "at maker 1 / taker 1",
-        "value": "per-series multipliers",
+        "claim": "Some series carry their own fee multiplier; the schedule lists KXAAAGASM at 1 / 1 and KXBTCY at 0 / 0",
+        "value": "per-series multipliers (31 PDF rows + GET /series override)",
         "source": FEE_SCHEDULE,
         "source_type": "official-filing",
-        "check": "The simulator applies the general 0.07 / 0.0175 multipliers and does not read per-series "
-                 "multipliers from the schedule.",
+        "check": "app/money.series_fee_multiplier applies explicit GET /series fee_multiplier first, then "
+                 "the 31 unambiguous Non-Standard Fees rows from the schedule PDF, then default 1. "
+                 "Rows from KXMVE onwards interleave columns in PDF text extraction and remain unencoded.",
         "status": "flagged",
-        "notes": "Series with multiplier 0 (fee-free, e.g. KXBTCY) would be overcharged in simulation, and "
-                 "series with multiplier > 1 undercharged. Needs review.",
+        "notes": "Residual limitation: unencoded PDF rows fall back to M = 1 when API fee_multiplier is absent; "
+                 "also Demo GET /series/KXBTCY reports fee_multiplier=1 whereas Production/PDF lists 0.",
+    },
+    {
+        "id": "order-direction-v2",
+        "claim": "Order V2 uses bid/ask on a unified YES price scale: buying NO at P_no sends side='ask' with price = 1.0000 - P_no",
+        "value": "unified YES grid (1 - P_no)",
+        "source": f"{OFFICIAL_DOCS}/getting_started/order_direction",
+        "source_type": "official-docs",
+        "check": "Fixed in app/simulator.py (_send_demo_order) and verified by tests/test_engine_v2.py; "
+                 "authenticated paths in app/kalshi_api.py also sign the full /trade-api/v2/... path without retrying POST writes.",
+        "status": "verified",
+        "notes": "Earlier code in app/simulator.py sent raw decision.price on ask, which inverted NO-buy prices.",
+    },
+    {
+        "id": "scalar-settlement",
+        "claim": "Market lifecycle supports result in {'yes', 'no', 'scalar'} with proportional settlement_value_dollars in [0, 1]",
+        "value": "yes | no | scalar",
+        "source": f"{OFFICIAL_DOCS}/getting_started/market_lifecycle",
+        "source_type": "official-docs",
+        "check": "app/collector.py and app/simulator.py settle 'yes' ($1), 'no' ($0), and 'scalar' "
+                 "(settlement_value_dollars for YES, 1 - settlement_value_dollars for NO) with zero settlement fee.",
+        "status": "verified",
     },
 
     # -------------------------------------------------------------- api shapes
@@ -411,16 +432,28 @@ FACTS: list[dict] = [
     },
     {
         "id": "cors-unknown",
-        "claim": "Kalshi's API sends Access-Control-Allow-Origin, so a static browser page could poll it "
-                 "directly with no server",
-        "value": None,
+        "claim": "Kalshi's demo API echoes Access-Control-Allow-Origin for public GET reads, while signed "
+                 "browser requests and unsigned WebSocket handshakes are blocked",
+        "value": "public GET allowed; signed headers & unsigned WS blocked",
         "source": f"{OFFICIAL_DOCS}/getting_started/quick_start_market_data",
         "source_type": "official-docs",
-        "check": "NOT ESTABLISHED. No official page states a CORS policy, and response headers could not be "
-                 "inspected from this sandbox.",
+        "check": "Measured from a GitHub-hosted runner (committed at probe/results.json): public GETs on both "
+                 "external-api.demo.kalshi.co and demo-api.kalshi.co echo Origin https://kanlerxz87-cyber.github.io "
+                 "with HTTP 200; OPTIONS preflight omits KALSHI-ACCESS-KEY/-SIGNATURE/-TIMESTAMP; unsigned WS returns 401.",
+        "status": "flagged",
+        "notes": "Public browser polling works on live.html without credentials, whereas signed demo portfolio/order "
+                 "requests and authenticated WebSockets require the local Python backend or signed relay.",
+    },
+    {
+        "id": "demo-account-unconnected",
+        "claim": "Live authenticated Kalshi demo account balance, positions, and order fills",
+        "value": None,
+        "source": f"{OFFICIAL_DOCS}/getting_started/demo_env",
+        "source_type": "official-docs",
+        "check": "UNVERIFIED in static CI: no KALSHI_API_KEY_ID or private key is configured in repository secrets.",
         "status": "unverified",
-        "notes": "The static site therefore does not call Kalshi from the browser. It reads captured "
-                 "snapshots only. Needs review if a browser-only live feed is wanted.",
+        "notes": "Left blank (--) rather than inferred. Paper strategies run autonomously in simulation; "
+                 "connect a local Python backend (uvicorn app.main:app) with demo keys for real demo-account fills.",
     },
     {
         "id": "pages-https",

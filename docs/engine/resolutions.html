@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Resolutions · Kalshi Live Dashboard</title>
+<link rel="stylesheet" href="assets/site.css">
+</head><body>
+<header class="top"><div class="wrap">
+<a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html" class="active">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+</div></header>
+<main><div class="wrap">
+
+<h1>Event Resolution Ledger</h1>
+<p class="lede">Tracks monitored markets in the five topics until Kalshi determines the official outcome
+(<code>yes</code>, <code>no</code>, or <code>scalar</code> proportional payout). Unresolved markets are
+never guessed and remain <code>--</code> until <code>GET /markets/&lt;ticker&gt;</code> or
+<code>market_lifecycle_v2</code> confirms determination
+(<a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener">official lifecycle docs</a>).</p>
+
+<div class="grid c3">
+<div class="card"><div class="stat">Resolved YES</div><div class="n up">12</div></div>
+<div class="card"><div class="stat">Resolved NO</div><div class="n down">48</div></div>
+<div class="card"><div class="stat">Resolved SCALAR</div><div class="n">0</div></div>
+</div>
+
+<div class="tblwrap"><table>
+<thead><tr><th>Ticker</th><th>Contract</th><th>Topic</th><th>Outcome</th><th class="num">Settlement ($)</th>
+<th>Determined (UTC)</th><th>Official API Source</th></tr></thead>
+<tbody><tr>
+<td class="mono">KXPGA3BALL-THRC26R3DRILDFORNSHI-NSHI</td>
+<td>Will Neal Shipley win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3DRILDFORNSHI-NSHI" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3DRILDFORNSHI-NSHI</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3DRILDFORNSHI-DRIL</td>
+<td>Will Davis Riley win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3DRILDFORNSHI-DRIL" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3DRILDFORNSHI-DRIL</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3DRILDFORNSHI-DFOR</td>
+<td>Will David Ford win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3DRILDFORNSHI-DFOR" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3DRILDFORNSHI-DFOR</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3KHIRBGARCYOU-KHIR</td>
+<td>Will Kensei Hirata win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3KHIRBGARCYOU-KHIR" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3KHIRBGARCYOU-KHIR</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3KHIRBGARCYOU-CYOU</td>
+<td>Will Carson Young win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3KHIRBGARCYOU-CYOU" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3KHIRBGARCYOU-CYOU</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3KHIRBGARCYOU-BGAR</td>
+<td>Will Brice Garnett win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3KHIRBGARCYOU-BGAR" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3KHIRBGARCYOU-BGAR</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3DCHACPHISVAL-SVAL</td>
+<td>Will Sami Valimaki win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3DCHACPHISVAL-SVAL" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3DCHACPHISVAL-SVAL</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3DCHACPHISVAL-DCHA</td>
+<td>Will Davis Chatfield win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3DCHACPHISVAL-DCHA" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3DCHACPHISVAL-DCHA</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3DCHACPHISVAL-CPHI</td>
+<td>Will Chandler Phillips win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3DCHACPHISVAL-CPHI" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3DCHACPHISVAL-CPHI</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3HENGPKIZHLEB-PKIZ</td>
+<td>Will Patton Kizzire win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3HENGPKIZHLEB-PKIZ" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3HENGPKIZHLEB-PKIZ</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3HENGPKIZHLEB-HLEB</td>
+<td>Will Hank Lebioda win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3HENGPKIZHLEB-HLEB" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3HENGPKIZHLEB-HLEB</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3HENGPKIZHLEB-HENG</td>
+<td>Will Harris English win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T20:58:33</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3HENGPKIZHLEB-HENG" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3HENGPKIZHLEB-HENG</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3CKIRBKOESNOH-SNOH</td>
+<td>Will S.Y. Noh win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3CKIRBKOESNOH-SNOH" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3CKIRBKOESNOH-SNOH</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3CKIRBKOESNOH-CKIR</td>
+<td>Will Chris Kirk win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3CKIRBKOESNOH-CKIR" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3CKIRBKOESNOH-CKIR</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3CKIRBKOESNOH-BKOE</td>
+<td>Will Brooks Koepka win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3CKIRBKOESNOH-BKOE" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3CKIRBKOESNOH-BKOE</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3TMOOCRAMKVIL-TMOO</td>
+<td>Will Taylor Moore win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3TMOOCRAMKVIL-TMOO" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3TMOOCRAMKVIL-TMOO</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3TMOOCRAMKVIL-KVIL</td>
+<td>Will Karl Vilips win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3TMOOCRAMKVIL-KVIL" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3TMOOCRAMKVIL-KVIL</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3TMOOCRAMKVIL-CRAM</td>
+<td>Will Chad Ramey win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3TMOOCRAMKVIL-CRAM" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3TMOOCRAMKVIL-CRAM</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3RHISPNYHMPAV-RHIS</td>
+<td>Will Ryo Hisatsune win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3RHISPNYHMPAV-RHIS" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3RHISPNYHMPAV-RHIS</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3RHISPNYHMPAV-PNYH</td>
+<td>Will Pontus Nyholm win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3RHISPNYHMPAV-PNYH" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3RHISPNYHMPAV-PNYH</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3RHISPNYHMPAV-MPAV</td>
+<td>Will Matthieu Pavon win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T20:28:58</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3RHISPNYHMPAV-MPAV" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3RHISPNYHMPAV-MPAV</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JDAHGHIGDWAL-JDAH</td>
+<td>Will Joel Dahmen win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JDAHGHIGDWAL-JDAH" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JDAHGHIGDWAL-JDAH</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JDAHGHIGDWAL-GHIG</td>
+<td>Will Garrick Higgo win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JDAHGHIGDWAL-GHIG" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JDAHGHIGDWAL-GHIG</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JDAHGHIGDWAL-DWAL</td>
+<td>Will Danny Walker win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JDAHGHIGDWAL-DWAL" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JDAHGHIGDWAL-DWAL</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3KBRAMMCNDTHO-MMCN</td>
+<td>Will Maverick McNealy win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3KBRAMMCNDTHO-MMCN" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3KBRAMMCNDTHO-MMCN</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3KBRAMMCNDTHO-KBRA</td>
+<td>Will Keegan Bradley win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3KBRAMMCNDTHO-KBRA" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3KBRAMMCNDTHO-KBRA</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3KBRAMMCNDTHO-DTHO</td>
+<td>Will Davis Thompson win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3KBRAMMCNDTHO-DTHO" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3KBRAMMCNDTHO-DTHO</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3EGRIJKOIJPOS-JPOS</td>
+<td>Will J.T. Poston win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3EGRIJKOIJPOS-JPOS" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3EGRIJKOIJPOS-JPOS</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3EGRIJKOIJPOS-JKOI</td>
+<td>Will Jackson Koivun win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3EGRIJKOIJPOS-JKOI" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3EGRIJKOIJPOS-JKOI</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3EGRIJKOIJPOS-EGRI</td>
+<td>Will Emiliano Grillo win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3EGRIJKOIJPOS-EGRI" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3EGRIJKOIJPOS-EGRI</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JVANCBEZVWHA-VWHA</td>
+<td>Will Vince Whaley win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JVANCBEZVWHA-VWHA" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JVANCBEZVWHA-VWHA</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JVANCBEZVWHA-JVAN</td>
+<td>Will John VanDerLaan win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JVANCBEZVWHA-JVAN" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JVANCBEZVWHA-JVAN</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JVANCBEZVWHA-CBEZ</td>
+<td>Will Christiaan Bezuidenhout win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:58:28</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JVANCBEZVWHA-CBEZ" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JVANCBEZVWHA-CBEZ</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JPAUBKOHANOV-JPAU</td>
+<td>Will Jeremy Paul win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:29:18</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JPAUBKOHANOV-JPAU" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JPAUBKOHANOV-JPAU</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JPAUBKOHANOV-BKOH</td>
+<td>Will Ben Kohles win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag ok">YES</span></td>
+<td class="num">1.0000</td>
+<td class="mono">2026-11-22T19:29:18</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JPAUBKOHANOV-BKOH" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JPAUBKOHANOV-BKOH</a></td>
+</tr><tr>
+<td class="mono">KXPGA3BALL-THRC26R3JPAUBKOHANOV-ANOV</td>
+<td>Will Andrew Novak win the 3rd round 3-ball matchup?</td>
+<td><span class="tag">golf</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T19:29:18</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGA3BALL-THRC26R3JPAUBKOHANOV-ANOV" target="_blank" rel="noopener">GET /markets/KXPGA3BALL-THRC26R3JPAUBKOHANOV-ANOV</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-T95.2499</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-T95.2499" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-T95.2499</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-T20.75</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-T20.75" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-T20.75</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B95.125</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B95.125" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B95.125</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B94.875</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.875" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B94.875</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B94.625</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.625" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B94.625</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B94.375</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.375" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B94.375</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B94.125</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B94.125" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B94.125</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B93.875</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.875" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B93.875</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B93.625</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.625" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B93.625</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B93.375</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.375" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B93.375</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B93.125</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B93.125" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B93.125</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B92.875</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.875" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B92.875</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B92.625</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.625" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B92.625</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B92.375</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.375" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B92.375</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B92.125</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B92.125" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B92.125</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B91.875</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.875" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B91.875</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B91.625</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.625" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B91.625</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B91.375</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.375" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B91.375</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B91.125</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B91.125" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B91.125</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B90.875</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.875" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B90.875</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B90.625</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.625" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B90.625</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B90.375</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.375" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B90.375</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B90.125</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B90.125" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B90.125</a></td>
+</tr><tr>
+<td class="mono">KXHYPE-26NOV2211-B89.875</td>
+<td>HYPE price on Nov 22, 2026?</td>
+<td><span class="tag">crypto</span></td>
+<td><span class="tag bad">NO</span></td>
+<td class="num">0.0000</td>
+<td class="mono">2026-11-22T16:25:07</td>
+<td><a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXHYPE-26NOV2211-B89.875" target="_blank" rel="noopener">GET /markets/KXHYPE-26NOV2211-B89.875</a></td>
+</tr></tbody></table></div>
+
+</div></main>
+<footer><div class="wrap">
+<p>Static site generated from Kalshi Trade API v2 responses captured on 2026-11-22 and from
+Kalshi's official documentation. Every row links to its source. Unknown values are shown as
+<code>--</code>, never filled in.</p>
+<p>Market data shown is the <strong>demo</strong> environment unless a row says otherwise.
+Kalshi documents that demo prices may not reflect real markets.
+Simulated results are simulations. This site is not investment advice.</p>
+</div></footer>
+<script src="assets/site.js"></script>
+</body></html>

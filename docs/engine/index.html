@@ -6,7 +6,7 @@
 </head><body>
 <header class="top"><div class="wrap">
 <a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
-<nav><a href="index.html" class="active">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+<nav><a href="index.html" class="active">Overview</a><a href="findings.html">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
 </div></header>
 <main><div class="wrap">
 
@@ -51,31 +51,39 @@ uses the same code paths.
 <h2>At a glance</h2>
 <div class="grid c3">
 <div class="card"><div class="stat">Markets captured</div><div class="n">6</div></div>
-<div class="card"><div class="stat">Swing alerts (≥ $0.10)</div><div class="n">3</div></div>
-<div class="card"><div class="stat">High-ROI filtered alerts</div><div class="n">3</div></div>
+<div class="card"><div class="stat">Swing alerts (≥ $0.10)</div><div class="n">4</div></div>
+<div class="card"><div class="stat">High-ROI filtered alerts</div><div class="n">4</div></div>
 </div>
 
 <h2>Verification status</h2>
 <div class="grid c3">
 <div class="card"><div class="stat">Facts verified against an official source</div>
-<div class="n up">32</div></div>
+<div class="n up">34</div></div>
 <div class="card"><div class="stat">Flagged irregularities</div>
-<div class="n down">5</div></div>
+<div class="n down">6</div></div>
 <div class="card"><div class="stat">Could not be verified</div>
 <div class="n">2</div></div>
 </div>
-<p class="muted">Every one of the 39 entries is listed on
-<a href="verification.html">Verification</a> with its official source link, and the 7
+<p class="muted">Every one of the 42 entries is listed on
+<a href="verification.html">Verification</a> with its official source link, and the 8
 that are not clean are published on <a href="flagged.html">Flagged for review</a>.</p>
 
 <h2>Start here</h2>
 <ul class="tight">
-<li><a href="findings.html">Executive summary</a> — what was verified, what was flagged, and the
-three findings that change how this dashboard should be read.</li>
+<li><a href="live.html">Live interactive chart, orderbook &amp; dual alert chats</a> — polls
+<code>external-api.demo.kalshi.co</code> / <code>demo-api.kalshi.co</code> directly in the browser
+(with replay fallback), plots contract price vs. selectable Seconds/Minutes/Hours windows, displays
+orderbook contract depth by price level, and runs the two scrolling ≥$0.10 swing chats.</li>
+<li><a href="findings.html">Executive summary</a> — what was verified, what was fixed in Engine V2,
+and the six findings that change how this dashboard should be read.</li>
+<li><a href="portfolio.html">Portfolio &amp; strategy lab</a> — six trade-type categories, automated
+paper execution with published series fee multipliers, and custom strategy builder.</li>
+<li><a href="resolutions.html">Resolutions ledger</a> — tracks markets through Kalshi settlement
+(<code>yes</code>, <code>no</code>, or <code>scalar</code>; unconfirmed values stay <code>--</code>).</li>
 <li><a href="alerts.html">Alert feeds</a> — the $0.10 rule, and why a one-sided book can look like a
 collapse when it is not.</li>
-<li><a href="methodology.html">Methodology</a> — how a market is assigned to a topic, how the
-high-ROI score works, and how fees are computed.</li>
+<li><a href="methodology.html">Methodology &amp; UX roadmap</a> — topic assignment, High-ROI scoring,
+fee math, and trader-focused recommendations for continuous simplification.</li>
 </ul>
 
 </div></main>

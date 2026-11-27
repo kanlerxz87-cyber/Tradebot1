@@ -6,7 +6,7 @@
 </head><body>
 <header class="top"><div class="wrap">
 <a class="brand" href="index.html">Kalshi <span>Live Dashboard</span></a>
-<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html" class="active">Alerts</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
+<nav><a href="index.html">Overview</a><a href="findings.html">Executive summary</a><a href="live.html">Live chart &amp; chat</a><a href="gas.html">Gas</a><a href="elections.html">Elections</a><a href="culture.html">Culture</a><a href="crypto.html">Crypto</a><a href="golf.html">Golf</a><a href="alerts.html" class="active">Alerts</a><a href="portfolio.html">Portfolio &amp; strategies</a><a href="resolutions.html">Resolutions</a><a href="verification.html">Verification</a><a href="flagged.html">Flagged for review</a><a href="methodology.html">Methodology</a></nav>
 </div></header>
 <main><div class="wrap">
 
@@ -19,7 +19,7 @@ YES ask when the book is two-sided and uncrossed. On a one-sided or crossed book
 price. When there was no trade behind the move, the alert is labelled
 <span class="tag warn">quote-only</span> so a stale quote is never presented as a real repricing.</div>
 
-<h2>All events <span class="tag">3</span></h2>
+<h2>All events <span class="tag">4</span></h2>
 <p class="muted">Every swing that met the threshold, unfiltered.</p>
 <div class="card">
 <div><strong class="up">+10c</strong>
@@ -54,9 +54,20 @@ price. When there was no trade behind the move, the alert is labelled
 <div class="muted">replay: scripted up move of $0.10 from captured levels</div>
 <div class="muted">Source: <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi market</a>
 · rule: <code>|Δprice| ≥ $0.10</code></div>
+</div><div class="card">
+<div><strong class="up">+44c</strong>
+&nbsp;BTC price  on Jan 1, 2027?</div>
+<div class="mono muted">KXBTCY-27JAN0100-B47500 · 6c →
+50c · --s window ·
+<span class="tag">crypto</span>
+<span class="tag warn">demo-poll</span>
+<span class="tag ok">score 0.850</span></div>
+<div class="muted">observed difference between two consecutive polls of the demo order book mid-price; no cause is inferred</div>
+<div class="muted">Source: <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500" target="_blank" rel="noopener">Kalshi market</a>
+· rule: <code>|Δprice| ≥ $0.10</code></div>
 </div>
 
-<h2>High ROI (model-selected) <span class="tag">3</span></h2>
+<h2>High ROI (model-selected) <span class="tag">4</span></h2>
 <p class="muted">The same rule, additionally filtered by a trade-quality score computed from the size
 of the move, the contracts actually available within 10 cents, the spread and fee drag, the time left
 before the market closes, and whether the move was confirmed by a trade. The weights are published on
@@ -94,6 +105,17 @@ quality — <strong>not</strong> a probability of profit.</p>
 <span class="tag ok">score 0.720</span></div>
 <div class="muted">replay: scripted up move of $0.10 from captured levels</div>
 <div class="muted">Source: <a href="https://kalshi.com/markets/kxaaagasm" target="_blank" rel="noopener">Kalshi market</a>
+· rule: <code>|Δprice| ≥ $0.10</code></div>
+</div><div class="card">
+<div><strong class="up">+44c</strong>
+&nbsp;BTC price  on Jan 1, 2027?</div>
+<div class="mono muted">KXBTCY-27JAN0100-B47500 · 6c →
+50c · --s window ·
+<span class="tag">crypto</span>
+<span class="tag warn">demo-poll</span>
+<span class="tag ok">score 0.850</span></div>
+<div class="muted">observed difference between two consecutive polls of the demo order book mid-price; no cause is inferred</div>
+<div class="muted">Source: <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500" target="_blank" rel="noopener">Kalshi market</a>
 · rule: <code>|Δprice| ≥ $0.10</code></div>
 </div>
 
