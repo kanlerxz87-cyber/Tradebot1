@@ -209,6 +209,7 @@ async function main() {
       volume24h: m.volume24h,
       openInterest: m.openInterest,
       liquidityDollars: m.liquidityDollars,
+      feeMultiplier: m.feeMultiplier ?? null,
       observedAt: m.fetchedAt,
       sourceUrl: m.sourceUrl,
     };
@@ -342,6 +343,7 @@ async function main() {
         strategyId: strategy.id, side: decision.side, price: decision.price,
         contracts, at: obs.observedAt, title: obs.title,
         eventTicker: obs.eventTicker, reason: decision.reason,
+        feeMultiplier: obs.feeMultiplier ?? 1,
       });
       portfolio.positions.push(position);
       openByTicker.set(obs.ticker, position);
@@ -363,12 +365,15 @@ async function main() {
     }
     const obs = observations.find((o) => o.ticker === p.ticker);
     if (obs && obs.book) {
-      const m = markToMarket(p, { yesBid: obs.book.bestYesBid, noBid: obs.book.bestNoBid });
+      const m = markToMarket(p, { yesBid: obs.book.bestYesBid, noBid: obs.book.bestNoBid, feeMultiplier: obs.feeMultiplier ?? p.feeMultiplier });
       if (m) Object.assign(p, { markedAt: nowIso, ...m });
     }
   }
   log(`simulated positions settled: ${settled}`);
 
+  if (portfolio.positions.length > 0 && portfolio.note) {
+    delete portfolio.note;
+  }
   portfolio.summary = portfolioSummary({ positions: portfolio.positions, startingCash: portfolio.startingCash });
   portfolio.updatedAt = nowIso;
   portfolio.runId = runId;
@@ -484,6 +489,7 @@ function toMarketRow(m, topic, series) {
     ticker: m.ticker,
     eventTicker: m.event_ticker ?? '',
     seriesTicker: series.ticker,
+    feeMultiplier: num(series.feeMultiplier),
     topic,
     title: m.title ?? '',
     yesBid: num(m.yes_bid_dollars),

@@ -319,6 +319,24 @@
     }
    ],
    "howToCheck": "Confirm two consecutive cycles report zero 429s and that golf/culture series counts stop dropping out of coverage."
+  },
+  {
+   "id": "F-19",
+   "severity": "medium",
+   "title": "Published PDF fee schedule lists KXBTCY multiplier 0/0, whereas live Demo GET /series/KXBTCY returns fee_multiplier: 1",
+   "detail": "Kalshi's published July 7, 2026 Fee Schedule PDF (Non-Standard Fees table) lists KXBTCY ('BTC price range EOY') with Maker Multiplier = 0 and Taker Multiplier = 0. However, the live Kalshi Demo API endpoint GET /series/KXBTCY (last_updated_ts 2026-10-07T16:04:38Z) returns fee_multiplier: 1 and fee_type: 'quadratic'. Simulated fills on the Demo API collector now read series.fee_multiplier directly from GET /series rather than assuming a hardcoded 1, and this upstream PDF-vs-Demo-API divergence is flagged rather than reconciled by guesswork.",
+   "impact": "Simulated KXBTCY positions against the Demo API incur the Demo series' fee_multiplier: 1 ($0.01 per 1-contract fill) whereas a production account governed by the July 2026 PDF table would expect $0.00.",
+   "howToCheck": "Compare KXBTCY in kalshi-fee-schedule.pdf (page 4) against GET https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY.",
+   "sources": [
+    {
+     "label": "Kalshi Fee Schedule PDF (Non-Standard Fees, effective 2026-07-07)",
+     "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+    },
+    {
+     "label": "Live Demo API GET /series/KXBTCY",
+     "url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY"
+    }
+   ]
   }
  ]
 }

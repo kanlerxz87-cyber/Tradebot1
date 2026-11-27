@@ -101,12 +101,13 @@ export const STRATEGY_BY_ID = Object.fromEntries(STRATEGIES.map((s) => [s.id, s]
  * YES position at price p for n contracts is n*p; a NO position at price q is
  * n*q. Payout at settlement is $1 per winning contract, $0 per losing one.
  */
-export function openPosition({ ticker, topic, strategyId, side, price, contracts, at, title, eventTicker, reason = '' }) {
+export function openPosition({ ticker, topic, strategyId, side, price, contracts, at, title, eventTicker, reason = '', feeMultiplier = 1 }) {
   if (!(contracts > 0)) throw new Error('contracts must be positive');
   const p = round4(price);
   if (!(p > 0 && p < 1)) throw new Error(`price out of range: ${price}`);
-  const fee = takerFee(contracts, p);
-  return {
+  const mult = feeMultiplier != null && Number.isFinite(Number(feeMultiplier)) && Number(feeMultiplier) >= 0 ? Number(feeMultiplier) : 1;
+  const fee = takerFee(contracts, p, mult);
+  const pos = {
     ticker, topic, strategyId, side, contracts: round2(contracts),
     entryPrice: p,
     entryCost: round2(contracts * p),
@@ -119,6 +120,8 @@ export function openPosition({ ticker, topic, strategyId, side, price, contracts
     source: ORDERBOOK_SOURCE,
     feeSource: FEE_SOURCE,
   };
+  if (mult !== 1) pos.feeMultiplier = mult;
+  return pos;
 }
 
 /**
@@ -152,7 +155,9 @@ export function settlePosition(position, market, at) {
 export function markToMarket(position, row) {
   const exit = position.side === 'yes' ? row?.yesBid : row?.noBid;
   if (exit == null) return null;
-  const exitFee = takerFee(position.contracts, exit);
+  const rawMult = row?.feeMultiplier ?? position?.feeMultiplier;
+  const mult = rawMult != null && Number.isFinite(Number(rawMult)) && Number(rawMult) >= 0 ? Number(rawMult) : 1;
+  const exitFee = takerFee(position.contracts, exit, mult);
   const pnl = position.contracts * exit - position.entryCost - position.entryFee - exitFee;
   return {
     exitPrice: round4(exit),

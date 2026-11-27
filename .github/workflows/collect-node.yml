@@ -60,13 +60,24 @@ jobs:
       - name: Validate the committed data against its contract
         run: node scripts/check-data.mjs
 
-      - name: Commit the new observations
+      - name: Regenerate static HTML pages from updated live data
+        if: ${{ !inputs.dry_run }}
+        run: |
+          npm install --no-audit --no-fund
+          node scripts/build-site.mjs
+          node scripts/build-site.mjs --check
+          node scripts/check-links.mjs
+          node scripts/check-render.mjs
+
+      - name: Commit the new observations and synchronized static pages
         if: ${{ !inputs.dry_run }}
         run: |
           set -euo pipefail
           git config user.name 'kalshi-node-collector'
           git config user.email 'kalshi-node-collector@users.noreply.github.com'
-          git add data/live
+          git add data/live 404.html api.html board.html dashboard.html demo-account.html \
+            executive-summary.html flagged.html market.html markets.html methodology.html \
+            portfolio.html sources.html strategies.html suggestions.html categories/*.html
           if git diff --cached --quiet; then
             echo "No change to commit."
             exit 0
