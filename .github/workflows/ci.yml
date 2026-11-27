@@ -148,6 +148,19 @@ jobs:
       - name: Every page renders its data with source links
         run: node scripts/check-render.mjs
 
+      # Terminal (session arena/2573166c). The browser terminal runs all of its logic
+      # client-side, so a syntax error or a null DOM lookup is invisible to every other
+      # gate and only surfaces on the live site. These three suites are no-network:
+      # rules (fee table, alert engine, candles, order body), the shared Desk rules
+      # against a recorded payload, and a real jsdom render of all ten pages. The
+      # collector's rules are covered too, so the committed swing log stays honest.
+      # `--test-force-exit` is required: jsdom leaves a timer alive and the run would
+      # otherwise hang after passing (observed locally).
+      - name: Terminal rules, render and collector tests
+        run: >-
+          node --test --test-force-exit --test-timeout=30000
+          terminal/tests/*.test.mjs tools/terminal-collect.test.mjs
+
   demo-desk-v2:
     runs-on: ubuntu-latest
     steps:
