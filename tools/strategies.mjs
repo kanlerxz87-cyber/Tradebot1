@@ -9,12 +9,13 @@
 // (https://docs.kalshi.com/getting_started/demo_env). Nothing here is a
 // forecast of profit or a trading recommendation.
 
-import { takerFee } from './fees.mjs';
+import { takerFee, seriesMultiplier, seriesFromTicker, MULTIPLIER_SOURCE } from './fees.mjs';
 import { round2, round4 } from './alerts.mjs';
 
 export const STRATEGY_SOURCE = 'https://docs.kalshi.com/getting_started/demo_env';
 export const ORDERBOOK_SOURCE = 'https://docs.kalshi.com/getting_started/orderbook_responses';
 export const FEE_SOURCE = 'https://kalshi.com/docs/kalshi-fee-schedule.pdf';
+export const SERIES_API_SOURCE = 'https://docs.kalshi.com/api-reference/market/get-series';
 
 /**
  * Entry rules. Input is a snapshot row for one market; output is null (no
@@ -97,17 +98,28 @@ export const STRATEGIES = [
 export const STRATEGY_BY_ID = Object.fromEntries(STRATEGIES.map((s) => [s.id, s]));
 
 /**
- * Open a simulated position. Fees are the published taker fee. The cost of a
- * YES position at price p for n contracts is n*p; a NO position at price q is
- * n*q. Payout at settlement is $1 per winning contract, $0 per losing one.
+ * Open a simulated position. Fees are the published taker fee **times the series
+ * multiplier published in the schedule's "Non-Standard Fees" table**, so a series the
+ * exchange lists as 0/0 (for example KXBTCY, "BTC price range EOY") is filled fee-free.
+ * The cost of a YES position at price p for n contracts is n*p; a NO position at price
+ * q is n*q. Payout at settlement is $1 per winning contract, $0 per losing one.
+ *
+ * `seriesTicker` is optional: when it is missing the series is read from the front of
+ * the market ticker, which is the documented ticker shape.
  */
-export function openPosition({ ticker, topic, strategyId, side, price, contracts, at, title, eventTicker, reason = '', feeMultiplier = 1 }) {
+export function openPosition({ ticker, topic, strategyId, side, price, contracts, at, title, eventTicker, seriesTicker = null, feeMultiplier = null, reason = '' }) {
   if (!(contracts > 0)) throw new Error('contracts must be positive');
   const p = round4(price);
   if (!(p > 0 && p < 1)) throw new Error(`price out of range: ${price}`);
-  const mult = feeMultiplier != null && Number.isFinite(Number(feeMultiplier)) && Number(feeMultiplier) >= 0 ? Number(feeMultiplier) : 1;
-  const fee = takerFee(contracts, p, mult);
-  const pos = {
+  const series = seriesTicker || seriesFromTicker(ticker);
+  // Preference order: the multiplier the exchange publishes for this series on
+  // GET /series (`fee_multiplier`), then the row for it in the fee schedule's
+  // "Non-Standard Fees" table, then the general multiplier of 1.
+  const published = Number(feeMultiplier);
+  const fromExchange = feeMultiplier !== null && feeMultiplier !== '' && Number.isFinite(published) && published >= 0;
+  const multiplier = fromExchange ? published : seriesMultiplier(series, 'taker');
+  const fee = takerFee(contracts, p, multiplier);
+  return {
     ticker, topic, strategyId, side, contracts: round2(contracts),
     entryPrice: p,
     entryCost: round2(contracts * p),
@@ -115,13 +127,14 @@ export function openPosition({ ticker, topic, strategyId, side, price, contracts
     openedAt: at,
     title: title ?? '',
     eventTicker: eventTicker ?? '',
+    seriesTicker: series,
+    feeMultiplier: multiplier,
     reason,
     status: 'open',
     source: ORDERBOOK_SOURCE,
     feeSource: FEE_SOURCE,
+    feeMultiplierSource: fromExchange ? SERIES_API_SOURCE : MULTIPLIER_SOURCE,
   };
-  if (mult !== 1) pos.feeMultiplier = mult;
-  return pos;
 }
 
 /**
@@ -155,8 +168,11 @@ export function settlePosition(position, market, at) {
 export function markToMarket(position, row) {
   const exit = position.side === 'yes' ? row?.yesBid : row?.noBid;
   if (exit == null) return null;
-  const rawMult = row?.feeMultiplier ?? position?.feeMultiplier;
-  const mult = rawMult != null && Number.isFinite(Number(rawMult)) && Number(rawMult) >= 0 ? Number(rawMult) : 1;
+  // Prefer explicit multiplier on row or position, else published series multiplier.
+  const series = position.seriesTicker || seriesFromTicker(position.ticker);
+  const rawMult = row?.feeMultiplier ?? row?.seriesFeeMultiplier ?? position?.feeMultiplier;
+  const hasExplicit = rawMult !== null && rawMult !== undefined && rawMult !== '' && Number.isFinite(Number(rawMult)) && Number(rawMult) >= 0;
+  const mult = hasExplicit ? Number(rawMult) : seriesMultiplier(series, 'taker');
   const exitFee = takerFee(position.contracts, exit, mult);
   const pnl = position.contracts * exit - position.entryCost - position.entryFee - exitFee;
   return {

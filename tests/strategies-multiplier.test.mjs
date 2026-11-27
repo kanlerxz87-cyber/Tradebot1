@@ -38,7 +38,7 @@ test('openPosition and markToMarket honor series feeMultiplier = 0 and > 1', () 
     feeMultiplier: 1,
   });
   assert.equal(defaultPos.entryFee, 0.01);
-  assert.equal('feeMultiplier' in defaultPos, false);
+  assert.equal(defaultPos.feeMultiplier, 1);
 });
 
 test('committed portfolio.json never carries a stale empty-portfolio note when positions exist', () => {

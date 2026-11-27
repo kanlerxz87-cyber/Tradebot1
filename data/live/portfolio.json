@@ -11,14 +11,18 @@
       "contracts": 1,
       "entryPrice": 0.01,
       "entryCost": 0.01,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
       "reason": "longshot: ask $0.0100",
       "status": "open",
       "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "unrealizedPnl": 0
     },
     {
       "ticker": "KXBTCY-27JAN0100-T149999.99",
@@ -28,14 +32,18 @@
       "contracts": 1,
       "entryPrice": 0.01,
       "entryCost": 0.01,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
       "reason": "longshot: ask $0.0100",
       "status": "open",
       "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "unrealizedPnl": 0
     },
     {
       "ticker": "KXBTCY-27JAN0100-B97500",
@@ -45,14 +53,18 @@
       "contracts": 1,
       "entryPrice": 0.01,
       "entryCost": 0.01,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
       "reason": "longshot: ask $0.0100",
       "status": "open",
       "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "unrealizedPnl": 0
     },
     {
       "ticker": "KXBTCY-27JAN0100-B92500",
@@ -62,14 +74,18 @@
       "contracts": 1,
       "entryPrice": 0.01,
       "entryCost": 0.01,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
       "reason": "longshot: ask $0.0100",
       "status": "open",
       "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "unrealizedPnl": 0
     },
     {
       "ticker": "KXBTCY-27JAN0100-B82500",
@@ -79,7 +95,7 @@
       "contracts": 1,
       "entryPrice": 0.02,
       "entryCost": 0.02,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
@@ -89,8 +105,11 @@
       "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
       "markedAt": "2026-11-26T04:06:50.963Z",
       "exitPrice": 0.01,
-      "exitFee": 0.01,
-      "unrealizedPnl": -0.03
+      "exitFee": 0,
+      "unrealizedPnl": -0.01,
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
     },
     {
       "ticker": "KXBTCY-27JAN0100-B42500",
@@ -100,7 +119,7 @@
       "contracts": 1,
       "entryPrice": 0.05,
       "entryCost": 0.05,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
@@ -110,8 +129,11 @@
       "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
       "markedAt": "2026-11-26T04:06:50.963Z",
       "exitPrice": 0.03,
-      "exitFee": 0.01,
-      "unrealizedPnl": -0.04
+      "exitFee": 0,
+      "unrealizedPnl": -0.02,
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
     },
     {
       "ticker": "KXBTCY-27JAN0100-B27500",
@@ -121,14 +143,18 @@
       "contracts": 1,
       "entryPrice": 0.01,
       "entryCost": 0.01,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
       "reason": "longshot: ask $0.0100",
       "status": "open",
       "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "unrealizedPnl": 0
     },
     {
       "ticker": "KXBTCY-27JAN0100-B102500",
@@ -138,14 +164,18 @@
       "contracts": 1,
       "entryPrice": 0.01,
       "entryCost": 0.01,
-      "entryFee": 0.01,
+      "entryFee": 0,
       "openedAt": "2026-11-26T04:06:50.963Z",
       "title": "BTC price  on Jan 1, 2027?",
       "eventTicker": "KXBTCY-27JAN0100",
       "reason": "longshot: ask $0.0100",
       "status": "open",
       "source": "https://docs.kalshi.com/getting_started/orderbook_responses",
-      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+      "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "seriesTicker": "KXBTCY",
+      "feeMultiplier": 0,
+      "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+      "unrealizedPnl": 0
     }
   ],
   "summary": {
@@ -157,12 +187,51 @@
     "losses": 0,
     "winRate": null,
     "realizedPnl": 0,
-    "unrealizedPnl": -0.07,
-    "totalPnl": -0.07,
-    "feesPaid": 0.1,
-    "stakedInOpenPositions": 0.21,
-    "equity": 999.93
+    "unrealizedPnl": -0.03,
+    "totalPnl": -0.03,
+    "feesPaid": 0,
+    "stakedInOpenPositions": 0.13,
+    "equity": 999.97
   },
   "updatedAt": "2026-11-27T14:57:14.802Z",
-  "runId": "2026-11-27T14-57-14-802Z"
+  "runId": "2026-11-27T14-57-14-802Z",
+  "feeSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+  "feeMultiplierSource": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+  "feeRepricing": {
+    "performedAt": "2026-11-27T19:41:49.971Z",
+    "reason": "Apply the published per-series fee multiplier M to fills recorded before the model used it.",
+    "source": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+    "positionsAffected": 8,
+    "fieldsChanged": 10,
+    "summaryBefore": {
+      "startingCash": 1000,
+      "positions": 8,
+      "openPositions": 8,
+      "settledPositions": 0,
+      "wins": 0,
+      "losses": 0,
+      "winRate": null,
+      "realizedPnl": 0,
+      "unrealizedPnl": -0.07,
+      "totalPnl": -0.07,
+      "feesPaid": 0.1,
+      "stakedInOpenPositions": 0.21,
+      "equity": 999.93
+    },
+    "summaryAfter": {
+      "startingCash": 1000,
+      "positions": 8,
+      "openPositions": 8,
+      "settledPositions": 0,
+      "wins": 0,
+      "losses": 0,
+      "winRate": null,
+      "realizedPnl": 0,
+      "unrealizedPnl": -0.03,
+      "totalPnl": -0.03,
+      "feesPaid": 0,
+      "stakedInOpenPositions": 0.13,
+      "equity": 999.97
+    }
+  }
 }

@@ -209,9 +209,9 @@ async function main() {
       volume24h: m.volume24h,
       openInterest: m.openInterest,
       liquidityDollars: m.liquidityDollars,
-      feeMultiplier: m.feeMultiplier ?? null,
       observedAt: m.fetchedAt,
       sourceUrl: m.sourceUrl,
+      seriesFeeMultiplier: m.seriesFeeMultiplier ?? null,
     };
 
     // Order book only for markets that already have a prior observation, or
@@ -342,8 +342,9 @@ async function main() {
         ticker: obs.ticker, topic: obs.topic,
         strategyId: strategy.id, side: decision.side, price: decision.price,
         contracts, at: obs.observedAt, title: obs.title,
-        eventTicker: obs.eventTicker, reason: decision.reason,
-        feeMultiplier: obs.feeMultiplier ?? 1,
+        eventTicker: obs.eventTicker, seriesTicker: obs.seriesTicker ?? null,
+        feeMultiplier: obs.seriesFeeMultiplier ?? null,
+        reason: decision.reason,
       });
       portfolio.positions.push(position);
       openByTicker.set(obs.ticker, position);
@@ -365,7 +366,7 @@ async function main() {
     }
     const obs = observations.find((o) => o.ticker === p.ticker);
     if (obs && obs.book) {
-      const m = markToMarket(p, { yesBid: obs.book.bestYesBid, noBid: obs.book.bestNoBid, feeMultiplier: obs.feeMultiplier ?? p.feeMultiplier });
+      const m = markToMarket(p, { yesBid: obs.book.bestYesBid, noBid: obs.book.bestNoBid, seriesFeeMultiplier: obs.seriesFeeMultiplier ?? p.feeMultiplier });
       if (m) Object.assign(p, { markedAt: nowIso, ...m });
     }
   }
@@ -489,7 +490,9 @@ function toMarketRow(m, topic, series) {
     ticker: m.ticker,
     eventTicker: m.event_ticker ?? '',
     seriesTicker: series.ticker,
-    feeMultiplier: num(series.feeMultiplier),
+    // Published by GET /series as `fee_multiplier` ("a floating point multiplier applied to
+    // the fee calculations"): https://docs.kalshi.com/api-reference/market/get-series
+    seriesFeeMultiplier: series.feeMultiplier ?? null,
     topic,
     title: m.title ?? '',
     yesBid: num(m.yes_bid_dollars),

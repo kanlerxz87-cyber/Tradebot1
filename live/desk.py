@@ -34,7 +34,9 @@ Official sources for every rule in this file
   highest level — https://docs.kalshi.com/getting_started/orderbook_responses
 * Market statuses and ``result`` values (yes/no/scalar), finalisation —
   https://docs.kalshi.com/getting_started/market_lifecycle
-* Fee schedule — https://docs.kalshi.com/getting_started/fees
+* Fee schedule — https://kalshi.com/docs/kalshi-fee-schedule.pdf (the docs site has no
+  getting_started/fees page; fee rounding is documented at
+  https://docs.kalshi.com/getting_started/fee_rounding)
 """
 
 from __future__ import annotations
@@ -74,7 +76,8 @@ DOCS = {
     "environments": "https://docs.kalshi.com/getting_started/api_environments",
     "orderbook": "https://docs.kalshi.com/getting_started/orderbook_responses",
     "lifecycle": "https://docs.kalshi.com/getting_started/market_lifecycle",
-    "fees": "https://docs.kalshi.com/getting_started/fees",
+    "fees": "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
+    "feeRounding": "https://docs.kalshi.com/getting_started/fee_rounding",
     "markets": "https://docs.kalshi.com/api-reference/market/get-markets",
     "candles": "https://docs.kalshi.com/api-reference/market/get-market-candlesticks",
     "websockets": "https://docs.kalshi.com/getting_started/quick_start_websockets",
@@ -243,6 +246,52 @@ def price_band(price: float) -> str:
     return "85-100c"
 
 
+# Published per-series multipliers from the fee schedule's "Non-Standard Fees" table
+# (https://kalshi.com/docs/kalshi-fee-schedule.pdf, effective 2026-07-07). A series listed
+# 0/0 pays no fee. Series that are not listed here use the general multiplier of 1, which is
+# the schedule's stated default; the rows of that table which cannot be read unambiguously
+# from the published PDF are discussed on the Flagged for Review page.
+FEE_MULTIPLIERS: dict[str, float] = {
+    "KXAAAGASM": 1.0,
+    "KXATPMATCH": 1.0,
+    "KXBALLONDOR": 1.0,
+    "KXBTCMAX150": 1.0,
+    "KXBTCY": 0.0,
+    "KXCITRINI": 0.0,
+    "KXCPI": 1.0,
+    "KXCPIYOY": 1.0,
+    "KXDOED": 0.0,
+    "KXEGGS": 1.0,
+    "KXELECTIRAN": 0.0,
+    "KXEMMYCACTO": 1.0,
+    "KXEMMYCACTR": 1.0,
+    "KXEMMYCSERIES": 1.0,
+    "KXEMMYDACTO": 1.0,
+    "KXEMMYDACTR": 1.0,
+    "KXEMMYDSERIES": 1.0,
+    "KXETHY": 0.0,
+    "KXFED": 1.0,
+    "KXFEDDECISION": 1.0,
+    "KXGAMBLINGREPEAL": 0.0,
+    "KXGDP": 1.0,
+    "KXGREENLAND": 0.0,
+    "KXHEISMAN": 1.0,
+    "KXINXY": 1.0,
+    "KXIPO": 1.0,
+    "KXIRANDEMOCRACY": 0.0,
+    "KXLALIGA": 1.0,
+    "KXLAYOFFSYINFO": 0.0,
+    "KXLLM1": 1.0,
+    "KXMARMAD": 1.0,
+}
+
+
+def fee_multiplier(ticker: str) -> float:
+    """Published fee multiplier for a market ticker's series (prefix before the first '-')."""
+    series = (ticker or "").split("-")[0].upper()
+    return FEE_MULTIPLIERS.get(series, 1.0)
+
+
 def taker_fee(contracts: float, price: float, rate: float = FEE_RATE_TAKER) -> float:
     """Fee in dollars, rounded up to the next cent like the exchange does.
 
@@ -394,8 +443,18 @@ def load_from_desk(path: Path) -> tuple[dict[str, list[Market]], dict[str, Any]]
 def load_from_board(path: Path) -> tuple[dict[str, list[Market]], dict[str, Any]]:
     payload = json.loads(path.read_text())
     markets: dict[str, list[Market]] = {topic: [] for topic in TOPICS}
-    rows = (payload.get("markets") or {}).values()
+    raw_markets = payload.get("markets") or []
+    # The source-linked Node board publishes markets as an array; older collectors
+    # wrote a ticker-keyed object. Accept either documented repository snapshot shape.
+    if isinstance(raw_markets, dict):
+        rows = raw_markets.values()
+    elif isinstance(raw_markets, list):
+        rows = raw_markets
+    else:
+        rows = ()
     for row in rows:
+        if not isinstance(row, dict):
+            continue
         topic = row.get("topic")
         if topic not in markets:
             continue
@@ -719,7 +778,7 @@ class Desk:
             budget = STARTING_CASH * 0 + self.equity() * RISK_FRACTION
             contracts = max(1.0, math.floor((budget / max(price, 0.01)) * 100) / 100)
             cost = contracts * price
-            fee = taker_fee(contracts, price)
+            fee = taker_fee(contracts, price, FEE_RATE_TAKER * fee_multiplier(market.ticker))
             if cost + fee > self.cash - 1:
                 continue
             side = "NO" if strategy == "fade" and delta > 0 else "YES"
@@ -741,7 +800,7 @@ class Desk:
 
     def _close(self, position: Position, price: float, now: float, reason: str) -> None:
         proceeds = position.contracts * price
-        fee = taker_fee(position.contracts, price)
+        fee = taker_fee(position.contracts, price, FEE_RATE_TAKER * fee_multiplier(position.ticker))
         position.exit_price = round(price, 4)
         position.exit_ts = now
         position.exit_reason = reason

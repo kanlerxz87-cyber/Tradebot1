@@ -2701,16 +2701,147 @@ Sandbox limitation unchanged: **this sandbox has no route to `external-api.demo.
 
 ---
 
-# Session `3f5311c5` (`arena/3f5311c5-tradebot1`) — 2026-11-27 Live Kalshi Demo Refresh, Trader UX & Scheduled-Collector Permanence Fix
 
-**Assigned branch:** `arena/3f5311c5-tradebot1` (fixed by Arena; fast-forwarded onto `origin/main` `71e3110` before claiming; no other branch or worktree created).
-**Non-overlap check (2026-11-27):** Active parallel claims read before claiming: `f7815e4f` (`.github/workflows/collect.yml`, `kalshi_trader/config.py`, `docs/desk/assets/js/app.js`, `tools/build_site.py`, `index.html`, `tests/test_demo_environment.py`), `a7c59b93` (`EXECUTIVE_SUMMARY.md` opening, `live.html`), and `2573166c` (`terminal/**`, `tools/terminal-*.mjs`, `tests/terminal.test.mjs`). None of those files are touched in this claim; all scopes below were last owned on `2026-11-22` (>130h stale / marked `done`).
+# Session `arena/260ae8d0-tradebot1` — fee-multiplier defect, line-by-line re-check (2026-11-27)
+
+**Branch:** `arena/260ae8d0-tradebot1`, branched from `f9b807c`; `origin/main` merged in before any
+edit (main had advanced to `71e3110`). No other session was active on these files at claim time; the
+tasks below were previously marked **done** by earlier sessions, so this session claims only the
+specific files it touched and appends rather than rewrites anyone's record.
+
+## Claim
+
+| Task | Status | Owner | Files touched |
+| - | - | - | - |
+| Re-verify the fee model line by line against the published schedule; fix the per-series multiplier; reprice the committed simulated book | done | `arena/260ae8d0` | `tools/fees.mjs`, `tools/strategies.mjs`, `tools/collector.mjs`, `tools/reprice_fee_multipliers.mjs` (new), `kalshi_trader/fees.py`, `kalshi_trader/paper.py`, `live/desk.py`, `live/build_page.py`, `live/static/index.html`, `live/README.md`, `tests/fee-multipliers.test.mjs` (new), `tests/test_model_fees.py`, `live/tests/test_live.py`, `data/live/portfolio.json`, `data/flags.json`, `docs/desk/data/flags.json`, `tools/build_site.py` (one string) |
+| Regenerate the pages that render those files and re-run every gate | done | `arena/260ae8d0` | root `*.html`, `categories/*.html`, `flagged.html`, `live.html`, `docs/desk/flagged.html`, `docs/audit/*`, `qa/report.*` |
+
+## What was wrong (verified, not inferred)
+
+1. **The per-series multiplier M was not applied.** The schedule's formula is
+   `roundup(M × 0.07 × C × P × (1 − P))` and its **"Non-Standard Fees"** table gives a Maker and a
+   Taker multiplier per series. Source:
+   <https://kalshi.com/docs/kalshi-fee-schedule.pdf> (the PDF is headed "Last updated and effective:
+   July 7, 2026"; the KXBTCY row reads `KXBTCY | BTC price range EOY | 0 | 0`). The REST API publishes
+   the same number as `fee_multiplier` on `GET /series` ("a floating point multiplier applied to the
+   fee calculations"): <https://docs.kalshi.com/api-reference/market/get-series>. The simulator
+   charged M = 1 for every fill, so all eight committed KXBTCY positions carried a $0.01 entry fee the
+   schedule does not charge.
+2. **A docstring named the wrong examples.** `kalshi_trader/fees.py` cited `KXCPI` and `KXFED` as
+   fee-free series; the published table lists both at maker 1 / taker 1. Only `KXBTCY` of the three
+   named is 0 / 0.
+3. **A cited documentation page does not exist.** `live/desk.py`, `live/build_page.py` and
+   `live/static/index.html` linked `https://docs.kalshi.com/getting_started/fees`, which is absent from
+   the documentation index <https://docs.kalshi.com/llms.txt> and could not be fetched. Replaced with
+   the fee schedule PDF and <https://docs.kalshi.com/getting_started/fee_rounding>.
+
+## What changed
+
+* `tools/fees.mjs` now carries `PUBLISHED_SERIES_MULTIPLIERS` (31 rows whose three columns are
+  unambiguous in the PDF), `seriesMultiplier()` and `seriesFromTicker()`.
+* `tools/strategies.mjs` takes the multiplier from the exchange payload (`GET /series`
+  `fee_multiplier`) first, then the published table, then the general default of 1, and records which
+  source it used on every position (`feeMultiplier`, `feeMultiplierSource`). Both the entry and the
+  exit fill use it. `tools/collector.mjs` passes the value through from series discovery.
+* `kalshi_trader/fees.py` / `paper.py` do the same for the research desk's paper book.
+* `live/desk.py` applies the published multiplier to its simulated fills; its fee source link is fixed.
+* `tools/reprice_fee_multipliers.mjs --apply` re-priced the eight recorded fills. Result:
+  `feesPaid 0.10 → 0.00`, `totalPnl -0.07 → -0.03`, `equity 999.93 → 999.97`. The before/after
+  summary is stored in `data/live/portfolio.json` under `feeRepricing`.
+* `data/flags.json` gains **F-19** (published on the Flagged for Review page) documenting the defect,
+  the correction and the residual limitation; `docs/desk/data/flags.json` F1 is updated to match.
+
+## Verification performed (2026-11-27, this session)
+
+| Check | Result |
+| - | - |
+| `node --test tests/*.test.mjs` | 67 pass, 0 fail (includes the new `tests/fee-multipliers.test.mjs`, 9 tests) |
+| `python -m pytest -q` (venv, `requirements-dev.txt`) | 196 pass, 0 fail |
+| `python -m unittest discover -s live/tests` | 33 pass (4 new fee-multiplier tests) |
+| `node scripts/build-site.mjs --check` | 19 pages current |
+| `python tools/build_site.py --check` | current |
+| `node scripts/check-links.mjs` | 663 references, 0 problems |
+| `python tools/check_links.py` / `check_gateway.py` | 349 links OK / 39 published targets OK |
+| `python tools/check_all_links.py` | 1753 links across 96 pages, no broken target or anchor |
+| `python audit/verify.py --check`, `audit/build_site.py --check`, `audit/check_site.py` | current; 13 findings, 23 facts, no broken links |
+| `python -m engine.check_site --root docs/engine` | OK |
+| `python demo-desk/check_live_site.py`, `node --test demo-desk/test_live_core.mjs` | OK / pass |
+| `python live/build_page.py --check` | current |
+| `python qa/audit.py --check` | 0 errors, 4 warnings, 7 notes |
+| `python tests/check_site.py`, `kalshi_engine/test_engine.py` | OK / all passed |
+
+## Irregularities left open (published, non-blocking)
+
+* **F-19 residual:** from the row for `KXMVE` onwards the fee-schedule PDF interleaves tickers, names
+  and both multiplier columns during text extraction (e.g. `KXNASDAQ100Y Nasdaq yearly range 11`), so
+  those rows are not encoded. When `GET /series` does not return `fee_multiplier` for such a series,
+  the model falls back to M = 1, which can overstate a fee on a fee-free series.
+* **Fee rounding precision:** the model rounds each fee up to the whole cent, which reproduces every
+  row of the published General Trading Fees Table but is not the exchange's per-fill rule — the trade
+  fee is rounded up to $0.000001 and the balance is then aligned to $0.0001 (direct members) or $0.01
+  (non-direct), with a rebate accumulator. Source:
+  <https://docs.kalshi.com/getting_started/fee_rounding>. For a direct member the model therefore
+  overstates a fill by up to $0.0099. `docs/audit/` AUD-04 already carries this; it is unchanged here
+  because changing it would move every historical P&L figure.
+* **`qa/audit.py` STALE-1:** `data/snapshot.json` is a point-in-time capture from 2026-11-22T07:00:00Z
+  (130+ hours old at this writing) while `data/live/*` is refreshed by the scheduled workflow. Pages
+  that mix the two say which is which, but the snapshot is stale by construction.
+* **`qa/audit.py` PROVENANCE-1:** the research desk's capture uses the production REST root, not the
+  demo root; labelled on the pages that render it.
+
+## Merge record
+
+* **PR #54** — https://github.com/kanlerxz87-cyber/Tradebot1/pull/54 — merged into `main`
+  2026-11-27T19:46:35Z, merge commit `106cb274f816bd6ff88e62891ca1d5cce50d642c`.
+  All nine checks on the PR passed (`audit`, `backend-tests`, `browser-tests`, `build`,
+  `demo-desk-v2`, `node-dashboard`, `test`; `deploy` and `snapshot-preview` skip on a PR).
+* **Deploy confirmed** — workflow run
+  [46059052802](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059052802)
+  ("Verify and deploy Kalshi research dashboard", `main`) completed **success** in 1m22s, and the
+  Pages build record for commit `106cb27` reports `status: built`.
+* **Live verification** — fetched from the published site after the deploy:
+  `/flagged.html` shows "19 flags published" and renders **F-19** with its four source links;
+  `/portfolio.html` shows `Equity $999.97 · Fees paid $0.00` and `$0.00` fee on all eight KXBTCY
+  rows, which is the repriced ledger.
+
+## Follow-up (same session, second PR)
+
+The published wording on `/portfolio.html`, `/strategies.html` and `/market.html` said only
+"published taker fee". It now says "published taker fee × the series multiplier", because a fee-free
+series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/strategies.tpl`,
+`templates/market.tpl`; the 19 generated pages were rebuilt and `build-site.mjs --check` and
+`check-links.mjs` (663 references, 0 problems) pass.
+
+* **PR #55** — https://github.com/kanlerxz87-cyber/Tradebot1/pull/55 — merged 2026-11-27T19:50Z,
+  merge commit `be8910684121d5aec57d8cee20155b6e71807783`; all nine PR checks passed. Deploy run
+  [46059538888](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059538888) completed
+  **success**, and the Pages build for `be89106` reports `status: built`.
+* **Live re-check (cache-busted URL, since the CDN served the previous revision on the first read)** —
+  `portfolio.html?v=be89106` renders "published taker fee × the series multiplier", `Fees paid
+  $0.00`, `Equity $999.97`; `flagged.html` renders F-19 with its four source links.
+
+---
+
+# Session `f7815e4f` — demo-only environment safety correction
+
+**Assigned branch:** `arena/f7815e4f-tradebot1` (fixed by Arena; no alternate branch/worktree created).
 
 | Task | Status | Owner | Files touched | Sources / verification / irregularities |
 | --- | --- | --- | --- | --- |
-| D-1 Fresh 2026-11-27 live Kalshi Demo API census (`external-api.demo.kalshi.co` + `demo-api.kalshi.co`), event-grouped 5-topic tables, newly finalized settlements (`yes`/`no`/`scalar`), live browser CORS polling, dual `>= $0.10` chats, Seconds/Minutes/Hours price+jump chart, orderbook liquidity ladder, 5+custom strategy lab, and trader interactivity suggestions | in progress | `3f5311c5` | `demo-desk/**`, `kalshi_engine/**` | Verified live on 2026-11-27 against `https://docs.kalshi.com/getting_started/api_environments`, `https://docs.kalshi.com/getting_started/demo_env`, `https://docs.kalshi.com/getting_started/orderbook_responses`, `https://docs.kalshi.com/getting_started/market_lifecycle`, `https://docs.kalshi.com/getting_started/quick_start_create_order`, `https://docs.kalshi.com/getting_started/fee_rounding`, `https://kalshi.com/docs/kalshi-fee-schedule.pdf`, and live `https://external-api.demo.kalshi.co/trade-api/v2/*` endpoints. |
-| D-2 2026-11-27 line-by-line repository & upstream Demo API audit + Flagged-for-Review update (including 5-day post-merge collector drift defects and `KXBTCY` PDF `0/0` vs Demo `GET /series/KXBTCY` `fee_multiplier: 1` discrepancy) | in progress | `3f5311c5` | `audit/EXECUTIVE_SUMMARY.md`, `audit/REPO_LINE_BY_LINE_AUDIT.md`, `audit/VERIFICATION_MATRIX.md`, `demo-desk/audit/**`, `demo-desk/flagged/**` | Every table row links an official source; unconfirmed values remain blank and flagged. Does not touch `audit/*.py`, `audit/*.json`, or `docs/audit/**` except to re-verify gates if needed at final integration. |
-| D-3 Permanent fix for scheduled Node collector / demo-account HTML staleness, stale empty-portfolio note on non-empty `data/live/portfolio.json`, and series `feeMultiplier` wiring + flag | in progress | `3f5311c5` | `.github/workflows/collect-node.yml`, `.github/workflows/demo-account.yml`, `tools/collector.mjs`, `tools/strategies.mjs`, `data/live/portfolio.json`, `data/flags.json`, `tests/strategies.test.mjs`, plus deterministic `node scripts/build-site.mjs` outputs | Fixes the recurring hourly/30-min CI break where `demo-account.yml` and `collect-node.yml` mutated `data/account.json` / `data/live/*` without running `node scripts/build-site.mjs`; removes stale `"No simulated position has been opened yet"` note when `positions.length > 0`; wires `series.fee_multiplier` into `openPosition`/`markToMarket` and flags the `KXBTCY` schedule-vs-Demo-API multiplier mismatch. |
+| Stop production market data from being mistaken for Kalshi demo data; make scheduled/local collection demo by default and fail closed on mismatched snapshots | implemented; PR #56 open, verified locally | `f7815e4f` | `.github/workflows/collect.yml`, `kalshi_trader/{config,collector,paper}.py`, `docs/desk/assets/js/{app.js,environment.cjs}`, `docs/desk/data/flags.json`, `docs/desk/{index,portfolio,flagged}.html`, `docs/desk/topics/*.html` (generated), `tools/build_site.py`, `index.html`, `tests/test_demo_environment.py`, `live/desk.py` (fallback format fix), `live/tests/test_live.py` (regression coverage), `EXECUTIVE_SUMMARY.md`, `audit/REPO_LINE_BY_LINE_AUDIT.md`, `app_data/paper_ledger.json`, `COORDINATION.md` | Audit found the scheduled Python collector pinned `KALSHI_DATA_ENV=prod`, config defaulted to prod, and the primary desk/browser REST fallback used production endpoints despite “demo / paper” branding. Official environment mapping checked: https://docs.kalshi.com/getting_started/api_environments. Demo environment limitations and recommended roots checked: https://docs.kalshi.com/getting_started/demo_env. The last populated Nov 27 snapshot explicitly reported `data_env=prod`, REST `https://external-api.kalshi.com/trade-api/v2`; production snapshot/history/ledger values have been removed from published data files and remain flagged until a successful demo refresh. The list-vs-map snapshot fallback is fixed and covered. Full verification passed. No Kalshi fact inferred from inaccessible live API. |
 
-**Scope request logged (not edited directly):** `.github/workflows/collect.yml` (currently claimed by `f7815e4f`) should also run `python3 live/build_page.py` before committing `docs/desk/data/latest.json` so future Python collector cycles keep `live.html` in sync automatically.
+**Handoff:** the matching broad integration claim in the merged historical board is dated 2026-11-22 and has no current-branch commits by its owner; this narrowly scoped safety fix is taken over under the board's >60-minute stale-claim rule. Prior artifacts are preserved. The user-requested `session-...` branch naming is incompatible with Arena's fixed branch assignment, so work remains on the assigned branch above.
 
+| Refresh strict audit evidence and generated outputs after the demo-environment safety correction; preserve unrelated finding statuses | complete | `f7815e4f` | `audit/items.json` (minimal evidence/status edits only if required), `docs/audit/data/audit.json`, `docs/audit/{findings,index,flagged,sources,methodology}.html`, `COORDINATION.md` | Refreshed via `audit/verify.py` and `audit/build_site.py`; `audit/verify.py --check`, `audit/build_site.py --check`, and `audit/check_site.py` pass. QA audit remains at 0 errors, 2 warnings, 4 notes. Sources: https://docs.kalshi.com/getting_started/api_environments and https://docs.kalshi.com/getting_started/demo_env. |
+
+---
+
+# Session `3f5311c5` (`arena/3f5311c5-tradebot1`) — 2026-11-27 Live Kalshi Demo Refresh, Trader UX & Scheduled-Collector Permanence Fix
+
+**Assigned branch:** `arena/3f5311c5-tradebot1` (fixed by Arena; merged `origin/main` additively before PR; no other branch or worktree created).
+
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| D-1 Fresh 2026-11-27 live Kalshi Demo API census (`external-api.demo.kalshi.co` + `demo-api.kalshi.co`), event-grouped 5-topic tables, newly finalized settlements (`yes`/`no`/`scalar`), live browser CORS polling, depth-weighted VWAP slippage preview, same-origin `/api/demo/*` relay, dual `>= $0.10` chats, Seconds/Minutes/Hours price+jump chart, and 5+custom strategy lab | complete | `3f5311c5` | `demo-desk/**`, `kalshi_engine/**` | Verified live on `2026-11-27T19:50:38Z` against official `docs.kalshi.com` specs, `kalshi-fee-schedule.pdf`, and live `external-api.demo.kalshi.co/trade-api/v2/*` payloads (32 open contracts, 16 finalized resolutions including `KXPGATOUR-THRC26-MPEN` YES `$1.0000` & `KXDEMOFUTHOURLY-26NOV27H19-UP` NO `$0.0000`, 5s trade prints & 1m candles on `KXDEMOFUTHOURLY-26NOV27H20-UP`). `demo-desk/check_live_site.py`, `node --test demo-desk/test_live_core.mjs`, and `pytest kalshi_engine/test_engine.py` all green. |
+| D-2 2026-11-27 line-by-line repository & upstream Demo API audit + Flagged-for-Review update (preserving `f7815e4f`'s `R11` update and `260ae8d0`'s `F-19`, and adding `R13`–`R16`, `U8`, and `F-20`) | complete | `3f5311c5` | `audit/EXECUTIVE_SUMMARY.md`, `audit/REPO_LINE_BY_LINE_AUDIT.md`, `audit/VERIFICATION_MATRIX.md`, `demo-desk/audit/**`, `demo-desk/flagged/**`, `data/flags.json` | 100% of table rows carry official `https://` source links; all unconfirmed values (`F1`–`F6`) remain strictly blank (`""`). |
+| D-3 Permanent fix for scheduled Node collector / demo-account HTML staleness, stale empty-portfolio note removal on non-empty `data/live/portfolio.json`, and `markToMarket` explicit multiplier precedence | complete | `3f5311c5` | `.github/workflows/collect-node.yml`, `.github/workflows/demo-account.yml`, `tools/collector.mjs`, `tools/strategies.mjs`, `data/live/portfolio.json`, `tests/strategies-multiplier.test.mjs`, plus rebuilt 19 Node HTML pages | Scheduled workflows now run `node scripts/build-site.mjs` and stage all 19 HTML pages so `pages.yml` and `AUD-08` stay green across future 30m/60m collector runs; merged additively with `260ae8d0`'s `tools/fees.mjs` & repriced ledger. |
