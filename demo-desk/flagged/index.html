@@ -12,7 +12,7 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
     </div>
     <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="active">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
@@ -71,8 +71,8 @@
           <td class="mono"><strong>F4</strong></td>
           <td><strong>Browser Cross-Origin (CORS) Header Guarantee on external-api.demo.kalshi.co</strong></td>
           <td class="blank-cell" data-unverified-blank="true"></td>
-          <td><span class="badge warn">Unverified Across All Browsers — Committed Snapshot + Optional Local Relay Provided</span></td>
-          <td>Kalshi API docs do not guarantee Access-Control-Allow-Origin: * for third-party static origins; live/ loads verified_snapshot.json first and treats browser fetch as best-effort.</td>
+          <td><span class="badge warn">Public GETs CORS-Echoed; Signed Browser Headers Blocked on Preflight</span></td>
+          <td>Runner probe (probe/results.json) measured Access-Control-Allow-Origin echo on public Demo GETs, but preflight Access-Control-Allow-Headers omits KALSHI-ACCESS-*; signed account/order calls require same-origin relay.</td>
           <td><a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">Official Source ↗</a></td>
         </tr>
         <tr>
@@ -130,6 +130,12 @@
           <td class="mono">Exchange Status Shard 3</td>
           <td>exchange_instances[3] returns an empty string name (&#x27;&#x27;) while active.</td>
           <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>U6</strong></td>
+          <td class="mono">Series KXBTCY vs Fee Schedule PDF</td>
+          <td>Kalshi&#x27;s July 7, 2026 Fee Schedule PDF (Non-Standard Fees) lists KXBTCY with Maker=0, Taker=0, whereas live Demo GET /series/KXBTCY (updated 2026-10-07) returns fee_multiplier=1 and fee_type=&#x27;quadratic&#x27;.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY" target="_blank" rel="noopener">Verify Upstream JSON ↗</a></td>
         </tr></tbody>
       </table>
     </div>

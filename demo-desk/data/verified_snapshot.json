@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "captured_at": "2026-11-22T07:12:00Z",
+  "captured_at": "2026-11-27T19:50:38Z",
   "environment": {
     "name": "Kalshi Demo Environment (Verified REST & WebSocket)",
     "rest_primary": "https://external-api.demo.kalshi.co/trade-api/v2",
@@ -10,15 +10,41 @@
     "exchange_active": true,
     "trading_active": true,
     "exchange_instances": [
-      {"exchange_index": 0, "name": "Default exchange", "exchange_active": true, "trading_active": true},
-      {"exchange_index": 1, "name": "Demo shard 1", "exchange_active": true, "trading_active": true},
-      {"exchange_index": 2, "name": "Demo shard 2", "exchange_active": true, "trading_active": true},
-      {"exchange_index": 3, "name": "", "exchange_active": true, "trading_active": true}
+      {
+        "exchange_index": 0,
+        "name": "Default exchange",
+        "exchange_active": true,
+        "trading_active": true
+      },
+      {
+        "exchange_index": 1,
+        "name": "Demo shard 1",
+        "exchange_active": true,
+        "trading_active": true
+      },
+      {
+        "exchange_index": 2,
+        "name": "Demo shard 2",
+        "exchange_active": true,
+        "trading_active": true
+      },
+      {
+        "exchange_index": 3,
+        "name": "",
+        "exchange_active": true,
+        "trading_active": true
+      }
     ],
     "status_source_url": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status",
     "docs_source_url": "https://docs.kalshi.com/getting_started/api_environments.md"
   },
-  "topics": ["Elections", "Golf", "Culture", "Crypto", "Gas Prices"],
+  "topics": [
+    "Elections",
+    "Golf",
+    "Culture",
+    "Crypto",
+    "Gas Prices"
+  ],
   "markets": [
     {
       "ticker": "KXPRESPERSON-28-TGAB",
@@ -213,15 +239,15 @@
       "status": "active",
       "market_type": "binary",
       "tick_size_type": "deci_cent",
-      "last_price_dollars": "0.0780",
-      "previous_price_dollars": "0.0780",
-      "yes_bid_dollars": "0.0770",
-      "yes_ask_dollars": "0.0780",
-      "yes_bid_size_fp": "4329.00",
-      "yes_ask_size_fp": "481.97",
-      "volume_fp": "15307893.60",
-      "volume_24h_fp": "5420.00",
-      "open_interest_fp": "4705860.20",
+      "last_price_dollars": "0.0720",
+      "previous_price_dollars": "0.0720",
+      "yes_bid_dollars": "0.0700",
+      "yes_ask_dollars": "0.0720",
+      "yes_bid_size_fp": "7142.85",
+      "yes_ask_size_fp": "4141.11",
+      "volume_fp": "15358190.45",
+      "volume_24h_fp": "6776.14",
+      "open_interest_fp": "4735924.20",
       "close_time": "2028-11-07T15:00:00Z",
       "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GNEWS",
       "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPRESPERSON-28",
@@ -240,15 +266,15 @@
       "status": "active",
       "market_type": "binary",
       "tick_size_type": "deci_cent",
-      "last_price_dollars": "0.1300",
-      "previous_price_dollars": "0.1300",
-      "yes_bid_dollars": "0.1200",
-      "yes_ask_dollars": "0.1300",
-      "yes_bid_size_fp": "2777.76",
-      "yes_ask_size_fp": "24.84",
-      "volume_fp": "11619667.79",
-      "volume_24h_fp": "3110.00",
-      "open_interest_fp": "3057062.41",
+      "last_price_dollars": "0.1200",
+      "previous_price_dollars": "0.1200",
+      "yes_bid_dollars": "0.1100",
+      "yes_ask_dollars": "0.1200",
+      "yes_bid_size_fp": "4545.45",
+      "yes_ask_size_fp": "692.31",
+      "volume_fp": "11661773.40",
+      "volume_24h_fp": "6650.90",
+      "open_interest_fp": "3084462.82",
       "close_time": "2028-11-07T15:00:00Z",
       "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-JVAN",
       "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPRESPERSON-28",
@@ -280,84 +306,6 @@
       "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXSENATEIAD-28",
       "settlement_source_name": "Associated Press / Iowa Secretary of State",
       "settlement_source_url": "https://apnews.com"
-    },
-    {
-      "ticker": "KXPGATOUR-THRC26-CBEZ",
-      "event_ticker": "KXPGATOUR-THRC26",
-      "series_ticker": "KXPGATOUR",
-      "topic": "Golf",
-      "event_title": "The RSM Classic Winner",
-      "title": "Will Christiaan Bezuidenhout win The RSM Classic?",
-      "subtitle": "Christiaan Bezuidenhout",
-      "status": "active",
-      "market_type": "binary",
-      "tick_size_type": "deci_cent",
-      "last_price_dollars": "0.0030",
-      "previous_price_dollars": "0.0030",
-      "yes_bid_dollars": "0.0010",
-      "yes_ask_dollars": "0.0030",
-      "yes_bid_size_fp": "14200.00",
-      "yes_ask_size_fp": "8500.00",
-      "volume_fp": "180391.68",
-      "volume_24h_fp": "6579.54",
-      "open_interest_fp": "179933.91",
-      "close_time": "2026-11-23T02:00:00Z",
-      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-CBEZ",
-      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26",
-      "settlement_source_name": "PGA Tour Official Leaderboard",
-      "settlement_source_url": "https://www.pgatour.com"
-    },
-    {
-      "ticker": "KXPGATOUR-THRC26-ZBAU",
-      "event_ticker": "KXPGATOUR-THRC26",
-      "series_ticker": "KXPGATOUR",
-      "topic": "Golf",
-      "event_title": "The RSM Classic Winner",
-      "title": "Will Zach Bauchou win The RSM Classic?",
-      "subtitle": "Zach Bauchou",
-      "status": "active",
-      "market_type": "binary",
-      "tick_size_type": "deci_cent",
-      "last_price_dollars": "0.0030",
-      "previous_price_dollars": "0.0030",
-      "yes_bid_dollars": "0.0010",
-      "yes_ask_dollars": "0.0040",
-      "yes_bid_size_fp": "9100.00",
-      "yes_ask_size_fp": "5200.00",
-      "volume_fp": "80931.04",
-      "volume_24h_fp": "1240.00",
-      "open_interest_fp": "77683.83",
-      "close_time": "2026-11-23T02:00:00Z",
-      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-ZBAU",
-      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26",
-      "settlement_source_name": "PGA Tour Official Leaderboard",
-      "settlement_source_url": "https://www.pgatour.com"
-    },
-    {
-      "ticker": "KXPGATOUR-THRC26-LABE",
-      "event_ticker": "KXPGATOUR-THRC26",
-      "series_ticker": "KXPGATOUR",
-      "topic": "Golf",
-      "event_title": "The RSM Classic Winner",
-      "title": "Will Ludvig Aberg win The RSM Classic?",
-      "subtitle": "Ludvig Aberg",
-      "status": "active",
-      "market_type": "binary",
-      "tick_size_type": "deci_cent",
-      "last_price_dollars": "0.0720",
-      "previous_price_dollars": "0.0720",
-      "yes_bid_dollars": "0.0680",
-      "yes_ask_dollars": "0.0760",
-      "yes_bid_size_fp": "120.00",
-      "yes_ask_size_fp": "95.00",
-      "volume_fp": "11.00",
-      "volume_24h_fp": "11.00",
-      "open_interest_fp": "11.00",
-      "close_time": "2026-11-23T02:00:00Z",
-      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-LABE",
-      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-THRC26",
-      "settlement_source_name": "PGA Tour Official Leaderboard",
-      "settlement_source_url": "https://www.pgatour.com"
     },
     {
       "ticker": "KXPERFORMBONDSONG-35-DUA",
@@ -489,60 +437,6 @@
       "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPERFORMBONDSONG-35",
       "settlement_source_name": "Billboard / Variety Official Film Credits",
       "settlement_source_url": "https://www.billboard.com/"
-    },
-    {
-      "ticker": "KXDEMOFUTHOURLY-26NOV22H08-UP",
-      "event_ticker": "KXDEMOFUTHOURLY-26NOV22H08",
-      "series_ticker": "KXDEMOFUTHOURLY",
-      "topic": "Crypto",
-      "event_title": "Demo hourly BTC price (08:00 UTC)",
-      "title": "Will BTC finish above 59,023.80 at 08:00 UTC on Nov 22, 2026?",
-      "subtitle": "BTC > $59,023.80",
-      "status": "active",
-      "market_type": "binary",
-      "tick_size_type": "cent",
-      "last_price_dollars": "0.5500",
-      "previous_price_dollars": "0.3500",
-      "yes_bid_dollars": "0.0100",
-      "yes_ask_dollars": "0.9900",
-      "yes_bid_size_fp": "865.34",
-      "yes_ask_size_fp": "1.00",
-      "volume_fp": "1300.00",
-      "volume_24h_fp": "735.00",
-      "open_interest_fp": "90.00",
-      "close_time": "2026-11-22T08:00:00Z",
-      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP",
-      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXDEMOFUTHOURLY-26NOV22H08",
-      "orderbook_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP/orderbook?depth=8",
-      "trades_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
-      "settlement_source_name": "Coinbase Exchange BTC-USD Candles",
-      "settlement_source_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
-    },
-    {
-      "ticker": "KXBTCD-26NOV2203-T48099.99",
-      "event_ticker": "KXBTCD-26NOV2203",
-      "series_ticker": "KXBTCD",
-      "topic": "Crypto",
-      "event_title": "Bitcoin price today at 3am EST?",
-      "title": "Bitcoin price $48,100 or above at 3am EST?",
-      "subtitle": "BTC >= $48,100",
-      "status": "active",
-      "market_type": "binary",
-      "tick_size_type": "cent",
-      "last_price_dollars": "0.0000",
-      "previous_price_dollars": "0.0000",
-      "yes_bid_dollars": "0.0000",
-      "yes_ask_dollars": "1.0000",
-      "yes_bid_size_fp": "0.00",
-      "yes_ask_size_fp": "0.00",
-      "volume_fp": "0.00",
-      "volume_24h_fp": "0.00",
-      "open_interest_fp": "0.00",
-      "close_time": "2026-11-22T08:00:00Z",
-      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCD-26NOV2203-T48099.99",
-      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXBTCD-26NOV2203",
-      "settlement_source_name": "CF Benchmarks BRTI",
-      "settlement_source_url": "https://www.cfbenchmarks.com/data/indices/BRTI"
     },
     {
       "ticker": "KXAAAGASMINTX-26DEC31-2.10",
@@ -726,9 +620,377 @@
       "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXAAAGASMIN-26DEC31",
       "settlement_source_name": "AAA National Fuel Gauge Report",
       "settlement_source_url": "https://gasprices.aaa.com/"
+    },
+    {
+      "ticker": "KXPGATOUR-MAST27-SSCH",
+      "event_ticker": "KXPGATOUR-MAST27",
+      "series_ticker": "KXPGATOUR",
+      "topic": "Golf",
+      "event_title": "2027 Masters Tournament Winner",
+      "title": "Masters Tournament: Scottie Scheffler wins",
+      "subtitle": "Scottie Scheffler",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "tapered_deci_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.1800",
+      "previous_price_dollars": "0.1800",
+      "yes_bid_dollars": "0.1700",
+      "yes_ask_dollars": "0.1800",
+      "yes_bid_size_fp": "980.39",
+      "yes_ask_size_fp": "925.92",
+      "volume_fp": "47456.46",
+      "volume_24h_fp": "0.00",
+      "open_interest_fp": "46296.00",
+      "close_time": "2027-04-25T23:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-SSCH",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-MAST27",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXPGATOUR-MAST27-WCLA",
+      "event_ticker": "KXPGATOUR-MAST27",
+      "series_ticker": "KXPGATOUR",
+      "topic": "Golf",
+      "event_title": "2027 Masters Tournament Winner",
+      "title": "Masters Tournament: Wyndham Clark wins",
+      "subtitle": "Wyndham Clark",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "tapered_deci_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.0190",
+      "previous_price_dollars": "0.0190",
+      "yes_bid_dollars": "0.0150",
+      "yes_ask_dollars": "0.0160",
+      "yes_bid_size_fp": "11111.11",
+      "yes_ask_size_fp": "10416.66",
+      "volume_fp": "25566.37",
+      "volume_24h_fp": "0.00",
+      "open_interest_fp": "25562.37",
+      "close_time": "2027-04-25T23:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-WCLA",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-MAST27",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXPGATOUR-MAST27-XSCH",
+      "event_ticker": "KXPGATOUR-MAST27",
+      "series_ticker": "KXPGATOUR",
+      "topic": "Golf",
+      "event_title": "2027 Masters Tournament Winner",
+      "title": "Masters Tournament: Xander Schauffele wins",
+      "subtitle": "Xander Schauffele",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "tapered_deci_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.0270",
+      "previous_price_dollars": "0.0270",
+      "yes_bid_dollars": "0.0000",
+      "yes_ask_dollars": "1.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_ask_size_fp": "0.00",
+      "volume_fp": "12345.66",
+      "volume_24h_fp": "0.00",
+      "open_interest_fp": "12345.66",
+      "close_time": "2027-04-25T23:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-XSCH",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-MAST27",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXPGATOUR-MAST27-RMCI",
+      "event_ticker": "KXPGATOUR-MAST27",
+      "series_ticker": "KXPGATOUR",
+      "topic": "Golf",
+      "event_title": "2027 Masters Tournament Winner",
+      "title": "Masters Tournament: Rory McIlroy wins",
+      "subtitle": "Rory McIlroy",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "tapered_deci_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.0950",
+      "previous_price_dollars": "0.0950",
+      "yes_bid_dollars": "0.0840",
+      "yes_ask_dollars": "0.0990",
+      "yes_bid_size_fp": "1984.12",
+      "yes_ask_size_fp": "1683.50",
+      "volume_fp": "617.55",
+      "volume_24h_fp": "0.00",
+      "open_interest_fp": "569.55",
+      "close_time": "2027-04-25T23:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-RMCI",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-MAST27",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXPGATOUR-MAST27-JSPI",
+      "event_ticker": "KXPGATOUR-MAST27",
+      "series_ticker": "KXPGATOUR",
+      "topic": "Golf",
+      "event_title": "2027 Masters Tournament Winner",
+      "title": "Masters Tournament: Jordan Spieth wins",
+      "subtitle": "Jordan Spieth",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "tapered_deci_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.0110",
+      "previous_price_dollars": "0.0110",
+      "yes_bid_dollars": "0.0080",
+      "yes_ask_dollars": "0.0200",
+      "yes_bid_size_fp": "41666.66",
+      "yes_ask_size_fp": "16666.66",
+      "volume_fp": "551.11",
+      "volume_24h_fp": "0.00",
+      "open_interest_fp": "551.11",
+      "close_time": "2027-04-25T23:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-JSPI",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-MAST27",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXLIVCOMPETE-27APR-JRAH",
+      "event_ticker": "KXLIVCOMPETE-27APR",
+      "series_ticker": "KXLIVCOMPETE",
+      "topic": "Golf",
+      "event_title": "Golfer to Compete in a LIV Golf Tournament in Q1 2027",
+      "title": "Jon Rahm to compete in a LIV Golf Tournament in Q1 2027?",
+      "subtitle": "Jon Rahm (Q1 2027)",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "linear_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.4500",
+      "previous_price_dollars": "0.4500",
+      "yes_bid_dollars": "0.4500",
+      "yes_ask_dollars": "0.5500",
+      "yes_bid_size_fp": "99.00",
+      "yes_ask_size_fp": "98.00",
+      "volume_fp": "6.16",
+      "volume_24h_fp": "0.00",
+      "open_interest_fp": "1.00",
+      "close_time": "2027-04-08T14:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLIVCOMPETE-27APR-JRAH",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXLIVCOMPETE-27APR",
+      "settlement_source_name": "PGA Tour / Official Golf Tour Records",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXBTCY-27JAN0100-B47500",
+      "event_ticker": "KXBTCY-27JAN0100",
+      "series_ticker": "KXBTCY",
+      "topic": "Crypto",
+      "event_title": "BTC price on Jan 1, 2027? (EOY Range)",
+      "title": "BTC price on Jan 1, 2027? (45,000 to 49,999.99)",
+      "subtitle": "45,000 to 49,999.99",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "linear_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.0500",
+      "previous_price_dollars": "0.0700",
+      "yes_bid_dollars": "0.0400",
+      "yes_ask_dollars": "0.0500",
+      "yes_bid_size_fp": "4166.66",
+      "yes_ask_size_fp": "472.58",
+      "volume_fp": "80261505.27",
+      "volume_24h_fp": "4731.66",
+      "open_interest_fp": "26598343.53",
+      "close_time": "2027-01-01T05:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXBTCY-27JAN0100",
+      "settlement_source_name": "CF Benchmarks BRTI",
+      "settlement_source_url": "https://www.cfbenchmarks.com"
+    },
+    {
+      "ticker": "KXBTCY-27JAN0100-B67500",
+      "event_ticker": "KXBTCY-27JAN0100",
+      "series_ticker": "KXBTCY",
+      "topic": "Crypto",
+      "event_title": "BTC price on Jan 1, 2027? (EOY Range)",
+      "title": "BTC price on Jan 1, 2027? (65,000 to 69,999.99)",
+      "subtitle": "65,000 to 69,999.99",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "linear_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.1500",
+      "previous_price_dollars": "0.1500",
+      "yes_bid_dollars": "0.1400",
+      "yes_ask_dollars": "0.1500",
+      "yes_bid_size_fp": "1190.47",
+      "yes_ask_size_fp": "575.26",
+      "volume_fp": "43038230.84",
+      "volume_24h_fp": "4523.08",
+      "open_interest_fp": "7169945.27",
+      "close_time": "2027-01-01T05:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B67500",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXBTCY-27JAN0100",
+      "settlement_source_name": "CF Benchmarks BRTI",
+      "settlement_source_url": "https://www.cfbenchmarks.com"
+    },
+    {
+      "ticker": "KXDEMOFUTHOURLY-26NOV27H20-UP",
+      "event_ticker": "KXDEMOFUTHOURLY-26NOV27H20",
+      "series_ticker": "KXDEMOFUTHOURLY",
+      "topic": "Crypto",
+      "event_title": "Demo Hourly BTC Reference (2026-11-27 20:00 UTC)",
+      "title": "Demo BTC at or above 59843.27 USD",
+      "subtitle": "At or above 59,843.27 USD (20:00 UTC)",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "linear_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.6500",
+      "previous_price_dollars": "0.4500",
+      "yes_bid_dollars": "0.3100",
+      "yes_ask_dollars": "0.9900",
+      "yes_bid_size_fp": "5.00",
+      "yes_ask_size_fp": "1.00",
+      "volume_fp": "6660.00",
+      "volume_24h_fp": "5910.00",
+      "open_interest_fp": "65.00",
+      "close_time": "2026-11-27T20:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H20-UP",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXDEMOFUTHOURLY-26NOV27H20",
+      "settlement_source_name": "Coinbase BTC-USD 1m Candle",
+      "settlement_source_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+    },
+    {
+      "ticker": "KXBTCD-26NOV2817-T71249.99",
+      "event_ticker": "KXBTCD-26NOV2817",
+      "series_ticker": "KXBTCD",
+      "topic": "Crypto",
+      "event_title": "Bitcoin price on Nov 28, 2026 (5 PM EST)",
+      "title": "Bitcoin price on Nov 28, 2026? ($71,250 or above)",
+      "subtitle": "$71,250 or above",
+      "status": "active",
+      "market_type": "binary",
+      "tick_size_type": "linear_cent",
+      "fee_multiplier": 1,
+      "last_price_dollars": "0.0000",
+      "previous_price_dollars": "0.0000",
+      "yes_bid_dollars": "0.0000",
+      "yes_ask_dollars": "0.0000",
+      "yes_bid_size_fp": "0.00",
+      "yes_ask_size_fp": "0.00",
+      "volume_fp": "0.00",
+      "volume_24h_fp": "0.00",
+      "open_interest_fp": "0.00",
+      "close_time": "2026-11-28T22:00:00Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCD-26NOV2817-T71249.99",
+      "event_api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXBTCD-26NOV2817",
+      "settlement_source_name": "CF Benchmarks BRTI",
+      "settlement_source_url": "https://www.cfbenchmarks.com"
     }
   ],
   "resolutions": [
+    {
+      "ticker": "KXDEMOFUTHOURLY-26NOV27H19-UP",
+      "event_ticker": "KXDEMOFUTHOURLY-26NOV27H19",
+      "topic": "Crypto",
+      "title": "Demo BTC at or above 59847.1 USD (2026-11-27 19:00 UTC)",
+      "status": "finalized",
+      "result": "no",
+      "settlement_value_dollars": "0.0000",
+      "volume_fp": "8220.00",
+      "settlement_ts": "2026-11-27T19:01:27.188165Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H19-UP",
+      "settlement_source_name": "Coinbase BTC-USD 1m Candle",
+      "settlement_source_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+    },
+    {
+      "ticker": "KXPGATOUR-THRC26-MPEN",
+      "event_ticker": "KXPGATOUR-THRC26",
+      "topic": "Golf",
+      "title": "The RSM Classic: Marco Penge wins (Tracked Open -> Finalized YES)",
+      "status": "finalized",
+      "result": "yes",
+      "settlement_value_dollars": "1.0000",
+      "volume_fp": "462081.71",
+      "settlement_ts": "2026-11-23T19:58:03.108438Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MPEN",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXPGATOUR-THRC26-CBEZ",
+      "event_ticker": "KXPGATOUR-THRC26",
+      "topic": "Golf",
+      "title": "The RSM Classic: Christiaan Bezuidenhout wins (Tracked Open -> Finalized NO)",
+      "status": "finalized",
+      "result": "no",
+      "settlement_value_dollars": "0.0000",
+      "volume_fp": "242634.55",
+      "settlement_ts": "2026-11-23T19:58:03.108438Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-CBEZ",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXPGATOUR-THRC26-MMCN",
+      "event_ticker": "KXPGATOUR-THRC26",
+      "topic": "Golf",
+      "title": "The RSM Classic: Maverick McNealy wins (Tracked Open -> Finalized NO)",
+      "status": "finalized",
+      "result": "no",
+      "settlement_value_dollars": "0.0000",
+      "volume_fp": "166451.57",
+      "settlement_ts": "2026-11-23T19:58:03.108438Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MMCN",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXPGATOUR-THRC26-MTHO",
+      "event_ticker": "KXPGATOUR-THRC26",
+      "topic": "Golf",
+      "title": "The RSM Classic: Michael Thorbjornsen wins (Tracked Open -> Finalized NO)",
+      "status": "finalized",
+      "result": "no",
+      "settlement_value_dollars": "0.0000",
+      "volume_fp": "114456.17",
+      "settlement_ts": "2026-11-23T19:58:03.108438Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MTHO",
+      "settlement_source_name": "PGA Tour Official Leaderboard",
+      "settlement_source_url": "https://www.pgatour.com"
+    },
+    {
+      "ticker": "KXDEMOFUTHOURLY-26NOV22H08-UP",
+      "event_ticker": "KXDEMOFUTHOURLY-26NOV22H08",
+      "topic": "Crypto",
+      "title": "Demo BTC at or above 59023.8 USD (Tracked Open -> Finalized YES)",
+      "status": "finalized",
+      "result": "yes",
+      "settlement_value_dollars": "1.0000",
+      "volume_fp": "8220.00",
+      "settlement_ts": "2026-11-22T08:01:42.130556Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP",
+      "settlement_source_name": "Coinbase BTC-USD 1m Candle",
+      "settlement_source_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+    },
+    {
+      "ticker": "KXBTCD-26NOV2203-T48099.99",
+      "event_ticker": "KXBTCD-26NOV2203",
+      "topic": "Crypto",
+      "title": "Bitcoin price on Nov 22, 2026 ($48,100+ Tracked Open -> Finalized NO)",
+      "status": "finalized",
+      "result": "no",
+      "settlement_value_dollars": "0.0000",
+      "volume_fp": "0.00",
+      "settlement_ts": "2026-11-22T08:23:52.383938Z",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCD-26NOV2203-T48099.99",
+      "settlement_source_name": "CF Benchmarks BRTI",
+      "settlement_source_url": "https://www.cfbenchmarks.com"
+    },
     {
       "ticker": "KXDEMOFUTHOURLY-26NOV22H07-UP",
       "event_ticker": "KXDEMOFUTHOURLY-26NOV22H07",
@@ -763,8 +1025,8 @@
       "ticker": "KXGRAMBPS-68-MES",
       "event_ticker": "KXGRAMBPS-68",
       "topic": "Culture",
-      "event_title": "68th Annual Grammy Awards — Best Pop Solo Performance",
-      "title": "Messy (Lola Young) — Best Pop Solo Performance",
+      "event_title": "68th Annual Grammy Awards \u2014 Best Pop Solo Performance",
+      "title": "Messy (Lola Young) \u2014 Best Pop Solo Performance",
       "status": "finalized",
       "result": "yes",
       "settlement_value_dollars": "1.0000",
@@ -778,8 +1040,8 @@
       "ticker": "KXGRAMBPS-68-DAI",
       "event_ticker": "KXGRAMBPS-68",
       "topic": "Culture",
-      "event_title": "68th Annual Grammy Awards — Best Pop Solo Performance",
-      "title": "DAISIES — Best Pop Solo Performance",
+      "event_title": "68th Annual Grammy Awards \u2014 Best Pop Solo Performance",
+      "title": "DAISIES \u2014 Best Pop Solo Performance",
       "status": "finalized",
       "result": "no",
       "settlement_value_dollars": "0.0000",
@@ -793,8 +1055,8 @@
       "ticker": "KXGRAMBPS-68-MAN",
       "event_ticker": "KXGRAMBPS-68",
       "topic": "Culture",
-      "event_title": "68th Annual Grammy Awards — Best Pop Solo Performance",
-      "title": "Manchild — Best Pop Solo Performance",
+      "event_title": "68th Annual Grammy Awards \u2014 Best Pop Solo Performance",
+      "title": "Manchild \u2014 Best Pop Solo Performance",
       "status": "finalized",
       "result": "no",
       "settlement_value_dollars": "0.0000",
@@ -853,7 +1115,7 @@
       "ticker": "KXXISUCCESSOR-45JAN01-DXUE",
       "event_ticker": "KXXISUCCESSOR-45JAN01",
       "topic": "Elections",
-      "event_title": "Political Succession (category: Elections — proportional scalar edge case)",
+      "event_title": "Political Succession (category: Elections \u2014 proportional scalar edge case)",
       "title": "Ding Xuexiang succession contract (binary market finalized with result='scalar', $0.5000 payout)",
       "status": "finalized",
       "result": "scalar",
@@ -861,48 +1123,169 @@
       "volume_fp": "540.00",
       "settlement_ts": "2026-03-16T18:19:24Z",
       "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&with_nested_markets=true&limit=3",
-      "settlement_source_name": "Kalshi Market Lifecycle — Proportional Settlement",
+      "settlement_source_name": "Kalshi Market Lifecycle \u2014 Proportional Settlement",
       "settlement_source_url": "https://docs.kalshi.com/getting_started/market_lifecycle.md"
     }
   ],
   "orderbooks": {
     "KXPRESPERSON-28-GNEWS": {
-      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GNEWS/orderbook?depth=10",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GNEWS/orderbook",
       "yes_dollars": [
-        ["0.0010", "160.00"],
-        ["0.0300", "26.92"],
-        ["0.0750", "4444.44"],
-        ["0.0760", "4385.96"],
-        ["0.0770", "4329.00"]
+        [
+          "0.0010",
+          "40.00"
+        ],
+        [
+          "0.0300",
+          "26.92"
+        ],
+        [
+          "0.0680",
+          "7352.94"
+        ],
+        [
+          "0.0690",
+          "7246.35"
+        ],
+        [
+          "0.0700",
+          "7142.85"
+        ]
       ],
       "no_dollars": [
-        ["0.9200", "4166.66"],
-        ["0.9210", "4219.40"],
-        ["0.9220", "481.97"]
+        [
+          "0.9250",
+          "2222.22"
+        ],
+        [
+          "0.9260",
+          "2252.25"
+        ],
+        [
+          "0.9270",
+          "6849.30"
+        ],
+        [
+          "0.9280",
+          "4141.11"
+        ]
       ]
     },
-    "KXDEMOFUTHOURLY-26NOV22H08-UP": {
-      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP/orderbook?depth=8",
+    "KXBTCY-27JAN0100-B47500": {
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500/orderbook",
       "yes_dollars": [
-        ["0.0100", "865.34"]
+        [
+          "0.0200",
+          "8333.33"
+        ],
+        [
+          "0.0300",
+          "5555.55"
+        ],
+        [
+          "0.0400",
+          "4166.66"
+        ]
       ],
       "no_dollars": [
-        ["0.0100", "1.00"]
+        [
+          "0.0100",
+          "1000006.00"
+        ],
+        [
+          "0.0200",
+          "996841.53"
+        ],
+        [
+          "0.9300",
+          "2380.95"
+        ],
+        [
+          "0.9400",
+          "2777.77"
+        ],
+        [
+          "0.9500",
+          "472.58"
+        ]
+      ]
+    },
+    "KXDEMOFUTHOURLY-26NOV27H20-UP": {
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H20-UP/orderbook",
+      "yes_dollars": [
+        [
+          "0.0100",
+          "10.00"
+        ],
+        [
+          "0.3100",
+          "5.00"
+        ]
+      ],
+      "no_dollars": [
+        [
+          "0.0100",
+          "1.00"
+        ]
+      ]
+    },
+    "KXPGATOUR-MAST27-SSCH": {
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-MAST27-SSCH/orderbook",
+      "yes_dollars": [
+        [
+          "0.0010",
+          "80.00"
+        ],
+        [
+          "0.1500",
+          "1111.11"
+        ],
+        [
+          "0.1600",
+          "1041.66"
+        ],
+        [
+          "0.1700",
+          "980.39"
+        ]
+      ],
+      "no_dollars": [
+        [
+          "0.8000",
+          "833.33"
+        ],
+        [
+          "0.8100",
+          "877.19"
+        ],
+        [
+          "0.8200",
+          "925.92"
+        ]
       ]
     },
     "KXAAAGASMINTX-26DEC31-2.10": {
-      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.10/orderbook?depth=10",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASMINTX-26DEC31-2.10/orderbook",
       "yes_dollars": [
-        ["0.0500", "10.00"]
+        [
+          "0.0500",
+          "10.00"
+        ]
       ],
       "no_dollars": [
-        ["0.0400", "20.00"]
+        [
+          "0.0400",
+          "20.00"
+        ]
       ]
     },
     "KXPERFORMBONDSONG-35-DUA": {
       "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPERFORMBONDSONG-35-DUA/orderbook?depth=8",
       "yes_dollars": [
-        ["0.0100", "1.00"]
+        [
+          "0.0100",
+          "1.00"
+        ]
       ],
       "no_dollars": []
     }
@@ -910,51 +1293,499 @@
   "series_history": {
     "KXDEMOFUTHOURLY-26NOV22H08-UP": {
       "seconds": [
-        {"ts": "2026-11-22T07:09:12.610Z", "price": 0.45, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:17.612Z", "price": 0.55, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:22.615Z", "price": 0.65, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:27.619Z", "price": 0.35, "count": 25.0, "taker_side": "no", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:32.621Z", "price": 0.45, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:37.625Z", "price": 0.55, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:42.628Z", "price": 0.65, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:47.630Z", "price": 0.35, "count": 25.0, "taker_side": "no", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:52.633Z", "price": 0.35, "count": 25.0, "taker_side": "no", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:57.635Z", "price": 0.65, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:02.637Z", "price": 0.55, "count": 25.0, "taker_side": "no", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:07.639Z", "price": 0.45, "count": 25.0, "taker_side": "no", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:12.640Z", "price": 0.35, "count": 25.0, "taker_side": "no", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:17.641Z", "price": 0.65, "count": 25.0, "taker_side": "yes", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:22.641Z", "price": 0.55, "count": 25.0, "taker_side": "no", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"}
+        {
+          "ts": "2026-11-22T07:09:12.610Z",
+          "price": 0.45,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:17.612Z",
+          "price": 0.55,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:22.615Z",
+          "price": 0.65,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:27.619Z",
+          "price": 0.35,
+          "count": 25.0,
+          "taker_side": "no",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:32.621Z",
+          "price": 0.45,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:37.625Z",
+          "price": 0.55,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:42.628Z",
+          "price": 0.65,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:47.630Z",
+          "price": 0.35,
+          "count": 25.0,
+          "taker_side": "no",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:52.633Z",
+          "price": 0.35,
+          "count": 25.0,
+          "taker_side": "no",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:57.635Z",
+          "price": 0.65,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:02.637Z",
+          "price": 0.55,
+          "count": 25.0,
+          "taker_side": "no",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:07.639Z",
+          "price": 0.45,
+          "count": 25.0,
+          "taker_side": "no",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:12.640Z",
+          "price": 0.35,
+          "count": 25.0,
+          "taker_side": "no",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:17.641Z",
+          "price": 0.65,
+          "count": 25.0,
+          "taker_side": "yes",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:22.641Z",
+          "price": 0.55,
+          "count": 25.0,
+          "taker_side": "no",
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        }
       ],
       "minutes": [
-        {"ts": "2026-11-22T06:41:00Z", "price": 0.55, "open": 0.35, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:43:00Z", "price": 0.35, "open": 0.55, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:45:00Z", "price": 0.65, "open": 0.35, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:47:00Z", "price": 0.45, "open": 0.65, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:49:00Z", "price": 0.55, "open": 0.45, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:51:00Z", "price": 0.35, "open": 0.55, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:53:00Z", "price": 0.65, "open": 0.35, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:55:00Z", "price": 0.45, "open": 0.65, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:58:00Z", "price": 0.55, "open": 0.45, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:22Z", "price": 0.55, "open": 0.35, "high": 0.65, "low": 0.35, "volume": 150.0, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"}
+        {
+          "ts": "2026-11-22T06:41:00Z",
+          "price": 0.55,
+          "open": 0.35,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:43:00Z",
+          "price": 0.35,
+          "open": 0.55,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:45:00Z",
+          "price": 0.65,
+          "open": 0.35,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:47:00Z",
+          "price": 0.45,
+          "open": 0.65,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:49:00Z",
+          "price": 0.55,
+          "open": 0.45,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:51:00Z",
+          "price": 0.35,
+          "open": 0.55,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:53:00Z",
+          "price": 0.65,
+          "open": 0.35,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:55:00Z",
+          "price": 0.45,
+          "open": 0.65,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:58:00Z",
+          "price": 0.55,
+          "open": 0.45,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:22Z",
+          "price": 0.55,
+          "open": 0.35,
+          "high": 0.65,
+          "low": 0.35,
+          "volume": 150.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        }
       ],
       "hours": [
-        {"ts": "2026-11-22T05:00:00Z", "price": 0.35, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T06:00:00Z", "price": 0.65, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:01:32Z", "price": 1.00, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H07-UP", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:09:57Z", "price": 0.65, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:12Z", "price": 0.35, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"},
-        {"ts": "2026-11-22T07:10:22Z", "price": 0.55, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15", "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"}
+        {
+          "ts": "2026-11-22T05:00:00Z",
+          "price": 0.35,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T06:00:00Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV22H07-UP/candlesticks?start_ts=1795326000&end_ts=1795329000&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:01:32Z",
+          "price": 1.0,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H07-UP",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:09:57Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:12Z",
+          "price": 0.35,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-22T07:10:22Z",
+          "price": 0.55,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        }
       ]
     },
     "KXPRESPERSON-28-GWHI": {
       "hours": [
-        {"ts": "2026-11-21T07:10:00Z", "price": 0.9700, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GWHI", "catalyst_url": "https://www.congress.gov"},
-        {"ts": "2026-11-22T07:10:00Z", "price": 0.0050, "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GWHI", "catalyst_url": "https://www.congress.gov"}
+        {
+          "ts": "2026-11-21T07:10:00Z",
+          "price": 0.97,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GWHI",
+          "catalyst_url": "https://www.congress.gov"
+        },
+        {
+          "ts": "2026-11-22T07:10:00Z",
+          "price": 0.005,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESPERSON-28-GWHI",
+          "catalyst_url": "https://www.congress.gov"
+        }
+      ]
+    },
+    "KXDEMOFUTHOURLY-26NOV27H20-UP": {
+      "seconds": [
+        {
+          "ts": "2026-11-27T19:49:43.403Z",
+          "price": 0.35,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:49:48.411Z",
+          "price": 0.45,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:49:53.409Z",
+          "price": 0.55,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:49:58.416Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:03.460Z",
+          "price": 0.35,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:08.430Z",
+          "price": 0.45,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:13.447Z",
+          "price": 0.55,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:18.432Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:23.446Z",
+          "price": 0.35,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:28.445Z",
+          "price": 0.45,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:33.450Z",
+          "price": 0.55,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:38.451Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        }
+      ],
+      "minutes": [
+        {
+          "ts": "2026-11-27T19:01:00Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV27H20-UP/candlesticks?start_ts=1795806000&end_ts=1795809600&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:07:00Z",
+          "price": 0.47,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV27H20-UP/candlesticks?start_ts=1795806000&end_ts=1795809600&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:09:00Z",
+          "price": 0.49,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV27H20-UP/candlesticks?start_ts=1795806000&end_ts=1795809600&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:11:00Z",
+          "price": 0.35,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV27H20-UP/candlesticks?start_ts=1795806000&end_ts=1795809600&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:18:00Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXDEMOFUTHOURLY/markets/KXDEMOFUTHOURLY-26NOV27H20-UP/candlesticks?start_ts=1795806000&end_ts=1795809600&period_interval=1",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:00Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        }
+      ],
+      "hours": [
+        {
+          "ts": "2026-11-27T18:00:12Z",
+          "price": 0.45,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H19-UP",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:00:10Z",
+          "price": 0.35,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H20-UP",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        },
+        {
+          "ts": "2026-11-27T19:50:38Z",
+          "price": 0.65,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+          "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+        }
+      ]
+    },
+    "KXBTCY-27JAN0100-B47500": {
+      "hours": [
+        {
+          "ts": "2026-11-24T18:16:08Z",
+          "price": 0.055,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500",
+          "catalyst_url": "https://www.cfbenchmarks.com"
+        },
+        {
+          "ts": "2026-11-26T04:06:51Z",
+          "price": 0.495,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500/orderbook",
+          "catalyst_url": "https://www.cfbenchmarks.com"
+        },
+        {
+          "ts": "2026-11-27T19:50:38Z",
+          "price": 0.045,
+          "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500/orderbook",
+          "catalyst_url": "https://www.cfbenchmarks.com"
+        }
       ]
     }
   },
   "swings": [
+    {
+      "id": "sw-26nov27-01",
+      "ts": "2026-11-27T19:50:38.451Z",
+      "ticker": "KXDEMOFUTHOURLY-26NOV27H20-UP",
+      "topic": "Crypto",
+      "title": "Demo BTC at or above 59843.27 USD (20:00 UTC)",
+      "prev_price": 0.55,
+      "new_price": 0.65,
+      "delta": 0.1,
+      "direction": "up",
+      "spread": 0.06,
+      "depth_contracts": 93.0,
+      "net_roi_pct": 14.3,
+      "selective_pass": true,
+      "selective_reason": "Passes selective model: +$0.10 trade-print step ($0.55 -> $0.65), active 1m candle spread $0.06, depth 93, net ROI +14.3% after 6dp fee.",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+      "catalyst_label": "Coinbase BTC-USD 1m Candle (Verified 5s Demo Trade Print)",
+      "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+    },
+    {
+      "id": "sw-26nov27-02",
+      "ts": "2026-11-27T19:50:23.446Z",
+      "ticker": "KXDEMOFUTHOURLY-26NOV27H20-UP",
+      "topic": "Crypto",
+      "title": "Demo BTC at or above 59843.27 USD (20:00 UTC)",
+      "prev_price": 0.65,
+      "new_price": 0.35,
+      "delta": -0.3,
+      "direction": "down",
+      "spread": 0.06,
+      "depth_contracts": 93.0,
+      "net_roi_pct": 21.8,
+      "selective_pass": true,
+      "selective_reason": "Passes selective model: -$0.30 trade-print reset ($0.65 -> $0.35), active candle spread $0.06, depth 93, net ROI +21.8% after 6dp fee.",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV27H20-UP&limit=20",
+      "catalyst_label": "Coinbase BTC-USD 1m Candle (Verified 5s Demo Trade Print)",
+      "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
+    },
+    {
+      "id": "sw-26nov27-03",
+      "ts": "2026-11-26T04:06:50.963Z",
+      "ticker": "KXBTCY-27JAN0100-B47500",
+      "topic": "Crypto",
+      "title": "BTC price on Jan 1, 2027? (45,000 to 49,999.99)",
+      "prev_price": 0.055,
+      "new_price": 0.495,
+      "delta": 0.44,
+      "direction": "up",
+      "spread": 0.97,
+      "depth_contracts": 1998410.5,
+      "net_roi_pct": -114.6,
+      "selective_pass": false,
+      "selective_reason": "Filtered out of High-ROI chat: mid-price jumped +$0.44 because resting NO bids briefly withdrew to $0.01/$0.02 (spread $0.97 > $0.08).",
+      "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B47500/orderbook",
+      "catalyst_label": "CF Benchmarks BRTI (Demo Orderbook Vacuum \u2014 No Asserted News Cause)",
+      "catalyst_url": "https://www.cfbenchmarks.com"
+    },
     {
       "id": "sw-demo-01",
       "ts": "2026-11-22T07:09:57.635Z",
@@ -963,13 +1794,13 @@
       "title": "Demo hourly BTC price (08:00 UTC)",
       "prev_price": 0.35,
       "new_price": 0.65,
-      "delta": 0.30,
+      "delta": 0.3,
       "direction": "up",
       "spread": 0.04,
       "depth_contracts": 865.34,
       "net_roi_pct": 19.6,
       "selective_pass": true,
-      "selective_reason": "Passes selective model: |Δ|=$0.30 >= $0.10, active 5s print depth >=25 contracts, net ROI +19.6% after 6dp fee.",
+      "selective_reason": "Passes selective model: |\u0394|=$0.30 >= $0.10, active 5s print depth >=25 contracts, net ROI +19.6% after 6dp fee.",
       "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
       "catalyst_label": "Coinbase BTC-USD Candles (Demo synthetic liquidity bot print; external news catalyst unverified)",
       "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
@@ -982,13 +1813,13 @@
       "title": "Demo hourly BTC price (08:00 UTC)",
       "prev_price": 0.65,
       "new_price": 0.55,
-      "delta": -0.10,
+      "delta": -0.1,
       "direction": "down",
       "spread": 0.04,
       "depth_contracts": 865.34,
       "net_roi_pct": 14.2,
       "selective_pass": true,
-      "selective_reason": "Passes selective model: |Δ|=$0.10 >= $0.10, mean-reversion NO entry at $0.45 with +14.2% net expected ROI.",
+      "selective_reason": "Passes selective model: |\u0394|=$0.10 >= $0.10, mean-reversion NO entry at $0.45 with +14.2% net expected ROI.",
       "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
       "catalyst_label": "Coinbase BTC-USD Candles (Demo 5s print)",
       "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
@@ -1001,10 +1832,10 @@
       "title": "Demo hourly BTC price (08:00 UTC)",
       "prev_price": 0.55,
       "new_price": 0.45,
-      "delta": -0.10,
+      "delta": -0.1,
       "direction": "down",
       "spread": 0.12,
-      "depth_contracts": 25.00,
+      "depth_contracts": 25.0,
       "net_roi_pct": 6.8,
       "selective_pass": false,
       "selective_reason": "Filtered out of High-ROI chat: net ROI +6.8% < 12.0% threshold & wide resting spread ($0.12 > $0.08).",
@@ -1020,13 +1851,13 @@
       "title": "Demo hourly BTC price (08:00 UTC)",
       "prev_price": 0.45,
       "new_price": 0.35,
-      "delta": -0.10,
+      "delta": -0.1,
       "direction": "down",
       "spread": 0.04,
       "depth_contracts": 865.34,
       "net_roi_pct": 21.4,
       "selective_pass": true,
-      "selective_reason": "Passes selective model: |Δ|=$0.10 oversold band ($0.35), net ROI +21.4% after 6dp fee.",
+      "selective_reason": "Passes selective model: |\u0394|=$0.10 oversold band ($0.35), net ROI +21.4% after 6dp fee.",
       "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/trades?ticker=KXDEMOFUTHOURLY-26NOV22H08-UP&limit=15",
       "catalyst_label": "Coinbase BTC-USD Candles (Demo 5s print)",
       "catalyst_url": "https://api.exchange.coinbase.com/products/BTC-USD/candles"
@@ -1039,7 +1870,7 @@
       "title": "Demo hourly BTC price (08:00 UTC)",
       "prev_price": 0.35,
       "new_price": 0.65,
-      "delta": 0.30,
+      "delta": 0.3,
       "direction": "up",
       "spread": 0.04,
       "depth_contracts": 865.34,
@@ -1058,7 +1889,7 @@
       "title": "Demo hourly BTC price (08:00 UTC)",
       "prev_price": 0.65,
       "new_price": 0.55,
-      "delta": -0.10,
+      "delta": -0.1,
       "direction": "down",
       "spread": 0.98,
       "depth_contracts": 865.34,
@@ -1075,12 +1906,12 @@
       "ticker": "KXPRESPERSON-28-GWHI",
       "topic": "Elections",
       "title": "Will Gretchen Whitmer win the 2028 US Presidential Election?",
-      "prev_price": 0.9700,
-      "new_price": 0.0050,
-      "delta": -0.9650,
+      "prev_price": 0.97,
+      "new_price": 0.005,
+      "delta": -0.965,
       "direction": "down",
-      "spread": 0.0020,
-      "depth_contracts": 15400.00,
+      "spread": 0.002,
+      "depth_contracts": 15400.0,
       "net_roi_pct": 3.1,
       "selective_pass": false,
       "selective_reason": "Filtered out of High-ROI chat: Demo sandbox repricing from previous_price_dollars=$0.9700 to $0.0050 falls outside actionable [$0.06, $0.94] probability band.",
@@ -1094,7 +1925,7 @@
       "id": "F1",
       "item": "Authenticated Kalshi Demo Account Balance (GET /portfolio/balance)",
       "verified_value": "",
-      "status": "Unverified — Credentials Not Present",
+      "status": "Unverified \u2014 Credentials Not Present",
       "reason": "Requires user-owned Demo API Key ID + RSA-PSS/Ed25519 private key generated in https://demo.kalshi.co/account/profile. Never fabricated.",
       "source_url": "https://docs.kalshi.com/getting_started/api_keys.md"
     },
@@ -1102,7 +1933,7 @@
       "id": "F2",
       "item": "Authenticated Live Demo Order Fill ID (POST /portfolio/events/orders)",
       "verified_value": "",
-      "status": "Unverified — Simulated Locally Unless Relay Key Provided",
+      "status": "Unverified \u2014 Simulated Locally Unless Relay Key Provided",
       "reason": "V2 payload and Ed25519/RSA-PSS signing are implemented & unit-tested in kalshi_engine/, but no live exchange order_id is claimed without credentials.",
       "source_url": "https://docs.kalshi.com/getting_started/quick_start_create_order.md"
     },
@@ -1110,7 +1941,7 @@
       "id": "F3",
       "item": "Authenticated WebSocket Private Fill Channel (fill / market_positions)",
       "verified_value": "",
-      "status": "Unverified — Requires Signed WS Handshake",
+      "status": "Unverified \u2014 Requires Signed WS Handshake",
       "reason": "Kalshi WebSocket connection handshake requires KALSHI-ACCESS-* headers on GET /trade-api/ws/v2.",
       "source_url": "https://docs.kalshi.com/getting_started/quick_start_websockets.md"
     },
@@ -1118,15 +1949,15 @@
       "id": "F4",
       "item": "Browser Cross-Origin (CORS) Header Guarantee on external-api.demo.kalshi.co",
       "verified_value": "",
-      "status": "Unverified Across All Browsers — Committed Snapshot + Optional Local Relay Provided",
-      "reason": "Kalshi API docs do not guarantee Access-Control-Allow-Origin: * for third-party static origins; live/ loads verified_snapshot.json first and treats browser fetch as best-effort.",
+      "status": "Public GETs CORS-Echoed; Signed Browser Headers Blocked on Preflight",
+      "reason": "Runner probe (probe/results.json) measured Access-Control-Allow-Origin echo on public Demo GETs, but preflight Access-Control-Allow-Headers omits KALSHI-ACCESS-*; signed account/order calls require same-origin relay.",
       "source_url": "https://docs.kalshi.com/getting_started/api_environments.md"
     },
     {
       "id": "F5",
       "item": "Verified Real-World News Catalyst Behind Demo 5-Second Price Swings",
       "verified_value": "",
-      "status": "Unverified — Demo Synthetic Market-Maker Activity",
+      "status": "Unverified \u2014 Demo Synthetic Market-Maker Activity",
       "reason": "Kalshi explicitly documents that Demo prices are mock test data; alerts link official settlement sources without claiming unverified news causation.",
       "source_url": "https://docs.kalshi.com/getting_started/demo_env.md"
     },
@@ -1140,22 +1971,141 @@
     }
   ],
   "repo_audit": [
-    {"id": "R1", "target": "python/kalshi_client.py:25,53-56", "severity": "High (Auth 401)", "summary": "Signs '/portfolio/balance' without '/trade-api/v2' prefix; fixed in kalshi_engine/kalshi_v2_client.py.", "source_url": "https://docs.kalshi.com/getting_started/api_keys.md"},
-    {"id": "R2", "target": "python/kalshi_client.py:90-93", "severity": "High (HTTP 410)", "summary": "Posts V1 schema to removed POST /portfolio/orders instead of V2 POST /portfolio/events/orders.", "source_url": "https://docs.kalshi.com/api-reference/orders/create-order-v2.md"},
-    {"id": "R3", "target": "site/assets/app.js:111,154 & docs/VERIFICATION.md:A12", "severity": "High (Lifecycle Bug)", "summary": "Checks market.status === 'settled' (query filter) instead of 'finalized' and never polls ?status=settled.", "source_url": "https://docs.kalshi.com/getting_started/market_lifecycle.md"},
-    {"id": "R4", "target": "site/assets/app.js:50,183-196 & python/simulator.py:39-55", "severity": "Medium (No-Op Strategies)", "summary": "Renders checkboxes/flags for favorite & longshot strategies that execute zero trades.", "source_url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/python/simulator.py"},
-    {"id": "R5", "target": "site/assets/app.js:253", "severity": "Medium (Orderbook Truncation)", "summary": "Renders lowest $0.01 bids at top instead of [-1] best bid and truncates no_dollars when longer than yes_dollars.", "source_url": "https://docs.kalshi.com/getting_started/orderbook_responses.md"},
-    {"id": "R6", "target": "site/assets/app.js:19-25", "severity": "Medium (Topic False Positives)", "summary": "Substring matching ('OPEN', 'SOL', 'OIL', 'BOOK') misclassifies tennis/OpenAI/resolve/soil/sportsbook.", "source_url": "https://docs.kalshi.com/api-reference/market/get-series-list.md"},
-    {"id": "R9", "target": "docs/data/snapshot.json", "severity": "Medium (Empty Legacy Snapshot)", "summary": "Committed empty (events:[]) in git; legacy main:/ Pages serves empty JSON before browser polling.", "source_url": "https://kanlerxz87-cyber.github.io/Tradebot1/docs/data/snapshot.json"},
-    {"id": "R10", "target": "docs/assets/core.mjs:12,48", "severity": "Low (Scalar Resolution)", "summary": "Filters result to ['yes','no'] only, dropping finalized binary contracts with result='scalar' ($0.5000).", "source_url": "https://docs.kalshi.com/getting_started/market_lifecycle.md"},
-    {"id": "R11", "target": "kalshi_trader/config.py:67 & collect.yml:44", "severity": "Medium (Prod vs Demo Feed)", "summary": "Defaults KALSHI_DATA_ENV='prod' (external-api.kalshi.com) rather than Kalshi Demo API; live/ provides verified Demo data.", "source_url": "https://docs.kalshi.com/getting_started/api_environments.md"},
-    {"id": "R12", "target": "kalshi_trader/fees.py:6-48", "severity": "Low (Fee Rounding Spec)", "summary": "Marks fee formula unverified (ceil_to_cent); official docs specify 6dp rounding + subpenny/cent accumulator.", "source_url": "https://docs.kalshi.com/getting_started/fee_rounding.md"}
+    {
+      "id": "R1",
+      "target": "python/kalshi_client.py:25,53-56",
+      "severity": "High (Auth 401)",
+      "summary": "Signs '/portfolio/balance' without '/trade-api/v2' prefix; fixed in kalshi_engine/kalshi_v2_client.py.",
+      "source_url": "https://docs.kalshi.com/getting_started/api_keys.md"
+    },
+    {
+      "id": "R2",
+      "target": "python/kalshi_client.py:90-93",
+      "severity": "High (HTTP 410)",
+      "summary": "Posts V1 schema to removed POST /portfolio/orders instead of V2 POST /portfolio/events/orders.",
+      "source_url": "https://docs.kalshi.com/api-reference/orders/create-order-v2.md"
+    },
+    {
+      "id": "R3",
+      "target": "site/assets/app.js:111,154 & docs/VERIFICATION.md:A12",
+      "severity": "High (Lifecycle Bug)",
+      "summary": "Checks market.status === 'settled' (query filter) instead of 'finalized' and never polls ?status=settled.",
+      "source_url": "https://docs.kalshi.com/getting_started/market_lifecycle.md"
+    },
+    {
+      "id": "R4",
+      "target": "site/assets/app.js:50,183-196 & python/simulator.py:39-55",
+      "severity": "Medium (No-Op Strategies)",
+      "summary": "Renders checkboxes/flags for favorite & longshot strategies that execute zero trades.",
+      "source_url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/python/simulator.py"
+    },
+    {
+      "id": "R5",
+      "target": "site/assets/app.js:253",
+      "severity": "Medium (Orderbook Truncation)",
+      "summary": "Renders lowest $0.01 bids at top instead of [-1] best bid and truncates no_dollars when longer than yes_dollars.",
+      "source_url": "https://docs.kalshi.com/getting_started/orderbook_responses.md"
+    },
+    {
+      "id": "R6",
+      "target": "site/assets/app.js:19-25",
+      "severity": "Medium (Topic False Positives)",
+      "summary": "Substring matching ('OPEN', 'SOL', 'OIL', 'BOOK') misclassifies tennis/OpenAI/resolve/soil/sportsbook.",
+      "source_url": "https://docs.kalshi.com/api-reference/market/get-series-list.md"
+    },
+    {
+      "id": "R9",
+      "target": "docs/data/snapshot.json",
+      "severity": "Medium (Empty Legacy Snapshot)",
+      "summary": "Committed empty (events:[]) in git; legacy main:/ Pages serves empty JSON before browser polling.",
+      "source_url": "https://kanlerxz87-cyber.github.io/Tradebot1/docs/data/snapshot.json"
+    },
+    {
+      "id": "R10",
+      "target": "docs/assets/core.mjs:12,48",
+      "severity": "Low (Scalar Resolution)",
+      "summary": "Filters result to ['yes','no'] only, dropping finalized binary contracts with result='scalar' ($0.5000).",
+      "source_url": "https://docs.kalshi.com/getting_started/market_lifecycle.md"
+    },
+    {
+      "id": "R11",
+      "target": "kalshi_trader/config.py:67 & collect.yml:44",
+      "severity": "Medium (Prod vs Demo Feed)",
+      "summary": "Defaults KALSHI_DATA_ENV='prod' (external-api.kalshi.com) rather than Kalshi Demo API; live/ provides verified Demo data.",
+      "source_url": "https://docs.kalshi.com/getting_started/api_environments.md"
+    },
+    {
+      "id": "R12",
+      "target": "kalshi_trader/fees.py:6-48",
+      "severity": "Low (Fee Rounding Spec)",
+      "summary": "Marks fee formula unverified (ceil_to_cent); official docs specify 6dp rounding + subpenny/cent accumulator.",
+      "source_url": "https://docs.kalshi.com/getting_started/fee_rounding.md"
+    },
+    {
+      "id": "R13",
+      "target": ".github/workflows/collect-node.yml & demo-account.yml",
+      "severity": "High (CI/Pages Staleness)",
+      "summary": "Scheduled 30m/60m jobs committed data/live/* and data/account.json without running scripts/build-site.mjs, turning 19 generated HTML pages and AUD-08 stale after every cycle; fixed in session 3f5311c5.",
+      "source_url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/.github/workflows/demo-account.yml"
+    },
+    {
+      "id": "R14",
+      "target": ".github/workflows/collect.yml & live.html",
+      "severity": "Medium (Pages Gate Drift)",
+      "summary": "Python collector updated docs/desk/data/latest.json every 30m without running live/build_page.py, causing live/build_page.py --check to fail in pages.yml.",
+      "source_url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/live/build_page.py"
+    },
+    {
+      "id": "R15",
+      "target": "tools/collector.mjs:365 & data/live/portfolio.json",
+      "severity": "Medium (Self-Contradiction)",
+      "summary": "Retained seed note 'No simulated position has been opened yet... The record is empty' after opening 8 real Demo positions; cleared in session 3f5311c5.",
+      "source_url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/collector.mjs"
+    },
+    {
+      "id": "R16",
+      "target": "tools/strategies.mjs:102,150 & demo-desk/assets/live-app.mjs:66",
+      "severity": "Medium (Series Multiplier & Proxy)",
+      "summary": "openPosition/markToMarket ignored series.fee_multiplier, and browser JS defaulted relayUrl to 127.0.0.1 instead of same-origin relative /api/demo/*; fixed in session 3f5311c5.",
+      "source_url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+    }
   ],
   "upstream_irregularities": [
-    {"id": "U1", "target": "Series HOUSE / KXCANADALIBERAL / KXIRANCRUDE / KXAIRDROPMEGA / KXELONMARS-99", "summary": "Demo test series contain placeholder settlement_sources (FAA ROCKET.pdf for US House, sfusd.edu for Canada PM, bls.gov for Iran crude, counterparty.io labeled Etherscan, wsj.com labeled Washington Post).", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections"},
-    {"id": "U2", "target": "Series KXGOLFMAJORS / KXUSOPEN / KXPGAROUNDBIRDIES", "summary": "Demo golf series settlement_sources contain unpopulated template text referencing Gonzaga Men's Basketball with blank fields.", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Sports&tags=Golf"},
-    {"id": "U3", "target": "Series KXDEMOFUTHOURLY", "summary": "Demo hourly BTC series is tagged category='Test' on exchange_index=0 rather than category='Crypto' on shard 2.", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXDEMOFUTHOURLY-26NOV22H08"},
-    {"id": "U4", "target": "Event KXXISUCCESSOR-45JAN01", "summary": "Binary contracts (market_type='binary') finalized with result='scalar' and settlement_value_dollars='0.5000'.", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&with_nested_markets=true&limit=3"},
-    {"id": "U5", "target": "Exchange Status Shard 3", "summary": "exchange_instances[3] returns an empty string name ('') while active.", "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status"}
+    {
+      "id": "U1",
+      "target": "Series HOUSE / KXCANADALIBERAL / KXIRANCRUDE / KXAIRDROPMEGA / KXELONMARS-99",
+      "summary": "Demo test series contain placeholder settlement_sources (FAA ROCKET.pdf for US House, sfusd.edu for Canada PM, bls.gov for Iran crude, counterparty.io labeled Etherscan, wsj.com labeled Washington Post).",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Elections"
+    },
+    {
+      "id": "U2",
+      "target": "Series KXGOLFMAJORS / KXUSOPEN / KXPGAROUNDBIRDIES",
+      "summary": "Demo golf series settlement_sources contain unpopulated template text referencing Gonzaga Men's Basketball with blank fields.",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series?category=Sports&tags=Golf"
+    },
+    {
+      "id": "U3",
+      "target": "Series KXDEMOFUTHOURLY",
+      "summary": "Demo hourly BTC series is tagged category='Test' on exchange_index=0 rather than category='Crypto' on shard 2.",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events/KXDEMOFUTHOURLY-26NOV22H08"
+    },
+    {
+      "id": "U4",
+      "target": "Event KXXISUCCESSOR-45JAN01",
+      "summary": "Binary contracts (market_type='binary') finalized with result='scalar' and settlement_value_dollars='0.5000'.",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/events?status=settled&with_nested_markets=true&limit=3"
+    },
+    {
+      "id": "U5",
+      "target": "Exchange Status Shard 3",
+      "summary": "exchange_instances[3] returns an empty string name ('') while active.",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/exchange/status"
+    },
+    {
+      "id": "U6",
+      "target": "Series KXBTCY vs Fee Schedule PDF",
+      "summary": "Kalshi's July 7, 2026 Fee Schedule PDF (Non-Standard Fees) lists KXBTCY with Maker=0, Taker=0, whereas live Demo GET /series/KXBTCY (updated 2026-10-07) returns fee_multiplier=1 and fee_type='quadratic'.",
+      "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY"
+    }
   ]
 }

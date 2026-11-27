@@ -7,7 +7,8 @@ import {
   normalizeOrderbook,
   evaluateSwing,
   generateStrategySignals,
-  settlementPayoutPerContract
+  settlementPayoutPerContract,
+  estimateOrderSlippage
 } from "./assets/live-core.mjs";
 
 test("strictly 5 allowed topics", () => {
@@ -97,3 +98,24 @@ test("all 5 built-in strategies and custom strategies generate categorized signa
   assert.equal(settlementPayoutPerContract("yes", "scalar", "0.5000"), 0.5);
   assert.equal(settlementPayoutPerContract("no", "scalar", "0.5000"), 0.5);
 });
+
+test("series fee_multiplier scales 6dp fee and estimateOrderSlippage computes multi-level VWAP", () => {
+  assert.equal(rawTakerFee6dp(10, 0.5, 0.07, 1), 0.175);
+  assert.equal(rawTakerFee6dp(10, 0.5, 0.07, 0.5), 0.0875);
+  assert.equal(rawTakerFee6dp(10, 0.5, 0.07, 0), 0);
+
+  const norm = normalizeOrderbook({
+    yes_dollars: [["0.1600", "50.00"], ["0.1700", "20.00"]],
+    no_dollars: [["0.8100", "30.00"], ["0.8200", "10.00"]]
+  });
+  // Implied YES asks: $0.18 (size 10), then $0.19 (size 30).
+  // Buying 25 YES takes 10 @ $0.18 + 15 @ $0.19 = $4.65 / 25 = $0.1860 VWAP (+$0.0060 slippage).
+  const slip = estimateOrderSlippage(norm, "yes", 25, 1);
+  assert.equal(slip.filledContracts, 25);
+  assert.equal(slip.unfilledContracts, 0);
+  assert.equal(slip.topPrice, 0.18);
+  assert.equal(slip.vwapPrice, 0.186);
+  assert.equal(slip.slippageDollars, 0.006);
+  assert.ok(slip.feeCharged > 0);
+});
+

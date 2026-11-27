@@ -39,13 +39,15 @@ export const BUILTIN_STRATEGIES = {
 /**
  * Official Kalshi 6-decimal-place raw fee ceiling per:
  * https://docs.kalshi.com/getting_started/fee_rounding.md
+ * Scaled by `series.fee_multiplier` (1.0 standard, 0.5 reduced, 0 zero-fee).
  */
-export function rawTakerFee6dp(contracts, price, rate = 0.07) {
+export function rawTakerFee6dp(contracts, price, rate = 0.07, feeMultiplier = 1) {
   const c = Number(contracts);
   const p = Number(price);
-  if (!(c > 0) || p <= 0 || p >= 1) return 0;
-  const raw = rate * c * p * (1 - p);
-  return Math.ceil(raw * 1e6 - 1e-12) / 1e6;
+  const mult = Number(feeMultiplier ?? 1);
+  if (!(c > 0) || p <= 0 || p >= 1 || !(mult > 0)) return 0;
+  const scaled = Number((rate * mult * c * p * (1 - p) * 1e6).toPrecision(12));
+  return Math.ceil(scaled - 1e-9) / 1e6;
 }
 
 /**
@@ -274,3 +276,76 @@ export function settlementPayoutPerContract(side, result, settlementValueDollars
   }
   return normSide === "yes" ? yesPayout : Number((1 - yesPayout).toFixed(4));
 }
+
+/**
+ * Compute depth-weighted VWAP fill price, slippage vs top-of-book, and 6dp taker fee
+ * across a normalized reciprocal Kalshi `orderbook_fp` (`normalizeOrderbook` output).
+ */
+export function estimateOrderSlippage(normBook, side = "yes", contracts = 10, feeMultiplier = 1) {
+  const req = Math.max(0, Number(contracts) || 0);
+  if (req === 0 || !normBook) {
+    return {
+      requestedContracts: req,
+      filledContracts: 0,
+      unfilledContracts: req,
+      topPrice: null,
+      vwapPrice: null,
+      slippageDollars: null,
+      feeCharged: 0
+    };
+  }
+  const normSide = String(side).toLowerCase();
+  // Buying YES sweeps implied YES asks (derived from NO bids); buying NO sweeps implied NO asks (1 - YES bids).
+  const ladder =
+    normSide === "yes"
+      ? normBook.yesAsks || []
+      : (normBook.yesBids || []).map((lvl) => ({
+          price: Number((1 - lvl.price).toFixed(4)),
+          size: lvl.size
+        }));
+
+  if (!ladder.length) {
+    return {
+      requestedContracts: req,
+      filledContracts: 0,
+      unfilledContracts: req,
+      topPrice: null,
+      vwapPrice: null,
+      slippageDollars: null,
+      feeCharged: 0
+    };
+  }
+
+  const topPrice = ladder[0].price;
+  let remaining = req;
+  let notional = 0;
+  let filled = 0;
+  let acc = 0;
+  let totalChargedFee = 0;
+
+  for (const lvl of ladder) {
+    if (remaining <= 0) break;
+    const take = Math.min(remaining, Number(lvl.size) || 0);
+    if (take <= 0) continue;
+    notional += take * lvl.price;
+    filled += take;
+    remaining -= take;
+    const rawFee = rawTakerFee6dp(take, lvl.price, 0.07, feeMultiplier);
+    const rounded = applyFeeAccumulator(rawFee, acc, true);
+    totalChargedFee += rounded.charged;
+    acc = rounded.nextAccumulator;
+  }
+
+  const vwapPrice = filled > 0 ? Number((notional / filled).toFixed(4)) : null;
+  const slippageDollars = vwapPrice != null ? Number((vwapPrice - topPrice).toFixed(4)) : null;
+  return {
+    requestedContracts: req,
+    filledContracts: Number(filled.toFixed(2)),
+    unfilledContracts: Number(remaining.toFixed(2)),
+    topPrice,
+    vwapPrice,
+    slippageDollars,
+    feeCharged: Number(totalChargedFee.toFixed(4))
+  };
+}
+

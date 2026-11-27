@@ -170,6 +170,29 @@ def test_alerts_all_five_strategies_custom_rules_fees_and_scalar_settlement():
     assert fee1 >= Decimal("0") and acc1 >= Decimal("0")
 
 
+def test_same_origin_relay_server_status_and_static():
+    import threading
+    import urllib.request
+    from kalshi_engine.relay_server import create_server
+
+    srv = create_server("127.0.0.1", 0)
+    port = srv.server_address[1]
+    t = threading.Thread(target=srv.serve_forever, daemon=True)
+    t.start()
+    try:
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/demo/status", timeout=5) as resp:
+            assert resp.status == 200
+            body = json.loads(resp.read().decode("utf-8"))
+            assert "connected" in body and "docs_url" in body
+        with urllib.request.urlopen(f"http://127.0.0.1:{port}/demo-desk/index.html", timeout=5) as resp2:
+            assert resp2.status == 200
+            html_txt = resp2.read().decode("utf-8")
+            assert "Kalshi Demo" in html_txt
+    finally:
+        srv.shutdown()
+        srv.server_close()
+
+
 if __name__ == "__main__":
     test_canonical_sign_path_includes_trade_api_v2()
     test_ed25519_and_rsa_pss_signing_and_ws_headers()
@@ -177,4 +200,5 @@ if __name__ == "__main__":
     test_reciprocal_orderbook_math_and_no_truncation()
     test_strict_five_topics_no_substring_false_positives()
     test_alerts_all_five_strategies_custom_rules_fees_and_scalar_settlement()
+    test_same_origin_relay_server_status_and_static()
     print("All kalshi_engine tests passed.")
