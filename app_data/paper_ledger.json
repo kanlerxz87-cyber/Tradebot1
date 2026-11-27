@@ -1,7 +1,7 @@
 {
  "version": 1,
  "created_at": "2026-11-22T07:16:59Z",
- "updated_at": "2026-11-27T03:23:41Z",
+ "updated_at": "2026-11-27T12:53:21Z",
  "bankroll_start": 1000.0,
  "cash": 763.85,
  "fee_model": "quadratic",
@@ -399,6 +399,10 @@
   ],
   [
    1795749691,
+   1016.81
+  ],
+  [
+   1795783873,
    1016.81
   ]
  ],
@@ -1391,6 +1395,54 @@
    "ts": 1795749691,
    "ticker": "KXBTCD-26NOV2717-T59499.99",
    "strategy": "late_favorite",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXDPWORLDTOURR2LEAD-BMAPC26-KKOB",
+   "strategy": "cheap_upside",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXAAAGASW-26NOV30-3.5000",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXAAAGASM-26NOV30-3.50",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXRT-HEX-67",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXRT-FOC-30",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXXRPD-26NOV2717-T0.9399",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXXRPD-26NOV2717-T0.9399",
+   "strategy": "late_favorite",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795783873,
+   "ticker": "KXRT-FOC-27",
+   "strategy": "momentum",
    "reason": "max open positions reached"
   }
  ],
