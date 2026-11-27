@@ -1,14 +1,15 @@
 # Cross-implementation audit
 
-Generated 2026-11-27T19:50:04Z by `qa/audit.py` (run it again to reproduce). **0 errors, 2 warnings, 4 notes.**
+Generated 2026-11-27T19:49:48Z by `qa/audit.py` (run it again to reproduce). **0 errors, 4 warnings, 7 notes.**
 
 This audit reads the committed datasets and every published page. It cannot confirm a price against Kalshi — that is done separately and recorded below. It checks internal consistency, official-host provenance and link integrity.
 
 ## What was checked
 
 - docs/desk/data/latest.json: markets, books, topics, alerts
-- docs/desk latest.json: 0 rows, price bounds
-- docs/desk/data/alerts.json: 0 alerts
+- docs/desk latest.json: 300 rows, price bounds
+- docs/desk/data/alerts.json: 10 alerts
+- docs/desk/data/history.json: 76 tracked series, sample length 34
 - data/snapshot.json: 8 markets
 - board data/snapshot.json: 8 rows, price bounds
 - data/account.json: connected=False
@@ -17,18 +18,23 @@ This audit reads the committed datasets and every published page. It cannot conf
 - 74 HTML pages, 1361 internal references
 - tracked files: 354, bytecode/cache artefacts: 0
 - tools/build_site.py --check (run separately by CI; reports current)
-- secret scan: 7118 paths
+- secret scan: 5097 paths
 
 ## Findings
 
 | ID | Severity | Finding | Count | Source | Action |
 | - | - | - | - | - | - |
+| `BOOK-1` | warn | Published ladder is a partial view of the book — The reported total depth is larger than the sum of the levels printed in the same payload, and one row's top-of-book total disagrees with its first level. The ladder is monotonic and every level is within $0.00-$1.00, so this is a display-truncation issue rather than a corrupt quote — but a page must not print the ladder total and the depth total as if they were the same number. | 8 | https://docs.kalshi.com/getting_started/orderbook_responses | Recompute from the raw payload or blank the derived field. |
 | `FLAKY-1` | warn | An audit gate pins line numbers in a concurrently edited file — 1 evidence reference(s) cite COORDINATION.md by line number, and `audit/build_site.py --check` fails whenever that number shifts. Every session that appends to the board therefore breaks another session's build until the page is regenerated. | 1 | docs/audit/findings.html | Cite the section heading or a stable quote instead of a line number, or exclude the reference from the staleness comparison. |
+| `PROVENANCE-1` | warn | Research-desk capture comes from the production root — rest_base is https://external-api.kalshi.com/trade-api/v2, while the brief asks for the demo environment and the Node board's capture uses the demo root. Production and demo catalogues and quotes differ (https://docs.kalshi.com/getting_started/demo_env), so a page mixing the two must say which is which. | 0 | docs/desk/data/latest.json | Label the environment on every page that renders this capture, as the live desk does in /api/meta. |
 | `STALE-1` | warn | data/snapshot.json is 132.8 h old — Timestamp 2026-11-22T07:00:00Z. Anything rendered from it is a historical snapshot, not a live quote. | 0 | data/snapshot.json | Re-run the collector or label the page as historical. |
 | `EXTERNAL-1` | info | External link outside the official-source list — dashboard.html links to www.cfbenchmarks.com. Not a Kalshi source; kept for context. | 1 | dashboard.html | — |
 | `EXTERNAL-2` | info | External link outside the official-source list — dashboard.html links to www.livgolf.com. Not a Kalshi source; kept for context. | 1 | dashboard.html | — |
 | `EXTERNAL-3` | info | External link outside the official-source list — docs/engine/verification.html links to api.github.com. Not a Kalshi source; kept for context. | 1 | docs/engine/verification.html | — |
+| `FRESH-1` | info | docs/desk/data/latest.json captured 2026-11-27T12:51:13Z — 6.98 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample. | 0 | docs/desk/data/latest.json | — |
 | `GENCHECK-1` | info | The Node generator's --check can never pass as written — `scripts/build-site.mjs --check` re-renders every page and compares the result with the committed file, but the render embeds a fresh `data-generated` timestamp and relative text such as '21m ago'. Every page therefore reports stale within a minute of generation. The data itself matched when this audit compared it. | 0 | scripts/build-site.mjs | Compare the page with the timestamp and relative-time fields normalised, or drop the strict comparison from the gate. CI does not currently run this check. |
+| `MISSING-1` | info | docs/desk/data/positions.json not present — Dataset is absent on this branch; its checks were skipped. | 0 | docs/desk/data/positions.json | — |
+| `STATUS-1` | info | Status values match the documented lifecycle — Observed: active. The lifecycle page lists these statuses and maps the open/settled request filters onto active/finalized. | 1 | https://docs.kalshi.com/getting_started/market_lifecycle | — |
 
 ## Reproduce
 

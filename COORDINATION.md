@@ -2791,7 +2791,27 @@ specific files it touched and appends rather than rewrites anyone's record.
 
 ## Merge record
 
-* PR: filled in below by this session after the merge.
+* **PR #54** — https://github.com/kanlerxz87-cyber/Tradebot1/pull/54 — merged into `main`
+  2026-11-27T19:46:35Z, merge commit `106cb274f816bd6ff88e62891ca1d5cce50d642c`.
+  All nine checks on the PR passed (`audit`, `backend-tests`, `browser-tests`, `build`,
+  `demo-desk-v2`, `node-dashboard`, `test`; `deploy` and `snapshot-preview` skip on a PR).
+* **Deploy confirmed** — workflow run
+  [46059052802](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059052802)
+  ("Verify and deploy Kalshi research dashboard", `main`) completed **success** in 1m22s, and the
+  Pages build record for commit `106cb27` reports `status: built`.
+* **Live verification** — fetched from the published site after the deploy:
+  `/flagged.html` shows "19 flags published" and renders **F-19** with its four source links;
+  `/portfolio.html` shows `Equity $999.97 · Fees paid $0.00` and `$0.00` fee on all eight KXBTCY
+  rows, which is the repriced ledger.
+
+## Follow-up (same session, second PR)
+
+The published wording on `/portfolio.html`, `/strategies.html` and `/market.html` said only
+"published taker fee". It now says "published taker fee × the series multiplier", because a fee-free
+series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/strategies.tpl`,
+`templates/market.tpl`; the 19 generated pages were rebuilt and `build-site.mjs --check` and
+`check-links.mjs` (663 references, 0 problems) pass. The follow-up PR and its merge are recorded in
+the same commit that carries this paragraph.
 
 ---
 
@@ -2801,7 +2821,7 @@ specific files it touched and appends rather than rewrites anyone's record.
 
 | Task | Status | Owner | Files touched | Sources / verification / irregularities |
 | --- | --- | --- | --- | --- |
-| Stop production market data from being mistaken for Kalshi demo data; make scheduled/local collection demo by default and fail closed on mismatched snapshots | implemented; verified in tests, awaiting PR merge | `f7815e4f` | `.github/workflows/collect.yml`, `kalshi_trader/{config,collector,paper}.py`, `docs/desk/assets/js/{app.js,environment.cjs}`, `docs/desk/data/flags.json`, `docs/desk/{index,portfolio,flagged}.html`, `docs/desk/topics/*.html` (generated), `tools/build_site.py`, `index.html`, `tests/test_demo_environment.py`, `live/desk.py` (fallback format fix), `live/tests/test_live.py` (regression coverage), `EXECUTIVE_SUMMARY.md`, `audit/REPO_LINE_BY_LINE_AUDIT.md`, `app_data/paper_ledger.json`, `COORDINATION.md` | Audit found the scheduled Python collector pinned `KALSHI_DATA_ENV=prod`, config defaulted to prod, and the primary desk/browser REST fallback used production endpoints despite “demo / paper” branding. Official environment mapping checked: https://docs.kalshi.com/getting_started/api_environments. Demo environment limitations and recommended roots checked: https://docs.kalshi.com/getting_started/demo_env. The last populated Nov 27 snapshot explicitly reported `data_env=prod`, REST `https://external-api.kalshi.com/trade-api/v2`; production snapshot/history/ledger values have been removed from published data files and remain flagged until a successful demo refresh. The list-vs-map snapshot fallback is fixed and covered. Full verification passed. No Kalshi fact inferred from inaccessible live API. |
+| Stop production market data from being mistaken for Kalshi demo data; make scheduled/local collection demo by default and fail closed on mismatched snapshots | implemented; PR #56 open, verified locally | `f7815e4f` | `.github/workflows/collect.yml`, `kalshi_trader/{config,collector,paper}.py`, `docs/desk/assets/js/{app.js,environment.cjs}`, `docs/desk/data/flags.json`, `docs/desk/{index,portfolio,flagged}.html`, `docs/desk/topics/*.html` (generated), `tools/build_site.py`, `index.html`, `tests/test_demo_environment.py`, `live/desk.py` (fallback format fix), `live/tests/test_live.py` (regression coverage), `EXECUTIVE_SUMMARY.md`, `audit/REPO_LINE_BY_LINE_AUDIT.md`, `app_data/paper_ledger.json`, `COORDINATION.md` | Audit found the scheduled Python collector pinned `KALSHI_DATA_ENV=prod`, config defaulted to prod, and the primary desk/browser REST fallback used production endpoints despite “demo / paper” branding. Official environment mapping checked: https://docs.kalshi.com/getting_started/api_environments. Demo environment limitations and recommended roots checked: https://docs.kalshi.com/getting_started/demo_env. The last populated Nov 27 snapshot explicitly reported `data_env=prod`, REST `https://external-api.kalshi.com/trade-api/v2`; production snapshot/history/ledger values have been removed from published data files and remain flagged until a successful demo refresh. The list-vs-map snapshot fallback is fixed and covered. Full verification passed. No Kalshi fact inferred from inaccessible live API. |
 
 **Handoff:** the matching broad integration claim in the merged historical board is dated 2026-11-22 and has no current-branch commits by its owner; this narrowly scoped safety fix is taken over under the board's >60-minute stale-claim rule. Prior artifacts are preserved. The user-requested `session-...` branch naming is incompatible with Arena's fixed branch assignment, so work remains on the assigned branch above.
 
