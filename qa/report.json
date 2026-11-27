@@ -1,24 +1,24 @@
 {
-  "generated_at": "2026-11-22T08:05:11Z",
+  "generated_at": "2026-11-27T19:49:48Z",
   "counts": {
     "error": 0,
-    "warn": 3,
-    "info": 8
+    "warn": 4,
+    "info": 7
   },
   "checked": [
     "docs/desk/data/latest.json: markets, books, topics, alerts",
     "docs/desk latest.json: 300 rows, price bounds",
-    "docs/desk/data/alerts.json: 8 alerts",
-    "docs/desk/data/history.json: 65 tracked series, sample length 4",
+    "docs/desk/data/alerts.json: 10 alerts",
+    "docs/desk/data/history.json: 76 tracked series, sample length 34",
     "data/snapshot.json: 8 markets",
     "board data/snapshot.json: 8 rows, price bounds",
     "data/account.json: connected=False",
     "docs/data/snapshot.json: 28 events, partial=True",
     "monitor docs/data/snapshot.json: 207 rows, price bounds",
     "74 HTML pages, 1361 internal references",
-    "tracked files: 360, bytecode/cache artefacts: 0",
+    "tracked files: 354, bytecode/cache artefacts: 0",
     "tools/build_site.py --check (run separately by CI; reports current)",
-    "secret scan: 2693 paths"
+    "secret scan: 5097 paths"
   ],
   "findings": [
     {
@@ -30,39 +30,39 @@
       "count": 8,
       "examples": [
         {
-          "ticker": "KXAAAGASW-26NOV23-3.6300",
+          "ticker": "KXAAAGASW-26NOV30-3.4800",
           "problems": [
-            "yes_depth_contracts 11206.17 != ladder sum 10670.17"
+            "yes_depth_contracts 13347.43 != ladder sum 13274.25"
           ]
         },
         {
           "ticker": "KXGAMEAWARDS-2026-GTA",
           "problems": [
-            "yes_depth_contracts 50444.0 != ladder sum 50404.0"
+            "yes_depth_contracts 36820.48 != ladder sum 36677.89"
           ]
         },
         {
-          "ticker": "KXBTC50VS100-BTC-26DEC31",
+          "ticker": "KXBTCD-26NOV2717-T59999.99",
           "problems": [
-            "yes_depth_contracts 9044.28 != ladder sum 8834.28"
+            "yes_depth_contracts 56015.26 != ladder sum 55954.26"
           ]
         },
         {
-          "ticker": "KXBTCD-26NOV2203-T58799.99",
+          "ticker": "KXBTCD-26NOV2717-T57999.99",
           "problems": [
-            "yes_depth_contracts 15647.3 != ladder sum 13929.3"
+            "yes_depth_contracts 62484.23 != ladder sum 62432.23"
           ]
         },
         {
-          "ticker": "KXBTCD-26NOV2203-T58999.99",
+          "ticker": "KXBTCD-26NOV2717-T57499.99",
           "problems": [
-            "yes_depth_contracts 7880.34 != ladder sum 6118.14"
+            "yes_depth_contracts 57087.44 != ladder sum 53849.53"
           ]
         },
         {
-          "ticker": "KXBTCD-26NOV2203-T58899.99",
+          "ticker": "KXBTCD-26NOV2717-T60499.99",
           "problems": [
-            "yes_depth_contracts 22798.43 != ladder sum 21080.43"
+            "yes_depth_contracts 52595.61 != ladder sum 52502.41"
           ]
         }
       ],
@@ -174,23 +174,23 @@
       "id": "FRESH-1",
       "severity": "info",
       "code": "FRESH",
-      "title": "docs/desk/data/latest.json captured 2026-11-22T07:54:39Z",
-      "detail": "0.18 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "title": "docs/desk/data/latest.json captured 2026-11-27T12:51:13Z",
+      "detail": "6.98 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
       "count": 0,
       "examples": [],
       "source": "docs/desk/data/latest.json",
       "action": ""
     },
     {
-      "id": "FRESH-2",
-      "severity": "info",
-      "code": "FRESH",
-      "title": "data/snapshot.json captured 2026-11-22T07:00:00Z",
-      "detail": "1.09 h before this audit. Freshness is not accuracy: a recent capture can still be a bounded sample.",
+      "id": "STALE-1",
+      "severity": "warn",
+      "code": "STALE",
+      "title": "data/snapshot.json is 132.8 h old",
+      "detail": "Timestamp 2026-11-22T07:00:00Z. Anything rendered from it is a historical snapshot, not a live quote.",
       "count": 0,
       "examples": [],
       "source": "data/snapshot.json",
-      "action": ""
+      "action": "Re-run the collector or label the page as historical."
     }
   ],
   "reproduce": "python3 qa/audit.py"

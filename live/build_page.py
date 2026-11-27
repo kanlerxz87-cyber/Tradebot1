@@ -54,7 +54,7 @@ VERIFICATION = [
 ]
 
 UNVERIFIED = [
-    ("Fee schedule (taker 0.07 / maker 0.0175 in the model)", "https://docs.kalshi.com/getting_started/fees",
+    ("Fee schedule (taker 0.07 / maker 0.0175, times the published per-series multiplier)", "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
      "The page did not load from the authoring sandbox on 2026-11-22. /api/meta reports the model as "
      "UNVERIFIED and no page claims the fee is confirmed."),
     ("WebSocket handshake and channels", "https://docs.kalshi.com/getting_started/quick_start_websockets",
@@ -310,7 +310,7 @@ python3 live/build_page.py --check                 # this page is current</pre>
     <a href="https://docs.kalshi.com/getting_started/api_environments" rel="noopener noreferrer">environments</a> ·
     <a href="https://docs.kalshi.com/getting_started/orderbook_responses" rel="noopener noreferrer">order book</a> ·
     <a href="https://docs.kalshi.com/getting_started/market_lifecycle" rel="noopener noreferrer">lifecycle</a> ·
-    <a href="https://docs.kalshi.com/getting_started/fees" rel="noopener noreferrer">fees</a> ·
+    <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" rel="noopener noreferrer">fees</a> ·
     <a href="https://docs.kalshi.com/getting_started/quick_start_websockets" rel="noopener noreferrer">WebSockets</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1/tree/main/live" rel="noopener noreferrer">source</a>.
     Generated {dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")} by <code>live/build_page.py</code>.

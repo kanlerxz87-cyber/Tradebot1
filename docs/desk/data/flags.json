@@ -5,9 +5,9 @@
   {
    "id": "F1",
    "severity": "warn",
-   "title": "Fee multiplier M is applied as 1 for series not listed in the schedule",
-   "detail": "RESOLVED for the formula. The general and maker formulas are now confirmed against Kalshi's own fee schedule PDF (effective 2026-07-07): taker roundup(0.07 × C × P × (1 − P)), maker roundup(0.0175 × …), and the tests reproduce the PDF's published table (1 contract at $0.50 → $0.02; 100 contracts at $0.50 → $1.75). One part is still approximate: the PDF lists per-series multipliers M and several series carry M = 0 (fee-free). The paper book applies M = 1 unless a series is known to be fee-free, so a fee-free series is charged the default fee.",
-   "handling": "fees.VERIFIED is true and every ledger entry is labelled fee_model=quadratic; the paper book rounds the fee up to the cent, which can only overstate a fee, never understate it; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them.",
+   "title": "Published per-series fee multipliers are applied for unambiguous schedule rows; the rest fall back to M = 1",
+   "detail": "RESOLVED for the formula. The general and maker formulas are now confirmed against Kalshi's own fee schedule PDF (effective 2026-07-07): taker roundup(0.07 × C × P × (1 − P)), maker roundup(0.0175 × …), and the tests reproduce the PDF's published table (1 contract at $0.50 → $0.02; 100 contracts at $0.50 → $1.75). One part is still approximate: the PDF lists per-series multipliers M and several series carry M = 0 (fee-free). The paper book applies M = 1 unless a series is known to be fee-free, so a fee-free series is charged the default fee. Updated 2026-11-27: kalshi_trader/fees.py now reads M from the published Non-Standard Fees table (SERIES_MULTIPLIERS) for the rows whose three columns are unambiguous in the PDF — including the 0/0 rows such as KXBTCY, KXETHY, KXGREENLAND and KXLAYOFFSYINFO — and applies it through paper.py on both the entry and the exit fill. Two corrections came with it: an earlier revision of this flag's detail named KXCPI and KXFED as fee-free series, while the published table lists both at maker 1 / taker 1; and the rows from KXMVE onwards are still not encoded because the PDF interleaves their columns during text extraction, so those series still fall back to M = 1.",
+   "handling": "fees.VERIFIED is true and every ledger entry is labelled fee_model=quadratic; the paper book rounds the fee up to the cent, which can only overstate a fee, never understate it; KALSHI_FEE_MODEL=none disables fees entirely so results can be compared with and without them. For the rows that are encoded, the multiplier now matches the published table exactly; tests/test_model_fees.py asserts both the 0/0 and the 1/1 rows.",
    "sources": [
     "https://kalshi.com/docs/kalshi-fee-schedule.pdf",
     "https://docs.kalshi.com/api-reference/market/get-series-list",
@@ -66,14 +66,14 @@
   {
    "id": "F6",
    "severity": "warn",
-   "title": "Market data source is production while execution is paper",
-   "detail": "Market data uses the production public endpoints because they are keyless, carry real volume and reflect real prices. Execution is the internal paper ledger. Kalshi warns that demo prices may not reflect real markets, so demo fills and production marks would not be strictly comparable.",
-   "handling": "The dashboard always names its data environment and execution mode. Switching to demo data is one environment variable (KALSHI_DATA_ENV=demo).",
+   "title": "Committed market snapshot was production, not Kalshi demo",
+   "detail": "The last populated docs/desk/data/latest.json snapshot identified data_env=\"prod\" and https://external-api.kalshi.com/trade-api/v2 (captured 2026-11-27T12:51:13Z). Those production market values and derived histories have been removed from the published snapshot files. The dashboard remains blank until a successful demo-only collection cycle publishes a replacement. This is a repository-data observation, not a live API check.",
+   "handling": "KALSHI_DATA_ENV defaults to demo and the scheduled collector pins demo. Environment changes reset paper positions, histories, alerts, and resolutions; the landing page, desk, topic pages, and portfolio fail closed unless data_env and rest_base both identify an official demo API root.",
    "sources": [
     "https://docs.kalshi.com/getting_started/demo_env",
     "https://docs.kalshi.com/getting_started/api_environments"
    ],
-   "resolve": "Run the dashboard against the demo environment once demo credentials exist, and compare the two books side by side."
+   "resolve": "After a successful demo collection, verify docs/desk/data/latest.json reports data_env=\"demo\" and an official demo REST base; confirm the published dashboard and all static category/portfolio tables use that cycle only."
   },
   {
    "id": "F7",

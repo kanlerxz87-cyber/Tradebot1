@@ -9,7 +9,7 @@
 <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><circle cx='16' cy='16' r='13' fill='%2322c98a'/></svg>">
 </head>
-<body data-generated="2026-11-27T19:38:43.026Z">
+<body data-generated="2026-11-27T19:49:34.373Z">
 <a class="skip" href="#main">Skip to content</a>
 <header class="site">
   <div class="wrap site-inner">
@@ -79,7 +79,7 @@
       <tr><td>Starting cash</td><td class="mono">$1,000.00</td><td class="src">Project choice (<a href="flagged.html#F-13">F-13</a>), not Kalshi cash</td></tr>
       <tr><td>Size</td><td class="mono">1 contract per entry</td><td class="src">Deliberate floor so a strategy's edge is visible without position sizing — <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/strategies.mjs" target="_blank" rel="noopener noreferrer nofollow">tools/strategies.mjs</a></td></tr>
       <tr><td>Entry price</td><td class="mono">best ask on the side bought</td><td class="src"><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener noreferrer nofollow">derived ask</a></td></tr>
-      <tr><td>Fee</td><td class="mono">published taker fee</td><td class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer nofollow">fee schedule</a></td></tr>
+      <tr><td>Fee</td><td class="mono">published taker fee × the series multiplier</td><td class="src"><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer nofollow">fee schedule</a></td></tr>
       <tr><td>Mark to market</td><td class="mono">exit at the bid of the side held</td><td class="src">No assumed last price; an empty book means no mark — <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/strategies.mjs" target="_blank" rel="noopener noreferrer nofollow">tools/strategies.mjs</a></td></tr>
       <tr><td>Settlement</td><td class="mono">$1 or $0 per contract</td><td class="src"><a href="https://docs.kalshi.com/getting_started/market_lifecycle" target="_blank" rel="noopener noreferrer nofollow">finalized result only</a></td></tr>
       <tr><td>Concurrency</td><td class="mono">one open position per market</td><td class="src"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/collector.mjs" target="_blank" rel="noopener noreferrer nofollow">tools/collector.mjs</a></td></tr>
