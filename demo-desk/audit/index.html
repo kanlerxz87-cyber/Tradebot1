@@ -12,7 +12,7 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
     </div>
     <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="active">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
@@ -30,10 +30,10 @@
   </section>
 
   <section class="card">
-    <h2>Part 1 — Repository Code &amp; Deployment Findings (`R1`–`R12`)</h2>
+    <h2>Part 1 — Repository Code &amp; Deployment Findings (`R1`–`R16`)</h2>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>ID</th><th>File &amp; Lines</th><th>Severity</th><th>Verified Finding &amp; Resolution in `kalshi_engine/` + `live/`</th><th>Official Source</th></tr></thead>
+        <thead><tr><th>ID</th><th>File &amp; Lines</th><th>Severity</th><th>Verified Finding &amp; Resolution in `kalshi_engine/` + `demo-desk/`</th><th>Official Source</th></tr></thead>
         <tbody>
         <tr>
           <td class="mono"><strong>R1</strong></td>
@@ -104,13 +104,41 @@
           <td><span class="badge warn">Low (Fee Rounding Spec)</span></td>
           <td>Marks fee formula unverified (ceil_to_cent); official docs specify 6dp rounding + subpenny/cent accumulator.</td>
           <td><a href="https://docs.kalshi.com/getting_started/fee_rounding.md" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R13</strong></td>
+          <td class="mono">.github/workflows/collect-node.yml &amp; demo-account.yml</td>
+          <td><span class="badge down">High (CI/Pages Staleness)</span></td>
+          <td>Scheduled 30m/60m jobs committed data/live/* and data/account.json without running scripts/build-site.mjs, turning 19 generated HTML pages and AUD-08 stale after every cycle; fixed in session 3f5311c5.</td>
+          <td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/.github/workflows/demo-account.yml" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R14</strong></td>
+          <td class="mono">.github/workflows/collect.yml &amp; live.html</td>
+          <td><span class="badge warn">Medium (Pages Gate Drift)</span></td>
+          <td>Python collector updated docs/desk/data/latest.json every 30m without running live/build_page.py, causing live/build_page.py --check to fail in pages.yml.</td>
+          <td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/live/build_page.py" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R15</strong></td>
+          <td class="mono">tools/collector.mjs:365 &amp; data/live/portfolio.json</td>
+          <td><span class="badge warn">Medium (Self-Contradiction)</span></td>
+          <td>Retained seed note &#x27;No simulated position has been opened yet... The record is empty&#x27; after opening 8 real Demo positions; cleared in session 3f5311c5.</td>
+          <td><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/collector.mjs" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>R16</strong></td>
+          <td class="mono">tools/strategies.mjs:102,150 &amp; demo-desk/assets/live-app.mjs:66</td>
+          <td><span class="badge warn">Medium (Series Multiplier &amp; Proxy)</span></td>
+          <td>openPosition/markToMarket ignored series.fee_multiplier, and browser JS defaulted relayUrl to 127.0.0.1 instead of same-origin relative /api/demo/*; fixed in session 3f5311c5.</td>
+          <td><a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener">Official Verification Source ↗</a></td>
         </tr></tbody>
       </table>
     </div>
   </section>
 
   <section class="card">
-    <h2>Part 2 — Upstream Kalshi Demo API Irregularities (`U1`–`U5`)</h2>
+    <h2>Part 2 — Upstream Kalshi Demo API Irregularities (`U1`–`U6`)</h2>
     <div class="table-wrap">
       <table>
         <thead><tr><th>ID</th><th>Upstream Demo Series / Endpoint</th><th>Observed Irregularity in Official Demo Payload</th><th>Official Source</th></tr></thead>
@@ -144,6 +172,12 @@
           <td class="mono">Exchange Status Shard 3</td>
           <td>exchange_instances[3] returns an empty string name (&#x27;&#x27;) while active.</td>
           <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Kalshi Demo JSON ↗</a></td>
+        </tr>
+        <tr>
+          <td class="mono"><strong>U6</strong></td>
+          <td class="mono">Series KXBTCY vs Fee Schedule PDF</td>
+          <td>Kalshi&#x27;s July 7, 2026 Fee Schedule PDF (Non-Standard Fees) lists KXBTCY with Maker=0, Taker=0, whereas live Demo GET /series/KXBTCY (updated 2026-10-07) returns fee_multiplier=1 and fee_type=&#x27;quadratic&#x27;.</td>
+          <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY" target="_blank" rel="noopener">Live Kalshi Demo JSON ↗</a></td>
         </tr></tbody>
       </table>
     </div>

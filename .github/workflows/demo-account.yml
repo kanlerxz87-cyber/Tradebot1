@@ -44,12 +44,22 @@ jobs:
       - name: Validate the committed data against its contract
         run: node scripts/check-data.mjs
 
-      - name: Commit the snapshot
+      - name: Regenerate static HTML pages from updated account snapshot
+        run: |
+          npm install --no-audit --no-fund
+          node scripts/build-site.mjs
+          node scripts/build-site.mjs --check
+          node scripts/check-links.mjs
+          node scripts/check-render.mjs
+
+      - name: Commit the snapshot and synchronized static pages
         run: |
           set -euo pipefail
           git config user.name 'kalshi-demo-account'
           git config user.email 'kalshi-demo-account@users.noreply.github.com'
-          git add data/account.json
+          git add data/account.json 404.html api.html board.html dashboard.html demo-account.html \
+            executive-summary.html flagged.html market.html markets.html methodology.html \
+            portfolio.html sources.html strategies.html suggestions.html categories/*.html
           if git diff --cached --quiet; then
             echo "No change to commit."
             exit 0

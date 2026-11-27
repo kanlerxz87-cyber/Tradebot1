@@ -168,9 +168,12 @@ export function settlePosition(position, market, at) {
 export function markToMarket(position, row) {
   const exit = position.side === 'yes' ? row?.yesBid : row?.noBid;
   if (exit == null) return null;
-  // The same published series multiplier applies to the exit fill.
+  // Prefer explicit multiplier on row or position, else published series multiplier.
   const series = position.seriesTicker || seriesFromTicker(position.ticker);
-  const exitFee = takerFee(position.contracts, exit, seriesMultiplier(series, 'taker'));
+  const rawMult = row?.feeMultiplier ?? row?.seriesFeeMultiplier ?? position?.feeMultiplier;
+  const hasExplicit = rawMult !== null && rawMult !== undefined && rawMult !== '' && Number.isFinite(Number(rawMult)) && Number(rawMult) >= 0;
+  const mult = hasExplicit ? Number(rawMult) : seriesMultiplier(series, 'taker');
+  const exitFee = takerFee(position.contracts, exit, mult);
   const pnl = position.contracts * exit - position.entryCost - position.entryFee - exitFee;
   return {
     exitPrice: round4(exit),

@@ -12,7 +12,7 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:50Z</span>
     </div>
     <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="active">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
@@ -24,9 +24,9 @@
     <h1>Live-to-Resolution Outcome Tracker (`yes`, `no` &amp; Proportional `scalar`)</h1>
     <p>
       Per Kalshi's official <a href="https://docs.kalshi.com/getting_started/market_lifecycle.md" target="_blank" rel="noopener">Market Lifecycle specification</a>,
-      settled contracts are queried with `?status=settled` and return `market.status === "finalized"` (never `"settled"`). During this session,
-      `KXDEMOFUTHOURLY-26NOV22H07-UP` was observed transitioning live from `active` to `finalized` (`result: "yes"`, `$1.0000` at `2026-11-22T07:01:32Z`).
-      We also document and support proportional `result: "scalar"` settlements (`$0.5000` on `KXXISUCCESSOR-45JAN01-DXUE`).
+      settled contracts are queried with `?status=settled` and return `market.status === "finalized"` (never `"settled"`). Tracked open contracts observed transitioning live to `finalized` include
+      `KXPGATOUR-THRC26-MPEN` (`result: "yes"`, `$1.0000` at `2026-11-23T19:58:03Z`), `KXPGATOUR-THRC26-CBEZ`/`-MMCN`/`-MTHO` (`result: "no"`),
+      `KXDEMOFUTHOURLY-26NOV22H08-UP` (`result: "yes"`, `$1.0000`), and `KXDEMOFUTHOURLY-26NOV27H19-UP` (`result: "no"`, `$0.0000` at `2026-11-27T19:01:27Z`), alongside proportional `result: "scalar"` settlements (`$0.5000` on `KXXISUCCESSOR-45JAN01-DXUE`).
     </p>
   </section>
 
@@ -41,6 +41,104 @@
           </tr>
         </thead>
         <tbody>
+        <tr>
+          <td>Crypto</td>
+          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV27H19-UP</strong></td>
+          <td>Demo BTC at or above 59847.1 USD (2026-11-27 19:00 UTC)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">8,220.00</td>
+          <td class="mono">2026-11-27T19:01:27Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV27H19-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase BTC-USD 1m Candle ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Golf</td>
+          <td class="mono"><strong>KXPGATOUR-THRC26-MPEN</strong></td>
+          <td>The RSM Classic: Marco Penge wins (Tracked Open -&gt; Finalized YES)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">462,081.71</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MPEN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Golf</td>
+          <td class="mono"><strong>KXPGATOUR-THRC26-CBEZ</strong></td>
+          <td>The RSM Classic: Christiaan Bezuidenhout wins (Tracked Open -&gt; Finalized NO)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">242,634.55</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-CBEZ" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Golf</td>
+          <td class="mono"><strong>KXPGATOUR-THRC26-MMCN</strong></td>
+          <td>The RSM Classic: Maverick McNealy wins (Tracked Open -&gt; Finalized NO)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">166,451.57</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MMCN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Golf</td>
+          <td class="mono"><strong>KXPGATOUR-THRC26-MTHO</strong></td>
+          <td>The RSM Classic: Michael Thorbjornsen wins (Tracked Open -&gt; Finalized NO)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">114,456.17</td>
+          <td class="mono">2026-11-23T19:58:03Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPGATOUR-THRC26-MTHO" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.pgatour.com" target="_blank" rel="noopener">PGA Tour Official Leaderboard ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Crypto</td>
+          <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H08-UP</strong></td>
+          <td>Demo BTC at or above 59023.8 USD (Tracked Open -&gt; Finalized YES)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge ok">YES</span></td>
+          <td class="num">$1.0000</td>
+          <td class="num">8,220.00</td>
+          <td class="mono">2026-11-22T08:01:42Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDEMOFUTHOURLY-26NOV22H08-UP" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase BTC-USD 1m Candle ↗</a>
+          </td>
+        </tr>
+        <tr>
+          <td>Crypto</td>
+          <td class="mono"><strong>KXBTCD-26NOV2203-T48099.99</strong></td>
+          <td>Bitcoin price on Nov 22, 2026 ($48,100+ Tracked Open -&gt; Finalized NO)</td>
+          <td><span class="badge ok">finalized</span></td>
+          <td><span class="badge down">NO</span></td>
+          <td class="num">$0.0000</td>
+          <td class="num">0.00</td>
+          <td class="mono">2026-11-22T08:23:52Z</td>
+          <td>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCD-26NOV2203-T48099.99" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.cfbenchmarks.com" target="_blank" rel="noopener">CF Benchmarks BRTI ↗</a>
+          </td>
+        </tr>
         <tr>
           <td>Crypto</td>
           <td class="mono"><strong>KXDEMOFUTHOURLY-26NOV22H07-UP</strong></td>
