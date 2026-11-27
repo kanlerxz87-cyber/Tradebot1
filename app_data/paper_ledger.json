@@ -1,7 +1,7 @@
 {
  "version": 1,
  "created_at": "2026-11-22T07:16:59Z",
- "updated_at": "2026-11-26T20:40:46Z",
+ "updated_at": "2026-11-27T03:23:41Z",
  "bankroll_start": 1000.0,
  "cash": 763.85,
  "fee_model": "quadratic",
@@ -112,7 +112,7 @@
    "last_mark": 0.99,
    "api_url": "https://external-api.kalshi.com/trade-api/v2/markets/KXBTCD-26NOV2717-T51999.99",
    "series_page_url": "https://kalshi.com/markets/kxbtcd",
-   "last_mark_ts": 1795725514
+   "last_mark_ts": 1795749691
   },
   "KXBTCD-26NOV2217-T57749.99:late_favorite": {
    "id": "pos-f5c7d8413e",
@@ -395,6 +395,10 @@
   ],
   [
    1795725514,
+   1016.81
+  ],
+  [
+   1795749691,
    1016.81
   ]
  ],
@@ -1285,6 +1289,108 @@
    "ts": 1795725514,
    "ticker": "KXBTCD-26NOV2617-T59499.99",
    "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXAAAGASD-26NOV27-3.5450",
+   "strategy": "late_favorite",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T60999.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T61499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T60499.99",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T61999.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXAAAGASM-26NOV30-3.50",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXDPWORLDTOURR2LEAD-BMAPC26-HBAR",
+   "strategy": "cheap_upside",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T59999.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T59999.99",
+   "strategy": "late_favorite",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXDPWORLDTOUR-BMAPC26-TMCK",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXRT-FOC-30",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXRT-FUR-77",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T62499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXAAAGASW-26NOV30-3.5000",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXALBUMEQUIV-GTA626NOV26-180K",
+   "strategy": "fade",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T59499.99",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795749691,
+   "ticker": "KXBTCD-26NOV2717-T59499.99",
+   "strategy": "late_favorite",
    "reason": "max open positions reached"
   }
  ],
