@@ -3,9 +3,34 @@
    Fees use the Kalshi taker formula  roundup(0.07 × C × P × (1−P))  per trade. */
 'use strict';
 
+/* Taker fee, exactly as the published schedule states it:
+     fees = roundup(M × 0.07 × C × P × (1 − P)),  M = 1 by default
+   https://kalshi.com/docs/kalshi-fee-schedule.pdf  (effective 2026-07-07)
+   The naive `Math.ceil(raw * 100) / 100` overcharges by a cent whenever the exact
+   fee already lands on a cent boundary, because the binary float lands just above
+   it: 0.07 × 100 × 0.10 × 0.90 = 0.6300000000000001 → ceil → $0.64, while the
+   published table says $0.63. Rounding to 6dp (the schedule's own granularity,
+   see docs.kalshi.com/getting_started/fee_rounding) before the ceiling removes
+   that error. terminal/tests/core.test.mjs reproduces all 42 published values. */
 const PaperFees = {
-  taker(count, price) {
-    return Math.ceil(0.07 * count * price * (1 - price) * 100) / 100;
+  /* Round up (never down) to a quantum, in the quantum's own integer units, so the
+     multiply back to dollars cannot reintroduce binary-float noise:
+     0.07×100×0.20×(1−0.20) evaluates to 1.1200000000000003 in IEEE-754; a plain
+     Math.ceil(x*100)/100 turns that into $1.13 while the published table says $1.12. */
+  roundUp(value, quantum) {
+    if (!Number.isFinite(value)) return 0;
+    const units = Number((value / quantum).toPrecision(12));
+    return Math.ceil(units) * quantum;
+  },
+  taker(count, price, multiplier = 1) {
+    if (!(count > 0) || !(price >= 0)) return 0;
+    return Number(PaperFees.roundUp(multiplier * 0.07 * count * price * (1 - price), 0.01).toFixed(2));
+  },
+  /* Six-decimal granularity for ledgers that must not lose fractions of a cent
+     (docs.kalshi.com/getting_started/fee_rounding). */
+  taker6(count, price, multiplier = 1) {
+    if (!(count > 0) || !(price >= 0)) return 0;
+    return Number(PaperFees.roundUp(multiplier * 0.07 * count * price * (1 - price), 1e-6).toFixed(6));
   },
 };
 
