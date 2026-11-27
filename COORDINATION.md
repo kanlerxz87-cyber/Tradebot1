@@ -2833,3 +2833,12 @@ series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/st
 **Handoff:** the matching broad integration claim in the merged historical board is dated 2026-11-22 and has no current-branch commits by its owner; this narrowly scoped safety fix is taken over under the board's >60-minute stale-claim rule. Prior artifacts are preserved. The user-requested `session-...` branch naming is incompatible with Arena's fixed branch assignment, so work remains on the assigned branch above.
 
 | Refresh strict audit evidence and generated outputs after the demo-environment safety correction; preserve unrelated finding statuses | complete | `f7815e4f` | `audit/items.json` (minimal evidence/status edits only if required), `docs/audit/data/audit.json`, `docs/audit/{findings,index,flagged,sources,methodology}.html`, `COORDINATION.md` | Refreshed via `audit/verify.py` and `audit/build_site.py`; `audit/verify.py --check`, `audit/build_site.py --check`, and `audit/check_site.py` pass. QA audit remains at 0 errors, 2 warnings, 4 notes. Sources: https://docs.kalshi.com/getting_started/api_environments and https://docs.kalshi.com/getting_started/demo_env. |
+## Session `arena/a7c59b93-tradebot1` — executive-summary accuracy refresh
+
+**Claim (in progress):** Refresh only the opening overview of `EXECUTIVE_SUMMARY.md` so it reflects the current published site and accurately separates Demo data, paper simulation, and credentialed Demo-account actions. Preserve all historical/session detail below the Part A divider. **Scope:** `EXECUTIVE_SUMMARY.md` opening overview only; `COORDINATION.md` append-only claim and verification record. No generated dashboard, landing-page/navigation, data, or another session's source files will be changed.
+
+**Takeover basis:** The remaining broad integration row owned by `6addd9fe` is stale: its fixed branch's latest commit is `bd8bb4d75e5244a194f40b68efc6b22a40fee9c6` (2026-11-22T07:54:54Z); its integration PR #40 had already merged at 2026-11-22T07:51:52Z. This handoff is restricted to the summary opening; it does not take over unrelated files or work. Current public Pages deployment was independently seen successful in run [46040316255](https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46040316255) on 2026-11-27T17:14:59Z.
+
+| UTC time | Session | Event |
+| - | - | - |
+| 2026-11-27 | `a7c59b93` | Claimed the summary-only stale scope described above. Official Kalshi environment documentation fetched; implementation and test results to be recorded after verification. |
