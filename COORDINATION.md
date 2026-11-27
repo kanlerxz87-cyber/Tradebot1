@@ -2701,6 +2701,7 @@ Sandbox limitation unchanged: **this sandbox has no route to `external-api.demo.
 
 ---
 
+
 # Session `arena/260ae8d0-tradebot1` — fee-multiplier defect, line-by-line re-check (2026-11-27)
 
 **Branch:** `arena/260ae8d0-tradebot1`, branched from `f9b807c`; `origin/main` merged in before any
@@ -2818,3 +2819,17 @@ series pays nothing. Templates changed: `templates/portfolio.tpl`, `templates/st
 * **Live re-check (cache-busted URL, since the CDN served the previous revision on the first read)** —
   `portfolio.html?v=be89106` renders "published taker fee × the series multiplier", `Fees paid
   $0.00`, `Equity $999.97`; `flagged.html` renders F-19 with its four source links.
+
+---
+
+# Session `f7815e4f` — demo-only environment safety correction
+
+**Assigned branch:** `arena/f7815e4f-tradebot1` (fixed by Arena; no alternate branch/worktree created).
+
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Stop production market data from being mistaken for Kalshi demo data; make scheduled/local collection demo by default and fail closed on mismatched snapshots | implemented; PR #56 open, verified locally | `f7815e4f` | `.github/workflows/collect.yml`, `kalshi_trader/{config,collector,paper}.py`, `docs/desk/assets/js/{app.js,environment.cjs}`, `docs/desk/data/flags.json`, `docs/desk/{index,portfolio,flagged}.html`, `docs/desk/topics/*.html` (generated), `tools/build_site.py`, `index.html`, `tests/test_demo_environment.py`, `live/desk.py` (fallback format fix), `live/tests/test_live.py` (regression coverage), `EXECUTIVE_SUMMARY.md`, `audit/REPO_LINE_BY_LINE_AUDIT.md`, `app_data/paper_ledger.json`, `COORDINATION.md` | Audit found the scheduled Python collector pinned `KALSHI_DATA_ENV=prod`, config defaulted to prod, and the primary desk/browser REST fallback used production endpoints despite “demo / paper” branding. Official environment mapping checked: https://docs.kalshi.com/getting_started/api_environments. Demo environment limitations and recommended roots checked: https://docs.kalshi.com/getting_started/demo_env. The last populated Nov 27 snapshot explicitly reported `data_env=prod`, REST `https://external-api.kalshi.com/trade-api/v2`; production snapshot/history/ledger values have been removed from published data files and remain flagged until a successful demo refresh. The list-vs-map snapshot fallback is fixed and covered. Full verification passed. No Kalshi fact inferred from inaccessible live API. |
+
+**Handoff:** the matching broad integration claim in the merged historical board is dated 2026-11-22 and has no current-branch commits by its owner; this narrowly scoped safety fix is taken over under the board's >60-minute stale-claim rule. Prior artifacts are preserved. The user-requested `session-...` branch naming is incompatible with Arena's fixed branch assignment, so work remains on the assigned branch above.
+
+| Refresh strict audit evidence and generated outputs after the demo-environment safety correction; preserve unrelated finding statuses | complete | `f7815e4f` | `audit/items.json` (minimal evidence/status edits only if required), `docs/audit/data/audit.json`, `docs/audit/{findings,index,flagged,sources,methodology}.html`, `COORDINATION.md` | Refreshed via `audit/verify.py` and `audit/build_site.py`; `audit/verify.py --check`, `audit/build_site.py --check`, and `audit/check_site.py` pass. QA audit remains at 0 errors, 2 warnings, 4 notes. Sources: https://docs.kalshi.com/getting_started/api_environments and https://docs.kalshi.com/getting_started/demo_env. |

@@ -4,14 +4,13 @@ Every endpoint below is taken from the official documentation
 (https://docs.kalshi.com/getting_started/api_environments) — see
 ``docs/data/sources.json`` for the machine-readable citation list.
 
-Design decision (flagged on the Flagged for Review page):
-* Market data is read from the **production** public endpoints. They require no API key,
-  which means the dashboard can run fully autonomously, and they carry real volume and
-  real prices. The demo environment is a sandbox whose prices Kalshi explicitly warns may
-  not reflect real markets.
-* Order execution defaults to the internal **paper** ledger, because a Kalshi demo account
-  (and its API key) cannot be created from inside this repository. If demo credentials are
-  supplied as environment variables / GitHub secrets the demo adapter activates on its own.
+Design decision:
+* Data collection defaults to Kalshi's **demo** REST and WebSocket endpoints. Production
+  data requires an explicit ``KALSHI_DATA_ENV=prod`` override and is rejected by the demo
+  dashboard UI; demo and production credentials/data are not interchangeable.
+* Order execution defaults to the internal **paper** ledger. If demo credentials are
+  supplied as environment variables / GitHub secrets, the demo adapter can be enabled; it
+  always targets the demo host.
 """
 
 from __future__ import annotations
@@ -67,7 +66,7 @@ class Settings:
     """All tunables in one place. Everything is overridable by environment variable."""
 
     # --- data source -------------------------------------------------------
-    data_env: str = field(default_factory=lambda: _env("KALSHI_DATA_ENV", "prod").lower())
+    data_env: str = field(default_factory=lambda: _env("KALSHI_DATA_ENV", "demo").lower())
     # --- execution ---------------------------------------------------------
     execution_mode: str = field(default_factory=lambda: _env("KALSHI_EXECUTION", "paper").lower())
     # --- credentials (optional; only needed for demo execution) ------------
@@ -101,6 +100,10 @@ class Settings:
     data_dir: Path = REPO_ROOT / "docs" / "desk" / "data"
     state_dir: Path = REPO_ROOT / "app_data"
     paper_ledger: Path = REPO_ROOT / "app_data" / "paper_ledger.json"
+
+    def __post_init__(self) -> None:
+        if self.data_env not in {"demo", "prod"}:
+            raise ValueError("KALSHI_DATA_ENV must be exactly 'demo' or 'prod'")
 
     # ---------------------------------------------------------------------
     @property

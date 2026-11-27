@@ -1,12 +1,12 @@
 name: Collect market data
 
-# The autonomous loop. Every 30 minutes it reads the public Kalshi API (no key needed),
+# The autonomous loop. Every 30 minutes it reads only the public Kalshi demo API,
 # records prices, detects >= $0.10 swings, advances the paper-trading book, regenerates the
 # static tables and publishes the site.
 #
 # If demo credentials are added as repository secrets (KALSHI_API_KEY_ID, KALSHI_PRIVATE_KEY)
-# the demo adapter in kalshi_trader/kalshi_demo.py starts reading the demo account and mirroring
-# new entries as demo orders — no code change required.
+# the demo adapter in kalshi_trader/kalshi_demo.py can read the demo account and mirror
+# eligible entries as demo orders — no production account or endpoint is used.
 
 on:
   schedule:
@@ -43,7 +43,7 @@ jobs:
 
       - name: Collect one cycle
         env:
-          KALSHI_DATA_ENV: prod
+          KALSHI_DATA_ENV: demo
           KALSHI_EXECUTION: ${{ secrets.KALSHI_API_KEY_ID && 'demo' || 'paper' }}
           KALSHI_API_KEY_ID: ${{ secrets.KALSHI_API_KEY_ID }}
           KALSHI_PRIVATE_KEY: ${{ secrets.KALSHI_PRIVATE_KEY }}

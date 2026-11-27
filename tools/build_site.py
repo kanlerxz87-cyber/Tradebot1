@@ -172,6 +172,16 @@ def stamp(iso: str | None) -> str:
     return esc(str(iso).replace("T", " ").replace("Z", " UTC"))
 
 
+def is_demo_snapshot(latest: dict[str, Any] | None) -> bool:
+    """Accept only snapshots explicitly sourced from an official demo REST root."""
+    if not isinstance(latest, dict) or latest.get("data_env") != "demo":
+        return False
+    return latest.get("rest_base", "").rstrip("/") in {
+        "https://external-api.demo.kalshi.co/trade-api/v2",
+        "https://demo-api.kalshi.co/trade-api/v2",
+    }
+
+
 def head(title: str, prefix: str, active: str) -> str:
     nav = []
     for href, label in NAV:
@@ -315,7 +325,7 @@ def series_table(series: Iterable[dict[str, Any]], *, limit: int = 25) -> str:
   <td class="meta">{esc(", ".join(row.get("tags") or []) or "—")}</td>
   <td class="num">{count(row.get("volume"))}</td>
   <td>{f'<a href="{esc(row.get("contract_terms_url"))}" target="_blank" rel="noopener">terms</a>' if row.get("contract_terms_url") else "—"}</td>
-  <td><a href="https://external-api.kalshi.com/trade-api/v2/series/{esc(row.get('ticker'))}" target="_blank" rel="noopener">API</a></td>
+  <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/series/{esc(row.get('ticker'))}" target="_blank" rel="noopener">API</a></td>
 </tr>"""
         for row in rows
     )
@@ -327,6 +337,10 @@ def series_table(series: Iterable[dict[str, Any]], *, limit: int = 25) -> str:
 # ----------------------------------------------------------------- topic pages
 def build_topic_page(topic_id: str, latest: dict[str, Any], series_catalog: dict[str, Any]) -> str:
     meta = TOPIC_DEFS[topic_id]
+    demo_ok = is_demo_snapshot(latest)
+    if not demo_ok:
+        latest = {}
+        series_catalog = {}
     block = (latest.get("topics") or {}).get(topic_id) or {}
     markets = block.get("markets") or []
     events = block.get("events") or []
@@ -351,6 +365,7 @@ def build_topic_page(topic_id: str, latest: dict[str, Any], series_catalog: dict
     page += f"""
   <h1 class="page-title">{esc(meta['label'])}</h1>
   <p class="page-sub">{esc(meta['blurb'])}</p>
+  {'' if demo_ok else '<div class="banner warn"><b>Demo data withheld.</b><span class="grow">The committed snapshot is not verified as Kalshi demo data. This page will populate after a successful demo-only collection cycle.</span></div>'}
 
   <div class="grid kpi">
     <div class="card"><span class="label">Markets tracked</span><span class="value">{count(block.get('markets_count'))}</span><span class="foot">top {count(len(markets))} kept by estimated notional</span></div>
@@ -401,6 +416,12 @@ def build_topic_page(topic_id: str, latest: dict[str, Any], series_catalog: dict
 
 # ------------------------------------------------------------- other injections
 def build_index_static(latest: dict[str, Any]) -> str:
+    if not is_demo_snapshot(latest):
+        return (
+            '<div class="banner warn"><b>Demo data withheld.</b><span class="grow">'
+            'The committed snapshot is not verified as Kalshi demo data. This table will populate '
+            'after a successful demo-only collection cycle.</span></div>'
+        )
     markets = []
     for topic_id in TOPIC_ORDER:
         block = (latest.get("topics") or {}).get(topic_id) or {}
@@ -437,6 +458,12 @@ def build_index_static(latest: dict[str, Any]) -> str:
 
 
 def build_portfolio_static(paper: dict[str, Any], latest: dict[str, Any]) -> str:
+    if not is_demo_snapshot(latest):
+        return (
+            '<div class="banner warn"><b>Paper history withheld.</b><span class="grow">'
+            'The current market snapshot is not verified as Kalshi demo data, so its simulated '
+            'performance is not combined with a demo ledger.</span></div>'
+        )
     headline = (paper or {}).get("headline") or {}
     summary = (paper or {}).get("summary") or {}
     trades = (paper or {}).get("trades") or []

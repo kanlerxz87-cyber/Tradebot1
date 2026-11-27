@@ -100,8 +100,8 @@
     <h2>Decisions worth knowing</h2>
     <div class="grid two">
       <div class="card">
-        <h3>Data from production, execution in paper</h3>
-        <p class="small">Production public data is keyless, real and carries real volume. The demo environment is a sandbox that Kalshi itself warns may not reflect real markets. Reading production and executing in a simulated book keeps the two roles honest; switching to demo data is one environment variable. Flagged as <a href="flagged.html#F6">F6</a>.</p>
+        <h3>Demo data, execution in paper</h3>
+        <p class="small">The scheduled collector and local default now use Kalshi's demo REST API; the browser and static builders reject snapshots unless both the environment label and REST root match an official demo endpoint. The committed snapshot still identifies production data and is withheld until a successful demo-only cycle replaces it. Flagged as <a href="flagged.html#F6">F6</a>.</p>
       </div>
       <div class="card">
         <h3>Static site plus a real collector</h3>
