@@ -1,0 +1,105 @@
+name: Collect terminal swing log
+
+# The /terminal/ dashboard reads Kalshi in the visitor's browser, which is what makes
+# it live — but a browser tab only sees the market while it is open. This job samples
+# the public demo API on a schedule from GitHub's runners (which can reach it) and
+# commits the ≥ $0.10 swings it measures to terminal/data/alerts.json. The dashboard
+# shows those rows labelled SERVER, alongside its own SESSION observations.
+#
+# No credentials: every endpoint used is public.
+#   https://docs.kalshi.com/getting_started/quick_start_market_data
+#
+# Rate limits: public reads are separately limited, the collector paces itself at
+# 150 ms between pages and reads at most 12 pages per status.
+#   https://docs.kalshi.com/getting_started/rate_limits
+#
+# Offsets (:07, :37) keep it away from the other two collectors (:00/:30 Python,
+# :13/:43 Node) so three loops never share a rate-limit window.
+
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: 'Fetch and compute, but do not commit'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: terminal-collect
+  cancel-in-progress: false
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Collector rules pass offline
+        run: node --test tools/terminal-collect.test.mjs
+
+      - name: Probe the demo API before collecting
+        run: |
+          set -euo pipefail
+          code=$(curl -sS -m 25 -o /tmp/status.json -w '%{http_code}' \
+            https://external-api.demo.kalshi.co/trade-api/v2/exchange/status)
+          echo "HTTP $code"
+          cat /tmp/status.json || true
+          echo
+          if [ "$code" != "200" ]; then
+            echo "::error::Demo API did not answer 200; not collecting."
+            exit 1
+          fi
+
+      # The collector exits 2 (and writes nothing) when it reaches no events at all,
+      # so an outage can never replace a good published log with an empty one.
+      - name: Collect one cycle
+        run: node tools/terminal-collect.mjs ${{ inputs.dry_run && '--dry-run' || '' }}
+
+      - name: The published data satisfies its contract
+        run: node terminal/tests/contract.mjs
+
+      - name: Commit the swing log and snapshot
+        if: ${{ !inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          git config user.name 'terminal-collector'
+          git config user.email 'terminal-collector@users.noreply.github.com'
+          git add terminal/data
+          if git diff --cached --quiet; then
+            echo "No change to commit."
+            exit 0
+          fi
+          git commit -m "data: terminal swing log $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          for attempt in 1 2 3; do
+            if git pull --rebase --autostash origin "${GITHUB_REF_NAME}" && git push origin "HEAD:${GITHUB_REF_NAME}"; then
+              exit 0
+            fi
+            echo "push attempt $attempt failed; retrying"
+            sleep 5
+          done
+          echo "::error::could not push the swing log"
+          exit 1
+
+      - name: Confirm the published log is being served
+        if: always() && !inputs.dry_run
+        continue-on-error: true
+        run: |
+          for i in $(seq 1 12); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' https://kanlerxz87-cyber.github.io/Tradebot1/terminal/data/alerts.json)
+            echo "attempt $i → HTTP $code"
+            [ "$code" = "200" ] && exit 0
+            sleep 20
+          done
+          echo "::warning::the published swing log did not answer 200 within ~4 minutes"

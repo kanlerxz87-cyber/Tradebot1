@@ -100,7 +100,8 @@
   }
 
   function drawEquityCurve(canvas, values) {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+    if (!ctx) return;
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
     if (!rect.width) return;

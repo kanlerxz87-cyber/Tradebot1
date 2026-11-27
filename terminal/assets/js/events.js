@@ -15,28 +15,36 @@
     rows: [],
   };
 
+  /* One row, built by the same rules as the dashboard (Desk.buildRow): official
+     series/tag/category first, then words; last trade, else quote midpoint. A market
+     with no price at all is dropped, not priced at the bid. */
   function classifyRow(ev, m) {
-    const topic = m._topic || classifyMarket({ ...m, category: m.category || (ev && ev.category), series_ticker: m.series_ticker || (ev && ev.series_ticker) });
-    if (!topic) return null;
-    const yesBid = Kalshi.priceOf(m, 'bid');
-    const yesAsk = Kalshi.priceOf(m, 'ask');
-    const last = Kalshi.priceOf(m, 'last') ?? (yesBid != null && yesAsk != null ? (yesBid + yesAsk) / 2 : null);
-    const result = (m.result || '').toLowerCase() || (String(m.status || '').toLowerCase() === 'settled' ? '' : '');
+    if (m._sim) {
+      const cls = classifyMarket({ ...m, category: m.category || (ev && ev.category), series_ticker: m.series_ticker || (ev && ev.series_ticker) });
+      if (!cls.topic) return null;
+      return {
+        topic: cls.topic, topicEvidence: cls.evidence,
+        eventTicker: m.event_ticker || (ev && ev.event_ticker) || '—',
+        seriesTicker: m.series_ticker || '—',
+        title: (ev && ev.title) || m.title || m.ticker,
+        contract: m.yes_sub_title || m.title || m.ticker,
+        ticker: m.ticker,
+        closeTime: m.close_time || null,
+        status: 'open',
+        result: null,
+        vol: Kalshi.volumeOf(m), oi: Kalshi.openInterestOf(m), last: Kalshi.priceOf(m, 'last'),
+        sim: true, url: Desk.seriesTickerToUrl(m.series_ticker),
+      };
+    }
+    const row = Desk.buildRow(ev, m);
+    if (!row) return null;
     return {
-      topic,
-      eventTicker: m.event_ticker || (ev && ev.event_ticker) || '—',
-      seriesTicker: m.series_ticker || (ev && ev.series_ticker) || '—',
-      title: (ev && ev.title) || m.title || m.ticker,
-      contract: m.yes_sub_title || m.title || m.ticker,
-      ticker: m.ticker,
-      closeTime: m.close_time || m.expiration_time || (ev && ev.close_time) || null,
-      status: String(m.status || (ev && ev.status) || 'unknown').toLowerCase(),
-      result: result === 'yes' || result === 'no' ? result : '',
-      vol: Kalshi.volumeOf(m),
-      oi: Kalshi.openInterestOf(m),
-      last,
-      sim: !!m._sim,
-      url: 'https://kalshi.com/markets/' + String((m.series_ticker || (ev && ev.series_ticker) || '')).toLowerCase(),
+      topic: row.topic, topicEvidence: row.topicEvidence,
+      eventTicker: row.eventTicker || '—', seriesTicker: row.seriesTicker || '—',
+      title: row.title, contract: row.contractTitle, ticker: row.ticker,
+      closeTime: row.closeTime, status: row.status, result: row.result,
+      vol: row.volume, oi: row.openInterest, price: row.price, priceBasis: row.priceBasis,
+      sim: false, url: row.exchangeUrl, sourceUrl: row.sourceUrl,
     };
   }
 
@@ -44,6 +52,8 @@
     $('#eventsStatus').innerHTML = '<span class="spinner"></span> Loading from Kalshi demo API…';
     state.simulated = false;
     try {
+      /* The API accepts one status value at a time (unopened|open|closed|settled), so
+         "all" is two requests, not one filter with two values. */
       const statuses = state.status === 'all' ? ['open', 'settled'] : [state.status];
       let flat = [];
       for (const s of statuses) {
@@ -113,14 +123,14 @@
             <tbody>
               ${topicRows.map(r => `
                 <tr>
-                  <td style="max-width:360px" title="${escapeHtml(r.title)}"><div>${escapeHtml(truncate(r.title, 90))}</div><div class="muted small">${escapeHtml(truncate(r.contract, 90))}</div>${r.sim ? '<span class="badge sim">SIM</span>' : ''}</td>
+                  <td style="max-width:360px" title="${escapeHtml(r.title)} · matched on ${escapeHtml(r.topicEvidence || '')}"><div>${escapeHtml(truncate(r.title, 90))}</div><div class="muted small">${escapeHtml(truncate(r.contract, 90))}</div>${r.sim ? '<span class="badge sim">SIM</span>' : ''}</td>
                   <td class="mono" style="font-size:12px">${escapeHtml(r.ticker)}</td>
                   <td class="small">${r.closeTime ? escapeHtml(fmtDateTime(r.closeTime)) : '—'}</td>
                   <td class="num">${fmtContracts(r.vol)}</td>
                   <td class="num">${fmtContracts(r.oi)}</td>
-                  <td class="num">${r.last != null ? '$' + r.last.toFixed(2) : '—'}</td>
+                  <td class="num">${r.price != null ? '$' + r.price.toFixed(2) : '—'}</td>
                   <td class="small">${escapeHtml(r.status)}</td>
-                  <td>${RESULT_BADGE[r.result] || RESULT_BADGE['']}</td>
+                  <td>${RESULT_BADGE[r.result || ''] || RESULT_BADGE['']}</td>
                   <td class="small"><a href="${escapeHtml(r.url)}" target="_blank" rel="noopener noreferrer">Kalshi ↗</a><br><a href="https://www.google.com/search?tbm=nws&q=${encodeURIComponent(r.title)}" target="_blank" rel="noopener noreferrer">News ↗</a></td>
                 </tr>`).join('')}
             </tbody>
@@ -148,8 +158,8 @@
     $('#eventsSimBtn').addEventListener('click', loadSimulated);
     $('#exportCsvBtn').addEventListener('click', () => {
       const rows = filtered();
-      const header = 'topic,event_ticker,ticker,title,contract,close_time,status,result,volume,open_interest,last_price,simulated\n';
-      const body = rows.map(r => [r.topic, r.eventTicker, r.ticker, csv(r.title), csv(r.contract), r.closeTime || '', r.status, r.result || '', r.vol, r.oi, r.last != null ? r.last.toFixed(4) : '', r.sim ? 1 : 0].join(',')).join('\n');
+      const header = 'topic,event_ticker,ticker,title,contract,close_time,status,result,volume,open_interest,price,price_basis,simulated\n';
+      const body = rows.map(r => [r.topic, r.eventTicker, r.ticker, csv(r.title), csv(r.contract), r.closeTime || '', r.status, r.result || '', r.vol, r.oi, r.price != null ? r.price.toFixed(4) : '', r.priceBasis || '', r.sim ? 1 : 0].join(',')).join('\n');
       const url = URL.createObjectURL(new Blob([header + body], { type: 'text/csv' }));
       const a = document.createElement('a');
       a.href = url; a.download = 'tradebot1-events.csv'; a.click(); URL.revokeObjectURL(url);

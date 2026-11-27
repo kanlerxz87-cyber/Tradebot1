@@ -21,11 +21,12 @@
       <span class="badge">$0.10 swing alerts</span>
     </div>
     <h1>Trade the <span class="grad">event.</span><br>Not the noise.</h1>
-    <p class="lead">Tradebot1 is a live command center for the <strong>Kalshi demo exchange</strong>. It tracks the highest-dollar open events across <strong>gas prices, elections, culture, crypto and golf</strong>, fires real-time alerts on contract moves of <strong>$0.10 or more</strong>, streams them into two live feeds (every event + model-approved high-ROI picks), and lets you test strategies on a simulated ledger — or on your own demo account.</p>
+    <p class="lead">Tradebot1 is a live command center for the <strong>Kalshi demo exchange</strong> (mock funds). Your browser reads the exchange directly, so the prices on it are as current as the exchange is. It covers <strong>gas prices, elections, culture, crypto and golf</strong> — and nothing else — shows the <strong>biggest one-day movers</strong>, fires alerts on contract moves of <strong>$0.10 or more</strong> in either direction, keeps those alerts in two scrolling feeds (every move, and the subset that passes a published screen), charts price against time, and prices the order book in <strong>contracts and dollars</strong>.</p>
     <div class="cta-row">
       <a class="btn primary" href="dashboard.html">▶ Open Live Dashboard</a>
-      <a class="btn" href="summary.html">Executive Summary</a>
-      <a class="btn ghost" href="verification.html">Verification &amp; sources</a>
+      <a class="btn" href="events.html">Events &amp; resolution</a>
+      <a class="btn" href="portfolio.html">Paper &amp; demo portfolio</a>
+      <a class="btn ghost" href="probe.html">Connection probe</a>
     </div>
     <div class="hero-stats">
       <div class="hs"><div class="n" id="hsStatus">…</div><div class="l">Demo exchange status</div></div>
@@ -36,21 +37,29 @@
     <p class="small muted" id="hsStatusNote" style="margin-top:8px">Checking demo API connectivity from your browser…</p>
   </section>
 
+  <h2 class="section-title">Start here</h2>
+  <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(220px,1fr))">
+    <a class="card" href="dashboard.html"><h3>1 · Biggest movers, now</h3><p>Contracts whose exchange-published one-day change is ≥ $0.10, sorted by size, with the source object behind every row. The two alert chats sit beside the chart.</p></a>
+    <a class="card" href="dashboard.html#gas"><h3>2 · Chart any contract</h3><p>X is time (30 s to 1 day), Y is contract price ($0.00–$1.00). History is backfilled from the official candlestick endpoint; live reads are layered on top and the panel says which is which.</p></a>
+    <a class="card" href="events.html"><h3>3 · Follow it to YES/NO</h3><p>Every followed event stays on the resolution tracker until the exchange publishes a <code>result</code>. A closed market with no result is shown as unresolved, never guessed.</p></a>
+    <a class="card" href="portfolio.html"><h3>4 · Try a strategy</h3><p>Paper trades are simulated in this browser with the published taker fee. The demo-account panel reads your own Kalshi demo account if you connect it, and explains the browser-signing limitation first.</p></a>
+  </div>
+
   <h2 class="section-title">The five verticals</h2>
   <div class="grid" style="grid-template-columns: repeat(5, minmax(0,1fr));" id="topicGrid">
-    <a class="card topic-card gas" href="dashboard.html#gas"><h3>⛽ Gas Prices</h3><p>Retail gasoline, WTI/Brent, natural gas. Cross-checked against EIA reference data.</p><div class="foot">Sources: eia.gov</div></a>
+    <a class="card topic-card gas" href="dashboard.html#gas"><h3>⛽ Gas Prices</h3><p>Retail gasoline and diesel contracts (series KXAAAGAS*), settled on a published energy-agency figure. Identified by the official series and the oil/energy tags.</p><div class="foot">Sources: eia.gov · gasprices.aaa.com</div></a>
     <a class="card topic-card elections" href="dashboard.html#elections"><h3>🗳️ Elections</h3><p>Midterms, chamber control, nominations, ballots. FEC reference links on-page.</p><div class="foot">Sources: fec.gov</div></a>
     <a class="card topic-card culture" href="dashboard.html#culture"><h3>🎬 Culture</h3><p>Awards season, box office, music, streaming. Official award-body sources linked.</p><div class="foot">Sources: oscars.org · grammy.com</div></a>
     <a class="card topic-card crypto" href="dashboard.html#crypto"><h3>₿ Crypto</h3><p>BTC/ETH price milestones, ETF decisions, industry events. CoinGecko references.</p><div class="foot">Sources: coingecko.com</div></a>
-    <a class="card topic-card golf" href="dashboard.html#golf"><h3>⛳ Golf</h3><p>PGA Tour, majors, Ryder Cup, LIV. pgatour.com &amp; masters.com references.</p><div class="foot">Sources: pgatour.com · masters.com</div></a>
+    <a class="card topic-card golf" href="dashboard.html#golf"><h3>⛳ Golf</h3><p>PGA Tour, majors, Ryder Cup, LIV. Golf is an official <em>tag</em> under Sports, so a player's tournament market is matched by the tag, not by the word “golf”.</p><div class="foot">Sources: pgatour.com · masters.com</div></a>
   </div>
   <p class="small muted">Each card opens the dashboard filtered to that vertical. Topics stay separate; events within a topic are organized together and ranked by est. notional (volume × last price).</p>
 
-  <h2 class="section-title">Live snapshot — highest-dollar tracked events</h2>
+  <h2 class="section-title">Live snapshot — highest-dollar tracked contracts</h2>
   <div class="card">
     <div class="table-wrap">
       <table aria-label="Top tracked demo events by notional">
-        <thead><tr><th>Topic</th><th>Event</th><th class="num">Last</th><th class="num">Volume (contracts)</th><th class="num">Est. notional</th></tr></thead>
+        <thead><tr><th>Topic</th><th>Event</th><th class="num">Last</th><th class="num">24h volume (contracts)</th><th class="num">24h $ (est.)</th></tr></thead>
         <tbody id="topEventsBody"><tr class="empty-row"><td colspan="5">Loading live snapshot…</td></tr></tbody>
       </table>
     </div>
@@ -91,6 +100,7 @@
 <script src="assets/js/common.js"></script>
 <script src="assets/js/topics.js"></script>
 <script src="assets/js/kalshi.js"></script>
+<script src="assets/js/desk.js"></script>
 <script src="assets/js/index.js"></script>
 </body>
 </html>

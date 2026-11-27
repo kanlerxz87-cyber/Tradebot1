@@ -25,7 +25,7 @@
         <tr><td><a href="#F-02">F-02</a></td><td>CORS measured: public reads allowed; signed requests blocked</td><td><span class="badge ok">measured</span></td></tr>
         <tr><td><a href="#F-03">F-03</a></td><td>WebSocket streaming needs a proxy</td><td><span class="badge unverified">open</span></td></tr>
         <tr><td><a href="#F-04">F-04</a></td><td>Demo order placement never executed</td><td><span class="badge unverified">open</span></td></tr>
-        <tr><td><a href="#F-05">F-05</a></td><td>Fee schedule PDF not read in-session</td><td><span class="badge unverified">open</span></td></tr>
+        <tr><td><a href="#F-05">F-05</a></td><td>Fee schedule PDF not read in-session</td><td><span class="badge ok">closed 2026-11-27</span></td></tr>
         <tr><td><a href="#F-06">F-06</a></td><td>Per-contract web URLs unverified</td><td><span class="badge unverified">open</span></td></tr>
         <tr><td><a href="#F-07">F-07</a></td><td>Repository irregularities at <code>c8413fc</code></td><td><span class="badge info">historical</span></td></tr>
         <tr><td><a href="#F-08">F-08</a></td><td>“$0.10 in either direction” operationalized two ways</td><td><span class="badge info">confirm intent</span></td></tr>
@@ -37,6 +37,12 @@
         <tr><td><a href="#F-14">F-14</a></td><td>Public repository / public Pages site</td><td><span class="badge info">disclosure</span></td></tr>
         <tr><td><a href="#F-15">F-15</a></td><td>Classic branch protection unreadable with current token</td><td><span class="badge unverified">open</span></td></tr>
         <tr><td><a href="#F-16">F-16</a></td><td>Never commit demo credentials (public repo)</td><td><span class="badge info">disclosure</span></td></tr>
+        <tr><td><a href="#F-17">F-17</a></td><td>Fee rounding charged a cent too much at 12 published price points</td><td><span class="badge ok">fixed 2026-11-27</span></td></tr>
+        <tr><td><a href="#F-18">F-18</a></td><td>“Presidents Cup” was classified as an election</td><td><span class="badge ok">fixed 2026-11-27</span></td></tr>
+        <tr><td><a href="#F-19">F-19</a></td><td>Alert engine re-alerted one excursion forever, and alerted on stale quotes</td><td><span class="badge ok">fixed 2026-11-27</span></td></tr>
+        <tr><td><a href="#F-20">F-20</a></td><td>The alert chat was empty for every visitor until their tab had seen a swing</td><td><span class="badge info">mitigated — server log added</span></td></tr>
+        <tr><td><a href="#F-21">F-21</a></td><td>Two pages crashed in a browser without a 2-D canvas context</td><td><span class="badge ok">fixed 2026-11-27</span></td></tr>
+        <tr><td><a href="#F-22">F-22</a></td><td>Chart history was empty on first load</td><td><span class="badge ok">fixed 2026-11-27</span></td></tr>
       </tbody>
     </table></div>
   </div>
@@ -70,9 +76,11 @@
   </div>
 
   <div class="card" style="margin-top:16px">
-    <h2 id="F-05">F-05 · Official Kalshi fee-schedule PDF URL not confirmed</h2>
-    <p class="muted"><strong>What:</strong> the fee formula used for paper/simulated PnL (<code>roundup(0.07 × C × P × (1−P))</code>, taker, most markets) comes from dated third-party reports (2026-07 fee schedule effective date). The official PDF was not located/fetched in this session. Non-standard series (Fed funds, CPI, jobs, GDP, NFL/NBA per secondary reports) may differ.</p>
-    <p class="muted"><strong>Unblocks when:</strong> the official fee page on kalshi.com is linked and quoted in <code>verification.html</code>.</p>
+    <h2 id="F-05">F-05 · <s>Official Kalshi fee-schedule PDF URL not confirmed</s> — CLOSED 2026-11-27</h2>
+    <p class="muted"><strong>What it was:</strong> the fee formula used for paper/simulated PnL came only from dated third-party reports because the official PDF had not been located in the build session.</p>
+    <p class="muted"><strong>Closed because:</strong> the schedule was read directly on 2026-11-27 — <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">kalshi.com/docs/kalshi-fee-schedule.pdf ↗</a>. It states <code>fees = roundup(M × 0.07 × C × P × (1−P))</code> for general trading fees and <code>roundup(M × 0.0175 × C × P × (1−P))</code> for maker fees, “no settlement fee”, and “Last updated and effective: July 7, 2026”, and it prints a General Trading Fees Table with 21 price points at 1 and 100 contracts. <code>terminal/tests/core.test.mjs</code> reproduces all 42 of those values.</p>
+    <p class="muted"><strong>Still open, separately:</strong> the schedule's “Non-Standard Fees” section lists per-series <em>M</em> multipliers, including some at 0. This site models only <em>M</em> = 1 and says so wherever a fee is shown (see <a href="#F-17">F-17</a> and <a href="#F-12">F-12</a>).</p>
+    <p class="small"><a href="verification.html">V-45, V-46, V-47</a></p>
   </div>
 
   <div class="card" style="margin-top:16px">
@@ -130,7 +138,55 @@
     <p class="muted"><strong>What:</strong> the repo is public and Pages is on. That means the dashboard is a public single-page app. <strong>Never</strong> paste production keys into it; demo keys stay in your own browser's localStorage. The site ships no secrets (verified: repo contains only these files; no keys, no .env).</p>
   </div>
 
-  <p class="small muted" style="margin-top:18px">Log any new irregularity in <code>COORDINATION.md</code> with an <code>F-</code> id and mirror it here. Status of this register: 2026-11-22, session arena-30938ff3.</p>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-17">F-17 · Fee rounding charged one cent too much at 12 published price points — FIXED 2026-11-27</h2>
+    <p class="muted"><strong>What:</strong> <code>PaperFees.taker</code> computed <code>Math.ceil(0.07 × C × P × (1−P) × 100) / 100</code>. Because the exact fee lands a few floating-point units <em>above</em> the cent boundary, the ceiling rounded a correct value up: at <code>C=100, P=$0.20</code> it returned <strong>$1.13</strong> while the published table says <strong>$1.12</strong>. Six of the 21 single-contract points and six of the 21 hundred-contract points were affected, so every paper P&amp;L, strategy backtest and settlement figure that used a fee was slightly wrong.</p>
+    <p class="muted"><strong>Fixed:</strong> the fee is now rounded up on a quantum grid in integer units (<code>roundUp(value, 0.01)</code> / <code>1e-6</code>), which reproduces <em>all 42</em> published values. The strategy lab and the dashboard call the same function. <code>terminal/tests/core.test.mjs</code> fails if any published value ever stops reproducing.</p>
+    <p class="muted"><strong>Still not modelled:</strong> the per-series multiplier <em>M</em> (including zero-fee series) and maker fills. Wherever a fee appears on this site it is the general taker fee with <em>M</em> = 1.</p>
+    <p class="small"><a href="verification.html">V-45, V-47</a> · <a href="https://kalshi.com/docs/kalshi-fee-schedule.pdf" target="_blank" rel="noopener noreferrer">Fee schedule (PDF) ↗</a></p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-18">F-18 · “Presidents Cup” was filed as an election — FIXED 2026-11-27</h2>
+    <p class="muted"><strong>What:</strong> topics were decided by scoring words in the title. A golf event called “Presidents Cup: Scottie Scheffler wins” contains “president”, so it was shown under Elections; conversely a golf event titled “BMW Australian PGA Championship: Cameron Smith wins” contains neither “golf” nor “presidents cup” and could be dropped from the golf page entirely. Every topic count and every per-topic table inherited the error.</p>
+    <p class="muted"><strong>Fixed:</strong> classification now uses the exchange's own fields first — series ticker prefix, then the official <code>tags</code>, then the official <code>category</code> — and only then words. Golf is a <em>tag</em> under Sports, so the tag decides. Every row on the dashboard now prints the evidence it matched on (“matched on tag &quot;golf&quot;”), so a reader can check the assignment instead of trusting it. <code>terminal/tests/core.test.mjs</code> and <code>desk.test.mjs</code> pin both the golf case and the out-of-scope case.</p>
+    <p class="muted"><strong>Editorial, not official:</strong> “gas” and “culture” are not Kalshi categories. Gas is identified by its series ticker plus the oil/energy tags; culture is the official Entertainment category, which this project uses as the closest verified equivalent. That mapping is ours and is labelled as ours.</p>
+    <p class="small"><a href="verification.html">V-48, V-35, V-34</a> · <a href="https://docs.kalshi.com/api-reference/market/get-markets.md" target="_blank" rel="noopener noreferrer">Get Markets ↗</a></p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-19">F-19 · One excursion re-alerted forever, and stale quotes alerted — FIXED 2026-11-27</h2>
+    <p class="muted"><strong>What:</strong> the alert engine kept the price it first saw as its reference and never moved it after firing. A contract that merely <em>stayed</em> $0.10 from that first observation therefore alerted again every 90 seconds for as long as the tab was open — the “all events” chat filled with repeats of one move. Two related faults: a quote that stopped updating was still compared (the exchange serves cached quotes, so a dead market looked like a live one), and a tab that had been asleep for an hour compared across the gap and reported an hour-old change as a swing.</p>
+    <p class="muted"><strong>Fixed:</strong> firing resets the reference to the price that alerted; a gap longer than 10 minutes rebases instead of comparing; a quote flagged stale is never alerted on. Three regression tests in <code>terminal/tests/core.test.mjs</code>.</p>
+    <p class="muted"><strong>Not claimed:</strong> the model score that ranks these alerts has never been calibrated against outcomes (see <a href="#F-09">F-09</a>). “Model-approved” means “passes a published screen”, not “profitable”.</p>
+    <p class="small"><a href="verification.html">V-49, V-51</a></p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-20">F-20 · The alert chat was empty for every visitor — MITIGATED 2026-11-27</h2>
+    <p class="muted"><strong>What:</strong> because the browser reads the exchange directly, an alert can only be raised while a tab is open on that page. A first-time visitor therefore saw an empty chat and no history, and a refresh erased what the previous visit had seen. That is a structural limitation of a browser-only design, not a bug that a cleverer client fixes.</p>
+    <p class="muted"><strong>Mitigated, and labelled:</strong> a scheduled collector (<code>tools/terminal-collect.mjs</code>, workflow <code>terminal-collect.yml</code>) samples the demo API every 30 minutes from a host that can reach it and commits the swings it measures to <code>terminal/data/alerts.json</code>. The dashboard shows those rows as <span class="badge ok">SERVER</span> and its own as <span class="badge info">SESSION</span>, so the two are never conflated. The collector refuses to write when it reaches no events, and it never compares across a gap it cannot attribute.</p>
+    <p class="muted"><strong>Residual:</strong> server coverage is one sample every 30 minutes, so a swing that opens and closes between two samples is invisible to the log. Only the live tab can catch those, and only while it is open. WebSocket streaming would fix this and remains unimplemented (<a href="#F-03">F-03</a>).</p>
+    <p class="small"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/tools/terminal-collect.mjs" target="_blank" rel="noopener noreferrer">collector source ↗</a> · <a href="https://docs.kalshi.com/getting_started/quick_start_market_data" target="_blank" rel="noopener noreferrer">market data quick start ↗</a></p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-21">F-21 · Two pages crashed without a 2-D canvas context — FIXED 2026-11-27</h2>
+    <p class="muted"><strong>What:</strong> the Strategy Lab and Portfolio pages drew their equity curves without checking whether the canvas returned a drawing context. In any environment where it does not (a test DOM, a browser with canvas disabled, some embedded webviews) the script threw during boot and the page's tables never rendered. Found by the new jsdom render suite the first time it ran.</p>
+    <p class="muted"><strong>Fixed:</strong> every drawing routine now returns early when there is no context, and <code>terminal/tests/render.test.mjs</code> loads all ten pages in a real DOM, fails on any uncaught error, and checks that no page renders the strings “undefined” or “NaN”.</p>
+    <p class="small"><a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/terminal/tests/render.test.mjs" target="_blank" rel="noopener noreferrer">render suite ↗</a></p>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2 id="F-22">F-22 · The price chart had no history on first load — FIXED 2026-11-27</h2>
+    <p class="muted"><strong>What:</strong> the chart only ever contained points that the open tab had itself polled, so “6 h” showed nothing until the tab had been open for six hours, and the seconds/minutes windows showed a single dot. The window selector changed the axis but not the amount of data.</p>
+    <p class="muted"><strong>Fixed:</strong> selecting a contract now backfills the chosen window from the official candlestick endpoint — 1-minute candles up to 3 h, 1-hour up to 30 days, 1-day beyond that, respecting the documented 5,000-period limit — and layers live poll points on top. The panel states how many of the returned periods actually traded and that the remainder are quoted midpoints, because a candle whose <code>close_dollars</code> is null carries no trade.</p>
+    <p class="muted"><strong>Not claimed:</strong> candle history is not backfilled for markets that publish no series ticker, and the demo environment's own history can be sparse. When the request fails the panel says so and shows only the tab's own points.</p>
+    <p class="small"><a href="verification.html">V-43</a> · <a href="https://docs.kalshi.com/api-reference/market/get-market-candlesticks.md" target="_blank" rel="noopener noreferrer">Get Market Candlesticks ↗</a></p>
+  </div>
+
+  <p class="small muted" style="margin-top:18px">Log any new irregularity in <code>COORDINATION.md</code> with an <code>F-</code> id and mirror it here. Status of this register: 2026-11-27, session arena/2573166c (F-05, F-17…F-22 added or closed; F-01…F-16 left exactly as the session that wrote them left them).</p>
 
   <div class="card" style="margin-top:16px">
     <h2 id="F-15">F-15 · Classic branch-protection state could not be read</h2>

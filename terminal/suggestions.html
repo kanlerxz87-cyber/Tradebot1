@@ -19,7 +19,7 @@
     <div class="kpi"><div class="k">P0 items</div><div class="v">2</div></div>
     <div class="kpi"><div class="k">P1 items</div><div class="v">5</div></div>
     <div class="kpi"><div class="k">P2 items</div><div class="v">4</div></div>
-    <div class="kpi"><div class="k">Already shipped</div><div class="v">6</div></div>
+    <div class="kpi"><div class="k">Already shipped</div><div class="v">12</div></div>
   </div>
 
   <div class="card" style="margin-top:16px">
@@ -33,6 +33,12 @@
         <tr><td>Selectable chart windows</td><td>Dashboard · chart panel</td><td>X = time (5 m / 15 m / 1 h / 6 h), Y = contract price $0.00–$1.00; hover crosshair.</td></tr>
         <tr><td>Order-book depth ladder</td><td>Dashboard · ladder</td><td>Contract counts per price level; implied asks derived as 1 − NO bid, labelled as implied.</td></tr>
         <tr><td>Resolution tracker &amp; simulated book</td><td><a href="events.html">Events</a> · <a href="strategies.html">Strategy Lab</a> · <a href="portfolio.html">Portfolio</a></td><td>Open → settled YES/NO with payout; five simulated strategy archetypes; paper ledger.</td></tr>
+        <tr><td><strong>Biggest live movers board</strong> <span class="badge ok">new 2026-11-27</span></td><td>Dashboard · first table</td><td>Ranks contracts by the exchange's own <code>previous_price_dollars</code> → current price change, so a real one-day comparison is on screen at first load instead of after the tab has been open for two polls.</td></tr>
+        <tr><td><strong>Real candle history</strong> <span class="badge ok">new 2026-11-27</span></td><td>Dashboard · chart</td><td>Backfills the chosen window from the official candlestick endpoint (1 m ≤ 3 h, 1 h ≤ 30 d, 1 d beyond) and layers this tab's own reads on top, telling you how many periods actually traded.</td></tr>
+        <tr><td><strong>Liquidity in dollars</strong> <span class="badge ok">new 2026-11-27</span></td><td>Dashboard · order book</td><td>Every level shows contracts, its dollar value and the cumulative dollars behind it, so “how much would $500 move this price” is answerable without arithmetic.</td></tr>
+        <tr><td><strong>Server-observed alert log</strong> <span class="badge ok">new 2026-11-27</span></td><td>Dashboard · alerts</td><td>A scheduled collector commits the swings it measures, so the chat is not empty for a first-time visitor. Server and session rows are labelled separately.</td></tr>
+        <tr><td><strong>Connection probe</strong> <span class="badge ok">new 2026-11-27</span></td><td><a href="probe.html">Probe</a></td><td>Runs each endpoint the dashboard needs and prints the real status and timing, so a blocked network can be diagnosed instead of mistaken for an empty market.</td></tr>
+        <tr><td><strong>Evidence on every row</strong> <span class="badge ok">new 2026-11-27</span></td><td>Dashboard · tables</td><td>Every row prints which official field put it in its topic (“matched on tag &quot;golf&quot;”) and links the exchange object it was read from.</td></tr>
       </tbody>
     </table></div>
   </div>

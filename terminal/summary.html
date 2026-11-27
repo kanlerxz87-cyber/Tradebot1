@@ -33,7 +33,8 @@
     <div class="table-wrap"><table>
       <thead><tr><th>Deliverable</th><th>Where</th><th>Status</th></tr></thead>
       <tbody>
-        <tr><td>Live dashboard (topics, ranking by est. notional, canvas price chart with 30s–6h windows, order-book ladder with contract counts per price, two scrolling alert feeds, $0.10 swing banner + possible-driver links, paper buy, optional demo buy)</td><td><a href="dashboard.html">dashboard.html</a></td><td><span class="badge ok">Built</span> <span class="badge unverified">live values unverifiable from build sandbox</span></td></tr>
+        <tr><td>Live dashboard (five topics only; biggest one-day movers from the exchange's own previous price; charts with 30 s–1 day windows backfilled from official candles; order book priced in contracts <em>and</em> dollars; two scrolling alert feeds merging a server-observed log with this tab's own reads; $0.10 swing banner with possible-driver links; paper buy; optional demo buy)</td><td><a href="dashboard.html">dashboard.html</a></td><td><span class="badge ok">Built</span> <span class="badge unverified">live values verifiable only in the visitor's browser (this build environment has no Kalshi egress)</span></td></tr>
+        <tr><td>Connection probe — one request per endpoint the dashboard needs, with the real status, timing and body shape</td><td><a href="probe.html">probe.html</a></td><td><span class="badge ok">Built 2026-11-27</span></td></tr>
         <tr><td>Events &amp; resolution tracking (open → settled, YES/NO badges, CSV export)</td><td><a href="events.html">events.html</a></td><td><span class="badge ok">Built</span></td></tr>
         <tr><td>Strategy Lab (Monte Carlo, 5 archetypes, per-strategy / per-topic / per-trade-type analysis, equity curves)</td><td><a href="strategies.html">strategies.html</a></td><td><span class="badge ok">Built</span> <span class="badge info">simulation by design</span></td></tr>
         <tr><td>Portfolio (browser-local paper ledger + optional Kalshi demo account: balance, positions, fills, resting orders)</td><td><a href="portfolio.html">portfolio.html</a></td><td><span class="badge ok">Built</span></td></tr>
@@ -101,7 +102,10 @@
     <ul class="muted" style="margin:0; padding-left:18px">
       <li>Demo markets are shallow and occasionally repriced by admin action; $0.10 alerts may fire on seed/test prints, not news.</li>
       <li>“Possible drivers” links are search/reference entry points — never proven causation. Each is labeled as such in the UI.</li>
-      <li>Est. notional (volume × last price) is a derived proxy, not an official Kalshi metric; it exists to rank $ magnitude, nothing more.</li>
+      <li>Est. 24-hour turnover (24 h contract volume × current price) is a derived proxy, not an official Kalshi metric; it exists to rank $ magnitude, nothing more. The dashboard prints it as “est.” wherever it appears.</li>
+      <li>The schema's one-day comparison (<code>previous_price_dollars</code>) tells you a contract moved $0.10 within a day, not <em>when</em> inside the day. Only the alert feeds carry observation timestamps, and a swing that opened and closed between two 30-minute collector samples is invisible to the server log.</li>
+      <li>Fees everywhere on this site are the general taker fee with multiplier <em>M</em> = 1. The published schedule has per-series multipliers, some of them zero, which are not modelled — see <a href="flagged.html">F-17</a>.</li>
+      <li>“Model-approved” means a market passed a published screen. It has never been calibrated against outcomes and is not a prediction — see <a href="flagged.html">F-09</a>.</li>
       <li>Paper ledger marks come from browser-local state and may lag; reconcile against the demo account before acting.</li>
       <li>Strategy Lab results are Monte Carlo on synthetic paths. They verify the harness and fee model; they are not predictive.</li>
     </ul>

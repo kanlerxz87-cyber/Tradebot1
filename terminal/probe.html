@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live connection probe — Tradebot1 · Kalshi Demo</title>
+<meta name="description" content="One page, one job: try every Kalshi demo endpoint the dashboard uses from your browser and show exactly what came back, so a live-data failure can be diagnosed instead of guessed at.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%2300dd94'/><text x='50' y='72' font-size='62' text-anchor='middle' font-family='Arial Black' fill='%2304120a'>T</text></svg>">
+<link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body data-page="probe.html">
+<div id="site-header" class="site-header"></div>
+
+<main class="container">
+  <h1 class="page-title">Live connection probe</h1>
+  <p class="page-sub">Every data call this site makes is sent from <strong>your</strong> browser to the Kalshi
+    <strong>demo</strong> environment. That is what makes it live — and it means a blocking firewall, an offline laptop or
+    a CORS policy looks exactly like “no data”. This page runs each call once and prints the real HTTP status, timing and a
+    fragment of the response, so a failure can be reported instead of guessed at.</p>
+
+  <div class="callout info">
+    <strong>What this proves.</strong> A green row means <em>this browser, right now</em> received a successful response from
+    that endpoint. It is evidence for you, not a claim about anyone else's connection. Nothing here is cached, retried
+    silently, or filled in when it fails.
+  </div>
+
+  <div class="card">
+    <div style="display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin-bottom:10px">
+      <button id="probeAll" class="btn primary small">▶ Run all probes</button>
+      <span class="small muted" id="probeStatus">Not run yet.</span>
+    </div>
+    <div class="table-wrap">
+      <table aria-label="Probe results">
+        <thead><tr><th>Probe</th><th>Endpoint</th><th class="num">HTTP</th><th class="num">ms</th><th>Result</th><th>What it means</th></tr></thead>
+        <tbody id="probeBody"><tr class="empty-row"><td colspan="6">Press “Run all probes”. Nothing is requested until you do.</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <h2>How to read a failure</h2>
+    <div class="small muted">
+      <p><strong>HTTP 0 / “Failed to fetch”.</strong> The request never completed. Causes: no internet, a corporate
+        proxy or firewall, an extension blocking the host, or the demo host being down. The dashboard cannot fix this and
+        will say “DISCONNECTED” rather than show stale numbers as if they were live.</p>
+      <p><strong>A CORS error in the console.</strong> The browser refused to hand the response to this page. Public market
+        data from the demo hosts has been measured as CORS-allowed (see the <a href="verification.html">verification
+        register</a> and the repository's <code>probe/results.json</code>); if you see one, report the exact endpoint.</p>
+      <p><strong>HTTP 401 on a <code>/portfolio/…</code> route.</strong> Expected: those routes need a signed request with
+        your own demo key. Signed requests from a browser are also blocked at the preflight stage by the exchange's
+        allowed-header list, which is why the <a href="portfolio.html">Portfolio</a> page explains the limitation before
+        you try.</p>
+      <p><strong>HTTP 429.</strong> Rate limited. The dashboard backs off automatically and says so.</p>
+    </div>
+  </div>
+</main>
+
+<div id="site-footer" class="site-footer"></div>
+<script src="assets/js/common.js"></script>
+<script src="assets/js/topics.js"></script>
+<script src="assets/js/kalshi.js"></script>
+<script src="assets/js/desk.js"></script>
+<script src="assets/js/probe.js"></script>
+</body>
+</html>

@@ -24,11 +24,10 @@
       if (!res.ok) throw new Error('HTTP ' + (res.status || 'network/CORS'));
       const flat = await Kalshi.flattenEvents(res);
       const rows = flat.map(({ event, market }) => {
-        const topic = classifyMarket({ ...market, category: market.category || (event && event.category), series_ticker: market.series_ticker || (event && event.series_ticker) });
-        const last = Kalshi.priceOf(market, 'last');
-        const vol = Kalshi.volumeOf(market);
-        return { topic, title: (event && event.title) || market.title || market.ticker, ticker: market.ticker, last, vol, notional: vol * (last ?? 0.5) };
-      }).filter(r => r.topic);
+        const row = Desk.buildRow(event, market);
+        if (!row) return null;
+        return { topic: row.topic, title: row.title, ticker: row.ticker, last: row.price, vol: row.volume, notional: row.notional24h };
+      }).filter(Boolean);
       rows.sort((a, b) => b.notional - a.notional);
       $('#hsContracts').textContent = String(rows.length);
       const topics = new Set(rows.map(r => r.topic));
@@ -39,9 +38,9 @@
         <td style="max-width:420px" title="${escapeHtml(r.title)}">${escapeHtml(String(r.title).slice(0, 90))}${String(r.title).length > 90 ? '…' : ''}</td>
         <td class="num">${r.last != null ? '$' + r.last.toFixed(2) : '—'}</td>
         <td class="num">${fmtContracts(r.vol)}</td>
-        <td class="num">${fmtUsd(r.notional, 0)}</td>
+        <td class="num">${r.notional == null ? '—' : fmtUsd(r.notional, 0)}</td>
       </tr>`).join('') : '<tr class="empty-row"><td colspan="5">No tracked-topic contracts right now.</td></tr>';
-      $('#topEventsNote').textContent = 'Live snapshot from the demo API, sorted by est. notional (volume × last price). Refreshes on each page load.';
+      $('#topEventsNote').textContent = 'Live snapshot from the demo API, sorted by 24h estimated turnover (exchange 24h volume × current price — this page\'s arithmetic, labelled). Refreshes on each page load.';
     } catch (err) {
       $('#hsContracts').textContent = '—';
       $('#hsTopics').textContent = '—';

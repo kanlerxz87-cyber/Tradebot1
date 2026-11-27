@@ -22,7 +22,9 @@
     { id: 'scalp', name: 'Micro Scalp', type: 'Scalp', desc: 'Buy YES after a $0.06 move in 5 steps. Exit at +$0.04 or −$0.05; max 30 steps per trade.' },
   ];
 
-  function fee(qty, price) { return Math.ceil(0.07 * qty * price * (1 - price) * 100) / 100; }
+  /* Delegates to the tested implementation so the lab cannot drift from the published
+     fee table (see terminal/tests/core.test.mjs). */
+  function fee(qty, price) { return PaperFees.taker(qty, price); }
 
   /* Outcome of a synthetic path: P(YES) drawn once from the starting price (calibration). */
   function pathOutcome(rand, startPrice) { return rand() < startPrice ? 1 : 0; }
@@ -113,7 +115,8 @@
   function fmtMoney(n) { return (n < 0 ? '-$' : '+$') + Math.abs(n).toFixed(2); }
 
   function drawEquity(canvas, curves) {
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas && canvas.getContext ? canvas.getContext('2d') : null;
+    if (!ctx) return;
     const dpr = window.devicePixelRatio || 1;
     const rect = canvas.getBoundingClientRect();
     canvas.width = rect.width * dpr; canvas.height = rect.height * dpr;
@@ -211,12 +214,10 @@
       if (!res.ok) throw new Error('HTTP ' + (res.status || 'network/CORS'));
       const flat = await Kalshi.flattenEvents(res);
       const rows = flat.map(({ event, market }) => {
-        const topic = classifyMarket({ ...market, category: market.category || (event && event.category) });
-        const last = Kalshi.priceOf(market, 'last');
-        const bid = Kalshi.priceOf(market, 'bid'), ask = Kalshi.priceOf(market, 'ask');
-        const spread = bid != null && ask != null ? ask - bid : null;
-        return { topic, title: (event && event.title) || market.title, ticker: market.ticker, last, spread, vol: Kalshi.volumeOf(market), oi: Kalshi.openInterestOf(market) };
-      }).filter(r => r.topic && r.last != null);
+        const row = Desk.buildRow(event, market);
+        if (!row) return null;
+        return { topic: row.topic, title: row.title, ticker: row.ticker, last: row.price, spread: row.spread, vol: row.volume, oi: row.openInterest, evidence: row.topicEvidence };
+      }).filter(Boolean);
       rows.sort((a, b) => b.vol - a.vol);
       const top = rows.slice(0, 8);
       el.innerHTML = top.length ? top.map(r => `
