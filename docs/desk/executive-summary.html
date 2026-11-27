@@ -10,7 +10,7 @@
 <body>
 <header class="top">
   <div class="top-inner">
-    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>public data / paper research desk</small></span></div>
+    <div class="brand"><span class="dot"></span><span>Kalshi Trader<br><small>Demo-only data / paper research desk</small></span></div>
     <nav class="main">
       <a href="index.html">Dashboard</a>
       <a href="topics/gas-prices.html">Gas</a>
@@ -32,20 +32,22 @@
 <main class="wrap narrow">
   <h1 class="page-title">Executive summary</h1>
   <p class="page-sub">
-    A source-linked research and paper-trading desk for five Kalshi topics — gas prices, elections,
-    culture, crypto, and golf. It records observed ≥ $0.10 swings, shows time/price charts and order-book
-    depth, tracks markets through final settlement, and keeps simulated strategy results separate from
-    exchange account activity. GitHub Pages serves scheduled snapshots; it is not an always-on exchange
-    connection.
+    A Demo-only research and paper-trading desk for five Kalshi topics — gas prices, elections, culture,
+    crypto, and golf. It is designed to record observed ≥ $0.10 swings, show time/price charts and
+    order-book depth, track markets through final settlement, and keep simulated strategy results separate
+    from exchange account activity. The current snapshot is unverified and market-derived values remain
+    blank pending a successful Demo-only collection; GitHub Pages is not an always-on exchange connection.
   </p>
 
   <section class="section" id="current-status">
     <h2>Current status — reviewed 2026-11-27</h2>
     <div class="card">
-      <p style="margin-top:0"><strong>Published before this change:</strong> <a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059538313">Pages build run 46059538313</a> succeeded for main commit <code>be891068</code>; the homepage was fetched after deployment. Pages reports <code>main /</code> as its source in the <a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages">GitHub Pages API</a>. The fetched landing page still has hard-coded older counts (14 flagged items and 9 QA notes); see the detailed Flagged and QA pages for current findings. This confirms publication only.</p>
-      <p><strong>Environment split:</strong> the current <code>docs/desk/data/latest.json</code> snapshot says <code>data_env: prod</code> and names <code>https://external-api.kalshi.com/trade-api/v2</code>. That research desk uses production public market data and paper trading; it is <em>not</em> a Demo-quote view. For documented Demo hosts, see Kalshi's <a href="https://docs.kalshi.com/getting_started/api_environments">API environment list</a> and <a href="https://docs.kalshi.com/getting_started/demo_env">Demo environment guide</a>; Demo-specific pages are <a href="https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/">Demo API desk</a> and <a href="https://kanlerxz87-cyber.github.io/Tradebot1/terminal/">browser Demo terminal</a>. This source mismatch is flagged as <a href="https://kanlerxz87-cyber.github.io/Tradebot1/qa.html">PROVENANCE-1</a>.</p>
+      <p style="margin-top:0"><strong>Published before this change:</strong> <a href="https://github.com/kanlerxz87-cyber/Tradebot1/actions/runs/46059819211">Pages build run 46059819211</a> succeeded for main commit <code>2aebabb1</code>; the homepage was fetched after deployment and shows blank market-derived figures pending a successful Demo-only collection. Pages reports <code>main /</code> as its source in the <a href="https://api.github.com/repos/kanlerxz87-cyber/Tradebot1/pages">GitHub Pages API</a>. The landing page also retains hard-coded older counts (14 flagged items and 9 QA notes), so use the detailed Flagged and QA pages for current findings. This confirms publication only.</p>
+      <p><strong>Environment/data:</strong> the committed <code>docs/desk/data/latest.json</code> is marked <code>data_env: unverified</code>, with no REST root or capture time, empty topic arrays, and an error explaining that prior production-derived values were removed. Following PR #56, the collector and scheduled collection are Demo-only, and browser/static views withhold data unless the snapshot is verified against an official Demo root. Until a successful Demo-only cycle completes, no current market observations or paper metrics are displayed. See Kalshi's <a href="https://docs.kalshi.com/getting_started/api_environments">API environment list</a> and <a href="https://docs.kalshi.com/getting_started/demo_env">Demo environment guide</a>; separate Demo interfaces remain at the <a href="https://kanlerxz87-cyber.github.io/Tradebot1/demo-desk/">Demo API desk</a> and <a href="https://kanlerxz87-cyber.github.io/Tradebot1/terminal/">browser Demo terminal</a>.</p>
       <p><strong>Account/execution:</strong> the committed <a href="https://kanlerxz87-cyber.github.io/Tradebot1/data/account.json">Demo-account snapshot</a> reads <code>connected: false</code>, so balance and fills are left blank. The separate <a href="https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/services/kalshi/README.md">Demo-only backend contract</a> is not hosted by Pages; Demo order routes are disabled by default and require a trusted credentialed host. Kalshi's <a href="https://docs.kalshi.com/getting_started/quick_start_authenticated_requests">authenticated request guide</a> and <a href="https://docs.kalshi.com/api-reference/orders/create-order-v2">V2 order specification</a> define the account boundary.</p>
-      <p><strong>Coverage:</strong> the primary desk labels its 24-hour dollar figure as an estimate derived from contract volume and price; a complete exchange-wide dollar ranking is unverified. The committed Demo sample at <code>docs/data/snapshot.json</code> is marked partial and dated 2026-11-22. The model-selected alert feed is a heuristic, not a validated ROI forecast. See <a href="https://kanlerxz87-cyber.github.io/Tradebot1/qa.html">current QA findings</a> and <a href="https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html">Flagged for Review</a>.</p>
+      <p><strong>Paper fees:</strong> these remain part of the internal simulation, not an exchange account result. The JavaScript board prefers the exchange-reported series <code>fee_multiplier</code>, then an unambiguous published schedule value, then the default multiplier of 1 for unresolved series; the Python paper ledger applies the published per-series multipliers where unambiguous. Fee rounding and fills remain simulated rather than exchange-reconciled.</p>
+      <p><strong>Coverage:</strong> because the primary snapshot is withheld, no current live leaderboard or swing count is verified. When populated, its 24-hour dollar figure is derived from contract volume × price, not a complete exchange-wide turnover measure. The separate Demo sample at <code>docs/data/snapshot.json</code> is partial and dated 2026-11-22. The model-selected alert feed is a heuristic, not a validated ROI forecast. See <a href="https://kanlerxz87-cyber.github.io/Tradebot1/qa.html">current QA findings</a> and <a href="https://kanlerxz87-cyber.github.io/Tradebot1/docs/desk/flagged.html">Flagged for Review</a>.</p>
+      <p><strong>QA:</strong> the current local report has 0 errors, 2 warnings and 5 notes; the warnings are the line-pinned audit-evidence reference (FLAKY-1) and old root snapshot (STALE-1). The landing page's older QA count is not authoritative.</p>
     </div>
   </section>
 
@@ -54,13 +56,14 @@
     <div class="card">
       <p style="margin-top:0">
         Kalshi documents public market-data reads separately from authenticated account requests. The
-        scheduled collector records official observations for the five requested topics and writes a
-        source-linked snapshot for the static site. One feed shows observed moves of at least ten cents;
-        a second shows only candidates that pass a documented heuristic. Paper strategies use a local
-        ledger and exchange-reported outcomes, not the Demo-account balance. The optional protected Demo
-        order route is a separate server feature; it is disabled unless a trusted host has credentials
-        and an explicit execution enable flag. No authenticated Demo order, fill, balance, or WebSocket
-        session was verified for this publication.
+        scheduled collector now targets the official Demo environment and the static site consumes its
+        timestamped snapshots; the current snapshot is unverified, so the public desk withholds market
+        values until a successful Demo-only refresh. When populated, one feed shows observed moves of at
+        least ten cents and another shows candidates that pass a documented heuristic. Paper strategies
+        use a local ledger, not the Demo-account balance. The optional protected Demo order route is a
+        separate server feature; it is disabled unless a trusted host has credentials and an explicit
+        execution enable flag. No authenticated Demo order, fill, balance, or WebSocket session was
+        verified for this publication.
       </p>
     </div>
   </section>
@@ -71,10 +74,10 @@
       <div class="card">
         <h3>Delivered</h3>
         <ul class="clean">
-          <li><a href="index.html">Dashboard</a> — five-topic market table, a labelled estimated 24-hour-dollar ranking (contract volume × price), two observed-swing feeds, time/price chart, order-book depth and resolution tracker. It is not a complete exchange-wide dollar-turnover ranking.</li>
-          <li>Five <a href="topics/gas-prices.html">topic pages</a> with server-rendered tables and official source links on market rows.</li>
+          <li><a href="index.html">Dashboard</a> — five-topic market view, swing feeds, time/price chart, order-book depth and resolution tracker. Market values are currently withheld; when populated, 24-hour dollars are estimated as contract volume × price and are not a complete exchange-wide turnover ranking.</li>
+          <li>Five <a href="topics/gas-prices.html">topic pages</a> with server-rendered tables and official source links when market rows are available.</li>
           <li><a href="strategies.html">Four paper strategies</a> and a documented heuristic screen; the score is not a validated ROI forecast.</li>
-          <li><a href="portfolio.html">Paper portfolio analytics</a> — equity, settled trades and breakdowns by strategy/topic. These are simulated results, not Demo-account performance.</li>
+          <li><a href="portfolio.html">Paper portfolio analytics</a> — equity, settled trades and strategy/topic breakdowns when verified inputs exist; current market-derived figures are withheld. These are simulated results, not Demo-account performance.</li>
           <li><a href="verification.html">Verification log</a> with dated official-source claims and the corresponding capture provenance.</li>
           <li><a href="flagged.html">Flagged for review</a> — open limitations, source links and intentionally blank unverified account values.</li>
         </ul>
@@ -82,8 +85,8 @@
       <div class="card">
         <h3>Autonomy</h3>
         <ul class="clean">
-          <li>GitHub Actions schedules public market-data collection and publishes timestamped snapshots; this static site is not a continuous exchange stream.</li>
-          <li>No account input is needed for public observations or paper simulation. Snapshot age and collection errors are shown rather than replaced with invented values.</li>
+          <li>GitHub Actions schedules Demo-only market-data collection and publishes timestamped snapshots; this static site is not a continuous exchange stream.</li>
+          <li>No account input is needed for public Demo observations or paper simulation, but the current snapshot is unverified; age and collection errors are shown instead of invented values.</li>
           <li>Failures such as network errors, rate limits or unknown fields are recorded in the snapshot and disclosed on the page.</li>
           <li>A separate Demo service implementation provides lower-latency collection and protected account routes; it is not part of the static Pages deployment, and its exchange connection and account execution are not verified here.</li>
         </ul>
@@ -112,7 +115,7 @@
     <div class="grid two">
       <div class="card">
         <h3>Demo data, execution in paper</h3>
-        <p class="small">The scheduled collector and local default now use Kalshi's demo REST API; the browser and static builders reject snapshots unless both the environment label and REST root match an official demo endpoint. The committed snapshot still identifies production data and is withheld until a successful demo-only cycle replaces it. Flagged as <a href="flagged.html#F6">F6</a>.</p>
+        <p class="small">The scheduled collector and local default use Kalshi's Demo REST API; browser and static builders reject snapshots unless the environment label and REST root match an official Demo endpoint. The previous production snapshot was removed; the current committed snapshot is explicitly unverified and blank until a successful Demo-only cycle. Flagged as <a href="flagged.html#F6">F6</a>.</p>
       </div>
       <div class="card">
         <h3>Static site plus a real collector</h3>
@@ -160,7 +163,7 @@
     <h2>Next three moves</h2>
     <div class="card">
       <ol class="clean" style="list-style:decimal">
-        <li>Align the root research desk with the requested Demo source, or clearly label production read-only data in its primary status badge; refresh only from an official, timestamped Demo response.</li>
+        <li>Complete and verify a successful official Demo-only collection cycle so the intentionally blank five-topic snapshot can be populated without reintroducing production-derived values.</li>
         <li>Keep account keys on a separately hosted trusted service. GitHub Pages cannot hold signing credentials; no private key or account access was available to this review, so no Demo balance or exchange fill is claimed.</li>
         <li>Before describing the selected alert feed as high ROI, compare it out of sample with fee-aware simulated fills; keep possible-news links explicitly separate from causal evidence.</li>
       </ol>
