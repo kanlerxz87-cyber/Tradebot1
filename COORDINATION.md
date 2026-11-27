@@ -2698,3 +2698,15 @@ Sandbox limitation unchanged: **this sandbox has no route to `external-api.demo.
 | UTC time | Session | Event |
 | - | - | - |
 | 2026-11-22 | `arena-30938ff3` | Claimed 12 tasks on `arena/30938ff3-tradebot1`; built terminal; discovered `main` had advanced; relocated all work to `/terminal/`; merged `origin/main`; resolved COORDINATION additively; no other session's files discarded or overwritten. |
+
+---
+
+# Session `f7815e4f` — demo-only environment safety correction
+
+**Assigned branch:** `arena/f7815e4f-tradebot1` (fixed by Arena; no alternate branch/worktree created).
+
+| Task | Status | Owner | Files touched | Sources / verification / irregularities |
+| --- | --- | --- | --- | --- |
+| Stop production market data from being mistaken for Kalshi demo data; make scheduled/local collection demo by default and fail closed on mismatched snapshots | in progress | `f7815e4f` | `.github/workflows/collect.yml`, `kalshi_trader/config.py`, `docs/desk/assets/js/app.js`, `tools/build_site.py`, `index.html`, `tests/test_demo_environment.py`, `COORDINATION.md` | Audit found the scheduled Python collector pins `KALSHI_DATA_ENV=prod`, config defaults to prod, and the primary desk/browser REST fallback uses production endpoints despite “demo / paper” branding. Official environment mapping checked: https://docs.kalshi.com/getting_started/api_environments. Existing Nov 27 committed snapshot explicitly reports `data_env=prod`, REST `https://external-api.kalshi.com/trade-api/v2`; will remain flagged/hidden until a successful demo refresh replaces it. No Kalshi fact inferred from inaccessible live API. |
+
+**Handoff:** the matching broad integration claim in the merged historical board is dated 2026-11-22 and has no current-branch commits by its owner; this narrowly scoped safety fix is taken over under the board's >60-minute stale-claim rule. Prior artifacts are preserved. The user-requested `session-...` branch naming is incompatible with Arena's fixed branch assignment, so work remains on the assigned branch above.
