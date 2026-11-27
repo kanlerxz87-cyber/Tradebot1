@@ -492,7 +492,26 @@
     }
   }
 
+  /* A plain-language health line: how many endpoints answered, how fresh the newest
+     price is, how many markets the exchange returned that could not be used. Shown
+     instead of a green dot, because "live" is a claim that has to be earned per call. */
+  function renderHealth() {
+    const el = $('#dataHealth');
+    if (!el) return;
+    if (state.simulated) { el.textContent = 'SIMULATED feed — no exchange data is being shown.'; return; }
+    const inTopics = state.rows.length;
+    const priced = state.rows.filter((r) => r.price != null).length;
+    const withDay = state.rows.filter((r) => r.dayChange != null).length;
+    const perTopic = TOPICS.map((t) => `${t.short} ${state.rows.filter((r) => r.topic === t.id).length}`).join(' · ');
+    const newest = state.lastRefresh ? fmtTime(state.lastRefresh) : '—';
+    el.innerHTML = `<strong>${inTopics}</strong> priced contracts in the five topics (${escapeHtml(perTopic)}) · ` +
+      `<strong>${withDay}</strong> carry an exchange one-day comparison · ` +
+      `server log: <strong>${state.logged.length}</strong> rows · this session: <strong>${state.sessionAlerts.length}</strong> · last read ${newest}. ` +
+      `A contract with no price is dropped rather than shown at a guessed value, so counts here can be lower than the exchange's own list.`;
+  }
+
   function afterData() {
+    renderHealth();
     renderTopicChips();
     renderMovers();
     renderTable();

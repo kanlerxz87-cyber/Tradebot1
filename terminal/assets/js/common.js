@@ -10,7 +10,7 @@ const SITE = {
   demoWs: 'wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2',
   demoSite: 'https://demo.kalshi.com',
   docsRoot: 'https://docs.kalshi.com',
-  updated: '2026-11-22',
+  updated: '2026-11-27',
 };
 
 const NAV_ITEMS = [
@@ -19,6 +19,7 @@ const NAV_ITEMS = [
   ['events.html', 'Events & Resolution'],
   ['strategies.html', 'Strategy Lab'],
   ['portfolio.html', 'Portfolio'],
+  ['probe.html', 'Connection probe'],
   ['summary.html', 'Executive Summary'],
   ['verification.html', 'Verification'],
   ['flagged.html', 'Flagged'],
