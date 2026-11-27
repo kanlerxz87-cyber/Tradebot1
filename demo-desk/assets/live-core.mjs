@@ -1,4 +1,4 @@
-// Pure, unit-testable core logic for the Kalshi Demo Desk (/live/).
+// Pure, unit-testable core logic for the Kalshi Demo Desk (/demo-desk/).
 // Mirrors kalshi_engine/simulator.py & kalshi_engine/kalshi_v2_client.py against official docs.kalshi.com specs.
 
 export const ALLOWED_TOPICS = ["Elections", "Golf", "Culture", "Crypto", "Gas Prices"];
@@ -36,40 +36,94 @@ export const BUILTIN_STRATEGIES = {
   }
 };
 
-/**
- * Official Kalshi 6-decimal-place raw fee ceiling per:
- * https://docs.kalshi.com/getting_started/fee_rounding.md
- */
-export function rawTakerFee6dp(contracts, price, rate = 0.07) {
-  const c = Number(contracts);
-  const p = Number(price);
-  if (!(c > 0) || p <= 0 || p >= 1) return 0;
-  const raw = rate * c * p * (1 - p);
-  return Math.ceil(raw * 1e6 - 1e-12) / 1e6;
+function toScaledBigInt(val, scaleDigits = 6) {
+  const str = String(val ?? "0").trim();
+  if (!str || str === "NaN") return 0n;
+  const neg = str.startsWith("-");
+  const clean = neg ? str.slice(1) : str.startsWith("+") ? str.slice(1) : str;
+  const [intPart = "0", fracPart = ""] = clean.split(".");
+  const padded = (fracPart + "0".repeat(scaleDigits)).slice(0, scaleDigits);
+  const bi = BigInt(intPart || "0") * 10n ** BigInt(scaleDigits) + BigInt(padded || "0");
+  return neg ? -bi : bi;
 }
 
 /**
- * Per-order fee rounding accumulator ($0.0001 step for direct exchange, $0.01 for non-direct).
+ * Official Kalshi 6-decimal-place raw fee ceiling per:
+ * https://docs.kalshi.com/getting_started/fee_rounding
+ * Computed via exact BigInt fixed-point arithmetic (zero IEEE-754 binary float drift!).
+ * Supports per-series `feeMultiplier` (1, 0.5, 0 from GET /series/{ticker})
+ * and taker (0.07) vs maker (0.0175) base rates.
  */
-export function applyFeeAccumulator(raw6dp, prevAccumulator = 0, directExchange = true) {
-  const step = directExchange ? 0.0001 : 0.01;
-  const total = raw6dp + prevAccumulator;
-  const overageUnits = Math.ceil(total / step - 1e-12);
-  const charged = Number((overageUnits * step).toFixed(6));
-  const nextAcc = Number((total - charged).toFixed(6));
-  return { raw6dp, charged, nextAccumulator: nextAcc };
+export function rawTakerFee6dp(contracts, price, rate = 0.07, feeMultiplier = 1) {
+  const cNum = Number(contracts);
+  const pNum = Number(price);
+  const mNum = Number(feeMultiplier);
+  const rNum = Number(rate);
+  if (!(cNum > 0) || pNum <= 0 || pNum >= 1 || !(mNum > 0) || !(rNum > 0)) return 0;
+
+  // Scale each factor by 10^6 -> product is scaled by 10^24; divide by 10^18 with exact ceiling to get microdollars (10^6).
+  const r6 = toScaledBigInt(rNum.toFixed(6), 6);
+  const m6 = toScaledBigInt(mNum.toFixed(6), 6);
+  const c6 = toScaledBigInt(cNum.toFixed(6), 6);
+  const p6 = toScaledBigInt(pNum.toFixed(6), 6);
+  const q6 = 1_000_000n - p6;
+  const prod24 = r6 * m6 * c6 * p6 * q6; // scaled by 10^30
+  const denom = 10n ** 24n; // leaves 10^6 (microdollars)
+  const ceilMicro = (prod24 + denom - 1n) / denom;
+  return Number(ceilMicro) / 1e6;
+}
+
+/**
+ * Official Kalshi 5-step per-order fee rounding accumulator & rebate in integer microdollars ($0.000001):
+ *   1. unaligned_change = signed_revenue - trade_fee
+ *   2. aligned_change   = floor(unaligned_change / step) * step
+ *   3. rounding_fee     = unaligned_change - aligned_change   (always >= 0)
+ *   4. acc              = prev_accumulator + rounding_fee     (always >= 0)
+ *   5. rebate           = min(floor(acc / step) * step, trade_fee + rounding_fee)
+ * Source: https://docs.kalshi.com/getting_started/fee_rounding
+ */
+export function applyFeeAccumulator(raw6dp, prevAccumulator = 0, directExchange = true, signedRevenue = 0) {
+  const stepMicro = directExchange ? 100 : 10000; // $0.0001 vs $0.01 in microdollars
+  const tradeFeeMicro = Math.max(0, Math.round(Number(raw6dp || 0) * 1e6));
+  const prevAccMicro = Math.max(0, Math.round(Number(prevAccumulator || 0) * 1e6));
+  const revMicro = Math.round(Number(signedRevenue || 0) * 1e6);
+
+  const unalignedMicro = revMicro - tradeFeeMicro;
+  const alignedMicro = Math.floor(unalignedMicro / stepMicro) * stepMicro;
+  const roundingFeeMicro = unalignedMicro - alignedMicro;
+
+  const grossFeeMicro = tradeFeeMicro + roundingFeeMicro;
+  const accBeforeRebate = prevAccMicro + roundingFeeMicro;
+  const maxRebateUnits = Math.floor(accBeforeRebate / stepMicro);
+  const rebateMicro = Math.min(maxRebateUnits * stepMicro, grossFeeMicro);
+
+  const nextAccMicro = accBeforeRebate - rebateMicro;
+  const chargedMicro = Math.max(0, grossFeeMicro - rebateMicro);
+
+  return {
+    raw6dp: Number((tradeFeeMicro / 1e6).toFixed(6)),
+    roundingFee: Number((roundingFeeMicro / 1e6).toFixed(6)),
+    rebate: Number((rebateMicro / 1e6).toFixed(6)),
+    charged: Number((chargedMicro / 1e6).toFixed(6)),
+    nextAccumulator: Number((nextAccMicro / 1e6).toFixed(6))
+  };
 }
 
 /**
  * Normalize Kalshi V2 reciprocal orderbook (`orderbook_fp.yes_dollars` & `no_dollars` sorted ascending).
  * Best bid is the LAST element `[-1]`; implied YES asks derive from `$1.00 - no_bid` without truncating asymmetric sides.
- * Source: https://docs.kalshi.com/getting_started/orderbook_responses.md
+ * Source: https://docs.kalshi.com/getting_started/orderbook_responses
  */
 export function normalizeOrderbook(book, fallbackMarket = null) {
   const rawYes = Array.isArray(book?.yes_dollars) ? book.yes_dollars : [];
   const rawNo = Array.isArray(book?.no_dollars) ? book.no_dollars : [];
 
   let yesBids = rawYes
+    .map(([p, q]) => ({ price: Number(p), size: Number(q) }))
+    .filter((r) => r.price > 0 && r.size > 0)
+    .sort((a, b) => b.price - a.price);
+
+  const noBids = rawNo
     .map(([p, q]) => ({ price: Number(p), size: Number(q) }))
     .filter((r) => r.price > 0 && r.size > 0)
     .sort((a, b) => b.price - a.price);
@@ -83,6 +137,15 @@ export function normalizeOrderbook(book, fallbackMarket = null) {
     .filter((r) => r.price > 0 && r.price < 1 && r.size > 0)
     .sort((a, b) => a.price - b.price);
 
+  let noAsks = rawYes
+    .map(([yesBid, q]) => ({
+      price: Number((1 - Number(yesBid)).toFixed(4)),
+      yesBid: Number(yesBid),
+      size: Number(q)
+    }))
+    .filter((r) => r.price > 0 && r.price < 1 && r.size > 0)
+    .sort((a, b) => a.price - b.price);
+
   let sourceType = "orderbook_fp";
   if (!yesBids.length && !yesAsks.length && fallbackMarket) {
     sourceType = "market_top_of_book";
@@ -90,21 +153,86 @@ export function normalizeOrderbook(book, fallbackMarket = null) {
     const ybs = Number(fallbackMarket.yes_bid_size_fp || 0);
     const ya = Number(fallbackMarket.yes_ask_dollars || 0);
     const yas = Number(fallbackMarket.yes_ask_size_fp || 0);
-    if (yb > 0 && ybs > 0) yesBids = [{ price: yb, size: ybs }];
-    if (ya > 0 && ya < 1 && yas > 0) yesAsks = [{ price: ya, noBid: Number((1 - ya).toFixed(4)), size: yas }];
+    if (yb > 0 && ybs > 0) {
+      yesBids = [{ price: yb, size: ybs }];
+      noAsks = [{ price: Number((1 - yb).toFixed(4)), yesBid: yb, size: ybs }];
+    }
+    if (ya > 0 && ya < 1 && yas > 0) {
+      yesAsks = [{ price: ya, noBid: Number((1 - ya).toFixed(4)), size: yas }];
+    }
   }
 
   const bestYesBid = yesBids.length ? yesBids[0].price : null;
   const bestYesAsk = yesAsks.length ? yesAsks[0].price : null;
+  const bestNoBid = noBids.length ? noBids[0].price : null;
+  const bestNoAsk = noAsks.length ? noAsks[0].price : null;
   const spread = bestYesBid !== null && bestYesAsk !== null ? Number((bestYesAsk - bestYesBid).toFixed(4)) : null;
 
-  return { yesBids, yesAsks, bestYesBid, bestYesAsk, spread, sourceType };
+  return { yesBids, noBids, yesAsks, noAsks, bestYesBid, bestYesAsk, bestNoBid, bestNoAsk, spread, sourceType };
+}
+
+/**
+ * Walk executable asks ascending for a BUY order to compute VWAP fill price, depth, and slippage.
+ */
+export function estimateOrderbookFill(normBook, side = "yes", contracts = 10) {
+  const normSide = String(side).toLowerCase() === "no" ? "no" : "yes";
+  const ladder = normSide === "yes" ? normBook?.yesAsks || [] : normBook?.noAsks || [];
+  const requested = Math.max(0, Number(contracts || 0));
+  let remaining = requested;
+  let filled = 0;
+  let notional = 0;
+  let worstPrice = null;
+  let levelsWalked = 0;
+  const totalDepth = Number(ladder.reduce((s, lv) => s + Number(lv.size || 0), 0).toFixed(2));
+
+  for (const lv of ladder) {
+    if (remaining <= 1e-9) break;
+    const sz = Number(lv.size || 0);
+    const px = Number(lv.price || 0);
+    if (!(sz > 0) || !(px > 0)) continue;
+    const take = Math.min(remaining, sz);
+    filled += take;
+    notional += take * px;
+    remaining -= take;
+    worstPrice = px;
+    levelsWalked += 1;
+  }
+
+  const bestAsk = ladder.length ? ladder[0].price : null;
+  const vwapPrice = filled > 0 ? Number((notional / filled).toFixed(4)) : null;
+  const slippage = vwapPrice !== null && bestAsk !== null ? Number((vwapPrice - bestAsk).toFixed(4)) : null;
+
+  return {
+    side: normSide,
+    requestedContracts: Number(requested.toFixed(2)),
+    filledContracts: Number(filled.toFixed(2)),
+    unfilledContracts: Number(Math.max(0, remaining).toFixed(2)),
+    bestAsk,
+    vwapPrice,
+    worstPrice,
+    slippage,
+    levelsWalked,
+    totalDepth
+  };
 }
 
 /**
  * Evaluate whether a price transition triggers a >=$0.10 swing alert and whether it passes the Selective High-ROI gate.
  */
-export function evaluateSwing({ ticker, topic, title, prevPrice, newPrice, spread = 0.04, depthContracts = 50, ts, apiUrl, catalystLabel, catalystUrl }) {
+export function evaluateSwing({
+  ticker,
+  topic,
+  title,
+  prevPrice,
+  newPrice,
+  spread = 0.04,
+  depthContracts = 50,
+  feeMultiplier = 1,
+  ts,
+  apiUrl,
+  catalystLabel,
+  catalystUrl
+}) {
   const prev = Number(prevPrice);
   const next = Number(newPrice);
   const delta = Number((next - prev).toFixed(4));
@@ -113,7 +241,7 @@ export function evaluateSwing({ ticker, topic, title, prevPrice, newPrice, sprea
   const direction = delta > 0 ? "up" : "down";
   const actionSide = delta > 0 ? "yes" : "no";
   const entry = actionSide === "yes" ? next : Number((1 - next).toFixed(4));
-  const feePerContract = rawTakerFee6dp(1, Math.min(Math.max(entry, 0.01), 0.99));
+  const feePerContract = rawTakerFee6dp(1, Math.min(Math.max(entry, 0.01), 0.99), 0.07, feeMultiplier);
   // Conservative fair-value impulse blend: partial continuation vs overreaction penalty on wide spread
   const fairEdge = Math.min(0.18, Math.abs(delta) * 0.55) - Math.max(0, Number(spread) - 0.03) * 0.8;
   const netProfit = fairEdge - feePerContract;
@@ -238,7 +366,18 @@ export function generateStrategySignals(swing, enabledIds, customStrategies = []
     if (p < minPrice || p > maxPrice) continue;
     if (cs.direction && cs.direction !== "any" && cs.direction !== swing.direction) continue;
     if (cs.topic && cs.topic !== "any" && cs.topic !== swing.topic) continue;
-    const side = cs.side === "no" ? "no" : cs.side === "fade" ? (swing.delta > 0 ? "no" : "yes") : cs.side === "follow" ? (swing.delta > 0 ? "yes" : "no") : "yes";
+    const side =
+      cs.side === "no"
+        ? "no"
+        : cs.side === "fade"
+        ? swing.delta > 0
+          ? "no"
+          : "yes"
+        : cs.side === "follow"
+        ? swing.delta > 0
+          ? "yes"
+          : "no"
+        : "yes";
     signals.push({
       strategy_id: cs.id,
       strategy_label: cs.name || cs.id,
@@ -274,3 +413,33 @@ export function settlementPayoutPerContract(side, result, settlementValueDollars
   }
   return normSide === "yes" ? yesPayout : Number((1 - yesPayout).toFixed(4));
 }
+
+/**
+ * Compatible VWAP + slippage + 6dp fee helper wrapping `estimateOrderbookFill` + `rawTakerFee6dp`.
+ */
+export function estimateOrderSlippage(normBook, side = "yes", contracts = 10, feeMultiplier = 1) {
+  const fill = estimateOrderbookFill(normBook, side, contracts);
+  if (!fill.filledContracts || fill.vwapPrice === null) {
+    return {
+      requestedContracts: fill.requestedContracts,
+      filledContracts: 0,
+      unfilledContracts: fill.unfilledContracts,
+      topPrice: null,
+      vwapPrice: null,
+      slippageDollars: null,
+      feeCharged: 0
+    };
+  }
+  const rawFee = rawTakerFee6dp(fill.filledContracts, fill.vwapPrice, 0.07, feeMultiplier);
+  const feeRes = applyFeeAccumulator(rawFee, 0, true, -fill.totalCost);
+  return {
+    requestedContracts: fill.requestedContracts,
+    filledContracts: fill.filledContracts,
+    unfilledContracts: fill.unfilledContracts,
+    topPrice: fill.bestAsk,
+    vwapPrice: fill.vwapPrice,
+    slippageDollars: fill.slippage,
+    feeCharged: feeRes.charged
+  };
+}
+

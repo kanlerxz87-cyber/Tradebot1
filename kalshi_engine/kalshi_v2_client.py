@@ -30,6 +30,8 @@ DEMO_REST_PRIMARY = "https://external-api.demo.kalshi.co/trade-api/v2"
 DEMO_REST_ALT = "https://demo-api.kalshi.co/trade-api/v2"
 DEMO_WS_PRIMARY = "wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2"
 DEMO_WS_ALT = "wss://demo-api.kalshi.co/trade-api/ws/v2"
+DEMO_USER_WS_PRIMARY = "wss://user-ws.demo.kalshi.co/trade-api/ws/v2"
+DEMO_EXTERNAL_FEEDS_WS = "wss://external-feeds.demo.kalshi.co/trade-api/v2/external-feeds"
 
 
 def canonical_sign_path(base_url: str, endpoint_path: str) -> str:
@@ -184,6 +186,56 @@ def summarize_orderbook(orderbook_resp: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def estimate_orderbook_vwap(
+    raw_orderbook: dict[str, Any],
+    outcome: str = "yes",
+    count: float | int = 10,
+) -> dict[str, Any]:
+    """Walk implied executable asks ascending to estimate VWAP fill price, depth, and slippage."""
+    summary = summarize_orderbook(raw_orderbook)
+    side = outcome.strip().lower()
+    if side not in ("yes", "no"):
+        raise ValueError(f"outcome must be 'yes' or 'no', got {outcome!r}")
+    asks = summary["implied_yes_asks"] if side == "yes" else summary["implied_no_asks"]
+    requested = max(0.0, float(count))
+    remaining = requested
+    filled = 0.0
+    notional = 0.0
+    worst_price: float | None = None
+    levels_walked = 0
+    total_resting = round(sum(float(lv["contracts"]) for lv in asks), 2)
+
+    for lv in asks:
+        if remaining <= 1e-9:
+            break
+        sz = float(lv["contracts"])
+        px = float(lv["price"])
+        if sz <= 0:
+            continue
+        take = min(remaining, sz)
+        filled += take
+        notional += take * px
+        remaining -= take
+        worst_price = px
+        levels_walked += 1
+
+    vwap = round(notional / filled, 4) if filled > 0 else None
+    best_ask = asks[0]["price"] if asks else None
+    slippage = round(vwap - best_ask, 4) if (vwap is not None and best_ask is not None) else None
+    return {
+        "outcome": side,
+        "requested_contracts": round(requested, 2),
+        "filled_contracts": round(filled, 2),
+        "unfilled_contracts": round(max(0.0, remaining), 2),
+        "best_ask": best_ask,
+        "vwap_price": vwap,
+        "worst_price": worst_price,
+        "slippage_dollars": slippage,
+        "levels_walked": levels_walked,
+        "total_executable_depth": total_resting,
+    }
+
+
 def build_v2_event_order_payload(
     ticker: str,
     outcome: str,
@@ -299,25 +351,43 @@ class KalshiV2Client:
         body: dict[str, Any] | None = None,
         authenticated: bool = False,
     ) -> dict[str, Any]:
-        url = self.base_url + "/" + endpoint_path.lstrip("/")
-        if params:
-            clean_params = {k: v for k, v in params.items() if v is not None and v != ""}
-            if clean_params:
-                url += "?" + urllib.parse.urlencode(clean_params)
-        headers = {"Accept": "application/json", "User-Agent": "Tradebot1-KalshiV2/1.0"}
-        if authenticated:
-            headers.update(self.auth_headers(method, endpoint_path))
-        data_bytes = None
-        if body is not None:
-            headers["Content-Type"] = "application/json"
-            data_bytes = json.dumps(body).encode("utf-8")
-        req = urllib.request.Request(url, data=data_bytes, headers=headers, method=method.upper())
-        with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-            return json.loads(resp.read().decode("utf-8"))
+        candidate_bases = [self.base_url]
+        if self.base_url == DEMO_REST_PRIMARY:
+            candidate_bases.append(DEMO_REST_ALT)
+        elif self.base_url == DEMO_REST_ALT:
+            candidate_bases.append(DEMO_REST_PRIMARY)
+
+        last_err: Exception | None = None
+        for base in candidate_bases:
+            url = base.rstrip("/") + "/" + endpoint_path.lstrip("/")
+            if params:
+                clean_params = {k: v for k, v in params.items() if v is not None and v != ""}
+                if clean_params:
+                    url += "?" + urllib.parse.urlencode(clean_params)
+            headers = {"Accept": "application/json", "User-Agent": "Tradebot1-KalshiV2/1.1"}
+            if authenticated:
+                headers.update(self.auth_headers(method, endpoint_path))
+            data_bytes = None
+            if body is not None:
+                headers["Content-Type"] = "application/json"
+                data_bytes = json.dumps(body).encode("utf-8")
+            req = urllib.request.Request(url, data=data_bytes, headers=headers, method=method.upper())
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    return json.loads(resp.read().decode("utf-8"))
+            except urllib.error.HTTPError:
+                raise
+            except Exception as exc:
+                last_err = exc
+        assert last_err is not None
+        raise last_err
 
     # Public endpoints
     def get_exchange_status(self) -> dict[str, Any]:
         return self.request("GET", "/exchange/status")
+
+    def get_series(self, series_ticker: str) -> dict[str, Any]:
+        return self.request("GET", f"/series/{urllib.parse.quote(series_ticker, safe='')}")
 
     def get_series_list(self, category: str | None = None, tags: str | None = None) -> dict[str, Any]:
         return self.request("GET", "/series", params={"category": category, "tags": tags})
@@ -363,6 +433,22 @@ class KalshiV2Client:
 
     def get_trades(self, ticker: str | None = None, limit: int = 50) -> dict[str, Any]:
         return self.request("GET", "/markets/trades", params={"ticker": ticker, "limit": limit})
+
+    def get_candlesticks(
+        self,
+        series_ticker: str,
+        market_ticker: str,
+        start_ts: int,
+        end_ts: int,
+        period_interval: int = 1,
+    ) -> dict[str, Any]:
+        s = urllib.parse.quote(series_ticker, safe="")
+        m = urllib.parse.quote(market_ticker, safe="")
+        return self.request(
+            "GET",
+            f"/series/{s}/markets/{m}/candlesticks",
+            params={"start_ts": start_ts, "end_ts": end_ts, "period_interval": period_interval},
+        )
 
     # Authenticated portfolio & V2 event-order endpoints
     def get_balance(self, subaccount: int | None = None) -> dict[str, Any]:

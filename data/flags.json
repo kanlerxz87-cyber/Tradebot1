@@ -345,6 +345,24 @@
           "url": "https://github.com/kanlerxz87-cyber/Tradebot1/blob/main/data/live/portfolio.json"
         }
       ]
+    },
+    {
+      "id": "F-20",
+      "severity": "medium",
+      "title": "Live Demo GET /series/KXBTCY reports fee_multiplier=1 while the July 7, 2026 Fee Schedule PDF lists KXBTCY as 0/0",
+      "detail": "Kalshi's July 7, 2026 Fee Schedule PDF ('Non-Standard Fees' table, p. 4) lists series KXBTCY ('BTC price range EOY') with Maker = 0 and Taker = 0, whereas live Demo GET /series/KXBTCY (last_updated_ts: 2026-10-07T20:23:06.103247Z) returns fee_multiplier = 1 and fee_type = 'quadratic'. Because tools/strategies.mjs prefers an explicit GET /series fee_multiplier when observed and falls back to PUBLISHED_SERIES_MULTIPLIERS when absent, historical repricing (without stored series payloads) treats KXBTCY as 0/0 per the PDF while live Demo cycles reading /series/KXBTCY observe fee_multiplier = 1.",
+      "impact": "Simulated fills on KXBTCY can differ by $0.01 per small fill depending on whether the published July 2026 PDF table (0) or the live Demo /series/KXBTCY endpoint (1) governs.",
+      "howToCheck": "Compare https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY (`fee_multiplier`) against the KXBTCY row in https://kalshi.com/docs/kalshi-fee-schedule.pdf.",
+      "sources": [
+        {
+          "label": "Live Demo GET /series/KXBTCY",
+          "url": "https://external-api.demo.kalshi.co/trade-api/v2/series/KXBTCY"
+        },
+        {
+          "label": "Kalshi Fee Schedule PDF (Non-Standard Fees)",
+          "url": "https://kalshi.com/docs/kalshi-fee-schedule.pdf"
+        }
+      ]
     }
   ]
 }

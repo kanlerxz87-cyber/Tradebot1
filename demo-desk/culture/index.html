@@ -12,9 +12,9 @@
   <div class="topbar-inner">
     <div class="brand">
       <span>Kalshi Demo API Desk</span>
-      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-22T07:12Z</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
     </div>
-    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="active">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="active">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
   </div>
 </header>
 <main class="wrap">
@@ -22,15 +22,17 @@
   <section class="hero">
     <span class="badge accent">Dedicated Topic Subpage · Culture Only</span>
     <h1>Culture — Live Kalshi Demo Events, Liquidity &amp; Resolutions</h1>
-    <p>Entertainment &amp; music contracts mapped strictly under Culture: active `KXPERFORMBONDSONG-35` (next James Bond theme performer) and finalized `KXGRAMBPS-68` (68th Grammy Awards).</p>
-    <p style="margin-top:8px;font-size:13px;">
-      Official Series Discovery Source: <a href="https://external-api.demo.kalshi.co/trade-api/v2/series?category=Entertainment" target="_blank" rel="noopener">https://external-api.demo.kalshi.co/trade-api/v2/series?category=Entertainment ↗</a>
-    </p>
+    <p>Entertainment &amp; music contracts mapped strictly under Culture: active `KXPERFORMBONDSONG-35` (next James Bond theme performer, 104K+ contracts across top 5 contenders) and finalized `KXGRAMBPS-68` (68th Grammy Awards `YES` &amp; `NO` outcomes).</p>
+    <div class="toolbar">
+      <button id="btn-poll-demo" class="primary" type="button">&#8635; Poll Live Culture Quotes &amp; Orderbooks</button>
+      <button id="btn-autopoll-demo" type="button">Auto-Poll (20s): OFF</button>
+      <a class="btn" href="https://external-api.demo.kalshi.co/trade-api/v2/series/KXPERFORMBONDSONG" target="_blank" rel="noopener">Verify Official Series JSON ↗</a>
+    </div>
   </section>
 
   <section class="card">
     <h2>Topic Microstructure &amp; Strategy Analysis — Culture</h2>
-    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">Kalshi&#x27;s API taxonomy classifies pop-culture and awards series under `category=Entertainment` (`KXPERFORMBONDSONG`, `KXGRAMBPS`). Open Demo books on `KXPERFORMBONDSONG-35` display wide spreads (`$0.01` resting YES bid, no resting NO bids -&gt; `$1.00` implied YES ask), illustrating why the Selective High-ROI filter enforces `spread &lt;= $0.08` before risking capital.</p>
+    <p class="subnote" style="color:var(--text);font-size:13.5px;margin-bottom:0;">Kalshi classifies pop-culture and awards series under `category=Entertainment` (`KXPERFORMBONDSONG`, `KXGRAMBPS`). Open Demo books on `KXPERFORMBONDSONG-35` display wide resting spreads (`$0.01` resting YES bid on `-DUA` and `-ARI`, `$1.00` implied YES ask), illustrating why the Selective High-ROI filter enforces `spread &lt;= $0.08`.</p>
   </section>
 
   <section class="grid-2">
@@ -100,10 +102,10 @@
           <td class="mono">KXPERFORMBONDSONG-35</td>
           <td>Lana Del Rey</td>
           <td class="num">$0.0200</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">1.00 / 0.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">20,605.15</td>
-          <td class="num">6,840.00</td>
+          <td class="num">7,171.00</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPERFORMBONDSONG-35-LAN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://www.billboard.com/" target="_blank" rel="noopener">Billboard / Variety Official Film Credits ↗</a>
@@ -114,8 +116,8 @@
           <td class="mono">KXPERFORMBONDSONG-35</td>
           <td>Lady Gaga</td>
           <td class="num">$0.0200</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">1.00 / 0.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">18,033.15</td>
           <td class="num">11,128.00</td>
           <td>
@@ -128,10 +130,10 @@
           <td class="mono">KXPERFORMBONDSONG-35</td>
           <td>The Weeknd</td>
           <td class="num">$0.0200</td>
-          <td class="num">$0.0100 / $1.0000</td>
-          <td class="num">1.00 / 0.00</td>
+          <td class="num">$0.0000 / $1.0000</td>
+          <td class="num">0.00 / 0.00</td>
           <td class="num">16,947.15</td>
-          <td class="num">5,910.00</td>
+          <td class="num">4,467.00</td>
           <td>
             <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPERFORMBONDSONG-35-WEE" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://www.billboard.com/" target="_blank" rel="noopener">Billboard / Variety Official Film Credits ↗</a>
@@ -155,41 +157,41 @@
         <tbody>
         <tr>
           <td class="mono"><strong>KXGRAMBPS-68-MES</strong></td>
-          <td>Messy (Lola Young) — Best Pop Solo Performance</td>
+          <td>Will Messy win Best Pop Solo Performance at the Grammys?</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge ok">YES</span></td>
           <td class="num">$1.0000</td>
-          <td class="num">14,820.00</td>
+          <td class="num">0.00</td>
           <td class="mono">2026-02-02T04:41:24Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXGRAMBPS-68?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-MES" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXGRAMBPS-68-DAI</strong></td>
-          <td>DAISIES — Best Pop Solo Performance</td>
+          <td>Will DAISIES win Best Pop Solo Performance at the Grammys?</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge down">NO</span></td>
           <td class="num">$0.0000</td>
-          <td class="num">9,310.00</td>
+          <td class="num">0.00</td>
           <td class="mono">2026-02-02T04:41:24Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXGRAMBPS-68?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-DAI" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
             <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
           </td>
         </tr>
         <tr>
           <td class="mono"><strong>KXGRAMBPS-68-MAN</strong></td>
-          <td>Manchild — Best Pop Solo Performance</td>
+          <td>Will Manchild win Best Pop Solo Performance at the Grammys?</td>
           <td><span class="badge ok">finalized</span></td>
           <td><span class="badge down">NO</span></td>
           <td class="num">$0.0000</td>
-          <td class="num">8,140.00</td>
+          <td class="num">0.00</td>
           <td class="mono">2026-02-02T04:41:24Z</td>
           <td>
-            <a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXGRAMBPS-68?with_nested_markets=true" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
-            <a href="https://www.grammy.com/" target="_blank" rel="noopener">Recording Academy / GRAMMY.com ↗</a>
+            <a href="https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMBPS-68-MAN" target="_blank" rel="noopener">Kalshi Demo API ↗</a> ·
+            <a href="https://www.grammy.com/awards" target="_blank" rel="noopener">Grammy Awards Official Results ↗</a>
           </td>
         </tr></tbody>
       </table>
@@ -199,11 +201,13 @@
 
 <footer class="site-footer">
   <div>
-    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments.md" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
-    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Live Demo Status JSON ↗</a>).
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
     Zero production order endpoints exist in this desk.
   </div>
   <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
     <a href="../flagged/index.html">Flagged for Review</a> ·
     <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
     <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>

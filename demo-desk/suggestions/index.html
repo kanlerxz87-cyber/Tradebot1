@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Interactive Roadmap &amp; Suggestions — Kalshi Demo API Desk</title>
+  <link rel="stylesheet" href="../assets/live.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span>Kalshi Demo API Desk</span>
+      <span id="conn-badge" class="badge ok">Verified Demo Snapshot · 2026-11-27T19:49:18Z</span>
+    </div>
+    <nav class="navlinks" aria-label="Primary navigation"><a href="../index.html" class="">Live Demo Desk</a><a href="../gas/index.html" class="">Gas Prices</a><a href="../elections/index.html" class="">Elections</a><a href="../culture/index.html" class="">Culture</a><a href="../crypto/index.html" class="">Crypto</a><a href="../golf/index.html" class="">Golf</a><a href="../portfolio/index.html" class="">Portfolio &amp; Strategies</a><a href="../resolutions/index.html" class="">Resolutions</a><a href="../suggestions/index.html" class="active">Interactive Ideas</a><a href="../executive-summary/index.html" class="">Executive Summary</a><a href="../audit/index.html" class="">Line-by-Line Audit</a><a href="../flagged/index.html" class="">Flagged for Review</a><a href="../../index.html" class="">All Desks ↗</a></nav>
+  </div>
+</header>
+<main class="wrap">
+
+  <section class="hero">
+    <span class="badge accent">Live &amp; Interactive Architecture Roadmap · Protocol-Verified</span>
+    <h1>Suggestions to Make the Kalshi Demo Desk Even More Live &amp; Interactive</h1>
+    <p>
+      Every recommendation below is grounded directly in official <a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">Kalshi Demo REST &amp; WebSocket V2 capabilities</a>
+      while respecting static GitHub Pages browser security boundaries (zero private keys in client-side code).
+    </p>
+  </section>
+
+  <section class="card">
+    <h2>Implemented Interactive Capabilities vs. Next-Stage Upgrades</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>ID</th><th>Capability / Suggestion</th><th>Protocol &amp; UX Design</th><th>Current Status</th><th>Official Source</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono"><strong>S1</strong></td>
+            <td><strong>Browser-Direct CORS Live Polling + Dual-Host Failover (`20s` Auto-Poll)</strong></td>
+            <td>Polls `external-api.demo.kalshi.co/trade-api/v2` with automatic failover to `demo-api.kalshi.co/trade-api/v2` and `/api/demo/public` for live quotes, `/orderbook`, and `/markets/trades`, pushing real-time `|&Delta;p| &ge; $0.10` swings into both chats and auto-settling `finalized` trades.</td>
+            <td><span class="badge ok">Implemented Live</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">API Environments ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S2</strong></td>
+            <td><strong>Real-Time Orderbook VWAP Depth &amp; Slippage Preview</strong></td>
+            <td>Walks reciprocal `orderbook_fp.no_dollars` (for YES buys) and `yes_dollars` (for NO buys) ascending from best ask before order execution, displaying exact VWAP price, levels walked, unfilled remainder, and BigInt 6dp fee debit.</td>
+            <td><span class="badge ok">Implemented Live</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/orderbook_responses" target="_blank" rel="noopener">Orderbook Responses ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S3</strong></td>
+            <td><strong>Edge-Signed WebSocket Multiplexer (`ticker` + `orderbook_delta` + `user-ws` fills)</strong></td>
+            <td>Browser `new WebSocket(...)` cannot send custom `KALSHI-ACCESS-SIGNATURE` headers. Deploying a lightweight Cloudflare Worker / Fly.io edge relay that signs `wss://external-api-ws.demo.kalshi.co/trade-api/ws/v2` and `wss://user-ws.demo.kalshi.co/trade-api/ws/v2` (`warp-ws` deprecated) would stream sub-100ms sequence-checked orderbook deltas over browser SSE/WebSocket.</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/quick_start_websockets" target="_blank" rel="noopener">WebSockets Spec ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S4</strong></td>
+            <td><strong>Synchronized Spot-Benchmark Overlay on Contract Jump Graph</strong></td>
+            <td>Overlay Coinbase `BTC-USD` 1-minute candles (`Crypto`) and AAA daily/weekly fuel gauge prints (`Gas Prices`) on a secondary Y-axis so users can visually distinguish genuine benchmark spot shocks from synthetic Demo market-maker quote cycling.</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://api.exchange.coinbase.com/products/BTC-USD/candles" target="_blank" rel="noopener">Coinbase Candles ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S5</strong></td>
+            <td><strong>Maker Limit-Order Queue Simulator (`0.0175` Maker Fee Tier)</strong></td>
+            <td>Extend the Strategy Lab to post passive resting bids inside wide Demo spreads (e.g., `KXAAAGASW-26NOV30-3.5000`), modeling queue priority against `/markets/trades` `taker_side` prints and Kalshi's `0.0175 &times; fee_multiplier &times; C &times; P &times; (1-P)` maker fee schedule.</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://docs.kalshi.com/getting_started/fee_rounding" target="_blank" rel="noopener">Fee Rounding Spec ↗</a></td>
+          </tr>
+          <tr>
+            <td class="mono"><strong>S6</strong></td>
+            <td><strong>Cross-Shard Latency &amp; Mutually Exclusive Collateral (`MECNET`) Visualizer</strong></td>
+            <td>Surface per-shard health across `exchange_index` `0..3` and compute net collateral relief across mutually exclusive (`collateral_return_type: "MECNET"`) multi-candidate baskets (`KXPRESPERSON-28`, `KXPGATOUR-MAST27`, `KXBTCY-27JAN0100`).</td>
+            <td><span class="badge warn">Next-Stage Upgrade</span></td>
+            <td><a href="https://external-api.demo.kalshi.co/trade-api/v2/events/KXPGATOUR-MAST27" target="_blank" rel="noopener">MECNET Event JSON ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+<footer class="site-footer">
+  <div>
+    Kalshi Demo Environment Only (<a href="https://docs.kalshi.com/getting_started/api_environments" target="_blank" rel="noopener">REST &amp; WS Spec ↗</a> ·
+    <a href="https://external-api.demo.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Primary Demo Status ↗</a> ·
+    <a href="https://demo-api.kalshi.co/trade-api/v2/exchange/status" target="_blank" rel="noopener">Alias Demo Status ↗</a>).
+    Zero production order endpoints exist in this desk.
+  </div>
+  <div>
+    <a href="../suggestions/index.html">Interactive Roadmap</a> ·
+    <a href="../flagged/index.html">Flagged for Review</a> ·
+    <a href="../audit/index.html">Line-by-Line Repo Audit</a> ·
+    <a href="https://github.com/kanlerxz87-cyber/Tradebot1" target="_blank" rel="noopener">GitHub Repository ↗</a>
+  </div>
+</footer>
+</main>
+
+</body>
+</html>
