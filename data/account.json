@@ -1,6 +1,6 @@
 {
   "connected": false,
-  "checkedAt": "2026-11-28T09:48:58.789Z",
+  "checkedAt": "2026-11-28T17:56:58.010Z",
   "restRoot": "https://external-api.demo.kalshi.co/trade-api/v2",
   "reason": "KALSHI_API_KEY_ID and/or KALSHI_PRIVATE_KEY are not set in this repository, so no authenticated demo-account read was made.",
   "howToConnect": [
