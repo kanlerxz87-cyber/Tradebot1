@@ -1,5 +1,112 @@
 {
- "generated_at": "2026-11-27T21:43:54Z",
+ "generated_at": "2026-11-28T03:37:41Z",
  "threshold": 0.1,
- "items": []
+ "items": [
+  {
+   "id": "90aec412bbeb",
+   "ts": 1795837061,
+   "iso": "2026-11-28T03:37:41Z",
+   "ticker": "KXBTCY-27JAN0100-B97500",
+   "topic": "crypto",
+   "title": "BTC price  on Jan 1, 2027?",
+   "subtitle": "95,000 to 99,999.99",
+   "series_ticker": "KXBTCY",
+   "direction": "down",
+   "from_price": 0.485,
+   "to_price": 0.005,
+   "delta": -0.48,
+   "abs_delta": 0.48,
+   "pct_change": -98.97,
+   "basis": "mid",
+   "price": 0.005,
+   "yes_bid": 0.0,
+   "yes_ask": 0.01,
+   "spread": 0.01,
+   "volume_24h": 35178.01,
+   "open_interest": 7315353.49,
+   "top_book_contracts": 16666.66,
+   "close_time": "2027-01-01T05:00:00Z",
+   "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B97500",
+   "series_page_url": "https://kalshi.com/markets/kxbtcy",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcy",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B97500",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-28",
+      "url": "https://news.google.com/search?q=price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F28%2F2026%2Ccd_max%3A11%2F28%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.386,
+    "roi_pct_est": 34.74,
+    "direction": null,
+    "components": {
+     "momentum": 0.01,
+     "liquidity": 0.2,
+     "open_interest": 0.15,
+     "band": 0.001,
+     "time": 0.045,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move -0.01 over the lookback (2 price points)",
+     "24h volume 35,178 contracts",
+     "open interest 7,315,353",
+     "book spread $0.01",
+     "time to close 817.4h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  }
+ ]
 }

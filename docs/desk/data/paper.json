@@ -1,13 +1,13 @@
 {
  "headline": {
   "bankroll_start": 1000.0,
-  "cash": 806.75,
-  "equity": 988.02,
+  "cash": 787.71,
+  "equity": 956.8,
   "realized_pnl": 0,
-  "unrealized_pnl": -11.98,
-  "total_pnl": -11.98,
-  "roi_pct": -1.2,
-  "open_positions": 10,
+  "unrealized_pnl": -43.2,
+  "total_pnl": -43.2,
+  "roi_pct": -4.32,
+  "open_positions": 11,
   "fee_model": "quadratic",
   "fee_verified": true
  },
@@ -25,8 +25,8 @@
   "avg_loss": 0.0,
   "fees_paid": 0,
   "avg_hold_hours": 0.0,
-  "max_drawdown": 0.0,
-  "max_drawdown_pct": 0.0,
+  "max_drawdown": 31.22,
+  "max_drawdown_pct": 3.16,
   "best_trade": null,
   "worst_trade": null
  },
