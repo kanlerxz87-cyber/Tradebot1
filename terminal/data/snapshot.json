@@ -1,7 +1,7 @@
 {
  "schema": "terminal-snapshot/1",
- "generated_at": "2026-11-28T02:55:11.000Z",
- "generated_ts": 1795834511,
+ "generated_at": "2026-11-28T11:35:30.000Z",
+ "generated_ts": 1795865730,
  "source": {
   "rest_root": "https://external-api.demo.kalshi.co/trade-api/v2",
   "endpoint": "GET /events?status=open|settled&with_nested_markets=true",
@@ -10,8 +10,8 @@
  "counts": {
   "events_open": 2400,
   "events_settled": 2400,
-  "markets_with_price": 27590,
-  "markets_in_focus": 18446,
+  "markets_with_price": 27681,
+  "markets_in_focus": 18507,
   "new_alerts_this_run": 0,
   "alerts_total": 0
  },
@@ -32,8 +32,8 @@
    "previous_price": 0.99,
    "yes_bid": 0,
    "yes_ask": 1,
-   "volume_24h": 863,
-   "open_interest": 210822,
+   "volume_24h": 862,
+   "open_interest": 211133,
    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXECCOMPACT-30"
   },
   {
@@ -113,6 +113,25 @@
    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXSTATELEGSC-28NOV07SCH115-R"
   },
   {
+   "ticker": "KXBTCPRICE-85000-27FEB05",
+   "event_ticker": "KXBTCPRICE-85000",
+   "series_ticker": "KXBTCPRICE",
+   "title": "Will Bitcoin be above $85,000 by Feb 5, 2027 at 11:59 PM ET?",
+   "topic": "crypto",
+   "topic_evidence": "category \"Crypto\"",
+   "status": "active",
+   "result": null,
+   "close_time": "2027-02-06T04:59:00Z",
+   "price": 0.01,
+   "price_basis": "last_trade",
+   "previous_price": 0,
+   "yes_bid": 0.01,
+   "yes_ask": 1,
+   "volume_24h": 5.04,
+   "open_interest": 5.04,
+   "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCPRICE-85000-27FEB05"
+  },
+  {
    "ticker": "KXGRAMMYNOMAOTY-69-ROM",
    "event_ticker": "KXGRAMMYNOMAOTY-69",
    "series_ticker": "KXGRAMMYNOMAOTY",
@@ -130,6 +149,25 @@
    "volume_24h": 1,
    "open_interest": 1,
    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMMYNOMAOTY-69-ROM"
+  },
+  {
+   "ticker": "KXBTCPRICE-85000-26DEC11",
+   "event_ticker": "KXBTCPRICE-85000",
+   "series_ticker": "KXBTCPRICE",
+   "title": "Will Bitcoin be above $85,000 by Dec 11, 2026 at 11:59 PM ET?",
+   "topic": "crypto",
+   "topic_evidence": "category \"Crypto\"",
+   "status": "active",
+   "result": null,
+   "close_time": "2026-12-12T04:59:00Z",
+   "price": 0.99,
+   "price_basis": "last_trade",
+   "previous_price": 0,
+   "yes_bid": 0,
+   "yes_ask": 1,
+   "volume_24h": 1,
+   "open_interest": 1,
+   "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCPRICE-85000-26DEC11"
   },
   {
    "ticker": "KXLAIOUT-LCHI-27JAN01",
@@ -11378,44 +11416,6 @@
    "volume_24h": 0,
    "open_interest": 0.02,
    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCANELECTION-29OCT15-CON"
-  },
-  {
-   "ticker": "KXCANELECTION-29OCT15-NDP",
-   "event_ticker": "KXCANELECTION-29OCT15",
-   "series_ticker": "KXCANELECTION",
-   "title": "Will New Democratic Party win the next Canadian federal election for the House of Commons?",
-   "topic": "elections",
-   "topic_evidence": "category \"Elections\"",
-   "status": "active",
-   "result": null,
-   "close_time": "2030-10-15T14:00:00Z",
-   "price": 0.01,
-   "price_basis": "last_trade",
-   "previous_price": 0.01,
-   "yes_bid": 0.01,
-   "yes_ask": 1,
-   "volume_24h": 0,
-   "open_interest": 50.49,
-   "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXCANELECTION-29OCT15-NDP"
-  },
-  {
-   "ticker": "KXINDIANAPOWELL-30-GLE",
-   "event_ticker": "KXINDIANAPOWELL-30",
-   "series_ticker": "KXINDIANAPOWELL",
-   "title": "Will Glen Powell be cast in the next Indiana Jones movie?",
-   "topic": "culture",
-   "topic_evidence": "category \"Entertainment\"",
-   "status": "active",
-   "result": null,
-   "close_time": "2030-10-01T14:00:00Z",
-   "price": 0.25,
-   "price_basis": "last_trade",
-   "previous_price": 0.25,
-   "yes_bid": 0,
-   "yes_ask": 1,
-   "volume_24h": 0,
-   "open_interest": 126.03,
-   "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXINDIANAPOWELL-30-GLE"
   }
  ]
 }
