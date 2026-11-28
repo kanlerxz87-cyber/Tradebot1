@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-27T21:43:56Z",
+ "generated_at": "2026-11-28T20:38:43Z",
  "data_env": "demo",
  "schema": 1,
  "series": {
@@ -16,7 +16,7 @@
    ],
    "frequency": "weekly",
    "topic": "gas",
-   "volume": 94792067.0,
+   "volume": 94806866.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -39,7 +39,7 @@
    ],
    "frequency": "monthly",
    "topic": "gas",
-   "volume": 74928104.0,
+   "volume": 74929442.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
@@ -155,7 +155,7 @@
    ],
    "frequency": "annual",
    "topic": "gas",
-   "volume": 34785.0,
+   "volume": 34786.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
    "settlement_sources": [
@@ -850,6 +850,29 @@
     }
    ]
   },
+  "KXAAAGASED": {
+   "ticker": "KXAAAGASED",
+   "title": "US gas price on Election Day",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil & Gas",
+    "Oil and energy"
+   ],
+   "frequency": "one_off",
+   "topic": "gas",
+   "volume": 89.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
   "KXAAAGASDRI": {
    "ticker": "KXAAAGASDRI",
    "title": "Rhode Island gas price",
@@ -871,29 +894,6 @@
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=RI"
-    }
-   ]
-  },
-  "KXAAAGASED": {
-   "ticker": "KXAAAGASED",
-   "title": "US gas price on Election Day",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil & Gas",
-    "Oil and energy"
-   ],
-   "frequency": "one_off",
-   "topic": "gas",
-   "volume": 89.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
     }
    ]
   },
@@ -1062,6 +1062,29 @@
     }
    ]
   },
+  "KXAAAGASDVA": {
+   "ticker": "KXAAAGASDVA",
+   "title": "Virginia gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 58.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=VA"
+    }
+   ]
+  },
   "KXUSGASCPI": {
    "ticker": "KXUSGASCPI",
    "title": "US gasoline CPI in [month]",
@@ -1085,29 +1108,6 @@
     {
      "name": "Bureau of Labor Statistics- Consumer Price Index",
      "url": "https://www.bls.gov/news.release/cpi.nr0.htm"
-    }
-   ]
-  },
-  "KXAAAGASDVA": {
-   "ticker": "KXAAAGASDVA",
-   "title": "Virginia gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 58.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=VA"
     }
    ]
   },
@@ -1182,6 +1182,28 @@
     }
    ]
   },
+  "KXAAAGASMINM": {
+   "ticker": "KXAAAGASMINM",
+   "title": "US lowest gas price monthly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "monthly",
+   "topic": "gas",
+   "volume": 50.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/"
+    }
+   ]
+  },
   "KXAAAGASDME": {
    "ticker": "KXAAAGASDME",
    "title": "Maine gas price",
@@ -1203,28 +1225,6 @@
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=ME"
-    }
-   ]
-  },
-  "KXAAAGASMINM": {
-   "ticker": "KXAAAGASMINM",
-   "title": "US lowest gas price monthly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "monthly",
-   "topic": "gas",
-   "volume": 50.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
     }
    ]
   },
@@ -1370,16 +1370,15 @@
     }
    ]
   },
-  "KXAAAGASMIN": {
-   "ticker": "KXAAAGASMIN",
-   "title": "US lowest gas price yearly",
+  "KXAAAGASMAXNY": {
+   "ticker": "KXAAAGASMAXNY",
+   "title": "NEW YORK highest gas price yearly",
    "category": "Economics",
    "categories": [
     "Economics"
    ],
    "tags": [
-    "Oil & Gas",
-    "Oil and energy"
+    "NYC"
    ],
    "frequency": "annual",
    "topic": "gas",
@@ -1416,15 +1415,16 @@
     }
    ]
   },
-  "KXAAAGASMAXNY": {
-   "ticker": "KXAAAGASMAXNY",
-   "title": "NEW YORK highest gas price yearly",
+  "KXAAAGASMIN": {
+   "ticker": "KXAAAGASMIN",
+   "title": "US lowest gas price yearly",
    "category": "Economics",
    "categories": [
     "Economics"
    ],
    "tags": [
-    "NYC"
+    "Oil & Gas",
+    "Oil and energy"
    ],
    "frequency": "annual",
    "topic": "gas",
@@ -1575,30 +1575,6 @@
     }
    ]
   },
-  "KXAAAGASDWI": {
-   "ticker": "KXAAAGASDWI",
-   "title": "Wisconsin gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 13.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=WI"
-    }
-   ]
-  },
   "KXAAAGASDDE": {
    "ticker": "KXAAAGASDDE",
    "title": "Delaware gas price",
@@ -1620,6 +1596,30 @@
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=DE"
+    }
+   ]
+  },
+  "KXAAAGASDWI": {
+   "ticker": "KXAAAGASDWI",
+   "title": "Wisconsin gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 13.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=WI"
     }
    ]
   },
@@ -1670,6 +1670,29 @@
     }
    ]
   },
+  "KXAAAGASDMA": {
+   "ticker": "KXAAAGASDMA",
+   "title": "Massachusetts gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 10.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MA"
+    }
+   ]
+  },
   "KXAAAGASCDAK": {
    "ticker": "KXAAAGASCDAK",
    "title": "Alaska gas price",
@@ -1691,29 +1714,6 @@
     {
      "name": "AAA",
      "url": "https://gasprices.aaa.com/?state=AK"
-    }
-   ]
-  },
-  "KXAAAGASDMA": {
-   "ticker": "KXAAAGASDMA",
-   "title": "Massachusetts gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 10.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MA"
     }
    ]
   },
@@ -1836,141 +1836,20 @@
     }
    ]
   },
-  "KXAAAGASCDIN": {
-   "ticker": "KXAAAGASCDIN",
-   "title": "Indiana gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=IN"
-    }
-   ]
-  },
-  "KXAAAGASCDIA": {
-   "ticker": "KXAAAGASCDIA",
-   "title": "Iowa gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=IA"
-    }
-   ]
-  },
-  "KXAAAGASCDAL": {
-   "ticker": "KXAAAGASCDAL",
-   "title": "Alabama gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=AL"
-    }
-   ]
-  },
-  "KXAAAGASCDIL": {
-   "ticker": "KXAAAGASCDIL",
-   "title": "Illinois gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=IL"
-    }
-   ]
-  },
-  "KXAAAGASCDMI": {
-   "ticker": "KXAAAGASCDMI",
-   "title": "Michigan gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MI"
-    }
-   ]
-  },
-  "KXNGASW": {
-   "ticker": "KXNGASW",
+  "NGASW": {
+   "ticker": "NGASW",
    "title": "Natural gas price max and min weekly",
    "category": "Economics",
    "categories": [
     "Economics"
    ],
    "tags": [
-    "Oil & Gas",
     "Oil and energy"
    ],
    "frequency": "weekly",
    "topic": "gas",
    "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NGAS.pdf",
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
    "settlement_sources": [
     {
@@ -1979,287 +1858,25 @@
     }
    ]
   },
-  "KXAAAGASDHI": {
-   "ticker": "KXAAAGASDHI",
-   "title": "Hawaii gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=HI"
-    }
-   ]
-  },
-  "KXAAAGASDMT": {
-   "ticker": "KXAAAGASDMT",
-   "title": "Montana gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MT"
-    }
-   ]
-  },
-  "KXAAAGASCDNY": {
-   "ticker": "KXAAAGASCDNY",
-   "title": "New York gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=NY"
-    }
-   ]
-  },
-  "KXAAAGASEOYNJ": {
-   "ticker": "KXAAAGASEOYNJ",
-   "title": "New Jersey gas price at EOY",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=NJ"
-    }
-   ]
-  },
-  "KXAAAGASCDFL": {
-   "ticker": "KXAAAGASCDFL",
-   "title": "Florida gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=FL"
-    }
-   ]
-  },
-  "KXAAAGASCDMT": {
-   "ticker": "KXAAAGASCDMT",
-   "title": "Montana gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MT"
-    }
-   ]
-  },
-  "KXAAAGASCDND": {
-   "ticker": "KXAAAGASCDND",
-   "title": "North Dakota gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=ND"
-    }
-   ]
-  },
-  "AAAGASY": {
-   "ticker": "AAAGASY",
-   "title": "US gas price up",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
-    }
-   ]
-  },
-  "KXAAAGASCDMS": {
-   "ticker": "KXAAAGASCDMS",
-   "title": "Mississippi gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MS"
-    }
-   ]
-  },
-  "KXAAAGASCDPA": {
-   "ticker": "KXAAAGASCDPA",
-   "title": "Pennsylvania gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=PA"
-    }
-   ]
-  },
-  "KXNGAS": {
-   "ticker": "KXNGAS",
+  "NGAS": {
+   "ticker": "NGAS",
    "title": "Natural gas price max and min monthly",
    "category": "Economics",
    "categories": [
     "Economics"
    ],
    "tags": [
-    "Oil & Gas",
     "Oil and energy"
    ],
    "frequency": "monthly",
    "topic": "gas",
    "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NGAS.pdf",
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
    "settlement_sources": [
     {
      "name": "Energy Information Administration",
      "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
-    }
-   ]
-  },
-  "KXAAAGASCDOR": {
-   "ticker": "KXAAAGASCDOR",
-   "title": "Oregon gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=OR"
     }
    ]
   },
@@ -2287,9 +1904,9 @@
     }
    ]
   },
-  "KXAAAGASCDTX": {
-   "ticker": "KXAAAGASCDTX",
-   "title": "Texas gas price",
+  "KXAAAGASCDNE": {
+   "ticker": "KXAAAGASCDNE",
+   "title": "Nebraska gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2307,61 +1924,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=TX"
+     "url": "https://gasprices.aaa.com/?state=NE"
     }
    ]
   },
-  "KXAAAGASCDNV": {
-   "ticker": "KXAAAGASCDNV",
-   "title": "Nevada gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=NV"
-    }
-   ]
-  },
-  "KXAAAGASCDGA": {
-   "ticker": "KXAAAGASCDGA",
-   "title": "Georgia gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=GA"
-    }
-   ]
-  },
-  "KXAAAGASDND": {
-   "ticker": "KXAAAGASDND",
-   "title": "North Dakota gas price",
+  "KXAAAGASDHI": {
+   "ticker": "KXAAAGASDHI",
+   "title": "Hawaii gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2379,13 +1948,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=ND"
+     "url": "https://gasprices.aaa.com/?state=HI"
     }
    ]
   },
-  "KXAAAGASCDVT": {
-   "ticker": "KXAAAGASCDVT",
-   "title": "Vermont gas price",
+  "KXAAAGASCDNY": {
+   "ticker": "KXAAAGASCDNY",
+   "title": "New York gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2403,245 +1972,7 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=VT"
-    }
-   ]
-  },
-  "KXAAAGASCDCO": {
-   "ticker": "KXAAAGASCDCO",
-   "title": "Colorado gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=CO"
-    }
-   ]
-  },
-  "KXAAAGASCDSD": {
-   "ticker": "KXAAAGASCDSD",
-   "title": "South Dakota gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=SD"
-    }
-   ]
-  },
-  "KXAAAGASCDNH": {
-   "ticker": "KXAAAGASCDNH",
-   "title": "New Hampshire gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=NH"
-    }
-   ]
-  },
-  "KXAAAGASCDWY": {
-   "ticker": "KXAAAGASCDWY",
-   "title": "Wyoming gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=WY"
-    }
-   ]
-  },
-  "KXAAAGASCDUT": {
-   "ticker": "KXAAAGASCDUT",
-   "title": "Utah gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=UT"
-    }
-   ]
-  },
-  "KXAAAGASCDLA": {
-   "ticker": "KXAAAGASCDLA",
-   "title": "Louisiana gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=LA"
-    }
-   ]
-  },
-  "KXAAAGASCDKS": {
-   "ticker": "KXAAAGASCDKS",
-   "title": "Kansas gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=KS"
-    }
-   ]
-  },
-  "KXAAAGASCDCA": {
-   "ticker": "KXAAAGASCDCA",
-   "title": "California gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=CA"
-    }
-   ]
-  },
-  "NGASW": {
-   "ticker": "NGASW",
-   "title": "Natural gas price max and min weekly",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "weekly",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "Energy Information Administration",
-     "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
-    }
-   ]
-  },
-  "KXAAAGASCDTN": {
-   "ticker": "KXAAAGASCDTN",
-   "title": "Tennessee gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=TN"
+     "url": "https://gasprices.aaa.com/?state=NY"
     }
    ]
   },
@@ -2669,6 +2000,101 @@
     }
    ]
   },
+  "KXAAAGASCDIA": {
+   "ticker": "KXAAAGASCDIA",
+   "title": "Iowa gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=IA"
+    }
+   ]
+  },
+  "KXAAAGASCDND": {
+   "ticker": "KXAAAGASCDND",
+   "title": "North Dakota gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=ND"
+    }
+   ]
+  },
+  "KXNGASW": {
+   "ticker": "KXNGASW",
+   "title": "Natural gas price max and min weekly",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil & Gas",
+    "Oil and energy"
+   ],
+   "frequency": "weekly",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "Energy Information Administration",
+     "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
+    }
+   ]
+  },
+  "KXAAAGASCDSD": {
+   "ticker": "KXAAAGASCDSD",
+   "title": "South Dakota gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=SD"
+    }
+   ]
+  },
   "KXAAAGASDKY": {
    "ticker": "KXAAAGASDKY",
    "title": "Kentucky gas price",
@@ -2693,57 +2119,53 @@
     }
    ]
   },
-  "KXAAAGASCDSC": {
-   "ticker": "KXAAAGASCDSC",
-   "title": "South Carolina gas price",
+  "AAAGASY": {
+   "ticker": "AAAGASY",
+   "title": "US gas price up",
    "category": "Economics",
    "categories": [
-    "Economics",
-    "Commodities"
+    "Economics"
    ],
    "tags": [
-    "Oil and energy",
-    "Econ Daily"
+    "Oil and energy"
    ],
-   "frequency": "daily",
+   "frequency": "annual",
    "topic": "gas",
    "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=SC"
+     "url": "https://gasprices.aaa.com/"
     }
    ]
   },
-  "KXAAAGASCDAZ": {
-   "ticker": "KXAAAGASCDAZ",
-   "title": "Arizona gas price",
+  "KXAAAGASY": {
+   "ticker": "KXAAAGASY",
+   "title": "US gas price up",
    "category": "Economics",
    "categories": [
-    "Economics",
-    "Commodities"
+    "Economics"
    ],
    "tags": [
-    "Oil and energy",
-    "Econ Daily"
+    "Oil & Gas"
    ],
-   "frequency": "daily",
+   "frequency": "annual",
    "topic": "gas",
    "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=AZ"
+     "url": "https://gasprices.aaa.com/"
     }
    ]
   },
-  "KXAAAGASCDOK": {
-   "ticker": "KXAAAGASCDOK",
-   "title": "Oklahoma gas price",
+  "KXAAAGASCDME": {
+   "ticker": "KXAAAGASCDME",
+   "title": "Maine gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2761,13 +2183,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=OK"
+     "url": "https://gasprices.aaa.com/?state=ME"
     }
    ]
   },
-  "KXAAAGASCDCT": {
-   "ticker": "KXAAAGASCDCT",
-   "title": "Connecticut gas price",
+  "KXAAAGASCDGA": {
+   "ticker": "KXAAAGASCDGA",
+   "title": "Georgia gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2785,13 +2207,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=CT"
+     "url": "https://gasprices.aaa.com/?state=GA"
     }
    ]
   },
-  "KXAAAGASCDNC": {
-   "ticker": "KXAAAGASCDNC",
-   "title": "North Carolina gas price",
+  "KXAAAGASCDTN": {
+   "ticker": "KXAAAGASCDTN",
+   "title": "Tennessee gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2809,13 +2231,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=NC"
+     "url": "https://gasprices.aaa.com/?state=TN"
     }
    ]
   },
-  "KXAAAGASCDKY": {
-   "ticker": "KXAAAGASCDKY",
-   "title": "Kentucky gas price",
+  "KXAAAGASCDID": {
+   "ticker": "KXAAAGASCDID",
+   "title": "Idaho gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2833,13 +2255,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=KY"
+     "url": "https://gasprices.aaa.com/?state=ID"
     }
    ]
   },
-  "KXAAAGASCDNM": {
-   "ticker": "KXAAAGASCDNM",
-   "title": "New Mexico gas price",
+  "KXAAAGASDND": {
+   "ticker": "KXAAAGASDND",
+   "title": "North Dakota gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2852,12 +2274,12 @@
    "frequency": "daily",
    "topic": "gas",
    "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=NM"
+     "url": "https://gasprices.aaa.com/?state=ND"
     }
    ]
   },
@@ -2909,9 +2331,9 @@
     }
    ]
   },
-  "KXAAAGASCDMD": {
-   "ticker": "KXAAAGASCDMD",
-   "title": "Maryland gas price",
+  "KXAAAGASCDTX": {
+   "ticker": "KXAAAGASCDTX",
+   "title": "Texas gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -2929,7 +2351,7 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MD"
+     "url": "https://gasprices.aaa.com/?state=TX"
     }
    ]
   },
@@ -2957,33 +2379,9 @@
     }
    ]
   },
-  "KXAAAGASDKS": {
-   "ticker": "KXAAAGASDKS",
-   "title": "Kansas gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=KS"
-    }
-   ]
-  },
-  "KXAAAGASCDMO": {
-   "ticker": "KXAAAGASCDMO",
-   "title": "Missouri gas price",
+  "KXAAAGASCDMI": {
+   "ticker": "KXAAAGASCDMI",
+   "title": "Michigan gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -3001,13 +2399,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=MO"
+     "url": "https://gasprices.aaa.com/?state=MI"
     }
    ]
   },
-  "KXAAAGASCDME": {
-   "ticker": "KXAAAGASCDME",
-   "title": "Maine gas price",
+  "KXAAAGASCDFL": {
+   "ticker": "KXAAAGASCDFL",
+   "title": "Florida gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -3025,13 +2423,13 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=ME"
+     "url": "https://gasprices.aaa.com/?state=FL"
     }
    ]
   },
-  "KXAAAGASCDWV": {
-   "ticker": "KXAAAGASCDWV",
-   "title": "West Virginia gas price",
+  "KXAAAGASCDWY": {
+   "ticker": "KXAAAGASCDWY",
+   "title": "Wyoming gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -3049,99 +2447,54 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=WV"
+     "url": "https://gasprices.aaa.com/?state=WY"
     }
    ]
   },
-  "NGAS": {
-   "ticker": "NGAS",
+  "KXAAAGASCDMD": {
+   "ticker": "KXAAAGASCDMD",
+   "title": "Maryland gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MD"
+    }
+   ]
+  },
+  "KXNGAS": {
+   "ticker": "KXNGAS",
    "title": "Natural gas price max and min monthly",
    "category": "Economics",
    "categories": [
     "Economics"
    ],
    "tags": [
+    "Oil & Gas",
     "Oil and energy"
    ],
    "frequency": "monthly",
    "topic": "gas",
    "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/NGAS.pdf",
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NGAS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/NGAS.pdf",
    "settlement_sources": [
     {
      "name": "Energy Information Administration",
      "url": "https://www.eia.gov/dnav/ng/NG_PRI_FUT_S1_D.htm"
-    }
-   ]
-  },
-  "KXAAAGASCDNE": {
-   "ticker": "KXAAAGASCDNE",
-   "title": "Nebraska gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=NE"
-    }
-   ]
-  },
-  "KXAAAGASCDAR": {
-   "ticker": "KXAAAGASCDAR",
-   "title": "Arkansas gas price",
-   "category": "Economics",
-   "categories": [
-    "Economics",
-    "Commodities"
-   ],
-   "tags": [
-    "Oil and energy",
-    "Econ Daily"
-   ],
-   "frequency": "daily",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=AR"
-    }
-   ]
-  },
-  "KXAAAGASY": {
-   "ticker": "KXAAAGASY",
-   "title": "US gas price up",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil & Gas"
-   ],
-   "frequency": "annual",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
-   "settlement_sources": [
-    {
-     "name": "AAA",
-     "url": "https://gasprices.aaa.com/"
     }
    ]
   },
@@ -3169,31 +2522,9 @@
     }
    ]
   },
-  "KXEIAGASINVM": {
-   "ticker": "KXEIAGASINVM",
-   "title": "U.S. gasoline inventories",
-   "category": "Economics",
-   "categories": [
-    "Economics"
-   ],
-   "tags": [
-    "Oil and energy"
-   ],
-   "frequency": "monthly",
-   "topic": "gas",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ECONSTATB.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ECONSTATB.pdf",
-   "settlement_sources": [
-    {
-     "name": "U.S. Energy Information Administration",
-     "url": "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=M&n=PET&s=MGTSTUS1"
-    }
-   ]
-  },
-  "KXAAAGASCDOH": {
-   "ticker": "KXAAAGASCDOH",
-   "title": "Ohio gas price",
+  "KXAAAGASCDCA": {
+   "ticker": "KXAAAGASCDCA",
+   "title": "California gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -3211,13 +2542,37 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=OH"
+     "url": "https://gasprices.aaa.com/?state=CA"
     }
    ]
   },
-  "KXAAAGASCDID": {
-   "ticker": "KXAAAGASCDID",
-   "title": "Idaho gas price",
+  "KXAAAGASDKS": {
+   "ticker": "KXAAAGASDKS",
+   "title": "Kansas gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=KS"
+    }
+   ]
+  },
+  "KXAAAGASCDAZ": {
+   "ticker": "KXAAAGASCDAZ",
+   "title": "Arizona gas price",
    "category": "Economics",
    "categories": [
     "Economics",
@@ -3235,7 +2590,247 @@
    "settlement_sources": [
     {
      "name": "AAA",
-     "url": "https://gasprices.aaa.com/?state=ID"
+     "url": "https://gasprices.aaa.com/?state=AZ"
+    }
+   ]
+  },
+  "KXAAAGASCDCT": {
+   "ticker": "KXAAAGASCDCT",
+   "title": "Connecticut gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=CT"
+    }
+   ]
+  },
+  "KXAAAGASCDMT": {
+   "ticker": "KXAAAGASCDMT",
+   "title": "Montana gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MT"
+    }
+   ]
+  },
+  "KXAAAGASCDSC": {
+   "ticker": "KXAAAGASCDSC",
+   "title": "South Carolina gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=SC"
+    }
+   ]
+  },
+  "KXAAAGASCDAL": {
+   "ticker": "KXAAAGASCDAL",
+   "title": "Alabama gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=AL"
+    }
+   ]
+  },
+  "KXAAAGASCDUT": {
+   "ticker": "KXAAAGASCDUT",
+   "title": "Utah gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=UT"
+    }
+   ]
+  },
+  "KXAAAGASCDKY": {
+   "ticker": "KXAAAGASCDKY",
+   "title": "Kentucky gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=KY"
+    }
+   ]
+  },
+  "KXAAAGASCDKS": {
+   "ticker": "KXAAAGASCDKS",
+   "title": "Kansas gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=KS"
+    }
+   ]
+  },
+  "KXAAAGASCDPA": {
+   "ticker": "KXAAAGASCDPA",
+   "title": "Pennsylvania gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=PA"
+    }
+   ]
+  },
+  "KXAAAGASCDOR": {
+   "ticker": "KXAAAGASCDOR",
+   "title": "Oregon gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=OR"
+    }
+   ]
+  },
+  "KXAAAGASCDOK": {
+   "ticker": "KXAAAGASCDOK",
+   "title": "Oklahoma gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=OK"
     }
    ]
   },
@@ -3263,6 +2858,411 @@
     }
    ]
   },
+  "KXAAAGASCDNC": {
+   "ticker": "KXAAAGASCDNC",
+   "title": "North Carolina gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=NC"
+    }
+   ]
+  },
+  "KXAAAGASCDNH": {
+   "ticker": "KXAAAGASCDNH",
+   "title": "New Hampshire gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=NH"
+    }
+   ]
+  },
+  "KXAAAGASCDOH": {
+   "ticker": "KXAAAGASCDOH",
+   "title": "Ohio gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=OH"
+    }
+   ]
+  },
+  "KXAAAGASCDIN": {
+   "ticker": "KXAAAGASCDIN",
+   "title": "Indiana gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=IN"
+    }
+   ]
+  },
+  "KXAAAGASCDVT": {
+   "ticker": "KXAAAGASCDVT",
+   "title": "Vermont gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=VT"
+    }
+   ]
+  },
+  "KXAAAGASCDNV": {
+   "ticker": "KXAAAGASCDNV",
+   "title": "Nevada gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=NV"
+    }
+   ]
+  },
+  "KXAAAGASDMT": {
+   "ticker": "KXAAAGASDMT",
+   "title": "Montana gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MT"
+    }
+   ]
+  },
+  "KXAAAGASCDCO": {
+   "ticker": "KXAAAGASCDCO",
+   "title": "Colorado gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=CO"
+    }
+   ]
+  },
+  "KXEIAGASINVM": {
+   "ticker": "KXEIAGASINVM",
+   "title": "U.S. gasoline inventories",
+   "category": "Economics",
+   "categories": [
+    "Economics"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "monthly",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ECONSTATB.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ECONSTATB.pdf",
+   "settlement_sources": [
+    {
+     "name": "U.S. Energy Information Administration",
+     "url": "https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?f=M&n=PET&s=MGTSTUS1"
+    }
+   ]
+  },
+  "KXAAAGASCDMS": {
+   "ticker": "KXAAAGASCDMS",
+   "title": "Mississippi gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MS"
+    }
+   ]
+  },
+  "KXAAAGASCDAR": {
+   "ticker": "KXAAAGASCDAR",
+   "title": "Arkansas gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=AR"
+    }
+   ]
+  },
+  "KXAAAGASCDLA": {
+   "ticker": "KXAAAGASCDLA",
+   "title": "Louisiana gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=LA"
+    }
+   ]
+  },
+  "KXAAAGASCDMO": {
+   "ticker": "KXAAAGASCDMO",
+   "title": "Missouri gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=MO"
+    }
+   ]
+  },
+  "KXAAAGASCDIL": {
+   "ticker": "KXAAAGASCDIL",
+   "title": "Illinois gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=IL"
+    }
+   ]
+  },
+  "KXAAAGASCDNM": {
+   "ticker": "KXAAAGASCDNM",
+   "title": "New Mexico gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=NM"
+    }
+   ]
+  },
+  "KXAAAGASEOYNJ": {
+   "ticker": "KXAAAGASEOYNJ",
+   "title": "New Jersey gas price at EOY",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy"
+   ],
+   "frequency": "annual",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGAS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGAS.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=NJ"
+    }
+   ]
+  },
+  "KXAAAGASCDWV": {
+   "ticker": "KXAAAGASCDWV",
+   "title": "West Virginia gas price",
+   "category": "Economics",
+   "categories": [
+    "Economics",
+    "Commodities"
+   ],
+   "tags": [
+    "Oil and energy",
+    "Econ Daily"
+   ],
+   "frequency": "daily",
+   "topic": "gas",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/AAAGASNEW.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/AAAGASNEW.pdf",
+   "settlement_sources": [
+    {
+     "name": "AAA",
+     "url": "https://gasprices.aaa.com/?state=WV"
+    }
+   ]
+  },
   "KXPRESNOMD": {
    "ticker": "KXPRESNOMD",
    "title": "Democratic Primary winner",
@@ -3276,7 +3276,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 7990164603.0,
+   "volume": 7991234909.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PRESNOM.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PRESNOM.pdf",
    "settlement_sources": [
@@ -3303,7 +3303,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 1449352623.0,
+   "volume": 1449959520.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PRESPERSON.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PRESPERSON.pdf",
    "settlement_sources": [
@@ -3326,7 +3326,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 1037664987.0,
+   "volume": 1038822389.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PRESNOM.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PRESNOM.pdf",
    "settlement_sources": [
@@ -4094,7 +4094,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 13064792.0,
+   "volume": 13223135.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/FRENCHPRES.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/FRENCHPRES.pdf",
    "settlement_sources": [
@@ -4537,7 +4537,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 5238822.0,
+   "volume": 5238834.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ELECTIONMOV.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ELECTIONMOV.pdf",
    "settlement_sources": [
@@ -4954,7 +4954,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 2269818.0,
+   "volume": 2344052.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ELECTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ELECTION.pdf",
    "settlement_sources": [
@@ -5459,7 +5459,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 940371.0,
+   "volume": 955778.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOVHEAD.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOVHEAD.pdf",
    "settlement_sources": [
@@ -5885,7 +5885,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 474661.0,
+   "volume": 479848.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/USELECTION.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/USELECTION.pdf",
    "settlement_sources": [
@@ -5946,7 +5946,7 @@
    ],
    "frequency": "one_off",
    "topic": "elections",
-   "volume": 465637.0,
+   "volume": 465639.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/2028RUNPARTY.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/2028RUNPARTY.pdf",
    "settlement_sources": [
@@ -6620,7 +6620,7 @@
    ],
    "frequency": "custom",
    "topic": "elections",
-   "volume": 218836.0,
+   "volume": 219658.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ECCOMPACT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ECCOMPACT.pdf",
    "settlement_sources": [
@@ -7497,7 +7497,7 @@
    ],
    "frequency": "custom",
    "topic": "culture",
-   "volume": 200333572.0,
+   "volume": 200344673.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/RT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/RT.pdf",
    "settlement_sources": [
@@ -7584,7 +7584,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 47772928.0,
+   "volume": 47787522.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -7698,6 +7698,30 @@
     }
    ]
   },
+  "KXTIME": {
+   "ticker": "KXTIME",
+   "title": "TIME’s Person of the Year",
+   "category": "Entertainment",
+   "categories": [
+    "Entertainment"
+   ],
+   "tags": [
+    "Achievements",
+    "People",
+    "Awards"
+   ],
+   "frequency": "annual",
+   "topic": "culture",
+   "volume": 30671656.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/TIME.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/TIME.pdf",
+   "settlement_sources": [
+    {
+     "name": "TIME",
+     "url": "https://time.com/"
+    }
+   ]
+  },
   "KXRANKLISTSONGSPOTUSA": {
    "ticker": "KXRANKLISTSONGSPOTUSA",
    "title": "WHO WIL HAVE A #1 song on Spotify ",
@@ -7718,30 +7742,6 @@
     {
      "name": "Billboard",
      "url": "https://www.billboard.com"
-    }
-   ]
-  },
-  "KXTIME": {
-   "ticker": "KXTIME",
-   "title": "TIME’s Person of the Year",
-   "category": "Entertainment",
-   "categories": [
-    "Entertainment"
-   ],
-   "tags": [
-    "Achievements",
-    "People",
-    "Awards"
-   ],
-   "frequency": "annual",
-   "topic": "culture",
-   "volume": 30492781.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/TIME.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/TIME.pdf",
-   "settlement_sources": [
-    {
-     "name": "TIME",
-     "url": "https://time.com/"
     }
    ]
   },
@@ -8518,7 +8518,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 3911412.0,
+   "volume": 3911426.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/OSCARS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/OSCARS.pdf",
    "settlement_sources": [
@@ -8562,7 +8562,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 3269842.0,
+   "volume": 3269843.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/TOPARTIST.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/TOPARTIST.pdf",
    "settlement_sources": [
@@ -8741,7 +8741,7 @@
    ],
    "frequency": "annual",
    "topic": "culture",
-   "volume": 2429121.0,
+   "volume": 2462740.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GAMEAWARDS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GAMEAWARDS.pdf",
    "settlement_sources": [
@@ -9456,7 +9456,7 @@
    ],
    "frequency": "weekly",
    "topic": "culture",
-   "volume": 617965.0,
+   "volume": 617966.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/RANKLIST.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/RANKLIST.pdf",
    "settlement_sources": [
@@ -9808,7 +9808,7 @@
    "tags": [],
    "frequency": "one_off",
    "topic": "culture",
-   "volume": 433033.0,
+   "volume": 433035.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GENRELEASE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GENRELEASE.pdf",
    "settlement_sources": [
@@ -10212,26 +10212,6 @@
     }
    ]
   },
-  "KXDWARKESH": {
-   "ticker": "KXDWARKESH",
-   "title": "Dwarkesh podcast",
-   "category": "Entertainment",
-   "categories": [
-    "Entertainment"
-   ],
-   "tags": [],
-   "frequency": "custom",
-   "topic": "culture",
-   "volume": 306682.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/DWARKESH.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/DWARKESH.pdf",
-   "settlement_sources": [
-    {
-     "name": "Dwarkesh Podcast",
-     "url": "https://www.dwarkeshpatel.com/"
-    }
-   ]
-  },
   "KXGTA6UNITS": {
    "ticker": "KXGTA6UNITS",
    "title": "GTA VI reported units sold-in",
@@ -10244,7 +10224,7 @@
    ],
    "frequency": "custom",
    "topic": "culture",
-   "volume": 303944.0,
+   "volume": 315861.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GTA6UNITS.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/GTA6UNITS.pdf",
    "settlement_sources": [
@@ -10271,6 +10251,26 @@
     {
      "name": "The Wall Street Journal",
      "url": "https://www.wsj.com/"
+    }
+   ]
+  },
+  "KXDWARKESH": {
+   "ticker": "KXDWARKESH",
+   "title": "Dwarkesh podcast",
+   "category": "Entertainment",
+   "categories": [
+    "Entertainment"
+   ],
+   "tags": [],
+   "frequency": "custom",
+   "topic": "culture",
+   "volume": 306682.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/DWARKESH.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/DWARKESH.pdf",
+   "settlement_sources": [
+    {
+     "name": "Dwarkesh Podcast",
+     "url": "https://www.dwarkeshpatel.com/"
     }
    ]
   },
@@ -11399,7 +11399,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 5729490169.0,
+   "volume": 5729587265.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/BTC.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
    "settlement_sources": [
@@ -11422,7 +11422,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 1977756438.0,
+   "volume": 1978129409.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11468,7 +11468,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 249551767.0,
+   "volume": 249551770.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11492,7 +11492,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 142682290.0,
+   "volume": 142693040.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ETH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ETH.pdf",
    "settlement_sources": [
@@ -11516,7 +11516,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 117425395.0,
+   "volume": 117425475.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/BTC.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTC.pdf",
    "settlement_sources": [
@@ -11540,7 +11540,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 72112707.0,
+   "volume": 72112715.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ETH.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/ETH.pdf",
    "settlement_sources": [
@@ -11586,7 +11586,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 43272980.0,
+   "volume": 43273353.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -11768,7 +11768,7 @@
    ],
    "frequency": "annual",
    "topic": "crypto",
-   "volume": 19610193.0,
+   "volume": 19617222.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/BTCMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCMINMAX.pdf",
    "settlement_sources": [
@@ -11984,6 +11984,29 @@
     }
    ]
   },
+  "KXBTC15M": {
+   "ticker": "KXBTC15M",
+   "title": "Bitcoin price up down",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "BTC",
+    "15 min"
+   ],
+   "frequency": "fifteen_min",
+   "topic": "crypto",
+   "volume": 11057843.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
   "KXBCHD": {
    "ticker": "KXBCHD",
    "title": "Bitcoin Cash price Above/below",
@@ -12021,29 +12044,6 @@
     {
      "name": "CF Benchmarks",
      "url": "https://www.cfbenchmarks.com/data/indices/DOTUSD_RTI"
-    }
-   ]
-  },
-  "KXBTC15M": {
-   "ticker": "KXBTC15M",
-   "title": "Bitcoin price up down",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "BTC",
-    "15 min"
-   ],
-   "frequency": "fifteen_min",
-   "topic": "crypto",
-   "volume": 10189100.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/"
     }
    ]
   },
@@ -12152,7 +12152,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 3485770.0,
+   "volume": 3488500.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTOHIT.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOHIT.pdf",
    "settlement_sources": [
@@ -12175,7 +12175,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 1286236.0,
+   "volume": 1287886.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
    "settlement_sources": [
@@ -12221,7 +12221,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 324402.0,
+   "volume": 325726.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
    "settlement_sources": [
@@ -12267,9 +12267,32 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 285969.0,
+   "volume": 288946.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
+  "KXSOLD": {
+   "ticker": "KXSOLD",
+   "title": "SOL Directional",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "Crypto",
+    "Solana"
+   ],
+   "frequency": "hourly",
+   "topic": "crypto",
+   "volume": 171534.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
@@ -12292,29 +12315,6 @@
    "volume": 165735.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTORETURN.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTORETURN.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/"
-    }
-   ]
-  },
-  "KXSOLD": {
-   "ticker": "KXSOLD",
-   "title": "SOL Directional",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "Crypto",
-    "Solana"
-   ],
-   "frequency": "hourly",
-   "topic": "crypto",
-   "volume": 163198.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
@@ -12357,7 +12357,7 @@
    ],
    "frequency": "hourly",
    "topic": "crypto",
-   "volume": 129591.0,
+   "volume": 130703.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
@@ -12694,6 +12694,29 @@
     }
    ]
   },
+  "KXDOGE15M": {
+   "ticker": "KXDOGE15M",
+   "title": "Dogecoin 15 Minute",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "DOGE",
+    "15 min"
+   ],
+   "frequency": "fifteen_min",
+   "topic": "crypto",
+   "volume": 61347.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
   "KXLINKMAXY": {
    "ticker": "KXLINKMAXY",
    "title": "Chainlink max",
@@ -12710,29 +12733,6 @@
    "volume": 61184.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/LINKMINMAX.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/LINKMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/"
-    }
-   ]
-  },
-  "KXDOGE15M": {
-   "ticker": "KXDOGE15M",
-   "title": "Dogecoin 15 Minute",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "DOGE",
-    "15 min"
-   ],
-   "frequency": "fifteen_min",
-   "topic": "crypto",
-   "volume": 60866.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
@@ -12998,7 +12998,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 34544.0,
+   "volume": 34687.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
    "settlement_sources": [
@@ -13109,7 +13109,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 20698.0,
+   "volume": 20938.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
    "settlement_sources": [
@@ -13224,7 +13224,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 18233.0,
+   "volume": 18487.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
    "settlement_sources": [
@@ -13384,7 +13384,7 @@
    ],
    "frequency": "fifteen_min",
    "topic": "crypto",
-   "volume": 16022.0,
+   "volume": 16180.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTO15M.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO15M.pdf",
    "settlement_sources": [
@@ -13590,6 +13590,29 @@
     }
    ]
   },
+  "KXHYPED": {
+   "ticker": "KXHYPED",
+   "title": "Hype Directional",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "Crypto",
+    "HYPE"
+   ],
+   "frequency": "hourly",
+   "topic": "crypto",
+   "volume": 8119.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
   "BTCMAX100": {
    "ticker": "BTCMAX100",
    "title": "When will bitcoin hit 100k?",
@@ -13628,29 +13651,6 @@
    "volume": 7412.0,
    "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTORETURNCOMPARE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTORETURNCOMPARE.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/"
-    }
-   ]
-  },
-  "KXHYPED": {
-   "ticker": "KXHYPED",
-   "title": "Hype Directional",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "Crypto",
-    "HYPE"
-   ],
-   "frequency": "hourly",
-   "topic": "crypto",
-   "volume": 5806.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTO.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
    "settlement_sources": [
     {
      "name": "CF Benchmarks",
@@ -14418,6 +14418,30 @@
     }
    ]
   },
+  "KXDOGEY": {
+   "ticker": "KXDOGEY",
+   "title": "DOGE yearly",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "Crypto",
+    "Hourly",
+    "DOGE"
+   ],
+   "frequency": "annual",
+   "topic": "crypto",
+   "volume": 63.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTOY.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOY.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
   "KXSOLFLIPETH": {
    "ticker": "KXSOLFLIPETH",
    "title": "SOL flip ETH",
@@ -14447,30 +14471,6 @@
     {
      "name": "CoinMarketCap",
      "url": "https://coinmarketcap.com"
-    }
-   ]
-  },
-  "KXDOGEY": {
-   "ticker": "KXDOGEY",
-   "title": "DOGE yearly",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "Crypto",
-    "Hourly",
-    "DOGE"
-   ],
-   "frequency": "annual",
-   "topic": "crypto",
-   "volume": 63.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/CRYPTOY.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOY.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/"
     }
    ]
   },
@@ -14558,7 +14558,7 @@
    ],
    "frequency": "one_off",
    "topic": "crypto",
-   "volume": 41.0,
+   "volume": 47.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/BTCPRICE.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/BTCPRICE.pdf",
    "settlement_sources": [
@@ -14845,9 +14845,9 @@
     }
    ]
   },
-  "KXBNBMAXY": {
-   "ticker": "KXBNBMAXY",
-   "title": "BNB Max Year",
+  "KXBNBMINY": {
+   "ticker": "KXBNBMINY",
+   "title": "BNB Min Year",
    "category": "Crypto",
    "categories": [
     "Crypto"
@@ -14868,9 +14868,31 @@
     }
    ]
   },
-  "KXBNBMINY": {
-   "ticker": "KXBNBMINY",
-   "title": "BNB Min Year",
+  "KXDOGEMAXY": {
+   "ticker": "KXDOGEMAXY",
+   "title": "Dogecoin max",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "DOGE"
+   ],
+   "frequency": "annual",
+   "topic": "crypto",
+   "volume": 24.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/DOGEMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/DOGEMINMAX.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/data/indices/DOGEUSD_RTI"
+    }
+   ]
+  },
+  "KXBNBMAXY": {
+   "ticker": "KXBNBMAXY",
+   "title": "BNB Max Year",
    "category": "Crypto",
    "categories": [
     "Crypto"
@@ -14911,28 +14933,6 @@
     {
      "name": "CF Benchmarks",
      "url": "https://www.cfbenchmarks.com/"
-    }
-   ]
-  },
-  "KXDOGEMAXY": {
-   "ticker": "KXDOGEMAXY",
-   "title": "Dogecoin max",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "DOGE"
-   ],
-   "frequency": "annual",
-   "topic": "crypto",
-   "volume": 24.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/DOGEMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/DOGEMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/data/indices/DOGEUSD_RTI"
     }
    ]
   },
@@ -15076,16 +15076,39 @@
     }
    ]
   },
-  "KXZECMINMON": {
-   "ticker": "KXZECMINMON",
-   "title": "Z cash min monthly",
+  "KXNEARMAXY": {
+   "ticker": "KXNEARMAXY",
+   "title": "Near Max Year",
    "category": "Crypto",
    "categories": [
     "Crypto"
    ],
    "tags": [
     "Crypto",
-    "Zcash"
+    "NEAR Protocol"
+   ],
+   "frequency": "annual",
+   "topic": "crypto",
+   "volume": 9.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
+   "settlement_sources": [
+    {
+     "name": "CF Benchmarks",
+     "url": "https://www.cfbenchmarks.com/"
+    }
+   ]
+  },
+  "KXSOLMINMON": {
+   "ticker": "KXSOLMINMON",
+   "title": "SOL Min monthly",
+   "category": "Crypto",
+   "categories": [
+    "Crypto"
+   ],
+   "tags": [
+    "Crypto",
+    "Solana"
    ],
    "frequency": "monthly",
    "topic": "crypto",
@@ -15122,29 +15145,6 @@
     }
    ]
   },
-  "KXSOLMAXMON": {
-   "ticker": "KXSOLMAXMON",
-   "title": "SOL Monthly One touch ",
-   "category": "Crypto",
-   "categories": [
-    "Crypto"
-   ],
-   "tags": [
-    "Crypto",
-    "Solana"
-   ],
-   "frequency": "monthly",
-   "topic": "crypto",
-   "volume": 9.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/CRYPTOMINMAX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/CRYPTOMINMAX.pdf",
-   "settlement_sources": [
-    {
-     "name": "CF Benchmarks",
-     "url": "https://www.cfbenchmarks.com/"
-    }
-   ]
-  },
   "KXPGATOUR": {
    "ticker": "KXPGATOUR",
    "title": "PGA Tour",
@@ -15157,7 +15157,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 42202651111.0,
+   "volume": 42202721360.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGATOUR.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOUR.pdf",
    "settlement_sources": [
@@ -15187,7 +15187,7 @@
    ],
    "frequency": "custom",
    "topic": "golf",
-   "volume": 8259600922.0,
+   "volume": 8260320594.0,
    "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGATOUR.pdf",
    "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOUR.pdf",
    "settlement_sources": [
@@ -16957,6 +16957,28 @@
     }
    ]
   },
+  "KXTGLMATCH": {
+   "ticker": "KXTGLMATCH",
+   "title": "TGL Golf Match",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 12.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "TGL",
+     "url": "https://tglgolf.com/results"
+    }
+   ]
+  },
   "KXGOLFNEXTWIN": {
    "ticker": "KXGOLFNEXTWIN",
    "title": "Next Tournament Win",
@@ -16980,28 +17002,6 @@
     {
      "name": "the Governing League",
      "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXTGLMATCH": {
-   "ticker": "KXTGLMATCH",
-   "title": "TGL Golf Match",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 12.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "TGL",
-     "url": "https://tglgolf.com/results"
     }
    ]
   },
@@ -17108,6 +17108,28 @@
     }
    ]
   },
+  "KXPGAWINNERREGION": {
+   "ticker": "KXPGAWINNERREGION",
+   "title": "PGA Tournament Winner Region",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 5.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCOUNTRY.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCOUNTRY.pdf",
+   "settlement_sources": [
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
   "KXPRESCUPHOLEINONE": {
    "ticker": "KXPRESCUPHOLEINONE",
    "title": "President Cup Hole in One",
@@ -17150,9 +17172,9 @@
     }
    ]
   },
-  "KXPGAWINNERREGION": {
-   "ticker": "KXPGAWINNERREGION",
-   "title": "PGA Tournament Winner Region",
+  "KXDPWORLDTOURMAKECUT": {
+   "ticker": "KXDPWORLDTOURMAKECUT",
+   "title": "DP World Tour To Make Cut",
    "category": "Sports",
    "categories": [
     "Sports"
@@ -17160,15 +17182,23 @@
    "tags": [
     "Golf"
    ],
-   "frequency": "one_off",
+   "frequency": "custom",
    "topic": "golf",
-   "volume": 5.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCOUNTRY.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCOUNTRY.pdf",
+   "volume": 3.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCUT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCUT.pdf",
    "settlement_sources": [
     {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
+     "name": "DP World Tour",
+     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
     }
    ]
   },
@@ -17206,36 +17236,6 @@
     }
    ]
   },
-  "KXDPWORLDTOURMAKECUT": {
-   "ticker": "KXDPWORLDTOURMAKECUT",
-   "title": "DP World Tour To Make Cut",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 3.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCUT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCUT.pdf",
-   "settlement_sources": [
-    {
-     "name": "DP World Tour",
-     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    }
-   ]
-  },
   "KXPRESCUPDAYWINNER": {
    "ticker": "KXPRESCUPDAYWINNER",
    "title": "Day Winner of President Cup",
@@ -17259,6 +17259,28 @@
     {
      "name": "the Governing League",
      "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAMAJORWIN": {
+   "ticker": "KXPGAMAJORWIN",
+   "title": "PGA Major Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 1.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NEWACHIEVEMENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NEWACHIEVEMENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
     }
    ]
   },
@@ -17304,858 +17326,6 @@
     }
    ]
   },
-  "KXPGAMAJORWIN": {
-   "ticker": "KXPGAMAJORWIN",
-   "title": "PGA Major Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 1.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NEWACHIEVEMENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NEWACHIEVEMENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    }
-   ]
-  },
-  "KXPGAUNDERPAR": {
-   "ticker": "KXPGAUNDERPAR",
-   "title": "Golfers to Finish Under Par",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFERSUNDERPAR.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFERSUNDERPAR.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAR3TOP5": {
-   "ticker": "KXPGAR3TOP5",
-   "title": "PGA Round 3 Top 5 Finishers",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFFINISH.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAWINMARGIN": {
-   "ticker": "KXPGAWINMARGIN",
-   "title": "PGA Win Margin",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFLEADMARGIN.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFLEADMARGIN.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    },
-    {
-     "name": "Golf Channel",
-     "url": "https://golfchannel.com"
-    }
-   ]
-  },
-  "KXPGAWIN": {
-   "ticker": "KXPGAWIN",
-   "title": "Golfer to Win",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAR1TOP20": {
-   "ticker": "KXPGAR1TOP20",
-   "title": "PGA Round 1 Top 20 FInishers",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFFINISH.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXNELKHOLEINONE": {
-   "ticker": "KXNELKHOLEINONE",
-   "title": "NELK Hole in One",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
-   "settlement_sources": [
-    {
-     "name": "NELK",
-     "url": "https://kick.com/NELKBOYS"
-    }
-   ]
-  },
-  "KXPGARYDERMATCH": {
-   "ticker": "KXPGARYDERMATCH",
-   "title": "PGA Ryder Cup Matchups",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGARYDERMATCH.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGARYDERMATCH.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    }
-   ]
-  },
-  "KXBDSHOLEINONE": {
-   "ticker": "KXBDSHOLEINONE",
-   "title": "Bob Does Sports Hole in One",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
-   "settlement_sources": [
-    {
-     "name": "@jensen_curtis",
-     "url": "https://www.instagram.com/jensen_custis/?hl=en"
-    },
-    {
-     "name": "@joey.coldcuts",
-     "url": "https://www.instagram.com/joey.coldcuts/?hl=en"
-    },
-    {
-     "name": "RobbyBerger",
-     "url": "https://www.twitch.tv/robbyberger"
-    },
-    {
-     "name": "@thefatperez",
-     "url": "https://www.instagram.com/thefatperez/"
-    },
-    {
-     "name": "@benlambers",
-     "url": "https://www.instagram.com/benlambers/?hl=en"
-    },
-    {
-     "name": "RobbyBergerOfficial",
-     "url": "https://www.youtube.com/@RobbyBergerOfficial"
-    }
-   ]
-  },
-  "KXRYDERCUP": {
-   "ticker": "KXRYDERCUP",
-   "title": "Ryder Cup ",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXPGA": {
-   "ticker": "KXPGA",
-   "title": "PGA Championship",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "annual",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXLIVR2LEAD": {
-   "ticker": "KXLIVR2LEAD",
-   "title": "Liv Round 2 Leader",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "LIV Golf",
-     "url": "https://www.livgolf.com/"
-    }
-   ]
-  },
-  "KXDPWORLDTOURR3LEAD": {
-   "ticker": "KXDPWORLDTOURR3LEAD",
-   "title": "DP World Tour R3 Leader",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "DP World Tour",
-     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
-    }
-   ]
-  },
-  "KXPHOENIXOPEN": {
-   "ticker": "KXPHOENIXOPEN",
-   "title": "Phoenix Open",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "annual",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXPGARYDERTOP3": {
-   "ticker": "KXPGARYDERTOP3",
-   "title": "Ryder Cup Top 3 Points Scorer",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "annual",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NEWACHIEVEMENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NEWACHIEVEMENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    }
-   ]
-  },
-  "KXGOLFCAT": {
-   "ticker": "KXGOLFCAT",
-   "title": "a",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGARYDERTOP": {
-   "ticker": "KXPGARYDERTOP",
-   "title": "Ryder Cup Top Points Scorer",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXPGAROUNDBIRDIES": {
-   "ticker": "KXPGAROUNDBIRDIES",
-   "title": "Golf Round Birdies",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFROUNDBIRDIES.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFROUNDBIRDIES.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAC": {
-   "ticker": "KXPGAC",
-   "title": "Golfers to Participate in the PGA championship",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAROUNDLOW": {
-   "ticker": "KXPGAROUNDLOW",
-   "title": "lowest round score",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFLOWROUNDSCORE.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFLOWROUNDSCORE.pdf",
-   "settlement_sources": [
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAEAGLE": {
-   "ticker": "KXPGAEAGLE",
-   "title": "Player to Record an Eagle in Round",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFWHOSTAT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFWHOSTAT.pdf",
-   "settlement_sources": [
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAACTION": {
-   "ticker": "KXPGAACTION",
-   "title": "PGA Tour Action",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/SPORTCOMPANYACTION.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTCOMPANYACTION.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    },
-    {
-     "name": "CBS Sports",
-     "url": "https://www.cbssports.com/"
-    }
-   ]
-  },
-  "KXLIVR3LEAD": {
-   "ticker": "KXLIVR3LEAD",
-   "title": "LIV Round 3 Leader",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "LIV Golf",
-     "url": "https://www.livgolf.com/"
-    }
-   ]
-  },
-  "KXHOLEINONE": {
-   "ticker": "KXHOLEINONE",
-   "title": "Golf Hole in One",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFACHIEVEMENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFACHIEVEMENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXLPGADAYWINNER": {
-   "ticker": "KXLPGADAYWINNER",
-   "title": "Day winner of LPGA event",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFTEAMDAYWINNER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFTEAMDAYWINNER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXNEXTWIN": {
-   "ticker": "KXNEXTWIN",
-   "title": "Will golfer win this tournament next?",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/KXPGANEXTWIN.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/KXPGANEXTWIN.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGA1STTIMEWIN": {
-   "ticker": "KXPGA1STTIMEWIN",
-   "title": "PGA 1st Time Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/FIRSTTIMEMAJORWINNER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/FIRSTTIMEMAJORWINNER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGABOGEYFREE": {
-   "ticker": "KXPGABOGEYFREE",
-   "title": "Will Golfer Record a bogey free round",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFWHOSTAT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFWHOSTAT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXLIVMAKECUT": {
-   "ticker": "KXLIVMAKECUT",
-   "title": "DONT USE",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGATOPX.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOPX.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    }
-   ]
-  },
-  "KXPGARYDERCUPD2": {
-   "ticker": "KXPGARYDERCUPD2",
-   "title": "Ryder Cup Day 2 Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
   "KXGOLF": {
    "ticker": "KXGOLF",
    "title": "Golf Tournament Winner",
@@ -18182,284 +17352,6 @@
     }
    ]
   },
-  "KXTIGERMASTERS": {
-   "ticker": "KXTIGERMASTERS",
-   "title": "Will Tiger Woods play in the Masters",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/EVENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/EVENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    }
-   ]
-  },
-  "KXPGATOURCHAMP": {
-   "ticker": "KXPGATOURCHAMP",
-   "title": "Golfers to Participate in the Tour Championship",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGABIRDIES": {
-   "ticker": "KXPGABIRDIES",
-   "title": "PGA Golf Birdies",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFROUNDBIRDIES.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFROUNDBIRDIES.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGARYDERCUPD1": {
-   "ticker": "KXPGARYDERCUPD1",
-   "title": "Ryder Cup Day 1 Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXGOLFH2H": {
-   "ticker": "KXGOLFH2H",
-   "title": "Golf Head-to-Head",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFH2H.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFH2H.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "NBC Sports",
-     "url": "http://www.nbcsports.com/"
-    },
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    },
-    {
-     "name": "the Associated Press",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXPGACUTLINE": {
-   "ticker": "KXPGACUTLINE",
-   "title": "PGA What Will the Cut Line Be",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/SPORTSTOURNAMENTTHRESHOLD.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTSTOURNAMENTTHRESHOLD.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://foxsports.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXGOLFTOURN": {
-   "ticker": "KXGOLFTOURN",
-   "title": "Golf Tournament Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFTOURNAMENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFTOURNAMENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "NBC Sports",
-     "url": "https://nbcsports.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://espn.com"
-    }
-   ]
-  },
-  "KXPGARETURN": {
-   "ticker": "KXPGARETURN",
-   "title": "PGA Returning Players",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGARETURN.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGARETURN.pdf",
-   "settlement_sources": [
-    {
-     "name": "New York Times",
-     "url": "https://www.nytimes.com/"
-    },
-    {
-     "name": "CBS Sports",
-     "url": "https://cbssports.com"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    }
-   ]
-  },
-  "KXGOLFMAJORFUT": {
-   "ticker": "KXGOLFMAJORFUT",
-   "title": "How many majors will golfer win by 2036?",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFFUTUREMAJOR.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFUTUREMAJOR.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
   "KXPGAOCCUR": {
    "ticker": "KXPGAOCCUR",
    "title": "PGA Golf Event Occurence",
@@ -18479,422 +17371,6 @@
     {
      "name": "ESPN",
      "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAHOLE": {
-   "ticker": "KXPGAHOLE",
-   "title": "Will the player win the hole matchup",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFHOLEWINNER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFHOLEWINNER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXMASTERSCUT": {
-   "ticker": "KXMASTERSCUT",
-   "title": "Masters Cut",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "annual",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGATOURQUALIFY.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOURQUALIFY.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    }
-   ]
-  },
-  "KXCHAMPTOURR1LEAD": {
-   "ticker": "KXCHAMPTOURR1LEAD",
-   "title": "round 1 leader",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXNELKRTS": {
-   "ticker": "KXNELKRTS",
-   "title": "Kyle Foregeard Road to Scratch",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/SPORTSCHALLENGE.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTSCHALLENGE.pdf",
-   "settlement_sources": [
-    {
-     "name": "NELK",
-     "url": "https://kick.com/NELKBOYS"
-    }
-   ]
-  },
-  "KXLIVH2H": {
-   "ticker": "KXLIVH2H",
-   "title": "LIV Head-to-Head Matchups",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFH2H.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFH2H.pdf",
-   "settlement_sources": [
-    {
-     "name": "LIV Golf",
-     "url": "https://www.livgolf.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com"
-    }
-   ]
-  },
-  "KXPGAPLAYERCAT": {
-   "ticker": "KXPGAPLAYERCAT",
-   "title": "PGA Player Category",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAREGION": {
-   "ticker": "KXPGAREGION",
-   "title": "PGA Region Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCOUNTRY.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCOUNTRY.pdf",
-   "settlement_sources": [
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXLPGAR2LEAD": {
-   "ticker": "KXLPGAR2LEAD",
-   "title": "LPGA Round 2 Leader",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXDPWTH2H": {
-   "ticker": "KXDPWTH2H",
-   "title": "golf tournament matchup",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFH2H.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFH2H.pdf",
-   "settlement_sources": [
-    {
-     "name": "DP World Tour",
-     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    }
-   ]
-  },
-  "KXPGACAT": {
-   "ticker": "KXPGACAT",
-   "title": "PGA Golf Category Leader",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXGENESISINVITATIONAL": {
-   "ticker": "KXGENESISINVITATIONAL",
-   "title": "Genesis Invitational Winner?",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    }
-   ]
-  },
-  "KXPGAMAJOR": {
-   "ticker": "KXPGAMAJOR",
-   "title": "PGA Major Wins",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "custom",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFMILESTONES.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFMILESTONES.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPRESCUPWINMARGIN": {
-   "ticker": "KXPRESCUPWINMARGIN",
-   "title": "Presidents Cup Win Margin",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFPTSLEADER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFPTSLEADER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://espn.com"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGAUSO": {
-   "ticker": "KXPGAUSO",
-   "title": "golfers to compete in US Open",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "the Governing League",
-     "url": "https://www.pgatour.com/"
-    }
-   ]
-  },
-  "KXPGARYDERCUPD3": {
-   "ticker": "KXPGARYDERCUPD3",
-   "title": "Ryder Cup Day 3 Winner",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
-   "settlement_sources": [
-    {
-     "name": "The Wall Street Journal",
-     "url": "https://www.wsj.com/"
-    },
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com/"
-    },
-    {
-     "name": "Fox Sports",
-     "url": "https://www.foxsports.com/"
-    },
-    {
-     "name": "AP",
-     "url": "https://apnews.com/"
-    }
-   ]
-  },
-  "KXPRESCUPPTS": {
-   "ticker": "KXPRESCUPPTS",
-   "title": "Presidents Cup Points by Golfer",
-   "category": "Sports",
-   "categories": [
-    "Sports"
-   ],
-   "tags": [
-    "Golf"
-   ],
-   "frequency": "one_off",
-   "topic": "golf",
-   "volume": 0.0,
-   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFPTSLEADER.pdf",
-   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFPTSLEADER.pdf",
-   "settlement_sources": [
-    {
-     "name": "ESPN",
-     "url": "https://www.espn.com"
     },
     {
      "name": "the Governing League",
@@ -18940,6 +17416,212 @@
     }
    ]
   },
+  "KXGOLFMAJORFUT": {
+   "ticker": "KXGOLFMAJORFUT",
+   "title": "How many majors will golfer win by 2036?",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFFUTUREMAJOR.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFUTUREMAJOR.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAR3TOP5": {
+   "ticker": "KXPGAR3TOP5",
+   "title": "PGA Round 3 Top 5 Finishers",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFFINISH.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXLIVMAKECUT": {
+   "ticker": "KXLIVMAKECUT",
+   "title": "DONT USE",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGATOPX.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOPX.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    }
+   ]
+  },
+  "KXPGACAT": {
+   "ticker": "KXPGACAT",
+   "title": "PGA Golf Category Leader",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAMAJOR": {
+   "ticker": "KXPGAMAJOR",
+   "title": "PGA Major Wins",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFMILESTONES.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFMILESTONES.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXGOLFH2H": {
+   "ticker": "KXGOLFH2H",
+   "title": "Golf Head-to-Head",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFH2H.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFH2H.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "NBC Sports",
+     "url": "http://www.nbcsports.com/"
+    },
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    },
+    {
+     "name": "the Associated Press",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXLPGAR2LEAD": {
+   "ticker": "KXLPGAR2LEAD",
+   "title": "LPGA Round 2 Leader",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
   "KXTGLCHAMPION": {
    "ticker": "KXTGLCHAMPION",
    "title": "TGL Champion",
@@ -18959,6 +17641,684 @@
     {
      "name": "TGL",
      "url": "https://tglgolf.com/results"
+    }
+   ]
+  },
+  "KXPGAR1TOP20": {
+   "ticker": "KXPGAR1TOP20",
+   "title": "PGA Round 1 Top 20 FInishers",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFFINISH.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFFINISH.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGARYDERMATCH": {
+   "ticker": "KXPGARYDERMATCH",
+   "title": "PGA Ryder Cup Matchups",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGARYDERMATCH.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGARYDERMATCH.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    }
+   ]
+  },
+  "KXGOLFCAT": {
+   "ticker": "KXGOLFCAT",
+   "title": "a",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXNELKRTS": {
+   "ticker": "KXNELKRTS",
+   "title": "Kyle Foregeard Road to Scratch",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/SPORTSCHALLENGE.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTSCHALLENGE.pdf",
+   "settlement_sources": [
+    {
+     "name": "NELK",
+     "url": "https://kick.com/NELKBOYS"
+    }
+   ]
+  },
+  "KXPGAWINMARGIN": {
+   "ticker": "KXPGAWINMARGIN",
+   "title": "PGA Win Margin",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFLEADMARGIN.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFLEADMARGIN.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    },
+    {
+     "name": "Golf Channel",
+     "url": "https://golfchannel.com"
+    }
+   ]
+  },
+  "KXPGATOURCHAMP": {
+   "ticker": "KXPGATOURCHAMP",
+   "title": "Golfers to Participate in the Tour Championship",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXNELKHOLEINONE": {
+   "ticker": "KXNELKHOLEINONE",
+   "title": "NELK Hole in One",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
+   "settlement_sources": [
+    {
+     "name": "NELK",
+     "url": "https://kick.com/NELKBOYS"
+    }
+   ]
+  },
+  "KXPGARYDERCUPD2": {
+   "ticker": "KXPGARYDERCUPD2",
+   "title": "Ryder Cup Day 2 Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXBDSHOLEINONE": {
+   "ticker": "KXBDSHOLEINONE",
+   "title": "Bob Does Sports Hole in One",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/HOLEINONECHALLENGE.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/HOLEINONECHALLENGE.pdf",
+   "settlement_sources": [
+    {
+     "name": "@jensen_curtis",
+     "url": "https://www.instagram.com/jensen_custis/?hl=en"
+    },
+    {
+     "name": "@joey.coldcuts",
+     "url": "https://www.instagram.com/joey.coldcuts/?hl=en"
+    },
+    {
+     "name": "RobbyBerger",
+     "url": "https://www.twitch.tv/robbyberger"
+    },
+    {
+     "name": "@thefatperez",
+     "url": "https://www.instagram.com/thefatperez/"
+    },
+    {
+     "name": "@benlambers",
+     "url": "https://www.instagram.com/benlambers/?hl=en"
+    },
+    {
+     "name": "RobbyBergerOfficial",
+     "url": "https://www.youtube.com/@RobbyBergerOfficial"
+    }
+   ]
+  },
+  "KXLIVH2H": {
+   "ticker": "KXLIVH2H",
+   "title": "LIV Head-to-Head Matchups",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFH2H.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFH2H.pdf",
+   "settlement_sources": [
+    {
+     "name": "LIV Golf",
+     "url": "https://www.livgolf.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com"
+    }
+   ]
+  },
+  "KXPGARYDERCUPD3": {
+   "ticker": "KXPGARYDERCUPD3",
+   "title": "Ryder Cup Day 3 Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXPGA1STTIMEWIN": {
+   "ticker": "KXPGA1STTIMEWIN",
+   "title": "PGA 1st Time Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/FIRSTTIMEMAJORWINNER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/FIRSTTIMEMAJORWINNER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGA": {
+   "ticker": "KXPGA",
+   "title": "PGA Championship",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "annual",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXPGAROUNDLOW": {
+   "ticker": "KXPGAROUNDLOW",
+   "title": "lowest round score",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFLOWROUNDSCORE.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFLOWROUNDSCORE.pdf",
+   "settlement_sources": [
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAC": {
+   "ticker": "KXPGAC",
+   "title": "Golfers to Participate in the PGA championship",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXTIGERMASTERS": {
+   "ticker": "KXTIGERMASTERS",
+   "title": "Will Tiger Woods play in the Masters",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/EVENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/EVENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    }
+   ]
+  },
+  "KXNEXTWIN": {
+   "ticker": "KXNEXTWIN",
+   "title": "Will golfer win this tournament next?",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/KXPGANEXTWIN.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/KXPGANEXTWIN.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAACTION": {
+   "ticker": "KXPGAACTION",
+   "title": "PGA Tour Action",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/SPORTCOMPANYACTION.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTCOMPANYACTION.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    },
+    {
+     "name": "CBS Sports",
+     "url": "https://www.cbssports.com/"
+    }
+   ]
+  },
+  "KXLPGADAYWINNER": {
+   "ticker": "KXLPGADAYWINNER",
+   "title": "Day winner of LPGA event",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFTEAMDAYWINNER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFTEAMDAYWINNER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGABIRDIES": {
+   "ticker": "KXPGABIRDIES",
+   "title": "PGA Golf Birdies",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFROUNDBIRDIES.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFROUNDBIRDIES.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGARETURN": {
+   "ticker": "KXPGARETURN",
+   "title": "PGA Returning Players",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGARETURN.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGARETURN.pdf",
+   "settlement_sources": [
+    {
+     "name": "New York Times",
+     "url": "https://www.nytimes.com/"
+    },
+    {
+     "name": "CBS Sports",
+     "url": "https://cbssports.com"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    }
+   ]
+  },
+  "KXPGARYDERTOP": {
+   "ticker": "KXPGARYDERTOP",
+   "title": "Ryder Cup Top Points Scorer",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXPGARYDERCUPD1": {
+   "ticker": "KXPGARYDERCUPD1",
+   "title": "Ryder Cup Day 1 Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
     }
    ]
   },
@@ -18988,6 +18348,572 @@
     }
    ]
   },
+  "KXGENESISINVITATIONAL": {
+   "ticker": "KXGENESISINVITATIONAL",
+   "title": "Genesis Invitational Winner?",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    }
+   ]
+  },
+  "KXPGAWIN": {
+   "ticker": "KXPGAWIN",
+   "title": "Golfer to Win",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAUSO": {
+   "ticker": "KXPGAUSO",
+   "title": "golfers to compete in US Open",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ATHLETEEVENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ATHLETEEVENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAUNDERPAR": {
+   "ticker": "KXPGAUNDERPAR",
+   "title": "Golfers to Finish Under Par",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFERSUNDERPAR.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFERSUNDERPAR.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXLIVR3LEAD": {
+   "ticker": "KXLIVR3LEAD",
+   "title": "LIV Round 3 Leader",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "LIV Golf",
+     "url": "https://www.livgolf.com/"
+    }
+   ]
+  },
+  "KXPGAEAGLE": {
+   "ticker": "KXPGAEAGLE",
+   "title": "Player to Record an Eagle in Round",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFWHOSTAT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFWHOSTAT.pdf",
+   "settlement_sources": [
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAHOLE": {
+   "ticker": "KXPGAHOLE",
+   "title": "Will the player win the hole matchup",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFHOLEWINNER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFHOLEWINNER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAPLAYERCAT": {
+   "ticker": "KXPGAPLAYERCAT",
+   "title": "PGA Player Category",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCATEGORYLEADER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCATEGORYLEADER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAROUNDBIRDIES": {
+   "ticker": "KXPGAROUNDBIRDIES",
+   "title": "Golf Round Birdies",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFROUNDBIRDIES.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFROUNDBIRDIES.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPHOENIXOPEN": {
+   "ticker": "KXPHOENIXOPEN",
+   "title": "Phoenix Open",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "annual",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXDPWORLDTOURR3LEAD": {
+   "ticker": "KXDPWORLDTOURR3LEAD",
+   "title": "DP World Tour R3 Leader",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "DP World Tour",
+     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
+    }
+   ]
+  },
+  "KXHOLEINONE": {
+   "ticker": "KXHOLEINONE",
+   "title": "Golf Hole in One",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFACHIEVEMENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFACHIEVEMENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXRYDERCUP": {
+   "ticker": "KXRYDERCUP",
+   "title": "Ryder Cup ",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    },
+    {
+     "name": "AP",
+     "url": "https://apnews.com/"
+    }
+   ]
+  },
+  "KXMASTERSCUT": {
+   "ticker": "KXMASTERSCUT",
+   "title": "Masters Cut",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "annual",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/PGATOURQUALIFY.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/PGATOURQUALIFY.pdf",
+   "settlement_sources": [
+    {
+     "name": "The Wall Street Journal",
+     "url": "https://www.wsj.com/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com/"
+    }
+   ]
+  },
+  "KXPGACUTLINE": {
+   "ticker": "KXPGACUTLINE",
+   "title": "PGA What Will the Cut Line Be",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/SPORTSTOURNAMENTTHRESHOLD.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/SPORTSTOURNAMENTTHRESHOLD.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGAREGION": {
+   "ticker": "KXPGAREGION",
+   "title": "PGA Region Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFCOUNTRY.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFCOUNTRY.pdf",
+   "settlement_sources": [
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPGABOGEYFREE": {
+   "ticker": "KXPGABOGEYFREE",
+   "title": "Will Golfer Record a bogey free round",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFWHOSTAT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFWHOSTAT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://foxsports.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXPRESCUPWINMARGIN": {
+   "ticker": "KXPRESCUPWINMARGIN",
+   "title": "Presidents Cup Win Margin",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFPTSLEADER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFPTSLEADER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXCHAMPTOURR1LEAD": {
+   "ticker": "KXCHAMPTOURR1LEAD",
+   "title": "round 1 leader",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXGOLFTOURN": {
+   "ticker": "KXGOLFTOURN",
+   "title": "Golf Tournament Winner",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFTOURNAMENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFTOURNAMENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "NBC Sports",
+     "url": "https://nbcsports.com"
+    },
+    {
+     "name": "Fox Sports",
+     "url": "https://www.foxsports.com"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://espn.com"
+    }
+   ]
+  },
+  "KXPGARYDERTOP3": {
+   "ticker": "KXPGARYDERTOP3",
+   "title": "Ryder Cup Top 3 Points Scorer",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "annual",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/NEWACHIEVEMENT.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/NEWACHIEVEMENT.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com/"
+    }
+   ]
+  },
   "KXLPGAR1LEAD": {
    "ticker": "KXLPGAR1LEAD",
    "title": "LPGA Round 1 Leader",
@@ -19009,11 +18935,85 @@
      "url": "https://www.pgatour.com/"
     }
    ]
+  },
+  "KXPRESCUPPTS": {
+   "ticker": "KXPRESCUPPTS",
+   "title": "Presidents Cup Points by Golfer",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "one_off",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFPTSLEADER.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFPTSLEADER.pdf",
+   "settlement_sources": [
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    },
+    {
+     "name": "the Governing League",
+     "url": "https://www.pgatour.com/"
+    }
+   ]
+  },
+  "KXDPWTH2H": {
+   "ticker": "KXDPWTH2H",
+   "title": "golf tournament matchup",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://kalshi-public-docs-staging.s3.us-east-1.amazonaws.com/regulatory/product-certifications/GOLFH2H.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/GOLFH2H.pdf",
+   "settlement_sources": [
+    {
+     "name": "DP World Tour",
+     "url": "https://www.europeantour.com/dpworld-tour/schedule/"
+    },
+    {
+     "name": "ESPN",
+     "url": "https://www.espn.com"
+    }
+   ]
+  },
+  "KXLIVR2LEAD": {
+   "ticker": "KXLIVR2LEAD",
+   "title": "Liv Round 2 Leader",
+   "category": "Sports",
+   "categories": [
+    "Sports"
+   ],
+   "tags": [
+    "Golf"
+   ],
+   "frequency": "custom",
+   "topic": "golf",
+   "volume": 0.0,
+   "contract_url": "https://assets.kalshi.com/regulatory/product-certifications/ACHIEVEMENTS.pdf",
+   "contract_terms_url": "https://assets.kalshi.com/contract_terms/ACHIEVEMENTS.pdf",
+   "settlement_sources": [
+    {
+     "name": "LIV Golf",
+     "url": "https://www.livgolf.com/"
+    }
+   ]
   }
  },
  "totals": {
   "gas": 139,
-  "elections": 2739,
+  "elections": 2751,
   "culture": 2682,
   "crypto": 321,
   "golf": 134

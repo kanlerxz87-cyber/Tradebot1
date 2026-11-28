@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-11-28T12:31:44Z",
+ "generated_at": "2026-11-28T20:38:39Z",
  "threshold": 0.1,
  "items": [
   {
@@ -1162,6 +1162,437 @@
      "open interest 7,008,740",
      "book spread $0.98",
      "time to close 808.5h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "0b4faa47585d",
+   "ts": 1795898319,
+   "iso": "2026-11-28T20:38:39Z",
+   "ticker": "KXRT-HEX-70",
+   "topic": "culture",
+   "title": "Hexed Rotten Tomatoes score?",
+   "subtitle": "Above 70",
+   "series_ticker": "KXRT",
+   "direction": "up",
+   "from_price": 0.08,
+   "to_price": 0.3,
+   "delta": 0.22,
+   "abs_delta": 0.22,
+   "pct_change": 275.0,
+   "basis": "mid",
+   "price": 0.3,
+   "yes_bid": 0.24,
+   "yes_ask": 0.36,
+   "spread": 0.12,
+   "volume_24h": 2.5,
+   "open_interest": 17530.67,
+   "top_book_contracts": 1.31,
+   "close_time": "2026-11-30T15:00:00Z",
+   "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRT-HEX-70",
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxrt",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRT-HEX-70",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/RT.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Rotten Tomatoes",
+      "url": "https://www.rottentomatoes.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-28",
+      "url": "https://news.google.com/search?q=hexed+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F28%2F2026%2Ccd_max%3A11%2F28%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=hexed+rotten+tomatoes+score&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search rottentomatoes.com for hexed rotten tomatoes score",
+      "url": "https://duckduckgo.com/?q=site%3Arottentomatoes.com%20hexed%20rotten%20tomatoes%20score",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.1745,
+    "roi_pct_est": 2.62,
+    "direction": null,
+    "components": {
+     "momentum": 0.01,
+     "liquidity": 0.0272,
+     "open_interest": 0.1273,
+     "band": 0.06,
+     "time": 0.15,
+     "spread": -0.2
+    },
+    "reasons": [
+     "move +0.01 over the lookback (6 price points)",
+     "24h volume 2 contracts",
+     "open interest 17,531",
+     "book spread $0.12",
+     "time to close 42.4h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "d44335b73c2c",
+   "ts": 1795898319,
+   "iso": "2026-11-28T20:38:39Z",
+   "ticker": "KXPRESNOMD-28-JSTE",
+   "topic": "elections",
+   "title": "Will Jon Stewart be the nominee for the Presidency for the Democratic party?",
+   "subtitle": "Jon Stewart",
+   "series_ticker": "KXPRESNOMD",
+   "direction": "up",
+   "from_price": 0.003,
+   "to_price": 0.425,
+   "delta": 0.422,
+   "abs_delta": 0.422,
+   "pct_change": 14066.67,
+   "basis": "mid",
+   "price": 0.425,
+   "yes_bid": 0.002,
+   "yes_ask": 0.848,
+   "spread": 0.846,
+   "volume_24h": 10149.84,
+   "open_interest": 116934257.24,
+   "top_book_contracts": 83967.61,
+   "close_time": "2028-11-07T15:00:00Z",
+   "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESNOMD-28-JSTE",
+   "series_page_url": "https://kalshi.com/markets/kxpresnomd",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxpresnomd",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXPRESNOMD-28-JSTE",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/PRESNOM.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Republican Party",
+      "url": "https://gop.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: Democratic Party",
+      "url": "https://democrats.org/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-28",
+      "url": "https://news.google.com/search?q=jon+stewart+nominee+presidency+democratic&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F28%2F2026%2Ccd_max%3A11%2F28%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=jon+stewart+nominee+presidency+democratic&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search gop.com for jon stewart nominee presidency democratic",
+      "url": "https://duckduckgo.com/?q=site%3Agop.com%20jon%20stewart%20nominee%20presidency%20democratic",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.68,
+    "roi_pct_est": 48.0,
+    "direction": "yes",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.15,
+     "band": 0.085,
+     "time": 0.045,
+     "spread": -0.2
+    },
+    "reasons": [
+     "no earlier price points yet — first observation of this market",
+     "24h volume 10,150 contracts",
+     "open interest 116,934,257",
+     "book spread $0.85",
+     "time to close 17034.4h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "538253c88291",
+   "ts": 1795898319,
+   "iso": "2026-11-28T20:38:39Z",
+   "ticker": "KXBTCY-27JAN0100-B97500",
+   "topic": "crypto",
+   "title": "BTC price  on Jan 1, 2027?",
+   "subtitle": "95,000 to 99,999.99",
+   "series_ticker": "KXBTCY",
+   "direction": "up",
+   "from_price": 0.005,
+   "to_price": 0.485,
+   "delta": 0.48,
+   "abs_delta": 0.48,
+   "pct_change": 9600.0,
+   "basis": "mid",
+   "price": 0.485,
+   "yes_bid": 0.0,
+   "yes_ask": 0.97,
+   "spread": 0.97,
+   "volume_24h": 67234.77,
+   "open_interest": 7287154.2,
+   "top_book_contracts": 2981098.16,
+   "close_time": "2027-01-01T05:00:00Z",
+   "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B97500",
+   "series_page_url": "https://kalshi.com/markets/kxbtcy",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcy",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B97500",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-28",
+      "url": "https://news.google.com/search?q=price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F28%2F2026%2Ccd_max%3A11%2F28%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.692,
+    "roi_pct_est": 42.8,
+    "direction": "no",
+    "components": {
+     "momentum": 0.4,
+     "liquidity": 0.2,
+     "open_interest": 0.15,
+     "band": 0.097,
+     "time": 0.045,
+     "spread": -0.2
+    },
+    "reasons": [
+     "move -0.48 over the lookback (6 price points)",
+     "24h volume 67,235 contracts",
+     "open interest 7,287,154",
+     "book spread $0.97",
+     "time to close 800.4h"
+    ],
+    "model_version": "heuristic-v1",
+    "eligible": false,
+    "note": "heuristic score, not a validated forecast"
+   }
+  },
+  {
+   "id": "f28806e94ed5",
+   "ts": 1795898319,
+   "iso": "2026-11-28T20:38:39Z",
+   "ticker": "KXBTCY-27JAN0100-B87500",
+   "topic": "crypto",
+   "title": "BTC price  on Jan 1, 2027?",
+   "subtitle": "85,000 to 89,999.99",
+   "series_ticker": "KXBTCY",
+   "direction": "down",
+   "from_price": 0.5,
+   "to_price": 0.015,
+   "delta": -0.485,
+   "abs_delta": 0.485,
+   "pct_change": -97.0,
+   "basis": "mid",
+   "price": 0.015,
+   "yes_bid": 0.01,
+   "yes_ask": 0.02,
+   "spread": 0.01,
+   "volume_24h": 6131.63,
+   "open_interest": 7009187.98,
+   "top_book_contracts": 26049.99,
+   "close_time": "2027-01-01T05:00:00Z",
+   "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B87500",
+   "series_page_url": "https://kalshi.com/markets/kxbtcy",
+   "threshold": 0.1,
+   "catalysts": {
+    "official": [
+     {
+      "kind": "official",
+      "label": "Kalshi series page",
+      "url": "https://kalshi.com/markets/kxbtcy",
+      "verified": true,
+      "note": "Public product page for the series this market belongs to."
+     },
+     {
+      "kind": "official",
+      "label": "Market object (API)",
+      "url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTCY-27JAN0100-B87500",
+      "verified": true,
+      "note": "Live exchange fields: price, result, volume, open interest."
+     },
+     {
+      "kind": "official",
+      "label": "Contract terms",
+      "url": "https://assets.kalshi.com/contract_terms/CRYPTO.pdf",
+      "verified": true,
+      "note": "Kalshi's filed terms for the series."
+     },
+     {
+      "kind": "official",
+      "label": "Settlement source: CF Benchmarks",
+      "url": "https://www.cfbenchmarks.com/",
+      "verified": true,
+      "note": "The exchange names this source as what determines the market."
+     }
+    ],
+    "search": [
+     {
+      "kind": "search",
+      "label": "News on 2026-11-28",
+      "url": "https://news.google.com/search?q=price&hl=en-US&gl=US&ceid=US%3Aen&tbs=cdr%3A1%2Ccd_min%3A11%2F28%2F2026%2Ccd_max%3A11%2F28%2F2026",
+      "verified": false,
+      "note": "News search restricted to the date of the move. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Recent news",
+      "url": "https://news.google.com/search?q=price&hl=en-US&gl=US&ceid=US%3Aen",
+      "verified": false,
+      "note": "Unrestricted news search for the contract subject. Candidate only."
+     },
+     {
+      "kind": "search",
+      "label": "Search cfbenchmarks.com for price",
+      "url": "https://duckduckgo.com/?q=site%3Acfbenchmarks.com%20price",
+      "verified": false,
+      "note": "Kalshi lists this domain as the settlement source."
+     }
+    ]
+   },
+   "model": {
+    "score": 0.3974,
+    "roi_pct_est": 43.71,
+    "direction": "no",
+    "components": {
+     "momentum": 0.03,
+     "liquidity": 0.1894,
+     "open_interest": 0.15,
+     "band": 0.003,
+     "time": 0.045,
+     "spread": -0.02
+    },
+    "reasons": [
+     "move -0.01 over the lookback (2 price points)",
+     "24h volume 6,132 contracts",
+     "open interest 7,009,188",
+     "book spread $0.01",
+     "time to close 800.4h"
     ],
     "model_version": "heuristic-v1",
     "eligible": false,

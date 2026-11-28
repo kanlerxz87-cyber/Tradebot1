@@ -2,7 +2,7 @@
  "version": 1,
  "data_env": "demo",
  "created_at": "2026-11-27T19:49:24Z",
- "updated_at": "2026-11-28T12:34:31Z",
+ "updated_at": "2026-11-28T20:40:58Z",
  "bankroll_start": 1000.0,
  "cash": 768.0,
  "fee_model": "quadratic",
@@ -56,10 +56,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.07 in [0.03, 0.1], 24h volume 6,847, closes in 65.3h",
    "model_score": 0.5541,
-   "last_mark": 0.07,
+   "last_mark": 0.24,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRT-HEX-70",
    "series_page_url": "https://kalshi.com/markets/kxrt",
-   "last_mark_ts": 1795869104
+   "last_mark_ts": 1795898319
   },
   "KXDPWORLDTOUR-BMAPC26-DHIL:cheap_upside": {
    "id": "pos-2bbe8d1537",
@@ -86,7 +86,7 @@
    "last_mark": 0.0,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-DHIL",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795869104
+   "last_mark_ts": 1795898319
   },
   "KXDPWORLDTOUR-BMAPC26-HBAR:cheap_upside": {
    "id": "pos-e7f1378d2c",
@@ -113,7 +113,7 @@
    "last_mark": 0.021,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-HBAR",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795869104
+   "last_mark_ts": 1795898319
   },
   "KXAAAGASW-26NOV30-3.5200:cheap_upside": {
    "id": "pos-d45337e54b",
@@ -140,7 +140,7 @@
    "last_mark": 0.03,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5200",
    "series_page_url": "https://kalshi.com/markets/kxaaagasw",
-   "last_mark_ts": 1795869104
+   "last_mark_ts": 1795898319
   },
   "KXDPWORLDTOUR-BMAPC26-KKOB:cheap_upside": {
    "id": "pos-47f1948152",
@@ -167,7 +167,7 @@
    "last_mark": 0.0,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-KKOB",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795869104
+   "last_mark_ts": 1795898319
   },
   "KXDPWORLDTOUR-BMAPC26-SYEL:cheap_upside": {
    "id": "pos-de3efefb69",
@@ -191,10 +191,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.04 in [0.03, 0.1], 24h volume 14,266, closes in 362.3h",
    "model_score": 0.3952,
-   "last_mark": 0.001,
+   "last_mark": 0.002,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-SYEL",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795869104
+   "last_mark_ts": 1795898319
   },
   "KXDPWORLDTOUR-BMAPC26-ANOR:cheap_upside": {
    "id": "pos-2966d6c28b",
@@ -221,7 +221,7 @@
    "last_mark": 0.23,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-ANOR",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795869104
+   "last_mark_ts": 1795898319
   },
   "KXBTCMINMON-BTC-26NOV30-5000000:cheap_upside": {
    "id": "pos-8b45e06040",
@@ -324,9 +324,10 @@
    "hold_to_resolution": false,
    "reason": "alert down $0.38; model score 0.88 >= 0.45; spread $0.02",
    "model_score": 0.8775,
-   "last_mark": 0.58,
+   "last_mark": 0.56,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRT-HEX-65",
-   "series_page_url": "https://kalshi.com/markets/kxrt"
+   "series_page_url": "https://kalshi.com/markets/kxrt",
+   "last_mark_ts": 1795898319
   }
  },
  "trades": [],
@@ -342,6 +343,10 @@
   [
    1795869104,
    972.9
+  ],
+  [
+   1795898319,
+   1015.03
   ]
  ],
  "rejected": [
