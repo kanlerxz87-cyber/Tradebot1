@@ -1,7 +1,7 @@
 {
  "schema": "terminal-snapshot/1",
- "generated_at": "2026-11-27T20:36:05.000Z",
- "generated_ts": 1795811765,
+ "generated_at": "2026-11-28T02:55:11.000Z",
+ "generated_ts": 1795834511,
  "source": {
   "rest_root": "https://external-api.demo.kalshi.co/trade-api/v2",
   "endpoint": "GET /events?status=open|settled&with_nested_markets=true",
@@ -10,8 +10,8 @@
  "counts": {
   "events_open": 2400,
   "events_settled": 2400,
-  "markets_with_price": 27442,
-  "markets_in_focus": 18366,
+  "markets_with_price": 27590,
+  "markets_in_focus": 18446,
   "new_alerts_this_run": 0,
   "alerts_total": 0
  },
@@ -33,7 +33,7 @@
    "yes_bid": 0,
    "yes_ask": 1,
    "volume_24h": 863,
-   "open_interest": 210595,
+   "open_interest": 210822,
    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXECCOMPACT-30"
   },
   {
@@ -130,6 +130,25 @@
    "volume_24h": 1,
    "open_interest": 1,
    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXGRAMMYNOMAOTY-69-ROM"
+  },
+  {
+   "ticker": "KXLAIOUT-LCHI-27JAN01",
+   "event_ticker": "KXLAIOUT-LCHI",
+   "series_ticker": "KXLAIOUT",
+   "title": "Will Lai Ching-te leave office before 2027-01-01T15:00:00.000Z?",
+   "topic": "elections",
+   "topic_evidence": "category \"Elections\"",
+   "status": "active",
+   "result": null,
+   "close_time": "2027-01-01T15:00:00Z",
+   "price": 0.05,
+   "price_basis": "last_trade",
+   "previous_price": 0.07,
+   "yes_bid": 0.04,
+   "yes_ask": 0.07,
+   "volume_24h": 0.02,
+   "open_interest": 1.32,
+   "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXLAIOUT-LCHI-27JAN01"
   },
   {
    "ticker": "KXNEXTNATOSECGEN-99-KIOH",
@@ -353,7 +372,7 @@
    "price": 0.98,
    "price_basis": "last_trade",
    "previous_price": 0.98,
-   "yes_bid": 0.13,
+   "yes_bid": 0.12,
    "yes_ask": 0.98,
    "volume_24h": 0,
    "open_interest": 3658,
@@ -11397,25 +11416,6 @@
    "volume_24h": 0,
    "open_interest": 126.03,
    "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXINDIANAPOWELL-30-GLE"
-  },
-  {
-   "ticker": "KXMEXICOPRESPARTY-30JUN02-MORENA",
-   "event_ticker": "KXMEXICOPRESPARTY-30JUN02",
-   "series_ticker": "KXMEXICOPRESPARTY",
-   "title": "Will Morena win the 2030 Mexican presidential election?",
-   "topic": "elections",
-   "topic_evidence": "category \"Elections\"",
-   "status": "active",
-   "result": null,
-   "close_time": "2031-06-02T14:00:00Z",
-   "price": 0,
-   "price_basis": "last_trade",
-   "previous_price": 0,
-   "yes_bid": 0,
-   "yes_ask": 0,
-   "volume_24h": 0,
-   "open_interest": 0,
-   "source_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXMEXICOPRESPARTY-30JUN02-MORENA"
   }
  ]
 }
