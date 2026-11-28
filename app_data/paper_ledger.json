@@ -2,9 +2,9 @@
  "version": 1,
  "data_env": "demo",
  "created_at": "2026-11-27T19:49:24Z",
- "updated_at": "2026-11-28T03:39:48Z",
+ "updated_at": "2026-11-28T12:34:31Z",
  "bankroll_start": 1000.0,
- "cash": 787.71,
+ "cash": 768.0,
  "fee_model": "quadratic",
  "positions": {
   "KXRT-FUR-80:cheap_upside": {
@@ -59,7 +59,7 @@
    "last_mark": 0.07,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRT-HEX-70",
    "series_page_url": "https://kalshi.com/markets/kxrt",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXDPWORLDTOUR-BMAPC26-DHIL:cheap_upside": {
    "id": "pos-2bbe8d1537",
@@ -83,10 +83,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.08 in [0.03, 0.1], 24h volume 9,454, closes in 362.3h",
    "model_score": 0.4252,
-   "last_mark": 0.07,
+   "last_mark": 0.0,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-DHIL",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXDPWORLDTOUR-BMAPC26-HBAR:cheap_upside": {
    "id": "pos-e7f1378d2c",
@@ -110,10 +110,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.06 in [0.03, 0.1], 24h volume 9,477, closes in 362.3h",
    "model_score": 0.4242,
-   "last_mark": 0.055,
+   "last_mark": 0.021,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-HBAR",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXAAAGASW-26NOV30-3.5200:cheap_upside": {
    "id": "pos-d45337e54b",
@@ -137,10 +137,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.04 in [0.03, 0.1], 24h volume 12,794, closes in 55.3h",
    "model_score": 0.4176,
-   "last_mark": 0.02,
+   "last_mark": 0.03,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXAAAGASW-26NOV30-3.5200",
    "series_page_url": "https://kalshi.com/markets/kxaaagasw",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXDPWORLDTOUR-BMAPC26-KKOB:cheap_upside": {
    "id": "pos-47f1948152",
@@ -164,10 +164,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.07 in [0.03, 0.1], 24h volume 9,559, closes in 362.3h",
    "model_score": 0.4023,
-   "last_mark": 0.065,
+   "last_mark": 0.0,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-KKOB",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXDPWORLDTOUR-BMAPC26-SYEL:cheap_upside": {
    "id": "pos-de3efefb69",
@@ -191,10 +191,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.04 in [0.03, 0.1], 24h volume 14,266, closes in 362.3h",
    "model_score": 0.3952,
-   "last_mark": 0.036,
+   "last_mark": 0.001,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-SYEL",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXDPWORLDTOUR-BMAPC26-ANOR:cheap_upside": {
    "id": "pos-2966d6c28b",
@@ -218,10 +218,10 @@
    "hold_to_resolution": true,
    "reason": "price $0.04 in [0.03, 0.1], 24h volume 70,389, closes in 362.3h",
    "model_score": 0.3877,
-   "last_mark": 0.035,
+   "last_mark": 0.23,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXDPWORLDTOUR-BMAPC26-ANOR",
    "series_page_url": "https://kalshi.com/markets/kxdpworldtour",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXBTCMINMON-BTC-26NOV30-5000000:cheap_upside": {
    "id": "pos-8b45e06040",
@@ -274,7 +274,7 @@
    "last_mark": 0.03,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRT-VIO-75",
    "series_page_url": "https://kalshi.com/markets/kxrt",
-   "last_mark_ts": 1795837061
+   "last_mark_ts": 1795869104
   },
   "KXBTC15M-26NOV272245-45:late_favorite": {
    "id": "pos-84887d77d3",
@@ -301,6 +301,32 @@
    "last_mark": 0.9,
    "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXBTC15M-26NOV272245-45",
    "series_page_url": "https://kalshi.com/markets/kxbtc15m"
+  },
+  "KXRT-HEX-65:momentum": {
+   "id": "pos-bca7d31ebf",
+   "key": "KXRT-HEX-65:momentum",
+   "ticker": "KXRT-HEX-65",
+   "topic": "culture",
+   "title": "Hexed Rotten Tomatoes score?",
+   "series_ticker": "KXRT",
+   "strategy": "momentum",
+   "strategy_name": "Momentum continuation",
+   "side": "no",
+   "contracts": 33,
+   "entry_price": 0.58,
+   "entry_ts": 1795869104,
+   "entry_iso": "2026-11-28T12:34:31Z",
+   "cost": 19.14,
+   "entry_fee": 0.57,
+   "target_move": 0.1,
+   "stop_move": 0.1,
+   "timeout_hours": 24,
+   "hold_to_resolution": false,
+   "reason": "alert down $0.38; model score 0.88 >= 0.45; spread $0.02",
+   "model_score": 0.8775,
+   "last_mark": 0.58,
+   "api_url": "https://external-api.demo.kalshi.co/trade-api/v2/markets/KXRT-HEX-65",
+   "series_page_url": "https://kalshi.com/markets/kxrt"
   }
  },
  "trades": [],
@@ -312,6 +338,10 @@
   [
    1795837061,
    956.8
+  ],
+  [
+   1795869104,
+   972.9
   ]
  ],
  "rejected": [
@@ -338,9 +368,39 @@
    "ticker": "KXDPWORLDTOUR-BMAPC26-LHER",
    "strategy": "cheap_upside",
    "reason": "no tradable ask"
+  },
+  {
+   "ts": 1795869104,
+   "ticker": "KXAAAGASM-26NOV30-3.50",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795869104,
+   "ticker": "KXDPWORLDTOUR-BMAPC26-NVON",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795869104,
+   "ticker": "KXAAAGASW-26NOV30-3.5000",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795869104,
+   "ticker": "KXDPWORLDTOUR-BMAPC26-ANOR",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
+  },
+  {
+   "ts": 1795869104,
+   "ticker": "KXBTCMINY-27JAN01-55000.00",
+   "strategy": "momentum",
+   "reason": "max open positions reached"
   }
  ],
  "counters": {
-  "trade_seq": 11
+  "trade_seq": 12
  }
 }
